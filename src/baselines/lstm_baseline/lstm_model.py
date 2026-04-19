@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 import torch.nn as nn
-from file_list import DATA_DIR, four_hour_file_list
+from scripts.file_list import DATA_DIR, four_hour_file_list
 import os
 import pandas as pd
 

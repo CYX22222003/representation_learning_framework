@@ -1,4 +1,20 @@
+import os
+
 DATA_DIR = "./data"
+
+def list_top_k(timeframe: str, top_k: int, data_dir: str = DATA_DIR):
+    suffix_map = {"1h": "-1h.feather", "4h": "-4h.feather", "1d": "-1d.feather"}
+    if timeframe not in suffix_map:
+        raise ValueError(f"Invalid timeframe: {timeframe}")
+    suffix = suffix_map[timeframe]
+
+    files = [
+        (f, os.path.getsize(os.path.join(data_dir, f)))
+        for f in os.listdir(data_dir)
+        if f.endswith(suffix)
+    ]
+    files.sort(key=lambda x: x[1], reverse=True)
+    return files[:top_k]
 
 one_hour_file_list = [
     ("SingleMarketWillJoeBidenWinTheUYES20220111_USDC-1h.feather", 209066),

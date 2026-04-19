@@ -1,0 +1,130 @@
+\chapter{Model Design}
+
+\section{Architecture Design}
+
+The proposed model processes raw OHLCV order book data through three representation branches: statistical features (AR/ARIMA), transformation-based features (FFT/Wavelet), and neural embeddings (autoencoder and contrastive encoders with CNN/LSTM). These representations are aggregated into a unified embedding, which is then used for downstream tasks including alpha factor mining, price/volatility prediction, and trend classification. Each task is evaluated with task-specific metrics, and alpha factors are further used in backtesting to assess strategy performance. A detailed architecture diagram is provided in the Appendix \ref{fig:architecture_appendix}.
+
+
+\section{Experiment Design}
+
+The experimental setup is designed to evaluate the effectiveness of the unified representation learning framework on event prediction market data, focusing on two downstream tasks: regression/prediction (probability or return forecasting) and classification (trend direction or event outcome).
+
+
+\subsection*{Data Preparation}
+
+The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from \textit{Polymarket}, with varying timesteps (1-minute, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. We will be using the top 100 most active contract market data for the training and testing.
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Timestep Separation:}  
+    Markets are grouped by their time resolution (1m, 4h, 1d) to handle differing temporal dynamics. Each group is processed independently.
+    
+    \item \textbf{Market-level Preprocessing:}  
+    For each contract market:
+    \begin{itemize}[noitemsep]
+        \item Missing values are handled via interpolation or forward-filling to maintain continuous sequences.
+        \item Features (OHLCV) are normalized or standardized to ensure numerical stability.
+        \item Sliding window segmentation is applied to generate sequences of fixed length (\texttt{seq\_len}), preserving chronological order.
+        \item Minor noise augmentation can be added to improve robustness of learned embeddings.
+    \end{itemize}
+
+    \item \textbf{Train-Test Split:}  
+    Each contract market's sequences are split chronologically:
+    \begin{itemize}[noitemsep]
+        \item First 80\% of sequences will be used as \textbf{training set}
+        \item Last 20\% of sequences will be used as \textbf{testing set}
+    \end{itemize}
+    % This avoids look-ahead bias and preserves temporal integrity.
+
+    \item \textbf{Merging Across Markets:}  
+    Sequences from all contract markets within the same timestep group are concatenated to form the final training and testing datasets:
+    \[
+        \text{Training Set} = \text{Seqs}_{\text{contract1, train}} + \text{Seqs}_{\text{contract2, train}} + ... 
+    \]
+    \[
+        \text{Testing Set} = \text{Seqs}_{\text{contract1, test}} + \text{Seqs}_{\text{contract2, test}} + ...
+    \]
+
+    % Temporal order is preserved within each sequence; shuffling can optionally be applied at the batch level during model training.
+    
+    \item \textbf{Final Tensor Shape:}  
+    The processed dataset is represented as a tensor of shape $[N, \text{seq\_len}, \text{features}]$, where:
+    \begin{itemize}[noitemsep]
+        \item $N$ = total number of sequences across all markets of the same timestep
+        \item $\text{seq\_len}$ = sequence length
+        \item $\text{features}$ = number of features (OHLCV + optional transformed features)
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Representation Learning}
+
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Baseline Transformations:}
+    \begin{itemize}[noitemsep]
+        \item Autoregressive (AR) model to capture linear temporal dependencies.
+        \item Wavelet and Fourier transform to extract time-frequency features.
+    \end{itemize}
+    \item \textbf{Unsupervised Embedding:} 
+    \begin{itemize}[noitemsep]
+        \item Variational Autoencoder (VAE) trained on sequences to learn compact, general-purpose embeddings.
+        \item Contrastive Learning method is employed to learn invariant representations. Multiple augmented views of the same time series (e.g., time masking, jittering, scaling) are generated, and the model is trained to maximize agreement between positive pairs while minimizing similarity with negative samples. 
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Training Procedure}
+\begin{itemize}[noitemsep]
+    \item The model is trained on the aggregated dataset of sequences from all markets within each timestep group.
+
+    \item Each sequence is treated as an independent training sample, with temporal order preserved within the sequence.
+
+    \item The representation learning model (e.g., VAE, contrastive learning) is trained in an unsupervised manner on the training data.
+
+    \item Learned embeddings are then extracted and used as input features for downstream supervised tasks.
+
+    \item Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
+\end{itemize}
+
+\subsection*{Evaluation Process}
+
+The evaluation is designed to assess both the \textbf{effectiveness} and \textbf{transferability} of the learned embeddings compared to baseline approaches. The process is structured as follows:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Selection of Baseline Models:}  
+    Representative baseline models are chosen from prior work and models in financial time series i.e. deep learning models trained directly on raw OHLCV data.
+
+    \item \textbf{Baseline Retraining:}  
+    Each baseline model is retrained on the newly processed event prediction market dataset:
+    \begin{itemize}[noitemsep]
+        \item Construct input sequences from OHLCV data following the same sliding window approach used for representation learning.
+        \item Split sequences into training and testing sets while preserving temporal order.
+        \item Retrain the baseline models using their original training procedures, adjusting hyperparameters if necessary for different dataset sizes or timesteps.
+    \end{itemize}
+
+    \item \textbf{Embedding-based Model Training:}  
+    \begin{itemize}[noitemsep]
+        \item Train the unified representation learning framework (VAE embeddings, optionally augmented with AR/Wavelet features) on the training sequences.
+        \item Extract embeddings for all sequences. These embeddings form the input features for supervised downstream tasks.
+        \item \textbf{Downstream Task Preparation:} 
+        \begin{itemize}[noitemsep]
+            \item \textbf{Regression Task:} reconstruct sequences into supervised pairs $(X, y)$, where $X$ is the embedding of past timesteps and $y$ is the target probability or return at a future timestep.
+            \item \textbf{Classification Task:} define labels such as trend direction or event outcome, and map embeddings to these labels as input-output pairs.
+        \end{itemize}
+        \item Train task-specific models (e.g., linear regression, MLP, random forest) on the reconstructed inputs.
+    \end{itemize}
+
+    \item \textbf{Performance Comparison:}  
+    \begin{itemize}[noitemsep]
+        \item Evaluate all models—baselines and embedding-based—on the same testing sequences.
+        \item Use consistent metrics:
+        \begin{itemize}[noitemsep]
+            \item Regression: MAE, RMSE
+            \item Classification: Accuracy, F1-score
+        \end{itemize}
+        \item Compare across different configurations:
+        \begin{itemize}[noitemsep]
+            \item Raw OHLCV baselines vs. representation-based models
+            \item Single-method embeddings (AR only, Wavelet only) vs. multi-view embeddings
+            \item Transferability: embeddings evaluated across markets and timesteps
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
