@@ -1,5 +1,11 @@
 import argparse
 import os
+import sys
+
+_SCRIPTS = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(_SCRIPTS)
+sys.path.insert(0, os.path.join(_ROOT, "src"))
+sys.path.insert(0, _SCRIPTS)
 
 from prepare_features import build_and_save_features
 from prepare_sequences import _parse_timeframes, save_sequences_for_timeframe

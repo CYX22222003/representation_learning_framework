@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset
 
+from evaluation.metrics import regression_metrics  # noqa: F401  (re-exported for callers)
+
 
 def build_price_prediction_targets(
     sequences: np.ndarray, price_index: int = 3, horizon: int = 1
@@ -51,9 +53,3 @@ class PriceRegressor(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
-
-
-def regression_metrics(pred: torch.Tensor, target: torch.Tensor) -> dict[str, float]:
-    mae = torch.mean(torch.abs(pred - target)).item()
-    rmse = torch.sqrt(torch.mean((pred - target) ** 2)).item()
-    return {"mae": mae, "rmse": rmse}

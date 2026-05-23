@@ -65,34 +65,3 @@ def nt_xent_loss(z1: torch.Tensor, z2: torch.Tensor, temperature: float = 0.2) -
     targets = torch.arange(batch_size, device=z.device)
     targets = torch.cat([targets + batch_size, targets], dim=0)
     return F.cross_entropy(sim, targets)
-
-
-def train_contrastive_epoch(
-    model: ContrastiveEncoder,
-    dataloader,
-    optimizer: torch.optim.Optimizer,
-    device: str = "cpu",
-    temperature: float = 0.2,
-) -> float:
-    model.train()
-    total_loss = 0.0
-    n_batches = 0
-
-    for batch in dataloader:
-        x = batch[0] if isinstance(batch, (list, tuple)) else batch
-        x = x.to(device)
-        v1, v2 = make_views(x)
-
-        optimizer.zero_grad()
-        _, z1 = model(v1)
-        _, z2 = model(v2)
-        loss = nt_xent_loss(z1, z2, temperature=temperature)
-        loss.backward()
-        optimizer.step()
-
-        total_loss += float(loss.item())
-        n_batches += 1
-
-    if n_batches == 0:
-        raise ValueError("Empty dataloader")
-    return total_loss / n_batches

@@ -4,6 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from evaluation.metrics import mse_and_corr  # noqa: F401  (re-exported for callers)
+
 
 def realized_volatility(prices: np.ndarray, eps: float = 1e-8) -> float:
     p = np.asarray(prices, dtype=np.float32)
@@ -41,14 +43,3 @@ class VolatilityRegressor(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
-
-
-def mse_and_corr(pred: torch.Tensor, target: torch.Tensor) -> dict[str, float]:
-    pred_ = pred.reshape(-1)
-    target_ = target.reshape(-1)
-    mse = torch.mean((pred_ - target_) ** 2).item()
-    corr = float("nan")
-    if len(pred_) > 1:
-        corr_tensor = torch.corrcoef(torch.stack([pred_, target_]))
-        corr = float(corr_tensor[0, 1].item())
-    return {"mse": mse, "corr": corr}

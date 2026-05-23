@@ -2,15 +2,13 @@ from baselines.lstm_baseline.lstm_model import LSTMModel
 import torch
 import numpy as np
 
-model_path = "./baselines/lstm_baseline/event_stacked_lstm.pth"
+model_path = "checkpoints/lstm_baseline_4h_seq64.pth"
 
 SEQ_LEN = 64
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 np.random.seed(42)
 recent_prices = np.random.rand(SEQ_LEN).astype(np.float32)  # [0.0, 1.0]
-
-model_path = "./baselines/lstm_baseline/event_stacked_lstm.pth"
 model = LSTMModel()
 try:
     model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))

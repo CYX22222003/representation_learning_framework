@@ -47,6 +47,17 @@ def compute_transform_features(
     return np.concatenate(outputs, axis=0).astype(np.float32)
 
 
+def transform_feature_dim(n_cols: int = 5, fft_top_k: int = 8, wavelet_levels: int = 3) -> int:
+    """
+    Return the output dimension of ``compute_transform_features`` without
+    running it.  Use this to size the aggregator's ``branch_dims`` entry.
+
+    >>> transform_feature_dim(n_cols=5, fft_top_k=8, wavelet_levels=3)
+    55
+    """
+    return n_cols * (fft_top_k + wavelet_levels)
+
+
 def batch_transform_features(
     sequences: np.ndarray, fft_top_k: int = 8, wavelet_levels: int = 3
 ) -> np.ndarray:

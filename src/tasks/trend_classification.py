@@ -4,6 +4,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from evaluation.metrics import classification_metrics  # noqa: F401  (re-exported for callers)
+
 
 def build_trend_labels(
     sequences: np.ndarray, price_index: int = 3, horizon: int = 1, threshold: float = 0.0
@@ -38,19 +40,3 @@ class TrendClassifier(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
-
-
-def classification_metrics(logits: torch.Tensor, labels: torch.Tensor) -> dict[str, float]:
-    probs = torch.sigmoid(logits.reshape(-1))
-    preds = (probs >= 0.5).float()
-    y = labels.reshape(-1).float()
-
-    tp = torch.sum((preds == 1) & (y == 1)).item()
-    fp = torch.sum((preds == 1) & (y == 0)).item()
-    fn = torch.sum((preds == 0) & (y == 1)).item()
-    accuracy = torch.mean((preds == y).float()).item()
-
-    precision = tp / (tp + fp + 1e-8)
-    recall = tp / (tp + fn + 1e-8)
-    f1 = 2 * precision * recall / (precision + recall + 1e-8)
-    return {"accuracy": accuracy, "f1": f1}
