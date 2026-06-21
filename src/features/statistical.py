@@ -23,6 +23,7 @@ def ar_coefficients(series: np.ndarray, order: int = 5) -> tuple[np.ndarray, np.
     if len(x) <= order:
         raise ValueError(f"Series length must be > order ({order}), got {len(x)}")
 
+    # Build a lagged design matrix: each column is the series shifted by 1..order.
     y = x[order:]
     lagged = [x[order - lag - 1 : -lag - 1] for lag in range(order)]
     X = np.stack(lagged, axis=1)
@@ -38,6 +39,7 @@ def _garch11_negloglik(
 ) -> float:
     """Negative Gaussian log-likelihood for GARCH(1,1)."""
     omega, alpha, beta = params
+    # Stationarity condition: alpha + beta < 1 and all params positive.
     if omega <= 0 or alpha < 0 or beta < 0 or alpha + beta >= 1.0:
         return 1e10
 
@@ -45,6 +47,7 @@ def _garch11_negloglik(
     sigma2 = np.empty(T)
     sigma2[0] = var_init
     for t in range(1, T):
+        # σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}
         sigma2[t] = omega + alpha * eps[t - 1] ** 2 + beta * sigma2[t - 1]
         if sigma2[t] <= 0:
             return 1e10
@@ -66,6 +69,7 @@ def _fit_garch11(
     eps = (returns - returns.mean()).astype(np.float64)
     var_init = max(float(np.var(eps)), 1e-10)
 
+    # Starting point: small omega, moderate alpha, high beta (typical for financial series).
     x0 = np.array([var_init * 0.05, 0.10, 0.85])
     bounds = [(1e-10, None), (1e-8, 0.9998), (1e-8, 0.9998)]
     constraints = {"type": "ineq", "fun": lambda p: 0.9999 - p[1] - p[2]}
@@ -126,12 +130,14 @@ def garch_features(series: np.ndarray, min_len: int = 20) -> np.ndarray:
     if len(x) < min_len + 1:
         return np.zeros(_GARCH_N_FEATURES, dtype=np.float32)
 
+    # GARCH is fitted on first differences (returns), not raw price levels,
+    # because GARCH requires a mean-stationary input.
     returns = np.diff(x)
     params, sigma2 = _fit_garch11(returns)
     omega, alpha, beta = params
 
-    persistence = alpha + beta
-    uncond_var = omega / max(1.0 - persistence, 1e-8)
+    persistence = alpha + beta                          # how long volatility shocks last
+    uncond_var = omega / max(1.0 - persistence, 1e-8)  # long-run (unconditional) variance
 
     return np.array(
         [omega, alpha, beta, persistence, uncond_var, sigma2.mean(), sigma2.std()],
@@ -166,6 +172,8 @@ def compute_statistical_features(sequence: np.ndarray, ar_order: int = 5) -> np.
     outputs = []
     for col in range(arr.shape[1]):
         coeffs, residuals = ar_coefficients(arr[:, col], order=ar_order)
+        # AR part: p coefficients capturing linear temporal dependency,
+        # plus mean/std of residuals as a summary of unexplained variation.
         ar_part = np.concatenate([coeffs, [residuals.mean(), residuals.std()]])
         garch_part = garch_features(arr[:, col])
         outputs.append(np.concatenate([ar_part, garch_part]))

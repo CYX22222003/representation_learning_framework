@@ -15,6 +15,13 @@ from aggregation.aggregator import RepresentationAggregator  # noqa: F401
 
 @dataclass
 class FeatureBundle:
+    """
+    Container for all branch features belonging to a set of sequences.
+
+    statistical : [N, stat_dim]   — AR + GARCH features (deterministic)
+    transformed : [N, trans_dim]  — FFT + Haar wavelet features (deterministic)
+    neural      : [N, neural_dim] — embeddings from pretrained VAE/contrastive (optional)
+    """
     statistical: np.ndarray
     transformed: np.ndarray
     neural: Optional[np.ndarray] = None
@@ -37,6 +44,14 @@ def build_feature_bundle(
 
 
 class NpzFeatureStore:
+    """
+    Saves and loads a FeatureBundle to/from a compressed .npz file.
+
+    The neural field is optional.  When absent it is stored as an empty float32
+    array so the .npz always has the same keys; on load an empty array is
+    converted back to None.
+    """
+
     def __init__(self, path: str) -> None:
         self.path = path
 

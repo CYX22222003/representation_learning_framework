@@ -9,16 +9,24 @@ def _ensure_2d(sequence: np.ndarray) -> np.ndarray:
 
 
 def _fft_features(series: np.ndarray, top_k: int = 8) -> np.ndarray:
+    # rfft is used instead of fft because the input is real-valued;
+    # it returns only the non-redundant positive-frequency components.
+    # Taking magnitudes discards phase, keeping only spectral energy per frequency.
     spec = np.fft.rfft(series)
     mag = np.abs(spec).astype(np.float32)
     if len(mag) < top_k:
         padded = np.zeros(top_k, dtype=np.float32)
         padded[: len(mag)] = mag
         return padded
+    # The lowest-frequency bins carry the most energy for typical market series;
+    # keeping only the top-k bins is a compact spectral summary.
     return mag[:top_k]
 
 
 def _haar_detail_energy(series: np.ndarray, levels: int = 3) -> np.ndarray:
+    # Single-level Haar: split into pairwise averages (approximation 'a')
+    # and pairwise differences (detail 'd').  Energy of 'd' at each level
+    # measures high-frequency variation at that scale.
     x = np.asarray(series, dtype=np.float32).copy()
     energies: list[float] = []
     for _ in range(levels):
@@ -27,10 +35,10 @@ def _haar_detail_energy(series: np.ndarray, levels: int = 3) -> np.ndarray:
             continue
         if len(x) % 2 == 1:
             x = x[:-1]
-        a = (x[0::2] + x[1::2]) / 2.0
-        d = (x[0::2] - x[1::2]) / 2.0
+        a = (x[0::2] + x[1::2]) / 2.0  # approximation (low frequency)
+        d = (x[0::2] - x[1::2]) / 2.0  # detail (high frequency at this scale)
         energies.append(float(np.mean(d * d)))
-        x = a
+        x = a  # recurse on approximation to capture coarser scales
     return np.asarray(energies, dtype=np.float32)
 
 

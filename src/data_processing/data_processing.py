@@ -15,16 +15,21 @@ class MarketDataset(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        # unsupervised → return only input
+        # unsupervised → return only input (no label)
         return self.data[idx]
-    
+
 
 def preprocess_market(df):
+    # Fill gaps: forward-fill then interpolate handles missing candles
+    # without introducing future information.
     df = df.ffill().interpolate()
     price_cols = ["open", "high", "low", "close"]
     volume_col = ["volume"]
     price = df[price_cols].values.astype(np.float32)
     volume = df[volume_col].values.astype(np.float32)
+    # Volume is z-scored because its scale varies wildly across contracts.
+    # OHLC prices are kept raw: on Polymarket they are probabilities in [0,1]
+    # so they are already on a natural common scale across all contracts.
     volume_mean = volume.mean(axis=0)
     volume_std = volume.std(axis=0) + 1e-8
     volume = (volume - volume_mean) / volume_std
@@ -32,6 +37,8 @@ def preprocess_market(df):
     return features
 
 def create_sequences(data, seq_len):
+    # Slide a fixed-length window across the time axis.
+    # Window i covers timesteps [i, i+seq_len); total windows = T - seq_len.
     sequences = []
     for i in range(len(data) - seq_len):
         seq = data[i:i + seq_len]
@@ -39,6 +46,9 @@ def create_sequences(data, seq_len):
     return np.array(sequences)
 
 def split_sequences(sequences, train_ratio=0.8):
+    # Chronological split: earlier sequences go to train, later to test.
+    # Applied per contract before merging, so no contract's test rows
+    # can appear in another contract's training fold.
     split_idx = int(len(sequences) * train_ratio)
     return sequences[:split_idx], sequences[split_idx:]
 
@@ -71,6 +81,7 @@ def build_from_file_list(file_list, seq_len):
     if len(train_all) == 0:
         raise ValueError("No valid training data")
 
+    # Merge across contracts: shape becomes [N_total, seq_len, 5]
     train_all = np.concatenate(train_all, axis=0)
     test_all = np.concatenate(test_all, axis=0)
 
@@ -81,13 +92,13 @@ if __name__ == "__main__":
     train_4h, test_4h = build_from_file_list(four_hour_file_list, SEQ_LEN)
     train_dataset = MarketDataset(train_4h)
     test_dataset = MarketDataset(test_4h)
-    
+
     print("Train size:", len(train_dataset))
     print("Test size:", len(test_dataset))
 
     sample = train_dataset[0]
     print("Sample shape:", sample.shape)
-    
+
     import matplotlib.pyplot as plt
 
     sample = train_dataset[0].numpy()

@@ -6,6 +6,15 @@ import torch.nn.functional as F
 
 
 class SequenceVAE(nn.Module):
+    """
+    Variational Autoencoder for fixed-length OHLCV sequences.
+
+    The encoder maps a flattened [seq_len * input_dim] sequence to a latent
+    distribution (mu, logvar).  The decoder reconstructs the original sequence
+    from a sampled latent vector.  After pretraining, only the encoder is used
+    (frozen) to extract the latent mean `mu` as the embedding for each sequence.
+    """
+
     def __init__(
         self,
         seq_len: int,
@@ -24,6 +33,7 @@ class SequenceVAE(nn.Module):
             nn.Linear(hidden_dim, hidden_dim),
             nn.GELU(),
         )
+        # Two separate heads produce the mean and log-variance of the latent distribution.
         self.mu = nn.Linear(hidden_dim, latent_dim)
         self.logvar = nn.Linear(hidden_dim, latent_dim)
 
@@ -41,6 +51,8 @@ class SequenceVAE(nn.Module):
 
     @staticmethod
     def reparameterize(mu: torch.Tensor, logvar: torch.Tensor) -> torch.Tensor:
+        # Reparameterization trick: z = mu + eps * std lets gradients flow through
+        # the sampling step during backprop (eps is a fixed noise sample).
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         return mu + eps * std
@@ -65,7 +77,10 @@ def vae_loss(
     logvar: torch.Tensor,
     beta: float = 1.0,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    # Reconstruction loss: how well the decoder reproduces the input sequence.
     recon = F.mse_loss(recon_x, x, reduction="mean")
+    # KL divergence: regularises the latent space toward a unit Gaussian.
+    # beta > 1 (β-VAE) increases disentanglement at the cost of reconstruction quality.
     kld = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
     total = recon + beta * kld
     return total, recon, kld

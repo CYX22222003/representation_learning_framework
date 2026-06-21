@@ -12,7 +12,13 @@ def build_price_prediction_targets(
     sequences: np.ndarray, price_index: int = 3, horizon: int = 1
 ) -> tuple[np.ndarray, np.ndarray]:
     """
-    Create (X, y) where X is current sequence and y is future close price.
+    Create (X, y) pairs for price prediction.
+
+    X[i] = sequences[i]           — current window (input features)
+    y[i] = sequences[i+horizon, -1, price_index]  — close price at end of next window
+
+    price_index=3 selects the 'close' column (OHLCV order: 0=open,1=high,2=low,3=close,4=volume).
+    horizon=1 means predict one window ahead.
     """
     arr = np.asarray(sequences, dtype=np.float32)
     if arr.ndim != 3:
@@ -23,11 +29,14 @@ def build_price_prediction_targets(
         raise ValueError("Not enough sequences for requested horizon")
 
     X = arr[:-horizon]
+    # Take the last timestep of the future window as the price target.
     y = arr[horizon:, -1, price_index]
     return X, y.astype(np.float32)
 
 
 class RegressionDataset(Dataset):
+    """Dataset that pairs pre-extracted feature vectors with scalar targets."""
+
     def __init__(self, features: np.ndarray, targets: np.ndarray) -> None:
         self.x = torch.tensor(features, dtype=torch.float32)
         self.y = torch.tensor(targets, dtype=torch.float32).reshape(-1, 1)
@@ -40,6 +49,13 @@ class RegressionDataset(Dataset):
 
 
 class PriceRegressor(nn.Module):
+    """
+    Default decoder for price prediction (task head).
+
+    Lightweight 3-layer MLP that maps aggregator embeddings → scalar price output.
+    Intentionally simple: representation quality, not decoder depth, drives performance.
+    """
+
     def __init__(self, input_dim: int, hidden_dim: int = 128) -> None:
         super().__init__()
         self.net = nn.Sequential(
