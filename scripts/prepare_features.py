@@ -1,3 +1,21 @@
+# Stage 2 of the data pipeline.
+# Loads a processed .npz (from prepare_sequences.py) and extracts deterministic
+# features from every sequence window:
+#   statistical branch: AR(p) coefficients + residual stats + GARCH(1,1) features
+#   transformed branch: FFT top-k magnitudes + Haar wavelet detail energies
+# Both train and test feature arrays are concatenated and saved together in a
+# single .npz (so the store file has shape [N_train+N_test, feature_dim]).
+# A companion .index.npz records the train/test split sizes so downstream code
+# can recover the boundary after loading.
+#
+# Neural embeddings (VAE, contrastive) are NOT computed here — they require a
+# pretrained model and are added later by the training scripts.
+#
+# Usage:
+#   python scripts/prepare_features.py \
+#     --processed-npz data/processed/market_4h_seq64_top50.npz \
+#     --out-path data/features/features_4h_seq64_top50.npz
+
 import argparse
 import os
 import sys
@@ -15,6 +33,8 @@ from features.feature_store import FeatureBundle, NpzFeatureStore, build_feature
 def _build_features_for_split(
     sequences: np.ndarray, ar_order: int, fft_top_k: int, wavelet_levels: int
 ) -> FeatureBundle:
+    # neural_embeddings=None because encoders haven't been trained yet;
+    # the neural field will be populated once VAE/contrastive are pretrained.
     return build_feature_bundle(
         sequences=sequences,
         ar_order=ar_order,
@@ -33,6 +53,8 @@ def build_and_save_features(
 
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     store = NpzFeatureStore(out_path)
+    # Concatenate train+test so the store holds all rows in one array.
+    # The index file below is the only thing that records where the boundary is.
     store.save(
         FeatureBundle(
             statistical=np.concatenate(
@@ -45,6 +67,8 @@ def build_and_save_features(
         )
     )
 
+    # Companion index: tells downstream code how many rows belong to train vs test.
+    # Load with: data = np.load(index_path); train_size = int(data["train_size"])
     index_path = f"{out_path}.index.npz"
     np.savez_compressed(
         index_path,

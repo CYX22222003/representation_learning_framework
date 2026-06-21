@@ -1,3 +1,18 @@
+# End-to-end data preparation: runs Stage 1 then Stage 2 for each timeframe.
+#
+# Stage 1 (prepare_sequences): raw feather files → processed .npz
+#   data/processed/market_{tf}_seq{n}_top{k}.npz  [N, seq_len, 5] float32
+#
+# Stage 2 (prepare_features): processed .npz → feature store .npz
+#   data/features/features_{tf}_seq{n}_top{k}.npz  (statistical + transformed arrays)
+#   data/features/features_{tf}_seq{n}_top{k}.npz.index.npz  (train/test split sizes)
+#
+# Use this script to rebuild everything from scratch in one shot.
+# To rebuild only one stage, run prepare_sequences.py or prepare_features.py directly.
+#
+# Usage:
+#   python scripts/prepare_data_pipeline.py --timeframes 1h,4h,1d --seq-len 64 --top-k 50
+
 import argparse
 import os
 import sys
@@ -22,11 +37,13 @@ def run_pipeline(
     wavelet_levels: int,
 ) -> None:
     for timeframe in timeframes:
+        # Stage 1: feather → sequence tensors
         processed_path = save_sequences_for_timeframe(
             timeframe=timeframe, seq_len=seq_len, top_k=top_k, out_dir=processed_dir
         )
         print(f"[{timeframe}] sequences -> {processed_path}")
 
+        # Stage 2: sequence tensors → statistical + transformed feature arrays
         feature_path = os.path.join(
             feature_dir, f"features_{timeframe}_seq{seq_len}_top{top_k}.npz"
         )
