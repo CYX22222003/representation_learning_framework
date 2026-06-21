@@ -241,9 +241,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
-### 5.4 Decoder-Controlled Comparison (Price Prediction, time permitting)
+### 5.4 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
 
-For price prediction, an additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant:
+An additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant. Applies to all three tasks (price prediction, volatility prediction, trend classification) if time permits, subject to availability of a separable benchmark decoder per task:
 
 | Configuration | Encoder | Decoder | Trained |
 |---|---|---|---|
@@ -254,8 +254,6 @@ For price prediction, an additional three-configuration experiment isolates enco
 - Comparing configurations **1 vs 3**: same decoder architecture, only the encoder differs — the cleanest test of encoder quality.
 - Comparing configurations **2 vs 3**: same encoder, different decoder — isolates whether decoder choice matters.
 - If all three configurations produce similar numbers, it confirms the representations are doing the heavy lifting regardless of decoder design.
-
-If time permits, this experiment can be extended to volatility prediction and trend classification.
 
 ### 5.5 Ablation Study and Transferability
 

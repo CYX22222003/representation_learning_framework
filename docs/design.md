@@ -99,9 +99,9 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
     - Single-branch ablations vs. full aggregated framework
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
-- **Decoder-Controlled Comparison (Price Prediction, time permitting):**
+- **Decoder-Controlled Comparison (optional, time permitting, all three tasks):**
 
-  To isolate encoder quality from decoder choice, three configurations are compared for price prediction:
+  To isolate encoder quality from decoder choice, three configurations are compared per task, holding the decoder architecture constant:
 
   | Configuration | Encoder | Decoder | Trained |
   |---|---|---|---|
@@ -109,4 +109,4 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   | Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
   | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
 
-  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). If time permits, this can be extended to volatility and trend tasks.
+  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks (price prediction, volatility prediction, trend classification), subject to availability of a separable benchmark decoder per task.

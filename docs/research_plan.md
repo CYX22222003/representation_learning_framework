@@ -114,7 +114,7 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
   - Trend classification: Accuracy, F1-score
 
-- **Decoder-controlled comparison (price prediction, time permitting):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
+- **Decoder-controlled comparison (optional, time permitting, all three tasks):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
 
   | Configuration | Encoder | Decoder | Trained |
   |---|---|---|---|
@@ -122,7 +122,7 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
   | Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
   | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
 
-  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Extend to other tasks if time permits.
+  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks, subject to availability of a separable benchmark decoder per task.
 
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 

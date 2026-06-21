@@ -1,4 +1,4 @@
-o Training and Test Data Selection
+# Training and Test Data Selection
 
 This document specifies exactly which data subset each model component uses for training, validation, and evaluation. The rules here exist to prevent data leakage and ensure all models are compared fairly on the same held-out test set.
 
