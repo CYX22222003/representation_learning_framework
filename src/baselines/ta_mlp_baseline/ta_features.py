@@ -126,6 +126,11 @@ def build_ta_dataset(
     feather_paths: list[str],
     horizon: int = 1,
     train_ratio: float = 0.8,
+    label_mode: str = "binary",
+    b_window: int = 5,
+    f_window: int = 2,
+    hold_q: float = 0.85,
+    buy_sell_q: float = 0.997,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Build train/test arrays from a list of Polymarket OHLCV feather files.
@@ -133,14 +138,27 @@ def build_ta_dataset(
     Each file is split chronologically (first ``train_ratio`` rows → train,
     remainder → test) before merging, matching the framework's data splits.
 
-    Labels are binary: 1 if close price rises over the next ``horizon`` candles,
-    0 otherwise.
+    Label modes
+    -----------
+    ``label_mode="binary"`` (default)
+        ``y = 1`` if close rises over the next ``horizon`` candles, else 0.
+        Labels are float32, shape ``[N]``. Suitable for BCE / 2-class CE.
+
+    ``label_mode="triclass"``
+        Tri-class BUY / HOLD / SELL labels from ``ta_labels.assign_labels``
+        (see that module for the formula). ``alpha`` / ``beta`` are fitted
+        per contract on TRAIN rows only — never on test — to avoid leaking
+        future statistics into the labels. Labels are int64, shape ``[N]``,
+        values in ``{0, 1, 2}``. Suitable for 3-class CrossEntropy.
+        ``horizon`` is ignored in this mode (use ``b_window`` / ``f_window``).
 
     Returns
     -------
-    X_train, y_train, X_test, y_test : np.ndarray float32
+    X_train, X_test : np.ndarray float32, shape ``[N, N_FEATURES]``
+    y_train, y_test : np.ndarray, dtype depends on ``label_mode``
     """
-    from sklearn.preprocessing import StandardScaler
+    if label_mode not in {"binary", "triclass"}:
+        raise ValueError(f"label_mode must be 'binary' or 'triclass', got {label_mode!r}")
 
     X_trains, y_trains, X_tests, y_tests = [], [], [], []
 
@@ -151,23 +169,52 @@ def build_ta_dataset(
             continue
 
         features = compute_ta_features(df)
-        if len(features) <= horizon:
+        if len(features) <= max(horizon, f_window + 1):
             continue
 
-        X = features.values[:-horizon].astype(np.float32)
-        close_vals = df["close"].values
-        close_aligned = close_vals[features.index]
-        current = close_aligned[:-horizon]
-        future = close_aligned[horizon : len(features)]
-        y = (future > current).astype(np.float32)
+        if label_mode == "binary":
+            X = features.values[:-horizon].astype(np.float32)
+            close_vals = df["close"].values
+            close_aligned = close_vals[features.index]
+            current = close_aligned[:-horizon]
+            future = close_aligned[horizon : len(features)]
+            y = (future > current).astype(np.float32)
+        else:  # triclass
+            from baselines.ta_mlp_baseline.ta_labels import (
+                assign_labels,
+                compute_thresholds,
+            )
+
+            close_aligned = pd.Series(
+                df["close"].values[features.index],
+                index=np.arange(len(features)),
+            )
+            X_full = features.values.astype(np.float32)
+            split_full = int(len(X_full) * train_ratio)
+
+            # Fit alpha/beta on TRAIN rows of this contract only.
+            alpha, beta = compute_thresholds(
+                close_aligned.iloc[:split_full],
+                hold_q=hold_q,
+                buy_sell_q=buy_sell_q,
+            )
+            labels_full = assign_labels(
+                close_aligned, b_window=b_window, f_window=f_window,
+                alpha=alpha, beta=beta,
+            )
+            # Drop trailing f_window rows (unlabelable forward shift).
+            X = X_full[:-f_window]
+            y = labels_full[:-f_window]
 
         if len(X) < 10:
             continue
 
         split = int(len(X) * train_ratio)
-        scaler = StandardScaler()
-        X_tr = scaler.fit_transform(X[:split])
-        X_te = scaler.transform(X[split:])
+        mean = X[:split].mean(axis=0)
+        std = X[:split].std(axis=0)
+        std[std == 0] = 1.0
+        X_tr = (X[:split] - mean) / std
+        X_te = (X[split:] - mean) / std
 
         X_trains.append(X_tr)
         y_trains.append(y[:split])
@@ -177,9 +224,10 @@ def build_ta_dataset(
     if not X_trains:
         raise RuntimeError("No valid feather files produced data.")
 
+    y_dtype = np.float32 if label_mode == "binary" else np.int64
     return (
         np.concatenate(X_trains).astype(np.float32),
-        np.concatenate(y_trains).astype(np.float32),
+        np.concatenate(y_trains).astype(y_dtype),
         np.concatenate(X_tests).astype(np.float32),
-        np.concatenate(y_tests).astype(np.float32),
+        np.concatenate(y_tests).astype(y_dtype),
     )
