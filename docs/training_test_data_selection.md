@@ -1,6 +1,6 @@
 # Training and Test Data Selection
 
-This document specifies exactly which data subset each model component uses for training, validation, and evaluation. The rules here exist to prevent data leakage and ensure all models are compared fairly on the same held-out test set.
+This document specifies exactly which data subset each model component uses for training and evaluation. The rules here exist to prevent data leakage and ensure all models are compared fairly on the same held-out test set.
 
 ---
 
@@ -21,42 +21,44 @@ After merging across all top-50 contracts:
 
 ---
 
-## Validation Split (for development)
+## Train / Test only — no validation split
 
-A validation set is carved from the training split. Its purpose is monitoring training progress and early stopping. It is **never** used to make architectural decisions or report final results.
+This project deliberately uses **train and test partitions only**. There is no validation split, no early stopping, and no model-selection step that reads test metrics.
 
-```
-train split  →  first 80% = actual training data   (fit model parameters)
-             →  last  20% = validation data         (monitor loss, early stopping)
-```
+**Why no validation split:**
 
-Since sequences within the merged array are ordered by contract then chronologically within each contract, the last 20% of the training array approximately corresponds to the temporally later windows — a reasonable proxy for a held-out period.
+1. **Architectures are fixed from the start.** For external benchmarks (LSTM, GINN, TA-MLP) the architecture and most hyperparameters come from the upstream paper — we are not tuning them. For the framework, the design is fixed by `src/aggregation/`, `src/models/`, and `src/tasks/` and is not driven by test-loss feedback. There is therefore nothing meaningful for a validation set to *select between*.
+2. **Cross-baseline comparison stays clean.** If one baseline used a val split for early stopping and another did not, the comparison would conflate "better representation" with "better stopping rule." Forcing every model to a fixed-epoch budget removes that confound.
+3. **Test-set integrity.** A val split inevitably gets watched alongside training. Pretending it's separate is fragile. Removing it makes the test-set lockup unambiguous: the test set is touched once, at the end.
 
-In code, before any training loop:
-```python
-n = len(train_sequences)
-val_split = int(0.8 * n)
-train_data = train_sequences[:val_split]
-val_data   = train_sequences[val_split:]
-```
+**What replaces a val split for training control:**
+
+- **Fixed epoch budgets.** Every training run specifies `--epochs N` explicitly. No early stopping.
+- **Characterization sweeps.** To understand a model's behavior across training durations, run the same configuration at several epoch budgets (canonical sweep: `[15, 20, 25, 50, 100]` with one fixed seed). Report the full sweep — do **not** pick the best-on-test entry, because that turns the test set into a tuning set. See `src/baselines/lstm_baseline/README.md` and `src/baselines/ta_mlp_baseline/README.md` for the operational details.
+- **Multi-seed runs for noise calibration.** Optionally, run the same epoch budget at multiple seeds to estimate the noise band on test metrics. Report mean ± std so claims like "the framework beats the baseline" can be assessed against that noise.
+
+**Implication for components that classically *want* a val signal** (unsupervised pretraining of VAE / contrastive encoders): use a fixed training budget for those too. If a stopping criterion is genuinely needed during development, monitor the **training loss curve** itself (does it plateau?) rather than introducing a val split. Once the project commits to a recipe, lock it in as the canonical pretraining config and apply it uniformly.
 
 ---
 
 ## Data Usage Per Component
 
-| Component | Trains on | Validates on | Evaluated on |
-|---|---|---|---|
-| VAE encoder | train data | val data (reconstruction loss) | — (frozen after pretraining) |
-| Contrastive encoder | train data | val data (NT-Xent loss) | — (frozen after pretraining) |
-| Additional neural encoders (TBD) | train data | val data | — (frozen after pretraining) |
-| Statistical features | *(deterministic — no fitting)* | — | — |
-| Transformation features | *(deterministic — no fitting)* | — | — |
-| RepresentationAggregator | train feature bundles | val feature bundles | test feature bundles |
-| Task heads (price, volatility, trend) | train feature bundles | val feature bundles | test feature bundles |
-| LSTM baseline | train sequences | val sequences | test sequences |
-| Raw-OHLCV MLP baseline | train sequences | val sequences | test sequences |
-| Single-branch ablations | train feature bundles | val feature bundles | test feature bundles |
-| Standalone GARCH (volatility) | train sequences (fit per window) | — | test sequences |
+| Component | Trains on | Evaluated on |
+|---|---|---|
+| VAE encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
+| Contrastive encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
+| Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
+| Statistical features | *(deterministic — no fitting)* | — |
+| Transformation features | *(deterministic — no fitting)* | — |
+| RepresentationAggregator | train feature bundles (fixed-epoch) | test feature bundles |
+| Task heads (price, volatility, trend) | train feature bundles (fixed-epoch) | test feature bundles |
+| LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
+| TA-MLP baseline (trend classification) | train TA-feature rows (fixed-epoch sweep) | test TA-feature rows |
+| Raw-OHLCV MLP baseline | train sequences (fixed-epoch) | test sequences |
+| Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
+| Standalone GARCH (volatility) | train sequences (fit per window) | test sequences |
+
+All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
 
 ---
 
@@ -89,36 +91,35 @@ The sequence below must be followed to avoid leakage.
 1. data/processed/*.npz already exists
         │
         ▼
-2. Determine val split index from train array
-   (no model fitting at this step)
-        │
-        ▼
-3. Pretrain VAE on train_data; monitor val_data reconstruction loss
+2. Pretrain VAE on the full train split for a fixed epoch budget
+   (no val split; track training-loss curve for sanity, not for stopping)
    Save checkpoint: checkpoints/vae_<timeframe>.pth
         │
         ▼
-4. Pretrain contrastive encoder on train_data; monitor val_data NT-Xent loss
+3. Pretrain contrastive encoder on the full train split for a fixed epoch budget
    Save checkpoint: checkpoints/contrastive_<timeframe>.pth
         │
         ▼
-   (repeat step 3–4 for any additional neural encoders — TBD)
+   (repeat step 2–3 for any additional neural encoders — TBD)
         │
         ▼
-5. Extract features for ALL sequences using frozen encoders:
+4. Extract features for ALL sequences using frozen encoders:
      - statistical + transform: computed directly (no encoder needed)
      - neural branches: run frozen encoder inference
    Save: data/features/*_train.npz and data/features/*_test.npz
         │
         ▼
-6. Train RepresentationAggregator + task head on train feature bundles
-   Monitor val feature bundles; save best checkpoint per task
+5. Train RepresentationAggregator + task head on the full train feature bundle
+   for a fixed epoch budget; save checkpoint per task
         │
         ▼
-7. Train all baseline models on train sequences (or train feature bundles
-   for single-branch ablations); same val split for monitoring
+6. Train all baseline models on the full train sequences (or full train feature
+   bundles for single-branch ablations) for a fixed epoch budget.
+   For external benchmarks, run a small characterization sweep across epoch
+   budgets at one fixed seed — report the full sweep, not a "best" run.
         │
         ▼
-8. ── FINAL EVALUATION (one time only) ──
+7. ── FINAL EVALUATION (one time only) ──
    Load all checkpoints; run inference on test feature bundles / test sequences
    Record metrics for every model × every task
 ```
@@ -146,8 +147,9 @@ Both modes are trained on the same data splits and evaluated identically, making
 ## Rules Summary
 
 1. **Split once, at the start.** The 80/20 per-contract split is already done. Do not re-split.
-2. **Unsupervised ≠ exempt from the split.** VAE and contrastive encoders are trained on `train_data` only, never on test sequences.
-3. **Val split is for monitoring only.** No architectural choice or hyperparameter may be made by looking at test metrics.
-4. **All baselines use the identical train/val/test partitions** as the framework — same `.npz` files, same split indices.
-5. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
-6. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
+2. **Train and test only — no validation split.** Every model uses a fixed epoch budget. No early stopping.
+3. **Unsupervised ≠ exempt from the split.** VAE and contrastive encoders are trained on `train_data` only, never on test sequences.
+4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
+5. **All baselines use the identical train/test partitions** as the framework — same `.npz` files, same split indices.
+6. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
+7. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.

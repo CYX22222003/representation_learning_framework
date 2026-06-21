@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-05-22
+**Last updated:** 2026-06-22
 
 ---
 
@@ -43,9 +43,9 @@
 **External benchmarks** (from prior work)
 | Task | Status |
 |---|---|
-| Stacked LSTM benchmark (3-layer, 4h data) | 🔄 Checkpoint exists, needs retraining on unified splits |
+| Stacked LSTM benchmark (3-layer, 4h data) | ✅ Trained on unified splits (v5 epoch sweep, seed=0; MAE 0.007–0.012, RMSE 0.016–0.018) |
 | GINN benchmark (AR→GARCH→LSTM, volatility) | 🔄 Implemented, not trained |
-| TA-MLP benchmark (FreqTrade, trend classification) | 🔄 Implemented, not trained |
+| TA-MLP benchmark (FreqTrade, trend classification) | ✅ Trained on unified splits (v1 triclass epoch sweep, seed=0; acc 0.71–0.73, macro-F1 0.45–0.47) |
 | Additional benchmarks from literature review (TBD) | ⬜ TBD |
 
 **Internal baselines** (designed within this project)
@@ -75,9 +75,9 @@
 
 ## 2. Summary
 
-The data pipeline and all feature extraction code (statistical, transformation) are complete. The aggregator, all three task heads, and both initial neural encoders (VAE and contrastive) are implemented but not yet trained. All three external benchmarks (LSTM, GINN, TA-MLP) and the Raw-OHLCV MLP internal baseline are implemented. The LSTM checkpoint exists but needs retraining on the unified data splits — evaluation results were not recorded from the original run.
+The data pipeline and all feature extraction code (statistical, transformation) are complete. The aggregator, all three task heads, and both initial neural encoders (VAE and contrastive) are implemented but not yet trained. All three external benchmarks (LSTM, GINN, TA-MLP) and the Raw-OHLCV MLP internal baseline are implemented. **Two of the three external benchmarks (LSTM, TA-MLP) have now been trained on unified data splits** using a fixed-epoch sweep methodology (no validation split, no early stopping, seed-controlled), with per-run + cross-run summaries recorded under each baseline's `experiments/` directory.
 
-The data `.npz` files now exist for all three timeframes — Phase A is complete. The immediate next step is Phase B: write the end-to-end training and evaluation scripts, retrain the LSTM on unified splits, train the VAE encoder, and get the first numbers from the framework and at least two baselines on the same test split. The exact set of additional neural encoders and benchmarks will be decided incrementally as the literature review progresses.
+The data `.npz` files now exist for all three timeframes — Phase A is complete. Phase B is partially underway: two benchmarks have first numbers on the 4h test split, but the framework side (train the VAE encoder, write `train_framework.py`, write `evaluate.py`) is not started. Immediate next steps are to train the VAE encoder, produce the first framework number on price prediction, and decide whether to add a constant-predictor floor + multi-seed runs for the baselines before the framework comparison (see `src/baselines/ta_mlp_baseline/IMPROVEMENTS.md`). The exact set of additional neural encoders and benchmarks will be decided incrementally as the literature review progresses.
 
 ---
 
@@ -123,9 +123,9 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [ ] Identify additional unsupervised methods from literature (masked autoencoder, self-supervised Transformer, etc.); integrate promising ones one at a time following the same pattern
 
 **Expand external benchmarks** (wire into evaluation harness one at a time)
-- [ ] Retrain LSTM benchmark on unified `.npz` data splits; record results
+- [x] Retrain LSTM benchmark on unified `.npz` data splits; record results *(v5 sweep, see `src/baselines/lstm_baseline/experiments/`)*
 - [ ] Train GINN benchmark; wire into evaluation harness (volatility task)
-- [ ] Train TA-MLP benchmark; wire into evaluation harness (trend classification task)
+- [x] Train TA-MLP benchmark *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; wire into evaluation harness (trend classification task) — wiring still pending
 - [ ] Additional benchmarks from literature (TBD after literature review) — retrain each on same data splits
 
 **Expand internal baselines** (order by complexity)

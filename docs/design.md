@@ -54,13 +54,13 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until final evaluation.
 
-- A validation set is carved from the last 20% of the training sequences and used exclusively for monitoring and early stopping; it does not influence architectural decisions.
+- **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
 - Neural encoders (VAE, contrastive, and any additional methods) are pretrained unsupervised on training sequences only, then their weights are frozen.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
-- The aggregator and task heads are trained on training feature bundles (statistical + transformed + frozen neural embeddings) and validated on validation feature bundles.
+- The aggregator and task heads are trained on training feature bundles (statistical + transformed + frozen neural embeddings) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 

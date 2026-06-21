@@ -81,9 +81,9 @@ Two categories of comparison models are used:
 
 **External benchmarks:**
 
-- **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences. Needs retraining on unified data splits. *[Checkpoint exists]*
+- **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences. *[Trained on unified 4h splits via a fixed-epoch sweep at `[15, 20, 25, 50, 100]`, seed=0; see `src/baselines/lstm_baseline/`]*
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — three-stage hybrid: AR mean prediction, GARCH(1,1) volatility estimation, LSTM variance predictor trained with GARCH-fused loss. Primary benchmark for the volatility prediction task. *[Implemented]*
-- **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. *[Implemented]*
+- **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. *[Trained on unified 4h splits via a fixed-epoch sweep at `[15, 20, 25, 50, 100]`, seed=0; see `src/baselines/ta_mlp_baseline/`]*
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
