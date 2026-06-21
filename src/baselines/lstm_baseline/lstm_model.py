@@ -6,14 +6,13 @@ from data_processing.file_list import DATA_DIR, four_hour_file_list
 import os
 import pandas as pd
 
-class MAPELoss(nn.Module):
+class RMSELoss(nn.Module):
     def __init__(self, eps=1e-8):
         super().__init__()
         self.eps = eps
 
     def forward(self, y_pred, y_true):
-        loss = torch.abs((y_true - y_pred) / (y_true + self.eps))
-        return torch.mean(loss)
+        return torch.sqrt(torch.mean((y_pred - y_true) ** 2) + self.eps)
 
 def create_labeled_sequences(close_prices, seq_len):
     X, y = [], []
@@ -107,17 +106,15 @@ class LSTMModel(nn.Module):
 
         return x
     
-def train_model(model, train_loader, val_loader, epochs=100, lr=1e-3, patience=50, device="cuda"):
+def train_model(model, train_loader, epochs=30, lr=1e-3, device="cuda"):
     model.to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    criterion = MAPELoss()
+    criterion = RMSELoss()
 
-    best_val_loss = float("inf")
-    patience_counter = 0
+    history = {"train_loss": []}
 
     for epoch in range(epochs):
-        # ---- TRAIN ----
         model.train()
         train_loss = 0
 
@@ -134,41 +131,13 @@ def train_model(model, train_loader, val_loader, epochs=100, lr=1e-3, patience=5
 
         train_loss /= len(train_loader)
 
-        # ---- VALIDATE ----
-        model.eval()
-        val_loss = 0
+        print(f"Epoch {epoch}: train={train_loss:.4f}")
+        history["train_loss"].append(train_loss)
 
-        with torch.no_grad():
-            for X, y in val_loader:
-                X, y = X.to(device), y.to(device)
-                pred = model(X)
-                loss = criterion(pred, y)
-                val_loss += loss.item()
-
-        val_loss /= len(val_loader)
-
-        print(f"Epoch {epoch}: train={train_loss:.4f}, val={val_loss:.4f}")
-
-        # ---- EARLY STOPPING ----
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            patience_counter = 0
-            best_model = model.state_dict()
-        else:
-            patience_counter += 1
-
-        if patience_counter >= patience:
-            print("Early stopping triggered")
-            break
-
-    model.load_state_dict(best_model)
-    return model
+    return model, history
 
 def evaluate(model, test_loader, device="cuda"):
     model.eval()
-    criterion = MAPELoss()
-
-    total_loss = 0
 
     preds = []
     targets = []
@@ -178,9 +147,6 @@ def evaluate(model, test_loader, device="cuda"):
             X, y = X.to(device), y.to(device)
 
             pred = model(X)
-            loss = criterion(pred, y)
-
-            total_loss += loss.item()
 
             preds.append(pred.cpu())
             targets.append(y.cpu())
@@ -188,12 +154,53 @@ def evaluate(model, test_loader, device="cuda"):
     preds = torch.cat(preds)
     targets = torch.cat(targets)
 
-    print("Test MAPE:", total_loss / len(test_loader))
+    mae = torch.mean(torch.abs(preds - targets)).item()
+    rmse = torch.sqrt(torch.mean((preds - targets) ** 2)).item()
+
+    print(f"Test MAE : {mae:.6f}")
+    print(f"Test RMSE: {rmse:.6f}")
 
     return preds, targets
 
 if __name__ == "__main__":
+    import argparse
+    import random
+    from datetime import date
+    from torch.utils.data import DataLoader
+
+    parser = argparse.ArgumentParser(description="Train the LSTM baseline.")
+    parser.add_argument(
+        "--run-name",
+        default=f"{date.today().isoformat()}-default",
+        help="Subdirectory under experiments/ where artifacts are written.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=30,
+        help="Number of training epochs (no early stopping; matches framework convention of no val split).",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=0,
+        help="Seed for torch / numpy / random / CUDA. Makes runs reproducible and comparable across epoch budgets.",
+    )
+    args = parser.parse_args()
+
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
+
     SEQ_LEN = 64
+
+    baseline_dir = os.path.dirname(os.path.abspath(__file__))
+    run_dir = os.path.join(baseline_dir, "experiments", args.run_name)
+    os.makedirs(run_dir, exist_ok=True)
+    print(f"Run directory: {run_dir}")
+    print(f"Config: epochs={args.epochs}, seed={args.seed}")
 
     X_train, y_train, X_test, y_test = build_lstm_dataset(
         four_hour_file_list, SEQ_LEN
@@ -205,39 +212,43 @@ if __name__ == "__main__":
     print("Train size:", len(train_dataset))
     print("Test size:", len(test_dataset))
 
-    # sample check
     X_sample, y_sample = train_dataset[0]
-    print("Input shape:", X_sample.shape)  # [64, 1]
+    print("Input shape:", X_sample.shape)
     print("Target:", y_sample)
-    
-    from torch.utils.data import DataLoader, random_split
 
-    train_size = int(0.8 * len(train_dataset))
-    val_size = len(train_dataset) - train_size
-
-    train_ds, val_ds = random_split(train_dataset, [train_size, val_size])
-
-    train_loader = DataLoader(train_ds, batch_size=64, shuffle=True)
-    val_loader = DataLoader(val_ds, batch_size=64)
+    g = torch.Generator()
+    g.manual_seed(args.seed)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, generator=g)
     test_loader = DataLoader(test_dataset, batch_size=64)
-    
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    
-    print(f"devise used: {device}")
-    
-    model = LSTMModel()
 
-    model = train_model(
-        model,
-        train_loader,
-        val_loader,
-        epochs=50,
-        lr=1e-3,
-        patience=10,
-        device=device
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Device: {device}")
+
+    model = LSTMModel()
+    model, history = train_model(
+        model, train_loader,
+        epochs=args.epochs, lr=1e-3, device=device,
     )
 
     preds, targets = evaluate(model, test_loader, device=device)
-    model_path = "./event_stacked_lstm.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"Model saved to {model_path}")
+
+    checkpoint_path = os.path.join(run_dir, "checkpoint.pth")
+    history_path = os.path.join(run_dir, "history.npz")
+    preds_path = os.path.join(run_dir, "predictions.npz")
+
+    torch.save(model.state_dict(), checkpoint_path)
+    np.savez(
+        history_path,
+        train_loss=np.array(history["train_loss"], dtype=np.float32),
+        epochs=np.int32(args.epochs),
+        seed=np.int32(args.seed),
+    )
+    np.savez(
+        preds_path,
+        preds=preds.numpy().reshape(-1).astype(np.float32),
+        targets=targets.numpy().reshape(-1).astype(np.float32),
+    )
+
+    print(f"Checkpoint  saved to {checkpoint_path}")
+    print(f"History     saved to {history_path}")
+    print(f"Predictions saved to {preds_path}")
