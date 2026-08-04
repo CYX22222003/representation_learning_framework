@@ -5,6 +5,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.data import DataLoader, Dataset
 
 from features.statistical import ar_coefficients, _fit_garch11
 
@@ -31,6 +32,10 @@ class LSTMVariancePredictor(nn.Module):
         Number of stacked LSTM layers (default 2, matching the original).
     dropout : float
         Dropout between LSTM layers (default 0.1, matching the original).
+    output_transform : {"linear", "softplus"}
+        Transform applied to the final scalar. ``linear`` preserves the
+        original architecture. ``softplus`` constrains volatility predictions
+        to be non-negative.
     """
 
     def __init__(
@@ -39,8 +44,12 @@ class LSTMVariancePredictor(nn.Module):
         hidden_size: int = 256,
         num_layers: int = 2,
         dropout: float = 0.1,
+        output_transform: str = "linear",
     ) -> None:
         super().__init__()
+        if output_transform not in {"linear", "softplus"}:
+            raise ValueError("output_transform must be 'linear' or 'softplus'")
+        self.output_transform = output_transform
         self.lstm = nn.LSTM(
             input_size=input_size,
             hidden_size=hidden_size,
@@ -63,10 +72,13 @@ class LSTMVariancePredictor(nn.Module):
 
         Returns
         -------
-        Tensor [B, 1]  — predicted variance
+        Tensor [B, 1]  — predicted volatility
         """
         _, (hn, _) = self.lstm(x)
-        return self.fc(hn[-1])
+        out = self.fc(hn[-1])
+        if self.output_transform == "softplus":
+            return F.softplus(out)
+        return out
 
 
 def garch_fused_loss(
@@ -74,7 +86,7 @@ def garch_fused_loss(
     y_gt: torch.Tensor,
     y_garch: torch.Tensor,
     lambda_garch: float = 0.1,
-) -> torch.Tensor:
+) -> dict[str, torch.Tensor]:
     """
     GINN fused loss: blends ground-truth and GARCH supervision.
 
@@ -83,7 +95,152 @@ def garch_fused_loss(
     λ_garch steers the LSTM toward the GARCH signal without fully replacing
     the ground-truth objective.  The original paper uses λ=0.1–0.3.
     """
-    return (1.0 - lambda_garch) * F.mse_loss(pred, y_gt) + lambda_garch * F.mse_loss(pred, y_garch)
+    gt_mse = F.mse_loss(pred, y_gt)
+    garch_mse = F.mse_loss(pred, y_garch)
+    total = (1.0 - lambda_garch) * gt_mse + lambda_garch * garch_mse
+    return {"total": total, "gt_mse": gt_mse, "garch_mse": garch_mse}
+
+
+class GinnTensorDataset(Dataset):
+    def __init__(self, X: np.ndarray, y_gt: np.ndarray, y_garch: np.ndarray) -> None:
+        self.X = torch.as_tensor(X, dtype=torch.float32)
+        self.y_gt = torch.as_tensor(y_gt, dtype=torch.float32)
+        self.y_garch = torch.as_tensor(y_garch, dtype=torch.float32)
+        if self.X.ndim != 3:
+            raise ValueError(f"X must be [N, seq_len, features], got {tuple(self.X.shape)}")
+        if self.y_gt.shape != self.y_garch.shape or self.y_gt.shape != (self.X.shape[0], 1):
+            raise ValueError("target arrays must both have shape [N, 1]")
+
+    def __len__(self) -> int:
+        return int(self.X.shape[0])
+
+    def __getitem__(self, index: int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        return self.X[index], self.y_gt[index], self.y_garch[index]
+
+
+def make_train_loader(dataset: Dataset, batch_size: int, seed: int) -> DataLoader:
+    generator = torch.Generator()
+    generator.manual_seed(seed)
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        drop_last=len(dataset) % batch_size == 1,
+        generator=generator,
+    )
+
+
+def train_one_epoch(
+    model: nn.Module,
+    loader: DataLoader,
+    optimizer: torch.optim.Optimizer,
+    device: torch.device,
+    lambda_garch: float,
+) -> dict[str, float]:
+    model.to(device)
+    model.train()
+    totals = {"total": 0.0, "gt_mse": 0.0, "garch_mse": 0.0}
+    count = 0
+    for X, y_gt, y_garch in loader:
+        X = X.to(device)
+        y_gt = y_gt.to(device)
+        y_garch = y_garch.to(device)
+        optimizer.zero_grad()
+        pred = model(X)
+        losses = garch_fused_loss(pred, y_gt, y_garch, lambda_garch=lambda_garch)
+        losses["total"].backward()
+        optimizer.step()
+        batch = int(X.shape[0])
+        count += batch
+        for key in totals:
+            totals[key] += float(losses[key].detach().cpu().item()) * batch
+    if count == 0:
+        raise ValueError("training loader produced no samples")
+    return {key: value / count for key, value in totals.items()}
+
+
+def _safe_corr(preds: np.ndarray, targets: np.ndarray) -> float | None:
+    if preds.size < 2 or targets.size < 2:
+        return None
+    if np.std(preds) == 0.0 or np.std(targets) == 0.0:
+        return None
+    return float(np.corrcoef(preds, targets)[0, 1])
+
+
+def _summary_stats(values: np.ndarray) -> dict[str, float]:
+    return {
+        "mean": float(np.mean(values)),
+        "std": float(np.std(values)),
+        "min": float(np.min(values)),
+        "max": float(np.max(values)),
+    }
+
+
+def _per_contract_metrics(
+    preds: np.ndarray, targets: np.ndarray, contract_ids: np.ndarray
+) -> list[dict[str, float | int | None]]:
+    rows = []
+    for contract_id in np.unique(contract_ids):
+        mask = contract_ids == contract_id
+        p = preds[mask]
+        y = targets[mask]
+        rows.append(
+            {
+                "contract_id": int(contract_id),
+                "n": int(mask.sum()),
+                "mse": float(np.mean((p - y) ** 2)),
+                "pearson_corr": _safe_corr(p, y),
+            }
+        )
+    return rows
+
+
+def evaluate_model(
+    model: nn.Module,
+    X: np.ndarray,
+    y_gt: np.ndarray,
+    y_garch: np.ndarray,
+    contract_ids: np.ndarray,
+    device: torch.device,
+    batch_size: int = 64,
+) -> dict[str, object]:
+    dataset = GinnTensorDataset(X, y_gt, y_garch)
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    model.to(device)
+    model.eval()
+    preds = []
+    with torch.no_grad():
+        for batch_X, _, _ in loader:
+            preds.append(model(batch_X.to(device)).cpu().numpy())
+    pred = np.concatenate(preds, axis=0).reshape(-1).astype(np.float32)
+    target = np.asarray(y_gt, dtype=np.float32).reshape(-1)
+    garch_target = np.asarray(y_garch, dtype=np.float32).reshape(-1)
+    ids = np.asarray(contract_ids, dtype=np.int32).reshape(-1)
+    if not np.isfinite(pred).all() or not np.isfinite(target).all():
+        raise ValueError("predictions and targets must be finite")
+    errors = pred - target
+    garch_errors = garch_target - target
+    metrics = {
+        "mse": float(np.mean(errors**2)),
+        "pearson_corr": _safe_corr(pred, target),
+        "mae": float(np.mean(np.abs(errors))),
+        "rmse": float(np.sqrt(np.mean(errors**2))),
+        "garch_mse": float(np.mean(garch_errors**2)),
+        "garch_pearson_corr": _safe_corr(garch_target, target),
+        "negative_prediction_count": int(np.sum(pred < 0.0)),
+        "negative_prediction_fraction": float(np.mean(pred < 0.0)),
+        "prediction_stats": _summary_stats(pred),
+        "target_stats": _summary_stats(target),
+        "error_stats": _summary_stats(errors),
+        "per_contract": _per_contract_metrics(pred, target, ids),
+    }
+    return {
+        "predictions": pred,
+        "targets": target,
+        "garch_targets": garch_target,
+        "contract_ids": ids,
+        "metrics": metrics,
+    }
 
 
 def build_ginn_dataset(
