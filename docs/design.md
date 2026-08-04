@@ -64,7 +64,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
-- All baseline models use the identical train/val/test partitions as the framework. See `docs/training_test_data_selection.md` for the complete data allocation rules.
+- All baseline models use the identical train/test partitions as the framework. See `docs/training_test_data_selection.md` for the complete data allocation rules.
 
 ### Evaluation Process
 

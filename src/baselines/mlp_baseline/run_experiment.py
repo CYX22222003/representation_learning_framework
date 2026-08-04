@@ -324,6 +324,11 @@ def train_and_snapshot(
             )
             np.savez(budget_dir / "history.npz", **_history_arrays(history, config.seed))
             checkpoints.append(checkpoint_path)
+            print(
+                f"MLP checkpoint saved: task={config.task} epoch={epoch} "
+                f"path={checkpoint_path}",
+                flush=True,
+            )
     return checkpoints
 
 
@@ -369,6 +374,11 @@ def evaluate_snapshots(
         _json_write(budget_dir / "metrics.json", metrics)
         _write_budget_summary(budget_dir / "summary.md", metrics, train_loss)
         sweep.append(metrics)
+        print(
+            f"MLP checkpoint evaluated: task={loaded_config.task} epoch={metrics['epoch']} "
+            f"metrics={budget_dir / 'metrics.json'}",
+            flush=True,
+        )
     _json_write(run_root / "sweep_metrics.json", sweep)
     _write_root_summary(run_root, sweep, config.task)
     return sweep
@@ -464,6 +474,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         _prepare_run_root(run_root, args.overwrite)
         run_experiment(args.processed_npz, run_root, config)
+        print(
+            f"MLP baseline experiment completed: task={config.task} "
+            f"epochs={','.join(str(epoch) for epoch in config.epoch_budgets)} "
+            f"run_dir={run_root}",
+            flush=True,
+        )
         return 0
     except FileExistsError as exc:
         print(str(exc), file=sys.stderr)
