@@ -66,7 +66,11 @@ Time-series embedding has emerged as an effective paradigm for transforming raw 
 
 Early approaches to time-series embedding are rooted in statistical modeling, where model parameters or latent states serve as compact representations of temporal structure. These methods excel at capturing linear dependencies, stationary trends, and interpretable statistical properties of time series, serving as foundational benchmarks for temporal representation learning. 
 
-Autoregressive (AR) and ARIMA models are traditional examples, while more complex methods like Hidden Markov Models (HMMs) capture the probabilistic transitions between different states in the series (Irani et al., 2025).
+Autoregressive (AR) and ARIMA models are traditional examples, where the fitted coefficients encode the linear temporal dependency structure of the series (Irani et al., 2025). Complementing these, the Generalized Autoregressive Conditional Heteroskedasticity (GARCH) model captures the volatility dynamics of a time series. The GARCH(1,1) model defines the conditional variance as:
+
+σ²_t = ω + α·ε²_{t-1} + β·σ²_{t-1}
+
+where ω is the baseline variance, α (ARCH coefficient) quantifies sensitivity to past shocks, and β (GARCH coefficient) measures variance persistence. The parameters are estimated via maximum likelihood. The persistence α+β indicates how long volatility shocks endure, and the unconditional variance ω/(1−α−β) reflects the long-run variance level. For financial time series such as event prediction markets, GARCH features provide a compact, interpretable representation of the volatility regime that complements the mean-structure captured by AR models. More complex statistical methods like Hidden Markov Models (HMMs) capture the probabilistic transitions between different latent states in the series (Irani et al., 2025).
 
 #### 2.2.2 Transformation-based approach
 
@@ -135,91 +139,129 @@ These characteristics highlight a fundamental mismatch between the complexity of
 ```
 Data processing for training and testing
         ||
-        ||
-        ||
-        ||
-        ||
         VV
-Raw OHLCV Time Series/ Level 1 order book data if we have
+Raw OHLCV Time Series (Polymarket event contracts)
         |
-        |-- Statistical Representations
-        |      |_ AR / ARIMA / HMM Statistics
+        |-- [Branch: statistical]
+        |      |_ AR(p) Coefficients + Residual Statistics
+        |      |_ GARCH(1,1): omega, alpha, beta, persistence,
+        |                     uncond_var, mean/std conditional variance
         |
-        |-- Transformation-based Representations
-        |      |_ FFT Coefficients / Wavelet Features
+        |-- [Branch: transformed]
+        |      |_ FFT top-k magnitude coefficients
+        |      |_ Haar wavelet detail energies (multi-level)
         |
-        |-- Neural Representations
-               |_ Autoencoder Encoder (CNN / LSTM / Transformer)
-               |_ Contrastive Encoder (CNN / LSTM / Transformer)
+        |-- [Branch: vae]
+        |      |_ VAE encoder (MLP, pretrained unsupervised)
+        |
+        |-- [Branch: contrastive]
+        |      |_ Contrastive encoder (CNN, pretrained via NT-Xent)
+        |
+        |-- [Branch: ...TBD]
+               |_ Additional unsupervised methods to be identified
+               |  from literature (masked autoencoder, self-supervised
+               |  Transformer, etc.) — each adds one new branch key
                     |
-        Representation Aggregation -> h_i
-              (Weighted sum or Shallow MLP)
+        RepresentationAggregator -> h_i
+          Two modes (selected at construction):
+          • concat (default): branches concatenated into one
+            higher-dimensional vector; no learnable parameters;
+            output_dim = sum of branch dims
+          • gated: each branch projected to out_dim, then
+            softmax gating weights computed from concatenated
+            projections; output_dim = out_dim
                     ||
-                    ||
-                    || Pass to downstream tasks
-                    ||
-                    ||
+                    || Pass to downstream task heads
                     VV
-           ---------------------------------------------------------------------------
-           |                            │                                            |
-  Alpha Factor Mining -> a_i     Price/Volatility Prediction → y_i          Trend/Trading Signal Classicication 
-           |                                   |                                            |
-    Evaluation Metrics                 Evaluation Metrics                           Evaluation Metrics
-    (Information Coefficient)            (MSE, RMSE)                                    (Binary Cross-Enthropy)
-            |
-    Strategy Formulation
-    (Buy/Hold/Sell Signals)
-            |
-    Backtest (ROI)
+     -------------------------------------------------------
+     |                    |                                |
+Price Prediction     Volatility Prediction       Trend Classification
+(MLP regressor)      (MLP regressor)             (MLP classifier)
+     |                    |                                |
+  MAE, RMSE           MSE, Pearson corr.           Accuracy, F1
 ```
 
 ### 3.3 Training
 
 1. Pretrain Base Embeddings: 
 
-Statistical and transformation-based features are computed directly from historical cryptocurrency data. Deep learning embeddings are trained using unsupervised methods (autoencoder reconstruction, contrastive learning, masked prediction). Base embeddings are frozen during downstream training to preserve general-purpose representations.
+Statistical and transformation-based features are computed directly from historical data. For each sliding window sequence, the statistical branch fits an AR(p) model per OHLCV column (capturing linear mean dynamics) and a GARCH(1,1) model on the first-differenced series per column (capturing conditional variance dynamics). Transformation-based features are extracted via FFT and Haar wavelet decomposition. Deep learning embeddings are trained using unsupervised methods (autoencoder reconstruction, contrastive learning, masked prediction). Base embeddings are frozen during downstream training to preserve general-purpose representations.
 
-2. Train Aggregator on Selected Tasks: 
+2. Train Aggregator on Downstream Tasks: 
 
-For each downstream task (e.g., price prediction, volatility forecasting, alpha factor mining), we adopt baseline models from literature (e.g., LSTM, CNN+LSTM, XGBoost). The aggregator module (weighted sum or shallow MLP) learns to combine the heterogeneous embeddings such that the downstream models’ performance is improved. 
+With frozen encoder weights, the `RepresentationAggregator` is trained jointly with a shallow MLP task head for each downstream task (price prediction, volatility prediction, trend classification). The aggregator’s learned softmax gating adaptively weights contributions from each branch to minimise the task loss. Each task is trained and evaluated independently, sharing the same pretrained encoder checkpoints.
 
-Task-specific losses from these baseline models guide the aggregator training, allowing it to adaptively weight features from statistical, transformation-based, and neural embeddings. Some downstream tasks are used exclusively to train the aggregator, while others are reserved for later evaluation to measure transferability.
+3. Data: 
 
-3. Data selection: 
-
-- Coins: mix of large-cap (BTC, ETH) and mid-cap (LTC, ADA, SOL)
-- Timeframes: 5-min, 4-hour, 1-day OHLCV
-- Market regimes: bull, bear, range-bounding up, range-bounding down
-- Level-1 order book features/OHLCV data
+- Source: Polymarket event prediction market OHLCV data (top-50 most active contracts per timeframe)
+- Timeframes: 1-hour, 4-hour, 1-day
+- Features: raw OHLCV (5 columns) only — no order book or external data
 
 ### 3.4 Innovation
 
-Hybrid Representation Learning: Combines statistical, transformation-based, and neural embeddings to capture multi-scale, multi-structural market dynamics.
+**Extensible multi-branch design**: The `RepresentationAggregator` accepts an arbitrary number of named branches via a dictionary API. Adding a new unsupervised encoder (e.g. a Transformer-based method) requires only registering a new key in `branch_dims` — no changes to the aggregator or any other component.
 
-Task-Transferable Aggregator: Learns to merge heterogeneous embeddings into general-purpose representations, reusable across multiple downstream tasks, coins, and timeframes.
+**Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised, then fuses all branches via learned gating.
 
-Practical Impact: Supports alpha factor discovery, price/volatility prediction, and trading signal generation in a single unified framework.
+**Task-transferable aggregator**: The same frozen encoder checkpoints and aggregator are reused across all downstream tasks (price prediction, volatility, trend classification), with only a lightweight task head trained per task.
 
-Semi-/Unsupervised Support: Can learn from unlabeled crypto price/volatility data, addressing scarcity of supervised labels.
+**Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
 ## 5. Evaluation
 
-To demonstrate the effectiveness and transferability of the proposed framework, the model will be benchmarked against multiple downstream tasks using both standard metrics and financial performance indicators:
+The framework is evaluated on three downstream tasks. In each case the same test split is used for all models. The exact set of comparison models is provisional and will be finalised based on the literature review.
 
-1. Price Prediction:
-- Metrics: MAE, RMSE
-- Benchmarks: Stacked LSTM+CNN, LSTM+XGBoost, handcrafted-feature MLPs
+### 5.1 Evaluation Paradigm
 
-2. Volatility Prediction:
-- Metrics: MSE, correlation of predicted vs. realized volatility
-- Benchmarks: GARCH, LSTM-based volatility models
+The framework operates as a **frozen encoder evaluated via probing**: multi-branch features are extracted using frozen encoders, then a lightweight MLP task head is trained on those features. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. This is the standard paradigm for evaluating representation quality in the self-supervised learning literature.
 
-3. Alpha Factor Mining:
-- Metrics: Information Coefficient (IC), Sharpe Ratio
-- Benchmarks: Existing factor-mining pipelines using handcrafted or neural features
+### 5.2 Terminology
 
-4. Anomaly Detection
-- Benchmarks: GCN-GRN model for anomaly detection
+| Term | Definition |
+|---|---|
+| **External benchmark** | Model from prior work (end-to-end trained, task-specific). Shows the framework is competitive with the state-of-the-art. Current set: Stacked LSTM, GINN, TA-MLP. |
+| **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
+| **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
+| **Mirrored decoder** | A benchmark's own FC architecture detached from its encoder and retrained on top of the frozen framework encoder. Used only in the decoder-controlled comparison experiment. |
+
+### 5.3 Tasks and Metrics
+
+1. **Price Prediction**
+   - Metrics: MAE, RMSE
+   - External benchmarks: Stacked LSTM; additional TBD from literature review
+   - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+
+2. **Volatility Prediction**
+   - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
+   - External benchmarks: GINN; additional TBD from literature review
+   - Internal baselines: Standalone GARCH(1,1), single-branch ablations
+
+3. **Trend Classification**
+   - Metrics: Accuracy, F1-score
+   - External benchmarks: TA-MLP; additional TBD from literature review
+   - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+
+### 5.4 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
+
+An additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant. Applies to all three tasks (price prediction, volatility prediction, trend classification) if time permits, subject to availability of a separable benchmark decoder per task:
+
+| Configuration | Encoder | Decoder | Trained |
+|---|---|---|---|
+| Benchmark end-to-end (e.g. LSTM) | Task-specific encoder, end-to-end | Benchmark's FC head | End-to-end |
+| Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
+| Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
+
+- Comparing configurations **1 vs 3**: same decoder architecture, only the encoder differs — the cleanest test of encoder quality.
+- Comparing configurations **2 vs 3**: same encoder, different decoder — isolates whether decoder choice matters.
+- If all three configurations produce similar numbers, it confirms the representations are doing the heavy lifting regardless of decoder design.
+
+### 5.5 Ablation Study and Transferability
+
+**Ablation study**: each branch is run independently (no aggregation) against the full N-branch framework to quantify marginal contribution.
+
+**Transferability analysis**: embeddings trained on one timeframe are evaluated on another without retraining, to assess generalisation across temporal scales.
+
+*Note: Alpha factor mining and anomaly detection are out of scope for the current phase. They may be revisited as extensions if time permits.*
 
 ## 6. Inspiration and Motivation
 
