@@ -2,6 +2,8 @@
 
 This document outlines the four-stage research plan for developing and evaluating the unified representation learning framework.
 
+**Progress snapshot (2026-08-06):** Data and deterministic feature extraction are complete for the 1h, 4h, and 1d processed datasets. LSTM and TA-MLP external benchmark sweeps are complete on the unified 4h split. GINN has completed two seed-0, 15-epoch CUDA characterisation runs on the 4h split; the linear run produced MSE `1887.2247` and Pearson correlation `0.0488`, while the softplus run produced MSE `1313.9036` and correlation `-0.0703`. The softplus transform removed negative predictions but did not fix the underlying GARCH-target scale failure, which is documented in `src/baselines/ginn_baseline/LIMITATIONS.md`; further GINN sweeps are deferred. The Raw-OHLCV MLP has completed 4h runs for price, volatility, and trend, including 15/50/100-epoch characterization sweeps for price and volatility. The proposed framework has not yet been pretrained or evaluated end to end, so framework-versus-baseline claims remain open.
+
 ---
 
 ## Stage 1 — Data Collection and Processing
@@ -82,13 +84,13 @@ Two categories of comparison models are used:
 **External benchmarks:**
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences. *[Trained on unified 4h splits via a fixed-epoch sweep at `[15, 20, 25, 50, 100]`, seed=0; see `src/baselines/lstm_baseline/`]*
-- **GINN** *(AR→GARCH→LSTM with fused loss)* — three-stage hybrid: AR mean prediction, GARCH(1,1) volatility estimation, LSTM variance predictor trained with GARCH-fused loss. Primary benchmark for the volatility prediction task. *[Implemented]*
+- **GINN** *(AR→GARCH→LSTM with fused loss)* — three-stage hybrid: AR mean prediction, GARCH(1,1) volatility estimation, LSTM variance predictor trained with GARCH-fused loss. Primary benchmark for the volatility prediction task. *[Implemented; two 4h 15-epoch CUDA characterisation runs completed; further sweep deferred because of the documented GARCH-target failure]*
 - **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. *[Trained on unified 4h splits via a fixed-epoch sweep at `[15, 20, 25, 50, 100]`, seed=0; see `src/baselines/ta_mlp_baseline/`]*
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
 
-- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. *[Implemented]*
+- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. *[Implemented; 4h runs completed for all three tasks; price and volatility 15/50/100-epoch sweeps completed]*
 
 - **Single-branch ablations** — run each active representation branch independently (no aggregation) through the same task heads. Will include at minimum:
   - Statistical-only (AR + GARCH features)

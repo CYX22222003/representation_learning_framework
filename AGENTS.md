@@ -18,6 +18,18 @@ python scripts/prepare_features.py \
 
 # Or run both steps together across all timeframes
 python scripts/prepare_data_pipeline.py --timeframes 1h,4h,1d --seq-len 64 --top-k 50
+
+# Pretrain the contrastive encoder on the locked train split
+python scripts/train_contrastive_encoder.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --run-name contrastive-4h-seq64-top50 \
+  --epoch-budgets 15,20,25,50,100 \
+  --seed 0 \
+  --device cuda \
+  --canonical-checkpoint checkpoints/contrastive_4h_seq64_top50.pth
+
+# Generate contrastive training plots and a markdown report
+python scripts/plot_contrastive_experiment.py experiments/contrastive_encoder/contrastive-4h-seq64-top50
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.

@@ -81,7 +81,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 **Evaluation paradigm (probing):** The framework is a frozen encoder. After pretraining, only a lightweight MLP task head is trained on the extracted features. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with a frozen encoder + simple head is the primary claim.
 
-- **Benchmark Retraining:** Each benchmark model is retrained on the same event prediction market dataset, using the same sliding window sequences, train/val/test splits, and temporal ordering.
+- **Benchmark Retraining:** Each benchmark model is retrained on the same event prediction market dataset, using the same sliding window sequences, train/test split, and temporal ordering. This project does not use a validation split or early stopping; see `docs/training_test_data_selection.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
