@@ -157,6 +157,10 @@ Raw OHLCV Time Series (Polymarket event contracts)
         |-- [Branch: contrastive]
         |      |_ Contrastive encoder (CNN, pretrained via NT-Xent)
         |
+        |-- [Branch: byol]
+        |      |_ BYOL encoder (CNN online/target encoder, EMA target,
+        |      |  pretrained via bootstrap prediction)
+        |
         |-- [Branch: ...TBD]
                |_ Additional unsupervised methods to be identified
                |  from literature (masked autoencoder, self-supervised
@@ -185,7 +189,7 @@ Price Prediction     Volatility Prediction       Trend Classification
 
 1. Pretrain Base Embeddings: 
 
-Statistical and transformation-based features are computed directly from historical data. For each sliding window sequence, the statistical branch fits an AR(p) model per OHLCV column (capturing linear mean dynamics) and a GARCH(1,1) model on the first-differenced series per column (capturing conditional variance dynamics). Transformation-based features are extracted via FFT and Haar wavelet decomposition. Deep learning embeddings are trained using unsupervised methods (autoencoder reconstruction, contrastive learning, masked prediction). Base embeddings are frozen during downstream training to preserve general-purpose representations.
+Statistical and transformation-based features are computed directly from historical data. For each sliding window sequence, the statistical branch fits an AR(p) model per OHLCV column (capturing linear mean dynamics) and a GARCH(1,1) model on the first-differenced series per column (capturing conditional variance dynamics). Transformation-based features are extracted via FFT and Haar wavelet decomposition. Deep learning embeddings are trained using unsupervised methods (autoencoder reconstruction, contrastive learning, BYOL-style bootstrap prediction, masked prediction). Base embeddings are frozen during downstream training to preserve general-purpose representations.
 
 2. Train Aggregator on Downstream Tasks: 
 

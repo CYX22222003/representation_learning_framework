@@ -30,6 +30,7 @@
 | **Neural encoders** | |
 | VAE architecture (MLP encoder-decoder, β-VAE loss) | 🔄 Implemented with pretraining/report scripts, not trained |
 | Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
+| BYOL encoder (CNN online/target encoder, EMA target update) | 🔄 Implemented with pretraining/report scripts and smoke-tested, not trained on real split |
 | **Aggregation and downstream tasks** | |
 | `RepresentationAggregator` (N-branch gated fusion, dict API) | 🔄 Implemented, not trained |
 | `PriceRegressor` task head (MAE/RMSE) | 🔄 Implemented, not trained |
@@ -56,6 +57,7 @@
 | Transformation-only ablation | ⬜ Not started |
 | VAE-only ablation | ⬜ Not started |
 | Contrastive-only ablation | ⬜ Not started |
+| BYOL-only ablation | ⬜ Not started |
 | Additional neural encoder ablations (per TBD methods) | ⬜ TBD |
 | Standalone GARCH for volatility prediction task | ⬜ Not started |
 | Additional internal baselines (TBD) | ⬜ TBD |
@@ -75,11 +77,11 @@
 
 ## 2. Summary
 
-The data pipeline and all three processed timeframes are complete. The deterministic feature extraction code now produces the documented AR+GARCH and FFT+wavelet dimensions (`70` and `55` for 5 OHLCV columns), but the existing `data/features/features_*_seq64_top50.npz` artifacts were generated with older dimensions (`35` and `40`) and should be regenerated before framework evaluation. The contrastive encoder has completed a 4h CUDA pretraining sweep at epoch budgets `[15, 20, 25, 50, 100]`, with checkpoints, histories, metrics, plots, and a report under `experiments/contrastive_encoder/contrastive-4h-seq64-top50/`; the canonical checkpoint is `checkpoints/contrastive_4h_seq64_top50.pth`. The VAE encoder, aggregator, and task heads are implemented but have not yet produced a full end-to-end framework result. The external LSTM and TA-MLP benchmarks have completed fixed-epoch 4h sweeps; GINN has a completed 15-epoch 4h run. The Raw-OHLCV MLP has completed 4h runs for all three tasks, including 15/50/100-epoch sweeps for price and volatility, with training curves, predictions, error plots, and sweep summaries.
+The data pipeline and all three processed timeframes are complete. The deterministic feature extraction code now produces the documented AR+GARCH and FFT+wavelet dimensions (`70` and `55` for 5 OHLCV columns), but the existing `data/features/features_*_seq64_top50.npz` artifacts were generated with older dimensions (`35` and `40`) and should be regenerated before framework evaluation. The contrastive encoder has completed a 4h CUDA pretraining sweep at epoch budgets `[15, 20, 25, 50, 100]`, with checkpoints, histories, metrics, plots, and a report under `experiments/contrastive_encoder/contrastive-4h-seq64-top50/`; the canonical checkpoint is `checkpoints/contrastive_4h_seq64_top50.pth`. The VAE and BYOL encoders, aggregator, and task heads are implemented but have not yet produced a full end-to-end framework result. The external LSTM and TA-MLP benchmarks have completed fixed-epoch 4h sweeps; GINN has a completed 15-epoch 4h run. The Raw-OHLCV MLP has completed 4h runs for all three tasks, including 15/50/100-epoch sweeps for price and volatility, with training curves, predictions, error plots, and sweep summaries.
 
 The current project state is **Phase B — first working loop**, with the baseline side still ahead of the framework side. One neural encoder pretraining prerequisite is now satisfied by the contrastive checkpoint, but Phase B is not complete because the framework has not yet produced a downstream result. The Raw-OHLCV MLP price sweep reports MAE/RMSE of `0.0834/0.1067` at 15 epochs, `0.0600/0.0805` at 50 epochs, and `0.0454/0.0683` at 100 epochs. For volatility, 15 epochs is the strongest observed budget (`MAE 0.0404`, `RMSE 0.0931`, correlation `0.7279`); longer training reduces train loss but worsens test metrics, indicating overfitting or distribution mismatch. These are characterization results, not test-selected checkpoints. No claim that the framework is better than the baseline is currently supported because no framework task result exists on the same test split.
 
-The immediate blocker is the first reproducible framework loop: regenerate deterministic feature bundles with the current feature extractors, extract frozen train/test features from the pretrained contrastive encoder as a named `contrastive` branch, combine them in the branch-aware feature store, train the aggregator plus task head, and evaluate with the same target builders and metrics. VAE pretraining remains pending if the first full multi-branch run should include both neural branches. After that, build a unified comparison table, add branch ablations, and run multi-seed confirmation before making superiority claims. The repository-local `baseline-comparison` and `wsl-cuda-experiments` skills document the fairness and WSL/CUDA execution procedures.
+The immediate blocker is the first reproducible framework loop: regenerate deterministic feature bundles with the current feature extractors, extract frozen train/test features from the pretrained contrastive encoder as a named `contrastive` branch, combine them in the branch-aware feature store, train the aggregator plus task head, and evaluate with the same target builders and metrics. VAE and BYOL pretraining remain pending if the full multi-branch run should include all neural branches. After that, build a unified comparison table, add branch ablations, and run multi-seed confirmation before making superiority claims. The repository-local `baseline-comparison` and `wsl-cuda-experiments` skills document the fairness and WSL/CUDA execution procedures.
 
 ### Recent contrastive encoder progress
 
@@ -156,6 +158,8 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 **Expand neural encoders** (order by complexity)
 - [x] Train/report contrastive encoder on the 4h split; checkpoint and report complete
 - [ ] Evaluate: does adding the contrastive branch improve over VAE-only?
+- [x] Implement BYOL encoder and fixed-budget pretraining/report scripts; real 4h pretraining pending
+- [ ] Evaluate: does adding the BYOL branch improve over the current VAE + contrastive branch set?
 - [ ] Identify additional unsupervised methods from literature (masked autoencoder, self-supervised Transformer, etc.); integrate promising ones one at a time following the same pattern
 
 **Expand external benchmarks** (wire into evaluation harness one at a time)
@@ -166,7 +170,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Expand internal baselines** (order by complexity)
 - [ ] Transformation-only ablation (FFT + Wavelet features only)
-- [ ] VAE-only and contrastive-only ablations
+- [ ] VAE-only, contrastive-only, and BYOL-only ablations
 - [ ] Standalone GARCH baseline for the volatility task
 - [ ] Additional internal baselines (TBD) — add as identified; no fixed list
 

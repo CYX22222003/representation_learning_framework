@@ -50,6 +50,10 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
   - CNN backbone with projector head; trained via NT-Xent loss on augmented view pairs (jitter, scaling, time masking).
   - Pretrain on training sequences; freeze encoder weights for downstream use.
 
+- **BYOL Encoder**:
+  - CNN online/target encoder with projector and predictor heads; trained by bootstrap prediction on augmented view pairs.
+  - Target encoder is updated by exponential moving average; pretrain on training sequences and freeze the online backbone for downstream use.
+
 - **Additional methods (TBD)** — candidates include masked autoencoders, self-supervised Transformer encoders, or other self-supervised objectives identified during the literature review. Each new encoder registers a new key in the aggregator's `branch_dims` without requiring any changes to existing components.
 
 Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.
@@ -60,7 +64,7 @@ Frozen neural embeddings are stored as separate named feature arrays, not as one
   - **Concat mode** (default): branches are concatenated into a single higher-dimensional vector; no learnable parameters in the aggregator itself. Output dimension equals the sum of all branch dimensions.
   - **Gated mode**: each branch is projected to a shared `out_dim`, then a gating network produces per-branch softmax weights. Output dimension equals `out_dim`.
   - The `output_dim` property returns the correct task-head input size regardless of mode.
-  - Default branch set: `statistical` (70-d), `transformed` (55-d), `vae` (64-d), `contrastive` (128-d). Adding a new neural encoder requires only registering a new key in `branch_dims`.
+  - Default branch set: `statistical` (70-d), `transformed` (55-d), `vae` (64-d), `contrastive` (128-d), `byol` (128-d). Adding a new neural encoder requires only registering a new key in `branch_dims`.
   - Concat serves as the primary implementation and as an ablation baseline for gated mode.
 
 - Train the aggregator jointly with each downstream task head using supervised task losses:
@@ -99,6 +103,7 @@ Two categories of comparison models are used:
   - Transformation-only (FFT + Wavelet features)
   - VAE-only (latent embeddings from the pretrained VAE)
   - Contrastive-only (embeddings from the pretrained contrastive encoder)
+  - BYOL-only (embeddings from the pretrained BYOL encoder)
   - One ablation per additional neural encoder that is integrated (TBD)
 
   These ablations isolate each branch's individual contribution and verify that the aggregated framework outperforms any single branch.

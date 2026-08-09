@@ -47,6 +47,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 |---|---|---|
 | VAE encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Contrastive encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
+| BYOL encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
 | Statistical features | *(deterministic — no fitting)* | — |
 | Transformation features | *(deterministic — no fitting)* | — |
@@ -67,7 +68,7 @@ All entries share the same `data/processed/*.npz` train/test split. There is no 
 After neural encoders are trained and frozen, their weights are fixed. Running the frozen encoder on test sequences is **not leakage** — it is equivalent to applying a fitted scaler. The encoder parameters contain no information derived from test sequences.
 
 ```
-Frozen VAE encoder + Frozen contrastive encoder
+Frozen VAE encoder + Frozen contrastive encoder + Frozen BYOL encoder
         │
         ├── inference on train sequences → named train neural embeddings
         └── inference on test sequences  → named test neural embeddings
@@ -77,7 +78,7 @@ Statistical + transform features computed independently for both splits.
 Combined into FeatureBundle:
   data/features/*.npz
     keys: statistical, transformed, and one key per frozen neural branch
-          such as vae or contrastive
+          such as vae, contrastive, or byol
   data/features/*.npz.index.npz
     keys: train_size, test_size
 ```
@@ -103,7 +104,11 @@ The sequence below must be followed to avoid leakage.
    Save checkpoint: checkpoints/contrastive_<timeframe>.pth
         │
         ▼
-   (repeat step 2–3 for any additional neural encoders — TBD)
+   Pretrain BYOL encoder on the full train split for a fixed epoch budget
+   Save checkpoint: checkpoints/byol_<timeframe>.pth
+        │
+        ▼
+   (repeat for any additional neural encoders — TBD)
         │
         ▼
 4. Extract features for ALL sequences using frozen encoders:
@@ -151,7 +156,7 @@ Both modes are trained on the same data splits and evaluated identically, making
 
 1. **Split once, at the start.** The 80/20 per-contract split is already done. Do not re-split.
 2. **Train and test only — no validation split.** Every model uses a fixed epoch budget. No early stopping.
-3. **Unsupervised ≠ exempt from the split.** VAE and contrastive encoders are trained on `train_data` only, never on test sequences.
+3. **Unsupervised ≠ exempt from the split.** VAE, contrastive, and BYOL encoders are trained on `train_data` only, never on test sequences.
 4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
 5. **All baselines use the identical train/test partitions** as the framework — same `.npz` files, same split indices.
 6. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.

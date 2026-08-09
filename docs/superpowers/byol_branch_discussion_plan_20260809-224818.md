@@ -312,7 +312,7 @@ After implementation is real, update:
 - `docs/Research_Ideas_Writeup.md` if the thesis framing will explicitly claim BYOL as part of the method;
 - project skills under `.agents/skills/` if their architecture summaries mention neural branch dimensions.
 
-Until code exists and at least smoke tests pass, this document should remain a proposal rather than changing canonical project descriptions.
+Implementation update: the BYOL model, epoch training loop, fixed-budget pretraining script, plotting/report script, and CPU smoke tests now exist. The branch is still not a validated default until real train-split pretraining and downstream ablations show marginal value.
 
 ## Evaluation Plan
 
@@ -398,8 +398,8 @@ The right sequencing is:
 
 1. Finish and verify current VAE + SimCLR feature extraction and downstream evaluation.
 2. Upgrade or clarify the feature store so neural branches can remain separately named.
-3. Implement BYOL with the same CNN backbone and augmentations as SimCLR.
-4. Run BYOL pretraining on one timeframe first, preferably 4h.
+3. Implement BYOL with the same CNN backbone and augmentations as SimCLR. *(Done.)*
+4. Run BYOL pretraining on one timeframe first, preferably 4h. *(Pending.)*
 5. Run BYOL-only and full-with-BYOL downstream ablations.
 6. Decide whether BYOL enters the default branch table based on evidence.
 
