@@ -57,7 +57,7 @@ data/*.feather   (raw Polymarket OHLCV, one file per contract per timeframe)
 data/processed/*.npz   ([N, seq_len, 5] float32 tensors, keyed "train"/"test")
       │
       ▼  scripts/prepare_features.py
-data/features/*.npz    (FeatureBundle: statistical + transformed arrays)
+data/features/*.npz    (FeatureBundle: deterministic arrays + named neural branches)
       │
       ▼  src/aggregation/aggregator.py  (RepresentationAggregator)
       unified embedding h_i
@@ -126,7 +126,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | Directory | Responsibility |
 |---|---|
 | `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
-| `src/features/` | Deterministic feature extractors; `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN) |
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`) |
@@ -139,5 +139,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
-- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, `neural`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after concatenation
+- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae` or `contrastive`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

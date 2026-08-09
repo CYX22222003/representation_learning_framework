@@ -52,6 +52,8 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
 
 - **Additional methods (TBD)** — candidates include masked autoencoders, self-supervised Transformer encoders, or other self-supervised objectives identified during the literature review. Each new encoder registers a new key in the aggregator's `branch_dims` without requiring any changes to existing components.
 
+Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.
+
 ### 2.4 Representation Aggregation and Downstream Task Training
 
 - Implement `RepresentationAggregator` — a flexible N-branch fusion module that accepts an arbitrary set of named branches via a `dict[str, Tensor]` API.

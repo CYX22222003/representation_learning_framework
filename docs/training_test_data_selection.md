@@ -69,17 +69,20 @@ After neural encoders are trained and frozen, their weights are fixed. Running t
 ```
 Frozen VAE encoder + Frozen contrastive encoder
         │
-        ├── inference on train sequences → train neural embeddings
-        └── inference on test sequences  → test neural embeddings
+        ├── inference on train sequences → named train neural embeddings
+        └── inference on test sequences  → named test neural embeddings
 
 Statistical + transform features computed independently for both splits.
 
 Combined into FeatureBundle:
-  data/features/*_train.npz  (statistical, transformed, neural arrays for train)
-  data/features/*_test.npz   (same structure for test)
+  data/features/*.npz
+    keys: statistical, transformed, and one key per frozen neural branch
+          such as vae or contrastive
+  data/features/*.npz.index.npz
+    keys: train_size, test_size
 ```
 
-The `NpzFeatureStore` already handles saving/loading these bundles. The companion `.index.npz` stores `train_size` and `test_size` so the split can be recovered if bundles are concatenated.
+The `NpzFeatureStore` handles branch-aware save/load. Feature arrays are stored as train+test concatenated rows, and the companion `.index.npz` stores `train_size` and `test_size` so downstream code can recover the split boundary. Legacy stores with an empty or packed `neural` key remain loadable, but new frozen neural embeddings should be stored as separate branch keys.
 
 ---
 
@@ -105,8 +108,8 @@ The sequence below must be followed to avoid leakage.
         ▼
 4. Extract features for ALL sequences using frozen encoders:
      - statistical + transform: computed directly (no encoder needed)
-     - neural branches: run frozen encoder inference
-   Save: data/features/*_train.npz and data/features/*_test.npz
+     - neural branches: run frozen encoder inference and store by branch name
+   Save: data/features/*.npz plus data/features/*.npz.index.npz
         │
         ▼
 5. Train RepresentationAggregator + task head on the full train feature bundle

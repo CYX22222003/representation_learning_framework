@@ -60,7 +60,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
-- The aggregator and task heads are trained on training feature bundles (statistical + transformed + frozen neural embeddings) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
+- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
@@ -85,7 +85,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
-  - All branch embeddings are extracted and concatenated into a `FeatureBundle`. The `RepresentationAggregator` fuses these into a unified embedding *h_i* per sequence.
+  - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae` and `contrastive`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
     - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs.
