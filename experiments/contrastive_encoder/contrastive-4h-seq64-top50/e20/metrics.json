@@ -1,0 +1,29 @@
+{
+  "model": "contrastive_encoder",
+  "epoch": 20,
+  "seed": 0,
+  "device": "cuda",
+  "train_loss": 2.5495741550738993,
+  "best_train_loss": 2.5495741550738993,
+  "elapsed_seconds": 287.61705565452576,
+  "train_sequence_count": 109841,
+  "dataset_path": "data/processed/market_4h_seq64_top50.npz",
+  "checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/contrastive_encoder/contrastive-4h-seq64-top50/e20/checkpoint.pth",
+  "training_config": {
+    "epoch_budgets": [
+      15,
+      20,
+      25,
+      50,
+      100
+    ],
+    "seed": 0,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "hidden_dim": 128,
+    "embedding_dim": 128,
+    "temperature": 0.2,
+    "device": "cuda"
+  }
+}
