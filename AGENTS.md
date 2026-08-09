@@ -30,6 +30,18 @@ python scripts/train_contrastive_encoder.py \
 
 # Generate contrastive training plots and a markdown report
 python scripts/plot_contrastive_experiment.py experiments/contrastive_encoder/contrastive-4h-seq64-top50
+
+# Pretrain the VAE encoder on the locked train split
+python scripts/train_vae_encoder.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --run-name vae-4h-seq64-top50 \
+  --epoch-budgets 15,20,25,50,100 \
+  --seed 0 \
+  --device cuda \
+  --canonical-checkpoint checkpoints/vae_4h_seq64_top50.pth
+
+# Generate VAE training plots and a markdown report
+python scripts/plot_vae_experiment.py experiments/vae_encoder/vae-4h-seq64-top50
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
