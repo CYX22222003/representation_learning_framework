@@ -25,7 +25,7 @@ Check Architecture Design, Representation Learning, Training Procedure, and Eval
 
 ### `docs/research_plan.md`
 
-Check Stage 2 model components, Stage 3 baselines, Stage 4 tasks and metrics, and completion markers.
+Check Stage 2 model components, Stage 3 baselines, Stage 4 tasks and metrics, and the stable roadmap. Do not use this document for routine progress snapshots or completion markers; those belong in `docs/schedule.md` and experiment reports.
 
 ### `docs/schedule.md`
 

@@ -5,14 +5,14 @@ description: Use when asking about this project's current progress, research sch
 
 # Project Plan
 
-Use the maintained schedule and research plan to describe project state. Do not treat code existence as evidence that training or evaluation has run.
+Use the maintained schedule to describe project state, and use the research plan only as the stable roadmap. Do not treat code existence as evidence that training or evaluation has run.
 
 ## Read First
 
 Read these in order:
 
-1. `docs/schedule.md` in full, focusing on the achievement tables, summary, and phases A through D.
-2. `docs/research_plan.md` in full, including all four stages and final documentation work.
+1. `docs/schedule.md` in full, focusing on the achievement tables, summary, and phases A through D. This is the source of truth for current progress, checkpoints, blockers, and next actions.
+2. `docs/research_plan.md` in full, including all four stages and final documentation work. This is the stable project guideline; update it only when project direction, planned stages, comparison scope, task definitions, or evaluation methodology changes.
 
 ## Response Contract
 
@@ -25,4 +25,4 @@ Report:
 - The most immediate actions required by that phase's exit conditions.
 - Scope that remains open or depends on the literature review.
 
-When recommending priorities, follow the phase structure and its exit conditions instead of inventing a rigid ordering. If the two documents disagree, identify the mismatch and use repository evidence before asserting the current state.
+When recommending priorities, follow the phase structure and its exit conditions instead of inventing a rigid ordering. If `docs/schedule.md` and `docs/research_plan.md` appear to disagree, treat `docs/schedule.md` as the current progress source and `docs/research_plan.md` as the intended roadmap, then use repository evidence before asserting the current state.
