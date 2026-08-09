@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-06
+**Last updated:** 2026-08-09
 
 ---
 
@@ -28,8 +28,8 @@
 | FFT top-k magnitude coefficients per column | ✅ Done |
 | Haar wavelet detail energy (multi-level) per column | ✅ Done |
 | **Neural encoders** | |
-| VAE architecture (MLP encoder-decoder, β-VAE loss) | 🔄 Implemented, not trained |
-| Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | 🔄 Implemented with pretraining/report scripts, not trained |
+| VAE architecture (MLP encoder-decoder, β-VAE loss) | 🔄 Implemented with pretraining/report scripts, not trained |
+| Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | **Aggregation and downstream tasks** | |
 | `RepresentationAggregator` (N-branch gated fusion, dict API) | 🔄 Implemented, not trained |
 | `PriceRegressor` task head (MAE/RMSE) | 🔄 Implemented, not trained |
@@ -75,11 +75,25 @@
 
 ## 2. Summary
 
-The data pipeline, all three processed timeframes, and all deterministic feature bundles are complete. The VAE, contrastive encoder, aggregator, and task heads are implemented but have no training checkpoints or end-to-end framework run yet. The external LSTM and TA-MLP benchmarks have completed fixed-epoch 4h sweeps; GINN has a completed 15-epoch 4h run. The Raw-OHLCV MLP has completed 4h runs for all three tasks, including 15/50/100-epoch sweeps for price and volatility, with training curves, predictions, error plots, and sweep summaries.
+The data pipeline, all three processed timeframes, and all deterministic feature bundles are complete. The contrastive encoder has completed a 4h CUDA pretraining sweep at epoch budgets `[15, 20, 25, 50, 100]`, with checkpoints, histories, metrics, plots, and a report under `experiments/contrastive_encoder/contrastive-4h-seq64-top50/`; the canonical checkpoint is `checkpoints/contrastive_4h_seq64_top50.pth`. The VAE encoder, aggregator, and task heads are implemented but have not yet produced a full end-to-end framework result. The external LSTM and TA-MLP benchmarks have completed fixed-epoch 4h sweeps; GINN has a completed 15-epoch 4h run. The Raw-OHLCV MLP has completed 4h runs for all three tasks, including 15/50/100-epoch sweeps for price and volatility, with training curves, predictions, error plots, and sweep summaries.
 
-The current project state is **Phase B — first working loop**, with the baseline side ahead of the framework side. Phase B is not complete because the framework has not yet produced a downstream result. The Raw-OHLCV MLP price sweep reports MAE/RMSE of `0.0834/0.1067` at 15 epochs, `0.0600/0.0805` at 50 epochs, and `0.0454/0.0683` at 100 epochs. For volatility, 15 epochs is the strongest observed budget (`MAE 0.0404`, `RMSE 0.0931`, correlation `0.7279`); longer training reduces train loss but worsens test metrics, indicating overfitting or distribution mismatch. These are characterization results, not test-selected checkpoints. No claim that the framework is better than the baseline is currently supported because no framework task result exists on the same test split.
+The current project state is **Phase B — first working loop**, with the baseline side still ahead of the framework side. One neural encoder pretraining prerequisite is now satisfied by the contrastive checkpoint, but Phase B is not complete because the framework has not yet produced a downstream result. The Raw-OHLCV MLP price sweep reports MAE/RMSE of `0.0834/0.1067` at 15 epochs, `0.0600/0.0805` at 50 epochs, and `0.0454/0.0683` at 100 epochs. For volatility, 15 epochs is the strongest observed budget (`MAE 0.0404`, `RMSE 0.0931`, correlation `0.7279`); longer training reduces train loss but worsens test metrics, indicating overfitting or distribution mismatch. These are characterization results, not test-selected checkpoints. No claim that the framework is better than the baseline is currently supported because no framework task result exists on the same test split.
 
-The immediate blocker is the first reproducible framework loop: pretrain at least one neural encoder on train data, extract frozen train/test features, train the aggregator plus task head, and evaluate with the same target builders and metrics. After that, build a unified comparison table, add branch ablations, and run multi-seed confirmation before making superiority claims. The repository-local `baseline-comparison` and `wsl-cuda-experiments` skills document the fairness and WSL/CUDA execution procedures.
+The immediate blocker is the first reproducible framework loop: extract frozen train/test features from the pretrained contrastive encoder, combine them with deterministic features, train the aggregator plus task head, and evaluate with the same target builders and metrics. VAE pretraining remains pending if the first full multi-branch run should include both neural branches. After that, build a unified comparison table, add branch ablations, and run multi-seed confirmation before making superiority claims. The repository-local `baseline-comparison` and `wsl-cuda-experiments` skills document the fairness and WSL/CUDA execution procedures.
+
+### Recent contrastive encoder progress
+
+The contrastive encoder was successfully trained on the NVIDIA GPU through WSL using the unified 4h, sequence-length-64 dataset. The run used only the locked training split (`109841` sequences) and recorded the test split shape (`27500` sequences) for traceability only. No test sequences were used for training, early stopping, or checkpoint selection.
+
+| epoch budget | train NT-Xent loss | best train loss so far | elapsed seconds |
+|---:|---:|---:|---:|
+| 15 | 2.5918 | 2.5918 | 214.70 |
+| 20 | 2.5496 | 2.5496 | 287.62 |
+| 25 | 2.5225 | 2.5225 | 364.87 |
+| 50 | 2.4600 | 2.4599 | 727.67 |
+| 100 | 2.4100 | 2.4085 | 1460.38 |
+
+The loss decreased consistently and plateaued gradually, so the result is meaningful as unsupervised pretraining evidence. It is not yet downstream performance evidence; the next required check is frozen-embedding probing through the framework task loop.
 
 ### Recent GINN progress
 
@@ -122,7 +136,8 @@ The schedule is structured as three phases. Phase A is a hard prerequisite. Phas
 The goal of this phase is a single end-to-end run: train one neural encoder, train the aggregator on one task, and compare against one baseline — enough to confirm the pipeline works and produce a first reference number.
 
 **Framework side**
-- [ ] Write training script for the VAE encoder; train and save checkpoint
+- [x] Pretrain one neural encoder on train data: contrastive 4h sweep complete with checkpoint/report artifacts
+- [x] Write training/report scripts for the VAE encoder; training checkpoint pending
 - [ ] Write `train_framework.py`: frozen encoder → feature bundle → aggregator + task head; train on price prediction task first
 - [ ] Write `evaluate.py` with consistent metrics for all models (build this early so every result is comparable from the start)
 
@@ -139,7 +154,7 @@ The goal of this phase is a single end-to-end run: train one neural encoder, tra
 From here, both sides grow in parallel. Add one method at a time; re-run evaluation after each addition to track whether it helps.
 
 **Expand neural encoders** (order by complexity)
-- [x] Add contrastive encoder training/report scripts; training checkpoint pending
+- [x] Train/report contrastive encoder on the 4h split; checkpoint and report complete
 - [ ] Evaluate: does adding the contrastive branch improve over VAE-only?
 - [ ] Identify additional unsupervised methods from literature (masked autoencoder, self-supervised Transformer, etc.); integrate promising ones one at a time following the same pattern
 
