@@ -47,6 +47,7 @@ Update a skill only when its triggers, document pointers, or workflow are affect
 - `.agents/skills/project-design/SKILL.md` for architecture, branches, dimensions, aggregators, tasks, or metrics.
 - `.agents/skills/project-objectives/SKILL.md` for motivation, positioning, tasks, or innovation claims.
 - `.agents/skills/project-plan/SKILL.md` for phase structure, schedule, blockers, or priorities.
+- `.agents/skills/progress-logging-report/SKILL.md` for supervisor-facing progress log sources, format, or separation from internal working docs.
 - `.agents/skills/python-env/SKILL.md` for runtime, virtual environment, or command conventions.
 - `.agents/skills/update-schedule/SKILL.md` for evidence sources, statuses, paths, or schedule structure.
 - `.agents/skills/sync-docs/SKILL.md` when new authoritative documents or skills enter the consistency set.
