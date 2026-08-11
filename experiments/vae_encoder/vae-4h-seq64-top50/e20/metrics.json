@@ -1,0 +1,31 @@
+{
+  "model": "vae_encoder",
+  "epoch": 20,
+  "seed": 0,
+  "device": "cuda",
+  "train_loss": 0.08656330216069553,
+  "train_recon": 0.06693893615589586,
+  "train_kld": 0.019624366134751676,
+  "best_train_loss": 0.08094186682340711,
+  "elapsed_seconds": 26.096355676651,
+  "train_sequence_count": 109841,
+  "dataset_path": "data/processed/market_4h_seq64_top50.npz",
+  "checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/vae_encoder/vae-4h-seq64-top50/e20/checkpoint.pth",
+  "training_config": {
+    "epoch_budgets": [
+      15,
+      20,
+      25,
+      50,
+      100
+    ],
+    "seed": 0,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "latent_dim": 64,
+    "hidden_dim": 256,
+    "beta": 1.0,
+    "device": "cuda"
+  }
+}
