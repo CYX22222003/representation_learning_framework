@@ -8,8 +8,9 @@
 # A companion .index.npz records the train/test split sizes so downstream code
 # can recover the boundary after loading.
 #
-# Neural embeddings (VAE, contrastive) are NOT computed here — they require a
-# pretrained model and are added later by the training scripts.
+# Neural embeddings (VAE, contrastive, future BYOL) are NOT computed here — they
+# require pretrained models and are added later as separate named feature
+# branches.
 #
 # Usage:
 #   python scripts/prepare_features.py \
@@ -33,14 +34,13 @@ from features.feature_store import FeatureBundle, NpzFeatureStore, build_feature
 def _build_features_for_split(
     sequences: np.ndarray, ar_order: int, fft_top_k: int, wavelet_levels: int
 ) -> FeatureBundle:
-    # neural_embeddings=None because encoders haven't been trained yet;
-    # the neural field will be populated once VAE/contrastive are pretrained.
+    # No neural branches are attached here because encoders have not been
+    # trained yet; frozen encoder embeddings are added later by branch name.
     return build_feature_bundle(
         sequences=sequences,
         ar_order=ar_order,
         fft_top_k=fft_top_k,
         wavelet_levels=wavelet_levels,
-        neural_embeddings=None,
     )
 
 

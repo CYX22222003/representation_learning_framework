@@ -2,7 +2,7 @@
 
 ## Architecture Design
 
-The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and one or more neural branches (initially `vae` and `contrastive`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: price prediction, volatility prediction, and trend classification.
+The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: price prediction, volatility prediction, and trend classification.
 
 The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Concat mode serves as the primary implementation and as an ablation comparison for gated mode. A detailed architecture diagram is provided in the Appendix.
 
@@ -48,6 +48,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 - **Unsupervised Neural Embeddings:**
   - **Variational Autoencoder (VAE)** — MLP encoder-decoder trained with β-VAE loss; encoder frozen after pretraining.
   - **Contrastive Encoder** — CNN backbone with projector head, trained via NT-Xent loss on augmented view pairs (time masking, jittering, scaling).
+  - **BYOL Encoder** — CNN online/target encoder with projector and predictor heads, trained by bootstrap prediction on augmented view pairs. The target encoder is updated by exponential moving average; frozen online-backbone embeddings form the downstream branch.
   - **Additional methods (TBD)** — further unsupervised approaches (e.g. masked autoencoders, self-supervised Transformers) may be integrated based on the literature review. Each new method is registered as an independent branch in the aggregator.
 
 ### Training Procedure
@@ -56,11 +57,11 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
-- Neural encoders (VAE, contrastive, and any additional methods) are pretrained unsupervised on training sequences only, then their weights are frozen.
+- Neural encoders (VAE, contrastive, BYOL, and any additional methods) are pretrained unsupervised on training sequences only, then their weights are frozen.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
-- The aggregator and task heads are trained on training feature bundles (statistical + transformed + frozen neural embeddings) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
+- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
@@ -85,7 +86,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
-  - All branch embeddings are extracted and concatenated into a `FeatureBundle`. The `RepresentationAggregator` fuses these into a unified embedding *h_i* per sequence.
+  - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae`, `contrastive`, and `byol`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
     - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs.

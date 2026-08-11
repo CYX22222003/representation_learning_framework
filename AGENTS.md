@@ -30,6 +30,30 @@ python scripts/train_contrastive_encoder.py \
 
 # Generate contrastive training plots and a markdown report
 python scripts/plot_contrastive_experiment.py experiments/contrastive_encoder/contrastive-4h-seq64-top50
+
+# Pretrain the VAE encoder on the locked train split
+python scripts/train_vae_encoder.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --run-name vae-4h-seq64-top50 \
+  --epoch-budgets 15,20,25,50,100 \
+  --seed 0 \
+  --device cuda \
+  --canonical-checkpoint checkpoints/vae_4h_seq64_top50.pth
+
+# Generate VAE training plots and a markdown report
+python scripts/plot_vae_experiment.py experiments/vae_encoder/vae-4h-seq64-top50
+
+# Pretrain the BYOL encoder on the locked train split
+python scripts/train_byol_encoder.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --run-name byol-4h-seq64-top50 \
+  --epoch-budgets 15,20,25,50,100 \
+  --seed 0 \
+  --device cuda \
+  --canonical-checkpoint checkpoints/byol_4h_seq64_top50.pth
+
+# Generate BYOL training plots and a markdown report
+python scripts/plot_byol_experiment.py experiments/byol_encoder/byol-4h-seq64-top50
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
@@ -45,7 +69,7 @@ data/*.feather   (raw Polymarket OHLCV, one file per contract per timeframe)
 data/processed/*.npz   ([N, seq_len, 5] float32 tensors, keyed "train"/"test")
       │
       ▼  scripts/prepare_features.py
-data/features/*.npz    (FeatureBundle: statistical + transformed arrays)
+data/features/*.npz    (FeatureBundle: deterministic arrays + named neural branches)
       │
       ▼  src/aggregation/aggregator.py  (RepresentationAggregator)
       unified embedding h_i
@@ -64,8 +88,9 @@ Feature extraction operates per-sequence, per-OHLCV-column (5 columns: open, hig
 | `transformed` | `src/features/transform.py` | 55 = 5 cols × (FFT top-8 + 3 Haar wavelet energies) |
 | `vae` | `src/models/vae.py` | 64 (latent dim) |
 | `contrastive` | `src/models/contrastive.py` | 128 (projector dim) |
+| `byol` | `src/models/byol.py` | 128 (online backbone hidden dim) |
 
-The `statistical` and `transformed` branches are **deterministic** — no training required. The `vae` and `contrastive` neural encoders must be pretrained unsupervised (via `src/training/`) before the aggregator is trained.
+The `statistical` and `transformed` branches are **deterministic** — no training required. The `vae`, `contrastive`, and `byol` neural encoders must be pretrained unsupervised (via `src/training/`) before the aggregator is trained.
 
 `RepresentationAggregator` (`src/aggregation/aggregator.py`) accepts an arbitrary `branch_dims: dict[str, int]` and supports two fusion modes:
 
@@ -84,9 +109,10 @@ branch_dims = {
     "transformed":  transform_feature_dim(n_cols=5),                  # 55
     "vae":          64,
     "contrastive":  128,
+    "byol":         128,
 }
 
-# concat mode (default) — output_dim = 317, no learnable params in aggregator
+# concat mode (default) — output_dim = 445, no learnable params in aggregator
 agg = RepresentationAggregator(branch_dims)
 
 # gated mode — output_dim = 128, adds projection + gate network
@@ -97,6 +123,7 @@ embedding, weights = agg({          # weights is None in concat mode
     "transformed": trans_tensor,
     "vae":         vae_tensor,
     "contrastive": con_tensor,
+    "byol":        byol_tensor,
 })
 task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 ```
@@ -107,17 +134,17 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 **New transformation feature** (e.g. STFT): same pattern in `src/features/transform.py` and `transform_feature_dim()`.
 
-**New neural encoder** (e.g. Transformer): add a model file in `src/models/`, a training loop in `src/training/`, then register a new key in `branch_dims` when constructing the aggregator. No changes needed to the aggregator class itself.
+**New neural encoder** (e.g. Transformer): add a model file in `src/models/`, a training loop in `src/training/`, then register a new key in `branch_dims` when constructing the aggregator and save its frozen embeddings under that branch name. No changes needed to the aggregator class itself.
 
 ### Module responsibilities
 
 | Directory | Responsibility |
 |---|---|
 | `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
-| `src/features/` | Deterministic feature extractors; `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
-| `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`) |
+| `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
+| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
 | `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + label builders. Shared by the framework and all internal baselines. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external benchmark), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external benchmark), `ginn_baseline/` (external benchmark) |
@@ -127,5 +154,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
-- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, `neural`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after concatenation
+- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae` or `contrastive`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

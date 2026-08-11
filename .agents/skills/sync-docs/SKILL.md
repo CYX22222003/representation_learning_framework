@@ -25,7 +25,7 @@ Check Architecture Design, Representation Learning, Training Procedure, and Eval
 
 ### `docs/research_plan.md`
 
-Check Stage 2 model components, Stage 3 baselines, Stage 4 tasks and metrics, and completion markers.
+Check Stage 2 model components, Stage 3 baselines, Stage 4 tasks and metrics, and the stable roadmap. Do not use this document for routine progress snapshots or completion markers; those belong in `docs/schedule.md` and experiment reports.
 
 ### `docs/schedule.md`
 
@@ -47,6 +47,7 @@ Update a skill only when its triggers, document pointers, or workflow are affect
 - `.agents/skills/project-design/SKILL.md` for architecture, branches, dimensions, aggregators, tasks, or metrics.
 - `.agents/skills/project-objectives/SKILL.md` for motivation, positioning, tasks, or innovation claims.
 - `.agents/skills/project-plan/SKILL.md` for phase structure, schedule, blockers, or priorities.
+- `.agents/skills/progress-logging-report/SKILL.md` for supervisor-facing progress log sources, format, or separation from internal working docs.
 - `.agents/skills/python-env/SKILL.md` for runtime, virtual environment, or command conventions.
 - `.agents/skills/update-schedule/SKILL.md` for evidence sources, statuses, paths, or schedule structure.
 - `.agents/skills/sync-docs/SKILL.md` when new authoritative documents or skills enter the consistency set.
