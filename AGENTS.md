@@ -16,6 +16,16 @@ python scripts/prepare_features.py \
   --processed-npz data/processed/market_4h_seq64_top50.npz \
   --out-path data/features/features_4h_seq64_top50.npz
 
+# Step 2b — build the framework MVP feature bundle with frozen SSL branches
+python scripts/prepare_framework_features.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --out-path data/features/features_4h_seq64_top50.npz \
+  --vae-checkpoint checkpoints/vae_4h_seq64_top50.pth \
+  --contrastive-checkpoint checkpoints/contrastive_4h_seq64_top50.pth \
+  --device cuda \
+  --batch-size 1024 \
+  --overwrite
+
 # Or run both steps together across all timeframes
 python scripts/prepare_data_pipeline.py --timeframes 1h,4h,1d --seq-len 64 --top-k 50
 
