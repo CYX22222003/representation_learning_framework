@@ -70,7 +70,7 @@ Frozen neural embeddings are stored as separate named feature arrays, not as one
 - Train the aggregator jointly with each downstream task head using supervised task losses:
   - Price prediction — MLP regressor, MSE/MAE loss.
   - Volatility prediction — MLP regressor, MSE loss on realised volatility targets.
-  - Trend classification — MLP classifier, binary cross-entropy loss.
+  - Trend classification — MLP classifier trained with cross-entropy on TA-MLP-style tri-class BUY/HOLD/SELL labels.
 
 - Write end-to-end training scripts connecting data loading, feature extraction, encoder inference, aggregation, and task training.
 
@@ -91,7 +91,7 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — three-stage hybrid: AR mean prediction, GARCH(1,1) volatility estimation, LSTM variance predictor trained with GARCH-fused loss. Primary benchmark for the volatility prediction task.
-- **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only.
+- **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle so rows, thresholds, and class definitions are identical.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
@@ -121,7 +121,7 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
 - Evaluate all models (framework, benchmarks, internal baselines) on the held-out test splits using consistent metrics:
   - Price prediction: MAE, RMSE
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
-  - Trend classification: Accuracy, F1-score
+  - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix. Accuracy is reported as a supporting metric because the HOLD class can dominate.
 
 - **Decoder-controlled comparison (optional, time permitting, all three tasks):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
 

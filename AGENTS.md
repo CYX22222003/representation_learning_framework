@@ -26,6 +26,15 @@ python scripts/prepare_framework_features.py \
   --batch-size 1024 \
   --overwrite
 
+# Validate feature dimensions, split metadata, and finite values
+python scripts/validate_feature_store.py \
+  --features-npz data/features/features_4h_seq64_top50.npz \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --expected-dim statistical=70 \
+  --expected-dim transformed=55 \
+  --expected-dim vae=64 \
+  --expected-dim contrastive=128
+
 # Or run both steps together across all timeframes
 python scripts/prepare_data_pipeline.py --timeframes 1h,4h,1d --seq-len 64 --top-k 50
 
@@ -133,7 +142,7 @@ Feature extraction operates per-sequence, per-OHLCV-column (5 columns: open, hig
 | `statistical` | `src/features/statistical.py` | 70 = 5 cols × (AR-5 coeffs + 2 residual stats + 7 GARCH features) |
 | `transformed` | `src/features/transform.py` | 55 = 5 cols × (FFT top-8 + 3 Haar wavelet energies) |
 | `vae` | `src/models/vae.py` | 64 (latent dim) |
-| `contrastive` | `src/models/contrastive.py` | 128 (projector dim) |
+| `contrastive` | `src/models/contrastive.py` | 128 (frozen backbone embedding; projector is also 128 by default) |
 | `byol` | `src/models/byol.py` | 128 (online backbone hidden dim) |
 
 The `statistical` and `transformed` branches are **deterministic** — no training required. The `vae`, `contrastive`, and `byol` neural encoders must be pretrained unsupervised (via `src/training/`) before the aggregator is trained.
@@ -201,4 +210,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae` or `contrastive`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
+- Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

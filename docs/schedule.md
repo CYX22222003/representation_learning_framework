@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-11
+**Last updated:** 2026-08-23
 
 ---
 
@@ -32,12 +32,12 @@
 | Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | BYOL encoder (CNN online/target encoder, EMA target update) | 🔄 Implemented with pretraining/report scripts and smoke-tested, not trained on real split |
 | **Aggregation and downstream tasks** | |
-| `RepresentationAggregator` (N-branch gated fusion, dict API) | 🔄 Implemented, not trained |
-| `PriceRegressor` task head (MAE/RMSE) | 🔄 Implemented, not trained |
-| `VolatilityRegressor` task head (MSE, correlation) | 🔄 Implemented, not trained |
-| `TrendClassifier` task head (accuracy, F1) | 🔄 Implemented, not trained |
+| `RepresentationAggregator` (N-branch gated fusion, dict API) | ✅ Implemented; concat mode used in price and trend MVP framework runs |
+| `PriceRegressor` task head (MAE/RMSE) | ✅ Implemented and evaluated in 4h framework MVP |
+| `VolatilityRegressor` task head (MSE, correlation) | 🔄 Implemented, framework task run pending |
+| `TrendClassifier` task head (accuracy, macro-F1) | ✅ Implemented and evaluated in 4h tri-class framework MVP |
 | Branch-aware `FeatureBundle` + `NpzFeatureStore` (save/load pipeline) | ✅ Done; legacy packed `neural` stores remain loadable |
-| End-to-end training script | ⬜ Not started |
+| End-to-end training script | ✅ `scripts/train_framework.py` supports price prediction and trend classification; volatility run pending |
 
 ### Stage 3 — Benchmark and Baseline Implementation and Training
 
@@ -65,23 +65,25 @@
 ### Stage 4 — Experiments and Benchmarking
 | Task | Status |
 |---|---|
-| Evaluation harness (unified test loop for all models) | ⬜ Not started; baseline runners evaluate independently |
-| Price prediction benchmark (MAE, RMSE) | 🔄 Raw-OHLCV MLP and LSTM results recorded; framework comparison pending |
+| Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
+| Price prediction benchmark (MAE, RMSE) | ✅ MVP framework, Raw-OHLCV MLP, and LSTM results recorded on locked 4h test split; stricter shared-target LSTM alignment remains future work |
 | Volatility prediction benchmark (MSE, correlation) | 🔄 Raw-OHLCV MLP and GINN results recorded; framework comparison pending |
-| Trend classification benchmark (accuracy, F1) | 🔄 Raw-OHLCV MLP and TA-MLP results recorded; framework comparison pending |
+| Trend classification benchmark (accuracy, macro-F1) | ✅ MVP framework result recorded on locked 4h test split; Raw-OHLCV MLP and TA-MLP context available, strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
-| Result tables and visualisations | 🔄 Raw-OHLCV MLP sweep plots generated; final cross-model tables pending |
+| Result tables and visualisations | 🔄 Framework price/trend summaries and comparisons generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 ---
 
 ## 2. Summary
 
-The data pipeline and all three processed timeframes are complete. The deterministic feature extraction code now produces the documented AR+GARCH and FFT+wavelet dimensions (`70` and `55` for 5 OHLCV columns), but the existing `data/features/features_*_seq64_top50.npz` artifacts were generated with older dimensions (`35` and `40`) and should be regenerated before framework evaluation. The contrastive encoder has completed a 4h CUDA pretraining sweep at epoch budgets `[15, 20, 25, 50, 100]`, with checkpoints, histories, metrics, plots, and a report under `experiments/contrastive_encoder/contrastive-4h-seq64-top50/`; the canonical checkpoint is `checkpoints/contrastive_4h_seq64_top50.pth`. The VAE encoder has also completed a 4h CUDA pretraining sweep at the same epoch budgets, with checkpoints, histories, metrics, plots, and a report under `experiments/vae_encoder/vae-4h-seq64-top50/`; the canonical checkpoint is `checkpoints/vae_4h_seq64_top50.pth`. The BYOL encoder, aggregator, and task heads are implemented but have not yet produced a full end-to-end framework result. The external LSTM and TA-MLP benchmarks have completed fixed-epoch 4h sweeps; GINN has a completed 15-epoch 4h run. The Raw-OHLCV MLP has completed 4h runs for all three tasks, including 15/50/100-epoch sweeps for price and volatility, with training curves, predictions, error plots, and sweep summaries.
+The data pipeline and all three processed timeframes are complete. The 4h framework feature bundle has been regenerated and validated at the current dimensions: `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows recorded in the companion index/manifest. The contrastive encoder and VAE encoder have completed fixed-budget 4h CUDA pretraining sweeps and provide the canonical checkpoints `checkpoints/contrastive_4h_seq64_top50.pth` and `checkpoints/vae_4h_seq64_top50.pth`. BYOL is implemented and smoke-tested, but real 4h BYOL pretraining and downstream feature extraction remain pending.
 
-The current project state is **Phase B — first working loop**, with the baseline side still ahead of the framework side. Two neural encoder pretraining prerequisites are now satisfied by the contrastive and VAE checkpoints, but Phase B is not complete because the framework has not yet produced a downstream result. The Raw-OHLCV MLP price sweep reports MAE/RMSE of `0.0834/0.1067` at 15 epochs, `0.0600/0.0805` at 50 epochs, and `0.0454/0.0683` at 100 epochs. For volatility, 15 epochs is the strongest observed budget (`MAE 0.0404`, `RMSE 0.0931`, correlation `0.7279`); longer training reduces train loss but worsens test metrics, indicating overfitting or distribution mismatch. These are characterization results, not test-selected checkpoints. No claim that the framework is better than the baseline is currently supported because no framework task result exists on the same test split.
+The current project state is **Phase C — iterative expansion after the first working framework loop**. Phase B is achieved for price prediction: the framework now trains `RepresentationAggregator(mode="concat") + PriceRegressor` on frozen statistical, transformed, VAE, and contrastive features and evaluates on the locked 4h test split. The price framework run under `experiments/framework/price_prediction/4h_stat_transform_vae_contrastive_concat/` reports MAE/RMSE of `0.0575/0.0955` at 15 epochs, `0.0695/0.1046` at 50 epochs, and `0.0720/0.1059` at 100 epochs. These are directly comparable to the Raw-OHLCV MLP sweep on the same processed split (`0.0834/0.1067`, `0.0600/0.0805`, `0.0454/0.0683` at 15/50/100 epochs). The LSTM benchmark uses the held-out test side, but it rebuilds close-only windows from raw feather inputs and currently has a one-row target alignment difference, so it should be treated as external context until re-wired to the exact shared target builder.
 
-The immediate blocker is the first reproducible framework loop: regenerate deterministic feature bundles with the current feature extractors, extract frozen train/test features from the pretrained VAE and contrastive encoders as named `vae` and `contrastive` branches, combine them in the branch-aware feature store, train the aggregator plus task head, and evaluate with the same target builders and metrics. BYOL pretraining remains pending if the full multi-branch run should include all neural branches. After that, build a unified comparison table, add branch ablations, and run multi-seed confirmation before making superiority claims. The repository-local `baseline-comparison` and `wsl-cuda-experiments` skills document the fairness and WSL/CUDA execution procedures.
+Trend classification has also reached an MVP framework result. The TA-MLP-style tri-class BUY/HOLD/SELL label bundle is saved under `data/task_labels/trend_classification/triclass_4h_seq64_top50.npz`, with thresholds fit from training data only and final horizon rows dropped per split. The framework trend run under `experiments/framework/trend_classification/4h_triclass_stat_transform_vae_contrastive_concat/` reports accuracy/macro-F1 of `0.4730/0.3875` at 15 epochs, `0.4953/0.4164` at 50 epochs, and `0.5071/0.4232` at 100 epochs. The majority-HOLD reference on the same label bundle is `0.5046` accuracy and `0.2236` macro-F1. The existing TA-MLP sweep remains useful context (`0.71-0.73` accuracy, `0.45-0.47` macro-F1), but strict comparison requires reusing the saved framework label bundle and identical row alignment.
+
+The next priority is to finish the remaining MVP surface before deeper claims: add the volatility framework task run, train/extract BYOL if the full neural branch set is required, run single-branch ablations, align external baselines to shared task targets where needed, and then produce final comparison tables. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
 
 ### Recent VAE encoder progress
 
@@ -103,8 +105,9 @@ The run recovered from a transient early instability at epochs 13-14 and then
 improved gradually through the 100-epoch budget. The final checkpoint is close
 to the best observed training point (`0.0800388432` at epoch 98), so it is a
 reasonable current VAE encoder candidate. As with contrastive pretraining, this
-is unsupervised pretraining evidence only; downstream frozen-embedding probing
-is still required before making task-performance claims.
+is unsupervised pretraining evidence only; the checkpoint now feeds the MVP
+price and trend probing runs, while branch-specific contribution still needs
+ablation.
 
 ### Recent contrastive encoder progress
 
@@ -118,7 +121,7 @@ The contrastive encoder was successfully trained on the NVIDIA GPU through WSL u
 | 50 | 2.4600 | 2.4599 | 727.67 |
 | 100 | 2.4100 | 2.4085 | 1460.38 |
 
-The loss decreased consistently and plateaued gradually, so the result is meaningful as unsupervised pretraining evidence. It is not yet downstream performance evidence; the next required check is frozen-embedding probing through the framework task loop.
+The loss decreased consistently and plateaued gradually, so the result is meaningful as unsupervised pretraining evidence. This checkpoint now feeds the MVP frozen-embedding probing runs for price prediction and trend classification; branch-specific contribution still needs ablation.
 
 ### Recent GINN progress
 
@@ -163,14 +166,14 @@ The goal of this phase is a single end-to-end run: train one neural encoder, tra
 **Framework side**
 - [x] Pretrain one neural encoder on train data: contrastive 4h sweep complete with checkpoint/report artifacts
 - [x] Train/report VAE encoder on train data: 4h sweep complete with checkpoint/report artifacts
-- [ ] Write `train_framework.py`: frozen encoder → feature bundle → aggregator + task head; train on price prediction task first
-- [ ] Write `evaluate.py` with consistent metrics for all models (build this early so every result is comparable from the start)
+- [x] Write `train_framework.py`: frozen encoder feature bundle → aggregator + task head; price and trend task runs complete
+- [ ] Write a unified cross-model `evaluate.py`/comparison harness for all framework and baseline artifacts
 
 **Baseline side** (run in parallel once data is ready)
 - [x] Train `RawOHLCVMLP` baseline (flattened OHLCV, no representation); 4h price, volatility, and trend artifacts exist under `src/baselines/mlp_baseline/experiments/`
 - [ ] Run statistical-only ablation (AR + GARCH features only, no aggregator)
 
-**Exit condition:** framework and at least two baselines produce numbers on the same test split.
+**Exit condition:** framework and at least two baselines produce numbers on the same test split. **Status:** achieved for the first price-prediction loop; trend MVP is also implemented, while strict external-baseline row alignment remains pending.
 
 ---
 
@@ -180,7 +183,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Expand neural encoders** (order by complexity)
 - [x] Train/report contrastive encoder on the 4h split; checkpoint and report complete
-- [ ] Evaluate: does adding the contrastive branch improve over VAE-only?
+- [ ] Evaluate: does adding the contrastive branch improve over VAE-only? *(full VAE+contrastive concat result exists; isolated branch ablation pending)*
 - [x] Implement BYOL encoder and fixed-budget pretraining/report scripts; real 4h pretraining pending
 - [ ] Evaluate: does adding the BYOL branch improve over the current VAE + contrastive branch set?
 - [ ] Identify additional unsupervised methods from literature (masked autoencoder, self-supervised Transformer, etc.); integrate promising ones one at a time following the same pattern
@@ -188,7 +191,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 **Expand external benchmarks** (wire into evaluation harness one at a time)
 - [x] Retrain LSTM benchmark on unified `.npz` data splits; record results *(v5 sweep, see `src/baselines/lstm_baseline/experiments/`)*
 - [x] Train GINN benchmark on the unified 4h split at 15 epochs; document the GARCH-target failure and defer further GINN sweeps while selecting a more suitable volatility benchmark
-- [x] Train TA-MLP benchmark *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; wire into evaluation harness (trend classification task) — wiring still pending
+- [x] Train TA-MLP benchmark *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; strict comparison should reuse the saved framework tri-class label bundle
 - [ ] Additional benchmarks from literature (TBD after literature review) — retrain each on same data splits
 
 **Expand internal baselines** (order by complexity)
@@ -198,13 +201,14 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [ ] Additional internal baselines (TBD) — add as identified; no fixed list
 
 **Expand tasks**
-- [ ] Extend framework training and evaluation to volatility prediction and trend classification tasks
+- [x] Extend framework training and evaluation to trend classification
+- [ ] Extend framework training and evaluation to volatility prediction
 - [ ] Transferability experiment: embed with model trained on one timeframe, evaluate on another
 - [ ] *(time permitting)* Decoder-controlled comparison for price prediction: three configurations (benchmark end-to-end / framework + MLP head / framework + benchmark-mirrored head) on the same test split; extend to other tasks if time allows
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** the framework has not yet produced a downstream test result, the unified evaluation harness is absent, and the branch ablations have not been run.
+**Current Phase C exit gap:** price and trend framework MVP runs exist, but volatility is still missing, BYOL has not been trained/extracted for the full branch set, external baseline alignment needs tightening, and branch ablations/multi-seed confirmation have not been run.
 
 ---
 
