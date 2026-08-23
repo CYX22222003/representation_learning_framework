@@ -4,7 +4,10 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from evaluation.metrics import classification_metrics  # noqa: F401  (re-exported for callers)
+from evaluation.metrics import (  # noqa: F401  (re-exported for callers)
+    classification_metrics,
+    multiclass_classification_metrics,
+)
 
 
 def build_trend_labels(
@@ -38,20 +41,23 @@ class TrendClassifier(nn.Module):
     """
     Default decoder for trend classification (task head).
 
-    Outputs a single logit (binary classification via BCEWithLogitsLoss).
-    Dropout is higher here (0.2) than in the regression heads because
-    trend labels are noisier and overfitting is more common.
+    By default this preserves the original binary path: one logit trained with
+    BCEWithLogitsLoss. For the TA-MLP-aligned MVP trend task, pass
+    n_classes=3 and train with CrossEntropyLoss.
     """
 
-    def __init__(self, input_dim: int, hidden_dim: int = 128) -> None:
+    def __init__(self, input_dim: int, hidden_dim: int = 128, n_classes: int = 1) -> None:
         super().__init__()
+        if n_classes <= 0:
+            raise ValueError("n_classes must be positive")
+        self.n_classes = n_classes
         self.net = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
             nn.GELU(),
             nn.Dropout(0.2),
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.GELU(),
-            nn.Linear(hidden_dim // 2, 1),
+            nn.Linear(hidden_dim // 2, n_classes),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

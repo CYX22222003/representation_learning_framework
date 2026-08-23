@@ -64,6 +64,42 @@ python scripts/train_byol_encoder.py \
 
 # Generate BYOL training plots and a markdown report
 python scripts/plot_byol_experiment.py experiments/byol_encoder/byol-4h-seq64-top50
+
+# Train the framework MVP on the price prediction task
+python scripts/train_framework.py \
+  --task price_prediction \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --features-npz data/features/features_4h_seq64_top50.npz \
+  --run-name 4h_stat_transform_vae_contrastive_concat \
+  --mode concat \
+  --epoch-budgets 15,50,100 \
+  --seed 0 \
+  --batch-size 512 \
+  --device cuda \
+  --overwrite
+
+# Prepare TA-MLP-style tri-class labels for trend classification
+python scripts/prepare_trend_labels.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --out-path data/task_labels/trend_classification/triclass_4h_seq64_top50.npz \
+  --timeframe 4h \
+  --seq-len 64 \
+  --top-k 50 \
+  --overwrite
+
+# Train the framework MVP on the trend classification task
+python scripts/train_framework.py \
+  --task trend_classification \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --features-npz data/features/features_4h_seq64_top50.npz \
+  --labels-npz data/task_labels/trend_classification/triclass_4h_seq64_top50.npz \
+  --run-name 4h_triclass_stat_transform_vae_contrastive_concat \
+  --mode concat \
+  --epoch-budgets 15,50,100 \
+  --seed 0 \
+  --batch-size 512 \
+  --device cuda \
+  --overwrite
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
