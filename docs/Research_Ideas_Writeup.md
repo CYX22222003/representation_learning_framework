@@ -182,7 +182,7 @@ Raw OHLCV Time Series (Polymarket event contracts)
 Price Prediction     Volatility Prediction       Trend Classification
 (MLP regressor)      (MLP regressor)             (MLP classifier)
      |                    |                                |
-  MAE, RMSE           MSE, Pearson corr.           Accuracy, F1
+  MAE, RMSE           MSE, Pearson corr.           Accuracy, macro-F1
 ```
 
 ### 3.3 Training
@@ -193,7 +193,7 @@ Statistical and transformation-based features are computed directly from histori
 
 2. Train Aggregator on Downstream Tasks: 
 
-With frozen encoder weights, the `RepresentationAggregator` is trained jointly with a shallow MLP task head for each downstream task (price prediction, volatility prediction, trend classification). The aggregator’s learned softmax gating adaptively weights contributions from each branch to minimise the task loss. Each task is trained and evaluated independently, sharing the same pretrained encoder checkpoints.
+With frozen encoder weights, the `RepresentationAggregator` is trained jointly with a shallow MLP task head for each downstream task (price prediction, volatility prediction, trend classification). The MVP implementation uses concat aggregation first, where the task head learns from the concatenated branch representation. Gated aggregation remains the planned comparison mode, where learned softmax weights adaptively weight contributions from each branch. Each task is trained and evaluated independently, sharing the same pretrained encoder checkpoints.
 
 3. Data: 
 
@@ -241,7 +241,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Internal baselines: Standalone GARCH(1,1), single-branch ablations
 
 3. **Trend Classification**
-   - Metrics: Accuracy, F1-score
+   - Metrics: Accuracy, macro-F1, per-class precision/recall/F1, confusion matrix
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
@@ -265,7 +265,7 @@ An additional three-configuration experiment isolates encoder quality from decod
 
 **Transferability analysis**: embeddings trained on one timeframe are evaluated on another without retraining, to assess generalisation across temporal scales.
 
-*Note: Alpha factor mining and anomaly detection are out of scope for the current phase. They may be revisited as extensions if time permits.*
+*Note: Alpha-factor evaluation and anomaly detection are outside the MVP implementation. Alpha-style signal tests may be revisited after the three-task MVP, BYOL branch, and ablation experiments are complete.*
 
 ## 6. Inspiration and Motivation
 

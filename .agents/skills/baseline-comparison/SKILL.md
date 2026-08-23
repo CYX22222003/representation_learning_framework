@@ -16,6 +16,7 @@ Read `docs/training_test_data_selection.md` and the relevant experiment-design s
 - identical processed `.npz` train/test partitions;
 - chronological per-contract 80/20 split;
 - identical task target builders, horizon, price index, and preprocessing;
+- identical saved task label bundles for strict classification comparisons;
 - identical test samples and metric definitions;
 - fixed epoch budgets and seeds;
 - test split locked until final evaluation.
@@ -40,7 +41,7 @@ For decoder-controlled claims, compare the end-to-end benchmark, the framework w
 
 Use the same predeclared budgets for every model, such as `15,50,100`. Train from the same seed and report every budget. Do not call the lowest test error the selected model when the budget was chosen after reading test results. For a single final operating point, choose the budget from a training-only rule or commit to it before evaluation.
 
-For regression, report MAE, RMSE, MSE, and Pearson correlation. For classification, report accuracy, F1, and the confusion matrix; inspect class counts and include a majority-class reference when imbalance exists.
+For regression, report MAE, RMSE, MSE, and Pearson correlation. For classification, report accuracy, macro-F1, per-class precision/recall/F1, and the confusion matrix; inspect class counts and include a majority-class reference when imbalance exists.
 
 ### 4. Quantify the claim
 
@@ -61,7 +62,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 ## Interpretation Rules
 
 - Lower MAE/RMSE/MSE is better; higher correlation is better.
-- For trend classification, accuracy equal to the majority-class rate with F1 near zero is not useful learning.
+- For trend classification, accuracy near the majority-class rate with low macro-F1 is not useful learning.
 - Lower training loss with worse test metrics indicates overfitting or distribution mismatch, not framework superiority.
 - Compare at matched budgets before comparing the best observed budget.
 - Explain whether a result demonstrates representation improvement, decoder improvement, optimization improvement, or only a larger parameter budget.

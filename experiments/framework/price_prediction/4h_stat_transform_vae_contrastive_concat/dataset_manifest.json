@@ -1,0 +1,32 @@
+{
+  "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+  "features_npz": "data/features/features_4h_seq64_top50.npz",
+  "feature_index": {
+    "train_size": 109841,
+    "test_size": 27500
+  },
+  "train_sequence_shape": [
+    109841,
+    64,
+    5
+  ],
+  "test_sequence_shape": [
+    27500,
+    64,
+    5
+  ],
+  "train_sample_count": 109840,
+  "test_sample_count": 27499,
+  "branch_dims": {
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64,
+    "contrastive": 128
+  },
+  "task": "price_prediction",
+  "horizon": 1,
+  "price_index": 3,
+  "standardized": true,
+  "standardize_clip": 10.0,
+  "standardizer": "feature_standardizer.npz"
+}

@@ -52,9 +52,9 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Statistical features | *(deterministic — no fitting)* | — |
 | Transformation features | *(deterministic — no fitting)* | — |
 | RepresentationAggregator | train feature bundles (fixed-epoch) | test feature bundles |
-| Task heads (price, volatility, trend) | train feature bundles (fixed-epoch) | test feature bundles |
+| Task heads (price, volatility, trend) | train feature bundles + train task labels/targets (fixed-epoch) | test feature bundles + test task labels/targets |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
-| TA-MLP baseline (trend classification) | train TA-feature rows (fixed-epoch sweep) | test TA-feature rows |
+| TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch) | test sequences |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
 | Standalone GARCH (volatility) | train sequences (fit per window) | test sequences |
@@ -84,6 +84,21 @@ Combined into FeatureBundle:
 ```
 
 The `NpzFeatureStore` handles branch-aware save/load. Feature arrays are stored as train+test concatenated rows, and the companion `.index.npz` stores `train_size` and `test_size` so downstream code can recover the split boundary. Legacy stores with an empty or packed `neural` key remain loadable, but new frozen neural embeddings should be stored as separate branch keys.
+
+## Task Label Bundles
+
+Task labels and targets must respect the same split boundary as the processed sequences. Build train labels from `processed["train"]` only and test labels from `processed["test"]` only. Do not concatenate train and test sequences before applying a future horizon, because the final train rows would then look across the train/test boundary.
+
+The current trend-classification MVP uses a saved TA-MLP-style tri-class label bundle:
+
+```text
+data/task_labels/trend_classification/triclass_4h_seq64_top50.npz
+data/task_labels/trend_classification/triclass_4h_seq64_top50.npz.manifest.json
+```
+
+Its labels are BUY/HOLD/SELL classes. Thresholds are fit per contract using training rows only, then applied to train and test rows. The final `f_window` rows are dropped inside each split because their future target would not be available within that split. The bundle stores train/test labels and aligned feature-row indices so downstream framework runs and baselines can use identical rows.
+
+Strict comparison with the TA-MLP benchmark should reuse this saved label contract or regenerate TA-MLP labels with the same thresholds and row alignment. Existing TA-MLP results remain useful characterization evidence, but they are not a fully strict row-by-row comparison until this alignment is enforced.
 
 ---
 
@@ -117,17 +132,23 @@ The sequence below must be followed to avoid leakage.
    Save: data/features/*.npz plus data/features/*.npz.index.npz
         │
         ▼
-5. Train RepresentationAggregator + task head on the full train feature bundle
+5. Build task labels/targets from each split independently:
+     - price/volatility targets from train/test processed sequences
+     - trend labels from the saved tri-class task label bundle
+   Fit any label thresholds or target scalers using train data only
+        │
+        ▼
+6. Train RepresentationAggregator + task head on the full train feature bundle
    for a fixed epoch budget; save checkpoint per task
         │
         ▼
-6. Train all baseline models on the full train sequences (or full train feature
+7. Train all baseline models on the full train sequences (or full train feature
    bundles for single-branch ablations) for a fixed epoch budget.
    For external benchmarks, run a small characterization sweep across epoch
    budgets at one fixed seed — report the full sweep, not a "best" run.
         │
         ▼
-7. ── FINAL EVALUATION (one time only) ──
+8. ── FINAL EVALUATION (one time only) ──
    Load all checkpoints; run inference on test feature bundles / test sequences
    Record metrics for every model × every task
 ```
@@ -158,6 +179,7 @@ Both modes are trained on the same data splits and evaluated identically, making
 2. **Train and test only — no validation split.** Every model uses a fixed epoch budget. No early stopping.
 3. **Unsupervised ≠ exempt from the split.** VAE, contrastive, and BYOL encoders are trained on `train_data` only, never on test sequences.
 4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
-5. **All baselines use the identical train/test partitions** as the framework — same `.npz` files, same split indices.
-6. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
-7. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
+5. **Task labels, thresholds, and scalers are fit from training data only.** Test labels may be computed only after all threshold/scaler parameters are fixed from train data, and label horizons must not cross the split boundary.
+6. **All baselines use the identical train/test partitions** as the framework — same `.npz` files, same split indices, and for strict task comparisons the same saved task label bundles.
+7. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
+8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.

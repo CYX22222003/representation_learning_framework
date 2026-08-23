@@ -337,7 +337,7 @@ Evaluate on the same three downstream tasks:
 
 - price prediction: MAE, RMSE;
 - volatility prediction: MSE, Pearson correlation;
-- trend classification: accuracy, F1.
+- trend classification: accuracy, macro-F1, and per-class metrics.
 
 ### Required ablations
 
