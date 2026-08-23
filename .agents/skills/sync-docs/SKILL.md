@@ -37,7 +37,7 @@ Check the branch table, source modules, dimensions, aggregator example, extensio
 
 ### `docs/training_test_data_selection.md`
 
-Check the allocation table, operation order, and rules summary. New components must use the correct train, validation, and test boundaries.
+Check the allocation table, operation order, and rules summary. New components must use the correct train/test boundaries and must not introduce validation splits, early stopping, or test-driven model selection unless the project methodology is deliberately changed.
 
 ## 3. Audit Repository Skills
 

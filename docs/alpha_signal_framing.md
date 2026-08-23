@@ -82,9 +82,9 @@ The current evaluation tasks use standard machine learning metrics:
 
 - Price prediction: MAE and RMSE
 - Volatility prediction: MSE and Pearson correlation
-- Trend classification: Accuracy and F1-score
+- Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix
 
-These are appropriate for evaluating supervised task performance. If the project later wants to connect more directly to alpha research, the following optional evaluations could be added.
+These are appropriate for evaluating supervised task performance. The current MVP should focus on completing the three downstream tasks, BYOL feature extraction, and branch ablations first. If the project later wants to connect more directly to alpha research, the following optional evaluations could be added.
 
 ### 1. Information Coefficient
 
