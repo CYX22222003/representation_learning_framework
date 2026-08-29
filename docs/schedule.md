@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-23
+**Last updated:** 2026-08-26
 
 ---
 
@@ -30,7 +30,7 @@
 | **Neural encoders** | |
 | VAE architecture (MLP encoder-decoder, β-VAE loss) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
-| BYOL encoder (CNN online/target encoder, EMA target update) | 🔄 Implemented with pretraining/report scripts and smoke-tested, not trained on real split |
+| BYOL encoder (CNN online/target encoder, EMA target update) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | **Aggregation and downstream tasks** | |
 | `RepresentationAggregator` (N-branch gated fusion, dict API) | ✅ Implemented; concat mode used in price and trend MVP framework runs |
 | `PriceRegressor` task head (MAE/RMSE) | ✅ Implemented and evaluated in 4h framework MVP |
@@ -77,13 +77,13 @@
 
 ## 2. Summary
 
-The data pipeline and all three processed timeframes are complete. The 4h framework feature bundle has been regenerated and validated at the current dimensions: `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows recorded in the companion index/manifest. The contrastive encoder and VAE encoder have completed fixed-budget 4h CUDA pretraining sweeps and provide the canonical checkpoints `checkpoints/contrastive_4h_seq64_top50.pth` and `checkpoints/vae_4h_seq64_top50.pth`. BYOL is implemented and smoke-tested, but real 4h BYOL pretraining and downstream feature extraction remain pending.
+The data pipeline and all three processed timeframes are complete. The 4h framework feature bundle has been regenerated and validated at the current dimensions: `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows recorded in the companion index/manifest. The VAE, contrastive, and BYOL encoders have completed fixed-budget 4h CUDA pretraining sweeps and provide the canonical checkpoints `checkpoints/vae_4h_seq64_top50.pth`, `checkpoints/contrastive_4h_seq64_top50.pth`, and `checkpoints/byol_4h_seq64_top50.pth`. BYOL downstream feature extraction remains pending, so the current feature store does not yet contain the `byol` branch.
 
 The current project state is **Phase C — iterative expansion after the first working framework loop**. Phase B is achieved for price prediction: the framework now trains `RepresentationAggregator(mode="concat") + PriceRegressor` on frozen statistical, transformed, VAE, and contrastive features and evaluates on the locked 4h test split. The price framework run under `experiments/framework/price_prediction/4h_stat_transform_vae_contrastive_concat/` reports MAE/RMSE of `0.0575/0.0955` at 15 epochs, `0.0695/0.1046` at 50 epochs, and `0.0720/0.1059` at 100 epochs. These are directly comparable to the Raw-OHLCV MLP sweep on the same processed split (`0.0834/0.1067`, `0.0600/0.0805`, `0.0454/0.0683` at 15/50/100 epochs). The LSTM benchmark uses the held-out test side, but it rebuilds close-only windows from raw feather inputs and currently has a one-row target alignment difference, so it should be treated as external context until re-wired to the exact shared target builder.
 
 Trend classification has also reached an MVP framework result. The TA-MLP-style tri-class BUY/HOLD/SELL label bundle is saved under `data/task_labels/trend_classification/triclass_4h_seq64_top50.npz`, with thresholds fit from training data only and final horizon rows dropped per split. The framework trend run under `experiments/framework/trend_classification/4h_triclass_stat_transform_vae_contrastive_concat/` reports accuracy/macro-F1 of `0.4730/0.3875` at 15 epochs, `0.4953/0.4164` at 50 epochs, and `0.5071/0.4232` at 100 epochs. The majority-HOLD reference on the same label bundle is `0.5046` accuracy and `0.2236` macro-F1. The existing TA-MLP sweep remains useful context (`0.71-0.73` accuracy, `0.45-0.47` macro-F1), but strict comparison requires reusing the saved framework label bundle and identical row alignment.
 
-The next priority is to finish the remaining MVP surface before deeper claims: add the volatility framework task run, train/extract BYOL if the full neural branch set is required, run single-branch ablations, align external baselines to shared task targets where needed, and then produce final comparison tables. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
+The next priority is to finish the remaining MVP surface before deeper claims: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, run single-branch ablations, align external baselines to shared task targets where needed, and then produce final comparison tables. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
 
 ### Recent VAE encoder progress
 
@@ -122,6 +122,33 @@ The contrastive encoder was successfully trained on the NVIDIA GPU through WSL u
 | 100 | 2.4100 | 2.4085 | 1460.38 |
 
 The loss decreased consistently and plateaued gradually, so the result is meaningful as unsupervised pretraining evidence. This checkpoint now feeds the MVP frozen-embedding probing runs for price prediction and trend classification; branch-specific contribution still needs ablation.
+
+### Recent BYOL encoder progress
+
+The BYOL encoder was successfully trained on the NVIDIA GPU through WSL using
+the unified 4h, sequence-length-64 dataset. The run used only the locked
+training split (`109841` sequences) and recorded the test split shape (`27500`
+sequences) for traceability only. No test sequences were used for training,
+early stopping, or checkpoint selection.
+
+| epoch budget | train BYOL loss | view cosine | embedding std | collapse warning | elapsed seconds |
+|---:|---:|---:|---:|:---:|---:|
+| 15 | 0.0755 | 0.9623 | 0.6185 | false | 191.52 |
+| 20 | 0.0810 | 0.9595 | 0.7010 | false | 250.28 |
+| 25 | 0.0797 | 0.9602 | 0.7765 | false | 315.87 |
+| 50 | 0.0776 | 0.9612 | 0.9908 | false | 635.14 |
+| 100 | 0.0526 | 0.9737 | 1.3357 | false | 1283.12 |
+
+The loss reached an early minimum before rising as the exponential-moving-average
+target and representation scale evolved, then declined through the final budget.
+Because the BYOL target changes during training, the early minimum is recorded as
+a diagnostic rather than used for checkpoint selection. Embedding standard
+deviation increased from `0.1457` after epoch 1 to `1.3357` after epoch 100,
+remaining well above the configured collapse threshold (`0.001`). The full raw
+histories, checkpoint metrics, plots, and report are stored under
+`experiments/byol_encoder/byol-4h-seq64-top50/`; the canonical checkpoint is
+`checkpoints/byol_4h_seq64_top50.pth`. Downstream BYOL feature extraction and
+branch ablation remain pending.
 
 ### Recent GINN progress
 
@@ -184,7 +211,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 **Expand neural encoders** (order by complexity)
 - [x] Train/report contrastive encoder on the 4h split; checkpoint and report complete
 - [ ] Evaluate: does adding the contrastive branch improve over VAE-only? *(full VAE+contrastive concat result exists; isolated branch ablation pending)*
-- [x] Implement BYOL encoder and fixed-budget pretraining/report scripts; real 4h pretraining pending
+- [x] Implement, train, and report the BYOL encoder on the 4h split; checkpoint and diagnostic artifacts complete
 - [ ] Evaluate: does adding the BYOL branch improve over the current VAE + contrastive branch set?
 - [ ] Identify additional unsupervised methods from literature (masked autoencoder, self-supervised Transformer, etc.); integrate promising ones one at a time following the same pattern
 
@@ -208,7 +235,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** price and trend framework MVP runs exist, but volatility is still missing, BYOL has not been trained/extracted for the full branch set, external baseline alignment needs tightening, and branch ablations/multi-seed confirmation have not been run.
+**Current Phase C exit gap:** price and trend framework MVP runs exist, but volatility is still missing, BYOL has not yet been extracted into the full feature store, external baseline alignment needs tightening, and branch ablations/multi-seed confirmation have not been run.
 
 ---
 

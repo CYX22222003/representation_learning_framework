@@ -78,6 +78,7 @@ def plot_training_curve(budget_dir: str | Path) -> Path:
 
 def plot_embedding_diagnostics(budget_dir: str | Path) -> Path:
     budget_dir = Path(budget_dir)
+    metrics = _read_json(budget_dir / "metrics.json")
     with np.load(budget_dir / "history.npz") as history:
         epochs = history["epochs"]
         embedding_std = history["embedding_std"]
@@ -86,6 +87,14 @@ def plot_embedding_diagnostics(budget_dir: str | Path) -> Path:
     out = _ensure_image_dir(budget_dir) / "embedding_diagnostics.png"
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.plot(epochs, embedding_std, marker="o", color="tab:purple", label="embedding std")
+    collapse_threshold = float(metrics["collapse_std_threshold"])
+    ax.axhline(
+        collapse_threshold,
+        color="tab:red",
+        linestyle="--",
+        linewidth=1.2,
+        label=f"collapse threshold ({collapse_threshold:g})",
+    )
     ax2 = ax.twinx()
     ax2.plot(epochs, embedding_norm, marker="s", color="tab:green", label="embedding norm")
     ax.set_xlabel("Epoch")
@@ -182,6 +191,7 @@ def write_report(run_root: str | Path) -> Path:
         f"- projection dim: `{config['projection_dim']}`",
         f"- predictor hidden dim: `{config['predictor_hidden_dim']}`",
         f"- target decay: `{config['target_decay']}`",
+        f"- collapse std threshold: `{config['collapse_std_threshold']}`",
         f"- device request: `{config['device']}`",
         "",
         "## Epoch Budgets",
@@ -204,6 +214,7 @@ def write_report(run_root: str | Path) -> Path:
         f"- final train BYOL loss: `{final['train_loss']:.10f}`",
         f"- final view cosine: `{final['view_cosine']:.10f}`",
         f"- final embedding std: `{final['embedding_std']:.10f}`",
+        f"- final embedding norm: `{final['embedding_norm']:.10f}`",
         f"- collapse warning: `{final['collapse_warning']}`",
         "",
         "Generated images are saved under each `e*/images/` directory and under the run-level `images/` directory.",

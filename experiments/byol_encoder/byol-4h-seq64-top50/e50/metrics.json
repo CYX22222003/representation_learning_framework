@@ -1,0 +1,35 @@
+{
+  "model": "byol_encoder",
+  "epoch": 50,
+  "seed": 0,
+  "device": "cuda",
+  "train_loss": 0.07761858407156173,
+  "view_cosine": 0.9611907313753675,
+  "embedding_std": 0.9908381115584385,
+  "embedding_norm": 11.964730654007349,
+  "collapse_warning": false,
+  "collapse_std_threshold": 0.001,
+  "best_train_loss": 0.003941883712937504,
+  "elapsed_seconds": 635.1356251239777,
+  "train_sequence_count": 109841,
+  "dataset_path": "data/processed/market_4h_seq64_top50.npz",
+  "checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/byol_encoder/byol-4h-seq64-top50/e50/checkpoint.pth",
+  "training_config": {
+    "epoch_budgets": [
+      15,
+      20,
+      25,
+      50,
+      100
+    ],
+    "seed": 0,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "hidden_dim": 128,
+    "projection_dim": 128,
+    "predictor_hidden_dim": 128,
+    "target_decay": 0.99,
+    "device": "cuda"
+  }
+}

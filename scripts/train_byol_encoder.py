@@ -283,9 +283,13 @@ def run_experiment(
     canonical_checkpoint: Path | None = None,
     collapse_std_threshold: float = 1e-3,
 ) -> list[dict]:
+    if collapse_std_threshold < 0.0:
+        raise ValueError("collapse_std_threshold must be non-negative")
     train_sequences, test_shape = load_train_sequences(processed_npz)
     run_root.mkdir(parents=True, exist_ok=True)
-    _json_write(run_root / "config.json", config.to_dict())
+    config_payload = config.to_dict()
+    config_payload["collapse_std_threshold"] = float(collapse_std_threshold)
+    _json_write(run_root / "config.json", config_payload)
     _json_write(
         run_root / "dataset_manifest.json",
         {
