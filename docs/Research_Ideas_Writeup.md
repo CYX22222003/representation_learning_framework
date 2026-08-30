@@ -223,7 +223,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work (end-to-end trained, task-specific). Shows the framework is competitive with the state-of-the-art. Current set: Stacked LSTM, GINN, TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Mirrored decoder** | A benchmark's own FC architecture detached from its encoder and retrained on top of the frozen framework encoder. Used only in the decoder-controlled comparison experiment. |
@@ -237,8 +237,8 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 2. **Volatility Prediction**
    - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
-   - External benchmarks: GINN; additional TBD from literature review
-   - Internal baselines: Standalone GARCH(1,1), single-branch ablations
+   - External benchmarks: Raw LSTM volatility; adapted GARCH--LSTM stacking with causal guarded GARCH, Raw LSTM forecasts, and fixed ElasticNet meta-features `[g, l, g*l]`; GINN retained as documented limitation evidence
+   - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
 3. **Trend Classification**
    - Metrics: Accuracy, macro-F1, per-class precision/recall/F1, confusion matrix

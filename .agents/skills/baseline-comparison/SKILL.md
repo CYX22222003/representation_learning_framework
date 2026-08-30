@@ -1,6 +1,6 @@
 ---
 name: baseline-comparison
-description: Design, run, and interpret fair comparisons between this project's representation-learning framework and internal or external baselines. Use when comparing framework metrics against Raw-OHLCV MLP, LSTM, GINN, TA-MLP, standalone GARCH, ablations, decoder variants, or when planning claims that one model is better than another.
+description: Design, run, and interpret fair comparisons between this project's representation-learning framework and internal or external baselines. Use when comparing framework metrics against Raw-OHLCV MLP, LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, ablations, decoder variants, or when planning claims that one model is better than another.
 ---
 
 # Baseline Comparison

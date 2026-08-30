@@ -27,7 +27,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 
 **Why no validation split:**
 
-1. **Architectures are fixed from the start.** For external benchmarks (LSTM, GINN, TA-MLP) the architecture and most hyperparameters come from the upstream paper — we are not tuning them. For the framework, the design is fixed by `src/aggregation/`, `src/models/`, and `src/tasks/` and is not driven by test-loss feedback. There is therefore nothing meaningful for a validation set to *select between*.
+1. **Architectures are fixed from the start.** For external benchmarks (LSTM, Raw LSTM volatility, GARCH--LSTM stacking, GINN, TA-MLP) the architecture and most hyperparameters come from the upstream paper or a predeclared adaptation plan — we are not tuning them. For the framework, the design is fixed by `src/aggregation/`, `src/models/`, and `src/tasks/` and is not driven by test-loss feedback. There is therefore nothing meaningful for a validation set to *select between*.
 2. **Cross-baseline comparison stays clean.** If one baseline used a val split for early stopping and another did not, the comparison would conflate "better representation" with "better stopping rule." Forcing every model to a fixed-epoch budget removes that confound.
 3. **Test-set integrity.** A val split inevitably gets watched alongside training. Pretending it's separate is fragile. Removing it makes the test-set lockup unambiguous: the test set is touched once, at the end.
 
@@ -54,10 +54,11 @@ This project deliberately uses **train and test partitions only**. There is no v
 | RepresentationAggregator | train feature bundles (fixed-epoch) | test feature bundles |
 | Task heads (price, volatility, trend) | train feature bundles + train task labels/targets (fixed-epoch) | test feature bundles + test task labels/targets |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
+| Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
+| GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters |
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch) | test sequences |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
-| Standalone GARCH (volatility) | train sequences (fit per window) | test sequences |
 
 All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
 
@@ -99,6 +100,15 @@ data/task_labels/trend_classification/triclass_4h_seq64_top50.npz.manifest.json
 Its labels are BUY/HOLD/SELL classes. Thresholds are fit per contract using training rows only, then applied to train and test rows. The final `f_window` rows are dropped inside each split because their future target would not be available within that split. The bundle stores train/test labels and aligned feature-row indices so downstream framework runs and baselines can use identical rows.
 
 Strict comparison with the TA-MLP benchmark should reuse this saved label contract or regenerate TA-MLP labels with the same thresholds and row alignment. Existing TA-MLP results remain useful characterization evidence, but they are not a fully strict row-by-row comparison until this alignment is enforced.
+
+The volatility benchmark label bundle is saved under:
+
+```text
+data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz
+data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz.manifest.json
+```
+
+It stores realised-volatility targets plus train/test row indices, contract IDs, and window starts. The Raw LSTM volatility benchmark and GARCH--LSTM stacking benchmark must reuse this bundle so targets and row identities match exactly. The stacking benchmark's expanding cross-fitting creates honest out-of-fold training meta-features for ElasticNet; it is not a validation split, early-stopping signal, or hyperparameter-selection mechanism.
 
 ---
 

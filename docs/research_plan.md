@@ -90,7 +90,9 @@ Two categories of comparison models are used:
 **External benchmarks:**
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
-- **GINN** *(AR→GARCH→LSTM with fused loss)* — three-stage hybrid: AR mean prediction, GARCH(1,1) volatility estimation, LSTM variance predictor trained with GARCH-fused loss. Primary benchmark for the volatility prediction task.
+- **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features.
+- **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle so rows, thresholds, and class definitions are identical.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
@@ -107,8 +109,6 @@ Two categories of comparison models are used:
   - One ablation per additional neural encoder that is integrated (TBD)
 
   These ablations isolate each branch's individual contribution and verify that the aggregated framework outperforms any single branch.
-
-- **Standalone GARCH** — classical GARCH(1,1) used as a dedicated baseline for the volatility prediction task.
 
 - **Additional internal baselines (TBD)** — further baselines may be added as identified.
 
