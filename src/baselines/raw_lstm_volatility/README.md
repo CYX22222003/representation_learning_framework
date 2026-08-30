@@ -55,8 +55,11 @@ Shared label bundle generated for the canonical 4h top-50 data:
 
 | Epoch | MAE | RMSE | MSE | Pearson corr. | Negative fraction | Test rows |
 |---:|---:|---:|---:|---:|---:|---:|
-| 15 | TBD | TBD | TBD | TBD | TBD | TBD |
-| 50 | TBD | TBD | TBD | TBD | TBD | TBD |
-| 100 | TBD | TBD | TBD | TBD | TBD | TBD |
+| 15 | 0.0515061431 | 0.1086248457 | 0.0117993578 | 0.6898544431 | 0.0000000000 | 27450 |
+| 50 | 0.0479481108 | 0.0981066823 | 0.0096249217 | 0.6769673824 | 0.0000000000 | 27450 |
+| 100 | 0.0470426343 | 0.1031050608 | 0.0106306542 | 0.6399757266 | 0.0000000000 | 27450 |
 
 Report all rows as characterization evidence. Do not pick the lowest test error as the canonical checkpoint.
+
+The complete interpretation, macro per-contract metrics, error concentration analysis, diagnostics, and plot links are recorded in
+[`experiments/4h-seq64-top50-seed0/analysis.md`](experiments/4h-seq64-top50-seed0/analysis.md).
