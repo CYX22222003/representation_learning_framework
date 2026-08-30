@@ -291,7 +291,10 @@ def _garch_oof(
             ]
             wanted_rows = rows[positions]
             local_rows = np.asarray([row_to_local[int(row)] for row in wanted_rows], dtype=np.int64)
-            fit_limit = fit_start - first + 1
+            eligible_global_rows = train_rows[(train_contracts == cid) & (bundle["train_window_starts"] <= fit_start)]
+            if eligible_global_rows.size == 0:
+                raise ValueError(f"contract {cid} has no GARCH fitting rows before window start {fit_start}")
+            fit_limit = row_to_local[int(np.max(eligible_global_rows))] + 1
             result = forecaster.fit_predict(close, local_rows, seq_len=int(train_sequences.shape[1]), fit_row_limit=int(fit_limit))
             out_raw[positions] = result.prediction_raw
             out_guarded[positions] = result.prediction_guarded
