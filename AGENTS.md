@@ -202,7 +202,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
 | `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + label builders. Shared by the framework and all internal baselines. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
-| `src/baselines/` | Comparison models — `lstm_baseline/` (external benchmark), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external benchmark), `ginn_baseline/` (external benchmark) |
+| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |
 
 ### Key data contracts

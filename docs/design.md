@@ -75,7 +75,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work (end-to-end trained, task-specific). Current set: Stacked LSTM, GINN, TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Mirrored decoder** | Benchmark's own FC architecture retrained on frozen framework embeddings. Used only in the decoder-controlled comparison experiment. |
@@ -83,6 +83,8 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 **Evaluation paradigm (probing):** The framework is a frozen encoder. After pretraining, only a lightweight MLP task head is trained on the extracted features. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with a frozen encoder + simple head is the primary claim.
 
 - **Benchmark Retraining:** Each benchmark model is retrained on the same event prediction market dataset, using the same sliding window sequences, train/test split, and temporal ordering. This project does not use a validation split or early stopping; see `docs/training_test_data_selection.md`.
+
+- **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark, and the adapted GARCH--LSTM stack fuses causal guarded GARCH forecasts with Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
