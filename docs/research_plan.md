@@ -78,7 +78,7 @@ Frozen neural embeddings are stored as separate named feature arrays, not as one
 
 ## Stage 3 — Baseline and Benchmark Implementation
 
-All comparison models must be trained on the **same data splits and preprocessing** as the framework to ensure fair comparison. The exact set of models is provisional and will be finalised once the literature review is complete.
+All comparison models must be trained on the **same data splits and preprocessing** as the framework to ensure fair comparison. Strict task comparisons must also use the same target definition and aligned label rows. The exact set of models is provisional and will be finalised once the literature review is complete.
 
 Two categories of comparison models are used:
 
@@ -91,14 +91,14 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
-- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle so rows, thresholds, and class definitions are identical.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
 
-- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference.
+- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. Its existing volatility sweep predates the contract-aware realised-volatility bundle and is characterization evidence only; it must be migrated to the shared bundle before strict volatility comparison.
 
 - **Single-branch ablations** — run each active representation branch independently (no aggregation) through the same task heads. Will include at minimum:
   - Statistical-only (AR + GARCH features)
@@ -122,6 +122,10 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
   - Price prediction: MAE, RMSE
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
   - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix. Accuracy is reported as a supporting metric because the HOLD class can dominate.
+
+- Reuse saved task-label bundles and their aligned rows whenever a task has one. In particular, Raw LSTM, GARCH--LSTM stacking, the future framework volatility run, and the Raw-OHLCV MLP volatility rerun must consume the same contract-aware realised-volatility bundle.
+
+- For volatility, retain both the Raw LSTM and the adapted GARCH--LSTM stack in the final table. Beating or approaching Raw LSTM indicates competitiveness with direct neural sequence prediction; beating or approaching the stack is stronger hybrid-comparator evidence. The stack comparison must be described as a complete-system comparison, not a standalone-GARCH result.
 
 - **Decoder-controlled comparison (optional, time permitting, all three tasks):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
 

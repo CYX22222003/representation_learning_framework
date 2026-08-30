@@ -4,7 +4,7 @@
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications
 
-Evaluate this framework on cryptocurrency market data across tasks such as price prediction, volatility forecasting, and alpha factor discovery tasks.
+Evaluate this framework on Polymarket event-contract OHLCV data through price prediction, volatility forecasting, and trend classification. These are transferability probes for alpha-related predictive signal generation, not direct alpha-factor discovery or a trading-strategy claim.
 
 ## 2. Literature Review (Brief \& Informal)
 
@@ -207,7 +207,7 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised, then fuses all branches via learned gating.
 
-**Task-transferable aggregator**: The same frozen encoder checkpoints and aggregator are reused across all downstream tasks (price prediction, volatility, trend classification), with only a lightweight task head trained per task.
+**Task-transferable representation pipeline**: The same frozen encoder checkpoints and named branch feature bundles are reused across all downstream tasks (price prediction, volatility, trend classification). A lightweight task-specific head, and the aggregator when it is learnable, are trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
@@ -237,7 +237,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 2. **Volatility Prediction**
    - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
-   - External benchmarks: Raw LSTM volatility; adapted GARCH--LSTM stacking with causal guarded GARCH, Raw LSTM forecasts, and fixed ElasticNet meta-features `[g, l, g*l]`; GINN retained as documented limitation evidence
+   - External benchmarks: Raw LSTM volatility (direct end-to-end neural reference); adapted GARCH--LSTM stacking (a complementary hybrid benchmark using causal guarded GARCH, the Raw LSTM forecasts, and fixed ElasticNet meta-features `[g, l, g*l]`); GINN retained as documented limitation evidence. The stack evaluates the complete hybrid, not standalone GARCH superiority.
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
 3. **Trend Classification**

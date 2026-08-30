@@ -55,9 +55,9 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Task heads (price, volatility, trend) | train feature bundles + train task labels/targets (fixed-epoch) | test feature bundles + test task labels/targets |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
 | Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
-| GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters |
+| GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
-| Raw-OHLCV MLP baseline | train sequences (fixed-epoch) | test sequences |
+| Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
 
 All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
@@ -108,7 +108,7 @@ data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz
 data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz.manifest.json
 ```
 
-It stores realised-volatility targets plus train/test row indices, contract IDs, and window starts. The Raw LSTM volatility benchmark and GARCH--LSTM stacking benchmark must reuse this bundle so targets and row identities match exactly. The stacking benchmark's expanding cross-fitting creates honest out-of-fold training meta-features for ElasticNet; it is not a validation split, early-stopping signal, or hyperparameter-selection mechanism.
+It stores realised-volatility targets plus train/test row indices, contract IDs, and window starts. The Raw LSTM volatility benchmark, GARCH--LSTM stacking benchmark, future framework volatility task, and Raw-OHLCV MLP volatility baseline must reuse this bundle so targets and row identities match exactly. The stacking benchmark's expanding cross-fitting creates honest out-of-fold training meta-features for ElasticNet; it is not a validation split, early-stopping signal, or hyperparameter-selection mechanism. The existing Raw-OHLCV MLP volatility sweep predates this contract and uses the legacy merged-array target helper; it remains characterization evidence only and is not a strict row-by-row comparison with the two completed volatility benchmarks.
 
 ---
 
@@ -143,7 +143,8 @@ The sequence below must be followed to avoid leakage.
         │
         ▼
 5. Build task labels/targets from each split independently:
-     - price/volatility targets from train/test processed sequences
+     - price targets from train/test processed sequences
+     - volatility targets from the shared contract-aware volatility label bundle
      - trend labels from the saved tri-class task label bundle
    Fit any label thresholds or target scalers using train data only
         │
@@ -190,6 +191,6 @@ Both modes are trained on the same data splits and evaluated identically, making
 3. **Unsupervised ≠ exempt from the split.** VAE, contrastive, and BYOL encoders are trained on `train_data` only, never on test sequences.
 4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
 5. **Task labels, thresholds, and scalers are fit from training data only.** Test labels may be computed only after all threshold/scaler parameters are fixed from train data, and label horizons must not cross the split boundary.
-6. **All baselines use the identical train/test partitions** as the framework — same `.npz` files, same split indices, and for strict task comparisons the same saved task label bundles.
+6. **All strict comparisons use identical train/test partitions and label rows** — same `.npz` files, same split indices, and the same saved task label bundle where one exists. Legacy artifacts that predate a bundle are characterization evidence, not strict comparison evidence.
 7. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
 8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.

@@ -16,12 +16,14 @@ Read `docs/training_test_data_selection.md` and the relevant experiment-design s
 - identical processed `.npz` train/test partitions;
 - chronological per-contract 80/20 split;
 - identical task target builders, horizon, price index, and preprocessing;
-- identical saved task label bundles for strict classification comparisons;
+- identical saved task label bundles and row identities for strict task comparisons;
 - identical test samples and metric definitions;
 - fixed epoch budgets and seeds;
 - test split locked until final evaluation.
 
 Follow the repository rule of train/test only: no validation split, early stopping, or test-driven checkpoint selection. If another document mentions validation, treat `docs/training_test_data_selection.md` as authoritative and report the conflict.
+
+For volatility, strict comparisons must use `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz`: Raw LSTM, GARCH--LSTM stacking, the framework volatility task, and a rerun of the Raw-OHLCV MLP must use its aligned rows. Existing Raw-OHLCV MLP volatility artifacts that use the legacy merged-array target builder are characterization evidence only.
 
 ### 2. Define comparison levels
 
