@@ -245,7 +245,15 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
-### 5.4 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
+### 5.4 Additional Alpha-Research Downstream Capability
+
+The three predictive tasks remain the primary tests of representation quality and are the entire current evaluation budget. Alpha research is a deferred future capability test: it asks whether a small set of interpretable formulaic factors can be constructed from the heads' economically meaningful outputs. It is not a fourth representation-learning contribution and does not treat arbitrary latent coordinates \(z_j\) as alpha factors, because individual embedding dimensions have no guaranteed financial interpretation.
+
+The primitive set is \(\mathcal F_0=\{\hat r,\hat\sigma,p_{bull},p_{bear},p_{bull}-p_{bear},\ldots\}\), with multiple horizons added only after their targets and decision-time availability are predeclared. A compact, shallow GP search may combine these primitives through protected arithmetic, ranking, delay, and bounded rolling operators. GP is selected for pragmatic interpretability and established formulaic-factor precedent (e.g., Zhang et al.'s 2020 AutoAlpha), not as methodological novelty.
+
+Formula search is restricted to chronological out-of-fold predictions from the training portion, so a head never predicts a row it trained on. Select a small, non-redundant formula set using predeclared training-only IC and stability criteria, then refit heads on the full train split and evaluate that fixed set once on a fresh holdout or temporally later data. Report IC/rank-IC, temporal stability, quantile/spread behaviour, and factor redundancy. Do not claim profitability without a contract-aware, cost-aware backtest.
+
+### 5.5 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
 
 An additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant. Applies to all three tasks (price prediction, volatility prediction, trend classification) if time permits, subject to availability of a separable benchmark decoder per task:
 
@@ -259,13 +267,13 @@ An additional three-configuration experiment isolates encoder quality from decod
 - Comparing configurations **2 vs 3**: same encoder, different decoder — isolates whether decoder choice matters.
 - If all three configurations produce similar numbers, it confirms the representations are doing the heavy lifting regardless of decoder design.
 
-### 5.5 Ablation Study and Transferability
+### 5.6 Ablation Study and Transferability
 
 **Ablation study**: each branch is run independently (no aggregation) against the full N-branch framework to quantify marginal contribution.
 
 **Transferability analysis**: embeddings trained on one timeframe are evaluated on another without retraining, to assess generalisation across temporal scales.
 
-*Note: Alpha-factor evaluation and anomaly detection are outside the MVP implementation. Alpha-style signal tests may be revisited after the three-task MVP, BYOL branch, and ablation experiments are complete.*
+*Note: The alpha-research capability is outside the current task-evaluation budget and MVP implementation. Its future scope is symbolic factor research from downstream predictions, not direct latent-factor mining or a trading-strategy claim.*
 
 ## 6. Inspiration and Motivation
 

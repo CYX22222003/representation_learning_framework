@@ -141,6 +141,14 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
 
 - **Ablation study** — compare the full aggregated framework against each single-branch baseline to quantify each branch's marginal contribution.
 
+- **Additional alpha-research downstream capability (deferred beyond the current task-evaluation budget)** — a future extension may test whether interpretable formulaic factors can be composed from downstream predictions rather than latent dimensions. The representation-learning framework remains the contribution; GP/symbolic regression is a small-scale established search tool, not a claimed algorithmic novelty.
+  - Primitive set \(\mathcal F_0\): predeclared downstream outputs available at decision time, initially predicted return/price movement, predicted realised volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). Multiple horizons are optional and must use split-safe targets.
+  - Before implementation, lock whether the directional primitive is future probability change or return, and make its horizon, eligible contract universe, and factor objective consistent. A price-level forecast is not a directly comparable cross-contract factor.
+  - Exclude raw embedding coordinates \(z_j\) as GP terminals because they have no guaranteed individual financial interpretation.
+  - Use a shallow, bounded grammar (protected arithmetic, ranks, delays, rolling statistics/time-series ranks) and predeclare depth/window/population/generation limits.
+  - Build training primitives with chronological OOF predictions from heads that did not train on the predicted rows. Search and select formulas only on those OOF training rows; retain a small non-redundant set by predeclared IC/stability criteria. If this future extension is funded, refit heads on full training data and evaluate factors once on a fresh holdout or temporally later data, not on the current task-evaluation test split.
+  - Report IC/rank-IC, temporal stability, quantile/spread monotonicity, and factor redundancy. A trading backtest is outside the core scope unless contract mechanics, fees, liquidity, and position constraints are explicitly modelled.
+
 - Summarise all results in tables and visualisations (embedding scatter plots, metric comparisons, gating weight distributions).
 
 ---

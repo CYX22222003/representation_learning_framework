@@ -14,7 +14,8 @@ Read these sections of `docs/Research_Ideas_Writeup.md`:
 1. Section 1 for the topic and high-level goal.
 2. Sections 2.1 through 2.3 for limitations, embedding approaches, and crypto-market motivation.
 3. Section 3.1 for the problem addressed by the proposed model.
-4. Section 6 for the stated inspiration and motivation.
+4. Section 5.4 for the alpha-research contribution boundary when relevant.
+5. Section 6 for the stated inspiration and motivation.
 
 ## Response Contract
 
@@ -25,5 +26,6 @@ Present the relevant parts of:
 - Why Polymarket event contracts are a suitable and challenging domain.
 - The documented innovation claims, clearly distinguishing implemented work from intended contributions.
 - The three downstream evaluation tasks and why they test transferability.
+- The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

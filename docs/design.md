@@ -53,7 +53,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 ### Training Procedure
 
-- All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until final evaluation.
+- All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until evaluation under the predeclared model × task × epoch-budget matrix.
 
 - **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
@@ -61,7 +61,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
-- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
+- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for fixed epoch budgets; each predeclared checkpoint receives one test pass and the complete epoch-budget matrix is reported without selecting a best-on-test run.
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
@@ -113,3 +113,14 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
 
   Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks (price prediction, volatility prediction, trend classification), subject to availability of a separable benchmark decoder per task.
+
+### Additional Alpha-Research Capability
+
+Alpha research is a future downstream capability test outside the current task-evaluation budget, not an additional representation branch or the framework's central contribution. The task heads transform the shared representation \(z\) into economically named predictions; these predictions, rather than arbitrary latent coordinates \(z_j\), are the terminals for a deliberately small symbolic search:
+
+\[
+X \rightarrow z \rightarrow \{\hat r,\hat\sigma,p_{bull},p_{bear},\ldots\}
+\rightarrow \mathcal F_0 \rightarrow \{\alpha_1,\ldots,\alpha_K\}.
+\]
+
+The initial primitive set contains predicted return/price movement, volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). A shallow GP grammar may compose them with protected arithmetic, ranking, delay, and bounded rolling operators. Formula selection must use chronological out-of-fold predictions on the training portion only, with target-horizon purge/embargo where needed. Once the current test split has been used for task evaluation, future factor evaluation requires a fresh holdout or temporally later data. Evaluate factor IC/rank-IC, stability, quantile spreads, and redundancy; do not claim tradable profitability without a cost-aware, contract-aware backtest.

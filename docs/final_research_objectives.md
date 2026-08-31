@@ -12,8 +12,9 @@ The project should not be framed as directly discovering profitable alpha factor
 Raw OHLCV sequences
   -> reusable market representations
   -> lightweight downstream heads
-  -> predictive signals
-  -> candidate alpha research inputs
+  -> economically meaningful predictive primitives
+  -> potential future shallow symbolic alpha research
+  -> candidate formulaic factors
 ```
 
 In this view, the framework is a representation engine. The downstream task heads convert the learned representations into signals such as predicted price movement, expected volatility, or trend probability. These signals may be interpreted as candidate alpha signals only after out-of-sample validation.
@@ -36,9 +37,9 @@ In this view, the framework is a representation engine. The downstream task head
 
    The goal is not only to show that the full framework performs well, but also to understand whether statistical, transformed, VAE, contrastive, or BYOL representations contribute differently across tasks.
 
-5. **Position downstream predictions as candidate alpha signals.**
+5. **Use downstream predictions as interpretable alpha-research primitives.**
 
-   The task-head outputs can be interpreted as predictive signals relevant to alpha research. Price and trend predictions are closer to directional alpha signals, while volatility predictions are useful for risk control, regime detection, filtering, and position sizing.
+   The task-head outputs can be interpreted as predictive signals relevant to alpha research. Price and trend predictions are closer to directional alpha signals, while volatility predictions are useful for risk control, regime detection, filtering, and position sizing. These outputs — not arbitrary latent coordinates — form a small primitive set for a potential future symbolic factor composition. GP is an established, bounded and interpretable downstream search method, not a project contribution; it is outside the current task-evaluation budget.
 
 ## Main Research Questions
 
@@ -48,7 +49,7 @@ The project can be evaluated through the following research questions:
 2. Which representation branches contribute most to price, volatility, and trend tasks?
 3. Does aggregating multiple branches outperform single-branch representations?
 4. Can frozen representations with simple task heads remain competitive with end-to-end task-specific models?
-5. Do the downstream task outputs behave like useful candidate alpha signals?
+5. Do economically meaningful downstream predictions support a small set of stable, non-redundant symbolic candidate factors beyond the primitive signals themselves?
 6. Where does the framework fail, and what does that reveal about OHLCV-only representation learning?
 
 These questions make the project robust to uncertain results. The paper does not depend entirely on the full framework beating every benchmark.
@@ -115,6 +116,7 @@ Prefer claiming:
 - The framework learns reusable market representations.
 - The representations support downstream predictive signal generation.
 - The task-head outputs can be treated as candidate alpha signals.
+- The predictions can be used as interpretable terminals for a leakage-safe symbolic factor search.
 - The evaluation tests representation quality through price, volatility, and trend tasks.
 - Mixed or negative results still reveal which representations are useful and where OHLCV-only modelling is limited.
 
@@ -126,7 +128,7 @@ Even if the framework does not consistently outperform every benchmark, the proj
 - a fair frozen-encoder probing setup for alpha-related downstream tasks,
 - ablation evidence showing which representation families help which tasks,
 - comparison against raw OHLCV and task-specific baselines,
-- a careful alpha-signal framing that separates representations, predictions, candidate alpha signals, and trading strategies,
+- a careful alpha-research framing that separates representations, predictions, primitive signals, candidate formulaic factors, and trading strategies,
 - diagnostic evidence about the limitations of OHLCV-only signal generation.
 
 The final paper should therefore be framed as an investigation into transferable representation learning for alpha-related signal generation, not as a guaranteed alpha-discovery system.

@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-30
+**Last updated:** 2026-08-31
 
 ---
 
@@ -72,6 +72,7 @@
 | Trend classification benchmark (accuracy, macro-F1) | ✅ MVP framework result recorded on locked 4h test split; Raw-OHLCV MLP and TA-MLP context available, strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
+| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | ⏸ Deferred; outside the current budget, which is limited to individual task evaluation |
 | Result tables and visualisations | 🔄 Framework price/trend summaries and comparisons generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 ---
@@ -86,7 +87,7 @@ Trend classification has also reached an MVP framework result. The TA-MLP-style 
 
 The two volatility external benchmarks are complete and use the same realised-volatility label bundle and `27,450` locked test rows. Raw LSTM is retained as the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is retained as the complementary hybrid benchmark: five expanding out-of-fold folds train a fixed ElasticNet on causal guarded GARCH, Raw LSTM, and interaction features, while final test inference reuses the Raw LSTM predictions exactly. Across the fixed 15/50/100-epoch characterization sweep, the stack has lower MSE than Raw LSTM at every budget: `0.00793` vs `0.01180`, `0.00748` vs `0.00962`, and `0.00695` vs `0.01063`; its correlations are `0.806`, `0.810`, and `0.822` versus `0.690`, `0.677`, and `0.640`. Replay verification and diagnostic plots are complete under `src/baselines/garch_lstm_stacking/experiments/4h-seq64-top50-seed0/`. This supports the hybrid under the fixed protocol, not a claim that standalone GARCH is superior; the GARCH fallback rate was about `39.3%`, so the guarded complete stack is the object being compared.
 
-The next priority is to finish the remaining MVP surface before deeper claims: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, migrate the Raw-OHLCV MLP volatility baseline to the shared label bundle, run single-branch ablations, align any remaining external baselines to shared task targets where needed, and then produce final comparison tables. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
+The next priority is to finish the individual-task evaluation surface: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, migrate the Raw-OHLCV MLP volatility baseline to the shared label bundle, run single-branch ablations, align any remaining external baselines to shared task targets where needed, and then produce final comparison tables. The additional alpha-research capability is deferred beyond this budget. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
 
 ### Recent VAE encoder progress
 

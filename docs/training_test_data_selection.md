@@ -17,7 +17,7 @@ After merging across all top-50 contracts:
                         →  key "test"   shape [N_test,  seq_len, 5]
 ```
 
-**The test split is locked.** No model parameters — supervised or unsupervised — may be influenced by test sequences until the final evaluation run.
+**The test split is locked.** No model parameters — supervised or unsupervised — may be influenced by test sequences until evaluation under the predeclared model × task × epoch-budget matrix.
 
 ---
 
@@ -29,7 +29,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 
 1. **Architectures are fixed from the start.** For external benchmarks (LSTM, Raw LSTM volatility, GARCH--LSTM stacking, GINN, TA-MLP) the architecture and most hyperparameters come from the upstream paper or a predeclared adaptation plan — we are not tuning them. For the framework, the design is fixed by `src/aggregation/`, `src/models/`, and `src/tasks/` and is not driven by test-loss feedback. There is therefore nothing meaningful for a validation set to *select between*.
 2. **Cross-baseline comparison stays clean.** If one baseline used a val split for early stopping and another did not, the comparison would conflate "better representation" with "better stopping rule." Forcing every model to a fixed-epoch budget removes that confound.
-3. **Test-set integrity.** A val split inevitably gets watched alongside training. Pretending it's separate is fragile. Removing it makes the test-set lockup unambiguous: the test set is touched once, at the end.
+3. **Test-set integrity.** A val split inevitably gets watched alongside training. Pretending it's separate is fragile. Removing it keeps the test-set protocol unambiguous: evaluate each predeclared configuration and epoch budget, report the complete matrix, and do not add or select configurations after reading its test metrics.
 
 **What replaces a val split for training control:**
 
@@ -59,6 +59,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
+| Future additional symbolic alpha mining (outside current budget) | chronological OOF predictions from downstream heads on aligned training rows; GP fits/selects formulas only on those rows | requires a fresh, still-unseen holdout or temporally later data once the current test split has been used for task evaluation |
 
 All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
 
@@ -159,9 +160,26 @@ The sequence below must be followed to avoid leakage.
    budgets at one fixed seed — report the full sweep, not a "best" run.
         │
         ▼
-8. ── FINAL EVALUATION (one time only) ──
-   Load all checkpoints; run inference on test feature bundles / test sequences
-   Record metrics for every model × every task
+8. ── CURRENT-BUDGET TASK EVALUATION ──
+   Load every predeclared task checkpoint for each fixed epoch budget; run
+   inference on test feature bundles / test sequences. Record and report the
+   complete model × task × epoch-budget metric matrix for price, volatility,
+   and trend. Do not select or add a configuration from these test results.
+        │
+        ▼
+9. Future additional alpha-research capability (not part of the current budget):
+   - Generate chronological OOF training predictions from each selected head.
+     A head must not train on the row it predicts or any later row.
+   - Fit symbolic GP only on these OOF, decision-time primitive predictions
+     (for example return/movement, volatility, trend probabilities, and
+     confidence margins) and aligned training objectives.
+   - Predeclare the grammar, depth/window limits, selection metric, and
+     redundancy threshold. Purge/embargo rows whose forecast horizons overlap
+     a fold boundary when necessary.
+   - Refit the fixed heads on the entire train split. Do not use the current
+     task-evaluation test rows, ICs, or backtests to choose primitives or
+     formulas. A future factor evaluation requires a fresh holdout or later
+     temporal data.
 ```
 
 ---
@@ -192,5 +210,6 @@ Both modes are trained on the same data splits and evaluated identically, making
 4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
 5. **Task labels, thresholds, and scalers are fit from training data only.** Test labels may be computed only after all threshold/scaler parameters are fixed from train data, and label horizons must not cross the split boundary.
 6. **All strict comparisons use identical train/test partitions and label rows** — same `.npz` files, same split indices, and the same saved task label bundle where one exists. Legacy artifacts that predate a bundle are characterization evidence, not strict comparison evidence.
-7. **Test set is evaluated once**, after all development is complete. Re-running on test to chase metrics invalidates the comparison.
+7. **Test evaluation follows a predeclared matrix.** Evaluate each fixed model, task, seed, and epoch budget once; report the complete matrix. Do not add configurations, select a best-on-test run, or otherwise change the protocol after reading test metrics.
 8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
+9. **Alpha-factor search is future, training-only model selection.** It is outside the current task-evaluation budget. When undertaken, GP terminals must be economically meaningful downstream predictions, not arbitrary latent coordinates; use chronological OOF predictions for formula search and a fresh holdout or later data for its final evaluation.
