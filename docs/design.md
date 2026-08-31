@@ -53,7 +53,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 ### Training Procedure
 
-- All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until final evaluation.
+- All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until evaluation under the predeclared model × task × epoch-budget matrix.
 
 - **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
@@ -61,7 +61,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
-- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for a fixed epoch budget; final metrics come from a one-shot pass over the test feature bundle.
+- The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for fixed epoch budgets; each predeclared checkpoint receives one test pass and the complete epoch-budget matrix is reported without selecting a best-on-test run.
 
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
@@ -80,11 +80,11 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Mirrored decoder** | Benchmark's own FC architecture retrained on frozen framework embeddings. Used only in the decoder-controlled comparison experiment. |
 
-**Evaluation paradigm (probing):** The framework is a frozen encoder. After pretraining, only a lightweight MLP task head is trained on the extracted features. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with a frozen encoder + simple head is the primary claim.
+**Evaluation paradigm (probing):** The framework uses frozen representation extractors. After pretraining, the named branch features remain fixed while a lightweight task head, and the aggregator when it is learnable, are trained for each task. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with frozen representations + a simple head is the primary claim.
 
 - **Benchmark Retraining:** Each benchmark model is retrained on the same event prediction market dataset, using the same sliding window sequences, train/test split, and temporal ordering. This project does not use a validation split or early stopping; see `docs/training_test_data_selection.md`.
 
-- **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark, and the adapted GARCH--LSTM stack fuses causal guarded GARCH forecasts with Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection.
+- **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary, stronger hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The existing Raw-OHLCV MLP volatility sweep uses a legacy merged-array target helper and is characterization-only until it is migrated to this shared bundle; the framework volatility task must also consume this bundle before any strict comparison. A framework result should therefore report its relationship to both benchmarks rather than treating the stack as evidence that standalone GARCH is superior.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
@@ -95,7 +95,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - A lightweight MLP task head is trained on these (X, y) pairs.
 
 - **Performance Comparison:**
-  - Evaluate all models on the same held-out test sequences.
+  - Evaluate strict task comparisons on the same held-out test sequences and aligned label rows.
   - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix.
   - Comparison axes:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
@@ -113,3 +113,14 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
 
   Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks (price prediction, volatility prediction, trend classification), subject to availability of a separable benchmark decoder per task.
+
+### Additional Alpha-Research Capability
+
+Alpha research is a future downstream capability test outside the current task-evaluation budget, not an additional representation branch or the framework's central contribution. The task heads transform the shared representation \(z\) into economically named predictions; these predictions, rather than arbitrary latent coordinates \(z_j\), are the terminals for a deliberately small symbolic search:
+
+\[
+X \rightarrow z \rightarrow \{\hat r,\hat\sigma,p_{bull},p_{bear},\ldots\}
+\rightarrow \mathcal F_0 \rightarrow \{\alpha_1,\ldots,\alpha_K\}.
+\]
+
+The initial primitive set contains predicted return/price movement, volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). A shallow GP grammar may compose them with protected arithmetic, ranking, delay, and bounded rolling operators. Formula selection must use chronological out-of-fold predictions on the training portion only, with target-horizon purge/embargo where needed. Once the current test split has been used for task evaluation, future factor evaluation requires a fresh holdout or temporally later data. Evaluate factor IC/rank-IC, stability, quantile spreads, and redundancy; do not claim tradable profitability without a cost-aware, contract-aware backtest.

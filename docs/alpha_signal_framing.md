@@ -1,22 +1,26 @@
-# Food for Thought: Alpha-Signal Framing and Alternative Evaluation Ideas
+# Alpha-Research Downstream Capability
 
-This note is not an implementation guide. It is a conceptual framing for how the learned representations in this project can be discussed in an alpha research or alpha validation context.
+This note consolidates the planned alpha-research capability. It is a downstream capability test of the representation-learning framework, not the project's main methodological contribution and not a claim to have invented an alpha-mining algorithm or trading strategy.
 
 ## Core Idea
 
 The framework should not be described as directly producing alpha factors from the raw feature branches. A more precise framing is:
 
 ```text
-Raw OHLCV sequence
-  -> multi-branch market representations
-  -> lightweight downstream task head
-  -> predictive signal
-  -> candidate alpha signal or research input
+Raw OHLCV sequence X
+  -> frozen multi-branch representation learning
+  -> shared representation z
+  -> economically meaningful downstream heads
+  -> primitive prediction set F_0
+  -> shallow symbolic alpha mining
+  -> candidate formulaic factors {alpha_1, ..., alpha_K}
 ```
 
 In this framing, the statistical, transformed, VAE, contrastive, and BYOL branches are reusable market representations. They encode information about price dynamics, volatility structure, frequency patterns, nonlinear temporal structure, and regime behavior. The downstream task head then converts those representations into task-specific outputs, such as predicted price movement, predicted volatility, or trend probability.
 
-Those task-head outputs are the objects that are closest to alpha signals. They are not guaranteed alpha factors by definition, but they can be treated as candidate alpha signals if they show reliable out-of-sample predictive power for future market behavior.
+The latent coordinates `z_j` are deliberately **not** primitive alpha factors. Their axes are learned for representation utility, so they need not carry a stable or financially interpretable individual meaning. Directly mining arbitrary dimensions would make formula interpretation, stability analysis, and economic discussion substantially weaker.
+
+Instead, the downstream task-head outputs form the primitive set \(\mathcal F_0\). They retain a clear predictive interpretation while allowing the representation to capture temporal structure flexibly. A prediction is still not an alpha factor by definition: a formula becomes a candidate alpha only after it demonstrates robust out-of-sample value for a predeclared objective.
 
 ## Terminology
 
@@ -30,6 +34,59 @@ Those task-head outputs are the objects that are closest to alpha signals. They 
 | Trading strategy | A complete rule set that converts signals into positions, sizing, risk control, and execution. |
 
 This distinction is important because the project evaluates representation quality and signal usefulness. It does not yet claim to implement a complete trading strategy or production alpha pipeline.
+
+## Primitive Factor Set
+
+For each timestamp/contract row, construct \(\mathcal F_0\) only from predictions available at that row:
+
+\[
+\mathcal F_0 = \{\hat r_h,\ \widehat{\Delta p}_h,\ \hat\sigma_h,\ p_{\mathrm{bull},h},\ p_{\mathrm{bear},h},\ p_{\mathrm{neutral},h},\ p_{\mathrm{bull},h}-p_{\mathrm{bear},h},\ldots\},
+\]
+
+where \(h\) denotes a predeclared forecast horizon. The exact contents depend on which heads are implemented and whose targets are split-safe. The recommended initial set is deliberately small: a directional return/movement score, realised-volatility forecast, three trend probabilities, and the bullish-minus-bearish confidence score. Multiple horizons are a later extension, added only when their target definitions and availability times are fixed in advance.
+
+### Decisions to Lock Before Implementation
+
+- The directional head must have a single predeclared target: future probability change or a carefully defined return. A price-*level* forecast should not be used as a cross-contract factor without converting it to a decision-time comparable movement score.
+- The factor objective, forecast horizon, rebalance/observation frequency, and eligible contract universe must agree. Contract expiry, missing observations, sparse trading, and overlapping windows require explicit handling.
+- Cross-sectional ranking/IC is meaningful only for rows sharing a comparable timestamp and information set. If the available data cannot provide this, use a clearly stated within-contract time-series objective instead of presenting cross-sectional alpha evidence.
+
+## Symbolic Alpha-Mining Scope
+
+Use a compact genetic-programming (GP) or symbolic-regression search as an established, interpretable search tool. AutoAlpha (Zhang et al., 2020) supports the general idea that formulaic factors can be evolved from a predefined terminal and operator set; its hierarchical evolutionary search, large stock universe, portfolio construction, and novelty algorithm are **not** claims or required components of this project.
+
+The initial grammar should contain protected arithmetic, cross-sectional ranking, delay, rolling mean/std, rolling rank, and a small set of predeclared time-series operators. Candidate examples are
+
+\[
+\hat r / \hat\sigma, \qquad
+\hat r\,(p_{\mathrm{bull}}-p_{\mathrm{bear}}), \qquad
+tsrank(p_{\mathrm{bull}}-p_{\mathrm{bear}}, 10).
+\]
+
+Cap tree depth and rolling windows in advance. Prefer a small population/generation budget and retain a small, non-redundant factor set rather than optimising a large expression library. Protected division and explicit handling of missing/near-zero volatility are required.
+
+## Leakage-Safe Alpha-Research Protocol
+
+GP selection is a model-selection procedure. It must never see locked test predictions, targets, ICs, or backtests.
+
+1. Train each fixed downstream head on an earlier training prefix and emit predictions for a later training fold; repeat chronologically to build out-of-fold (OOF) predictions covering the usable training rows. Each prediction must come from a head that did not train on that row or any later row.
+2. Fit GP only on these OOF primitive factors and their aligned training-period future-return objective. Standardise/rank using training-fold information only; apply purge/embargo around horizon overlap where needed.
+3. Select a small factor set using a predeclared training criterion, such as mean Spearman IC plus stability across chronological folds, with an explicit correlation/redundancy constraint. Do not select by test performance.
+4. For a future alpha study, refit the fixed downstream heads on the full training split, generate the chosen primitives and formulas on a fresh holdout or temporally later data, and evaluate the fixed formula set once. Do not reuse the current task-evaluation test split for factor selection or headline factor evidence.
+
+This is cross-fitting for honest training predictions, analogous to the existing GARCH--LSTM meta-feature protocol. It is not an early-stopping or test-driven validation split.
+
+## Alpha-Factor Evaluation
+
+The primary framework metrics remain the supervised task metrics. The additional alpha-research capability adds factor-level evidence:
+
+- cross-sectional Spearman IC and, where appropriate, Pearson IC against a predeclared future return/movement target;
+- IC mean, dispersion, and stability across chronological folds or market regimes;
+- monotonic quantile/spread analysis, using only cross-sectionally comparable contract rows;
+- factor correlation and redundancy among retained formulas;
+- only if contract mechanics, fees, liquidity, and position constraints are modelled: a clearly specified, cost-aware paper backtest.
+
+Report the primitive-only signals alongside GP formulas. This distinguishes whether performance comes from the representation-generated predictions themselves or from symbolic composition. The alpha result is supportive downstream evidence; negative results do not invalidate the representation-learning contribution.
 
 ## How the Existing Tasks Map to Alpha Research
 
@@ -76,7 +133,7 @@ A concise way to describe the idea in the report is:
 
 This framing keeps the contribution aligned with the current implementation. The main claim remains representation learning and transferable signal generation, while alpha discovery is positioned as a natural downstream use case.
 
-## Alternative Evaluation Ideas
+## Relationship to the Existing Task Evaluation
 
 The current evaluation tasks use standard machine learning metrics:
 
@@ -84,7 +141,7 @@ The current evaluation tasks use standard machine learning metrics:
 - Volatility prediction: MSE and Pearson correlation
 - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix
 
-These are appropriate for evaluating supervised task performance. The current MVP should focus on completing the three downstream tasks, BYOL feature extraction, and branch ablations first. If the project later wants to connect more directly to alpha research, the following optional evaluations could be added.
+These are appropriate for evaluating supervised task performance. The current budget is limited to the three downstream task evaluations. Alpha mining is a future add-on after the required predictive heads produce aligned, frozen predictions; because the current test split is used for task evaluation, that future add-on requires a fresh holdout or temporally later data for its final factor evaluation.
 
 ### 1. Information Coefficient
 
@@ -144,7 +201,7 @@ Possible checks:
 
 This positions volatility forecasting as a risk-aware alpha research component rather than a standalone directional signal.
 
-### 6. Simple Backtest as an Extension
+### Simple Backtest as a Later Extension
 
 A later extension could convert downstream signals into a simple trading rule:
 
@@ -163,7 +220,7 @@ The safest and clearest claim is:
 - The framework learns reusable market representations.
 - These representations support lightweight downstream heads.
 - The downstream heads generate predictive signals.
-- These predictive signals can be used as candidate alpha research inputs.
-- A complete alpha factor or trading strategy claim requires additional trading-oriented validation.
+- These predictive signals are economically meaningful primitives for symbolic alpha research.
+- A selected formula is a candidate factor, not a proven profitable alpha or a trading strategy, without robust held-out signal tests and trading-oriented validation.
 
 The project therefore sits between representation learning and alpha research: it does not directly deliver a production alpha strategy, but it can help generate useful signals that make alpha discovery more systematic.

@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-30
+**Last updated:** 2026-08-31
 
 ---
 
@@ -54,7 +54,7 @@
 **Internal baselines** (designed within this project)
 | Task | Status |
 |---|---|
-| Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs |
+| Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs. The volatility sweep predates the shared contract-aware label bundle and is characterization-only pending a strict rerun. |
 | Statistical-only ablation | ⬜ Not started |
 | Transformation-only ablation | ⬜ Not started |
 | VAE-only ablation | ⬜ Not started |
@@ -68,10 +68,11 @@
 |---|---|
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
 | Price prediction benchmark (MAE, RMSE) | ✅ MVP framework, Raw-OHLCV MLP, and LSTM results recorded on locked 4h test split; stricter shared-target LSTM alignment remains future work |
-| Volatility prediction benchmark (MSE, correlation) | 🔄 Raw-OHLCV MLP, Raw LSTM volatility, adapted GARCH--LSTM stack, and GINN limitation results recorded; framework comparison pending |
+| Volatility prediction benchmark (MSE, correlation) | 🔄 Raw LSTM volatility and adapted GARCH--LSTM stack are recorded on the shared label bundle; legacy Raw-OHLCV MLP and GINN results are characterization/limitation evidence. Framework run and strict MLP rerun pending. |
 | Trend classification benchmark (accuracy, macro-F1) | ✅ MVP framework result recorded on locked 4h test split; Raw-OHLCV MLP and TA-MLP context available, strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
+| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | ⏸ Deferred; outside the current budget, which is limited to individual task evaluation |
 | Result tables and visualisations | 🔄 Framework price/trend summaries and comparisons generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 ---
@@ -84,7 +85,9 @@ The current project state is **Phase C — iterative expansion after the first w
 
 Trend classification has also reached an MVP framework result. The TA-MLP-style tri-class BUY/HOLD/SELL label bundle is saved under `data/task_labels/trend_classification/triclass_4h_seq64_top50.npz`, with thresholds fit from training data only and final horizon rows dropped per split. The framework trend run under `experiments/framework/trend_classification/4h_triclass_stat_transform_vae_contrastive_concat/` reports accuracy/macro-F1 of `0.4730/0.3875` at 15 epochs, `0.4953/0.4164` at 50 epochs, and `0.5071/0.4232` at 100 epochs. The majority-HOLD reference on the same label bundle is `0.5046` accuracy and `0.2236` macro-F1. The existing TA-MLP sweep remains useful context (`0.71-0.73` accuracy, `0.45-0.47` macro-F1), but strict comparison requires reusing the saved framework label bundle and identical row alignment.
 
-The next priority is to finish the remaining MVP surface before deeper claims: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, run single-branch ablations, align any remaining external baselines to shared task targets where needed, and then produce final comparison tables. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
+The two volatility external benchmarks are complete and use the same realised-volatility label bundle and `27,450` locked test rows. Raw LSTM is retained as the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is retained as the complementary hybrid benchmark: five expanding out-of-fold folds train a fixed ElasticNet on causal guarded GARCH, Raw LSTM, and interaction features, while final test inference reuses the Raw LSTM predictions exactly. Across the fixed 15/50/100-epoch characterization sweep, the stack has lower MSE than Raw LSTM at every budget: `0.00793` vs `0.01180`, `0.00748` vs `0.00962`, and `0.00695` vs `0.01063`; its correlations are `0.806`, `0.810`, and `0.822` versus `0.690`, `0.677`, and `0.640`. Replay verification and diagnostic plots are complete under `src/baselines/garch_lstm_stacking/experiments/4h-seq64-top50-seed0/`. This supports the hybrid under the fixed protocol, not a claim that standalone GARCH is superior; the GARCH fallback rate was about `39.3%`, so the guarded complete stack is the object being compared.
+
+The next priority is to finish the individual-task evaluation surface: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, migrate the Raw-OHLCV MLP volatility baseline to the shared label bundle, run single-branch ablations, align any remaining external baselines to shared task targets where needed, and then produce final comparison tables. The additional alpha-research capability is deferred beyond this budget. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
 
 ### Recent VAE encoder progress
 
@@ -198,7 +201,7 @@ The goal of this phase is a single end-to-end run: train one neural encoder, tra
 - [ ] Write a unified cross-model `evaluate.py`/comparison harness for all framework and baseline artifacts
 
 **Baseline side** (run in parallel once data is ready)
-- [x] Train `RawOHLCVMLP` baseline (flattened OHLCV, no representation); 4h price, volatility, and trend artifacts exist under `src/baselines/mlp_baseline/experiments/`
+- [x] Train `RawOHLCVMLP` baseline (flattened OHLCV, no representation); 4h price, volatility, and trend artifacts exist under `src/baselines/mlp_baseline/experiments/`. The volatility artifact predates the shared bundle and requires a strict rerun.
 - [ ] Run statistical-only ablation (AR + GARCH features only, no aggregator)
 
 **Exit condition:** framework and at least two baselines produce numbers on the same test split. **Status:** achieved for the first price-prediction loop; trend MVP is also implemented, while strict external-baseline row alignment remains pending.

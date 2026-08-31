@@ -78,7 +78,7 @@ Frozen neural embeddings are stored as separate named feature arrays, not as one
 
 ## Stage 3 — Baseline and Benchmark Implementation
 
-All comparison models must be trained on the **same data splits and preprocessing** as the framework to ensure fair comparison. The exact set of models is provisional and will be finalised once the literature review is complete.
+All comparison models must be trained on the **same data splits and preprocessing** as the framework to ensure fair comparison. Strict task comparisons must also use the same target definition and aligned label rows. The exact set of models is provisional and will be finalised once the literature review is complete.
 
 Two categories of comparison models are used:
 
@@ -91,14 +91,14 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
-- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle so rows, thresholds, and class definitions are identical.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
 
-- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference.
+- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. Its existing volatility sweep predates the contract-aware realised-volatility bundle and is characterization evidence only; it must be migrated to the shared bundle before strict volatility comparison.
 
 - **Single-branch ablations** — run each active representation branch independently (no aggregation) through the same task heads. Will include at minimum:
   - Statistical-only (AR + GARCH features)
@@ -123,6 +123,10 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
   - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix. Accuracy is reported as a supporting metric because the HOLD class can dominate.
 
+- Reuse saved task-label bundles and their aligned rows whenever a task has one. In particular, Raw LSTM, GARCH--LSTM stacking, the future framework volatility run, and the Raw-OHLCV MLP volatility rerun must consume the same contract-aware realised-volatility bundle.
+
+- For volatility, retain both the Raw LSTM and the adapted GARCH--LSTM stack in the final table. Beating or approaching Raw LSTM indicates competitiveness with direct neural sequence prediction; beating or approaching the stack is stronger hybrid-comparator evidence. The stack comparison must be described as a complete-system comparison, not a standalone-GARCH result.
+
 - **Decoder-controlled comparison (optional, time permitting, all three tasks):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
 
   | Configuration | Encoder | Decoder | Trained |
@@ -136,6 +140,14 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 
 - **Ablation study** — compare the full aggregated framework against each single-branch baseline to quantify each branch's marginal contribution.
+
+- **Additional alpha-research downstream capability (deferred beyond the current task-evaluation budget)** — a future extension may test whether interpretable formulaic factors can be composed from downstream predictions rather than latent dimensions. The representation-learning framework remains the contribution; GP/symbolic regression is a small-scale established search tool, not a claimed algorithmic novelty.
+  - Primitive set \(\mathcal F_0\): predeclared downstream outputs available at decision time, initially predicted return/price movement, predicted realised volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). Multiple horizons are optional and must use split-safe targets.
+  - Before implementation, lock whether the directional primitive is future probability change or return, and make its horizon, eligible contract universe, and factor objective consistent. A price-level forecast is not a directly comparable cross-contract factor.
+  - Exclude raw embedding coordinates \(z_j\) as GP terminals because they have no guaranteed individual financial interpretation.
+  - Use a shallow, bounded grammar (protected arithmetic, ranks, delays, rolling statistics/time-series ranks) and predeclare depth/window/population/generation limits.
+  - Build training primitives with chronological OOF predictions from heads that did not train on the predicted rows. Search and select formulas only on those OOF training rows; retain a small non-redundant set by predeclared IC/stability criteria. If this future extension is funded, refit heads on full training data and evaluate factors once on a fresh holdout or temporally later data, not on the current task-evaluation test split.
+  - Report IC/rank-IC, temporal stability, quantile/spread monotonicity, and factor redundancy. A trading backtest is outside the core scope unless contract mechanics, fees, liquidity, and position constraints are explicitly modelled.
 
 - Summarise all results in tables and visualisations (embedding scatter plots, metric comparisons, gating weight distributions).
 

@@ -109,6 +109,41 @@ python scripts/train_framework.py \
   --batch-size 512 \
   --device cuda \
   --overwrite
+
+# Build the shared realised-volatility labels used by both volatility benchmarks
+.venv/bin/python3 scripts/prepare_volatility_labels.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --out-path data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz \
+  --timeframe 4h \
+  --seq-len 64 \
+  --top-k 50 \
+  --overwrite
+
+# Train the direct Raw LSTM volatility benchmark (15/50/100 epoch snapshots)
+PYTHONPATH=src .venv/bin/python3 src/baselines/raw_lstm_volatility/run_experiment.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --labels-npz data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz \
+  --run-name 4h-seq64-top50-seed0 \
+  --epoch-budgets 15,50,100 \
+  --seed 0 \
+  --batch-size 512 \
+  --learning-rate 1e-4 \
+  --device cuda
+
+# Run the adapted GARCH--LSTM hybrid using the completed Raw LSTM artifacts
+PYTHONPATH=src .venv/bin/python3 src/baselines/garch_lstm_stacking/run_experiment.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --labels-npz data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz \
+  --raw-lstm-run src/baselines/raw_lstm_volatility/experiments/4h-seq64-top50-seed0 \
+  --run-name 4h-seq64-top50-seed0 \
+  --epoch-budgets 15,50,100 \
+  --crossfit-folds 5 \
+  --seed 0 \
+  --batch-size 512 \
+  --learning-rate 1e-4 \
+  --elasticnet-alpha 1e-4 \
+  --elasticnet-l1-ratio 0.5 \
+  --device cuda
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
@@ -200,7 +235,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
-| `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + label builders. Shared by the framework and all internal baselines. |
+| `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + task-label builders. `volatility_labels.py` is the contract-aware shared volatility label contract for strict comparisons. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |
@@ -211,4 +246,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae` or `contrastive`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
+- Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, future framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`
