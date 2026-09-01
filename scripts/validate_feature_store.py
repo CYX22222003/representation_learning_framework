@@ -22,6 +22,7 @@ DEFAULT_EXPECTED_DIMS = {
     "transformed": 55,
     "vae": 64,
     "contrastive": 128,
+    "byol": 128,
 }
 
 
