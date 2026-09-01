@@ -1,0 +1,93 @@
+{
+  "task": "price_prediction",
+  "framework_root": "experiments/framework/price_prediction/4h_phase1_all5_concat",
+  "mlp_root": "src/baselines/mlp_baseline/experiments/2026-08-04-price-sweep-15-50-100",
+  "lstm_root": "src/baselines/lstm_baseline/experiments",
+  "comparison_contract": {
+    "mlp": "Strict: same processed npz, price index/horizon, seed 0, epoch budgets, and 27,499 test rows.",
+    "lstm": "Context only: close-only external LSTM reports 27,500 test rows and has a documented one-row target alignment difference."
+  },
+  "rows": [
+    {
+      "epoch": 15,
+      "framework": {
+        "mae": 0.05122736841440201,
+        "rmse": 0.09083054214715958,
+        "mse": 0.008250187151134014,
+        "corr": 0.9793792366981506,
+        "test_sample_count": 27499
+      },
+      "mlp": {
+        "mae": 0.0834239199757576,
+        "rmse": 0.10671230405569077,
+        "mse": 0.011387515813112259,
+        "corr": 0.995232880115509,
+        "test_sample_count": 27499
+      },
+      "lstm_context": {
+        "epoch": 15,
+        "mae": 0.0089,
+        "rmse": 0.0166
+      },
+      "strict_mlp_relative_error_change": {
+        "mae": 0.38593908762273077,
+        "rmse": 0.14882784182265293,
+        "mse": 0.27550597632239854
+      }
+    },
+    {
+      "epoch": 50,
+      "framework": {
+        "mae": 0.06507720053195953,
+        "rmse": 0.09925910830497742,
+        "mse": 0.009852370247244835,
+        "corr": 0.9786238670349121,
+        "test_sample_count": 27499
+      },
+      "mlp": {
+        "mae": 0.060006216168403625,
+        "rmse": 0.08046863228082657,
+        "mse": 0.00647520087659359,
+        "corr": 0.9942364692687988,
+        "test_sample_count": 27499
+      },
+      "lstm_context": {
+        "epoch": 50,
+        "mae": 0.0116,
+        "rmse": 0.0185
+      },
+      "strict_mlp_relative_error_change": {
+        "mae": -0.08450765082944929,
+        "rmse": -0.2335130533668595,
+        "mse": -0.5215543787774926
+      }
+    },
+    {
+      "epoch": 100,
+      "framework": {
+        "mae": 0.06784334033727646,
+        "rmse": 0.1008787751197815,
+        "mse": 0.010176527313888073,
+        "corr": 0.9784035682678223,
+        "test_sample_count": 27499
+      },
+      "mlp": {
+        "mae": 0.045375071465969086,
+        "rmse": 0.06834638863801956,
+        "mse": 0.004671228583902121,
+        "corr": 0.992658257484436,
+        "test_sample_count": 27499
+      },
+      "lstm_context": {
+        "epoch": 100,
+        "mae": 0.0093,
+        "rmse": 0.0167
+      },
+      "strict_mlp_relative_error_change": {
+        "mae": -0.49516768008086515,
+        "rmse": -0.4759927646515751,
+        "mse": -1.1785547701429524
+      }
+    }
+  ]
+}
