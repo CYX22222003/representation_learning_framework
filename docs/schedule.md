@@ -72,7 +72,7 @@
 | Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
-| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | ⏸ Deferred; outside the current budget, which is limited to individual task evaluation |
+| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Skeleton implemented under `src/alpha/`; factor mining/evaluation remains deferred and unrun |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 ---
@@ -89,7 +89,7 @@ Trend classification has both four-branch and five-branch framework results on t
 
 The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
 
-The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. The next priority is to migrate the Raw-OHLCV MLP volatility baseline to the shared bundle and predeclare a nonnegative framework volatility decoder, followed by single-branch ablations, remaining external-baseline alignment, and multi-seed confirmation. The additional alpha-research capability is deferred beyond this budget. Current results support the implementation claim that frozen multi-branch features contain useful downstream information; they do not support universal superiority over task-specific baselines.
+The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. The next priority is to migrate the Raw-OHLCV MLP volatility baseline to the shared bundle and predeclare a nonnegative framework volatility decoder, followed by single-branch ablations, remaining external-baseline alignment, and multi-seed confirmation. Alpha factor mining remains outside this budget; only leakage-aware source skeletons are implemented. Current results support the implementation claim that frozen multi-branch features contain useful downstream information; they do not support universal superiority over task-specific baselines.
 
 ### Recent VAE encoder progress
 
