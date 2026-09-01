@@ -16,24 +16,21 @@ python scripts/prepare_features.py \
   --processed-npz data/processed/market_4h_seq64_top50.npz \
   --out-path data/features/features_4h_seq64_top50.npz
 
-# Step 2b — build the framework MVP feature bundle with frozen SSL branches
-python scripts/prepare_framework_features.py \
+# Step 2b — build the five-branch Phase-1 Product feature bundle with frozen SSL branches
+.venv/bin/python3 scripts/prepare_framework_features.py \
   --processed-npz data/processed/market_4h_seq64_top50.npz \
-  --out-path data/features/features_4h_seq64_top50.npz \
+  --out-path data/features/features_4h_seq64_top50_phase1.npz \
   --vae-checkpoint checkpoints/vae_4h_seq64_top50.pth \
   --contrastive-checkpoint checkpoints/contrastive_4h_seq64_top50.pth \
+  --byol-checkpoint checkpoints/byol_4h_seq64_top50.pth \
   --device cuda \
   --batch-size 1024 \
   --overwrite
 
 # Validate feature dimensions, split metadata, and finite values
-python scripts/validate_feature_store.py \
-  --features-npz data/features/features_4h_seq64_top50.npz \
-  --processed-npz data/processed/market_4h_seq64_top50.npz \
-  --expected-dim statistical=70 \
-  --expected-dim transformed=55 \
-  --expected-dim vae=64 \
-  --expected-dim contrastive=128
+.venv/bin/python3 scripts/validate_feature_store.py \
+  --features-npz data/features/features_4h_seq64_top50_phase1.npz \
+  --processed-npz data/processed/market_4h_seq64_top50.npz
 
 # Or run both steps together across all timeframes
 python scripts/prepare_data_pipeline.py --timeframes 1h,4h,1d --seq-len 64 --top-k 50
@@ -110,6 +107,12 @@ python scripts/train_framework.py \
   --device cuda \
   --overwrite
 
+# Execute the predeclared five-branch Phase-1 Product matrix and generate reports/plots
+.venv/bin/python3 scripts/run_phase1_product.py \
+  --stages features,train,plot \
+  --run-name 4h_phase1_all5_concat \
+  --device cuda
+
 # Build the shared realised-volatility labels used by both volatility benchmarks
 .venv/bin/python3 scripts/prepare_volatility_labels.py \
   --processed-npz data/processed/market_4h_seq64_top50.npz \
@@ -144,6 +147,10 @@ PYTHONPATH=src .venv/bin/python3 src/baselines/garch_lstm_stacking/run_experimen
   --elasticnet-alpha 1e-4 \
   --elasticnet-l1-ratio 0.5 \
   --device cuda
+
+# Compare the completed Phase-1 volatility run against strict shared-label baselines
+.venv/bin/python3 scripts/compare_volatility_phase1.py \
+  --framework-root experiments/framework/volatility_prediction/4h_phase1_all5_concat
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
@@ -236,6 +243,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
 | `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + task-label builders. `volatility_labels.py` is the contract-aware shared volatility label contract for strict comparisons. |
+| `src/alpha/` | Deferred alpha-research skeleton: downstream prediction primitives, chronological OOF utilities, shallow protected formulas, and training-only factor diagnostics/selection. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |
@@ -244,7 +252,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
-- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae` or `contrastive`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
+- Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
-- Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, future framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
+- Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`
