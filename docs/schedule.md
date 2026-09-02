@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-01
 
 ---
 
@@ -32,12 +32,12 @@
 | Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | BYOL encoder (CNN online/target encoder, EMA target update) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | **Aggregation and downstream tasks** | |
-| `RepresentationAggregator` (N-branch gated fusion, dict API) | ✅ Implemented; concat mode used in price and trend MVP framework runs |
-| `PriceRegressor` task head (MAE/RMSE) | ✅ Implemented and evaluated in 4h framework MVP |
-| `VolatilityRegressor` task head (MSE, correlation) | 🔄 Implemented, framework task run pending |
-| `TrendClassifier` task head (accuracy, macro-F1) | ✅ Implemented and evaluated in 4h tri-class framework MVP |
+| `RepresentationAggregator` (N-branch gated fusion, dict API) | ✅ Implemented; concat mode evaluated in five-branch Phase-1 price, trend, and volatility runs |
+| `PriceRegressor` task head (MAE/RMSE) | ✅ Evaluated in the four-branch MVP and the five-branch Phase-1 price sweep |
+| `VolatilityRegressor` task head (MSE, correlation) | ✅ Evaluated in the five-branch Phase-1 shared-label volatility sweep; unconstrained negative outputs documented for follow-up |
+| `TrendClassifier` task head (accuracy, macro-F1) | ✅ Evaluated in four-branch MVP and five-branch Phase-1 tri-class sweeps |
 | Branch-aware `FeatureBundle` + `NpzFeatureStore` (save/load pipeline) | ✅ Done; legacy packed `neural` stores remain loadable |
-| End-to-end training script | ✅ `scripts/train_framework.py` supports price prediction and trend classification; volatility run pending |
+| End-to-end training script | ✅ `scripts/train_framework.py` supports price, trend, and contract-safe volatility prediction; five-branch Phase-1 execution complete for all three tasks |
 
 ### Stage 3 — Benchmark and Baseline Implementation and Training
 
@@ -67,27 +67,29 @@
 | Task | Status |
 |---|---|
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
-| Price prediction benchmark (MAE, RMSE) | ✅ MVP framework, Raw-OHLCV MLP, and LSTM results recorded on locked 4h test split; stricter shared-target LSTM alignment remains future work |
-| Volatility prediction benchmark (MSE, correlation) | 🔄 Raw LSTM volatility and adapted GARCH--LSTM stack are recorded on the shared label bundle; legacy Raw-OHLCV MLP and GINN results are characterization/limitation evidence. Framework run and strict MLP rerun pending. |
-| Trend classification benchmark (accuracy, macro-F1) | ✅ MVP framework result recorded on locked 4h test split; Raw-OHLCV MLP and TA-MLP context available, strict TA-MLP label-bundle alignment pending |
+| Price prediction benchmark (MAE, RMSE) | ✅ Four-branch MVP and five-branch Phase-1 framework sweeps recorded; strict Raw-OHLCV MLP comparison and contextual LSTM comparison saved. Shared-target LSTM alignment remains future work. |
+| Volatility prediction benchmark (MSE, correlation) | 🔄 Five-branch Phase-1, Raw LSTM, and adapted GARCH--LSTM stack are strictly compared on identical shared-label rows; legacy Raw-OHLCV MLP and GINN remain characterization/limitation evidence, and the strict MLP rerun is pending. |
+| Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
-| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | ⏸ Deferred; outside the current budget, which is limited to individual task evaluation |
-| Result tables and visualisations | 🔄 Framework price/trend summaries and comparisons generated; final cross-model tables, branch ablations, and embedding visualisations pending |
+| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Skeleton implemented under `src/alpha/`; factor mining/evaluation remains deferred and unrun |
+| Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 ---
 
 ## 2. Summary
 
-The data pipeline and all three processed timeframes are complete. The 4h framework feature bundle has been regenerated and validated at the current dimensions: `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows recorded in the companion index/manifest. The VAE, contrastive, and BYOL encoders have completed fixed-budget 4h CUDA pretraining sweeps and provide the canonical checkpoints `checkpoints/vae_4h_seq64_top50.pth`, `checkpoints/contrastive_4h_seq64_top50.pth`, and `checkpoints/byol_4h_seq64_top50.pth`. BYOL downstream feature extraction remains pending, so the current feature store does not yet contain the `byol` branch.
+The data pipeline and all three processed timeframes are complete. The existing 4h MVP feature bundle is validated at `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows. The VAE, contrastive, and BYOL encoders have completed fixed-budget 4h CUDA pretraining sweeps and provide canonical checkpoints. The validated Phase-1 store adds the 128-dimensional BYOL branch for a 445-dimensional concat representation and has now been evaluated on price prediction, trend classification, and shared-label volatility prediction.
 
 The current project state is **Phase C — iterative expansion after the first working framework loop**. Phase B is achieved for price prediction: the framework now trains `RepresentationAggregator(mode="concat") + PriceRegressor` on frozen statistical, transformed, VAE, and contrastive features and evaluates on the locked 4h test split. The price framework run under `experiments/framework/price_prediction/4h_stat_transform_vae_contrastive_concat/` reports MAE/RMSE of `0.0575/0.0955` at 15 epochs, `0.0695/0.1046` at 50 epochs, and `0.0720/0.1059` at 100 epochs. These are directly comparable to the Raw-OHLCV MLP sweep on the same processed split (`0.0834/0.1067`, `0.0600/0.0805`, `0.0454/0.0683` at 15/50/100 epochs). The LSTM benchmark uses the held-out test side, but it rebuilds close-only windows from raw feather inputs and currently has a one-row target alignment difference, so it should be treated as external context until re-wired to the exact shared target builder.
 
-Trend classification has also reached an MVP framework result. The TA-MLP-style tri-class BUY/HOLD/SELL label bundle is saved under `data/task_labels/trend_classification/triclass_4h_seq64_top50.npz`, with thresholds fit from training data only and final horizon rows dropped per split. The framework trend run under `experiments/framework/trend_classification/4h_triclass_stat_transform_vae_contrastive_concat/` reports accuracy/macro-F1 of `0.4730/0.3875` at 15 epochs, `0.4953/0.4164` at 50 epochs, and `0.5071/0.4232` at 100 epochs. The majority-HOLD reference on the same label bundle is `0.5046` accuracy and `0.2236` macro-F1. The existing TA-MLP sweep remains useful context (`0.71-0.73` accuracy, `0.45-0.47` macro-F1), but strict comparison requires reusing the saved framework label bundle and identical row alignment.
+The five-branch Phase-1 price sweep is complete under `experiments/framework/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance.
 
-The two volatility external benchmarks are complete and use the same realised-volatility label bundle and `27,450` locked test rows. Raw LSTM is retained as the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is retained as the complementary hybrid benchmark: five expanding out-of-fold folds train a fixed ElasticNet on causal guarded GARCH, Raw LSTM, and interaction features, while final test inference reuses the Raw LSTM predictions exactly. Across the fixed 15/50/100-epoch characterization sweep, the stack has lower MSE than Raw LSTM at every budget: `0.00793` vs `0.01180`, `0.00748` vs `0.00962`, and `0.00695` vs `0.01063`; its correlations are `0.806`, `0.810`, and `0.822` versus `0.690`, `0.677`, and `0.640`. Replay verification and diagnostic plots are complete under `src/baselines/garch_lstm_stacking/experiments/4h-seq64-top50-seed0/`. This supports the hybrid under the fixed protocol, not a claim that standalone GARCH is superior; the GARCH fallback rate was about `39.3%`, so the guarded complete stack is the object being compared.
+Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run under `experiments/framework/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. The existing TA-MLP sweep remains contextual until it consumes the identical saved rows.
 
-The next priority is to finish the individual-task evaluation surface: extract the frozen BYOL embeddings into the branch-aware feature store, add the volatility framework task run, migrate the Raw-OHLCV MLP volatility baseline to the shared label bundle, run single-branch ablations, align any remaining external baselines to shared task targets where needed, and then produce final comparison tables. The additional alpha-research capability is deferred beyond this budget. Current results support the implementation claim that the frozen multi-branch features contain useful downstream information; they do not yet support a superiority claim over task-specific baselines without ablations, stricter baseline alignment, and multi-seed confirmation.
+The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
+
+The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. The next priority is to migrate the Raw-OHLCV MLP volatility baseline to the shared bundle and predeclare a nonnegative framework volatility decoder, followed by single-branch ablations, remaining external-baseline alignment, and multi-seed confirmation. Alpha factor mining remains outside this budget; only leakage-aware source skeletons are implemented. Current results support the implementation claim that frozen multi-branch features contain useful downstream information; they do not support universal superiority over task-specific baselines.
 
 ### Recent VAE encoder progress
 
@@ -197,7 +199,7 @@ The goal of this phase is a single end-to-end run: train one neural encoder, tra
 **Framework side**
 - [x] Pretrain one neural encoder on train data: contrastive 4h sweep complete with checkpoint/report artifacts
 - [x] Train/report VAE encoder on train data: 4h sweep complete with checkpoint/report artifacts
-- [x] Write `train_framework.py`: frozen encoder feature bundle → aggregator + task head; price and trend task runs complete
+- [x] Write `train_framework.py`: frozen encoder feature bundle → aggregator + task head; Phase-1 price, trend, and volatility task runs complete
 - [ ] Write a unified cross-model `evaluate.py`/comparison harness for all framework and baseline artifacts
 
 **Baseline side** (run in parallel once data is ready)
@@ -234,13 +236,13 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Expand tasks**
 - [x] Extend framework training and evaluation to trend classification
-- [ ] Extend framework training and evaluation to volatility prediction
+- [x] Execute and compare the Phase-1 framework volatility experiment on the shared label bundle
 - [ ] Transferability experiment: embed with model trained on one timeframe, evaluate on another
 - [ ] *(time permitting)* Decoder-controlled comparison for price prediction: three configurations (benchmark end-to-end / framework + MLP head / framework + benchmark-mirrored head) on the same test split; extend to other tasks if time allows
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** price and trend framework MVP runs exist, but volatility is still missing, BYOL has not yet been extracted into the full feature store, external baseline alignment needs tightening, and branch ablations/multi-seed confirmation have not been run.
+**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete; strict Raw-OHLCV MLP volatility migration, remaining external-baseline alignment, branch ablations, nonnegative volatility-decoder confirmation, and multi-seed runs remain.
 
 ---
 

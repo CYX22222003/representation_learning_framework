@@ -1,0 +1,210 @@
+{
+  "task": "volatility_prediction",
+  "framework_root": "experiments/framework/volatility_prediction/4h_phase1_all5_concat",
+  "raw_lstm_root": "src/baselines/raw_lstm_volatility/experiments/4h-seq64-top50-seed0",
+  "garch_lstm_stack_root": "src/baselines/garch_lstm_stacking/experiments/4h-seq64-top50-seed0",
+  "legacy_raw_ohlcv_mlp_root": "src/baselines/mlp_baseline/experiments/2026-08-04-volatility-sweep-15-50-100",
+  "comparison_contract": {
+    "strict_dataset_id": "ad6c2c56db78ad396697f1d09b8d7f7bf2598751be2dbf530def1b705d9851e8",
+    "strict_models": "Phase-1 framework, Raw LSTM, and GARCH-LSTM stack use identical saved targets and 27,450 test rows.",
+    "legacy_mlp": "Context only: the stored Raw-OHLCV MLP uses a legacy target builder and 27,499 test rows.",
+    "selection_rule": "All 15/50/100 budgets are reported; no checkpoint is selected from locked-test metrics."
+  },
+  "rows": [
+    {
+      "epoch": 15,
+      "framework": {
+        "mae": 0.040595218539237976,
+        "rmse": 0.08907584100961685,
+        "mse": 0.007934506051242352,
+        "corr": 0.7674192786216736
+      },
+      "raw_lstm": {
+        "mae": 0.05150614306330681,
+        "rmse": 0.10862484574317932,
+        "mse": 0.011799357831478119,
+        "corr": 0.6898544430732727
+      },
+      "garch_lstm_stack": {
+        "mae": 0.03295574709773064,
+        "rmse": 0.08902578800916672,
+        "mse": 0.007925590500235558,
+        "corr": 0.8058654069900513
+      },
+      "framework_prediction_stats": {
+        "mean": 0.06612758338451385,
+        "std": 0.07975556701421738,
+        "min": -0.10582862049341202,
+        "median": 0.031917035579681396,
+        "max": 0.5781495571136475,
+        "negative_fraction": 0.08422586520947177,
+        "nonfinite_count": 0
+      },
+      "framework_nonnegative_diagnostic": {
+        "mae": 0.04027291387319565,
+        "rmse": 0.08904428780078888,
+        "mse": 0.007928884588181973,
+        "corr": 0.7678681328823801
+      },
+      "target_stats": {
+        "mean": 0.08048432320356369,
+        "std": 0.13271543383598328,
+        "min": 0.0,
+        "median": 0.01303854025900364,
+        "max": 0.8852548599243164,
+        "negative_fraction": 0.0,
+        "nonfinite_count": 0
+      },
+      "strict_relative_error_change_vs_raw_lstm": {
+        "mae": 0.2118373435700298,
+        "rmse": 0.1799680782035999,
+        "mse": 0.3275476373743988
+      },
+      "strict_relative_error_change_vs_garch_lstm_stack": {
+        "mae": -0.23180999110268694,
+        "rmse": -0.0005622303556019124,
+        "mse": -0.0011249068453043336
+      },
+      "strict_correlation_difference_vs_raw_lstm": 0.07756483554840088,
+      "strict_correlation_difference_vs_garch_lstm_stack": -0.038446128368377686,
+      "targets_exactly_equal": true,
+      "test_sample_count": 27450,
+      "legacy_raw_ohlcv_mlp_context": {
+        "mae": 0.04036000743508339,
+        "rmse": 0.09305012226104736,
+        "mse": 0.008658325299620628,
+        "corr": 0.7279306650161743
+      }
+    },
+    {
+      "epoch": 50,
+      "framework": {
+        "mae": 0.03681623935699463,
+        "rmse": 0.08655338734388351,
+        "mse": 0.007491488475352526,
+        "corr": 0.769867479801178
+      },
+      "raw_lstm": {
+        "mae": 0.04794811084866524,
+        "rmse": 0.09810668230056763,
+        "mse": 0.009624921716749668,
+        "corr": 0.6769673824310303
+      },
+      "garch_lstm_stack": {
+        "mae": 0.03267313167452812,
+        "rmse": 0.08650568127632141,
+        "mse": 0.007483233232051134,
+        "corr": 0.8100172877311707
+      },
+      "framework_prediction_stats": {
+        "mean": 0.06954655796289444,
+        "std": 0.08810719102621078,
+        "min": -0.09206702560186386,
+        "median": 0.027609720826148987,
+        "max": 0.5988330841064453,
+        "negative_fraction": 0.05799635701275046,
+        "nonfinite_count": 0
+      },
+      "framework_nonnegative_diagnostic": {
+        "mae": 0.03657098487019539,
+        "rmse": 0.08647900074720383,
+        "mse": 0.00747861759737134,
+        "corr": 0.7704530744531325
+      },
+      "target_stats": {
+        "mean": 0.08048432320356369,
+        "std": 0.13271543383598328,
+        "min": 0.0,
+        "median": 0.01303854025900364,
+        "max": 0.8852548599243164,
+        "negative_fraction": 0.0,
+        "nonfinite_count": 0
+      },
+      "strict_relative_error_change_vs_raw_lstm": {
+        "mae": 0.23216496530604175,
+        "rmse": 0.11776256913151437,
+        "mse": 0.22165720451361778
+      },
+      "strict_relative_error_change_vs_garch_lstm_stack": {
+        "mae": -0.126804731292301,
+        "rmse": -0.0005514790110688547,
+        "mse": -0.0011031653090851027
+      },
+      "strict_correlation_difference_vs_raw_lstm": 0.0929000973701477,
+      "strict_correlation_difference_vs_garch_lstm_stack": -0.040149807929992676,
+      "targets_exactly_equal": true,
+      "test_sample_count": 27450,
+      "legacy_raw_ohlcv_mlp_context": {
+        "mae": 0.04258148744702339,
+        "rmse": 0.0947502925992012,
+        "mse": 0.00897761806845665,
+        "corr": 0.7056300640106201
+      }
+    },
+    {
+      "epoch": 100,
+      "framework": {
+        "mae": 0.03593403473496437,
+        "rmse": 0.08768369257450104,
+        "mse": 0.007688430137932301,
+        "corr": 0.7636303901672363
+      },
+      "raw_lstm": {
+        "mae": 0.04704263433814049,
+        "rmse": 0.10310506075620651,
+        "mse": 0.0106306541711092,
+        "corr": 0.6399757266044617
+      },
+      "garch_lstm_stack": {
+        "mae": 0.030415993183851242,
+        "rmse": 0.0833720862865448,
+        "mse": 0.006950904615223408,
+        "corr": 0.8218969106674194
+      },
+      "framework_prediction_stats": {
+        "mean": 0.06740802526473999,
+        "std": 0.08811833709478378,
+        "min": -0.14903505146503448,
+        "median": 0.02553246170282364,
+        "max": 0.5768862962722778,
+        "negative_fraction": 0.06998178506375227,
+        "nonfinite_count": 0
+      },
+      "framework_nonnegative_diagnostic": {
+        "mae": 0.03561130911111832,
+        "rmse": 0.0875941812992096,
+        "mse": 0.007672740146517754,
+        "corr": 0.7642803765273033
+      },
+      "target_stats": {
+        "mean": 0.08048432320356369,
+        "std": 0.13271543383598328,
+        "min": 0.0,
+        "median": 0.01303854025900364,
+        "max": 0.8852548599243164,
+        "negative_fraction": 0.0,
+        "nonfinite_count": 0
+      },
+      "strict_relative_error_change_vs_raw_lstm": {
+        "mae": 0.23613897817303273,
+        "rmse": 0.1495694592350761,
+        "mse": 0.27676791905929415
+      },
+      "strict_relative_error_change_vs_garch_lstm_stack": {
+        "mae": -0.18141908165743612,
+        "rmse": -0.05171522604265304,
+        "mse": -0.10610496957383268
+      },
+      "strict_correlation_difference_vs_raw_lstm": 0.12365466356277466,
+      "strict_correlation_difference_vs_garch_lstm_stack": -0.058266520500183105,
+      "targets_exactly_equal": true,
+      "test_sample_count": 27450,
+      "legacy_raw_ohlcv_mlp_context": {
+        "mae": 0.047046974301338196,
+        "rmse": 0.10011392831802368,
+        "mse": 0.010022798553109169,
+        "corr": 0.6602399349212646
+      }
+    }
+  ]
+}

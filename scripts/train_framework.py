@@ -29,6 +29,8 @@ from evaluation.metrics import mse_and_corr, multiclass_classification_metrics, 
 from features.feature_store import NpzFeatureStore
 from tasks.price_prediction import PriceRegressor, build_price_prediction_targets
 from tasks.trend_classification import TrendClassifier
+from tasks.volatility_labels import load_volatility_label_bundle, validate_volatility_label_bundle
+from tasks.volatility_prediction import VolatilityRegressor
 
 
 @dataclass(frozen=True)
@@ -51,10 +53,10 @@ class FrameworkConfig:
     device: str = "auto"
 
     def __post_init__(self) -> None:
-        if self.task not in {"price_prediction", "trend_classification"}:
-            raise ValueError("task must be one of: price_prediction, trend_classification")
-        if self.task == "trend_classification" and not self.labels_npz:
-            raise ValueError("trend_classification requires --labels-npz")
+        if self.task not in {"price_prediction", "trend_classification", "volatility_prediction"}:
+            raise ValueError("task must be one of: price_prediction, trend_classification, volatility_prediction")
+        if self.task in {"trend_classification", "volatility_prediction"} and not self.labels_npz:
+            raise ValueError(f"{self.task} requires --labels-npz")
         if self.mode not in {"concat", "gated"}:
             raise ValueError("mode must be 'concat' or 'gated'")
         if self.out_dim <= 0:
@@ -141,6 +143,8 @@ class FrameworkTaskModel(nn.Module):
                 hidden_dim=head_hidden_dim,
                 n_classes=n_classes,
             )
+        elif task == "volatility_prediction":
+            self.head = VolatilityRegressor(self.aggregator.output_dim, head_hidden_dim)
         else:
             raise ValueError(f"Unsupported task: {task}")
 
@@ -266,6 +270,8 @@ def target_kind(task: str) -> str:
         return "regression"
     if task == "trend_classification":
         return "multiclass"
+    if task == "volatility_prediction":
+        return "regression"
     raise ValueError(f"Unsupported task: {task}")
 
 
@@ -361,6 +367,35 @@ def build_trend_data(
     )
 
 
+def build_volatility_data(
+    train_branches: Mapping[str, np.ndarray],
+    test_branches: Mapping[str, np.ndarray],
+    feature_index: Mapping[str, int],
+    config: FrameworkConfig,
+) -> tuple[dict[str, np.ndarray], np.ndarray, dict[str, np.ndarray], np.ndarray, dict[str, object]]:
+    """Select only contract-safe rows from the saved realised-volatility bundle."""
+    if not config.labels_npz:
+        raise ValueError("volatility_prediction requires a label bundle")
+    bundle, label_manifest = load_volatility_label_bundle(config.labels_npz)
+    validate_volatility_label_bundle(
+        bundle,
+        train_size=feature_index["train_size"],
+        test_size=feature_index["test_size"],
+        metadata=label_manifest,
+    )
+    train_indices = np.asarray(bundle["train_row_indices"], dtype=np.int64)
+    test_indices = np.asarray(bundle["test_row_indices"], dtype=np.int64)
+    y_train = np.asarray(bundle["train_labels"], dtype=np.float32)
+    y_test = np.asarray(bundle["test_labels"], dtype=np.float32)
+    return (
+        select_branch_rows(train_branches, train_indices),
+        y_train,
+        select_branch_rows(test_branches, test_indices),
+        y_test,
+        dict(label_manifest),
+    )
+
+
 def make_loader(
     branches: Mapping[str, np.ndarray],
     targets: np.ndarray,
@@ -388,7 +423,7 @@ def make_model(branch_dims: Mapping[str, int], config: FrameworkConfig) -> Frame
 
 
 def make_criterion(config: FrameworkConfig) -> nn.Module:
-    if config.task == "price_prediction":
+    if config.task in {"price_prediction", "volatility_prediction"}:
         return nn.MSELoss()
     if config.task == "trend_classification":
         return nn.CrossEntropyLoss()
@@ -696,6 +731,13 @@ def run_experiment(
             feature_index=feature_index,
             config=config,
         )
+    elif config.task == "volatility_prediction":
+        train_branches, y_train, test_branches, y_test, label_manifest = build_volatility_data(
+            train_branches=train_raw,
+            test_branches=test_raw,
+            feature_index=feature_index,
+            config=config,
+        )
     else:
         raise ValueError(f"Unsupported task: {config.task}")
     branch_dims = {name: values.shape[1] for name, values in train_branches.items()}
@@ -781,13 +823,13 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--run-root", default=None)
     parser.add_argument(
         "--task",
-        choices=("price_prediction", "trend_classification"),
+        choices=("price_prediction", "trend_classification", "volatility_prediction"),
         default="price_prediction",
     )
     parser.add_argument(
         "--labels-npz",
         default=None,
-        help="Required for trend_classification; prepared by scripts/prepare_trend_labels.py.",
+        help="Required for trend/volatility; use the saved split-safe task label bundle.",
     )
     parser.add_argument("--mode", choices=("concat", "gated"), default="concat")
     parser.add_argument("--out-dim", type=int, default=128)

@@ -1,0 +1,16 @@
+# Framework trend classification epoch 50
+
+Frozen feature branches are probed with the framework aggregator and a simple MLP head.
+
+- processed dataset: `data/processed/market_4h_seq64_top50.npz`
+- feature store: `data/features/features_4h_seq64_top50_phase1.npz`
+- seed: `0`
+- mode: `concat`
+- train samples: `109741`
+- test samples: `27400`
+- final train loss: `0.3852572441`
+- accuracy: `0.4760949016`
+- macro-F1: `0.3941684503`
+- weighted-F1: `0.4594598454`
+
+Artifacts: `checkpoint.pth`, `history.npz`, `predictions.npz`, `confusion_matrix.npz`, `metrics.json`.
