@@ -59,6 +59,9 @@ This project deliberately uses **train and test partitions only**. There is no v
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
+| Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
+| Direct-representation GP exploration | saved Phase-1 feature rows aligned back to original train-only contract timestamps; a fixed coordinate lattice is standardized on discovery only, then GP fit/selection occurs only on discovery | chronological confirmation only; no global-test use and no interpretation as a tradeable or economically named factor |
+| Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
 | Future additional symbolic alpha mining (outside current budget) | chronological OOF predictions from downstream heads on aligned training rows; GP fits/selects formulas only on those rows | requires a fresh, still-unseen holdout or temporally later data once the current test split has been used for task evaluation |
 
 All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
@@ -168,6 +171,17 @@ The sequence below must be followed to avoid leakage.
         │
         ▼
 9. Future additional alpha-research capability (not part of the current budget):
+   - The raw-OHLCV dry run may screen a predeclared, small formula set inside
+     the train portion only (60% discovery / 20% confirmation per contract).
+     It must slice away global test rows before rolling-factor construction and
+     cannot be reported as final alpha evaluation or trading performance.
+   - The raw-OHLCV GP dry run obeys the same split: all evolutionary fitness,
+     formula direction, and non-redundancy selection are discovery-only, with
+     confirmation used solely for frozen-tree diagnostics.
+   - Direct representation-coordinate GP is an exploratory exception to the
+     economic-terminal preference. It must predeclare its coordinate set, fit
+     scaling and selection only on discovery, and report negative as well as
+     positive confirmation results without calling coordinates alpha factors.
    - Generate chronological OOF training predictions from each selected head.
      A head must not train on the row it predicts or any later row.
    - Fit symbolic GP only on these OOF, decision-time primitive predictions
@@ -212,4 +226,4 @@ Both modes are trained on the same data splits and evaluated identically, making
 6. **All strict comparisons use identical train/test partitions and label rows** — same `.npz` files, same split indices, and the same saved task label bundle where one exists. Legacy artifacts that predate a bundle are characterization evidence, not strict comparison evidence.
 7. **Test evaluation follows a predeclared matrix.** Evaluate each fixed model, task, seed, and epoch budget once; report the complete matrix. Do not add configurations, select a best-on-test run, or otherwise change the protocol after reading test metrics.
 8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
-9. **Alpha-factor search is future, training-only model selection.** It is outside the current task-evaluation budget. When undertaken, GP terminals must be economically meaningful downstream predictions, not arbitrary latent coordinates; use chronological OOF predictions for formula search and a fresh holdout or later data for its final evaluation.
+9. **Alpha-factor research is training-only model selection.** Raw-OHLCV screens and bounded GP may use a chronological discovery/confirmation split inside the original train portion, while the framework-facing symbolic search must use OOF economically meaningful downstream predictions rather than arbitrary latent coordinates. All require a fresh holdout or later data for final evaluation.
