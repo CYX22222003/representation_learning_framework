@@ -1,0 +1,70 @@
+{
+  "protocol": "raw_ohlcv_gp_discovery_confirmation_v1",
+  "global_test_used": false,
+  "gp_config": {
+    "population_size": 24,
+    "generations": 3,
+    "max_depth": 3,
+    "tournament_size": 4,
+    "elite_count": 4,
+    "crossover_rate": 0.65,
+    "mutation_rate": 0.25,
+    "seed": 7
+  },
+  "terminals": [
+    "reversal_1",
+    "intraday_reversal",
+    "open_volume_corr_10",
+    "vwap_high_corr_10",
+    "volume_weighted_momentum_3"
+  ],
+  "history": [
+    {
+      "generation": 0,
+      "best_formula": "neg(reversal_1)",
+      "best_fitness": 0.20522669023683776
+    },
+    {
+      "generation": 1,
+      "best_formula": "neg(reversal_1)",
+      "best_fitness": 0.20522669023683776
+    },
+    {
+      "generation": 2,
+      "best_formula": "neg(reversal_1)",
+      "best_fitness": 0.20522669023683776
+    }
+  ],
+  "selected": [
+    {
+      "formula": "(intraday_reversal sub (volume_weighted_momentum_3 div open_volume_corr_10))",
+      "depth": 3,
+      "discovery_rank_ic": 0.13953683291436034,
+      "direction": "long_high",
+      "confirmation_rank_ic": 0.16980527983531743,
+      "confirmation_ic": 0.09518036468098083,
+      "confirmation_spread": 0.023927068256363898,
+      "confirmation_dates": 440
+    },
+    {
+      "formula": "((open_volume_corr_10 add open_volume_corr_10) add (intraday_reversal add volume_weighted_momentum_3))",
+      "depth": 3,
+      "discovery_rank_ic": 0.11726852358617817,
+      "direction": "long_high",
+      "confirmation_rank_ic": 0.13196742372987463,
+      "confirmation_ic": 0.09910948332595379,
+      "confirmation_spread": 0.017849192996949738,
+      "confirmation_dates": 440
+    },
+    {
+      "formula": "(vwap_high_corr_10 mul intraday_reversal)",
+      "depth": 2,
+      "discovery_rank_ic": -0.1132555956409709,
+      "direction": "long_low",
+      "confirmation_rank_ic": 0.14538250407690906,
+      "confirmation_ic": 0.12109753791764136,
+      "confirmation_spread": 0.026504675962708064,
+      "confirmation_dates": 440
+    }
+  ]
+}

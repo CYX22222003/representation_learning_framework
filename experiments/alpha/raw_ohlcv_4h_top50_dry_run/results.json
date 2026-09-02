@@ -1,0 +1,205 @@
+{
+  "protocol": "train_only_discovery_confirmation_v1",
+  "timeframe": "4h",
+  "top_k": 50,
+  "min_assets": 10,
+  "formulae": [
+    "reversal_1",
+    "intraday_reversal",
+    "open_volume_corr_10",
+    "vwap_high_corr_10",
+    "volume_weighted_momentum_3"
+  ],
+  "selected": [
+    "reversal_1",
+    "volume_weighted_momentum_3",
+    "intraday_reversal"
+  ],
+  "formula_results": {
+    "reversal_1": {
+      "discovery": {
+        "mean_ic": 0.22866834685122797,
+        "mean_rank_ic": 0.20522669023683776,
+        "rank_ic_ir": 0.9463544570023106,
+        "positive_rank_ic_fraction": 0.8256254738438211,
+        "mean_top_minus_bottom_return": 0.032955891786113405,
+        "n_dates": 1319,
+        "n_observations": 52820,
+        "block_rank_ic": [
+          0.19781518057673023,
+          0.17039414727673766,
+          0.209085193985304,
+          0.21815865379383145,
+          0.23077705724479752
+        ]
+      },
+      "direction": "long_high",
+      "confirmation": {
+        "oriented_mean_ic": 0.29231855124533596,
+        "oriented_mean_rank_ic": 0.2449307417310526,
+        "oriented_rank_ic_ir": 1.1648255767825575,
+        "oriented_positive_rank_ic_fraction": 0.8886363636363637,
+        "oriented_mean_top_minus_bottom_return": 0.05102902106812287,
+        "oriented_n_dates": 440,
+        "oriented_n_observations": 17606,
+        "oriented_block_rank_ic": [
+          0.23935954119501338,
+          0.21195257504797196,
+          0.2604183688150501,
+          0.244576584766941,
+          0.2683466388302865
+        ]
+      },
+      "selected": true
+    },
+    "intraday_reversal": {
+      "discovery": {
+        "mean_ic": 0.12245484829614407,
+        "mean_rank_ic": 0.16268498634095196,
+        "rank_ic_ir": 0.9551798314905854,
+        "positive_rank_ic_fraction": 0.8278999241849886,
+        "mean_top_minus_bottom_return": 0.02020928902932833,
+        "n_dates": 1319,
+        "n_observations": 52838,
+        "block_rank_ic": [
+          0.14871412670419973,
+          0.11452169656222878,
+          0.14842877583095035,
+          0.1851408996950213,
+          0.21682450685369573
+        ]
+      },
+      "direction": "long_high",
+      "confirmation": {
+        "oriented_mean_ic": 0.15851797671028361,
+        "oriented_mean_rank_ic": 0.20263365298403357,
+        "oriented_rank_ic_ir": 1.0504815823119429,
+        "oriented_positive_rank_ic_fraction": 0.8477272727272728,
+        "oriented_mean_top_minus_bottom_return": 0.0306556734163836,
+        "oriented_n_dates": 440,
+        "oriented_n_observations": 17606,
+        "oriented_block_rank_ic": [
+          0.18062229790912365,
+          0.19303853024321518,
+          0.2347865827429529,
+          0.20788242071453594,
+          0.19683843331034015
+        ]
+      },
+      "selected": true
+    },
+    "open_volume_corr_10": {
+      "discovery": {
+        "mean_ic": 0.016725413813542176,
+        "mean_rank_ic": 0.020589820349925392,
+        "rank_ic_ir": 0.10473096634073842,
+        "positive_rank_ic_fraction": 0.547673531655225,
+        "mean_top_minus_bottom_return": 0.0026564663668528074,
+        "n_dates": 1311,
+        "n_observations": 49625,
+        "block_rank_ic": [
+          0.025880152735825994,
+          0.025869713948929795,
+          0.03696052285602797,
+          0.018071716640047142,
+          -0.0038531965395470734
+        ]
+      },
+      "direction": "long_high",
+      "confirmation": {
+        "oriented_mean_ic": 0.014301015217076116,
+        "oriented_mean_rank_ic": 0.01068568733536546,
+        "oriented_rank_ic_ir": 0.055098988274980366,
+        "oriented_positive_rank_ic_fraction": 0.5181818181818182,
+        "oriented_mean_top_minus_bottom_return": 0.001160031046188204,
+        "oriented_n_dates": 440,
+        "oriented_n_observations": 17479,
+        "oriented_block_rank_ic": [
+          0.012012200697822767,
+          0.015241828447400874,
+          0.02072628061366286,
+          0.009427265243799964,
+          -0.003979138325859151
+        ]
+      },
+      "selected": false
+    },
+    "vwap_high_corr_10": {
+      "discovery": {
+        "mean_ic": -0.008807185291513354,
+        "mean_rank_ic": -0.01703237148465891,
+        "rank_ic_ir": -0.09624328288870454,
+        "positive_rank_ic_fraction": 0.4607170099160946,
+        "mean_top_minus_bottom_return": -0.0017622915867299377,
+        "n_dates": 1311,
+        "n_observations": 48540,
+        "block_rank_ic": [
+          -0.025641946184825296,
+          -0.03098040706781714,
+          -0.010699377434333898,
+          -0.023211736472548126,
+          0.005404470708367949
+        ]
+      },
+      "direction": "long_low",
+      "confirmation": {
+        "oriented_mean_ic": -0.0017530433520378853,
+        "oriented_mean_rank_ic": -0.0010888371391242137,
+        "oriented_rank_ic_ir": -0.006091981950598602,
+        "oriented_positive_rank_ic_fraction": 0.5045454545454545,
+        "oriented_mean_top_minus_bottom_return": 0.00048486194176762466,
+        "oriented_n_dates": 440,
+        "oriented_n_observations": 17300,
+        "oriented_block_rank_ic": [
+          0.014943506435554466,
+          -0.02591247196171471,
+          0.0010502449575563657,
+          0.01806352155535552,
+          -0.013588986682372699
+        ]
+      },
+      "selected": false
+    },
+    "volume_weighted_momentum_3": {
+      "discovery": {
+        "mean_ic": -0.2218550593495434,
+        "mean_rank_ic": -0.1918060135288279,
+        "rank_ic_ir": -0.8064763664356509,
+        "positive_rank_ic_fraction": 0.21368178324365872,
+        "mean_top_minus_bottom_return": -0.031068639379543645,
+        "n_dates": 1301,
+        "n_observations": 52082,
+        "block_rank_ic": [
+          -0.1696455823335036,
+          -0.17498800411065632,
+          -0.2056245740514457,
+          -0.19216159595263207,
+          -0.216695543623576
+        ]
+      },
+      "direction": "long_low",
+      "confirmation": {
+        "oriented_mean_ic": 0.2523585050073982,
+        "oriented_mean_rank_ic": 0.22408903935883845,
+        "oriented_rank_ic_ir": 0.9953086365039246,
+        "oriented_positive_rank_ic_fraction": 0.8181818181818182,
+        "oriented_mean_top_minus_bottom_return": 0.0461834468032038,
+        "oriented_n_dates": 440,
+        "oriented_n_observations": 17606,
+        "oriented_block_rank_ic": [
+          0.19658301278981438,
+          0.2016606643283647,
+          0.26627551776475405,
+          0.21749045637458642,
+          0.2384355455366725
+        ]
+      },
+      "selected": true
+    }
+  },
+  "rows_by_phase": {
+    "discovery": 84318,
+    "confirmation": 28109
+  },
+  "global_test_used": false
+}
