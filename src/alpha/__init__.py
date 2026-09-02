@@ -17,3 +17,4 @@ __all__ = [
     "FactorScore", "score_factor", "select_non_redundant",
     "MiningConfig", "mine_from_oof",
 ]
+"""Training-only alpha-factor research utilities."""
