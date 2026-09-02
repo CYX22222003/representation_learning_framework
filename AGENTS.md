@@ -151,6 +151,47 @@ PYTHONPATH=src .venv/bin/python3 src/baselines/garch_lstm_stacking/run_experimen
 # Compare the completed Phase-1 volatility run against strict shared-label baselines
 .venv/bin/python3 scripts/compare_volatility_phase1.py \
   --framework-root experiments/framework/volatility_prediction/4h_phase1_all5_concat
+
+# Run the train-only Alpha101-style raw-OHLCV factor dry run. This leaves the
+# global 20% task-test partition untouched and writes discovery/confirmation
+# diagnostics only; it is not a trading backtest.
+.venv/bin/python3 scripts/run_raw_alpha_dry_run.py \
+  --timeframe 4h \
+  --top-k 50 \
+  --min-assets 10
+
+# Run the constrained raw-OHLCV genetic-programming dry run. GP selection is
+# discovery-only; the chronological confirmation segment is fixed-formula.
+.venv/bin/python3 scripts/run_raw_gp_dry_run.py \
+  --timeframe 4h \
+  --top-k 50 \
+  --min-assets 10 \
+  --population-size 24 \
+  --generations 3 \
+  --max-depth 3 \
+  --seed 7
+
+# Exploratory direct-representation GP check. This tests fixed coordinates from
+# the saved Phase-1 bundle and is intentionally distinct from model-output OOF
+# alpha research; the global test partition remains excluded.
+.venv/bin/python3 scripts/run_representation_gp_dry_run.py \
+  --features-npz data/features/features_4h_seq64_top50_phase1.npz \
+  --top-k 50 \
+  --min-assets 10
+
+# Exhaustive exploratory screen: all 445 saved representation coordinates plus
+# five causal OHLCV terminals; every terminal is seeded into the GP population.
+.venv/bin/python3 scripts/run_representation_gp_dry_run.py \
+  --features-npz data/features/features_4h_seq64_top50_phase1.npz \
+  --top-k 50 \
+  --min-assets 10 \
+  --include-raw-ohlcv \
+  --all-representation-features \
+  --population-size 512 \
+  --generations 2 \
+  --max-depth 4 \
+  --seed 101 \
+  --out-dir experiments/alpha/representation_ohlcv_gp_4h_top50_all_features
 ```
 
 Trained model checkpoints are saved to and loaded from `checkpoints/`.
@@ -243,7 +284,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
 | `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + task-label builders. `volatility_labels.py` is the contract-aware shared volatility label contract for strict comparisons. |
-| `src/alpha/` | Deferred alpha-research skeleton: downstream prediction primitives, chronological OOF utilities, shallow protected formulas, and training-only factor diagnostics/selection. |
+| `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |

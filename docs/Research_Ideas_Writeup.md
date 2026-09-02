@@ -253,6 +253,14 @@ The primitive set is \(\mathcal F_0=\{\hat r,\hat\sigma,p_{bull},p_{bear},p_{bul
 
 Formula search is restricted to chronological out-of-fold predictions from the training portion, so a head never predicts a row it trained on. Select a small, non-redundant formula set using predeclared training-only IC and stability criteria, then refit heads on the full train split and evaluate that fixed set once on a fresh holdout or temporally later data. Report IC/rank-IC, temporal stability, quantile/spread behaviour, and factor redundancy. Do not claim profitability without a contract-aware, cost-aware backtest.
 
+A separate raw-OHLCV dry run is implemented as an operational smoke test, not as evidence for the representation framework: it evaluates five predeclared Alpha101-style price/volume formulae with same-timestamp cross-sectional IC/RankIC and an uncosted top-minus-bottom spread. It uses only the original training portion, divided per contract into 60% discovery and 20% chronological confirmation, and never loads the original global test rows. This establishes the raw-data, timestamp, contract, and factor-scoring path; the model-output OOF formula search above remains the intended framework-facing alpha experiment.
+
+The same train-only raw path also has a bounded GP smoke test: five causal raw formula values are terminals; protected arithmetic plus `abs`/negation form trees of maximum depth three; tournament selection, crossover, subtree mutation, and elitism run under a fixed seed. Its small fixed budget (24 trees, three generations) is only an implementation and leakage check. Unary-only terminal sign flips are excluded from the reported candidates, and no raw-GP result substitutes for the downstream-prediction OOF experiment or a fresh final holdout.
+
+An explicitly exploratory direct-representation GP check was also run at the user's request. It uses a fixed, evenly spaced set of 20 coordinates across the saved 445-dimensional five-branch bundle, rather than target-screening coordinates first. Under the same train-only 60% discovery / 20% confirmation protocol, its selected trees had only `-0.0027` to `0.0142` confirmation RankIC. This negative result supports retaining downstream predictions—not raw coordinates—as the primary alpha terminals, while remaining only one bounded empirical check rather than a general impossibility claim.
+
+A subsequent exhaustive exploratory run seeded all 445 saved representation coordinates plus five causal OHLCV terminals into a 512-tree, depth-four GP population, then evolved one further generation. The best mixed formula retained a confirmation RankIC of `0.0803`, but it was substantially weaker than the raw reversal-only screen (`0.2449`); the selected formula composed only from representation coordinates had negative confirmation RankIC. Thus, expanding direct-coordinate coverage found limited mixed signal but no evidence that raw representations improve on the simple OHLCV factor under this protocol.
+
 ### 5.5 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
 
 An additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant. Applies to all three tasks (price prediction, volatility prediction, trend classification) if time permits, subject to availability of a separable benchmark decoder per task:
@@ -273,7 +281,7 @@ An additional three-configuration experiment isolates encoder quality from decod
 
 **Transferability analysis**: embeddings trained on one timeframe are evaluated on another without retraining, to assess generalisation across temporal scales.
 
-*Note: The alpha-research capability is outside the current task-evaluation budget and MVP implementation. Its future scope is symbolic factor research from downstream predictions, not direct latent-factor mining or a trading-strategy claim.*
+*Note: The raw-OHLCV diagnostic is a train-only smoke test. The framework-facing alpha capability remains symbolic research from downstream predictions, not direct latent-factor mining or a trading-strategy claim.*
 
 ## 6. Inspiration and Motivation
 
