@@ -91,12 +91,12 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae`, `contrastive`, and `byol`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
     - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep.
-    - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. The current trend-classification MVP uses TA-MLP-style tri-class BUY/HOLD/SELL labels, with thresholds fit from training data only and saved as a reusable task label bundle.
+    - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. Phase 1 retains its TA-MLP-style tri-class BUY/HOLD/SELL bundle. The isolated Phase 2 task uses hard `DOWN/STABLE/UP` labels from absolute probability movement over a split-safe horizon and saves three-class scores. Its candidate imbalance protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and train-prior logit-adjusted cross-entropy (`P2`); natural cross-entropy (`P0`) is an untreated reference only.
   - A lightweight MLP task head is trained on these (X, y) pairs.
 
 - **Performance Comparison:**
   - Evaluate strict task comparisons on the same held-out test sequences and aligned label rows.
-  - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix.
+  - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass Brier score. The Phase 2 classification focus is imbalance and collapse rather than confidence calibration.
   - Comparison axes:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
     - Single-branch ablations vs. full aggregated framework

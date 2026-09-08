@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-08
 
 ---
 
@@ -48,7 +48,7 @@
 | Raw LSTM volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs |
 | Adapted GARCH--LSTM stacking volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs; replay verification and plots complete |
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
-| TA-MLP benchmark (FreqTrade, trend classification) | ✅ Trained on unified splits (v1 triclass epoch sweep, seed=0; acc 0.71–0.73, macro-F1 0.45–0.47) |
+| TA-MLP benchmark (FreqTrade, trend classification) | ✅ Natural-sampling adaptation trained on unified splits (v1 triclass epoch sweep, seed=0; acc 0.71–0.73, macro-F1 0.45–0.47); paper-derived training-only undersampling remains pending |
 | Additional benchmarks from literature review (TBD) | ⬜ TBD |
 
 **Internal baselines** (designed within this project)
@@ -70,6 +70,7 @@
 | Price prediction benchmark (MAE, RMSE) | ✅ Four-branch MVP and five-branch Phase-1 framework sweeps recorded; strict Raw-OHLCV MLP comparison and contextual LSTM comparison saved. Shared-target LSTM alignment remains future work. |
 | Volatility prediction benchmark (MSE, correlation) | 🔄 Five-branch Phase-1, Raw LSTM, and adapted GARCH--LSTM stack are strictly compared on identical shared-label rows; legacy Raw-OHLCV MLP and GINN remain characterization/limitation evidence, and the strict MLP rerun is pending. |
 | Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
+| Phase 2 probability-movement classification | 🔄 Isolated label, TA-alignment, P1U/P1O/P2 protocol, C1/C2/C5 training, bootstrap, artifact, and reporting code implemented and smoke-tested; full CUDA matrix not yet run |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
 | Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are recorded under `experiments/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
@@ -226,7 +227,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [x] Train Raw LSTM volatility benchmark on the shared realised-volatility label bundle; record matched 15/50/100 epoch artifacts
 - [x] Run the adapted GARCH--LSTM stacking volatility benchmark using Raw LSTM predictions and fixed ElasticNet meta-learning
 - [x] Train GINN benchmark on the unified 4h split at 15 epochs; document the GARCH-target failure and defer further GINN sweeps while selecting a more suitable volatility benchmark
-- [x] Train TA-MLP benchmark *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; strict comparison should reuse the saved framework tri-class label bundle
+- [x] Train TA-MLP natural-sampling adaptation *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; paper-derived training-only undersampling and strict saved-label alignment remain pending
 - [ ] Additional benchmarks from literature (TBD after literature review) — retrain each on same data splits
 
 **Expand internal baselines** (order by complexity)
@@ -236,13 +237,14 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Expand tasks**
 - [x] Extend framework training and evaluation to trend classification
+- [x] Implement the isolated Phase 2 probability-movement classification pipeline and strict C1/C2/C5 row-alignment contract; full multi-seed experiment execution remains pending
 - [x] Execute and compare the Phase-1 framework volatility experiment on the shared label bundle
 - [ ] Transferability experiment: embed with model trained on one timeframe, evaluate on another
 - [ ] *(time permitting)* Decoder-controlled comparison for price prediction: three configurations (benchmark end-to-end / framework + MLP head / framework + benchmark-mirrored head) on the same test split; extend to other tasks if time allows
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete; strict Raw-OHLCV MLP volatility migration, remaining external-baseline alignment, branch ablations, nonnegative volatility-decoder confirmation, and multi-seed runs remain.
+**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete; Phase 2 classification infrastructure is implemented but its full CUDA matrix remains unrun. Strict Raw-OHLCV MLP volatility migration, remaining external-baseline execution, branch ablations, nonnegative volatility-decoder confirmation, and multi-seed runs also remain.
 
 ---
 

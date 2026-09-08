@@ -107,6 +107,27 @@ python scripts/train_framework.py \
   --device cuda \
   --overwrite
 
+# Build the isolated Phase-2 probability-movement labels (DOWN/STABLE/UP)
+.venv/bin/python3 scripts/prepare_probability_movement_labels.py \
+  --processed-npz data/processed/market_4h_seq64_top50.npz \
+  --out-path data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz \
+  --horizon 2 \
+  --threshold 0.005 \
+  --overwrite
+
+# Build TA-MLP features and the common TA-eligible row intersection
+.venv/bin/python3 scripts/prepare_phase2_ta_features.py \
+  --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz \
+  --out-path data/features/phase2_ta_probability_movement_4h_h2_tau005.npz \
+  --overwrite
+
+# Bootstrap the C1/C2/C5 x P1U/P1O/P2 x seed matrix without running it
+.venv/bin/python3 scripts/bootstrap_phase2_classification.py
+
+# Aggregate completed Phase-2 probabilistic-classification runs
+.venv/bin/python3 scripts/report_phase2_classification.py \
+  experiments/framework/phase2/classification_relabelling/4h_h2_tau005
+
 # Execute the predeclared five-branch Phase-1 Product matrix and generate reports/plots
 .venv/bin/python3 scripts/run_phase1_product.py \
   --stages features,train,plot \
@@ -283,7 +304,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
 | `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
-| `src/tasks/` | Default decoder: task heads (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) + task-label builders. `volatility_labels.py` is the contract-aware shared volatility label contract for strict comparisons. |
+| `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; and `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
@@ -295,5 +316,6 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
+- Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

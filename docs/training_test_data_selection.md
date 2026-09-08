@@ -56,7 +56,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
 | Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
 | GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
-| TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
+| TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
 | Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
@@ -104,6 +104,21 @@ data/task_labels/trend_classification/triclass_4h_seq64_top50.npz.manifest.json
 Its labels are BUY/HOLD/SELL classes. Thresholds are fit per contract using training rows only, then applied to train and test rows. The final `f_window` rows are dropped inside each split because their future target would not be available within that split. The bundle stores train/test labels and aligned feature-row indices so downstream framework runs and baselines can use identical rows.
 
 Strict comparison with the TA-MLP benchmark should reuse this saved label contract or regenerate TA-MLP labels with the same thresholds and row alignment. Existing TA-MLP results remain useful characterization evidence, but they are not a fully strict row-by-row comparison until this alignment is enforced.
+
+Phase 2 uses a separate absolute probability-movement label bundle with hard
+`DOWN/STABLE/UP` targets and saved three-class prediction scores. Its horizon is
+applied independently inside every contract's train and test portions. A saved
+TA-feature availability bundle defines the common row intersection for strict
+Raw-OHLCV MLP, framework, and TA-MLP comparisons. `P1U` undersampling and `P1O`
+oversampling alter training draws only; `P2` logit adjustment uses priors
+computed only from the aligned training labels. The test rows are never
+resampled. Phase 1 label files and runners remain unchanged.
+
+Parente et al. (2024) report random undersampling of the majority `HOLD` class.
+The existing repository TA-MLP v1 sweep instead used natural-frequency training
+rows. Any paper-derived undersampling rerun must occur after the chronological
+split and only on training indices; the shared test rows and their natural class
+distribution must remain untouched.
 
 The volatility benchmark label bundle is saved under:
 
