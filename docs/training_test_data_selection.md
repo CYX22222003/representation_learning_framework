@@ -58,7 +58,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep) | test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
-| Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
+| Independent single-branch and leave-one-out ablations | selected rows from the frozen train feature bundle (fixed-epoch; train-fitted scaling) | identically selected rows from the frozen test feature bundle |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
 | Direct-representation GP exploration | saved Phase-1 feature rows aligned back to original train-only contract timestamps; a fixed coordinate lattice is standardized on discovery only, then GP fit/selection occurs only on discovery | chronological confirmation only; no global-test use and no interpretation as a tradeable or economically named factor |
 | Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
@@ -157,8 +157,10 @@ The sequence below must be followed to avoid leakage.
    for a fixed epoch budget; save checkpoint per task
         │
         ▼
-7. Train all baseline models on the full train sequences (or full train feature
-   bundles for single-branch ablations) for a fixed epoch budget.
+7. Train all baseline models on the full train sequences. Independently, run
+   the predeclared ablation matrix on selected branches from the full train
+   feature bundle for fixed epoch budgets; its locked plan and all outputs live
+   under `ablation/`, outside the Phase-1 and Phase-2 experiment trees.
    For external benchmarks, run a small characterization sweep across epoch
    budgets at one fixed seed — report the full sweep, not a "best" run.
         │

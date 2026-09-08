@@ -99,8 +99,15 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix.
   - Comparison axes:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
-    - Single-branch ablations vs. full aggregated framework
+    - Single-branch ablations vs. a matched full-concat control for standalone utility
+    - Leave-one-branch-out ablations vs. the same control for conditional contribution
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
+
+- **Independent ablation workstream:** Ablation code, plans, checkpoints,
+  predictions, metrics, plots, and reports live under `ablation/`. The workstream
+  reads the frozen Phase-1 feature bundle and split-safe task labels as immutable
+  inputs, but does not write into the Phase-1 or Phase-2 experiment trees. Its
+  matrix is locked in `ablation/experiments/<study>/plan.json` before evaluation.
 
 - **Decoder-Controlled Comparison (optional, time permitting, all three tasks):**
 

@@ -277,7 +277,12 @@ An additional three-configuration experiment isolates encoder quality from decod
 
 ### 5.6 Ablation Study and Transferability
 
-**Ablation study**: each branch is run independently (no aggregation) against the full N-branch framework to quantify marginal contribution.
+**Ablation study**: a separate parallel workstream under `ablation/` compares
+each branch independently against a matched full N-branch concat control to
+measure standalone utility. It also removes one branch at a time to measure
+conditional contribution given the remaining branches. The ablation workstream
+reuses the frozen Phase-1 feature store as a read-only input but does not write
+into Phase-1 or Phase-2 experiment trees.
 
 **Transferability analysis**: embeddings trained on one timeframe are evaluated on another without retraining, to assess generalisation across temporal scales.
 

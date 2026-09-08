@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "study_name": "4h_all5_v1",
+  "workstream": "independent_ablation",
+  "separation_contract": {
+    "code_root": "ablation/",
+    "artifact_root": "ablation/experiments/4h_all5_v1/",
+    "phase1_artifacts_are_read_only_inputs": true,
+    "writes_to_phase1_or_phase2": false
+  },
+  "protocol": {
+    "global_split": "existing chronological per-contract 80/20 train/test split",
+    "validation_split": null,
+    "early_stopping": false,
+    "test_driven_selection": false,
+    "report_all_budgets": true
+  },
+  "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+  "features_npz": "data/features/features_4h_seq64_top50_phase1.npz",
+  "labels": {
+    "price_prediction": null,
+    "volatility_prediction": "data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz",
+    "trend_classification": "data/task_labels/trend_classification/triclass_4h_seq64_top50.npz"
+  },
+  "input_sha256": {
+    "data/processed/market_4h_seq64_top50.npz": "c549b82f4e2c1e0ca8a3c0a2caa686381e3799a61a731b5a3c0c395fddc061c6",
+    "data/features/features_4h_seq64_top50_phase1.npz": "b1440f1e16c3854657e4a6e49511f176e10d19b5d1cde2b260b8c7e8d66c15ea",
+    "data/features/features_4h_seq64_top50_phase1.npz.manifest.json": "5bcedbc3a93e6f1692a92ac986d38e46736dd71dd7391be0947f3e1996447b68",
+    "data/features/features_4h_seq64_top50_phase1.npz.index.npz": "e664123005b7382d9e5b42b34c3e541e1bef4d2f68ba39514ff03d090f47d0a8",
+    "data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz": "a5642b452e44f4706b25c063a35d120140dca8a00b75f6abdf24be81483318ba",
+    "data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz.manifest.json": "bd9b2e92f021541215fec780aeae1b9bf0117c7b145892ecf98453adc1d1db68",
+    "data/task_labels/trend_classification/triclass_4h_seq64_top50.npz": "9592f559240f166673aec6f4fe3e7057b7f1e9ed5d2f440cdd36b3bfa1fd6851",
+    "data/task_labels/trend_classification/triclass_4h_seq64_top50.npz.manifest.json": "bb233b791dcb605e2fe61dc570daab8c43a75735b05916bc74b2eac592772634"
+  },
+  "feature_index": {
+    "train_size": 109841,
+    "test_size": 27500
+  },
+  "branch_dims": {
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64,
+    "contrastive": 128,
+    "byol": 128
+  },
+  "tasks": [
+    "price_prediction",
+    "volatility_prediction",
+    "trend_classification"
+  ],
+  "sample_counts": {
+    "price_prediction": {
+      "train": 109840,
+      "test": 27499
+    },
+    "volatility_prediction": {
+      "train": 109791,
+      "test": 27450
+    },
+    "trend_classification": {
+      "train": 109741,
+      "test": 27400
+    }
+  },
+  "variants": [
+    {
+      "name": "single_statistical",
+      "branches": [
+        "statistical"
+      ],
+      "mode": "concat",
+      "family": "single",
+      "estimand": "standalone utility of statistical"
+    },
+    {
+      "name": "single_transformed",
+      "branches": [
+        "transformed"
+      ],
+      "mode": "concat",
+      "family": "single",
+      "estimand": "standalone utility of transformed"
+    },
+    {
+      "name": "single_vae",
+      "branches": [
+        "vae"
+      ],
+      "mode": "concat",
+      "family": "single",
+      "estimand": "standalone utility of vae"
+    },
+    {
+      "name": "single_contrastive",
+      "branches": [
+        "contrastive"
+      ],
+      "mode": "concat",
+      "family": "single",
+      "estimand": "standalone utility of contrastive"
+    },
+    {
+      "name": "single_byol",
+      "branches": [
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "single",
+      "estimand": "standalone utility of byol"
+    },
+    {
+      "name": "without_statistical",
+      "branches": [
+        "transformed",
+        "vae",
+        "contrastive",
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "leave_one_out",
+      "estimand": "conditional contribution of statistical given the other branches"
+    },
+    {
+      "name": "without_transformed",
+      "branches": [
+        "statistical",
+        "vae",
+        "contrastive",
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "leave_one_out",
+      "estimand": "conditional contribution of transformed given the other branches"
+    },
+    {
+      "name": "without_vae",
+      "branches": [
+        "statistical",
+        "transformed",
+        "contrastive",
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "leave_one_out",
+      "estimand": "conditional contribution of vae given the other branches"
+    },
+    {
+      "name": "without_contrastive",
+      "branches": [
+        "statistical",
+        "transformed",
+        "vae",
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "leave_one_out",
+      "estimand": "conditional contribution of contrastive given the other branches"
+    },
+    {
+      "name": "without_byol",
+      "branches": [
+        "statistical",
+        "transformed",
+        "vae",
+        "contrastive"
+      ],
+      "mode": "concat",
+      "family": "leave_one_out",
+      "estimand": "conditional contribution of byol given the other branches"
+    },
+    {
+      "name": "full_concat",
+      "branches": [
+        "statistical",
+        "transformed",
+        "vae",
+        "contrastive",
+        "byol"
+      ],
+      "mode": "concat",
+      "family": "control",
+      "estimand": "matched full-representation control"
+    }
+  ],
+  "epoch_budgets": [
+    15,
+    50,
+    100
+  ],
+  "seeds": [
+    0
+  ],
+  "training": {
+    "batch_size": 512,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "head_hidden_dim": 128,
+    "gated_out_dim": 128,
+    "standardize": true,
+    "standardize_clip": 10.0
+  },
+  "status": "planned",
+  "created_at_utc": "2026-09-08T10:18:42.912587+00:00"
+}

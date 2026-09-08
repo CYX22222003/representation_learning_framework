@@ -650,6 +650,9 @@ def evaluate_snapshots(
         loaded_config = FrameworkConfig(**checkpoint["training_config"])
         model = make_model(checkpoint["branch_dims"], loaded_config).to(device)
         model.load_state_dict(checkpoint["model_state_dict"])
+        trainable_parameter_count = sum(
+            parameter.numel() for parameter in model.parameters() if parameter.requires_grad
+        )
         result = evaluate_model(model, test_branches, y_test, loaded_config, device)
         budget_dir = checkpoint_path.parent
         if loaded_config.task == "trend_classification":
@@ -686,6 +689,8 @@ def evaluate_snapshots(
                 "features_npz": checkpoint["features_npz"],
                 "labels_npz": loaded_config.labels_npz,
                 "branch_dims": checkpoint["branch_dims"],
+                "model_input_dim": int(model.aggregator.output_dim),
+                "trainable_parameter_count": int(trainable_parameter_count),
                 "training_config": checkpoint["training_config"],
             }
         )
@@ -706,6 +711,7 @@ def run_experiment(
     features_npz: str | Path,
     run_root: Path,
     config: FrameworkConfig,
+    selected_branches: Sequence[str] | None = None,
 ) -> list[dict]:
     train_sequences, test_sequences = load_processed_npz(processed_npz)
     train_raw, test_raw, feature_index = load_split_feature_branches(features_npz)
@@ -714,6 +720,15 @@ def run_experiment(
             "Feature split index does not match processed sequence split: "
             f"{feature_index} vs train={len(train_sequences)} test={len(test_sequences)}"
         )
+    if selected_branches is not None:
+        names = tuple(selected_branches)
+        if not names or len(names) != len(set(names)):
+            raise ValueError("selected_branches must be non-empty and unique")
+        missing = [name for name in names if name not in train_raw]
+        if missing:
+            raise ValueError(f"Selected feature branches are unavailable: {missing}")
+        train_raw = {name: train_raw[name] for name in names}
+        test_raw = {name: test_raw[name] for name in names}
 
     label_manifest: dict[str, object] | None = None
     if config.task == "price_prediction":
@@ -771,6 +786,7 @@ def run_experiment(
             "train_sample_count": int(y_train.shape[0]),
             "test_sample_count": int(y_test.shape[0]),
             "branch_dims": branch_dims,
+            "selected_branches": list(branch_dims),
             "task": config.task,
             "labels_npz": config.labels_npz,
             "label_manifest": label_manifest,
