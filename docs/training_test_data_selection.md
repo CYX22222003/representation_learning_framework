@@ -47,6 +47,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 |---|---|---|
 | VAE encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Contrastive encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
+| Phase-2 contrastive LSTM/Transformer variants | same train sequences and fixed NT-Xent protocol as the CNN contrastive reference | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
 | BYOL encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
 | Statistical features | *(deterministic — no fitting)* | — |
@@ -155,6 +156,11 @@ The sequence below must be followed to avoid leakage.
         ▼
 3. Pretrain contrastive encoder on the full train split for a fixed epoch budget
    Save checkpoint: checkpoints/contrastive_<timeframe>.pth
+        │
+        ▼
+   Pretrain predeclared Phase-2 contrastive backbone substitutions on the same
+   train split; save them under checkpoints/phase2/ and never overwrite the
+   canonical CNN checkpoint
         │
         ▼
    Pretrain BYOL encoder on the full train split for a fixed epoch budget

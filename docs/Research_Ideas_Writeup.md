@@ -156,6 +156,8 @@ Raw OHLCV Time Series (Polymarket event contracts)
         |
         |-- [Branch: contrastive]
         |      |_ Contrastive encoder (CNN, pretrained via NT-Xent)
+        |      |_ Phase-2 alternatives: LSTM or compact Transformer backbone
+        |         (one named 128-d substitution at a time; same NT-Xent setup)
         |
         |-- [Branch: byol]
         |      |_ BYOL encoder (CNN online/target encoder, EMA target,
@@ -210,6 +212,8 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 **Task-transferable representation pipeline**: The same frozen encoder checkpoints and named branch feature bundles are reused across all downstream tasks (price prediction, volatility, trend classification). A lightweight task-specific head, and the aggregator when it is learnable, are trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
+
+**Controlled encoder refinement**: Phase 2 compares `contrastive_lstm` and `contrastive_transformer` against the immutable CNN contrastive reference while holding the objective, augmentations, projector semantics, embedding dimension, and shallow downstream probe fixed. The variants replace the contrastive branch one at a time so backbone effects remain identifiable.
 
 ## 5. Evaluation
 
