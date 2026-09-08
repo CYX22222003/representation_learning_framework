@@ -29,13 +29,22 @@ For volatility, strict comparisons must use `data/task_labels/volatility_predict
 
 Use the Raw-OHLCV MLP as the direct internal baseline: it learns end-to-end from flattened raw OHLCV sequences and uses the shared task head. Compare it with the full framework using the same task head first.
 
-Then run ablations to identify where gains come from:
+Then use the independent `ablation/` workstream to identify where gains come
+from. Keep two estimands distinct:
 
 - statistical branch only;
 - transformed branch only;
-- neural branch only;
-- all branches in concat mode;
-- all branches in gated mode.
+- each neural branch only;
+- each leave-one-branch-out configuration;
+- a freshly trained, matched all-branch concat control.
+
+Single-branch probes measure standalone utility. Leave-one-out probes measure a
+branch's conditional contribution given the others. Do not describe the former
+as marginal contribution. Treat all-branch gated fusion as a separate capacity
+comparison because it adds learnable projections and gates. Lock the complete
+matrix in `ablation/experiments/<study>/plan.json` before test evaluation, and
+write all ablation artifacts under `ablation/`, never into Phase-1 or Phase-2
+experiment trees.
 
 For decoder-controlled claims, compare the end-to-end benchmark, the framework with the default MLP head, and the frozen framework with a benchmark-mirrored decoder. Use this only when the decoder architecture can be separated cleanly.
 
@@ -76,3 +85,5 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 - Baseline plan: `src/baselines/mlp_baseline/EXPERIMENT_PLAN.md`
 - Baseline runner: `src/baselines/mlp_baseline/run_experiment.py`
 - Plotter: `src/baselines/mlp_baseline/plot_experiment.py`
+- Ablation plan: `ablation/EXPERIMENT_PLAN.md`
+- Ablation runner and artifacts: `ablation/run_ablation.py`, `ablation/experiments/`

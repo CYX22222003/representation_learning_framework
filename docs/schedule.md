@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-08
 
 ---
 
@@ -55,11 +55,12 @@
 | Task | Status |
 |---|---|
 | Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs. The volatility sweep predates the shared contract-aware label bundle and is characterization-only pending a strict rerun. |
-| Statistical-only ablation | ⬜ Not started |
-| Transformation-only ablation | ⬜ Not started |
-| VAE-only ablation | ⬜ Not started |
-| Contrastive-only ablation | ⬜ Not started |
-| BYOL-only ablation | ⬜ Not started |
+| Statistical-only ablation | 🔄 Predeclared in independent ablation matrix; training not started |
+| Transformation-only ablation | 🔄 Predeclared in independent ablation matrix; training not started |
+| VAE-only ablation | 🔄 Predeclared in independent ablation matrix; training not started |
+| Contrastive-only ablation | 🔄 Predeclared in independent ablation matrix; training not started |
+| BYOL-only ablation | 🔄 Predeclared in independent ablation matrix; training not started |
+| Leave-one-branch-out ablations | 🔄 Five configurations predeclared; training not started |
 | Additional neural encoder ablations (per TBD methods) | ⬜ TBD |
 | Additional internal baselines (TBD) | ⬜ TBD |
 
@@ -71,7 +72,7 @@
 | Volatility prediction benchmark (MSE, correlation) | 🔄 Five-branch Phase-1, Raw LSTM, and adapted GARCH--LSTM stack are strictly compared on identical shared-label rows; legacy Raw-OHLCV MLP and GINN remain characterization/limitation evidence, and the strict MLP rerun is pending. |
 | Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
-| Ablation study (per-branch contribution) | ⬜ Not started |
+| Independent ablation study | 🔄 Draft-1 framework, leakage preflight, and locked 33-configuration seed-0 plan complete under `ablation/`; training not started |
 | Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are recorded under `experiments/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 

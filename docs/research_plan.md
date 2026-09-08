@@ -100,7 +100,10 @@ Two categories of comparison models are used:
 
 - **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. Its existing volatility sweep predates the contract-aware realised-volatility bundle and is characterization evidence only; it must be migrated to the shared bundle before strict volatility comparison.
 
-- **Single-branch ablations** — run each active representation branch independently (no aggregation) through the same task heads. Will include at minimum:
+- **Independent ablation workstream** — code and artifacts live under
+  `ablation/`, separate from Phase 1 and Phase 2. It reuses the frozen Phase-1
+  feature store as a read-only input and runs each active representation branch
+  independently (no effective fusion) through the same task heads. It includes:
   - Statistical-only (AR + GARCH features)
   - Transformation-only (FFT + Wavelet features)
   - VAE-only (latent embeddings from the pretrained VAE)
@@ -108,7 +111,12 @@ Two categories of comparison models are used:
   - BYOL-only (embeddings from the pretrained BYOL encoder)
   - One ablation per additional neural encoder that is integrated (TBD)
 
-  These ablations isolate each branch's individual contribution and verify that the aggregated framework outperforms any single branch.
+  These single-branch probes measure standalone branch utility. A complementary
+  leave-one-branch-out matrix removes each branch from the full concat
+  representation to estimate its conditional contribution. Both are compared
+  with a freshly trained, matched full-concat control inside the ablation
+  namespace; optional gated fusion is reported separately because it changes
+  trainable capacity. See `ablation/EXPERIMENT_PLAN.md`.
 
 - **Additional internal baselines (TBD)** — further baselines may be added as identified.
 
@@ -139,7 +147,9 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
 
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 
-- **Ablation study** — compare the full aggregated framework against each single-branch baseline to quantify each branch's marginal contribution.
+- **Ablation study** — in the independent `ablation/` workstream, compare a
+  matched full-concat control with single-branch probes (standalone utility) and
+  leave-one-branch-out probes (conditional contribution).
 
 - **Additional alpha-research downstream capability (deferred beyond the current task-evaluation budget)** — a future extension may test whether interpretable formulaic factors can be composed from downstream predictions rather than latent dimensions. The representation-learning framework remains the contribution; GP/symbolic regression is a small-scale established search tool, not a claimed algorithmic novelty.
   - Primitive set \(\mathcal F_0\): predeclared downstream outputs available at decision time, initially predicted return/price movement, predicted realised volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). Multiple horizons are optional and must use split-safe targets.

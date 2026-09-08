@@ -113,6 +113,18 @@ python scripts/train_framework.py \
   --run-name 4h_phase1_all5_concat \
   --device cuda
 
+# Validate and lock the independent ablation plan. This writes only beneath
+# ablation/experiments/ and treats Phase-1 features as read-only inputs.
+.venv/bin/python3 ablation/run_ablation.py \
+  --stages plan \
+  --study-name 4h_all5_v1
+
+# Execute the locked single-branch, leave-one-out, and full-control matrix
+.venv/bin/python3 ablation/run_ablation.py \
+  --stages train,plot,report \
+  --study-name 4h_all5_v1 \
+  --device cuda
+
 # Build the shared realised-volatility labels used by both volatility benchmarks
 .venv/bin/python3 scripts/prepare_volatility_labels.py \
   --processed-npz data/processed/market_4h_seq64_top50.npz \
@@ -288,6 +300,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |
+| `ablation/` | Independent ablation plan, runner, tests, and artifacts; reads frozen Phase-1 inputs but never writes into Phase-1/Phase-2 trees |
 
 ### Key data contracts
 
