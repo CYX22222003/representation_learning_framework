@@ -1,0 +1,81 @@
+{
+  "protocol": "exploratory_direct_representation_gp_v1",
+  "global_test_used": false,
+  "coordinate_selection": "fixed_spread_across_branches_no_target_prescreen",
+  "terminals": [
+    "statistical_0",
+    "statistical_23",
+    "statistical_46",
+    "statistical_69",
+    "transformed_0",
+    "transformed_18",
+    "transformed_36",
+    "transformed_54",
+    "vae_0",
+    "vae_21",
+    "vae_42",
+    "vae_63",
+    "contrastive_0",
+    "contrastive_42",
+    "contrastive_85",
+    "contrastive_127",
+    "byol_0",
+    "byol_42",
+    "byol_85",
+    "byol_127"
+  ],
+  "gp_config": {
+    "population_size": 16,
+    "generations": 2,
+    "max_depth": 3,
+    "tournament_size": 4,
+    "elite_count": 4,
+    "crossover_rate": 0.65,
+    "mutation_rate": 0.25,
+    "seed": 19
+  },
+  "history": [
+    {
+      "generation": 0,
+      "best_formula": "(vae_0 mul (contrastive_127 div vae_0))",
+      "best_fitness": 0.008567822773894689
+    },
+    {
+      "generation": 1,
+      "best_formula": "(vae_0 mul (contrastive_127 div vae_0))",
+      "best_fitness": 0.008567822773894689
+    }
+  ],
+  "selected": [
+    {
+      "formula": "(vae_0 mul (contrastive_127 div vae_0))",
+      "depth": 3,
+      "discovery_rank_ic": 0.008567822773894689,
+      "direction": "long_high",
+      "confirmation_rank_ic": -0.0026757422223981178,
+      "confirmation_ic": 0.003563569209228108,
+      "confirmation_spread": 0.001995319218050811,
+      "confirmation_dates": 427
+    },
+    {
+      "formula": "abs((byol_0 mul byol_0))",
+      "depth": 3,
+      "discovery_rank_ic": -0.005423601149862258,
+      "direction": "long_low",
+      "confirmation_rank_ic": 0.014151019999917492,
+      "confirmation_ic": -0.005098026333222718,
+      "confirmation_spread": -0.0027994089710526157,
+      "confirmation_dates": 427
+    },
+    {
+      "formula": "((statistical_23 mul byol_42) add abs(byol_0))",
+      "depth": 3,
+      "discovery_rank_ic": 0.004345360210839065,
+      "direction": "long_high",
+      "confirmation_rank_ic": -0.00047432239305095306,
+      "confirmation_ic": 0.003272248843146418,
+      "confirmation_spread": -0.00014441607535566815,
+      "confirmation_dates": 427
+    }
+  ]
+}
