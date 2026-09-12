@@ -1,0 +1,92 @@
+[
+  {
+    "accuracy": 0.4057482760435858,
+    "macro_f1": 0.27429861631356506,
+    "weighted_f1": 0.4212697504838674,
+    "balanced_accuracy": 0.3531035605811578,
+    "macro_roc_auc": 0.5441444060873367,
+    "macro_average_precision": 0.35813325465722595,
+    "nll": 1.0971163530383545,
+    "multiclass_brier": 0.6655830160068035,
+    "per_class": [
+      {
+        "class_index": 0,
+        "class_name": "DOWN",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 2958,
+        "roc_auc": 0.5504877584349945,
+        "average_precision": 0.16582582977415328
+      },
+      {
+        "class_index": 1,
+        "class_name": "STABLE",
+        "precision": 0.7205245577137201,
+        "recall": 0.4497991967871486,
+        "f1": 0.5538490799296277,
+        "support": 12948,
+        "roc_auc": 0.5510426180222243,
+        "average_precision": 0.7396345528530436
+      },
+      {
+        "class_index": 2,
+        "class_name": "UP",
+        "precision": 0.1726223199560198,
+        "recall": 0.6095114849563248,
+        "f1": 0.2690467690110675,
+        "support": 3091,
+        "roc_auc": 0.5309028418047911,
+        "average_precision": 0.168939381344481
+      }
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        1052,
+        1906
+      ],
+      [
+        0,
+        5824,
+        7124
+      ],
+      [
+        0,
+        1207,
+        1884
+      ]
+    ],
+    "observed_class_counts": [
+      2958,
+      12948,
+      3091
+    ],
+    "predicted_class_counts": [
+      0,
+      8083,
+      10914
+    ],
+    "observed_class_proportions": [
+      0.15570879612570407,
+      0.6815813023108912,
+      0.16270990156340476
+    ],
+    "predicted_class_proportions": [
+      0.0,
+      0.42548823498447125,
+      0.5745117650155288
+    ],
+    "epoch": 1,
+    "seed": 0,
+    "model_id": "C1_raw_ohlcv_mlp",
+    "protocol_id": "P1U",
+    "candidate_protocol": true,
+    "train_loss": 1.0982913970947266,
+    "parameter_count": 698499,
+    "training_seconds_to_checkpoint": 2.406913486999997,
+    "training_seconds_total": 2.406915003999984,
+    "inference_seconds": 0.14966514599996117,
+    "inference_rows_per_second": 126930.02016651846
+  }
+]

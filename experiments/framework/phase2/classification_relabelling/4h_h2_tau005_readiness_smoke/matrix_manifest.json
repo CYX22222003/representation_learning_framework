@@ -1,0 +1,56 @@
+{
+  "matrix_name": "4h_h2_tau005_readiness_smoke",
+  "predeclared_at_utc": "2026-09-12T03:33:35.263380+00:00",
+  "candidate_protocols": [
+    "P1U",
+    "P1O",
+    "P2"
+  ],
+  "includes_p0_untreated_reference": true,
+  "seeds": [
+    0
+  ],
+  "epoch_budgets": [
+    1
+  ],
+  "included_models": [
+    "C1_raw_ohlcv_mlp",
+    "C2_framework",
+    "C5_ta_mlp"
+  ],
+  "comparison_scope": "strict_ta_aligned_rows",
+  "label_contract": {
+    "horizon": 2,
+    "threshold": 0.005,
+    "classes": [
+      "DOWN",
+      "STABLE",
+      "UP"
+    ]
+  },
+  "source_sha256": {
+    "processed_npz": "c549b82f4e2c1e0ca8a3c0a2caa686381e3799a61a731b5a3c0c395fddc061c6",
+    "features_npz": "b1440f1e16c3854657e4a6e49511f176e10d19b5d1cde2b260b8c7e8d66c15ea",
+    "features_index_npz": "e664123005b7382d9e5b42b34c3e541e1bef4d2f68ba39514ff03d090f47d0a8"
+  },
+  "locked_test": true,
+  "no_validation_or_early_stopping": true,
+  "current_test_is_characterization_only": true,
+  "training_run_count": 12,
+  "commands": [
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/prepare_probability_movement_labels.py --processed-npz data/processed/market_4h_seq64_top50.npz --out-path data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/prepare_phase2_ta_features.py --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --out-path data/features/phase2_ta_probability_movement_4h_h2_tau005.npz",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_raw_mlp.py --processed-npz data/processed/market_4h_seq64_top50.npz --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1U --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C1_raw_ohlcv_mlp/P1U/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_framework_classifier.py --features-npz data/features/features_4h_seq64_top50_phase1.npz --model-id C2_framework --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1U --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C2_framework/P1U/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_ta_mlp.py --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --ta-features-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1U --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C5_ta_mlp/P1U/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_raw_mlp.py --processed-npz data/processed/market_4h_seq64_top50.npz --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1O --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C1_raw_ohlcv_mlp/P1O/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_framework_classifier.py --features-npz data/features/features_4h_seq64_top50_phase1.npz --model-id C2_framework --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1O --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C2_framework/P1O/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_ta_mlp.py --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --ta-features-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P1O --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C5_ta_mlp/P1O/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_raw_mlp.py --processed-npz data/processed/market_4h_seq64_top50.npz --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P2 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C1_raw_ohlcv_mlp/P2/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_framework_classifier.py --features-npz data/features/features_4h_seq64_top50_phase1.npz --model-id C2_framework --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P2 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C2_framework/P2/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_ta_mlp.py --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --ta-features-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P2 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C5_ta_mlp/P2/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_raw_mlp.py --processed-npz data/processed/market_4h_seq64_top50.npz --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P0 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C1_raw_ohlcv_mlp/P0/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_framework_classifier.py --features-npz data/features/features_4h_seq64_top50_phase1.npz --model-id C2_framework --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --alignment-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P0 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C2_framework/P0/seed0",
+    "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3 scripts/train_phase2_ta_mlp.py --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz --ta-features-npz data/features/phase2_ta_probability_movement_4h_h2_tau005.npz --protocol P0 --seed 0 --epoch-budgets 1 --device cpu --run-root /mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/framework/phase2/classification_relabelling/4h_h2_tau005_readiness_smoke/C5_ta_mlp/P0/seed0"
+  ]
+}

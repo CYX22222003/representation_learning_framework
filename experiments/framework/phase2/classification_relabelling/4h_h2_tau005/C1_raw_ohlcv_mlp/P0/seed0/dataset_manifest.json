@@ -1,0 +1,2120 @@
+{
+  "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+  "labels_npz": "data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz",
+  "label_manifest": {
+    "task": "trend_classification",
+    "label_mode": "absolute_probability_movement",
+    "formula": "delta = close(sequence[i+h], -1) - close(sequence[i], -1)",
+    "boundary_rule": "DOWN if delta < -tau; UP if delta > tau; equality is STABLE",
+    "horizon": 2,
+    "threshold": 0.005,
+    "price_index": 3,
+    "timeframe": "4h",
+    "seq_len": 64,
+    "top_k": 50,
+    "train_ratio": 0.8,
+    "data_dir": "data",
+    "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+    "processed_npz_sha256": "c549b82f4e2c1e0ca8a3c0a2caa686381e3799a61a731b5a3c0c395fddc061c6",
+    "processed_shapes": {
+      "train": [
+        109841,
+        64,
+        5
+      ],
+      "test": [
+        27500,
+        64,
+        5
+      ]
+    },
+    "source_files": [
+      {
+        "filename": "WillAMinecraftMovieBeTheTopGrossiYES20250101_USDC-4h.feather",
+        "size": 61098,
+        "sha256": "ae665e37d3620dcc7712ce2c012da5a066d123c682927a7bbf296805362c2fd5"
+      },
+      {
+        "filename": "WillZootopia2BeTheTopGrossingMoviYES20250101_USDC-4h.feather",
+        "size": 59130,
+        "sha256": "bbd64049a7e8b305177a6122d6bd1f24daacbbcaa469060cf594f8b6e4476b40"
+      },
+      {
+        "filename": "WillAMinecraftMovieBeTheTopGrossiNO20250101_USDC-4h.feather",
+        "size": 58466,
+        "sha256": "60c4689b25d2394798afaa7b9017ede1e0e68cb8dc3756fd734981dfb980282a"
+      },
+      {
+        "filename": "SingleMarketWillJoeBidenWinTheUYES20220111_USDC-4h.feather",
+        "size": 58186,
+        "sha256": "d931403f726c2b48243f841a3551e9835769ee9ef3ca34273e9d0935af8aaa2c"
+      },
+      {
+        "filename": "WillZootopia2BeTheTopGrossingMoviNO20250101_USDC-4h.feather",
+        "size": 56250,
+        "sha256": "fa9898e1cffec055f74ce972090e4a869750d72561f857d6808fd047a31387ca"
+      },
+      {
+        "filename": "WillEthereumHit5000ByDecember31YES20241230_USDC-4h.feather",
+        "size": 56194,
+        "sha256": "fb0d96a4c82505d91a6654f2a3ec83b0e013ee3f33b07b7a0d31cbd42269fbc3"
+      },
+      {
+        "filename": "WillEthereumHit5000ByDecember31NO20241230_USDC-4h.feather",
+        "size": 55986,
+        "sha256": "75d58f47d3dd6c99255e798d26f396be2cd1fca419c0650420aeebea72b9b87e"
+      },
+      {
+        "filename": "SingleMarketWillDonaldJTrumpWinYES20220111_USDC-4h.feather",
+        "size": 55626,
+        "sha256": "777998cf13096fb9dbeb1a46e77c18e07d4ee0dd777a945ae51ec0664d84a2ea"
+      },
+      {
+        "filename": "WillAMinecraftMovieHaveTheBestDYES20250114_USDC-4h.feather",
+        "size": 54818,
+        "sha256": "207e630466e026ce90e866db4f313c2c52298aa850fa649e8f6af0198e925007"
+      },
+      {
+        "filename": "WillEthereumHit10000ByDecember31NO20241230_USDC-4h.feather",
+        "size": 54706,
+        "sha256": "25ad64595de21cbf263338fa603df1755d5dc41542301c8cb873afd4ac7085b8"
+      },
+      {
+        "filename": "WillAvatar3BeTheTopGrossingMovieYES20250101_USDC-4h.feather",
+        "size": 54354,
+        "sha256": "7a72f207cb43f73368f96586eb94dc9d9599dee49a55881345bd8a3be74f31af"
+      },
+      {
+        "filename": "WillBitcoinReach150000ByDecemberYES20241230_USDC-4h.feather",
+        "size": 54234,
+        "sha256": "0c9555e97c55e2eea8838a0fd63916dfd22da9117a9e27b91fe8e86e80dc889b"
+      },
+      {
+        "filename": "WillBitcoinReach150000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 54002,
+        "sha256": "2c177d416dac732281bdc1941735484cda48cff0f8a42578d646b6fbfab52020"
+      },
+      {
+        "filename": "SingleMarketWillDonaldJTrumpWinNO20220111_USDC-4h.feather",
+        "size": 53986,
+        "sha256": "864a8035406a52aa0dc68def239f564e47180da1ccc176e49a113374010478c1"
+      },
+      {
+        "filename": "SingleMarketWillJoeBidenWinTheUNO20220111_USDC-4h.feather",
+        "size": 53962,
+        "sha256": "832836162273e3191f9a9bc32e16878a9da2904dc83ba61de30bc208a1e6bca3"
+      },
+      {
+        "filename": "WillBitcoinReach130000ByDecemberYES20241230_USDC-4h.feather",
+        "size": 53474,
+        "sha256": "b39c60dd23c4df1a6dc684969fa280a544836da6f269c6c665eb7ba44b3cadba"
+      },
+      {
+        "filename": "WillAMinecraftMovieHaveTheBestDNO20250114_USDC-4h.feather",
+        "size": 53426,
+        "sha256": "7507b7ddbd29116b0ebd69e32e1665e7bd12729fae6d0855999f2fc468e212a6"
+      },
+      {
+        "filename": "WillBitcoinReach130000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 53074,
+        "sha256": "e20c0fb9bddcbc92818cafec8c094685abf1e5d8cf81d083fe019851b4ba18c8"
+      },
+      {
+        "filename": "WillBitcoinReach1000000ByDecembeNO20241230_USDC-4h.feather",
+        "size": 52202,
+        "sha256": "c078bb867cdab313d2974ec8df38e69a2bdae6888db495d50e66440976d7e47c"
+      },
+      {
+        "filename": "WillLiloStitchBeTheTopGrossingMYES20250101_USDC-4h.feather",
+        "size": 51882,
+        "sha256": "3611e949ca7f0ef16951e6ef7bebcab6f74ba63b6e8dd2050afe3ed6bb18c1a8"
+      },
+      {
+        "filename": "WillAvatar3BeTheTopGrossingMovieNO20250101_USDC-4h.feather",
+        "size": 51850,
+        "sha256": "53e65ea456c78da8bd4f74c27071cf79c7e435c20873afad10212abe8cad43d5"
+      },
+      {
+        "filename": "WillEthereumHit10000ByDecember31YES20241230_USDC-4h.feather",
+        "size": 51610,
+        "sha256": "e4a8581663508141144068553ad01f410e2f0e84ae3b9d35339214c53a43b881"
+      },
+      {
+        "filename": "WillAvatarFireAndAshHaveTheBesYES20250114_USDC-4h.feather",
+        "size": 51458,
+        "sha256": "27d4d50ae14e2193d05db8c2795301fb8a5f0ab279a159fda754c5099cec39fc"
+      },
+      {
+        "filename": "WillWickedForGoodBeTheTopGrossinYES20250101_USDC-4h.feather",
+        "size": 51354,
+        "sha256": "05a7e5f56ccf8d0a6cca8cb91402beb1bd9da93672dd1c51a71b4cc652be71ad"
+      },
+      {
+        "filename": "WillOscarPiastriBeThe2025DriversCYES20250226_USDC-4h.feather",
+        "size": 51186,
+        "sha256": "5239fe7722126d493e85f3b08d9b1701ff2a22f6aab43183e79191c4afeec5a2"
+      },
+      {
+        "filename": "WillWickedForGoodBeTheTopGrossinNO20250101_USDC-4h.feather",
+        "size": 50122,
+        "sha256": "24b1a5632eed96edb60bcad129ad129785d01ca3284356366ccf3dd752216840"
+      },
+      {
+        "filename": "SingleMarketWillRonDesantisWinThNO20220111_USDC-4h.feather",
+        "size": 50098,
+        "sha256": "a09672800e9a0474d9011c5b7234583fde441c32bb018404396e1cf7ad2de3a0"
+      },
+      {
+        "filename": "WillOscarPiastriBeThe2025DriversCNO20250226_USDC-4h.feather",
+        "size": 50074,
+        "sha256": "d0d4cbe84a88be45f1a4d41585d0062da821668d76d84a900498ec722a17dc7a"
+      },
+      {
+        "filename": "WillBitcoinReach200000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 50034,
+        "sha256": "f3c71776c55fc4af6f55ab0cf86496d55b06104be13485167d777604a712040a"
+      },
+      {
+        "filename": "SingleMarketWillNikkiHaleyWinTheNO20220111_USDC-4h.feather",
+        "size": 49946,
+        "sha256": "26f629dd94b7fc0f57ef90e4094561d7d96941e64324d20c4456a5913eb636a3"
+      },
+      {
+        "filename": "SingleMarketWillNikkiHaleyWinTheYES20220111_USDC-4h.feather",
+        "size": 49922,
+        "sha256": "c9067b930797a665b3f045c299519ccdaa3161c28cacc5ef4dfbf62645e7cf6a"
+      },
+      {
+        "filename": "WillLiloStitchBeTheTopGrossingMNO20250101_USDC-4h.feather",
+        "size": 49746,
+        "sha256": "fb6cfea06b60728b27ea2b0f1184d94813a59a1f63747e4a7060c018054e9be7"
+      },
+      {
+        "filename": "WillBitcoinDipTo70000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 49690,
+        "sha256": "01d06135ca939993764d0ccfa632d68f1fd47863eec28ffbd27521fa329c74c4"
+      },
+      {
+        "filename": "WillBitcoinDipTo70000ByDecemberYES20241230_USDC-4h.feather",
+        "size": 49626,
+        "sha256": "9606abd77d1a9b97823d4d3551b3633c176b9f5ec0ec5f7b6b364423637a86d2"
+      },
+      {
+        "filename": "WillBitcoinReach200000ByDecemberYES20241230_USDC-4h.feather",
+        "size": 49530,
+        "sha256": "8b06b65a6cec127dfa3258977ee66ec237d4729e1c30bb977a7d1eea0eb5b4cc"
+      },
+      {
+        "filename": "SingleMarketWillRonDesantisWinThYES20220111_USDC-4h.feather",
+        "size": 49274,
+        "sha256": "6c733c785828d97bb7d25f7e695eeda8df9d54b4adf1e87a4433689bf5f2315d"
+      },
+      {
+        "filename": "WillBitcoinReach1000000ByDecembeYES20241230_USDC-4h.feather",
+        "size": 49258,
+        "sha256": "99c79fc1d0c379ba9decdf1c1a2c3f8031c011c2c960150424a4cfa1cd3f847a"
+      },
+      {
+        "filename": "WillEthereumHit6000ByDecember31NO20241230_USDC-4h.feather",
+        "size": 48658,
+        "sha256": "9d4726c3346e5e4118859f7bd09776798a623049803e09948401f583120e363b"
+      },
+      {
+        "filename": "WillBitcoinDipTo20000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 48346,
+        "sha256": "71375a28f5ce4e753941430083b36115ca43edaf3e4310eeaa785bf599f8d849"
+      },
+      {
+        "filename": "WillBitcoinReach250000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 48346,
+        "sha256": "5d791b7c19d909749a3cb1fae411a2927f82f9ffc265aa0f040200ee9cff060a"
+      },
+      {
+        "filename": "WillEthereumHit6000ByDecember31YES20241230_USDC-4h.feather",
+        "size": 47922,
+        "sha256": "f2d2321177025b72ec80a0761dac1c597c8bdefdf1aa7f52633e350ba117f622"
+      },
+      {
+        "filename": "WillAvatarFireAndAshHaveTheBesNO20250114_USDC-4h.feather",
+        "size": 47642,
+        "sha256": "48e2ac008b987531a49fe92dbaeb1ba750c9ea24e05e48199eb7912d1cd69bb3"
+      },
+      {
+        "filename": "WillGoogleHaveTheTopAiModelOnDecYES20241231_USDC-4h.feather",
+        "size": 47346,
+        "sha256": "56ef15f89344a1be72913c01ba1c1e23e45703d864eb8d7a952ad9ab1c6ccacb"
+      },
+      {
+        "filename": "WillGoldCloseAt3200OrMoreAtTheYES20241231_USDC-4h.feather",
+        "size": 47218,
+        "sha256": "5d13ad9af94c0c2cbd03df2b595e3ce410142620b05c1426ae05b26a096ae792"
+      },
+      {
+        "filename": "WillBitcoinDipTo50000ByDecemberNO20241230_USDC-4h.feather",
+        "size": 47146,
+        "sha256": "ebebec902a2b4dcef95cb815da0b041eebdb2de97b25639d7c86d280523f263e"
+      },
+      {
+        "filename": "WillEthereumHit8000ByDecember31NO20241230_USDC-4h.feather",
+        "size": 46978,
+        "sha256": "d1efac1d37e6d9341b5890faa88b6f87d3a7b71a975772b9a70f6b4f5dce7a41"
+      },
+      {
+        "filename": "KhameneiOutAsSupremeLeaderOfIranINO20241229_USDC-4h.feather",
+        "size": 46890,
+        "sha256": "44718b207bc4575c1dac1e3eca5d1c163b0c1a6170e75f0c4364b3dbedfb77f6"
+      },
+      {
+        "filename": "SingleMarketWillHillaryClintonWinNO20220111_USDC-4h.feather",
+        "size": 46738,
+        "sha256": "561a79aaaa8d3d4ba9930f82cae4a868707fe0c0e9f8e6e6159e1df7bc53de17"
+      },
+      {
+        "filename": "WillEthereumHit7000ByDecember31NO20241230_USDC-4h.feather",
+        "size": 46682,
+        "sha256": "30a638db14cb089e43f60a34c3ef7110444ee80219063a8615f3389d23a271b4"
+      },
+      {
+        "filename": "WillBitcoinReach250000ByDecemberYES20241230_USDC-4h.feather",
+        "size": 46330,
+        "sha256": "e63da4885109322db460bf2e7999c3b0e305cf392f39073fa7f13450059b9210"
+      }
+    ],
+    "contracts": [
+      {
+        "contract_id": 0,
+        "filename": "WillAMinecraftMovieBeTheTopGrossiYES20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 0,
+        "test_global_offset": 0,
+        "file_size": 61098,
+        "file_sha256": "ae665e37d3620dcc7712ce2c012da5a066d123c682927a7bbf296805362c2fd5",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          514,
+          666,
+          514
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          93,
+          206,
+          124
+        ]
+      },
+      {
+        "contract_id": 1,
+        "filename": "WillZootopia2BeTheTopGrossingMoviYES20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 1696,
+        "test_global_offset": 425,
+        "file_size": 59130,
+        "file_sha256": "bbd64049a7e8b305177a6122d6bd1f24daacbbcaa469060cf594f8b6e4476b40",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          505,
+          710,
+          479
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          117,
+          222,
+          84
+        ]
+      },
+      {
+        "contract_id": 2,
+        "filename": "WillAMinecraftMovieBeTheTopGrossiNO20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 3392,
+        "test_global_offset": 850,
+        "file_size": 58466,
+        "file_sha256": "60c4689b25d2394798afaa7b9017ede1e0e68cb8dc3756fd734981dfb980282a",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          511,
+          676,
+          507
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          119,
+          209,
+          95
+        ]
+      },
+      {
+        "contract_id": 3,
+        "filename": "SingleMarketWillJoeBidenWinTheUYES20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5650,
+        "sequence_count": 5586,
+        "train_sequence_count": 4468,
+        "test_sequence_count": 1118,
+        "train_global_offset": 5088,
+        "test_global_offset": 1275,
+        "file_size": 58186,
+        "file_sha256": "d931403f726c2b48243f841a3551e9835769ee9ef3ca34273e9d0935af8aaa2c",
+        "train_eligible_count": 4466,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          109,
+          4245,
+          112
+        ],
+        "test_eligible_count": 1116,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          186,
+          732,
+          198
+        ]
+      },
+      {
+        "contract_id": 4,
+        "filename": "WillZootopia2BeTheTopGrossingMoviNO20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 9556,
+        "test_global_offset": 2393,
+        "file_size": 56250,
+        "file_sha256": "fa9898e1cffec055f74ce972090e4a869750d72561f857d6808fd047a31387ca",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          450,
+          748,
+          496
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          88,
+          221,
+          114
+        ]
+      },
+      {
+        "contract_id": 5,
+        "filename": "WillEthereumHit5000ByDecember31YES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 11252,
+        "test_global_offset": 2818,
+        "file_size": 56194,
+        "file_sha256": "fb0d96a4c82505d91a6654f2a3ec83b0e013ee3f33b07b7a0d31cbd42269fbc3",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          570,
+          552,
+          580
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          124,
+          216,
+          85
+        ]
+      },
+      {
+        "contract_id": 6,
+        "filename": "WillEthereumHit5000ByDecember31NO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 12956,
+        "test_global_offset": 3245,
+        "file_size": 55986,
+        "file_sha256": "75d58f47d3dd6c99255e798d26f396be2cd1fca419c0650420aeebea72b9b87e",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          588,
+          506,
+          608
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          74,
+          232,
+          119
+        ]
+      },
+      {
+        "contract_id": 7,
+        "filename": "SingleMarketWillDonaldJTrumpWinYES20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 14660,
+        "test_global_offset": 3672,
+        "file_size": 55626,
+        "file_sha256": "777998cf13096fb9dbeb1a46e77c18e07d4ee0dd777a945ae51ec0664d84a2ea",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          107,
+          4388,
+          123
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          94,
+          958,
+          101
+        ]
+      },
+      {
+        "contract_id": 8,
+        "filename": "WillAMinecraftMovieHaveTheBestDYES20250114_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2106,
+        "sequence_count": 2042,
+        "train_sequence_count": 1633,
+        "test_sequence_count": 409,
+        "train_global_offset": 19280,
+        "test_global_offset": 4827,
+        "file_size": 54818,
+        "file_sha256": "207e630466e026ce90e866db4f313c2c52298aa850fa649e8f6af0198e925007",
+        "train_eligible_count": 1631,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          455,
+          699,
+          477
+        ],
+        "test_eligible_count": 407,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          93,
+          206,
+          108
+        ]
+      },
+      {
+        "contract_id": 9,
+        "filename": "WillEthereumHit10000ByDecember31NO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 20913,
+        "test_global_offset": 5236,
+        "file_size": 54706,
+        "file_sha256": "25ad64595de21cbf263338fa603df1755d5dc41542301c8cb873afd4ac7085b8",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          360,
+          950,
+          392
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          7,
+          410,
+          8
+        ]
+      },
+      {
+        "contract_id": 10,
+        "filename": "WillAvatar3BeTheTopGrossingMovieYES20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 22617,
+        "test_global_offset": 5663,
+        "file_size": 54354,
+        "file_sha256": "7a72f207cb43f73368f96586eb94dc9d9599dee49a55881345bd8a3be74f31af",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          342,
+          1033,
+          319
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          77,
+          273,
+          73
+        ]
+      },
+      {
+        "contract_id": 11,
+        "filename": "WillBitcoinReach150000ByDecemberYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 24313,
+        "test_global_offset": 6088,
+        "file_size": 54234,
+        "file_sha256": "0c9555e97c55e2eea8838a0fd63916dfd22da9117a9e27b91fe8e86e80dc889b",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          646,
+          425,
+          631
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          67,
+          301,
+          57
+        ]
+      },
+      {
+        "contract_id": 12,
+        "filename": "WillBitcoinReach150000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 26017,
+        "test_global_offset": 6515,
+        "file_size": 54002,
+        "file_sha256": "2c177d416dac732281bdc1941735484cda48cff0f8a42578d646b6fbfab52020",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          626,
+          417,
+          659
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          58,
+          296,
+          71
+        ]
+      },
+      {
+        "contract_id": 13,
+        "filename": "SingleMarketWillDonaldJTrumpWinNO20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 27721,
+        "test_global_offset": 6942,
+        "file_size": 53986,
+        "file_sha256": "864a8035406a52aa0dc68def239f564e47180da1ccc176e49a113374010478c1",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          106,
+          4424,
+          88
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          80,
+          1006,
+          67
+        ]
+      },
+      {
+        "contract_id": 14,
+        "filename": "SingleMarketWillJoeBidenWinTheUNO20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5650,
+        "sequence_count": 5586,
+        "train_sequence_count": 4468,
+        "test_sequence_count": 1118,
+        "train_global_offset": 32341,
+        "test_global_offset": 8097,
+        "file_size": 53962,
+        "file_sha256": "832836162273e3191f9a9bc32e16878a9da2904dc83ba61de30bc208a1e6bca3",
+        "train_eligible_count": 4466,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          78,
+          4325,
+          63
+        ],
+        "test_eligible_count": 1116,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          100,
+          927,
+          89
+        ]
+      },
+      {
+        "contract_id": 15,
+        "filename": "WillBitcoinReach130000ByDecemberYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 36809,
+        "test_global_offset": 9215,
+        "file_size": 53474,
+        "file_sha256": "b39c60dd23c4df1a6dc684969fa280a544836da6f269c6c665eb7ba44b3cadba",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          628,
+          460,
+          614
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          120,
+          216,
+          89
+        ]
+      },
+      {
+        "contract_id": 16,
+        "filename": "WillAMinecraftMovieHaveTheBestDNO20250114_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2106,
+        "sequence_count": 2042,
+        "train_sequence_count": 1633,
+        "test_sequence_count": 409,
+        "train_global_offset": 38513,
+        "test_global_offset": 9642,
+        "file_size": 53426,
+        "file_sha256": "7507b7ddbd29116b0ebd69e32e1665e7bd12729fae6d0855999f2fc468e212a6",
+        "train_eligible_count": 1631,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          463,
+          721,
+          447
+        ],
+        "test_eligible_count": 407,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          111,
+          204,
+          92
+        ]
+      },
+      {
+        "contract_id": 17,
+        "filename": "WillBitcoinReach130000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 40146,
+        "test_global_offset": 10051,
+        "file_size": 53074,
+        "file_sha256": "e20c0fb9bddcbc92818cafec8c094685abf1e5d8cf81d083fe019851b4ba18c8",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          616,
+          440,
+          646
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          85,
+          227,
+          113
+        ]
+      },
+      {
+        "contract_id": 18,
+        "filename": "WillBitcoinReach1000000ByDecembeNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 41850,
+        "test_global_offset": 10478,
+        "file_size": 52202,
+        "file_sha256": "c078bb867cdab313d2974ec8df38e69a2bdae6888db495d50e66440976d7e47c",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          35,
+          1639,
+          28
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          2,
+          421,
+          2
+        ]
+      },
+      {
+        "contract_id": 19,
+        "filename": "WillLiloStitchBeTheTopGrossingMYES20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 43554,
+        "test_global_offset": 10905,
+        "file_size": 51882,
+        "file_sha256": "3611e949ca7f0ef16951e6ef7bebcab6f74ba63b6e8dd2050afe3ed6bb18c1a8",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          345,
+          1015,
+          334
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          29,
+          366,
+          28
+        ]
+      },
+      {
+        "contract_id": 20,
+        "filename": "WillAvatar3BeTheTopGrossingMovieNO20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 45250,
+        "test_global_offset": 11330,
+        "file_size": 51850,
+        "file_sha256": "53e65ea456c78da8bd4f74c27071cf79c7e435c20873afad10212abe8cad43d5",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          288,
+          1091,
+          315
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          67,
+          280,
+          76
+        ]
+      },
+      {
+        "contract_id": 21,
+        "filename": "WillEthereumHit10000ByDecember31YES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 46946,
+        "test_global_offset": 11755,
+        "file_size": 51610,
+        "file_sha256": "e4a8581663508141144068553ad01f410e2f0e84ae3b9d35339214c53a43b881",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          324,
+          1081,
+          297
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          15,
+          402,
+          8
+        ]
+      },
+      {
+        "contract_id": 22,
+        "filename": "WillAvatarFireAndAshHaveTheBesYES20250114_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2106,
+        "sequence_count": 2042,
+        "train_sequence_count": 1633,
+        "test_sequence_count": 409,
+        "train_global_offset": 48650,
+        "test_global_offset": 12182,
+        "file_size": 51458,
+        "file_sha256": "27d4d50ae14e2193d05db8c2795301fb8a5f0ab279a159fda754c5099cec39fc",
+        "train_eligible_count": 1631,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          469,
+          719,
+          443
+        ],
+        "test_eligible_count": 407,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          97,
+          234,
+          76
+        ]
+      },
+      {
+        "contract_id": 23,
+        "filename": "WillWickedForGoodBeTheTopGrossinYES20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 50283,
+        "test_global_offset": 12591,
+        "file_size": 51354,
+        "file_sha256": "05a7e5f56ccf8d0a6cca8cb91402beb1bd9da93672dd1c51a71b4cc652be71ad",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          271,
+          1151,
+          272
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          102,
+          214,
+          107
+        ]
+      },
+      {
+        "contract_id": 24,
+        "filename": "WillOscarPiastriBeThe2025DriversCYES20250226_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 1704,
+        "sequence_count": 1640,
+        "train_sequence_count": 1312,
+        "test_sequence_count": 328,
+        "train_global_offset": 51979,
+        "test_global_offset": 13016,
+        "file_size": 51186,
+        "file_sha256": "5239fe7722126d493e85f3b08d9b1701ff2a22f6aab43183e79191c4afeec5a2",
+        "train_eligible_count": 1310,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          358,
+          600,
+          352
+        ],
+        "test_eligible_count": 326,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          94,
+          162,
+          70
+        ]
+      },
+      {
+        "contract_id": 25,
+        "filename": "WillWickedForGoodBeTheTopGrossinNO20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 53291,
+        "test_global_offset": 13344,
+        "file_size": 50122,
+        "file_sha256": "24b1a5632eed96edb60bcad129ad129785d01ca3284356366ccf3dd752216840",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          248,
+          1196,
+          250
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          98,
+          223,
+          102
+        ]
+      },
+      {
+        "contract_id": 26,
+        "filename": "SingleMarketWillRonDesantisWinThNO20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 54987,
+        "test_global_offset": 13769,
+        "file_size": 50098,
+        "file_sha256": "a09672800e9a0474d9011c5b7234583fde441c32bb018404396e1cf7ad2de3a0",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          56,
+          4503,
+          59
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          21,
+          1106,
+          26
+        ]
+      },
+      {
+        "contract_id": 27,
+        "filename": "WillOscarPiastriBeThe2025DriversCNO20250226_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 1704,
+        "sequence_count": 1640,
+        "train_sequence_count": 1312,
+        "test_sequence_count": 328,
+        "train_global_offset": 59607,
+        "test_global_offset": 14924,
+        "file_size": 50074,
+        "file_sha256": "d0d4cbe84a88be45f1a4d41585d0062da821668d76d84a900498ec722a17dc7a",
+        "train_eligible_count": 1310,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          344,
+          623,
+          343
+        ],
+        "test_eligible_count": 326,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          69,
+          163,
+          94
+        ]
+      },
+      {
+        "contract_id": 28,
+        "filename": "WillBitcoinReach200000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 60919,
+        "test_global_offset": 15252,
+        "file_size": 50034,
+        "file_sha256": "f3c71776c55fc4af6f55ab0cf86496d55b06104be13485167d777604a712040a",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          504,
+          664,
+          534
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          12,
+          398,
+          15
+        ]
+      },
+      {
+        "contract_id": 29,
+        "filename": "SingleMarketWillNikkiHaleyWinTheNO20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 62623,
+        "test_global_offset": 15679,
+        "file_size": 49946,
+        "file_sha256": "26f629dd94b7fc0f57ef90e4094561d7d96941e64324d20c4456a5913eb636a3",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          64,
+          4479,
+          75
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          17,
+          1110,
+          26
+        ]
+      },
+      {
+        "contract_id": 30,
+        "filename": "SingleMarketWillNikkiHaleyWinTheYES20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 67243,
+        "test_global_offset": 16834,
+        "file_size": 49922,
+        "file_sha256": "c9067b930797a665b3f045c299519ccdaa3161c28cacc5ef4dfbf62645e7cf6a",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          71,
+          4491,
+          56
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          20,
+          1117,
+          16
+        ]
+      },
+      {
+        "contract_id": 31,
+        "filename": "WillLiloStitchBeTheTopGrossingMNO20250101_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2185,
+        "sequence_count": 2121,
+        "train_sequence_count": 1696,
+        "test_sequence_count": 425,
+        "train_global_offset": 71863,
+        "test_global_offset": 17989,
+        "file_size": 49746,
+        "file_sha256": "fb6cfea06b60728b27ea2b0f1184d94813a59a1f63747e4a7060c018054e9be7",
+        "train_eligible_count": 1694,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          333,
+          1015,
+          346
+        ],
+        "test_eligible_count": 423,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          24,
+          373,
+          26
+        ]
+      },
+      {
+        "contract_id": 32,
+        "filename": "WillBitcoinDipTo70000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 73559,
+        "test_global_offset": 18414,
+        "file_size": 49690,
+        "file_sha256": "01d06135ca939993764d0ccfa632d68f1fd47863eec28ffbd27521fa329c74c4",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          503,
+          638,
+          561
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          113,
+          176,
+          136
+        ]
+      },
+      {
+        "contract_id": 33,
+        "filename": "WillBitcoinDipTo70000ByDecemberYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 75263,
+        "test_global_offset": 18841,
+        "file_size": 49626,
+        "file_sha256": "9606abd77d1a9b97823d4d3551b3633c176b9f5ec0ec5f7b6b364423637a86d2",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          575,
+          629,
+          498
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          130,
+          180,
+          115
+        ]
+      },
+      {
+        "contract_id": 34,
+        "filename": "WillBitcoinReach200000ByDecemberYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 76967,
+        "test_global_offset": 19268,
+        "file_size": 49530,
+        "file_sha256": "8b06b65a6cec127dfa3258977ee66ec237d4729e1c30bb977a7d1eea0eb5b4cc",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          519,
+          682,
+          501
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          21,
+          388,
+          16
+        ]
+      },
+      {
+        "contract_id": 35,
+        "filename": "SingleMarketWillRonDesantisWinThYES20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5839,
+        "sequence_count": 5775,
+        "train_sequence_count": 4620,
+        "test_sequence_count": 1155,
+        "train_global_offset": 78671,
+        "test_global_offset": 19695,
+        "file_size": 49274,
+        "file_sha256": "6c733c785828d97bb7d25f7e695eeda8df9d54b4adf1e87a4433689bf5f2315d",
+        "train_eligible_count": 4618,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          46,
+          4534,
+          38
+        ],
+        "test_eligible_count": 1153,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          16,
+          1121,
+          16
+        ]
+      },
+      {
+        "contract_id": 36,
+        "filename": "WillBitcoinReach1000000ByDecembeYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 83291,
+        "test_global_offset": 20850,
+        "file_size": 49258,
+        "file_sha256": "99c79fc1d0c379ba9decdf1c1a2c3f8031c011c2c960150424a4cfa1cd3f847a",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          36,
+          1616,
+          50
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          2,
+          421,
+          2
+        ]
+      },
+      {
+        "contract_id": 37,
+        "filename": "WillEthereumHit6000ByDecember31NO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 84995,
+        "test_global_offset": 21277,
+        "file_size": 48658,
+        "file_sha256": "9d4726c3346e5e4118859f7bd09776798a623049803e09948401f583120e363b",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          517,
+          641,
+          544
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          54,
+          291,
+          80
+        ]
+      },
+      {
+        "contract_id": 38,
+        "filename": "WillBitcoinDipTo20000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 86699,
+        "test_global_offset": 21704,
+        "file_size": 48346,
+        "file_sha256": "71375a28f5ce4e753941430083b36115ca43edaf3e4310eeaa785bf599f8d849",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          100,
+          1497,
+          105
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          3,
+          417,
+          5
+        ]
+      },
+      {
+        "contract_id": 39,
+        "filename": "WillBitcoinReach250000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 88403,
+        "test_global_offset": 22131,
+        "file_size": 48346,
+        "file_sha256": "5d791b7c19d909749a3cb1fae411a2927f82f9ffc265aa0f040200ee9cff060a",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          384,
+          914,
+          404
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          3,
+          414,
+          8
+        ]
+      },
+      {
+        "contract_id": 40,
+        "filename": "WillEthereumHit6000ByDecember31YES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 90107,
+        "test_global_offset": 22558,
+        "file_size": 47922,
+        "file_sha256": "f2d2321177025b72ec80a0761dac1c597c8bdefdf1aa7f52633e350ba117f622",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          503,
+          712,
+          487
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          76,
+          291,
+          58
+        ]
+      },
+      {
+        "contract_id": 41,
+        "filename": "WillAvatarFireAndAshHaveTheBesNO20250114_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2106,
+        "sequence_count": 2042,
+        "train_sequence_count": 1633,
+        "test_sequence_count": 409,
+        "train_global_offset": 91811,
+        "test_global_offset": 22985,
+        "file_size": 47642,
+        "file_sha256": "48e2ac008b987531a49fe92dbaeb1ba750c9ea24e05e48199eb7912d1cd69bb3",
+        "train_eligible_count": 1631,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          403,
+          789,
+          439
+        ],
+        "test_eligible_count": 407,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          75,
+          243,
+          89
+        ]
+      },
+      {
+        "contract_id": 42,
+        "filename": "WillGoogleHaveTheTopAiModelOnDecYES20241231_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2190,
+        "sequence_count": 2126,
+        "train_sequence_count": 1700,
+        "test_sequence_count": 426,
+        "train_global_offset": 93444,
+        "test_global_offset": 23394,
+        "file_size": 47346,
+        "file_sha256": "56ef15f89344a1be72913c01ba1c1e23e45703d864eb8d7a952ad9ab1c6ccacb",
+        "train_eligible_count": 1698,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          453,
+          755,
+          490
+        ],
+        "test_eligible_count": 424,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          122,
+          151,
+          151
+        ]
+      },
+      {
+        "contract_id": 43,
+        "filename": "WillGoldCloseAt3200OrMoreAtTheYES20241231_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2190,
+        "sequence_count": 2126,
+        "train_sequence_count": 1700,
+        "test_sequence_count": 426,
+        "train_global_offset": 95144,
+        "test_global_offset": 23820,
+        "file_size": 47218,
+        "file_sha256": "5d13ad9af94c0c2cbd03df2b595e3ce410142620b05c1426ae05b26a096ae792",
+        "train_eligible_count": 1698,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          380,
+          808,
+          510
+        ],
+        "test_eligible_count": 424,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          32,
+          357,
+          35
+        ]
+      },
+      {
+        "contract_id": 44,
+        "filename": "WillBitcoinDipTo50000ByDecemberNO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 96844,
+        "test_global_offset": 24246,
+        "file_size": 47146,
+        "file_sha256": "ebebec902a2b4dcef95cb815da0b041eebdb2de97b25639d7c86d280523f263e",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          408,
+          846,
+          448
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          29,
+          361,
+          35
+        ]
+      },
+      {
+        "contract_id": 45,
+        "filename": "WillEthereumHit8000ByDecember31NO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 98548,
+        "test_global_offset": 24673,
+        "file_size": 46978,
+        "file_sha256": "d1efac1d37e6d9341b5890faa88b6f87d3a7b71a975772b9a70f6b4f5dce7a41",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          448,
+          768,
+          486
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          32,
+          361,
+          32
+        ]
+      },
+      {
+        "contract_id": 46,
+        "filename": "KhameneiOutAsSupremeLeaderOfIranINO20241229_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2202,
+        "sequence_count": 2138,
+        "train_sequence_count": 1710,
+        "test_sequence_count": 428,
+        "train_global_offset": 100252,
+        "test_global_offset": 25100,
+        "file_size": 46890,
+        "file_sha256": "44718b207bc4575c1dac1e3eca5d1c163b0c1a6170e75f0c4364b3dbedfb77f6",
+        "train_eligible_count": 1708,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          443,
+          798,
+          467
+        ],
+        "test_eligible_count": 426,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          52,
+          299,
+          75
+        ]
+      },
+      {
+        "contract_id": 47,
+        "filename": "SingleMarketWillHillaryClintonWinNO20220111_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 5653,
+        "sequence_count": 5589,
+        "train_sequence_count": 4471,
+        "test_sequence_count": 1118,
+        "train_global_offset": 101962,
+        "test_global_offset": 25528,
+        "file_size": 46738,
+        "file_sha256": "561a79aaaa8d3d4ba9930f82cae4a868707fe0c0e9f8e6e6159e1df7bc53de17",
+        "train_eligible_count": 4469,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          12,
+          4449,
+          8
+        ],
+        "test_eligible_count": 1116,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          21,
+          1078,
+          17
+        ]
+      },
+      {
+        "contract_id": 48,
+        "filename": "WillEthereumHit7000ByDecember31NO20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 106433,
+        "test_global_offset": 26646,
+        "file_size": 46682,
+        "file_sha256": "30a638db14cb089e43f60a34c3ef7110444ee80219063a8615f3389d23a271b4",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          462,
+          747,
+          493
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          31,
+          340,
+          54
+        ]
+      },
+      {
+        "contract_id": 49,
+        "filename": "WillBitcoinReach250000ByDecemberYES20241230_USDC-4h.feather",
+        "status": "included",
+        "raw_rows": 2195,
+        "sequence_count": 2131,
+        "train_sequence_count": 1704,
+        "test_sequence_count": 427,
+        "train_global_offset": 108137,
+        "test_global_offset": 27073,
+        "file_size": 46330,
+        "file_sha256": "e63da4885109322db460bf2e7999c3b0e305cf392f39073fa7f13450059b9210",
+        "train_eligible_count": 1702,
+        "train_dropped_no_future_count": 2,
+        "train_class_counts": [
+          365,
+          989,
+          348
+        ],
+        "test_eligible_count": 425,
+        "test_dropped_no_future_count": 2,
+        "test_class_counts": [
+          7,
+          413,
+          5
+        ]
+      }
+    ],
+    "split_safety": "train and test labels built independently within each contract split",
+    "dropped_no_future_counts": {
+      "train": 100,
+      "test": 100
+    },
+    "train_count": 109741,
+    "test_count": 27400,
+    "train_class_counts": [
+      17941,
+      73464,
+      18336
+    ],
+    "test_class_counts": [
+      3179,
+      20933,
+      3288
+    ],
+    "train_identity_hash": "6f6cf85df797676e66952cf45f8623bdfa30448a3e8a0ecc534cc27675b5e50d",
+    "test_identity_hash": "e45be5a0694f7850a4ddc1088ba7a7cb3d339f7614979b3fed9b5f6f97b5a60f",
+    "class_names": [
+      "DOWN",
+      "STABLE",
+      "UP"
+    ]
+  },
+  "alignment_manifest": {
+    "alignment_npz": "data/features/phase2_ta_probability_movement_4h_h2_tau005.npz",
+    "task": "phase2_probability_movement_ta_features",
+    "labels_npz": "data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz",
+    "feature_count": 36,
+    "feature_names": [
+      "z_score",
+      "rsi",
+      "boll",
+      "ULTOSC",
+      "pct_change",
+      "zsVol",
+      "PR_MA_Ratio_short",
+      "MA_Ratio_short",
+      "MA_Ratio",
+      "PR_MA_Ratio",
+      "DayOfWeek",
+      "Month",
+      "Hourly",
+      "CDL2CROWS",
+      "CDL3BLACKCROWS",
+      "CDL3WHITESOLDIERS",
+      "CDLABANDONEDBABY",
+      "CDLBELTHOLD",
+      "CDLCOUNTERATTACK",
+      "CDLDARKCLOUDCOVER",
+      "CDLDRAGONFLYDOJI",
+      "CDLENGULFING",
+      "CDLEVENINGDOJISTAR",
+      "CDLEVENINGSTAR",
+      "CDLGRAVESTONEDOJI",
+      "CDLHANGINGMAN",
+      "CDLHARAMICROSS",
+      "CDLINVERTEDHAMMER",
+      "CDLMARUBOZU",
+      "CDLMORNINGDOJISTAR",
+      "CDLMORNINGSTAR",
+      "CDLPIERCING",
+      "CDLRISEFALL3METHODS",
+      "CDLSHOOTINGSTAR",
+      "CDLSPINNINGTOP",
+      "CDLUPSIDEGAP2CROWS"
+    ],
+    "volume_normalization": "per-contract mean/std from raw rows visible to the training sequence split only",
+    "final_standardization": "performed by each runner using aligned training rows only",
+    "availability": [
+      {
+        "contract_id": 0,
+        "filename": "WillAMinecraftMovieBeTheTopGrossiYES20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1546,
+        "test_requested": 423,
+        "test_eligible": 422
+      },
+      {
+        "contract_id": 1,
+        "filename": "WillZootopia2BeTheTopGrossingMoviYES20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1588,
+        "test_requested": 423,
+        "test_eligible": 395
+      },
+      {
+        "contract_id": 2,
+        "filename": "WillAMinecraftMovieBeTheTopGrossiNO20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1530,
+        "test_requested": 423,
+        "test_eligible": 422
+      },
+      {
+        "contract_id": 3,
+        "filename": "SingleMarketWillJoeBidenWinTheUYES20220111_USDC-4h.feather",
+        "train_requested": 4466,
+        "train_eligible": 375,
+        "test_requested": 1116,
+        "test_eligible": 685
+      },
+      {
+        "contract_id": 4,
+        "filename": "WillZootopia2BeTheTopGrossingMoviNO20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1562,
+        "test_requested": 423,
+        "test_eligible": 397
+      },
+      {
+        "contract_id": 5,
+        "filename": "WillEthereumHit5000ByDecember31YES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1490,
+        "test_requested": 425,
+        "test_eligible": 425
+      },
+      {
+        "contract_id": 6,
+        "filename": "WillEthereumHit5000ByDecember31NO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1552,
+        "test_requested": 425,
+        "test_eligible": 416
+      },
+      {
+        "contract_id": 7,
+        "filename": "SingleMarketWillDonaldJTrumpWinYES20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 427,
+        "test_requested": 1153,
+        "test_eligible": 706
+      },
+      {
+        "contract_id": 8,
+        "filename": "WillAMinecraftMovieHaveTheBestDYES20250114_USDC-4h.feather",
+        "train_requested": 1631,
+        "train_eligible": 1438,
+        "test_requested": 407,
+        "test_eligible": 406
+      },
+      {
+        "contract_id": 9,
+        "filename": "WillEthereumHit10000ByDecember31NO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1596,
+        "test_requested": 425,
+        "test_eligible": 409
+      },
+      {
+        "contract_id": 10,
+        "filename": "WillAvatar3BeTheTopGrossingMovieYES20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1469,
+        "test_requested": 423,
+        "test_eligible": 417
+      },
+      {
+        "contract_id": 11,
+        "filename": "WillBitcoinReach150000ByDecemberYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1627,
+        "test_requested": 425,
+        "test_eligible": 401
+      },
+      {
+        "contract_id": 12,
+        "filename": "WillBitcoinReach150000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1635,
+        "test_requested": 425,
+        "test_eligible": 406
+      },
+      {
+        "contract_id": 13,
+        "filename": "SingleMarketWillDonaldJTrumpWinNO20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 349,
+        "test_requested": 1153,
+        "test_eligible": 301
+      },
+      {
+        "contract_id": 14,
+        "filename": "SingleMarketWillJoeBidenWinTheUNO20220111_USDC-4h.feather",
+        "train_requested": 4466,
+        "train_eligible": 257,
+        "test_requested": 1116,
+        "test_eligible": 367
+      },
+      {
+        "contract_id": 15,
+        "filename": "WillBitcoinReach130000ByDecemberYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1586,
+        "test_requested": 425,
+        "test_eligible": 415
+      },
+      {
+        "contract_id": 16,
+        "filename": "WillAMinecraftMovieHaveTheBestDNO20250114_USDC-4h.feather",
+        "train_requested": 1631,
+        "train_eligible": 1429,
+        "test_requested": 407,
+        "test_eligible": 402
+      },
+      {
+        "contract_id": 17,
+        "filename": "WillBitcoinReach130000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1597,
+        "test_requested": 425,
+        "test_eligible": 409
+      },
+      {
+        "contract_id": 18,
+        "filename": "WillBitcoinReach1000000ByDecembeNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1612,
+        "test_requested": 425,
+        "test_eligible": 375
+      },
+      {
+        "contract_id": 19,
+        "filename": "WillLiloStitchBeTheTopGrossingMYES20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1208,
+        "test_requested": 423,
+        "test_eligible": 415
+      },
+      {
+        "contract_id": 20,
+        "filename": "WillAvatar3BeTheTopGrossingMovieNO20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1435,
+        "test_requested": 423,
+        "test_eligible": 423
+      },
+      {
+        "contract_id": 21,
+        "filename": "WillEthereumHit10000ByDecember31YES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1411,
+        "test_requested": 425,
+        "test_eligible": 388
+      },
+      {
+        "contract_id": 22,
+        "filename": "WillAvatarFireAndAshHaveTheBesYES20250114_USDC-4h.feather",
+        "train_requested": 1631,
+        "train_eligible": 1442,
+        "test_requested": 407,
+        "test_eligible": 361
+      },
+      {
+        "contract_id": 23,
+        "filename": "WillWickedForGoodBeTheTopGrossinYES20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1360,
+        "test_requested": 423,
+        "test_eligible": 300
+      },
+      {
+        "contract_id": 24,
+        "filename": "WillOscarPiastriBeThe2025DriversCYES20250226_USDC-4h.feather",
+        "train_requested": 1310,
+        "train_eligible": 1272,
+        "test_requested": 326,
+        "test_eligible": 325
+      },
+      {
+        "contract_id": 25,
+        "filename": "WillWickedForGoodBeTheTopGrossinNO20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1378,
+        "test_requested": 423,
+        "test_eligible": 302
+      },
+      {
+        "contract_id": 26,
+        "filename": "SingleMarketWillRonDesantisWinThNO20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 312,
+        "test_requested": 1153,
+        "test_eligible": 465
+      },
+      {
+        "contract_id": 27,
+        "filename": "WillOscarPiastriBeThe2025DriversCNO20250226_USDC-4h.feather",
+        "train_requested": 1310,
+        "train_eligible": 1272,
+        "test_requested": 326,
+        "test_eligible": 326
+      },
+      {
+        "contract_id": 28,
+        "filename": "WillBitcoinReach200000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1541,
+        "test_requested": 425,
+        "test_eligible": 391
+      },
+      {
+        "contract_id": 29,
+        "filename": "SingleMarketWillNikkiHaleyWinTheNO20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 242,
+        "test_requested": 1153,
+        "test_eligible": 93
+      },
+      {
+        "contract_id": 30,
+        "filename": "SingleMarketWillNikkiHaleyWinTheYES20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 223,
+        "test_requested": 1153,
+        "test_eligible": 80
+      },
+      {
+        "contract_id": 31,
+        "filename": "WillLiloStitchBeTheTopGrossingMNO20250101_USDC-4h.feather",
+        "train_requested": 1694,
+        "train_eligible": 1212,
+        "test_requested": 423,
+        "test_eligible": 408
+      },
+      {
+        "contract_id": 32,
+        "filename": "WillBitcoinDipTo70000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1504,
+        "test_requested": 425,
+        "test_eligible": 418
+      },
+      {
+        "contract_id": 33,
+        "filename": "WillBitcoinDipTo70000ByDecemberYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1505,
+        "test_requested": 425,
+        "test_eligible": 412
+      },
+      {
+        "contract_id": 34,
+        "filename": "WillBitcoinReach200000ByDecemberYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1518,
+        "test_requested": 425,
+        "test_eligible": 374
+      },
+      {
+        "contract_id": 35,
+        "filename": "SingleMarketWillRonDesantisWinThYES20220111_USDC-4h.feather",
+        "train_requested": 4618,
+        "train_eligible": 185,
+        "test_requested": 1153,
+        "test_eligible": 70
+      },
+      {
+        "contract_id": 36,
+        "filename": "WillBitcoinReach1000000ByDecembeYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1502,
+        "test_requested": 425,
+        "test_eligible": 362
+      },
+      {
+        "contract_id": 37,
+        "filename": "WillEthereumHit6000ByDecember31NO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1430,
+        "test_requested": 425,
+        "test_eligible": 400
+      },
+      {
+        "contract_id": 38,
+        "filename": "WillBitcoinDipTo20000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1449,
+        "test_requested": 425,
+        "test_eligible": 398
+      },
+      {
+        "contract_id": 39,
+        "filename": "WillBitcoinReach250000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1552,
+        "test_requested": 425,
+        "test_eligible": 390
+      },
+      {
+        "contract_id": 40,
+        "filename": "WillEthereumHit6000ByDecember31YES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1369,
+        "test_requested": 425,
+        "test_eligible": 407
+      },
+      {
+        "contract_id": 41,
+        "filename": "WillAvatarFireAndAshHaveTheBesNO20250114_USDC-4h.feather",
+        "train_requested": 1631,
+        "train_eligible": 1385,
+        "test_requested": 407,
+        "test_eligible": 360
+      },
+      {
+        "contract_id": 42,
+        "filename": "WillGoogleHaveTheTopAiModelOnDecYES20241231_USDC-4h.feather",
+        "train_requested": 1698,
+        "train_eligible": 1315,
+        "test_requested": 424,
+        "test_eligible": 412
+      },
+      {
+        "contract_id": 43,
+        "filename": "WillGoldCloseAt3200OrMoreAtTheYES20241231_USDC-4h.feather",
+        "train_requested": 1698,
+        "train_eligible": 1353,
+        "test_requested": 424,
+        "test_eligible": 414
+      },
+      {
+        "contract_id": 44,
+        "filename": "WillBitcoinDipTo50000ByDecemberNO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1415,
+        "test_requested": 425,
+        "test_eligible": 420
+      },
+      {
+        "contract_id": 45,
+        "filename": "WillEthereumHit8000ByDecember31NO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1517,
+        "test_requested": 425,
+        "test_eligible": 425
+      },
+      {
+        "contract_id": 46,
+        "filename": "KhameneiOutAsSupremeLeaderOfIranINO20241229_USDC-4h.feather",
+        "train_requested": 1708,
+        "train_eligible": 1407,
+        "test_requested": 426,
+        "test_eligible": 404
+      },
+      {
+        "contract_id": 47,
+        "filename": "SingleMarketWillHillaryClintonWinNO20220111_USDC-4h.feather",
+        "train_requested": 4469,
+        "train_eligible": 54,
+        "test_requested": 1116,
+        "test_eligible": 98
+      },
+      {
+        "contract_id": 48,
+        "filename": "WillEthereumHit7000ByDecember31NO20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1376,
+        "test_requested": 425,
+        "test_eligible": 394
+      },
+      {
+        "contract_id": 49,
+        "filename": "WillBitcoinReach250000ByDecemberYES20241230_USDC-4h.feather",
+        "train_requested": 1702,
+        "train_eligible": 1366,
+        "test_requested": 425,
+        "test_eligible": 386
+      }
+    ],
+    "train_identity_hash": "cd9aec00773589d799e2929e40f1b3303539381dd6d674285eb9bcf855ffc7a9",
+    "test_identity_hash": "a64a7c44bd1f59c19d5ad6d48f71f580aa73af03deb5bfe6e71ccf6be863d8b7",
+    "train_rows": 62175,
+    "test_rows": 18997
+  },
+  "model_id": "C1_raw_ohlcv_mlp",
+  "protocol_id": "P0",
+  "train_sample_count_before_sampling": 62175,
+  "train_draw_count": 62175,
+  "test_sample_count": 18997,
+  "train_identity_hash": "cd9aec00773589d799e2929e40f1b3303539381dd6d674285eb9bcf855ffc7a9",
+  "test_identity_hash": "a64a7c44bd1f59c19d5ad6d48f71f580aa73af03deb5bfe6e71ccf6be863d8b7",
+  "test_distribution_untouched": true
+}

@@ -1,0 +1,27 @@
+{
+  "model_id": "C5_ta_mlp",
+  "protocol_id": "P1O",
+  "epoch_budgets": [
+    15,
+    50,
+    100
+  ],
+  "seed": 0,
+  "batch_size": 64,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0,
+  "logit_adjustment_strength": 1.0,
+  "device": "cuda",
+  "protocol": {
+    "protocol_id": "P1O",
+    "sampling": "balanced_oversampling",
+    "loss": "hard_ce",
+    "candidate": true,
+    "description": "fully balanced oversampling"
+  },
+  "model_spec": {
+    "architecture": "TAMLPClassifier",
+    "input_dim": 36,
+    "n_classes": 3
+  }
+}
