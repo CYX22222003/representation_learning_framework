@@ -1,0 +1,83 @@
+{
+  "accuracy": 0.5071167945861816,
+  "macro_f1": 0.42316081977120906,
+  "weighted_f1": 0.49001224011913314,
+  "per_class": [
+    {
+      "class_index": 0,
+      "precision": 0.2937276223308663,
+      "recall": 0.3274689532815975,
+      "f1": 0.30968192440963493,
+      "support": 6764
+    },
+    {
+      "class_index": 1,
+      "precision": 0.6358147640976995,
+      "recall": 0.7387719678883786,
+      "f1": 0.683437589113165,
+      "support": 13827
+    },
+    {
+      "class_index": 2,
+      "precision": 0.38623780648461314,
+      "recall": 0.21515641063266977,
+      "f1": 0.27636294579082726,
+      "support": 6809
+    }
+  ],
+  "confusion_matrix": [
+    [
+      2215,
+      3117,
+      1432
+    ],
+    [
+      2716,
+      10215,
+      896
+    ],
+    [
+      2610,
+      2734,
+      1465
+    ]
+  ],
+  "task": "trend_classification",
+  "epoch": 100,
+  "seed": 0,
+  "mode": "concat",
+  "train_loss": 0.3701592981815338,
+  "train_sample_count": 109741,
+  "test_sample_count": 27400,
+  "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+  "features_npz": "data/features/features_4h_seq64_top50.npz",
+  "labels_npz": "data/task_labels/trend_classification/triclass_4h_seq64_top50.npz",
+  "branch_dims": {
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64,
+    "contrastive": 128
+  },
+  "training_config": {
+    "task": "trend_classification",
+    "labels_npz": "data/task_labels/trend_classification/triclass_4h_seq64_top50.npz",
+    "mode": "concat",
+    "out_dim": 128,
+    "epoch_budgets": [
+      15,
+      50,
+      100
+    ],
+    "seed": 0,
+    "batch_size": 512,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "head_hidden_dim": 128,
+    "n_classes": 3,
+    "price_index": 3,
+    "horizon": 1,
+    "standardize": true,
+    "standardize_clip": 10.0,
+    "device": "cuda"
+  }
+}
