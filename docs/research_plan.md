@@ -118,6 +118,19 @@ Two categories of comparison models are used:
 
 The framework is evaluated using **probing**: frozen multi-branch encoders + a lightweight MLP task head trained on extracted features. Keeping the task head simple is intentional — representation quality, not decoder complexity, should drive performance.
 
+Phase 2 contains three separate experiment parts whose effects must not be
+mixed in the first comparison: (1) decoder refinement with the Phase-1
+encoders fixed, (2) encoder refinement through matched new temporal-backbone
+variants with the shallow decoder fixed, and (3) probability-movement
+classification relabelling. The Part 3 launcher is restricted to the strict
+TA-aligned Raw-OHLCV MLP, five-branch framework, and adapted TA-MLP matrix;
+Parts 1 and 2 use separate experiment roots.
+
+The canonical specifications are `docs/phase_plan/2026-09-08-phase-2-experiment-plan.md`
+for the complete three-part programme and
+`docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md` for the
+Part 3 execution contract.
+
 - Evaluate all models (framework, benchmarks, internal baselines) on the held-out test splits using consistent metrics:
   - Price prediction: MAE, RMSE
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility

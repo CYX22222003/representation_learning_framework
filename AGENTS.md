@@ -121,12 +121,21 @@ python scripts/train_framework.py \
   --out-path data/features/phase2_ta_probability_movement_4h_h2_tau005.npz \
   --overwrite
 
-# Bootstrap the C1/C2/C5 x P1U/P1O/P2 x seed matrix without running it
+# Bootstrap the strict C1/C2/C5 Phase-2 classification matrix without running it
 .venv/bin/python3 scripts/bootstrap_phase2_classification.py
+
+# Resume/execute the frozen matrix (complete runs are skipped)
+.venv/bin/python3 scripts/bootstrap_phase2_classification.py --execute
 
 # Aggregate completed Phase-2 probabilistic-classification runs
 .venv/bin/python3 scripts/report_phase2_classification.py \
   experiments/framework/phase2/classification_relabelling/4h_h2_tau005
+
+# Canonical phase specifications:
+# docs/phase_plan/2026-09-01-phase-1-product-readiness.md
+# docs/phase_plan/phase1_experiment_observation_and_judgement.md
+# docs/phase_plan/2026-09-08-phase-2-experiment-plan.md
+# docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md
 
 # Execute the predeclared five-branch Phase-1 Product matrix and generate reports/plots
 .venv/bin/python3 scripts/run_phase1_product.py \
@@ -171,7 +180,7 @@ PYTHONPATH=src .venv/bin/python3 src/baselines/garch_lstm_stacking/run_experimen
 
 # Compare the completed Phase-1 volatility run against strict shared-label baselines
 .venv/bin/python3 scripts/compare_volatility_phase1.py \
-  --framework-root experiments/framework/volatility_prediction/4h_phase1_all5_concat
+  --framework-root experiments/framework/phase1/volatility_prediction/4h_phase1_all5_concat
 
 # Run the train-only Alpha101-style raw-OHLCV factor dry run. This leaves the
 # global 20% task-test partition untouched and writes discovery/confirmation
