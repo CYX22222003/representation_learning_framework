@@ -34,7 +34,7 @@ def _write_json(path: Path, data: dict) -> None:
 def run_phase1(args: argparse.Namespace) -> dict:
     stages = _parse_stages(args.stages)
     feature_path = Path(args.features_npz)
-    task_root = ROOT / "experiments" / "framework"
+    task_root = ROOT / "experiments" / "framework" / "phase1"
     record_path = ROOT / "experiments" / "framework" / "phase1" / args.run_name / "execution_manifest.json"
     if record_path.exists() and not args.overwrite:
         raise FileExistsError(f"{record_path} exists; pass --overwrite to replace this Phase-1 record")

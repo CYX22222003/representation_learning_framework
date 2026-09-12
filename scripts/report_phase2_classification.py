@@ -26,7 +26,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
     root = Path(args.matrix_root)
     try:
-        metric_paths = sorted(root.glob("C*/P*/seed*/e*/metrics.json"))
+        included_models = ("C1_raw_ohlcv_mlp", "C2_framework", "C5_ta_mlp")
+        metric_paths = sorted(
+            path
+            for model in included_models
+            for path in (root / model).glob("P*/seed*/e*/metrics.json")
+        )
         if not metric_paths:
             raise FileNotFoundError(f"no Phase 2 metrics found under {root}")
         groups: dict[tuple[str, str, str, int], list[dict[str, object]]] = defaultdict(list)
@@ -35,6 +40,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         for path in metric_paths:
             row = json.loads(path.read_text(encoding="utf-8"))
             manifest = json.loads((path.parents[1] / "dataset_manifest.json").read_text(encoding="utf-8"))
+            replay_path = path.parent / "replay.json"
+            if not replay_path.exists() or not json.loads(replay_path.read_text(encoding="utf-8")).get("verified"):
+                raise ValueError(f"missing successful replay verification: {path.parent}")
+            with np.load(path.parent / "predictions.npz", allow_pickle=False) as predictions:
+                prediction_count = len(predictions["targets"])
+            if prediction_count != int(manifest["test_sample_count"]):
+                raise ValueError(f"prediction row count differs from manifest: {path}")
             scope = "ta_aligned" if manifest.get("alignment_manifest", {}).get("alignment_npz") else "full_rows"
             identities = (manifest["train_identity_hash"], manifest["test_identity_hash"])
             if scope in identity_by_scope and identity_by_scope[scope] != identities:

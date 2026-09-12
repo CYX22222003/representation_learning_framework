@@ -17,6 +17,37 @@ from baselines.ta_mlp_baseline.ta_features import FEATURE_NAMES, compute_ta_feat
 from tasks.phase2_classification.labels import identity_hash, load_label_bundle
 
 
+IDENTITY_FIELDS = ("indices", "contract_ids", "window_starts", "timestamps_ns", "labels")
+
+
+def validate_ta_bundle(payload: dict[str, np.ndarray]) -> dict[str, object]:
+    required = {
+        "feature_names",
+        *(f"{split}_{name}" for split in ("train", "test") for name in ("features", "label_positions", *IDENTITY_FIELDS)),
+    }
+    missing = sorted(required.difference(payload))
+    if missing:
+        raise ValueError(f"TA feature bundle missing {missing}")
+    result: dict[str, object] = {"feature_count": int(len(payload["feature_names"]))}
+    for split in ("train", "test"):
+        features = np.asarray(payload[f"{split}_features"])
+        positions = np.asarray(payload[f"{split}_label_positions"])
+        if features.ndim != 2 or features.shape[1] != len(payload["feature_names"]):
+            raise ValueError(f"invalid {split} TA feature shape: {features.shape}")
+        if len(features) == 0 or not np.all(np.isfinite(features)):
+            raise ValueError(f"{split} TA features are empty or non-finite")
+        if positions.ndim != 1 or len(positions) != len(features) or np.any(np.diff(positions) <= 0):
+            raise ValueError(f"invalid {split} label positions")
+        for name in IDENTITY_FIELDS:
+            if np.asarray(payload[f"{split}_{name}"]).shape != (len(features),):
+                raise ValueError(f"invalid {split}_{name} shape")
+        result[f"{split}_rows"] = int(len(features))
+        result[f"{split}_identity_hash"] = identity_hash(
+            payload[f"{split}_indices"], payload[f"{split}_contract_ids"], payload[f"{split}_window_starts"]
+        )
+    return result
+
+
 def _features_for_contract(frame: pd.DataFrame, seq_len: int, train_sequence_count: int) -> pd.DataFrame:
     features = compute_ta_features(frame)
     visible_end = min(len(frame), train_sequence_count + seq_len - 1)
@@ -79,6 +110,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--labels-npz", required=True)
     result.add_argument("--out-path", default="data/features/phase2_ta_probability_movement_4h_h2_tau005.npz")
     result.add_argument("--overwrite", action="store_true")
+    result.add_argument("--verify", action="store_true")
     return result
 
 
@@ -86,13 +118,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
     out = Path(args.out_path)
     try:
+        if args.verify:
+            with np.load(out, allow_pickle=False) as data:
+                payload = {key: data[key].copy() for key in data.files}
+            print(json.dumps(validate_ta_bundle(payload), indent=2))
+            return 0
         if (out.exists() or Path(f"{out}.manifest.json").exists()) and not args.overwrite:
             raise FileExistsError(f"output exists; pass --overwrite: {out}")
         payload, manifest = build_ta_bundle(Path(args.labels_npz))
+        validation = validate_ta_bundle(payload)
         out.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(out, **payload)
-        Path(f"{out}.manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-        print(json.dumps({"wrote": str(out), "train_rows": len(payload["train_labels"]), "test_rows": len(payload["test_labels"])}, indent=2))
+        Path(f"{out}.manifest.json").write_text(json.dumps({**manifest, **validation}, indent=2), encoding="utf-8")
+        print(json.dumps({"wrote": str(out), **validation}, indent=2))
         return 0
     except FileExistsError as exc:
         print(str(exc), file=sys.stderr)

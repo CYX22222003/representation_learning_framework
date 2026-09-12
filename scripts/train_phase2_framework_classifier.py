@@ -25,6 +25,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--mode", choices=("concat", "gated"), default="concat")
     result.add_argument("--out-dim", type=int, default=128)
     result.add_argument("--head-hidden-dim", type=int, default=128)
+    result.add_argument("--model-id", default="C2_framework")
     result.add_argument("--protocol", choices=("P0", "P1U", "P1O", "P2"), default="P2")
     result.add_argument("--epoch-budgets", default="15,50,100")
     result.add_argument("--seed", type=int, default=0)
@@ -44,7 +45,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         labels, provenance = load_labels_for_rows(args.labels_npz, args.alignment_npz)
         X_train, X_test, branch_dims, scaler = load_framework_inputs(args.features_npz, labels, args.branches)
         config = RunConfig(
-            model_id="C2_framework", protocol_id=args.protocol, epoch_budgets=parse_budgets(args.epoch_budgets),
+            model_id=args.model_id, protocol_id=args.protocol, epoch_budgets=parse_budgets(args.epoch_budgets),
             seed=args.seed, batch_size=args.batch_size, learning_rate=args.learning_rate,
             weight_decay=args.weight_decay, logit_adjustment_strength=args.logit_adjustment_strength,
             device=args.device,

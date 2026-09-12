@@ -87,6 +87,17 @@ def build_bundle(args: argparse.Namespace) -> tuple[dict[str, np.ndarray], dict[
         price_index=args.price_index, train_ratio=args.train_ratio,
         contract_ids=range(len(contract_sequences)), sequence_timestamps_ns=timestamps,
     )
+    for contract in contracts:
+        if contract.get("status") != "included":
+            continue
+        contract_id = int(contract["contract_id"])
+        for split in ("train", "test"):
+            mask = bundle[f"{split}_contract_ids"] == contract_id
+            counts = np.bincount(bundle[f"{split}_labels"][mask], minlength=3)
+            source_count = int(contract[f"{split}_sequence_count"])
+            contract[f"{split}_eligible_count"] = int(mask.sum())
+            contract[f"{split}_dropped_no_future_count"] = source_count - int(mask.sum())
+            contract[f"{split}_class_counts"] = counts.tolist()
     validation = validate_label_bundle(bundle, train_size=len(processed_train), test_size=len(processed_test))
     manifest = {
         "task": "trend_classification", "label_mode": LABEL_MODE,
@@ -100,6 +111,10 @@ def build_bundle(args: argparse.Namespace) -> tuple[dict[str, np.ndarray], dict[
         "processed_shapes": {"train": list(processed_train.shape), "test": list(processed_test.shape)},
         "source_files": source_files, "contracts": contracts,
         "split_safety": "train and test labels built independently within each contract split",
+        "dropped_no_future_counts": {
+            "train": int(len(processed_train) - len(bundle["train_labels"])),
+            "test": int(len(processed_test) - len(bundle["test_labels"])),
+        },
         **validation,
     }
     return bundle, manifest

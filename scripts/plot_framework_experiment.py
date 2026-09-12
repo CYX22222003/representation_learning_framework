@@ -141,7 +141,7 @@ def plot_run(run_root: str | Path) -> list[Path]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Plot saved framework task experiments.")
-    parser.add_argument("run_root", help="experiments/framework/<task>/<run-name>")
+    parser.add_argument("run_root", help="experiments/framework/phase1/<task>/<run-name>")
     args = parser.parse_args(argv)
     try:
         for path in plot_run(args.run_root):
@@ -154,4 +154,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

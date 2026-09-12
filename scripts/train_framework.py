@@ -805,7 +805,7 @@ def _default_run_root(task: str, run_name: str) -> Path:
     path = Path(run_name)
     if path.is_absolute() or ".." in path.parts:
         raise ValueError("run-name must be a simple relative directory name")
-    return ROOT / "experiments" / "framework" / task / run_name
+    return ROOT / "experiments" / "framework" / "phase1" / task / run_name
 
 
 def _prepare_run_root(run_root: Path, overwrite: bool) -> None:
