@@ -39,6 +39,12 @@ Check the branch table, source modules, dimensions, aggregator example, extensio
 
 Check the allocation table, operation order, and rules summary. New components must use the correct train/test boundaries and must not introduce validation splits, early stopping, or test-driven model selection unless the project methodology is deliberately changed.
 
+### `docs/phase_plan/`
+
+When a change affects phase scope, identifiers, execution order, comparison
+fairness, readiness, result judgement, or completion gates, check the
+applicable canonical Phase 1 and/or Phase 2 documents in this directory.
+
 ## 3. Audit Repository Skills
 
 Update a skill only when its triggers, document pointers, or workflow are affected:
