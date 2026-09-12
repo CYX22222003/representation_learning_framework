@@ -39,6 +39,8 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(len(rows), 1)
             self.assertTrue((root / "e1" / "checkpoint.pth").exists())
             self.assertTrue((root / "e1" / "predictions.npz").exists())
+            self.assertTrue((root / "e1" / "replay.json").exists())
+            self.assertTrue((root / "training_diagnostics.json").exists())
             manifest = json.loads((root / "dataset_manifest.json").read_text())
             self.assertTrue(manifest["test_distribution_untouched"])
             with np.load(root / "sampling_indices.npz") as sampling:

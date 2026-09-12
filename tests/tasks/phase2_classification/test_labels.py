@@ -37,6 +37,15 @@ class MovementLabelTests(unittest.TestCase):
         )
         self.assertEqual(bundle["train_indices"].tolist(), [0, 3, 4])
 
+    def test_validator_rejects_label_that_disagrees_with_delta(self) -> None:
+        bundle = build_movement_label_bundle(
+            [contract([0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 0.8])],
+            horizon=1, threshold=0.05, train_ratio=0.75,
+        )
+        bundle["train_labels"][0] = 1
+        with self.assertRaisesRegex(ValueError, "do not match delta"):
+            validate_label_bundle(bundle)
+
 
 if __name__ == "__main__":
     unittest.main()
