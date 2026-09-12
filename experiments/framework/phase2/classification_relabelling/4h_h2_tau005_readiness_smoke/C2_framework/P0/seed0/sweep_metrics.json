@@ -1,0 +1,92 @@
+[
+  {
+    "accuracy": 0.690635363478444,
+    "macro_f1": 0.4366027725659216,
+    "weighted_f1": 0.6475829936875159,
+    "balanced_accuracy": 0.45382893368954536,
+    "macro_roc_auc": 0.7630515520614795,
+    "macro_average_precision": 0.49784913202384934,
+    "nll": 0.821056627481332,
+    "multiclass_brier": 0.46769037995224,
+    "per_class": [
+      {
+        "class_index": 0,
+        "class_name": "DOWN",
+        "precision": 0.3380855397148676,
+        "recall": 0.05611899932386748,
+        "f1": 0.09625978544505653,
+        "support": 2958,
+        "roc_auc": 0.7449402510724261,
+        "average_precision": 0.3097066133154076
+      },
+      {
+        "class_index": 1,
+        "class_name": "STABLE",
+        "precision": 0.781431334622824,
+        "recall": 0.9048501699104109,
+        "f1": 0.8386242439425933,
+        "support": 12948,
+        "roc_auc": 0.8042962316859027,
+        "average_precision": 0.8738037019840417
+      },
+      {
+        "class_index": 2,
+        "class_name": "UP",
+        "precision": 0.3524053515513806,
+        "recall": 0.4005176318343578,
+        "f1": 0.3749242883101151,
+        "support": 3091,
+        "roc_auc": 0.7399181734261091,
+        "average_precision": 0.3100370807720988
+      }
+    ],
+    "confusion_matrix": [
+      [
+        166,
+        1588,
+        1204
+      ],
+      [
+        161,
+        11716,
+        1071
+      ],
+      [
+        164,
+        1689,
+        1238
+      ]
+    ],
+    "observed_class_counts": [
+      2958,
+      12948,
+      3091
+    ],
+    "predicted_class_counts": [
+      491,
+      14993,
+      3513
+    ],
+    "observed_class_proportions": [
+      0.15570879612570407,
+      0.6815813023108912,
+      0.16270990156340476
+    ],
+    "predicted_class_proportions": [
+      0.025846186239932623,
+      0.7892298784018529,
+      0.18492393535821444
+    ],
+    "epoch": 1,
+    "seed": 0,
+    "model_id": "C2_framework",
+    "protocol_id": "P0",
+    "candidate_protocol": false,
+    "train_loss": 1.0190098285675049,
+    "parameter_count": 65539,
+    "training_seconds_to_checkpoint": 0.9321754830000373,
+    "training_seconds_total": 0.9321769670000322,
+    "inference_seconds": 0.049559761000182334,
+    "inference_rows_per_second": 383315.00428200426
+  }
+]

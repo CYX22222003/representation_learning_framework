@@ -1,10 +1,19 @@
 # TA-MLP Baseline
 
-External benchmark for the **trend classification** task. A 4-layer MLP (36→128→64→32→n_classes, LeakyReLU) over 36 TA-Lib technical indicators (oscillators, moving-average ratios, calendar features, 23 candlestick patterns). Used as a comparison point for the multi-branch framework on a non-regression downstream task.
+Paper-inspired external benchmark for the **trend classification** task. A
+4-layer MLP (36→128→64→32→n_classes, LeakyReLU) over 36 TA-Lib technical
+indicators (oscillators, moving-average ratios, calendar features, 23
+candlestick patterns). Used as a comparison point for the multi-branch
+framework on a non-regression downstream task.
 
 ## Splitting convention
 
 Same as the LSTM baseline: **train / test only**, no validation split, no early stopping. Each contract is split chronologically 80 / 20; per-contract `StandardScaler`-style z-score is fitted on train rows only, then applied to both halves. Training runs for a fixed number of epochs supplied via `--epochs`.
+
+This is a deliberate project adaptation. Parente et al. (2024) report random
+majority-`HOLD` undersampling to balance the dataset, followed by random 70/30
+training/testing and model selection involving test accuracy. This repository
+instead preserves the project-wide chronological split and locked-test rules.
 
 ## Label modes
 
@@ -12,12 +21,26 @@ Two modes are available; the canonical sweep uses `triclass`.
 
 | `--label-mode` | Classes | Source |
 |---|---|---|
-| `triclass` (default) | BUY / HOLD / SELL (0 / 1 / 2) | Upstream paper's labeling — see `ta_labels.py` and `REFERENCE/` |
+| `triclass` (default) | BUY / HOLD / SELL (0 / 1 / 2) | Port of the upstream paper's label formula — see `ta_labels.py` and `REFERENCE/` |
 | `binary` | DOWN / UP (0 / 1) | Whether close rises over the next `--horizon` candles |
 
 For `triclass`, the thresholds `alpha` and `beta` are quantiles of `|pct_change|` (defaults: 0.85 / 0.997), fitted **per contract on training rows only** to avoid leaking future-period statistics into the labels. The labeling formula and the original constants are documented in `ta_labels.py`.
 
 The triclass distribution is heavily HOLD-dominated by design (~80% HOLD, ~10% each BUY/SELL). Accuracy alone is therefore not a meaningful headline — **macro-F1 and per-class recall are the load-bearing metrics**.
+
+## Sampling provenance
+
+The published TA-MLP method responds to an approximately 70% `HOLD` majority by
+randomly undersampling the majority class. The existing `2026-06-22-v1` runs in
+this repository do **not** implement that step: their `DataLoader` shuffles the
+natural-frequency training rows. They are therefore natural-sampling project
+adaptations, not exact reproductions of the paper's training procedure.
+
+The Phase 2 plan adds an explicit, training-only majority-undersampling mode as
+the paper-derived candidate. It leaves the chronological test distribution
+untouched. The candidate methods are majority undersampling, balanced
+oversampling, and logit adjustment; natural sampling is retained only as a
+separately reported untreated reference.
 
 ## Multi-run sweeps
 
@@ -37,7 +60,7 @@ Current epoch budgets used for the TA-MLP baseline characterization sweep:
 | 50 | Mid-horizon — well past plateau |
 | 100 | Long-horizon — does test error drift up under overtraining? |
 
-All five runs share the same seed (`--seed 0`) so observed differences reflect the training budget alone. The canonical sweep also uses default `--label-mode triclass`, `--b-window 5`, `--f-window 2`, `--hold-q 0.85`, `--buy-sell-q 0.997` (matching the upstream paper).
+All five runs share the same seed (`--seed 0`) so observed differences reflect the training budget alone. The canonical sweep also uses default `--label-mode triclass`, `--b-window 5`, `--f-window 2`, `--hold-q 0.85`, `--buy-sell-q 0.997`, and natural sampling. The label settings follow the upstream formula, while the missing paper-reported undersampling is documented above.
 
 ## Files
 

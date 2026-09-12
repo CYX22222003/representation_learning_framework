@@ -1,0 +1,272 @@
+[
+  {
+    "accuracy": 0.5405063957466969,
+    "macro_f1": 0.37510502485653135,
+    "weighted_f1": 0.5494689375100764,
+    "balanced_accuracy": 0.4385632577336758,
+    "macro_roc_auc": 0.6629157129015006,
+    "macro_average_precision": 0.41960689595204936,
+    "nll": 1.0088125630645437,
+    "multiclass_brier": 0.570019834410244,
+    "per_class": [
+      {
+        "class_index": 0,
+        "class_name": "DOWN",
+        "precision": 0.07476635514018691,
+        "recall": 0.029749830966869506,
+        "f1": 0.04256348246674728,
+        "support": 2958,
+        "roc_auc": 0.6367992850085118,
+        "average_precision": 0.2079516717177996
+      },
+      {
+        "class_index": 1,
+        "class_name": "STABLE",
+        "precision": 0.8053552020551329,
+        "recall": 0.6295180722891566,
+        "f1": 0.7066626208331527,
+        "support": 12948,
+        "roc_auc": 0.6866633976168162,
+        "average_precision": 0.8162137508212997
+      },
+      {
+        "class_index": 2,
+        "class_name": "UP",
+        "precision": 0.2635407195739706,
+        "recall": 0.6564218699450016,
+        "f1": 0.37608897126969415,
+        "support": 3091,
+        "roc_auc": 0.665284456079174,
+        "average_precision": 0.23465526531704892
+      }
+    ],
+    "confusion_matrix": [
+      [
+        88,
+        1012,
+        1858
+      ],
+      [
+        985,
+        8151,
+        3812
+      ],
+      [
+        104,
+        958,
+        2029
+      ]
+    ],
+    "observed_class_counts": [
+      2958,
+      12948,
+      3091
+    ],
+    "predicted_class_counts": [
+      1177,
+      10121,
+      7699
+    ],
+    "observed_class_proportions": [
+      0.15570879612570407,
+      0.6815813023108912,
+      0.16270990156340476
+    ],
+    "predicted_class_proportions": [
+      0.06195715112912565,
+      0.5327683318418698,
+      0.4052745170290046
+    ],
+    "epoch": 15,
+    "seed": 0,
+    "model_id": "C1_raw_ohlcv_mlp",
+    "protocol_id": "P2",
+    "candidate_protocol": true,
+    "train_loss": 0.986129641532898,
+    "parameter_count": 698499,
+    "training_seconds_to_checkpoint": 13.6947401299999,
+    "training_seconds_total": 86.00030542100012,
+    "inference_seconds": 0.0614754959997299,
+    "inference_rows_per_second": 309017.43354918953
+  },
+  {
+    "accuracy": 0.5857240616939516,
+    "macro_f1": 0.39708017862542544,
+    "weighted_f1": 0.5836736796660122,
+    "balanced_accuracy": 0.42626569705818534,
+    "macro_roc_auc": 0.6582516937018991,
+    "macro_average_precision": 0.4212637502369158,
+    "nll": 1.5487533498934385,
+    "multiclass_brier": 0.563971323024795,
+    "per_class": [
+      {
+        "class_index": 0,
+        "class_name": "DOWN",
+        "precision": 0.23404981235073355,
+        "recall": 0.4638269100743746,
+        "f1": 0.31111111111111117,
+        "support": 2958,
+        "roc_auc": 0.632314021084762,
+        "average_precision": 0.20318268045181997
+      },
+      {
+        "class_index": 1,
+        "class_name": "STABLE",
+        "precision": 0.7782690575616147,
+        "recall": 0.7340902069817733,
+        "f1": 0.7555343587297801,
+        "support": 12948,
+        "roc_auc": 0.6791583146554196,
+        "average_precision": 0.8111542934490182
+      },
+      {
+        "class_index": 2,
+        "class_name": "UP",
+        "precision": 0.27114967462039047,
+        "recall": 0.08087997411840828,
+        "f1": 0.124595066035385,
+        "support": 3091,
+        "roc_auc": 0.6632827453655155,
+        "average_precision": 0.2494542768099091
+      }
+    ],
+    "confusion_matrix": [
+      [
+        1372,
+        1356,
+        230
+      ],
+      [
+        3001,
+        9505,
+        442
+      ],
+      [
+        1489,
+        1352,
+        250
+      ]
+    ],
+    "observed_class_counts": [
+      2958,
+      12948,
+      3091
+    ],
+    "predicted_class_counts": [
+      5862,
+      12213,
+      922
+    ],
+    "observed_class_proportions": [
+      0.15570879612570407,
+      0.6815813023108912,
+      0.16270990156340476
+    ],
+    "predicted_class_proportions": [
+      0.3085750381639206,
+      0.6428909827867558,
+      0.04853397904932358
+    ],
+    "epoch": 50,
+    "seed": 0,
+    "model_id": "C1_raw_ohlcv_mlp",
+    "protocol_id": "P2",
+    "candidate_protocol": true,
+    "train_loss": 0.9218359589576721,
+    "parameter_count": 698499,
+    "training_seconds_to_checkpoint": 43.712856081000155,
+    "training_seconds_total": 86.00030542100012,
+    "inference_seconds": 0.05638061999979982,
+    "inference_rows_per_second": 336942.0201492543
+  },
+  {
+    "accuracy": 0.5399273569510975,
+    "macro_f1": 0.4055144582286468,
+    "weighted_f1": 0.5648315699778749,
+    "balanced_accuracy": 0.41757795541374926,
+    "macro_roc_auc": 0.6370578283233077,
+    "macro_average_precision": 0.40677539497551257,
+    "nll": 2.320813307435395,
+    "multiclass_brier": 0.6376789340073018,
+    "per_class": [
+      {
+        "class_index": 0,
+        "class_name": "DOWN",
+        "precision": 0.19837837837837838,
+        "recall": 0.372210953346856,
+        "f1": 0.25881523272214385,
+        "support": 2958,
+        "roc_auc": 0.6083205907709491,
+        "average_precision": 0.18829939399322354
+      },
+      {
+        "class_index": 1,
+        "class_name": "STABLE",
+        "precision": 0.7796328751960151,
+        "recall": 0.652764905776954,
+        "f1": 0.7105805204085922,
+        "support": 12948,
+        "roc_auc": 0.6557457368673799,
+        "average_precision": 0.7977223708136415
+      },
+      {
+        "class_index": 2,
+        "class_name": "UP",
+        "precision": 0.2701458173445894,
+        "recall": 0.2277580071174377,
+        "f1": 0.24714762155520448,
+        "support": 3091,
+        "roc_auc": 0.6471071573315942,
+        "average_precision": 0.23430442011967265
+      }
+    ],
+    "confusion_matrix": [
+      [
+        1101,
+        1204,
+        653
+      ],
+      [
+        3247,
+        8452,
+        1249
+      ],
+      [
+        1202,
+        1185,
+        704
+      ]
+    ],
+    "observed_class_counts": [
+      2958,
+      12948,
+      3091
+    ],
+    "predicted_class_counts": [
+      5550,
+      10841,
+      2606
+    ],
+    "observed_class_proportions": [
+      0.15570879612570407,
+      0.6815813023108912,
+      0.16270990156340476
+    ],
+    "predicted_class_proportions": [
+      0.29215139232510395,
+      0.5706690530083698,
+      0.1371795546665263
+    ],
+    "epoch": 100,
+    "seed": 0,
+    "model_id": "C1_raw_ohlcv_mlp",
+    "protocol_id": "P2",
+    "candidate_protocol": true,
+    "train_loss": 0.8466139435768127,
+    "parameter_count": 698499,
+    "training_seconds_to_checkpoint": 86.00030344000015,
+    "training_seconds_total": 86.00030542100012,
+    "inference_seconds": 0.07004810199987332,
+    "inference_rows_per_second": 271199.3538388
+  }
+]

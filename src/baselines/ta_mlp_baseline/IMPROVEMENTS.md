@@ -6,12 +6,25 @@ to harden the baseline before the framework comparison.
 The improvements are tiered by value. Tier 1 are real gaps that limit how the
 current numbers can be reported honestly. Tier 2 are worth doing if scope
 allows. Tier 3 are nice-to-haves. The "Do NOT do" section is as important
-as the rest — it lists tempting changes that would compromise the baseline's
-role as a faithful reproduction of the upstream paper.
+as the rest — it distinguishes source-derived corrections from independently
+tuned variants.
 
 ---
 
 ## Tier 1 — Real gaps, do these
+
+### 1.0 Restore explicit sampling provenance
+
+**Why:** Parente et al. (2024, Section 4.2) report random undersampling of the
+approximately 70% majority `HOLD` class to balance the dataset. The v1 runner
+uses shuffled natural-frequency batches and does not perform this step. The v1
+results must therefore be described as a natural-sampling adaptation, not a
+faithful reproduction.
+
+**What to build:** Add an explicit seeded training-only sampling option. Keep
+the natural test distribution unchanged under the repository's chronological
+80/20 contract. Report paper-derived balanced undersampling separately from
+natural sampling; do not silently replace or reinterpret v1 artifacts.
 
 ### 1.1 Constant-predictor floor
 
@@ -138,13 +151,13 @@ Don't add speculatively.
 
 ## Things to deliberately NOT do
 
-These all look like methodology improvements but would compromise the
-baseline's role as a faithful reproduction of the upstream paper. If the
-framework ends up beating a tuned TA-MLP, the comparison loses meaning.
+These all look like methodology improvements but would turn a predeclared
+paper-derived adaptation into a moving target. If the framework ends up beating
+a test-tuned TA-MLP, the comparison loses meaning.
 
 | Tempting change | Why not |
 |---|---|
-| **Class weighting / focal loss / oversampling** | The imbalance is a property of the labeling formula, not a bug. Fixing it turns "I ran the published baseline" into "I ran a variant I tuned." |
+| **Class weighting / focal loss / oversampling without a named protocol** | These are not Parente et al.'s stated treatment. They may be controlled adaptations, but must not be presented as the published method. Random undersampling is the source-derived data-level control. |
 | **Lower `hold_q` to balance classes** | Same as above. If the *framework's* task needs balanced classes, change the label at the task level in `src/tasks/`, not at the baseline level. |
 | **Hyperparameter search** (lr, batch, hidden sizes) | The architecture (36→128→64→32→3) is from the paper. Tuning it makes the baseline a moving target. |
 | **K-fold cross-validation** | Overkill. Per-contract splits already give many train/test pairs implicitly; CV on top adds compute for marginal statistical gain. Multi-seed (1.2) gives the noise estimate at a fraction of the cost. |

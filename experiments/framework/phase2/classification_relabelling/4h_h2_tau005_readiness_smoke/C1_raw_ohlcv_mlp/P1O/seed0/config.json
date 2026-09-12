@@ -1,0 +1,35 @@
+{
+  "model_id": "C1_raw_ohlcv_mlp",
+  "protocol_id": "P1O",
+  "epoch_budgets": [
+    1
+  ],
+  "seed": 0,
+  "batch_size": 512,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0,
+  "logit_adjustment_strength": 1.0,
+  "device": "cpu",
+  "protocol": {
+    "protocol_id": "P1O",
+    "sampling": "balanced_oversampling",
+    "loss": "hard_ce",
+    "candidate": true,
+    "description": "fully balanced oversampling"
+  },
+  "model_spec": {
+    "architecture": "RawOHLCVMLP+TrendClassifier",
+    "seq_len": 64,
+    "n_features": 5,
+    "hidden_dims": [
+      512,
+      512,
+      256,
+      256,
+      128
+    ],
+    "encoder_output_dim": 128,
+    "head_hidden_dim": 128,
+    "dropout": 0.1
+  }
+}

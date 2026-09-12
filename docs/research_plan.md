@@ -93,7 +93,7 @@ Two categories of comparison models are used:
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
 - **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
-- **TA-MLP** *(FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the upstream paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle so rows, thresholds, and class definitions are identical.
+- **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. The paper reports random majority-`HOLD` undersampling, while the existing repository v1 sweep used natural sampling and is therefore an adaptation rather than an exact reproduction. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle and explicitly name the training-only sampling protocol so rows, thresholds, class definitions, and imbalance treatment are traceable. For the Phase 2 movement-label task, candidate protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and logit-adjusted cross-entropy (`P2`); `P2` is fixed for architecture comparisons, while natural cross-entropy (`P0`) is an untreated reference only.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
@@ -117,6 +117,19 @@ Two categories of comparison models are used:
 ## Stage 4 — Experiments and Benchmarking
 
 The framework is evaluated using **probing**: frozen multi-branch encoders + a lightweight MLP task head trained on extracted features. Keeping the task head simple is intentional — representation quality, not decoder complexity, should drive performance.
+
+Phase 2 contains three separate experiment parts whose effects must not be
+mixed in the first comparison: (1) decoder refinement with the Phase-1
+encoders fixed, (2) encoder refinement through matched new temporal-backbone
+variants with the shallow decoder fixed, and (3) probability-movement
+classification relabelling. The Part 3 launcher is restricted to the strict
+TA-aligned Raw-OHLCV MLP, five-branch framework, and adapted TA-MLP matrix;
+Parts 1 and 2 use separate experiment roots.
+
+The canonical specifications are `docs/phase_plan/2026-09-08-phase-2-experiment-plan.md`
+for the complete three-part programme and
+`docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md` for the
+Part 3 execution contract.
 
 - Evaluate all models (framework, benchmarks, internal baselines) on the held-out test splits using consistent metrics:
   - Price prediction: MAE, RMSE

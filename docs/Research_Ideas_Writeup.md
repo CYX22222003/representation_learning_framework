@@ -241,7 +241,8 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
 3. **Trend Classification**
-   - Metrics: Accuracy, macro-F1, per-class precision/recall/F1, confusion matrix
+   - Metrics: Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, and one-vs-rest ROC-AUC/PR-AUC; NLL and multiclass Brier score are compact score-quality diagnostics rather than a calibration research track
+   - Phase 2 uses split-safe hard `DOWN/STABLE/UP` movement labels while saving three-class scores. Candidate imbalance treatments are majority undersampling, balanced oversampling, and train-prior logit-adjusted cross-entropy; untreated natural cross-entropy is reference-only.
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
 
