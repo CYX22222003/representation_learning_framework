@@ -203,6 +203,12 @@ def validate_label_bundle(
         expected = np.asarray(bundle[f"{split}_future_close"]) - np.asarray(bundle[f"{split}_current_close"])
         if not np.allclose(expected, bundle[f"{split}_delta"], atol=1e-7):
             raise ValueError(f"{split}_delta does not match future-current")
+        if "threshold" in bundle:
+            expected_labels = movement_classes(
+                np.asarray(bundle[f"{split}_delta"]), float(np.asarray(bundle["threshold"]))
+            )
+            if not np.array_equal(labels, expected_labels):
+                raise ValueError(f"{split}_labels do not match delta and threshold")
         contracts = np.asarray(bundle[f"{split}_contract_ids"])
         starts = np.asarray(bundle[f"{split}_window_starts"])
         for contract_id in np.unique(contracts):

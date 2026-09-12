@@ -35,21 +35,27 @@ def alignment_positions(
         )
     path = Path(alignment_npz)
     with np.load(path, allow_pickle=False) as data:
-        required = {"train_label_positions", "test_label_positions", "train_indices", "test_indices"}
+        required = {
+            f"{split}_{name}"
+            for split in ("train", "test")
+            for name in ("label_positions", *IDENTITY_FIELDS, "labels")
+        }
         if not required.issubset(data.files):
             raise ValueError(f"alignment bundle missing {sorted(required.difference(data.files))}")
         train_positions = np.asarray(data["train_label_positions"], dtype=np.int64)
         test_positions = np.asarray(data["test_label_positions"], dtype=np.int64)
-        expected_train = np.asarray(data["train_indices"], dtype=np.int64)
-        expected_test = np.asarray(data["test_indices"], dtype=np.int64)
-    for split, positions, expected in (
-        ("train", train_positions, expected_train), ("test", test_positions, expected_test)
-    ):
+        expected = {
+            f"{split}_{name}": np.asarray(data[f"{split}_{name}"])
+            for split in ("train", "test")
+            for name in (*IDENTITY_FIELDS, "labels")
+        }
+    for split, positions in (("train", train_positions), ("test", test_positions)):
         if len(positions) == 0 or positions.min() < 0 or positions.max() >= len(label_bundle[f"{split}_labels"]):
             raise ValueError(f"{split} alignment positions are invalid")
-        actual = np.asarray(label_bundle[f"{split}_indices"])[positions]
-        if not np.array_equal(actual, expected):
-            raise ValueError(f"{split} alignment identities do not match the label bundle")
+        for name in (*IDENTITY_FIELDS, "labels"):
+            actual = np.asarray(label_bundle[f"{split}_{name}"])[positions]
+            if not np.array_equal(actual, expected[f"{split}_{name}"]):
+                raise ValueError(f"{split}_{name} does not match the label bundle")
     manifest_path = Path(f"{path}.manifest.json")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
     return train_positions, test_positions, {"alignment_npz": str(path), **manifest}

@@ -27,15 +27,17 @@ Run all commands from the project root with `.venv/bin/python3`.
   --labels-npz data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz \
   --overwrite
 
-# 3. Bootstrap the three-model, three-protocol, three-seed command matrix.
+# 3. Freeze the strict C1/C2/C5 matrix. It contains the matched
+# P0/P1U/P1O/P2 study for seeds 0/1/2 at 15/50/100 epochs.
 .venv/bin/python3 scripts/bootstrap_phase2_classification.py
 
-# Inspect commands.sh and matrix_manifest.json, then execute explicitly.
-.venv/bin/python3 scripts/bootstrap_phase2_classification.py --execute --overwrite
+# Inspect commands.sh and matrix_manifest.json, then execute explicitly. A
+# repeat invocation resumes by skipping complete runs and refuses partial runs.
+.venv/bin/python3 scripts/bootstrap_phase2_classification.py --execute
 
-# Add the untreated P0 reference when the comparison requires it.
-.venv/bin/python3 scripts/bootstrap_phase2_classification.py \
-  --include-p0-reference --execute --overwrite
+# Destructive replacement is explicit and should be used only after inspecting
+# the exact matrix path.
+.venv/bin/python3 scripts/bootstrap_phase2_classification.py --execute --overwrite
 
 # 4. Aggregate completed runs.
 .venv/bin/python3 scripts/report_phase2_classification.py \
@@ -43,11 +45,11 @@ Run all commands from the project root with `.venv/bin/python3`.
 ```
 
 The bootstrapper runs the Raw-OHLCV MLP (`C1`), five-branch framework (`C2`),
-and bundle-aware TA-MLP (`C5`) on identical TA-eligible row identities. Each
-matrix also includes the full-row `C1` and `C2` primary `P2` runs unless
-`--skip-full-row-primary` is passed. Reports keep full-row and TA-aligned
-results in separate comparison scopes. Each run saves configuration, dataset
-and sampling manifests, train-fitted scaling,
+and bundle-aware TA-MLP (`C5`) on identical TA-eligible row identities under
+all candidate protocols and the required untreated `P0` control. No branch
+ablation, full-row-only, gated, or alternative-backbone configuration is part
+of this classification matrix. Each run saves configuration, dataset and
+sampling manifests, train-fitted scaling,
 checkpoints, history, logits, probabilities, decisions, curve data, global and
 per-contract metrics, and a full epoch-budget summary.
 
