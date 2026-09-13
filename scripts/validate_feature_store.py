@@ -180,6 +180,11 @@ def main() -> None:
         help="Override or add an expected branch dimension, e.g. vae=64",
     )
     parser.add_argument(
+        "--expected-branches",
+        default=None,
+        help="Optional exact comma-separated branch set; use with --expected-dim for substituted branches.",
+    )
+    parser.add_argument(
         "--allow-extra-branches",
         action="store_true",
         help="Allow branches beyond the expected MVP set.",
@@ -187,10 +192,19 @@ def main() -> None:
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     args = parser.parse_args()
 
+    expected_dims = _parse_expected_dims(args.expected_dim)
+    if args.expected_branches is not None:
+        names = [item.strip() for item in args.expected_branches.split(",") if item.strip()]
+        if not names or len(names) != len(set(names)):
+            parser.error("--expected-branches must contain unique, non-empty names")
+        unknown = [name for name in names if name not in expected_dims]
+        if unknown:
+            parser.error(f"missing --expected-dim entries for branches: {unknown}")
+        expected_dims = {name: expected_dims[name] for name in names}
     result = validate_feature_store(
         feature_npz=args.features_npz,
         processed_npz=args.processed_npz,
-        expected_dims=_parse_expected_dims(args.expected_dim),
+        expected_dims=expected_dims,
         require_exact_branches=not args.allow_extra_branches,
     )
     if args.json:
