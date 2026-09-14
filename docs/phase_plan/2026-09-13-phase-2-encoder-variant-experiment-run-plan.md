@@ -1,7 +1,7 @@
 # Phase 2 Encoder Variant Experiment Run Plan
 
 Date: 2026-09-13  
-Status: Frozen for implementation and execution before any Part 2 task-test run
+Status: Superseded for future execution by the 2026-09-14 selected-branch amendment; retained as the record of the contrastive-only seed-0 pilot
 
 ## Purpose
 

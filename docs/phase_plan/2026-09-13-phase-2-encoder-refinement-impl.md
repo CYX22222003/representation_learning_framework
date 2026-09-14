@@ -5,14 +5,13 @@ Date: 2026-09-08
 ## Scope and isolation
 
 This branch owns Part 2 of the Phase 2 experiment plan. The canonical
-`contrastive` and `byol` CNN branches remain unchanged. The primary work adds
-`contrastive_lstm` and `contrastive_transformer` as 128-dimensional frozen
-backbone substitutions while keeping the NT-Xent objective, Phase-1
-augmentations, projector semantics, processed data, and downstream shallow
-probe fixed.
-
-The BYOL LSTM and Transformer variants are intentionally deferred until the
-predeclared BYOL-only and all-minus-BYOL ablation gate is evaluated.
+`contrastive` and `byol` CNN branches remain unchanged as references. Both are
+selected 128-dimensional feature branches, so the implementation supports a
+matched LSTM and compact-Transformer substitution family for each. A
+contrastive substitution keeps the CNN BYOL branch; a BYOL substitution keeps
+the CNN contrastive branch. This keeps the self-supervised objective,
+augmentations, projector/predictor semantics, processed data, and downstream
+shallow probe fixed within each family.
 
 ## Implementation stages
 
@@ -62,6 +61,18 @@ must approve or revise them before task-test evaluation.
   probability-movement classification.
 - Compare each candidate with the immutable CNN reference across the complete
   fixed-budget, multi-seed matrix and report resource costs.
+
+### Stage E5 — BYOL backbone parity (planned)
+
+- Add named `byol_lstm` and `byol_transformer` construction, training,
+  collapse diagnostics, checkpointing, and frozen-feature extraction while
+  preserving the existing BYOL online/target, projector, predictor, and EMA
+  contract.
+- Reuse the temporal backbone widths and downstream 128-dimensional interface
+  fixed for the contrastive family where the BYOL contract permits.
+- Evaluate each candidate only as a replacement for `byol` in a five-branch
+  bundle; do not co-substitute it with a temporal contrastive branch in a
+  primary comparison.
 
 ## Basic commands
 

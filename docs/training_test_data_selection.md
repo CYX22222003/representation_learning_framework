@@ -47,8 +47,8 @@ This project deliberately uses **train and test partitions only**. There is no v
 |---|---|---|
 | VAE encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Contrastive encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
-| Phase-2 contrastive LSTM/Transformer variants | same train sequences and fixed NT-Xent protocol as the CNN contrastive reference | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
-| BYOL encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
+| Phase-2 temporal variants: contrastive LSTM/Transformer | same train sequences and fixed NT-Xent protocol as the CNN contrastive reference | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
+| BYOL encoder and Phase-2 BYOL LSTM/Transformer variants | same train sequences; each temporal variant retains the CNN BYOL reference's fixed BYOL protocol | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
 | Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
 | Statistical features | *(deterministic — no fitting)* | — |
 | Transformation features | *(deterministic — no fitting)* | — |

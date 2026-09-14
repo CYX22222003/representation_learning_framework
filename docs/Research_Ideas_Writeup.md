@@ -162,6 +162,8 @@ Raw OHLCV Time Series (Polymarket event contracts)
         |-- [Branch: byol]
         |      |_ BYOL encoder (CNN online/target encoder, EMA target,
         |      |  pretrained via bootstrap prediction)
+        |      |_ Phase-2 alternatives: LSTM or compact Transformer backbone
+        |         (one named 128-d substitution at a time; same BYOL setup)
         |
         |-- [Branch: ...TBD]
                |_ Additional unsupervised methods to be identified
@@ -213,7 +215,7 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
-**Controlled encoder refinement**: Phase 2 compares `contrastive_lstm` and `contrastive_transformer` against the immutable CNN contrastive reference while holding the objective, augmentations, projector semantics, embedding dimension, and shallow downstream probe fixed. The variants replace the contrastive branch one at a time so backbone effects remain identifiable.
+**Controlled encoder refinement**: Phase 2 treats contrastive and BYOL as peer selected branches. It compares each branch's named LSTM and compact-Transformer variants with its immutable CNN reference while holding that branch's objective, augmentations, projector/predictor semantics, embedding dimension, and shallow downstream probe fixed. A variant replaces only its corresponding branch, keeping backbone effects identifiable.
 
 ## 5. Evaluation
 

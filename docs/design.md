@@ -49,7 +49,7 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
   - **Variational Autoencoder (VAE)** — MLP encoder-decoder trained with β-VAE loss; encoder frozen after pretraining.
   - **Contrastive Encoder** — CNN backbone with projector head, trained via NT-Xent loss on augmented view pairs (time masking, jittering, scaling).
   - **BYOL Encoder** — CNN online/target encoder with projector and predictor heads, trained by bootstrap prediction on augmented view pairs. The target encoder is updated by exponential moving average; frozen online-backbone embeddings form the downstream branch.
-  - **Phase 2 contrastive variants** — named LSTM and compact Transformer backbone substitutions reuse the existing augmentations, NT-Xent objective, and projector contract. Both expose a 128-dimensional frozen backbone state. They are experimental alternatives to the canonical CNN `contrastive` branch, not extra branches in the primary comparison. Their basic implementation exists, but full-data pretraining and downstream evaluation have not run.
+  - **Phase 2 temporal variants** — contrastive and BYOL are selected peer branches. Each has named LSTM and compact-Transformer substitutions that preserve its own SSL objective, augmentations, and projector/predictor contract and expose a 128-dimensional frozen backbone state. A primary comparison replaces exactly one corresponding CNN branch; it never adds a sixth branch or changes both neural branches together.
   - **Additional methods (TBD)** — further unsupervised approaches (e.g. masked autoencoders, self-supervised Transformers) may be integrated based on the literature review. Each new method is registered as an independent branch in the aggregator.
 
 ### Training Procedure
@@ -115,7 +115,9 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` for the exact
   architecture and artifact contract. The Stage-1 data preparation, D0--D4
   models, trainer, bootstrapper, reporting path, and tests are implemented; the
-  frozen CUDA matrix has not yet been executed.
+  frozen CUDA matrix is partially executed; 14 of 30 trajectories currently
+  have complete sweep artifacts, with aggregate reporting deferred until the
+  remaining runs finish.
 
 
 ### Additional Alpha-Research Capability

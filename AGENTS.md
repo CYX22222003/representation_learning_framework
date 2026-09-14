@@ -47,8 +47,10 @@ python scripts/train_contrastive_encoder.py \
 # Generate contrastive training plots and a markdown report
 python scripts/plot_contrastive_experiment.py experiments/contrastive_encoder/contrastive-4h-seq64-top50
 
-# Pretrain either primary Phase-2 contrastive backbone candidate. These write
-# only to new Phase-2 experiment and checkpoint paths.
+# Pretrain the currently implemented Phase-2 contrastive backbone candidates.
+# The selected-branch Phase-2 plan also requires matched BYOL LSTM/Transformer
+# candidates; their BYOL-specific trainer is not implemented yet, so do not
+# repurpose these NT-Xent commands for BYOL.
 .venv/bin/python3 scripts/train_phase2_contrastive_encoder.py \
   --variant contrastive_lstm \
   --run-name contrastive_lstm-4h-seq64-top50-seed0 \
