@@ -127,7 +127,9 @@ TA-aligned Raw-OHLCV MLP, five-branch framework, and adapted TA-MLP matrix;
 Parts 1 and 2 use separate experiment roots.
 
 The canonical specifications are `docs/phase_plan/2026-09-08-phase-2-experiment-plan.md`
-for the complete three-part programme and
+for the complete three-part programme,
+`docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` for the frozen D0--D4
+implementation contract, and
 `docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md` for the
 Part 3 execution contract.
 
@@ -140,15 +142,13 @@ Part 3 execution contract.
 
 - For volatility, retain both the Raw LSTM and the adapted GARCH--LSTM stack in the final table. Beating or approaching Raw LSTM indicates competitiveness with direct neural sequence prediction; beating or approaching the stack is stronger hybrid-comparator evidence. The stack comparison must be described as a complete-system comparison, not a standalone-GARCH result.
 
-- **Decoder-controlled comparison (optional, time permitting, all three tasks):** three configurations run on the same test split to isolate encoder quality from decoder choice. Two decoder types are used: the **default decoder** (task head — simple MLP from `src/tasks/`) and the **mirrored decoder** (benchmark's own FC architecture, detached and retrained on frozen framework embeddings).
-
-  | Configuration | Encoder | Decoder | Trained |
-  |---|---|---|---|
-  | Benchmark end-to-end | Task-specific, end-to-end | Benchmark's FC head | End-to-end |
-  | Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
-  | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
-
-  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks, subject to availability of a separable benchmark decoder per task.
+- **Phase 2 decoder refinement:** keep all five Phase-1 branches frozen and
+  compare `D0` shallow MLP, `D1` branch-aware residual MLP, `D2` gated fusion,
+  `D3` temporal LSTM, and `D4` temporal Transformer on identical eligible rows.
+  Price and volatility are the first execution stage; movement classification
+  is a later P2-only extension kept separate from the Part-3 C1/C2/C5 matrix.
+  The exact architecture, `K=8`, seeds, budgets, row-map, and replay contract
+  are frozen in the dedicated decoder specification.
 
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 

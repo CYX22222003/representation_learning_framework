@@ -119,6 +119,9 @@ left open by this overall plan, including temporal context length `K`, exact
 hidden dimensions, dropout, seeds, epoch budgets, label horizon, and movement
 threshold.
 
+The Part-1 values and implementation contract are frozen in
+`docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
+
 ---
 
 ## Part 1: Decoder refinement

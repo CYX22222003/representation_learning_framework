@@ -14,6 +14,8 @@ Read these in order:
 1. `docs/Research_Ideas_Writeup.md`, especially sections 3.1 through 3.4 and 5.3 through 5.6 when downstream evaluation or alpha research is relevant.
 2. The Architecture Design and Representation Learning sections of `docs/design.md`.
 3. The Architecture section of `AGENTS.md`, including the branch table, aggregator modes, extension guide, and module responsibilities.
+4. For Phase 2 decoder questions, read
+   `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` in full.
 
 ## Response Contract
 

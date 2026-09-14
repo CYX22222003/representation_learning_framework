@@ -53,6 +53,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Transformation features | *(deterministic — no fitting)* | — |
 | RepresentationAggregator | train feature bundles (fixed-epoch) | test feature bundles |
 | Task heads (price, volatility, trend) | train feature bundles + train task labels/targets (fixed-epoch) | test feature bundles + test task labels/targets |
+| Phase 2 temporal decoders | `K=8` contract-local sequences of frozen train embeddings; scalers and decoder parameters use training rows only | identically constructed contract-local test embedding sequences with frozen scalers/decoders |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
 | Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
 | GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
@@ -93,6 +94,14 @@ The `NpzFeatureStore` handles branch-aware save/load. Feature arrays are stored 
 ## Task Label Bundles
 
 Task labels and targets must respect the same split boundary as the processed sequences. Build train labels from `processed["train"]` only and test labels from `processed["test"]` only. Do not concatenate train and test sequences before applying a future horizon, because the final train rows would then look across the train/test boundary.
+
+Phase 2 decoder refinement also uses a saved temporal row map. Every context
+contains eight consecutive feature rows from one contract and one split, and
+its task target belongs to the final context row. Static D0--D2 runs are
+restricted to those same final rows so their comparisons with temporal D3--D4
+are row-identical. The price decoder study uses a new contract-aware saved
+price-label bundle rather than shifting the globally concatenated processed
+array.
 
 The current trend-classification MVP uses a saved TA-MLP-style tri-class label bundle:
 
@@ -170,6 +179,10 @@ The sequence below must be followed to avoid leakage.
         ▼
 6. Train RepresentationAggregator + task head on the full train feature bundle
    for a fixed epoch budget; save checkpoint per task
+   - For Phase 2 decoder refinement, first build/verify the contract-local
+     temporal row map and contract-safe price labels, then train D0--D4 on the
+     common eligible final rows. Fit feature scaling on the train feature split
+     only and apply it unchanged to test contexts.
         │
         ▼
 7. Train all baseline models on the full train sequences (or full train feature

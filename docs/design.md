@@ -78,7 +78,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 | **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
-| **Mirrored decoder** | Benchmark's own FC architecture retrained on frozen framework embeddings. Used only in the decoder-controlled comparison experiment. |
+| **Refined decoder** | Phase-2 static residual, gated, recurrent, or attention decoder trained on the unchanged frozen five-branch representation. |
 
 **Evaluation paradigm (probing):** The framework uses frozen representation extractors. After pretraining, the named branch features remain fixed while a lightweight task head, and the aggregator when it is learnable, are trained for each task. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with frozen representations + a simple head is the primary claim.
 
@@ -102,17 +102,20 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
     - Single-branch ablations vs. full aggregated framework
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
-- **Decoder-Controlled Comparison (optional, time permitting, all three tasks):**
+- **Phase 2 decoder refinement:**
 
-  To isolate encoder quality from decoder choice, three configurations are compared per task, holding the decoder architecture constant:
+  Keep the five Phase-1 branches frozen and compare `D0` shallow MLP, `D1`
+  branch-aware residual MLP, `D2` gated fusion, `D3` compact temporal LSTM,
+  and `D4` compact temporal Transformer. `D3` and `D4` consume the same `K=8`
+  contract-local representation sequences; D0--D2 use their identical final
+  target rows. Price and volatility are the first execution stage, while
+  movement classification is a later P2-only extension outside the Part-3
+  launcher. See
+  `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` for the exact
+  architecture and artifact contract. The Stage-1 data preparation, D0--D4
+  models, trainer, bootstrapper, reporting path, and tests are implemented; the
+  frozen CUDA matrix has not yet been executed.
 
-  | Configuration | Encoder | Decoder | Trained |
-  |---|---|---|---|
-  | Benchmark end-to-end (e.g. LSTM) | Task-specific, end-to-end | Benchmark's FC head | End-to-end |
-  | Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
-  | Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
-
-  Configurations 1 vs 3 isolate the encoder (same decoder architecture); configurations 2 vs 3 isolate the decoder (same encoder). Applies to all three tasks (price prediction, volatility prediction, trend classification), subject to availability of a separable benchmark decoder per task.
 
 ### Additional Alpha-Research Capability
 

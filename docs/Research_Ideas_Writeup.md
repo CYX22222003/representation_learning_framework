@@ -226,7 +226,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 | **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
-| **Mirrored decoder** | A benchmark's own FC architecture detached from its encoder and retrained on top of the frozen framework encoder. Used only in the decoder-controlled comparison experiment. |
+| **Refined decoder** | A Phase-2 downstream model trained on the unchanged frozen five-branch representation. The frozen matrix covers static residual capacity, gated fusion, recurrent context, and attention context. |
 
 ### 5.3 Tasks and Metrics
 
@@ -262,19 +262,26 @@ An explicitly exploratory direct-representation GP check was also run at the use
 
 A subsequent exhaustive exploratory run seeded all 445 saved representation coordinates plus five causal OHLCV terminals into a 512-tree, depth-four GP population, then evolved one further generation. The best mixed formula retained a confirmation RankIC of `0.0803`, but it was substantially weaker than the raw reversal-only screen (`0.2449`); the selected formula composed only from representation coordinates had negative confirmation RankIC. Thus, expanding direct-coordinate coverage found limited mixed signal but no evidence that raw representations improve on the simple OHLCV factor under this protocol.
 
-### 5.5 Decoder-Controlled Comparison (optional, time permitting, all three tasks)
+### 5.5 Phase 2 Decoder Refinement
 
-An additional three-configuration experiment isolates encoder quality from decoder choice by holding the decoder architecture constant. Applies to all three tasks (price prediction, volatility prediction, trend classification) if time permits, subject to availability of a separable benchmark decoder per task:
+The decoder study keeps the five Phase-1 representation branches frozen and
+varies only downstream extraction. `D0` retains the shallow MLP reference;
+`D1` adds branch-aware residual capacity; `D2` tests learned gated fusion;
+`D3` applies a compact LSTM to consecutive representations; and `D4` applies a
+compact Transformer to the identical ordered context. Static models use the
+same eligible final rows as temporal models.
 
-| Configuration | Encoder | Decoder | Trained |
-|---|---|---|---|
-| Benchmark end-to-end (e.g. LSTM) | Task-specific encoder, end-to-end | Benchmark's FC head | End-to-end |
-| Framework + default decoder | Multi-branch concat (frozen) | Task head (simple MLP) | Head only |
-| Framework + mirrored decoder | Multi-branch concat (frozen) | Benchmark FC architecture (retrained) | Head only |
+Price and volatility form the first execution stage. Movement classification
+is a later P2-only extension kept separate from the Phase-2 relabelling matrix.
+The exact `K=8` context, architectures, fixed budgets, seeds, row identities,
+and reporting rules are frozen in
+`docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
 
-- Comparing configurations **1 vs 3**: same decoder architecture, only the encoder differs — the cleanest test of encoder quality.
-- Comparing configurations **2 vs 3**: same encoder, different decoder — isolates whether decoder choice matters.
-- If all three configurations produce similar numbers, it confirms the representations are doing the heavy lifting regardless of decoder design.
+The comparisons attribute effects separately: `D1-D0` measures added static
+capacity, `D2-D0` learned branch weighting, and `D3/D4-D1` temporal modelling
+beyond a similarly sized static decoder. External end-to-end benchmarks remain
+contextual complete-system comparisons and do not by themselves isolate the
+decoder.
 
 ### 5.6 Ablation Study and Transferability
 
