@@ -149,7 +149,7 @@ python scripts/train_framework.py \
 
 # Aggregate replay-verified multi-seed decoder results and paired intervals
 .venv/bin/python3 scripts/report_phase2_decoders.py \
-  experiments/framework/phase2/decoder_refinement/4h_k8
+  experiments/framework/phase2/decoder_refinement_1/4h_k8
 
 # Canonical phase specifications:
 # docs/phase_plan/2026-09-01-phase-1-product-readiness.md

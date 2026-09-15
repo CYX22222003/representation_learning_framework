@@ -240,7 +240,7 @@ Commands:
 .venv/bin/python3 scripts/bootstrap_phase2_decoders.py --execute
 
 .venv/bin/python3 scripts/report_phase2_decoders.py \
-  experiments/framework/phase2/decoder_refinement/4h_k8
+  experiments/framework/phase2/decoder_refinement_1/4h_k8
 ```
 
 ## Artifacts and replay
@@ -248,7 +248,7 @@ Commands:
 Use only new Phase-2 paths:
 
 ```text
-experiments/framework/phase2/decoder_refinement/4h_k8/
+experiments/framework/phase2/decoder_refinement_1/4h_k8/
   matrix_manifest.json
   commands.sh
   <task>/<decoder>/seed<seed>/
