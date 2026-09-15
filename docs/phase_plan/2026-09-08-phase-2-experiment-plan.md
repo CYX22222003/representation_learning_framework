@@ -77,7 +77,7 @@ The plan must not answer one question by changing factors assigned to another.
 | Phase 2 part | Identifiers | Scope |
 |---|---|---|
 | Part 1: decoder refinement | `D0`–`D4` | Fixed Phase-1 encoders; decoder changes only |
-| Part 2: encoder refinement | named variants such as `contrastive_lstm` and `contrastive_transformer` | Fixed SSL objective, fusion, labels, and shallow probe |
+| Part 2: encoder refinement | contrastive and BYOL LSTM/Transformer substitutions | Fixed SSL objective per branch, fusion, labels, and shallow probe |
 | Part 3: classification relabelling | references `C0a`/`C0b`; learned models `C1`, `C2`, `C5` | Fixed probability-movement label contract and strict shared rows |
 
 These identifiers are local to their experiment part. There is no executable
@@ -264,16 +264,18 @@ than a decoder selected from the same task-test results.
 |---:|---|---|---|---|
 | 0 | `contrastive` | NT-Xent | Existing CNN | Immutable reference |
 | 0 | `byol` | BYOL | Existing CNN | Immutable reference |
-| 1 | `contrastive_lstm` | NT-Xent | LSTM | Primary recurrent encoder variant |
-| 1 | `contrastive_transformer` | NT-Xent | Compact Transformer | Primary attention encoder variant |
-| 2 | `byol_lstm` | BYOL | LSTM | Conditional secondary variant |
-| 2 | `byol_transformer` | BYOL | Compact Transformer | Conditional secondary variant |
+| 1 | `contrastive_lstm` | NT-Xent | LSTM | recurrent substitution for the selected contrastive branch |
+| 1 | `contrastive_transformer` | NT-Xent | Compact Transformer | attention substitution for the selected contrastive branch |
+| 1 | `byol_lstm` | BYOL | LSTM | recurrent substitution for the selected BYOL branch |
+| 1 | `byol_transformer` | BYOL | Compact Transformer | attention substitution for the selected BYOL branch |
 
-The two contrastive variants are the required encoder-refinement comparison.
-BYOL variants are conditional secondary work and are not part of the Phase 2
-completion gate unless they are separately predeclared before execution. This
-does not convert the current single-seed trend result into a general rejection
-of BYOL.
+Contrastive and BYOL are both selected neural branches in the canonical
+five-branch representation. Their temporal variants are therefore peer
+encoder-refinement families, not an add-on or a test of whether BYOL should be
+included. Each family is compared with its own immutable CNN reference. The
+families remain factorially separate: a primary bundle changes exactly one
+branch, so a temporal contrastive and temporal BYOL branch are never introduced
+together in the same primary run.
 
 ### Fair backbone comparisons
 
@@ -316,10 +318,11 @@ For each new encoder variant:
 
 ### Part 2 completion gate
 
-Part 2 is complete when the two primary contrastive variants and their CNN
-reference have matched pretraining and downstream reports using the fixed
-five-branch substitution design. Any BYOL variants are separately scoped
-secondary work.
+Part 2 is complete when both temporal variants for each selected neural branch
+(contrastive and BYOL) and their CNN references have matched pretraining and
+downstream reports using the fixed five-branch substitution design. The
+contrastive and BYOL families must be reported separately before any later
+combined exploratory system is considered.
 
 ---
 
@@ -476,9 +479,10 @@ evaluation belongs on a fresh temporal holdout.
 4. **Execute decoder refinement first on price and volatility.** These tasks
    retain established target contracts and provide the cleanest initial
    decoder evidence.
-5. **Execute primary encoder refinement with the fixed shallow probe.** Start
-   with `contrastive_lstm` and `contrastive_transformer`; keep any BYOL variants
-   as separately predeclared secondary work.
+5. **Execute primary encoder refinement with the fixed shallow probe.** Run
+   LSTM and compact-Transformer substitutions separately for both the selected
+   contrastive and BYOL branches; retain the CNN version of the other branch in
+   each primary bundle.
 6. **Execute the relabelled classification matrix.** Run only the strict
    TA-aligned C1/C2/C5 configurations under P0/P1U/P1O/P2. Decoder and encoder
    variants remain in their own Part 1 and Part 2 experiment roots.

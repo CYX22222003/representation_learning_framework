@@ -35,6 +35,8 @@ def _budget_sort_key(path: Path) -> int:
 def plot_training_curve(budget_dir: str | Path) -> Path:
     budget_dir = Path(budget_dir)
     metrics = _read_json(budget_dir / "metrics.json")
+    config_path = budget_dir.parent / "config.json"
+    config = _read_json(config_path) if config_path.exists() else {}
     with np.load(budget_dir / "history.npz") as history:
         epochs = history["epochs"]
         train_loss = history["train_loss"]
@@ -51,9 +53,11 @@ def plot_training_curve(budget_dir: str | Path) -> Path:
     )
     ax.set_xlabel("Epoch")
     ax.set_ylabel("NT-Xent loss")
+    temperature = metrics.get("training_config", {}).get("temperature", config.get("temperature", "n/a"))
+    variant = metrics.get("variant", config.get("variant", "contrastive"))
     ax.set_title(
-        "Contrastive encoder training curve | "
-        f"seed={metrics['seed']} | temp={metrics['training_config']['temperature']}"
+        f"{variant} training curve | "
+        f"seed={metrics['seed']} | temp={temperature}"
     )
     ax.legend()
     ax.grid(alpha=0.3)

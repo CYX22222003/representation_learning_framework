@@ -54,6 +54,10 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
   - CNN online/target encoder with projector and predictor heads; trained by bootstrap prediction on augmented view pairs.
   - Target encoder is updated by exponential moving average; pretrain on training sequences and freeze the online backbone for downstream use.
 
+- **Phase 2 temporal backbone refinement**:
+  - Treat contrastive and BYOL as selected peer feature branches. Within each branch's own SSL objective, keep augmentations, projector/predictor semantics, 128-dimensional downstream output, data, budgets, and shallow probing contract fixed while comparing its immutable CNN reference with named LSTM and compact-Transformer substitutions.
+  - Store `contrastive_lstm`, `contrastive_transformer`, `byol_lstm`, and `byol_transformer` as separate experimental branch artifacts. Replace only the corresponding CNN branch in each primary five-branch comparison rather than increasing the branch count or changing both neural branches together.
+
 - **Additional methods (TBD)** — candidates include masked autoencoders, self-supervised Transformer encoders, or other self-supervised objectives identified during the literature review. Each new encoder registers a new key in the aggregator's `branch_dims` without requiring any changes to existing components.
 
 Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.

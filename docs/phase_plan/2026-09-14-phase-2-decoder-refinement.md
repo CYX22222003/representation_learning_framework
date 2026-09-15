@@ -8,7 +8,9 @@ This document freezes the implementation contract for Part 1 of the Phase 2
 experiment plan. It converts the approved `D0`--`D4` decoder matrix into a
 concrete code, data, execution, and reporting plan. The Stage-1 data contracts,
 D0--D4 models, trainer, bootstrapper, reporter, and tests are implemented. The
-30-run CUDA matrix has been frozen but not executed.
+30-run CUDA matrix has been frozen and partially executed. Fourteen trajectories
+currently have complete sweep artifacts; D3 price seed 2 and all 15 volatility
+trajectories remain before aggregate reporting.
 
 The experiment asks whether the fixed five-branch Phase-1 representation is
 limited by static head capacity, branch fusion, or the lack of temporal

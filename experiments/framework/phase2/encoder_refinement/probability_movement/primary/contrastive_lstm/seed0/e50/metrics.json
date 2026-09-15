@@ -1,0 +1,90 @@
+{
+  "accuracy": 0.6268358161815023,
+  "macro_f1": 0.4850029016194377,
+  "weighted_f1": 0.6476919526481474,
+  "balanced_accuracy": 0.49831795926226125,
+  "macro_roc_auc": 0.7469365986023515,
+  "macro_average_precision": 0.4763233425141214,
+  "nll": 0.8553633479566787,
+  "multiclass_brier": 0.4915028664283415,
+  "per_class": [
+    {
+      "class_index": 0,
+      "class_name": "DOWN",
+      "precision": 0.2759605399792316,
+      "recall": 0.35936443542934415,
+      "f1": 0.3121879588839942,
+      "support": 2958,
+      "roc_auc": 0.7130857421107719,
+      "average_precision": 0.2662235134179856
+    },
+    {
+      "class_index": 1,
+      "class_name": "STABLE",
+      "precision": 0.8561400390972099,
+      "recall": 0.7441303676243435,
+      "f1": 0.7962151888273696,
+      "support": 12948,
+      "roc_auc": 0.8047754812374874,
+      "average_precision": 0.8827394027986872
+    },
+    {
+      "class_index": 2,
+      "class_name": "UP",
+      "precision": 0.31097404266255463,
+      "recall": 0.3914590747330961,
+      "f1": 0.3466055571469493,
+      "support": 3091,
+      "roc_auc": 0.7229485724587954,
+      "average_precision": 0.2800071113256914
+    }
+  ],
+  "confusion_matrix": [
+    [
+      1063,
+      803,
+      1092
+    ],
+    [
+      1724,
+      9635,
+      1589
+    ],
+    [
+      1065,
+      816,
+      1210
+    ]
+  ],
+  "observed_class_counts": [
+    2958,
+    12948,
+    3091
+  ],
+  "predicted_class_counts": [
+    3852,
+    11254,
+    3891
+  ],
+  "observed_class_proportions": [
+    0.15570879612570407,
+    0.6815813023108912,
+    0.16270990156340476
+  ],
+  "predicted_class_proportions": [
+    0.20276885824077487,
+    0.5924093277885982,
+    0.20482181397062693
+  ],
+  "epoch": 50,
+  "seed": 0,
+  "model_id": "E1_contrastive_lstm",
+  "protocol_id": "P2",
+  "candidate_protocol": true,
+  "train_loss": 0.9252843260765076,
+  "parameter_count": 65539,
+  "training_seconds_to_checkpoint": 36.65053113999966,
+  "training_seconds_total": 73.72182338200037,
+  "inference_seconds": 0.05853870800092409,
+  "inference_rows_per_second": 324520.3156806965
+}
