@@ -10,7 +10,7 @@ import numpy as np
 
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/"src"))
 
-from tasks.phase2_decoders.data import align_contexts_to_labels, load_npz, load_scaled_features, read_manifest, validate_temporal_index
+from tasks.phase2_decoders.data import align_contexts_to_labels, load_npz, load_scaled_features, read_manifest, sha256_file, validate_temporal_index
 from tasks.phase2_decoders.runner import DecoderRunConfig, run_decoder_experiment
 
 
@@ -53,7 +53,10 @@ def main(argv: Sequence[str]|None=None) -> int:
         train_features,test_features,branch_dims,scaler=load_scaled_features(args.features_npz)
         config=DecoderRunConfig(args.task,args.decoder_id,args.context_length,_budgets(args.epoch_budgets),args.seed,args.batch_size,args.learning_rate,0.0,args.device)
         identities={f"train_{k}":v for k,v in train_ids.items()}|{f"test_{k}":v for k,v in test_ids.items()}
+        source_paths={"features_npz":Path(args.features_npz),"features_index_npz":Path(f"{args.features_npz}.index.npz"),
+                      "temporal_index_npz":Path(args.temporal_index_npz),"labels_npz":Path(args.labels_npz)}
         manifest={"features_npz":args.features_npz,"temporal_index_npz":args.temporal_index_npz,"labels_npz":args.labels_npz,
+                  "source_sha256":{name:sha256_file(path) for name,path in source_paths.items()},
                   "feature_manifest":read_manifest(args.features_npz),"temporal_manifest":read_manifest(args.temporal_index_npz),
                   "label_manifest":read_manifest(args.labels_npz),"fixed_phase1_encoders":True}
         run_decoder_experiment(train_features=train_features,test_features=test_features,train_contexts=train_contexts,

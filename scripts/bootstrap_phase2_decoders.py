@@ -35,6 +35,10 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--tasks",default="price_prediction,volatility_prediction"); p.add_argument("--decoders",default="D0,D1,D2,D3,D4")
     p.add_argument("--seeds",default="0,1,2"); p.add_argument("--epoch-budgets",default="15,50,100")
     p.add_argument("--context-length",type=int,default=8); p.add_argument("--device",default="cuda")
+    p.add_argument("--output-root",default="experiments/framework/phase2/decoder_refinement",
+                   help="Parent directory for the named matrix.")
+    p.add_argument("--layout",choices=("task-decoder","decoder-task"),default="task-decoder",
+                   help="Run directory ordering below the matrix root.")
     p.add_argument("--execute",action="store_true"); p.add_argument("--overwrite",action="store_true")
     p.add_argument("--replace-manifest",action="store_true"); return p
 
@@ -54,9 +58,11 @@ def build_commands(args: argparse.Namespace, root: Path) -> list[list[str]]:
         for decoder in decoders:
             for seed in seeds:
                 int(seed)
+                run_root=(root/task/decoder/f"seed{seed}" if args.layout=="task-decoder"
+                          else root/decoder/task/f"seed{seed}")
                 commands.append([py,"scripts/train_phase2_decoder.py","--task",task,"--decoder-id",decoder,
                     "--features-npz",args.features_npz,"--temporal-index-npz",args.temporal_index_npz,
-                    "--labels-npz",labels[task],"--run-root",str(root/task/decoder/f"seed{seed}"),
+                    "--labels-npz",labels[task],"--run-root",str(run_root),
                     "--context-length",str(args.context_length),"--epoch-budgets",args.epoch_budgets,
                     "--seed",seed,"--device",args.device,*overwrite])
     return commands
@@ -88,7 +94,7 @@ def _execute(commands: list[list[str]],args: argparse.Namespace) -> None:
 
 
 def main(argv: Sequence[str]|None=None) -> int:
-    args=parser().parse_args(argv); root=ROOT/"experiments/framework/phase2/decoder_refinement"/args.matrix_name
+    args=parser().parse_args(argv); root=ROOT/args.output_root/args.matrix_name
     try:
         commands=build_commands(args,root); sources={"processed_npz":Path(args.processed_npz),"features_npz":Path(args.features_npz),
             "features_index_npz":Path(f"{args.features_npz}.index.npz"),"temporal_index_npz":Path(args.temporal_index_npz),
@@ -98,6 +104,7 @@ def main(argv: Sequence[str]|None=None) -> int:
         manifest={"matrix_name":args.matrix_name,"predeclared_at_utc":datetime.now(timezone.utc).isoformat(),
             "tasks":_csv(args.tasks),"decoders":_csv(args.decoders),"seeds":[int(v) for v in _csv(args.seeds)],
             "epoch_budgets":[int(v) for v in _csv(args.epoch_budgets)],"context_length":args.context_length,
+            "output_root":str(Path(args.output_root)),"layout":args.layout,
             "training_run_count":sum(_run_root(c) is not None for c in commands),"source_sha256":{k:_sha(v) for k,v in sources.items()},
             "fixed_phase1_encoders":True,"no_validation_or_early_stopping":True,"current_test_is_characterization_only":True,
             "commands":[shlex.join(c) for c in commands]}

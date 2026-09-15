@@ -49,20 +49,29 @@ All decoders receive standardized frozen branches. Static decoders are trained
 on the same final target rows retained by the temporal decoders, so row-count
 differences cannot explain a result.
 
-| ID | Input | Frozen architecture |
+| ID | Input | Predeclared architecture |
 |---|---|---|
 | `D0` | final 445-d concat row | Existing shallow task MLP with hidden widths `128,64` |
 | `D1` | five named branches at final row | Each branch projected to 64; concatenated; projected to 128; two pre-norm residual MLP blocks with expansion 2 and dropout 0.1 |
-| `D2` | five named branches at final row | Existing `RepresentationAggregator(mode="gated", out_dim=128)` followed by the existing shallow task head |
+| `D2` | five named branches at final row | Newly initialized task-specific `RepresentationAggregator(mode="gated", out_dim=128)` followed by a newly initialized copy of the existing shallow task-head architecture |
 | `D3` | `[K,445]` | Linear input projection to 128, LayerNorm, input dropout 0.1, one-layer LSTM with hidden size 128, final valid hidden state, task readout |
 | `D4` | `[K,445]` | Linear projection to 96, sinusoidal positions, two pre-norm Transformer encoder blocks, four heads, feed-forward width 192, dropout 0.1, causal mask, final-token readout |
+
+Here, "existing" refers to repository class definitions and architecture, not
+to pretrained Phase-1 weights. Phase 1 used concat fusion, whose aggregator has
+no learnable parameters, and did not train a gated aggregator. Each D2
+task/seed trajectory therefore creates a fresh gate and task head and optimizes
+them jointly from scratch on that task's training rows. Only the five saved
+branch features are frozen. D2 weights are neither shared between tasks or
+seeds nor supplied to D3/D4; D2 is a parallel static fusion control, not a
+pretraining stage for the temporal decoders.
 
 The `D1`, `D3`, and `D4` implementations should have approximately 0.20M
 trainable parameters for scalar regression and must remain within 10% of one
 another. Exact counts are recorded and asserted by tests. `D0` is intentionally
-smaller, and `D2` retains the repository's existing gated implementation;
-neither should be padded with unused parameters merely to match the other
-models.
+smaller, and `D2` reuses the repository's gated class implementation with fresh
+task-specific weights; neither should be padded with unused parameters merely
+to match the other models.
 
 The shared task readout is LayerNorm, a linear reduction to half the decoder
 width, GELU, dropout 0.1, and the task output layer. `D0` and `D2` retain their

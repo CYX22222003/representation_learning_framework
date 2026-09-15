@@ -121,9 +121,13 @@ def run_decoder_experiment(
         if len(y)!=len(contexts): raise ValueError(f"{split} target/context counts differ")
         for field in ("row_indices","contract_ids","window_starts","timestamps_ns"):
             if len(identities[f"{split}_{field}"])!=len(y): raise ValueError(f"{split} {field} count differs")
+    cuda_index = torch.cuda.current_device() if device.type == "cuda" and device.index is None else device.index
+    if device.type == "cuda":
+        torch.cuda.reset_peak_memory_stats(cuda_index)
     model=make_decoder(config.decoder_id,branch_dims,config.task,config.context_length).to(device)
     parameter_count=count_parameters(model)
-    architecture={"decoder_id":config.decoder_id,"branch_dims":dict(branch_dims),"parameter_count":parameter_count}
+    architecture={"decoder_id":config.decoder_id,"branch_dims":dict(branch_dims),
+                  "branch_order":list(branch_dims),"parameter_count":parameter_count}
     _write_json(out/"config.json",config.to_dict()); _write_json(out/"architecture.json",architecture)
     np.savez(out/"feature_standardizer.npz",**scaler)
     manifest={**dict(dataset_manifest),**architecture,"train_sample_count":len(y_train),"test_sample_count":len(y_test),
@@ -166,7 +170,9 @@ def run_decoder_experiment(
         payload={"predictions":pred,"targets":target,"row_indices":identities["test_row_indices"],
                  "contract_ids":identities["test_contract_ids"],"window_starts":identities["test_window_starts"],
                  "timestamps_ns":identities["test_timestamps_ns"]}
-        if aux is not None: payload["gate_weights"]=aux
+        if aux is not None:
+            payload["gate_weights"]=aux
+            payload["branch_order"]=np.asarray(list(branch_dims),dtype="U32")
         np.savez_compressed(budget/"predictions.npz",**payload)
         row={**metrics,"epoch":epoch,"seed":config.seed,"task":config.task,"decoder_id":config.decoder_id,
              "train_loss":float(history[epoch-1]),"parameter_count":parameter_count,
@@ -174,10 +180,18 @@ def run_decoder_experiment(
              "inference_seconds":inference_seconds,"inference_rows_per_second":len(target)/max(inference_seconds,1e-12)}
         _write_json(budget/"metrics.json",row); _write_json(budget/"per_contract_metrics.json",_per_contract(pred,target,identities["test_contract_ids"]))
         with np.load(budget/"predictions.npz",allow_pickle=False) as replay:
-            verified=all(np.array_equal(replay[k],payload[k]) for k in ("targets","row_indices","contract_ids","window_starts","timestamps_ns"))
+            verified=all(np.array_equal(replay[k],payload[k]) for k in payload)
         if not verified: raise RuntimeError("prediction replay failed")
-        _write_json(budget/"replay.json",{"verified":True}); sweep.append(row)
-    _write_json(out/"sweep_metrics.json",sweep); _write_json(out/"timing.json",{"training_seconds_total":training_seconds})
+        _write_json(budget/"replay.json",{"verified":True,"checkpoint_reloaded":True,
+                                          "prediction_values_verified":True}); sweep.append(row)
+    peak_cuda_memory=(int(torch.cuda.max_memory_allocated(cuda_index)) if device.type=="cuda" else 0)
+    device_name=(torch.cuda.get_device_name(cuda_index) if device.type=="cuda" else str(device))
+    runtime={"training_seconds_total":training_seconds,"device":str(device),"device_name":device_name,
+             "peak_cuda_memory_bytes":peak_cuda_memory}
+    for row in sweep:
+        row.update(runtime)
+        _write_json(out/f"e{row['epoch']}"/"metrics.json",row)
+    _write_json(out/"sweep_metrics.json",sweep); _write_json(out/"timing.json",runtime)
     lines=[f"# Phase 2 decoder {config.decoder_id}: {config.task}","","All snapshots are reported; none is selected from test performance.","", "| epoch | MAE | RMSE | MSE | correlation | train loss |","|---:|---:|---:|---:|---:|---:|"]
     for row in sweep: lines.append(f"| {row['epoch']} | {row['mae']:.6f} | {row['rmse']:.6f} | {row['mse']:.6f} | {row['corr']:.6f} | {row['train_loss']:.6f} |")
     (out/"summary.md").write_text("\n".join(lines)+"\n"); return sweep

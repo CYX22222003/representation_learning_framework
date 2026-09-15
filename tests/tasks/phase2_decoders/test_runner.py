@@ -28,7 +28,10 @@ class DecoderRunnerTests(unittest.TestCase):
                 y_train=y_train,y_test=y_test,identities=identities,branch_dims=dims,scaler=scaler,run_root=tmp,
                 config=DecoderRunConfig("price_prediction","D0",3,(1,),0,4,1e-4,0.0,"cpu"),dataset_manifest={})
             root=Path(tmp); self.assertTrue((root/"e1/checkpoint.pth").exists())
-            self.assertTrue(json.loads((root/"e1/replay.json").read_text())["verified"])
+            replay=json.loads((root/"e1/replay.json").read_text())
+            self.assertTrue(replay["verified"])
+            self.assertTrue(replay["prediction_values_verified"])
+            self.assertIn("device_name",json.loads((root/"timing.json").read_text()))
             with np.load(root/"e1/predictions.npz") as saved: np.testing.assert_array_equal(saved["row_indices"],test_contexts[:,-1])
 
 
