@@ -44,6 +44,8 @@ Check the allocation table, operation order, and rules summary. New components m
 When a change affects phase scope, identifiers, execution order, comparison
 fairness, readiness, result judgement, or completion gates, check the
 applicable canonical Phase 1 and/or Phase 2 documents in this directory.
+For Phase 2 decoder work, include
+`docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
 
 ## 3. Audit Repository Skills
 

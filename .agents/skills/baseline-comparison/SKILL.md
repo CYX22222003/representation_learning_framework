@@ -37,7 +37,11 @@ Then run ablations to identify where gains come from:
 - all branches in concat mode;
 - all branches in gated mode.
 
-For decoder-controlled claims, compare the end-to-end benchmark, the framework with the default MLP head, and the frozen framework with a benchmark-mirrored decoder. Use this only when the decoder architecture can be separated cleanly.
+For Phase 2 decoder claims, use the frozen D0--D4 matrix: shallow MLP,
+branch-aware residual MLP, gated fusion, temporal LSTM, and temporal
+Transformer. Keep the five Phase-1 branches fixed and use identical final task
+rows. Treat end-to-end task benchmarks as contextual complete-system
+comparisons rather than decoder-isolating controls.
 
 ### 3. Run matched characterization sweeps
 
@@ -73,6 +77,8 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 
 - Data rules: `docs/training_test_data_selection.md`
 - Design and comparison paradigm: `docs/design.md`
+- Phase 2 D0--D4 decoder contract:
+  `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`
 - Baseline plan: `src/baselines/mlp_baseline/EXPERIMENT_PLAN.md`
 - Baseline runner: `src/baselines/mlp_baseline/run_experiment.py`
 - Plotter: `src/baselines/mlp_baseline/plot_experiment.py`

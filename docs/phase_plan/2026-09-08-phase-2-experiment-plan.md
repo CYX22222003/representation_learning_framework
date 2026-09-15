@@ -119,6 +119,9 @@ left open by this overall plan, including temporal context length `K`, exact
 hidden dimensions, dropout, seeds, epoch budgets, label horizon, and movement
 threshold.
 
+The Part-1 values and implementation contract are frozen in
+`docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
+
 ---
 
 ## Part 1: Decoder refinement
@@ -142,7 +145,7 @@ not improved self-supervised representation learning.
 |---|---|---|---|
 | `D0` | one 445-d concat vector | Current shallow MLP | Preserve the Phase-1 reference |
 | `D1` | projected named branches | Residual MLP | Control for additional nonlinear capacity and cross-branch interaction |
-| `D2` | gated branch projections | Current shallow MLP | Test task-dependent branch weighting separately from temporal modelling |
+| `D2` | newly initialized task-specific gated branch projections | Newly initialized current shallow MLP architecture | Test task-dependent branch weighting separately from temporal modelling |
 | `D3` | `K` consecutive 445-d concat vectors | Compact LSTM | Primary recurrent temporal decoder |
 | `D4` | `K` consecutive 445-d concat vectors | Compact Transformer | Attention-based temporal comparison |
 
@@ -151,6 +154,16 @@ the same ordered embedding sequences, context length, targets, and row
 eligibility. Their trainable parameter counts should be reasonably matched.
 `D2` is a Part 1 decoder/fusion experiment and is distinct from the removed
 Part 3 `C4` classification configuration.
+
+Phase 1 evaluated concat fusion and therefore provides no pretrained gated
+aggregator. For every D2 task and seed, instantiate a new
+`RepresentationAggregator(mode="gated", out_dim=128)` and a new task head,
+then train their parameters jointly from scratch using only that downstream
+task's training loss. The saved statistical, transformed, VAE, contrastive,
+and BYOL branch features remain frozen. Gated parameters are not shared across
+tasks or seeds. D2 is an independent static comparison arm: it is not trained
+as a prerequisite for D3 or D4, and neither temporal decoder consumes D2's
+fused output or learned weights.
 
 ### Temporal embedding-sequence contract
 

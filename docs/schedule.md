@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-12
+**Last updated:** 2026-09-14
 
 ---
 
@@ -70,7 +70,7 @@
 | Price prediction benchmark (MAE, RMSE) | ✅ Four-branch MVP and five-branch Phase-1 framework sweeps recorded; strict Raw-OHLCV MLP comparison and contextual LSTM comparison saved. Shared-target LSTM alignment remains future work. |
 | Volatility prediction benchmark (MSE, correlation) | 🔄 Five-branch Phase-1, Raw LSTM, and adapted GARCH--LSTM stack are strictly compared on identical shared-label rows; legacy Raw-OHLCV MLP and GINN remain characterization/limitation evidence, and the strict MLP rerun is pending. |
 | Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
-| Phase 2 decoder refinement | ⬜ Planned as D0–D4 with frozen Phase-1 encoders; implementation and execution not started |
+| Phase 2 decoder refinement | 🔄 D0–D4 Stage-1 pipeline implemented and real temporal/price artifacts validated; 30-run CUDA matrix frozen but not executed |
 | Phase 2 encoder refinement | ⬜ Planned around matched contrastive LSTM/Transformer backbone variants; implementation and execution not started |
 | Phase 2 probability-movement classification | 🔄 Scope corrected to the strict C1/C2/C5 matrix only; the earlier launcher was stopped, unintended ablation artifacts were removed, and completed intended runs remain available for resume |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
@@ -97,11 +97,12 @@ Trend classification has both four-branch and five-branch framework results on t
 
 The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
 
-The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. Phase 2 has three independent parts: decoder refinement, encoder refinement, and classification relabelling. The decoder and encoder parts are planned but not implemented or executed. The Part 3 classification specification is frozen at `h=2`, `tau=0.005`, seeds `0/1/2`, and budgets `15/50/100`; its only learned trajectories are the strict TA-aligned C1 Raw-OHLCV MLP, C2 five-branch framework, and C5 adapted TA-MLP under P0/P1U/P1O/P2. Decoder and encoder variants are excluded from the Part 3 launcher but remain the subjects of Parts 1 and 2. Full-row-only runs, representation ablations, C3, and C4 are not required by the current Phase 2 plan. The earlier launcher was stopped after this scope correction; completed intended C1/C2/C5 artifacts remain available for a clean resume. Other priorities remain the Raw-OHLCV MLP volatility migration, a nonnegative framework volatility decoder, and remaining external-baseline alignment. Train-only raw-OHLCV Alpha101-style and bounded-GP dry runs now demonstrate timestamped factor scoring and evolutionary formula construction without touching the global task-test partition; downstream-head OOF mining and fresh-holdout alpha evaluation remain outside this budget. Current results support the implementation claim that frozen multi-branch features contain useful downstream information; they do not support universal superiority over task-specific baselines.
+The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. Phase 2 has three independent parts: decoder refinement, encoder refinement, and classification relabelling. The D0--D4 Stage-1 decoder pipeline is implemented at `K=8`, seeds `0/1/2`, and budgets `15/50/100`; its contract-safe temporal index and price labels pass real-data replay, and its 30-run CUDA matrix is frozen but unexecuted. Encoder refinement is not yet recorded as complete here. The Part 3 classification specification is frozen at `h=2`, `tau=0.005`, seeds `0/1/2`, and budgets `15/50/100`; its only learned trajectories are the strict TA-aligned C1 Raw-OHLCV MLP, C2 five-branch framework, and C5 adapted TA-MLP under P0/P1U/P1O/P2. Decoder and encoder variants are excluded from the Part 3 launcher but remain the subjects of Parts 1 and 2. Full-row-only runs, representation ablations, C3, and C4 are not required by the current Phase 2 plan. Other priorities remain executing and reporting the decoder matrix, completing the classification matrix, the Raw-OHLCV MLP volatility migration, and remaining external-baseline alignment. Current results support implementation and replay claims only; decoder performance has not yet been measured.
 
 The canonical phase documents are maintained under `docs/phase_plan/`: the
 Phase-1 product-readiness plan and experiment-observation judgement, plus the
-complete Phase-2 plan and its frozen Part 3 classification contract.
+complete Phase-2 plan, frozen Part 1 decoder implementation specification, and
+frozen Part 3 classification contract.
 
 ### Recent VAE encoder progress
 
@@ -251,11 +252,13 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [x] Implement the isolated Phase 2 probability-movement classification pipeline and strict C1/C2/C5 row-alignment contract; full multi-seed experiment execution remains pending
 - [x] Execute and compare the Phase-1 framework volatility experiment on the shared label bundle
 - [ ] Transferability experiment: embed with model trained on one timeframe, evaluate on another
-- [ ] *(time permitting)* Decoder-controlled comparison for price prediction: three configurations (benchmark end-to-end / framework + MLP head / framework + benchmark-mirrored head) on the same test split; extend to other tasks if time allows
+- [ ] Execute and report the implemented Phase 2 D0--D4 decoder matrix on price
+  and volatility using the validated `K=8` temporal row map; movement
+  classification remains a later P2-only extension outside the Part-3 launcher
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete; Phase 2 decoder and encoder refinement are not implemented, and the corrected C1/C2/C5 classification matrix is paused and not yet fully evaluated or reported. Strict Raw-OHLCV MLP volatility migration, remaining external-baseline execution, nonnegative volatility-decoder confirmation, and other task-level multi-seed runs also remain.
+**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete; the Phase 2 decoder pipeline is implemented but its 30-run CUDA matrix is not executed, encoder refinement is not yet recorded as complete here, and the corrected C1/C2/C5 classification matrix is not yet fully evaluated or reported. Strict Raw-OHLCV MLP volatility migration, remaining external-baseline execution, and other task-level multi-seed runs also remain.
 
 ---
 
