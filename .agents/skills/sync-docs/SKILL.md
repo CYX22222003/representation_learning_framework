@@ -60,6 +60,8 @@ fairness, readiness, result judgement, or completion gates, check the
 applicable canonical Phase 1 and/or Phase 2 documents in this directory.
 For Phase 2 decoder work, include
 `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
+For Phase 3 scope, implementation, execution, or result judgement, include
+`docs/phase_plan/2026-09-20-phase-3-experiment-plan.md`.
 
 ## 3. Audit Repository Skills
 

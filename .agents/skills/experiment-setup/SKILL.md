@@ -18,6 +18,8 @@ Read these in order:
 3. The Experiment Design section of `docs/design.md`, including Data Preparation, Representation Learning, Training Procedure, and Evaluation Process.
 4. For price prediction or cross-generation price comparisons,
    `docs/price_prediction_label_contract.md` in full.
+5. For Phase 3 preparation, training, extraction, downstream evaluation, or
+   baselines, `docs/phase_plan/2026-09-20-phase-3-experiment-plan.md` in full.
 
 ## Response Contract
 

@@ -94,6 +94,18 @@ Canonical Phase 2 scope is maintained in
 classification matrix is maintained in
 `docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md`.
 
+The next leakage-safe rerun is specified in
+`docs/phase_plan/2026-09-20-phase-3-experiment-plan.md`. Its raw-time-first
+4-hour bundle is built and validated at 21,696 train / 3,085 test windows over
+50 contracts. The seed-0 encoder-pretraining matrix is complete: canonical VAE,
+contrastive CNN/LSTM/Transformer, and BYOL CNN/LSTM/Transformer each have one
+uninterrupted 50-epoch trajectory and checkpoints at `5/15/50`. All 21
+snapshots passed the consolidated provenance/history check with no collapse
+warnings; numerical tables and six plots are stored under
+`experiments/phase3/reports/encoder_pretraining_seed0/`. Feature extraction and
+downstream/baseline execution have not started. Existing `scripts/` entry
+points and all `_old` artifacts remain excluded from Phase 3 execution.
+
 ---
 
 ## 2. Summary
@@ -133,7 +145,9 @@ The five-branch Phase-1 task matrix is complete for price, trend, and volatility
 The canonical phase documents are maintained under `docs/phase_plan/`: the
 Phase-1 product-readiness plan and experiment-observation judgement, plus the
 complete Phase-2 plan, frozen Part 1 decoder implementation specification, and
-frozen Part 3 classification contract.
+frozen Part 3 classification contract. The Phase 3 experiment plan separately
+defines the leakage-safe rerun, seven-encoder pretraining matrix, downstream
+feature study, and matched price/classification baselines.
 
 ### Recent VAE encoder progress
 
