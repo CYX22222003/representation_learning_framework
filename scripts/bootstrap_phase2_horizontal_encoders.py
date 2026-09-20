@@ -21,6 +21,20 @@ VOLATILITY_LABELS = "data/task_labels/volatility_prediction/rv_4h_seq64_top50.np
 MOVEMENT_LABELS = "data/task_labels/trend_classification/probability_movement_4h_h2_tau005_seq64_top50.npz"
 MOVEMENT_ALIGNMENT = "data/features/phase2_ta_probability_movement_4h_h2_tau005.npz"
 CANONICAL_BRANCHES = "statistical,transformed,vae,contrastive,byol"
+REUSED_CHECKPOINTS = {
+    ("contrastive_lstm", 0): Path("checkpoints/phase2/contrastive_lstm-4h-seq64-top50-seed0.pth"),
+    ("contrastive_transformer", 0): Path("checkpoints/phase2/contrastive_transformer-4h-seq64-top50-seed0.pth"),
+}
+REUSED_RUNS = {
+    ("contrastive_lstm", 0): Path(
+        "experiments/framework/phase2/encoder_refinement/pretraining/"
+        "contrastive_lstm-4h-seq64-top50-seed0"
+    ),
+    ("contrastive_transformer", 0): Path(
+        "experiments/framework/phase2/encoder_refinement/pretraining/"
+        "contrastive_transformer-4h-seq64-top50-seed0"
+    ),
+}
 
 
 CONFIGS = {
@@ -61,6 +75,10 @@ def _variant_paths(root: Path, variant: str, seed: int) -> tuple[Path, Path, Pat
     return run, checkpoint, features
 
 
+def _checkpoint_path(root: Path, variant: str, seed: int) -> Path:
+    return REUSED_CHECKPOINTS.get((variant, seed), _variant_paths(root, variant, seed)[1])
+
+
 def _superset_path(root: Path, family: str, seed: int) -> Path:
     return root / "features" / "supersets" / family / f"seed{seed}.npz"
 
@@ -70,6 +88,8 @@ def _pretrain_commands(args: argparse.Namespace, root: Path) -> list[list[str]]:
     commands: list[list[str]] = []
     for seed in args.seed_values:
         for variant in ("contrastive_lstm", "contrastive_transformer"):
+            if (variant, seed) in REUSED_CHECKPOINTS:
+                continue
             run, checkpoint, _ = _variant_paths(root, variant, seed)
             commands.append([
                 py, "scripts/train_phase2_contrastive_encoder.py", "--variant", variant,
@@ -94,7 +114,8 @@ def _feature_commands(args: argparse.Namespace, root: Path) -> list[list[str]]:
     commands = []
     for seed in args.seed_values:
         for variant in ("contrastive_lstm", "contrastive_transformer", "byol_lstm", "byol_transformer"):
-            _, checkpoint, features = _variant_paths(root, variant, seed)
+            _, _, features = _variant_paths(root, variant, seed)
+            checkpoint = _checkpoint_path(root, variant, seed)
             commands.append([
                 sys.executable, "scripts/extract_phase2_encoder_features.py",
                 "--processed-npz", PROCESSED, "--checkpoint", str(checkpoint),
@@ -234,7 +255,7 @@ def _execute(stages: list[str], stage_commands: dict[str, list[list[str]]], budg
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--output-root", type=Path, default=DEFAULT_ROOT)
-    result.add_argument("--seeds", default="0,1,2")
+    result.add_argument("--seeds", default="0")
     result.add_argument("--epoch-budgets", default="15,50,100")
     result.add_argument("--stages", default="pretrain,features,bundles,cka,probes")
     result.add_argument("--device", default="cuda")
@@ -254,6 +275,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise ValueError("invalid seeds, budgets, or stages")
         sources = [Path(PROCESSED), Path(CANONICAL), Path(f"{CANONICAL}.index.npz"),
                    Path(PRICE_LABELS), Path(VOLATILITY_LABELS), Path(MOVEMENT_LABELS), Path(MOVEMENT_ALIGNMENT)]
+        sources.extend(
+            checkpoint
+            for (variant, seed), checkpoint in REUSED_CHECKPOINTS.items()
+            if seed in args.seed_values
+        )
+        reused = {
+            f"{variant}:seed{seed}": {
+                "checkpoint": str(checkpoint),
+                "checkpoint_sha256": _sha256(checkpoint),
+                "source_run": str(REUSED_RUNS[(variant, seed)]),
+            }
+            for (variant, seed), checkpoint in REUSED_CHECKPOINTS.items()
+            if seed in args.seed_values
+        }
         missing = [str(path) for path in sources if not path.exists()]
         if missing:
             raise FileNotFoundError(f"missing frozen sources: {missing}")
@@ -268,12 +303,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             "tasks": ["price_prediction", "volatility_prediction", "probability_movement"],
             "probability_movement_protocol": "P2", "fusion": "concat",
             "probe_hidden_dim": 128, "encoder_embedding_dim": 128,
-            "encoder_probe_seed_pairing": "candidate encoder seed s is paired with probe seed s; H0 and duplicate controls use canonical seed-0 encoders with probe seed s",
+            "encoder_probe_seed_pairing": "single-seed characterization: encoder seed 0 and downstream probe seed 0; H0 and duplicate controls retain canonical seed-0 encoders",
             "leave_one_out_scope": "new temporal branches only; represented by ALT versus AL/AT arms",
             "linear_cka_filtering": "none; CKA is recorded descriptively on full aligned train rows",
             "fixed_width_fusion": "deferred", "comparison_script_required": False,
             "current_test_is_characterization_only": True,
             "no_validation_or_early_stopping": True,
+            "reused_encoder_artifacts": reused,
             "source_sha256": {str(path): _sha256(path) for path in sources},
             "stage_command_counts": {name: len(commands) for name, commands in stage_commands.items()},
             "commands": [shlex.join(command) for command in all_commands],
@@ -294,7 +330,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         print(
             f"horizontal encoder matrix ready: {manifest_path} "
-            f"({sum(manifest['stage_command_counts'].values())} commands; 135 probe trajectories)",
+            f"({sum(manifest['stage_command_counts'].values())} commands; "
+            f"{manifest['stage_command_counts']['probes']} probe trajectories)",
             flush=True,
         )
         if args.execute:

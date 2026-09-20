@@ -1,0 +1,22 @@
+{
+  "variant": "byol_lstm",
+  "objective": "BYOL",
+  "augmentation_source": "models.contrastive.make_views",
+  "downstream_embedding": "unnormalized online backbone state h",
+  "downstream_embedding_dim": 128,
+  "projection_dim": 128,
+  "predictor_hidden_dim": 128,
+  "target_decay": 0.99,
+  "trainable_parameter_count": 135168,
+  "backbone_config": {
+    "hidden_dim": 128,
+    "lstm_num_layers": 1,
+    "lstm_dropout": 0.0,
+    "transformer_num_layers": 2,
+    "transformer_num_heads": 4,
+    "transformer_feedforward_dim": 256,
+    "transformer_dropout": 0.1,
+    "transformer_norm_first": false,
+    "max_seq_len": 512
+  }
+}

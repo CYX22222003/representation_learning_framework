@@ -209,7 +209,8 @@ Use the same ordered training-row identities for both matrices, operate on the
 full aligned training split where feasible, and accumulate cross-products in
 float64. Test rows must not be used for candidate filtering or architecture
 decisions. Report the complete pairwise CKA matrix for every encoder seed,
-plus the across-seed mean and sample standard deviation for each named pair.
+  for the frozen seed-0 encoders. Across-seed means and sample standard
+  deviations are deferred because the executable matrix contains one seed.
 
 At minimum, report pairwise CKA among the CNN, LSTM, and Transformer branches
 within each SSL family. For `HC-ALT` and `HB-ALT`, also report their pairwise
@@ -240,9 +241,11 @@ Use the same tasks and rows:
 | Volatility prediction | Shared realised-volatility label bundle | MAE, RMSE, MSE, Pearson correlation |
 | Probability movement | `h=2`, `tau=0.005`, common TA-eligible rows, P2 | Macro-F1, balanced accuracy, per-class recall, ROC-AUC and PR-AUC diagnostics |
 
-Run downstream seeds `0,1,2`, retain every predeclared budget, and save aligned
-predictions and row identities. Comparisons must use the same encoder seed,
-probe seed, targets, and rows wherever applicable.
+Under the time-constrained executable scope, run encoder seed `0` and
+downstream seed `0`, retain every predeclared budget, and save aligned
+predictions and row identities. This single-seed matrix is characterisation
+evidence and does not support across-seed uncertainty claims. Comparisons must
+use the same encoder seed, probe seed, targets, and rows wherever applicable.
 
 ## Artifact-first recording and on-demand comparison
 
@@ -310,7 +313,7 @@ primary evidence of branch complementarity.
 5. Validate dimensions, split indices, hashes, finite values, and exact branch
    membership.
 6. Freeze all shallow-probe commands and run names.
-7. Execute the complete matched multi-seed downstream matrix.
+7. Execute the complete matched single-seed downstream matrix.
 8. Verify that every run's raw metrics replay from its saved predictions and
    that the complete artifact inventory is present.
 9. Produce cross-run comparisons only on demand from the immutable artifacts;
@@ -352,8 +355,8 @@ write-up when requested; they do not require a permanent comparison script.
   supports complementarity only under the required controls.
 - A branch that is weak alone may still be complementary. Conversely, two
   strong standalone branches may be redundant together.
-- Improvements must be described per task unless they are consistent across
-  tasks and seeds.
+- Improvements must be described per task. Single-seed results cannot establish
+  robustness across random initialisations.
 - The shallow probe remains primary. Testing several decoders belongs to a
   later encoder-decoder interaction experiment with separately frozen scope.
 - Current-split results are characterisation evidence, not fresh confirmation.
@@ -366,9 +369,12 @@ task-test results:
 - both the contrastive and BYOL families are included;
 - LSTM and Transformer candidate encoders use 128-dimensional outputs and
   epoch-100 checkpoints from the predeclared `15,50,100` training trajectory;
-- encoder seed `s` is paired with downstream-probe seed `s` for `s=0,1,2`;
-- `H0` and duplicate controls retain the existing canonical encoder features
-  while varying the downstream seed;
+- encoder seed `0` is paired with downstream-probe seed `0`;
+- the already completed, contract-identical seed-0 contrastive LSTM and
+  Transformer checkpoints are reused with recorded hashes instead of retrained;
+- only the missing seed-0 BYOL LSTM and Transformer encoders are pretrained;
+- `H0` and duplicate controls retain the existing canonical seed-0 encoder
+  features;
 - duplicate branches are explicit aliases named `contrastive_dup1`,
   `contrastive_dup2`, `byol_dup1`, and `byol_dup2`;
 - leave-one-out coverage concerns the newly added temporal branches and is
