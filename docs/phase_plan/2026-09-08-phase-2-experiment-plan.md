@@ -2,6 +2,18 @@
 
 Date: 2026-09-08
 
+> **Validity update (2026-09-20):** Ongoing observations and outcomes are
+> recorded in
+> [`phase2_experiment_observation_and_outcome.md`](phase2_experiment_observation_and_outcome.md).
+> Phase 2 is paused. The shared legacy pipeline fit preprocessing and generated
+> windows before establishing the stored split, so all existing Phase-2 results
+> are retained as historical characterisation evidence. Existing price
+> baselines also require contract-safe reruns, and the historical MVP
+> next-window volatility target must be redesigned. No further matrix execution
+> should occur until the raw-time-first contract in
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md)
+> is implemented and its derived artifacts are rebuilt.
+
 ## Purpose
 
 Phase 2 studies how the completed Phase-1 framework can be improved without
@@ -209,13 +221,21 @@ experiment specification and applied consistently.
 
 ### Task-specific decoder requirements
 
-- **Price prediction:** preserve the current shared price-target contract. A
+- **Price prediction:** use the saved contract-safe horizon-1 label bundle at
+  `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`. Build targets
+  within each contract and stored split, remove the terminal row of every
+  contract, and select the resulting 109,791 train / 27,450 test feature rows
+  before fitting train-only preprocessing. Phase-1 and early Phase-2 artifacts
+  that used the legacy merged-array helper remain characterisation evidence,
+  not strict comparators. See `docs/price_prediction_label_contract.md`. A
   bounded probability output or residual probability-change formulation may be
   tested only as a separately named, predeclared target/output experiment.
-- **Volatility prediction:** reuse the saved realised-volatility label bundle
-  and use a nonnegative output transformation such as Softplus. Raw Phase-1
-  linear-output results remain the historical reference; clipping new
-  predictions after evaluation is not the primary method.
+- **Volatility prediction (historical MVP only):** existing runs reuse the saved
+  realised-volatility label bundle and use a nonnegative output transformation
+  such as Softplus. Raw Phase-1 linear-output results remain the historical
+  reference; clipping new predictions after evaluation is not the primary
+  method. The bundle is now recognized as an overlapping next-window proxy and
+  must be replaced before confirmatory volatility-forecasting claims.
 - **Classification:** do not use decoder results on the old stock-derived label
   task to choose the final Phase 2 classifier. The principal Phase 2
   classification comparison occurs after Part 3 creates the new label bundle.

@@ -1,6 +1,14 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-15
+**Last updated:** 2026-09-20
+
+> **Current blocker:** Phase 2 execution is paused. The legacy pipeline fitted
+> volume normalisation and generated sliding windows on each complete contract
+> before splitting the windows 80/20. Existing artifacts are preserved as
+> historical characterisation evidence, but the processed data, encoders,
+> features, and task bundles must be rebuilt under
+> [`docs/data_processing_split_contract.md`](data_processing_split_contract.md)
+> before experiments resume.
 
 ---
 
@@ -11,10 +19,10 @@
 |---|---|
 | Collect Polymarket OHLCV feather files | ✅ Done |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
-| Forward-fill and interpolate missing values | ✅ Done |
-| Z-score normalise volume | ✅ Done |
-| Sliding window segmentation → `[N, seq_len, features]` | ✅ Done |
-| 80/20 chronological train/test split per contract | ✅ Done |
+| Forward-fill and interpolate missing values | ⚠️ Implemented on complete contracts; must be audited/refactored for causal train-fitted behavior |
+| Z-score normalise volume | ❌ Must be corrected; legacy implementation fitted full-contract statistics |
+| Sliding window segmentation → `[N, seq_len, features]` | ⚠️ Must occur after a raw-time boundary under an explicit context policy |
+| 80/20 chronological train/test split per contract | ❌ Legacy split occurs after window generation; raw-time-first rebuild required |
 | Merge sequences across contracts | ✅ Done |
 | Exploratory data analysis (distributions, volatility regimes) | ⬜ Not started |
 
@@ -31,7 +39,7 @@
 | VAE architecture (MLP encoder-decoder, β-VAE loss) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | Contrastive encoder (CNN backbone, NT-Xent loss, augmentations) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
 | BYOL encoder (CNN online/target encoder, EMA target update) | ✅ Trained on 4h split with fixed-budget CUDA sweep; checkpoint/report complete |
-| Phase-2 temporal encoder refinement | 🔄 Seed-0 contrastive LSTM/Transformer pilot pretraining and downstream probes are recorded; the formal multi-seed matrix is incomplete, and matching BYOL LSTM/Transformer support is planned because BYOL is a selected peer branch |
+| Phase-2 temporal encoder refinement | ⏸️ Paused; completed checkpoints/probes are retained as legacy-pipeline characterisation evidence |
 | **Aggregation and downstream tasks** | |
 | `RepresentationAggregator` (N-branch gated fusion, dict API) | ✅ Implemented; concat mode evaluated in five-branch Phase-1 price, trend, and volatility runs |
 | `PriceRegressor` task head (MAE/RMSE) | ✅ Evaluated in the four-branch MVP and the five-branch Phase-1 price sweep |
@@ -68,12 +76,12 @@
 | Task | Status |
 |---|---|
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
-| Price prediction benchmark (MAE, RMSE) | ✅ Four-branch MVP and five-branch Phase-1 framework sweeps recorded; strict Raw-OHLCV MLP comparison and contextual LSTM comparison saved. Shared-target LSTM alignment remains future work. |
-| Volatility prediction benchmark (MSE, correlation) | 🔄 Five-branch Phase-1, Raw LSTM, and adapted GARCH--LSTM stack are strictly compared on identical shared-label rows; legacy Raw-OHLCV MLP and GINN remain characterization/limitation evidence, and the strict MLP rerun is pending. |
-| Trend classification benchmark (accuracy, macro-F1) | ✅ Four-branch and five-branch framework results recorded on identical locked 4h rows; majority-HOLD and TA-MLP context saved, with strict TA-MLP label-bundle alignment pending |
-| Phase 2 decoder refinement | 🔄 D0–D4 Stage-1 pipeline implemented and real temporal/price artifacts validated; 14 of 30 frozen CUDA trajectories have complete sweep artifacts, while D3 price seed 2 and all 15 volatility trajectories remain |
-| Phase 2 encoder refinement | 🔄 Seed-0 contrastive LSTM/Transformer pretraining and downstream pilots are recorded; the formal multi-seed matrix and matching BYOL LSTM/Transformer support remain pending |
-| Phase 2 probability-movement classification | 🔄 Scope corrected to the strict C1/C2/C5 matrix only; the earlier launcher was stopped, unintended ablation artifacts were removed, and completed intended runs remain available for resume |
+| Price prediction benchmark (MAE, RMSE) | ⚠️ Sweeps are preserved, but all inherit the legacy upstream pipeline; some additionally use invalid merged-array targets |
+| Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
+| Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
+| Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
+| Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
+| Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
 | Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are recorded under `experiments/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
@@ -88,17 +96,36 @@ classification matrix is maintained in
 
 ## 2. Summary
 
-The data pipeline and all three processed timeframes are complete. The existing 4h MVP feature bundle is validated at `statistical` (`137341 x 70`), `transformed` (`137341 x 55`), `vae` (`137341 x 64`), and `contrastive` (`137341 x 128`), with `109841` train rows and `27500` test rows. The VAE, contrastive, and BYOL encoders have completed fixed-budget 4h CUDA pretraining sweeps and provide canonical checkpoints. The validated Phase-1 store adds the 128-dimensional BYOL branch for a 445-dimensional concat representation and has now been evaluated on price prediction, trend classification, and shared-label volatility prediction.
+Phase 2 is currently blocked on returning to **Phase A — Data**. The earlier
+Phase-A completion claim was based on tensor shapes and stored split counts,
+not on raw-observation and preprocessing-fit provenance. An end-to-end audit
+found that full-contract volume statistics influenced training inputs and that
+the split was applied after stride-one windows were generated. All existing
+results and artifacts remain reproducible and must be kept, but they are
+historical characterisation evidence. The immediate priority is to implement
+the raw-time-first split contract, add leakage-invariant tests and provenance,
+and rebuild downstream inputs before any Phase-2 execution resumes.
 
-The current project state is **Phase C — iterative expansion after the first working framework loop**. Phase B is achieved for price prediction: the framework now trains `RepresentationAggregator(mode="concat") + PriceRegressor` on frozen statistical, transformed, VAE, and contrastive features and evaluates on the locked 4h test split. The price framework run under `experiments/framework/phase1/price_prediction/4h_stat_transform_vae_contrastive_concat/` reports MAE/RMSE of `0.0575/0.0955` at 15 epochs, `0.0695/0.1046` at 50 epochs, and `0.0720/0.1059` at 100 epochs. These are directly comparable to the Raw-OHLCV MLP sweep on the same processed split (`0.0834/0.1067`, `0.0600/0.0805`, `0.0454/0.0683` at 15/50/100 epochs). The LSTM benchmark uses the held-out test side, but it rebuilds close-only windows from raw feather inputs and currently has a one-row target alignment difference, so it should be treated as external context until re-wired to the exact shared target builder.
+The legacy data pipeline produced all three processed timeframes, but the
+raw-time split and fitted-preprocessing audit has invalidated their status as
+clean held-out bundles. The existing 4h bundles, encoder checkpoints, frozen
+features, and task evaluations remain preserved and structurally replayable;
+they are not valid inputs for further confirmatory execution.
 
-The five-branch Phase-1 price sweep is complete under `experiments/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance.
+The current project state has returned temporarily to **Phase A — Data
+correction**. The Phase B/C implementation and experiment artifacts still
+exist, but their inputs inherit the legacy preprocessing-before-split contract.
+They are preserved as historical characterisation evidence rather than proof
+of leakage-free held-out performance. Phase C execution resumes only after the
+corrected processed bundle, encoders, features, and task identities are rebuilt.
+
+The five-branch Phase-1 price sweep is complete under `experiments/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP within the legacy merged-array price contract and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. New Phase-2 price runs instead use the contract-safe bundle with 109,791 train / 27,450 test rows, removing the terminal row of each contract and the 49 invalid internal boundary transitions retained by the legacy helper. Phase-1 absolute metrics are therefore not strict comparators for new price runs. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row target alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance. See `docs/price_prediction_label_contract.md`.
 
 Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run under `experiments/framework/phase1/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. The existing TA-MLP sweep remains contextual until it consumes the identical saved rows.
 
 The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
 
-The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. Phase 2 has three independent parts: decoder refinement, encoder refinement, and classification relabelling. The D0--D4 Stage-1 decoder pipeline is implemented at `K=8`, seeds `0/1/2`, and budgets `15/50/100`; its contract-safe temporal index and price labels pass real-data replay. Fourteen of the 30 frozen CUDA trajectories have complete sweep artifacts (42 evaluated snapshots); D3 price seed 2 and all 15 volatility trajectories remain, so aggregate reporting and decoder-performance conclusions are still pending. Encoder refinement has recorded seed-0 contrastive LSTM/Transformer pretraining and downstream-pilot artifacts, but no completed formal multi-seed matrix. The revised selected-branch decision treats BYOL as a peer branch, so matching BYOL LSTM/Transformer support and the full separate-family matrix are still required; the seed-0 contrastive pilot is not retroactively part of that matrix. The Part 3 classification specification is frozen at `h=2`, `tau=0.005`, seeds `0/1/2`, and budgets `15/50/100`; its only learned trajectories are the strict TA-aligned C1 Raw-OHLCV MLP, C2 five-branch framework, and C5 adapted TA-MLP under P0/P1U/P1O/P2. Decoder and encoder variants are excluded from the Part 3 launcher but remain the subjects of Parts 1 and 2. Full-row-only runs, representation ablations, C3, and C4 are not required by the current Phase 2 plan. The earlier launcher was stopped after this scope correction; completed intended C1/C2/C5 artifacts remain available for a clean resume. Other priorities remain completing and reporting the decoder and classification matrices, completing the formal encoder matrix, migrating the Raw-OHLCV MLP volatility baseline, confirming a nonnegative framework volatility decoder, and finishing external-baseline alignment. Train-only raw-OHLCV Alpha101-style and bounded-GP dry runs demonstrate timestamped factor scoring and evolutionary formula construction without touching the global task-test partition; downstream-head OOF mining and fresh-holdout alpha evaluation remain outside this budget. Current framework evidence does not support universal superiority over task-specific baselines.
+The five-branch Phase-1 task matrix is complete for price, trend, and volatility, with reports and plots saved for all three. Phase 2 has three independent parts: decoder refinement, encoder refinement, and classification relabelling. The D0--D4 Stage-1 decoder pipeline is implemented at `K=8`, seeds `0/1/2`, and budgets `15/50/100`; its contract-safe temporal index and price labels pass real-data replay. Fourteen of the 30 frozen CUDA trajectories have complete sweep artifacts (42 evaluated snapshots); D3 price seed 2 and all 15 volatility trajectories remain, so aggregate reporting and decoder-performance conclusions are still pending. Horizontal encoder refinement now has seed-0 contrastive and BYOL LSTM/Transformer checkpoints, frozen feature bundles, and linear-CKA diagnostics. Its contract-safe price stage has complete raw/replay-verified `H0`, `HC-SL`, `HC-ST`, and `HC-AL` trajectories; the remaining contrastive controls/additions and BYOL-family price runs are pending, and volatility/classification have not started. The earlier contrastive price pilots remain legacy-label characterisation evidence rather than members of this strict matrix. The Part 3 classification specification is frozen at `h=2`, `tau=0.005`, seeds `0/1/2`, and budgets `15/50/100`; its only learned trajectories are the strict TA-aligned C1 Raw-OHLCV MLP, C2 five-branch framework, and C5 adapted TA-MLP under P0/P1U/P1O/P2. Decoder and encoder variants are excluded from the Part 3 launcher but remain the subjects of Parts 1 and 2. Full-row-only runs, representation ablations, C3, and C4 are not required by the current Phase 2 plan. The earlier launcher was stopped after this scope correction; completed intended C1/C2/C5 artifacts remain available for a clean resume. Other priorities remain completing and reporting the decoder and classification matrices, completing the horizontal encoder price matrix before later tasks, migrating the Raw-OHLCV MLP volatility baseline, confirming a nonnegative framework volatility decoder, and finishing external-baseline alignment. Train-only raw-OHLCV Alpha101-style and bounded-GP dry runs demonstrate timestamped factor scoring and evolutionary formula construction without touching the global task-test partition; downstream-head OOF mining and fresh-holdout alpha evaluation remain outside this budget. Current framework evidence does not support universal superiority over task-specific baselines.
 
 The canonical phase documents are maintained under `docs/phase_plan/`: the
 Phase-1 product-readiness plan and experiment-observation judgement, plus the
@@ -201,8 +228,17 @@ The schedule is structured as four phases. Phase A is a hard prerequisite. Phase
 
 - [x] Write a preprocessing script that runs `build_from_file_list` and saves results to `.npz` (bridging `data_processing.py` → `reader.py`)
 - [x] Verify tensor shapes and data integrity across all three timeframes (1h, 4h, 1d)
+- [ ] Move the per-contract split to the raw timeline before fitted
+  preprocessing and window generation
+- [ ] Record raw boundaries, window coverage, train-fitted preprocessing
+  parameters, and the test-context policy in the processed manifest
+- [ ] Add end-to-end tests that reject test-influenced preprocessing or test
+  observations inside training windows/targets
+- [ ] Rebuild and validate processed bundles before retraining encoders
 
-**Exit condition:** all three timeframes have clean `.npz` files that load correctly.
+**Exit condition:** all three timeframes have replayable `.npz` files that load
+correctly and prove that preprocessing, training windows, and training targets
+use no test-period observations. **Status: not currently achieved.**
 
 ---
 
@@ -260,7 +296,12 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 
 **Exit condition:** all planned methods (both sides) have been trained and evaluated on all three tasks; ablation table is complete.
 
-**Current Phase C exit gap:** the five-branch Phase-1 store and all three task runs are complete. The Phase 2 decoder pipeline is implemented and 14 of its 30 trajectories are complete, but the remaining 16 trajectories and aggregate report are pending. The seed-0 contrastive LSTM/Transformer pilot is recorded, while matching BYOL temporal variants and the formal multi-seed encoder matrix remain. The corrected C1/C2/C5 classification matrix is paused and not yet fully evaluated or reported. Strict Raw-OHLCV MLP volatility migration, remaining external-baseline execution, nonnegative volatility-decoder confirmation, and other task-level multi-seed runs also remain.
+**Current exit gap:** implement the raw-time-first split/preprocessing contract,
+store replayable raw-window provenance, add end-to-end leakage tests, rebuild
+the processed and frozen-feature artifacts, and regenerate task row identities.
+Only then may the remaining decoder, encoder, and classification trajectories
+resume. Existing completion counts describe preserved legacy-pipeline artifacts,
+not valid completion of the revised Phase-2 matrix.
 
 ---
 

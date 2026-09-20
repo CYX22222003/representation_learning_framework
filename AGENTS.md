@@ -4,6 +4,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
+> **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
+> extraction, or downstream evaluation against the current processed bundles.
+> The legacy pipeline fits volume preprocessing and creates windows before the
+> stored train/test split. Preserve all artifacts and first implement the
+> raw-time-first replacement specified in
+> `docs/data_processing_split_contract.md`.
+
 All scripts are run from the **project root**. Each script in `scripts/` self-bootstraps its Python path by inserting `src/` into `sys.path` — no package install is needed beyond `requirements.txt`.
 
 ```bash
@@ -375,5 +382,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
-- Price decoder label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split.
+- Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

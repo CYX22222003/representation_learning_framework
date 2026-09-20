@@ -7,6 +7,15 @@ or task-test metrics were generated. Primary `h=2`, `tau=0.005`, protocols
 scope was corrected on 2026-09-12 to remove unintended ablation and full-row
 runs; the frozen C1/C2/C5 definitions and protocols were unchanged.
 
+> **Execution pause (2026-09-20):** The split-local movement labels, TA-row
+> alignment, training-only sampling, priors, and downstream scalers remain
+> correctly implemented. However, C1/C2 inputs inherit the shared upstream
+> pipeline that fit volume normalisation and generated windows before the stored
+> train/test split. Preserve the completed seed-0 artifacts, but do not run the
+> remaining matrix until the corrected raw-time-first processed data, encoders,
+> features, labels, and TA intersection are regenerated. See
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
+
 ## Objective
 
 Replace the Phase-1 stock-label transfer task as the primary prediction-market

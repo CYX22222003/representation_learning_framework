@@ -12,16 +12,26 @@ Use the project documents as the authority for experiment design. Do not infer a
 Read these in order:
 
 1. `docs/training_test_data_selection.md` in full, including the global split, train/test-only policy, allocation table, task label bundles, test feature extraction, operation order, aggregator modes, and rules summary.
-2. The Experiment Design section of `docs/design.md`, including Data Preparation, Representation Learning, Training Procedure, and Evaluation Process.
+2. `docs/data_processing_split_contract.md` in full. Treat legacy processed and
+   feature bundles as historical characterisation evidence until the required
+   raw-time-first rebuild is complete.
+3. The Experiment Design section of `docs/design.md`, including Data Preparation, Representation Learning, Training Procedure, and Evaluation Process.
+4. For price prediction or cross-generation price comparisons,
+   `docs/price_prediction_label_contract.md` in full.
 
 ## Response Contract
 
 Present the relevant parts of:
 
 - The global 80/20 train/test split and why the test side remains locked.
+- Whether the raw-time boundary precedes fitted imputation/scaling and window
+  generation; identical stored `.npz` rows do not establish leakage safety.
 - The train/test-only rule: no validation split, no early stopping, and no test-driven checkpoint selection.
 - The data allocated to encoders, aggregator, task heads, and baselines for training and evaluation.
 - Any task-label constraints, including train-fitted thresholds/scalers and split-safe horizon alignment.
+- For price prediction, whether the run uses the active contract-safe bundle or
+  the legacy merged-array contract, including removal of terminal contract
+  rows before fitting the feature standardiser.
 - The ordered workflow from raw data through final evaluation.
 - The rules that prevent data leakage and preserve baseline fairness.
 

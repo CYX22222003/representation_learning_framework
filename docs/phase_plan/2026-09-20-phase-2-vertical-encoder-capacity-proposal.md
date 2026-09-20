@@ -1,7 +1,12 @@
 # Phase 2 Vertical Encoder-Capacity Experiment Proposal
 
 Date: 2026-09-20  
-Status: Draft for review; not frozen for execution
+Status: Draft for review; blocked from execution by upstream data correction
+
+> Do not freeze or execute this proposal against the legacy processed and
+> feature bundles. Resume only after the raw-time-first split and preprocessing
+> contract in [`../data_processing_split_contract.md`](../data_processing_split_contract.md)
+> is implemented and validated.
 
 ## Purpose
 
@@ -199,7 +204,7 @@ Use the same three tasks:
 
 | Task | Required target contract | Primary metrics |
 |---|---|---|
-| Price prediction | Existing split-local horizon-1 close target | MAE, RMSE |
+| Price prediction | Saved contract-safe horizon-1 bundle; terminal contract rows removed | MAE, RMSE |
 | Volatility prediction | Shared realised-volatility label bundle | MAE, RMSE, MSE, Pearson correlation |
 | Probability movement | `h=2`, `tau=0.005`, common TA-eligible rows, P2 | Macro-F1, balanced accuracy, per-class recall, ROC-AUC and PR-AUC diagnostics |
 

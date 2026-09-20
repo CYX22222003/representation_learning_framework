@@ -1,7 +1,12 @@
 # Phase 2 Selected-Branch Encoder Amendment
 
 Date: 2026-09-14  
-Status: Frozen for future Part 2 execution
+Status: Frozen design; execution paused pending upstream data correction
+
+> Existing pilot artifacts are preserved, but this amendment must not execute
+> against the legacy processed or feature bundles. Rebuild the encoder inputs
+> under [`../data_processing_split_contract.md`](../data_processing_split_contract.md)
+> before resuming.
 
 ## Decision
 

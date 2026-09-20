@@ -2,9 +2,27 @@
 
 External benchmark for the price prediction task. A 3-layer stacked LSTM that takes 64 prior close prices and predicts the next close. Univariate by design — used as a comparison point for the multi-branch framework.
 
+> **Legacy data-alignment warning (2026-09-20):** The current runner builds
+> every 64-step input and next-close target for a complete contract and only
+> then applies the 80/20 split to those labelled samples. It does not cross
+> from one contract into another, but its final training target is also the
+> final value contained in the first test input window. The adjacent
+> stride-one train/test windows therefore overlap at the split boundary. The
+> completed runs use 109,841 training and 27,500 test samples and do not match
+> the active saved price-label rows (109,791/27,450). Treat every existing
+> price LSTM result and checkpoint as legacy characterisation evidence, not as
+> a strict comparator for current experiments. Do not launch a new strict run
+> from this runner until sample construction is refactored to the revised
+> upstream split/sequence contract and the baseline is retrained.
+
 ## Splitting convention
 
-This baseline uses **train / test only** — no validation split, no early stopping. This matches the framework's standard pipeline (`build_from_file_list` in `src/data_processing/data_processing.py`), which also produces train + test only. Training runs for a fixed number of epochs supplied via `--epochs`.
+This baseline uses **train / test only** — no validation split and no early
+stopping. Training runs for a fixed number of epochs supplied via `--epochs`.
+However, the current ordering of window/target construction and splitting is
+the legacy procedure described above; “train/test only” must not be read as a
+claim that its rows are aligned with the current framework experiment
+contract.
 
 ## Multi-run sweeps
 

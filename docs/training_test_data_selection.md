@@ -4,20 +4,33 @@ This document specifies exactly which data subset each model component uses for 
 
 ---
 
-## The Global Split (already implemented)
+> **Validity blocker (2026-09-20):** The legacy processed bundles do not satisfy
+> the contract below. They fit volume normalisation and create sliding windows
+> on each complete contract before splitting the windows 80/20. Phase 2 is
+> paused while the pipeline is rebuilt from a raw-time boundary. Preserve all
+> existing artifacts as historical characterisation evidence. See
+> [`data_processing_split_contract.md`](data_processing_split_contract.md).
 
-The 80/20 chronological split applied per contract in `src/data_processing/data_processing.py` is the **only** split boundary that determines what is "seen" vs. "unseen" during model development.
+## The Required Global Split
+
+The 80/20 chronological boundary must be established on each contract's raw
+timeline before any fitted preprocessing or sample construction. It is the
+only boundary that determines what is "seen" versus "unseen" during model
+development.
 
 ```
-Per-contract time series  →  first 80% = train portion
-                          →  last  20% = test portion
+Per-contract raw timeline → establish chronological boundary
+                          → fit preprocessing on training history only
+                          → construct split-safe train/test samples
 
 After merging across all top-50 contracts:
   data/processed/*.npz  →  key "train"  shape [N_train, seq_len, 5]
                         →  key "test"   shape [N_test,  seq_len, 5]
 ```
 
-**The test split is locked.** No model parameters — supervised or unsupervised — may be influenced by test sequences until evaluation under the predeclared model × task × epoch-budget matrix.
+**The test split is locked.** No test-period value may influence a training
+input, target, imputer, scaler, encoder update, supervised parameter, or model
+selection decision.
 
 ---
 
@@ -96,6 +109,20 @@ The `NpzFeatureStore` handles branch-aware save/load. Feature arrays are stored 
 
 Task labels and targets must respect the same split boundary as the processed sequences. Build train labels from `processed["train"]` only and test labels from `processed["test"]` only. Do not concatenate train and test sequences before applying a future horizon, because the final train rows would then look across the train/test boundary.
 
+New price-prediction experiments must also preserve contract boundaries inside
+each stored split. They use
+`data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`, which builds
+horizon-1 close targets independently per contract and removes the final row
+of every contract. On the current 50-contract data this changes eligibility
+from the legacy merged-array counts of 109,840 train / 27,499 test to 109,791
+train / 27,450 test. The 49 additional rows removed from each split are the
+terminal rows of the first 49 contracts; the legacy helper incorrectly paired
+each with the first close of the next contract. Phase-1 and early Phase-2
+price artifacts with `labels_npz: null` remain legacy characterisation
+evidence and are not strict comparisons with contract-safe runs. See
+`docs/price_prediction_label_contract.md` for the transition and comparison
+rules.
+
 Phase 2 decoder refinement also uses a saved temporal row map. Every context
 contains eight consecutive feature rows from one contract and one split, and
 its task target belongs to the final context row. Static D0--D2 runs are
@@ -139,6 +166,14 @@ data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz.manifest.json
 
 It stores realised-volatility targets plus train/test row indices, contract IDs, and window starts. The Raw LSTM volatility benchmark, GARCH--LSTM stacking benchmark, future framework volatility task, and Raw-OHLCV MLP volatility baseline must reuse this bundle so targets and row identities match exactly. The stacking benchmark's expanding cross-fitting creates honest out-of-fold training meta-features for ElasticNet; it is not a validation split, early-stopping signal, or hyperparameter-selection mechanism. The existing Raw-OHLCV MLP volatility sweep predates this contract and uses the legacy merged-array target helper; it remains characterization evidence only and is not a strict row-by-row comparison with the two completed volatility benchmarks.
 
+This bundle is now classified as the **historical MVP next-window proxy**. Its
+stride-one input and target windows overlap by 63 of 64 prices, so it must not
+support claims about a genuinely unseen future-volatility window. Preserve it
+to reproduce earlier runs, but predeclare a revised target, generate a new
+bundle, and rerun all required comparators before making confirmatory volatility
+forecasting claims. See
+`docs/phase_plan/phase2_experiment_observation_and_outcome.md`.
+
 ---
 
 ## Order of Operations
@@ -146,7 +181,11 @@ It stores realised-volatility targets plus train/test row indices, contract IDs,
 The sequence below must be followed to avoid leakage.
 
 ```
-1. data/processed/*.npz already exists
+1. For each raw contract, establish and record the chronological raw-time
+   train/test boundary before any fitted preprocessing or window construction.
+   Fit imputation/scaling parameters on permitted training history only, apply
+   them causally, and generate windows under the declared context policy.
+   Save a replayable processed bundle and provenance manifest.
         │
         ▼
 2. Pretrain VAE on the full train split for a fixed epoch budget
@@ -177,7 +216,8 @@ The sequence below must be followed to avoid leakage.
         │
         ▼
 5. Build task labels/targets from each split independently:
-     - price targets from train/test processed sequences
+     - price targets from the saved contract-safe horizon-1 label bundle;
+       never shift the globally merged contract arrays
      - volatility targets from the shared contract-aware volatility label bundle
      - trend labels from the saved tri-class task label bundle
    Fit any label thresholds or target scalers using train data only
@@ -252,12 +292,17 @@ Both modes are trained on the same data splits and evaluated identically, making
 
 ## Rules Summary
 
-1. **Split once, at the start.** The 80/20 per-contract split is already done. Do not re-split.
+1. **Split once, at the raw-time start.** Establish the 80/20 per-contract
+   boundary before fitted preprocessing and window generation. The legacy
+   processed bundles fail this rule and must not be reused for new execution.
 2. **Train and test only — no validation split.** Every model uses a fixed epoch budget. No early stopping.
 3. **Unsupervised ≠ exempt from the split.** VAE, contrastive, and BYOL encoders are trained on `train_data` only, never on test sequences.
 4. **Never pick a run by reading test metrics.** Characterization sweeps across epoch budgets are reported in full; selecting the best-on-test entry turns the test set into a tuning set.
 5. **Task labels, thresholds, and scalers are fit from training data only.** Test labels may be computed only after all threshold/scaler parameters are fixed from train data, and label horizons must not cross the split boundary.
-6. **All strict comparisons use identical train/test partitions and label rows** — same `.npz` files, same split indices, and the same saved task label bundle where one exists. Legacy artifacts that predate a bundle are characterization evidence, not strict comparison evidence.
+6. **All strict comparisons require valid provenance and identical rows.** The
+   same `.npz`, indices, and label bundle are necessary but not sufficient: the
+   processed bundle must first pass the raw-time split and train-fitted
+   preprocessing contract. Legacy artifacts are characterization evidence.
 7. **Test evaluation follows a predeclared matrix.** Evaluate each fixed model, task, seed, and epoch budget once; report the complete matrix. Do not add configurations, select a best-on-test run, or otherwise change the protocol after reading test metrics.
 8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
 9. **Alpha-factor research is training-only model selection.** Raw-OHLCV screens and bounded GP may use a chronological discovery/confirmation split inside the original train portion, while the framework-facing symbolic search must use OOF economically meaningful downstream predictions rather than arbitrary latent coordinates. All require a fresh holdout or later data for final evaluation.

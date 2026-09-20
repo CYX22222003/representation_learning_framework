@@ -12,17 +12,26 @@ The experimental setup is designed to evaluate the effectiveness of the unified 
 
 ### Data Preparation
 
+> **Correction required (2026-09-20):** The legacy implementation normalised
+> and windowed each complete contract before splitting generated windows. Phase
+> 2 is paused because this allowed test-period information into fitted volume
+> scaling and left the raw holdout boundary ambiguous. The bullets below state
+> the required replacement design; see `docs/data_processing_split_contract.md`.
+
 The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. We use the top 50 most active contracts per timeframe, selected by trading volume.
 
 - **Timestep Separation:** Markets are grouped by their time resolution (1h, 4h, 1d) to handle differing temporal dynamics. Each group is processed independently.
 
-- **Market-level Preprocessing:** For each contract market:
+- **Market-level boundary and preprocessing:** For each contract market:
+  - Establish the chronological raw-time 80/20 boundary first.
   - Missing values are handled via interpolation or forward-filling to maintain continuous sequences.
-  - Features (OHLCV) are normalized or standardized to ensure numerical stability.
-  - Sliding window segmentation is applied to generate sequences of fixed length (`seq_len`), preserving chronological order.
+  - Any imputation or scaling parameters are fitted on training history only and
+    applied causally with frozen parameters.
+  - Sliding windows are constructed after the boundary under an explicit context
+    policy; no test-period observation may enter a training window or target.
   - Minor noise augmentation can be added to improve robustness of learned embeddings.
 
-- **Train-Test Split:** Each contract market's sequences are split chronologically:
+- **Train-Test Split:** Each contract market's raw timeline is split chronologically before fitted preprocessing and window generation:
   - First 80% of sequences → **training set**
   - Last 20% of sequences → **testing set**
 
@@ -64,6 +73,15 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 - The aggregator and task heads are trained on training feature bundles (statistical + transformed + separately named frozen neural branches) for fixed epoch budgets; each predeclared checkpoint receives one test pass and the complete epoch-budget matrix is reported without selecting a best-on-test run.
 
+- New price-prediction runs use the saved contract-safe horizon-1 label
+  bundle. Target construction is independent within every contract and split,
+  so the terminal row of each contract is removed instead of being paired
+  across a merged-array boundary. This yields 109,791 training and 27,450 test
+  rows on the current 50-contract data. Earlier price runs with
+  `labels_npz: null` use the legacy 109,840/27,499-row contract and are not
+  strict comparisons with new runs. See
+  `docs/price_prediction_label_contract.md`.
+
 - Training is conducted separately for each timestep group (1-hour, 4-hour, 1-day) to account for differing temporal dynamics.
 
 - All baseline models use the identical train/test partitions as the framework. See `docs/training_test_data_selection.md` for the complete data allocation rules.
@@ -91,7 +109,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
   - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae`, `contrastive`, and `byol`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
-    - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep.
+    - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep. Price experiments select rows and horizon-1 targets from the saved contract-safe price bundle before fitting the training-only feature standardiser.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. Phase 1 retains its TA-MLP-style tri-class BUY/HOLD/SELL bundle. The isolated Phase 2 task uses hard `DOWN/STABLE/UP` labels from absolute probability movement over a split-safe horizon and saves three-class scores. Its candidate imbalance protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and train-prior logit-adjusted cross-entropy (`P2`); natural cross-entropy (`P0`) is an untreated reference only.
   - A lightweight MLP task head is trained on these (X, y) pairs.
 

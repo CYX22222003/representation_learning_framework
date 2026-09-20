@@ -3,6 +3,11 @@
 Date: 2026-09-13  
 Status: Superseded for future execution by the 2026-09-14 selected-branch amendment; retained as the record of the contrastive-only seed-0 pilot
 
+> **Validity update (2026-09-20):** The recorded pilot inherits the legacy
+> preprocessing-before-split pipeline and is historical characterisation
+> evidence only. Preserve its artifacts; do not resume this matrix. See
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
+
 ## Purpose
 
 This document is the execution specification for Part 2 of
@@ -144,7 +149,7 @@ The three tasks are fixed as follows:
 
 | Task | Rows and target | Primary metrics |
 |---|---|---|
-| price prediction | existing split-local horizon-1 close target used by Phase 1 | MAE, RMSE |
+| price prediction | saved contract-safe horizon-1 label bundle; 109,791 train / 27,450 test rows | MAE, RMSE |
 | volatility prediction | `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` | MAE, RMSE, MSE, Pearson correlation, negative-prediction fraction |
 | probability-movement classification | `h=2`, `tau=0.005` label bundle on the saved TA-eligible row intersection; protocol `P2` only | macro-F1, balanced accuracy, per-class recall, confusion matrix and predicted counts; ROC-AUC, PR-AUC, NLL and Brier as diagnostics |
 
@@ -155,6 +160,14 @@ and alignment bundle
 logit-adjusted cross-entropy is fixed because Part 3 predeclares it for
 architecture comparisons. `P0`, `P1U`, and `P1O` belong to the separate Part 3
 imbalance study and are not repeated here.
+
+The completed seed-0 price pilots under
+`experiments/framework/phase2/encoder_refinement/price_prediction/primary/`
+predate the saved price bundle. Like Phase 1, they used 109,840 train / 27,499
+test rows from the legacy merged-array helper and retained 49 invalid
+cross-contract transitions per split. They remain legacy characterisation
+evidence. Formal encoder comparisons must be rerun on the saved price bundle;
+see `docs/price_prediction_label_contract.md`.
 
 The run count is therefore:
 

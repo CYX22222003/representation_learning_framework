@@ -1,5 +1,10 @@
 # Phase 2 Encoder Refinement Implementation Plan
 
+> **Validity update (2026-09-20):** Implementation artifacts are retained, but
+> experiment execution is paused because the shared processed inputs were
+> normalised and windowed before the stored split. See
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
+
 Date: 2026-09-08
 
 ## Scope and isolation

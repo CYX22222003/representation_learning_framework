@@ -13,11 +13,17 @@ This document outlines the four-stage research plan for developing and evaluatin
 
 - Clean and standardise each contract's time series:
   - Handle missing timestamps and volume gaps via forward-fill and interpolation.
-  - Z-score normalise volume; retain raw OHLC prices (bounded to [0, 1] probability scale).
+  - Establish the chronological raw-time boundary before fitting any imputer or
+    scaler.
+  - Fit volume normalisation and any data-dependent preprocessing on permitted
+    training history only, then apply the frozen rule causally; retain raw OHLC
+    prices (bounded to [0, 1] probability scale).
 
 - Segment into fixed-length sequences using a sliding window:
   - Apply sliding window of length `seq_len` to produce sequences of shape `[seq_len, features]`.
-  - Split each contract chronologically: first 80% for training, last 20% for testing.
+  - Construct train/test windows only after the raw chronological boundary is
+    fixed, under an explicit historical-context policy that prevents any test
+    observation from entering a training sample.
   - Concatenate sequences across all selected contracts to form the final training and test sets.
 
 - Perform exploratory analysis to understand distribution, volatility regimes, and event-driven price jumps.
@@ -142,7 +148,15 @@ Part 3 execution contract.
   - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
   - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix. Accuracy is reported as a supporting metric because the HOLD class can dominate.
 
-- Reuse saved task-label bundles and their aligned rows whenever a task has one. In particular, Raw LSTM, GARCH--LSTM stacking, the future framework volatility run, and the Raw-OHLCV MLP volatility rerun must consume the same contract-aware realised-volatility bundle.
+- Reuse saved task-label bundles and their aligned rows whenever a task has
+  one. New price experiments must consume
+  `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; it removes
+  the terminal row of every contract and prevents horizon targets from crossing
+  internal contract boundaries. Phase-1 and early Phase-2 price runs that used
+  the legacy merged-array helper are characterisation-only relative to this
+  contract. Raw LSTM, GARCH--LSTM stacking, the future framework volatility
+  run, and the Raw-OHLCV MLP volatility rerun must consume the same
+  contract-aware realised-volatility bundle.
 
 - For volatility, retain both the Raw LSTM and the adapted GARCH--LSTM stack in the final table. Beating or approaching Raw LSTM indicates competitiveness with direct neural sequence prediction; beating or approaching the stack is stronger hybrid-comparator evidence. The stack comparison must be described as a complete-system comparison, not a standalone-GARCH result.
 

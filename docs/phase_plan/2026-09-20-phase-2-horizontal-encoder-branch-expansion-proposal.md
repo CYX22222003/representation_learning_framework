@@ -1,7 +1,15 @@
 # Phase 2 Horizontal Encoder-Branch Expansion Proposal
 
 Date: 2026-09-20  
-Status: Reviewed
+Status: Execution paused — upstream data correction required
+
+> Existing checkpoints, feature bundles, linear-CKA outputs, and price-probe
+> artifacts are retained as historical characterisation evidence. Although the
+> recent price probes use contract-safe targets, their encoders and features
+> inherit the legacy preprocessing-before-split pipeline. Do not continue the
+> matrix until the raw-time-first data contract is implemented and all derived
+> encoder inputs are rebuilt. See
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
 
 ## Purpose
 
@@ -237,7 +245,7 @@ Use the same tasks and rows:
 
 | Task | Required target contract | Primary metrics |
 |---|---|---|
-| Price prediction | Existing split-local horizon-1 close target | MAE, RMSE |
+| Price prediction | Saved contract-safe horizon-1 bundle; 109,791 train / 27,450 test rows | MAE, RMSE |
 | Volatility prediction | Shared realised-volatility label bundle | MAE, RMSE, MSE, Pearson correlation |
 | Probability movement | `h=2`, `tau=0.005`, common TA-eligible rows, P2 | Macro-F1, balanced accuracy, per-class recall, ROC-AUC and PR-AUC diagnostics |
 
@@ -246,6 +254,13 @@ downstream seed `0`, retain every predeclared budget, and save aligned
 predictions and row identities. This single-seed matrix is characterisation
 evidence and does not support across-seed uncertainty claims. Comparisons must
 use the same encoder seed, probe seed, targets, and rows wherever applicable.
+
+The price bundle removes the final row of every contract. It supersedes the
+legacy merged-array target path used by Phase 1 and the earlier Phase-2 encoder
+pilots, which retained 49 cross-contract boundary transitions per split. The
+horizontal `H0` must therefore be the reference for `HC-*` and `HB-*`; older
+absolute price metrics are not strict comparators. See
+`docs/price_prediction_label_contract.md`.
 
 ## Artifact-first recording and on-demand comparison
 

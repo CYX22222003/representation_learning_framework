@@ -1,0 +1,51 @@
+{
+  "mae": 0.05221570283174515,
+  "rmse": 0.07402922213077545,
+  "mse": 0.005480325780808926,
+  "corr": 0.9906011819839478,
+  "task": "price_prediction",
+  "epoch": 50,
+  "seed": 0,
+  "mode": "concat",
+  "train_loss": 0.00019921266357414424,
+  "train_sample_count": 109791,
+  "test_sample_count": 27450,
+  "processed_npz": "data/processed/market_4h_seq64_top50.npz",
+  "features_npz": "experiments/framework/phase2/encoder_refinement_horizontal/features/supersets/contrastive/seed0.npz",
+  "labels_npz": "data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz",
+  "branch_dims": {
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64,
+    "contrastive": 128,
+    "byol": 128,
+    "contrastive_lstm": 128
+  },
+  "training_config": {
+    "task": "price_prediction",
+    "labels_npz": "data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz",
+    "mode": "concat",
+    "out_dim": 128,
+    "epoch_budgets": [
+      15,
+      50,
+      100
+    ],
+    "seed": 0,
+    "batch_size": 512,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0,
+    "head_hidden_dim": 128,
+    "n_classes": 3,
+    "price_index": 3,
+    "horizon": 1,
+    "standardize": true,
+    "standardize_clip": 10.0,
+    "device": "cuda",
+    "branches": "statistical,transformed,vae,contrastive,byol,contrastive_lstm",
+    "branch_aliases": null
+  },
+  "parameter_count": 81793,
+  "training_seconds_to_checkpoint": 85.8308194959991,
+  "inference_seconds": 0.282511119999981
+}
