@@ -10,13 +10,18 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > stored train/test split. Preserve all artifacts and first implement the
 > raw-time-first replacement specified in
 > `docs/data_processing_split_contract.md`.
+> Legacy processed data, features, labels, checkpoints, framework experiments,
+> and baseline experiments are archived under the `_old` roots listed in
+> `LEGACY_ARTIFACTS.md`. Canonical output directories are reserved for rebuilt
+> leakage-safe artifacts.
 
 All scripts are run from the **project root**. Each script in `scripts/` self-bootstraps its Python path by inserting `src/` into `sys.path` — no package install is needed beyond `requirements.txt`.
 
 ```bash
 # Step 1 — build sequence tensors from raw feather files
-python scripts/prepare_sequences.py --timeframes 4h --seq-len 64 --top-k 50
-# → data/processed/market_4h_seq64_top50.npz
+.venv/bin/python3 scripts/prepare_sequences.py --timeframes 4h --seq-len 64 --top-k 50
+# → data/processed/market_4h_seq64_top50_split_safe.npz
+# plus a provenance manifest; refuses to overwrite by default
 
 # Step 2 — extract statistical + transformation features
 python scripts/prepare_features.py \
