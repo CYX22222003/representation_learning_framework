@@ -4,6 +4,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
+> **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
+> extraction, or downstream evaluation against the current processed bundles.
+> The legacy pipeline fits volume preprocessing and creates windows before the
+> stored train/test split. Preserve all artifacts and first implement the
+> raw-time-first replacement specified in
+> `docs/data_processing_split_contract.md`.
+
 All scripts are run from the **project root**. Each script in `scripts/` self-bootstraps its Python path by inserting `src/` into `sys.path` — no package install is needed beyond `requirements.txt`.
 
 ```bash
@@ -46,6 +53,30 @@ python scripts/train_contrastive_encoder.py \
 
 # Generate contrastive training plots and a markdown report
 python scripts/plot_contrastive_experiment.py experiments/contrastive_encoder/contrastive-4h-seq64-top50
+
+# Pretrain the currently implemented Phase-2 contrastive backbone candidates.
+# The selected-branch Phase-2 plan also requires matched BYOL LSTM/Transformer
+# candidates; their BYOL-specific trainer is not implemented yet, so do not
+# repurpose these NT-Xent commands for BYOL.
+.venv/bin/python3 scripts/train_phase2_contrastive_encoder.py \
+  --variant contrastive_lstm \
+  --run-name contrastive_lstm-4h-seq64-top50-seed0 \
+  --epoch-budgets 15,50,100 \
+  --seed 0 \
+  --device cuda
+
+.venv/bin/python3 scripts/train_phase2_contrastive_encoder.py \
+  --variant contrastive_transformer \
+  --run-name contrastive_transformer-4h-seq64-top50-seed0 \
+  --epoch-budgets 15,50,100 \
+  --seed 0 \
+  --device cuda
+
+# Extract one frozen Phase-2 branch with checkpoint/data provenance
+.venv/bin/python3 scripts/extract_phase2_encoder_features.py \
+  --checkpoint checkpoints/phase2/contrastive_lstm-4h-seq64-top50-seed0.pth \
+  --out-path data/features/phase2/contrastive_lstm_4h_seq64_top50_seed0.npz \
+  --device cuda
 
 # Pretrain the VAE encoder on the locked train split
 python scripts/train_vae_encoder.py \
@@ -278,6 +309,8 @@ Feature extraction operates per-sequence, per-OHLCV-column (5 columns: open, hig
 | `vae` | `src/models/vae.py` | 64 (latent dim) |
 | `contrastive` | `src/models/contrastive.py` | 128 (frozen backbone embedding; projector is also 128 by default) |
 | `byol` | `src/models/byol.py` | 128 (online backbone hidden dim) |
+| `contrastive_lstm` | `src/models/encoder_variants.py` | 128 (Phase-2 experimental substitution; not yet trained) |
+| `contrastive_transformer` | `src/models/encoder_variants.py` | 128 (Phase-2 experimental substitution; not yet trained) |
 
 The `statistical` and `transformed` branches are **deterministic** — no training required. The `vae`, `contrastive`, and `byol` neural encoders must be pretrained unsupervised (via `src/training/`) before the aggregator is trained.
 
@@ -332,9 +365,9 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
-| `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`) |
-| `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for the isolated movement study; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
+| `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
+| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) |
+| `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
@@ -349,5 +382,5 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
-- Price decoder label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split.
+- Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

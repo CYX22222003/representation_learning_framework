@@ -22,6 +22,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--labels-npz", required=True)
     result.add_argument("--alignment-npz", default=None)
     result.add_argument("--branches", default=None, help="Comma-separated branch names; default uses every saved branch.")
+    result.add_argument("--branch-aliases", default=None, help="Comma-separated alias=selected_source duplicate controls.")
     result.add_argument("--mode", choices=("concat", "gated"), default="concat")
     result.add_argument("--out-dim", type=int, default=128)
     result.add_argument("--head-hidden-dim", type=int, default=128)
@@ -43,7 +44,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
     try:
         labels, provenance = load_labels_for_rows(args.labels_npz, args.alignment_npz)
-        X_train, X_test, branch_dims, scaler = load_framework_inputs(args.features_npz, labels, args.branches)
+        X_train, X_test, branch_dims, scaler = load_framework_inputs(
+            args.features_npz, labels, args.branches, args.branch_aliases
+        )
         config = RunConfig(
             model_id=args.model_id, protocol_id=args.protocol, epoch_budgets=parse_budgets(args.epoch_budgets),
             seed=args.seed, batch_size=args.batch_size, learning_rate=args.learning_rate,
@@ -65,7 +68,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 branch_dims, mode=args.mode, out_dim=args.out_dim, head_hidden_dim=args.head_hidden_dim
             ),
             model_spec=model_spec, run_root=run_root, config=config,
-            dataset_manifest={"features_npz": args.features_npz, "labels_npz": args.labels_npz, **provenance},
+            dataset_manifest={
+                "features_npz": args.features_npz, "labels_npz": args.labels_npz,
+                "branches": list(branch_dims), "branch_aliases": args.branch_aliases, **provenance,
+            },
             scaler=scaler,
         )
         print(f"Phase 2 framework run completed: {run_root}")

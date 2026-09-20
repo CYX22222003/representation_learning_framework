@@ -39,6 +39,20 @@ Check the branch table, source modules, dimensions, aggregator example, extensio
 
 Check the allocation table, operation order, and rules summary. New components must use the correct train/test boundaries and must not introduce validation splits, early stopping, or test-driven model selection unless the project methodology is deliberately changed.
 
+### `docs/data_processing_split_contract.md`
+
+Check this document whenever raw split placement, fitted preprocessing,
+window-context policy, processed-bundle provenance, or the Phase-2 execution
+pause changes. Do not describe a stored train/test split as leakage-safe merely
+because downstream row counts or hashes match.
+
+### `docs/price_prediction_label_contract.md`
+
+Check this document whenever price-target construction, eligible row counts,
+contract-boundary handling, price result comparability, or migration of a
+legacy price experiment changes. Keep its active bundle path and row counts
+consistent with `AGENTS.md`, `docs/design.md`, and the relevant phase plans.
+
 ### `docs/phase_plan/`
 
 When a change affects phase scope, identifiers, execution order, comparison

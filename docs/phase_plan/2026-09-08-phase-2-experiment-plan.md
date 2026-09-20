@@ -2,6 +2,18 @@
 
 Date: 2026-09-08
 
+> **Validity update (2026-09-20):** Ongoing observations and outcomes are
+> recorded in
+> [`phase2_experiment_observation_and_outcome.md`](phase2_experiment_observation_and_outcome.md).
+> Phase 2 is paused. The shared legacy pipeline fit preprocessing and generated
+> windows before establishing the stored split, so all existing Phase-2 results
+> are retained as historical characterisation evidence. Existing price
+> baselines also require contract-safe reruns, and the historical MVP
+> next-window volatility target must be redesigned. No further matrix execution
+> should occur until the raw-time-first contract in
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md)
+> is implemented and its derived artifacts are rebuilt.
+
 ## Purpose
 
 Phase 2 studies how the completed Phase-1 framework can be improved without
@@ -77,7 +89,7 @@ The plan must not answer one question by changing factors assigned to another.
 | Phase 2 part | Identifiers | Scope |
 |---|---|---|
 | Part 1: decoder refinement | `D0`–`D4` | Fixed Phase-1 encoders; decoder changes only |
-| Part 2: encoder refinement | named variants such as `contrastive_lstm` and `contrastive_transformer` | Fixed SSL objective, fusion, labels, and shallow probe |
+| Part 2: encoder refinement | contrastive and BYOL LSTM/Transformer substitutions | Fixed SSL objective per branch, fusion, labels, and shallow probe |
 | Part 3: classification relabelling | references `C0a`/`C0b`; learned models `C1`, `C2`, `C5` | Fixed probability-movement label contract and strict shared rows |
 
 These identifiers are local to their experiment part. There is no executable
@@ -209,13 +221,21 @@ experiment specification and applied consistently.
 
 ### Task-specific decoder requirements
 
-- **Price prediction:** preserve the current shared price-target contract. A
+- **Price prediction:** use the saved contract-safe horizon-1 label bundle at
+  `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`. Build targets
+  within each contract and stored split, remove the terminal row of every
+  contract, and select the resulting 109,791 train / 27,450 test feature rows
+  before fitting train-only preprocessing. Phase-1 and early Phase-2 artifacts
+  that used the legacy merged-array helper remain characterisation evidence,
+  not strict comparators. See `docs/price_prediction_label_contract.md`. A
   bounded probability output or residual probability-change formulation may be
   tested only as a separately named, predeclared target/output experiment.
-- **Volatility prediction:** reuse the saved realised-volatility label bundle
-  and use a nonnegative output transformation such as Softplus. Raw Phase-1
-  linear-output results remain the historical reference; clipping new
-  predictions after evaluation is not the primary method.
+- **Volatility prediction (historical MVP only):** existing runs reuse the saved
+  realised-volatility label bundle and use a nonnegative output transformation
+  such as Softplus. Raw Phase-1 linear-output results remain the historical
+  reference; clipping new predictions after evaluation is not the primary
+  method. The bundle is now recognized as an overlapping next-window proxy and
+  must be replaced before confirmatory volatility-forecasting claims.
 - **Classification:** do not use decoder results on the old stock-derived label
   task to choose the final Phase 2 classifier. The principal Phase 2
   classification comparison occurs after Part 3 creates the new label bundle.
@@ -264,16 +284,18 @@ than a decoder selected from the same task-test results.
 |---:|---|---|---|---|
 | 0 | `contrastive` | NT-Xent | Existing CNN | Immutable reference |
 | 0 | `byol` | BYOL | Existing CNN | Immutable reference |
-| 1 | `contrastive_lstm` | NT-Xent | LSTM | Primary recurrent encoder variant |
-| 1 | `contrastive_transformer` | NT-Xent | Compact Transformer | Primary attention encoder variant |
-| 2 | `byol_lstm` | BYOL | LSTM | Conditional secondary variant |
-| 2 | `byol_transformer` | BYOL | Compact Transformer | Conditional secondary variant |
+| 1 | `contrastive_lstm` | NT-Xent | LSTM | recurrent substitution for the selected contrastive branch |
+| 1 | `contrastive_transformer` | NT-Xent | Compact Transformer | attention substitution for the selected contrastive branch |
+| 1 | `byol_lstm` | BYOL | LSTM | recurrent substitution for the selected BYOL branch |
+| 1 | `byol_transformer` | BYOL | Compact Transformer | attention substitution for the selected BYOL branch |
 
-The two contrastive variants are the required encoder-refinement comparison.
-BYOL variants are conditional secondary work and are not part of the Phase 2
-completion gate unless they are separately predeclared before execution. This
-does not convert the current single-seed trend result into a general rejection
-of BYOL.
+Contrastive and BYOL are both selected neural branches in the canonical
+five-branch representation. Their temporal variants are therefore peer
+encoder-refinement families, not an add-on or a test of whether BYOL should be
+included. Each family is compared with its own immutable CNN reference. The
+families remain factorially separate: a primary bundle changes exactly one
+branch, so a temporal contrastive and temporal BYOL branch are never introduced
+together in the same primary run.
 
 ### Fair backbone comparisons
 
@@ -316,10 +338,11 @@ For each new encoder variant:
 
 ### Part 2 completion gate
 
-Part 2 is complete when the two primary contrastive variants and their CNN
-reference have matched pretraining and downstream reports using the fixed
-five-branch substitution design. Any BYOL variants are separately scoped
-secondary work.
+Part 2 is complete when both temporal variants for each selected neural branch
+(contrastive and BYOL) and their CNN references have matched pretraining and
+downstream reports using the fixed five-branch substitution design. The
+contrastive and BYOL families must be reported separately before any later
+combined exploratory system is considered.
 
 ---
 
@@ -476,9 +499,10 @@ evaluation belongs on a fresh temporal holdout.
 4. **Execute decoder refinement first on price and volatility.** These tasks
    retain established target contracts and provide the cleanest initial
    decoder evidence.
-5. **Execute primary encoder refinement with the fixed shallow probe.** Start
-   with `contrastive_lstm` and `contrastive_transformer`; keep any BYOL variants
-   as separately predeclared secondary work.
+5. **Execute primary encoder refinement with the fixed shallow probe.** Run
+   LSTM and compact-Transformer substitutions separately for both the selected
+   contrastive and BYOL branches; retain the CNN version of the other branch in
+   each primary bundle.
 6. **Execute the relabelled classification matrix.** Run only the strict
    TA-aligned C1/C2/C5 configurations under P0/P1U/P1O/P2. Decoder and encoder
    variants remain in their own Part 1 and Part 2 experiment roots.

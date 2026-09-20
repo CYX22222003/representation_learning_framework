@@ -13,6 +13,9 @@ Use this skill after the data split and task definitions are known, and before s
 
 Read `docs/training_test_data_selection.md` and the relevant experiment-design sections of `docs/design.md`. Confirm:
 
+- the processed bundle was generated under the corrected raw-time-first
+  contract in `docs/data_processing_split_contract.md`; legacy bundles are
+  characterization-only even when downstream row hashes match;
 - identical processed `.npz` train/test partitions;
 - chronological per-contract 80/20 split;
 - identical task target builders, horizon, price index, and preprocessing;
@@ -22,6 +25,15 @@ Read `docs/training_test_data_selection.md` and the relevant experiment-design s
 - test split locked until final evaluation.
 
 Follow the repository rule of train/test only: no validation split, early stopping, or test-driven checkpoint selection. If another document mentions validation, treat `docs/training_test_data_selection.md` as authoritative and report the conflict.
+
+For price prediction, strict new comparisons must use
+`data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`. It removes the
+terminal row of every contract, yielding 109,791 train / 27,450 test rows on
+the current data. Phase-1 and early Phase-2 artifacts with `labels_npz: null`
+used the legacy merged-array 109,840/27,499-row contract and retained 49
+invalid cross-contract transitions per split. Treat those as legacy
+characterisation evidence unless they are retrained on the saved bundle. See
+`docs/price_prediction_label_contract.md`.
 
 For volatility, strict comparisons must use `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz`: Raw LSTM, GARCH--LSTM stacking, the framework volatility task, and a rerun of the Raw-OHLCV MLP must use its aligned rows. Existing Raw-OHLCV MLP volatility artifacts that use the legacy merged-array target builder are characterization evidence only.
 
@@ -76,6 +88,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 ## Project Paths
 
 - Data rules: `docs/training_test_data_selection.md`
+- Price-label transition: `docs/price_prediction_label_contract.md`
 - Design and comparison paradigm: `docs/design.md`
 - Phase 2 D0--D4 decoder contract:
   `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`

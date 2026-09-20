@@ -93,10 +93,30 @@ def _parse_branches(branches: str | None, available: list[str]) -> list[str]:
     return selected
 
 
+def _parse_aliases(aliases: str | None, selected: list[str]) -> list[tuple[str, str]]:
+    if aliases is None or aliases.strip() == "":
+        return []
+    result: list[tuple[str, str]] = []
+    used = set(selected)
+    for item in aliases.split(","):
+        parts = [value.strip() for value in item.split("=", 1)]
+        if len(parts) != 2 or not all(parts):
+            raise ValueError("--branch-aliases must use alias=source entries")
+        alias, source = parts
+        if alias in used:
+            raise ValueError(f"duplicate or occupied branch alias: {alias}")
+        if source not in selected:
+            raise ValueError(f"alias source {source!r} is not selected")
+        used.add(alias)
+        result.append((alias, source))
+    return result
+
+
 def load_framework_inputs(
     features_npz: str | Path,
     labels: Mapping[str, np.ndarray],
     branches: str | None = None,
+    branch_aliases: str | None = None,
 ) -> tuple[np.ndarray, np.ndarray, dict[str, int], dict[str, np.ndarray]]:
     feature_path = Path(features_npz)
     index_path = Path(f"{feature_path}.index.npz")
@@ -106,12 +126,14 @@ def load_framework_inputs(
         train_size, test_size = int(data["train_size"]), int(data["test_size"])
     all_branches = NpzFeatureStore(str(feature_path)).load().as_branch_dict()
     names = _parse_branches(branches, list(all_branches))
+    aliases = _parse_aliases(branch_aliases, names)
+    ordered = [(name, name) for name in names] + aliases
     train_parts: list[np.ndarray] = []
     test_parts: list[np.ndarray] = []
     dims: dict[str, int] = {}
     scaler: dict[str, np.ndarray] = {}
-    for name in names:
-        values = np.asarray(all_branches[name], dtype=np.float32)
+    for name, source in ordered:
+        values = np.asarray(all_branches[source], dtype=np.float32)
         if len(values) != train_size + test_size:
             raise ValueError(f"feature branch {name} has incompatible row count")
         train = values[:train_size][np.asarray(labels["train_indices"])]

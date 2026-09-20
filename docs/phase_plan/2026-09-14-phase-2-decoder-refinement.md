@@ -2,13 +2,28 @@
 
 Date: 2026-09-14
 
+> **Validity update (2026-09-20):** The saved volatility bundle used by this
+> frozen matrix is an overlapping MVP next-window proxy, not a genuinely unseen
+> future-volatility window. Its results remain historical characterisation
+> evidence; a redesigned target and matched reruns are required before
+> confirmatory volatility claims. See
+> [`phase2_experiment_observation_and_outcome.md`](phase2_experiment_observation_and_outcome.md).
+> The decoder matrix is now paused more broadly because its frozen Phase-1
+> features inherit preprocessing fitted before the stored split. Preserve the
+> 14 completed trajectories, but do not execute the remaining trajectories or
+> use the matrix for confirmatory decoder claims until the upstream data,
+> encoders, and features are rebuilt. See
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
+
 ## Purpose and status
 
 This document freezes the implementation contract for Part 1 of the Phase 2
 experiment plan. It converts the approved `D0`--`D4` decoder matrix into a
 concrete code, data, execution, and reporting plan. The Stage-1 data contracts,
 D0--D4 models, trainer, bootstrapper, reporter, and tests are implemented. The
-30-run CUDA matrix has been frozen but not executed.
+30-run CUDA matrix has been frozen and partially executed. Fourteen trajectories
+currently have complete sweep artifacts; D3 price seed 2 and all 15 volatility
+trajectories remain before aggregate reporting.
 
 The experiment asks whether the fixed five-branch Phase-1 representation is
 limited by static head capacity, branch fusion, or the lack of temporal
@@ -127,8 +142,15 @@ Target eligibility is joined to `final_row_indices`:
 - Price uses a new split-safe, contract-aware label bundle at horizon 1. This is
   required because the current generic price helper shifts a globally merged
   split and does not preserve contract identities at joins.
-- Volatility reuses
-  `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` unchanged.
+- The bundle removes the terminal row of every contract: 109,791 train /
+  27,450 test rows are label-eligible before the additional `K=8` context
+  restriction. Phase-1 and early encoder-refinement price artifacts used the
+  legacy 109,840/27,499-row merged contract and are not strict comparators. See
+  `docs/price_prediction_label_contract.md`.
+- Volatility reuses the historical MVP bundle
+  `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` unchanged for
+  matrix reproducibility. This does not endorse that overlapping target for
+  future confirmatory experiments.
 - Classification reuses the Phase-2 `h=2`, `tau=0.005` movement bundle. The
   decoder-only comparison may use its full label-eligible rows because no TA
   model is involved; it must not be mixed into the Part-3 C1/C2/C5 report.

@@ -1,5 +1,11 @@
 # Phase-1 Experiment Observations and Research Judgement
 
+> **Retrospective validity update (2026-09-20):** Phase-1 artifacts inherit the
+> legacy preprocessing-before-split pipeline documented in
+> [`../data_processing_split_contract.md`](../data_processing_split_contract.md).
+> Preserve the recorded results as historical characterisation evidence, but do
+> not use them as leakage-free held-out comparisons.
+
 Date: 2026-09-01
 
 ## Purpose
@@ -176,6 +182,13 @@ The regression results are encouraging precisely because they were obtained with
 The classification result points more strongly toward task-definition revision. The transferred stock-market labeling rule does not align cleanly with the bounded, event-driven behavior of prediction-market probabilities, and its train/test class shift is substantial. Redesigning the classification target around absolute probability movement or prediction-market regimes is likely more valuable than only increasing classifier depth.
 
 ## Supporting experiment reports
+
+The Phase-1 price report uses the legacy merged-array horizon-1 contract
+(109,840 train / 27,499 test rows). It is internally comparable with price
+baselines using that same target builder, but it is not a strict comparison
+with new contract-safe Phase-2 price runs. The new bundle removes each
+contract's terminal row and yields 109,791 train / 27,450 test rows; see
+`docs/price_prediction_label_contract.md`.
 
 - [Phase-1 price comparison](../../experiments/framework/phase1/price_prediction/4h_phase1_all5_concat/comparison.md)
 - [Phase-1 volatility comparison](../../experiments/framework/phase1/volatility_prediction/4h_phase1_all5_concat/comparison.md)

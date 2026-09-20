@@ -1,0 +1,63 @@
+{
+  "artifact_type": "phase2_horizontal_encoder_superset",
+  "canonical_features": "data/features/features_4h_seq64_top50_phase1.npz",
+  "canonical_sha256": "b1440f1e16c3854657e4a6e49511f176e10d19b5d1cde2b260b8c7e8d66c15ea",
+  "canonical_index_sha256": "e664123005b7382d9e5b42b34c3e541e1bef4d2f68ba39514ff03d090f47d0a8",
+  "candidate_sources": [
+    {
+      "path": "experiments/framework/phase2/encoder_refinement_horizontal/features/branches/byol_lstm/seed0.npz",
+      "sha256": "ae47e597774e6cdbee48529a2a83990085a59e6e552676d4c8a3d0d5af665f90",
+      "index_sha256": "e664123005b7382d9e5b42b34c3e541e1bef4d2f68ba39514ff03d090f47d0a8",
+      "branch": "byol_lstm"
+    },
+    {
+      "path": "experiments/framework/phase2/encoder_refinement_horizontal/features/branches/byol_transformer/seed0.npz",
+      "sha256": "7bb9cd9476944a53b342cde315529c34f80580d6d9e76d666e3714a78f94c8f4",
+      "index_sha256": "e664123005b7382d9e5b42b34c3e541e1bef4d2f68ba39514ff03d090f47d0a8",
+      "branch": "byol_transformer"
+    }
+  ],
+  "split_index": {
+    "train_size": 109841,
+    "test_size": 27500
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol",
+    "byol_lstm",
+    "byol_transformer"
+  ],
+  "branch_shapes": {
+    "statistical": [
+      137341,
+      70
+    ],
+    "transformed": [
+      137341,
+      55
+    ],
+    "vae": [
+      137341,
+      64
+    ],
+    "contrastive": [
+      137341,
+      128
+    ],
+    "byol": [
+      137341,
+      128
+    ],
+    "byol_lstm": [
+      137341,
+      128
+    ],
+    "byol_transformer": [
+      137341,
+      128
+    ]
+  }
+}

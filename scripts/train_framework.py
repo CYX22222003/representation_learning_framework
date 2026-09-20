@@ -11,6 +11,7 @@ import json
 import random
 import shutil
 import sys
+import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Mapping, Sequence
@@ -51,6 +52,8 @@ class FrameworkConfig:
     standardize: bool = True
     standardize_clip: float = 10.0
     device: str = "auto"
+    branches: str | None = None
+    branch_aliases: str | None = None
 
     def __post_init__(self) -> None:
         if self.task not in {"price_prediction", "trend_classification", "volatility_prediction"}:
@@ -193,6 +196,8 @@ def load_processed_npz(path: str | Path) -> tuple[np.ndarray, np.ndarray]:
 
 def load_split_feature_branches(
     feature_npz: str | Path,
+    branches_text: str | None = None,
+    aliases_text: str | None = None,
 ) -> tuple[dict[str, np.ndarray], dict[str, np.ndarray], dict[str, int]]:
     feature_path = Path(feature_npz)
     index_path = Path(f"{feature_path}.index.npz")
@@ -202,11 +207,32 @@ def load_split_feature_branches(
         train_size = int(data["train_size"])
         test_size = int(data["test_size"])
     bundle = NpzFeatureStore(str(feature_path)).load()
-    branches = bundle.as_branch_dict()
+    available = bundle.as_branch_dict()
+    if branches_text:
+        selected = [item.strip() for item in branches_text.split(",") if item.strip()]
+        if not selected or len(set(selected)) != len(selected):
+            raise ValueError("--branches must contain unique, non-empty names")
+        unknown = sorted(set(selected).difference(available))
+        if unknown:
+            raise ValueError(f"unknown branches {unknown}; available={list(available)}")
+    else:
+        selected = list(available)
+    ordered: list[tuple[str, str]] = [(name, name) for name in selected]
+    used = set(selected)
+    if aliases_text:
+        for item in aliases_text.split(","):
+            parts = [value.strip() for value in item.split("=", 1)]
+            if len(parts) != 2 or not all(parts):
+                raise ValueError("--branch-aliases must use alias=source entries")
+            alias, source = parts
+            if alias in used or source not in selected:
+                raise ValueError(f"invalid branch alias {alias}={source}")
+            used.add(alias)
+            ordered.append((alias, source))
     train: dict[str, np.ndarray] = {}
     test: dict[str, np.ndarray] = {}
-    for name, values in branches.items():
-        values = np.asarray(values, dtype=np.float32)
+    for name, source in ordered:
+        values = np.asarray(available[source], dtype=np.float32)
         if values.ndim != 2:
             raise ValueError(f"Feature branch {name!r} must be 2D, got {values.shape}")
         if len(values) != train_size + test_size:
@@ -298,6 +324,50 @@ def build_price_data(
         slice_for_horizon(test_branches, config.horizon),
         y_test,
     )
+
+
+def build_saved_regression_data(
+    train_branches: Mapping[str, np.ndarray],
+    test_branches: Mapping[str, np.ndarray],
+    feature_index: Mapping[str, int],
+    labels_npz: str | Path,
+) -> tuple[dict[str, np.ndarray], np.ndarray, dict[str, np.ndarray], np.ndarray]:
+    with np.load(labels_npz, allow_pickle=False) as data:
+        required = {"train_labels", "train_row_indices", "test_labels", "test_row_indices"}
+        if not required.issubset(data.files):
+            raise ValueError(f"regression label bundle missing {sorted(required.difference(data.files))}")
+        train_indices = np.asarray(data["train_row_indices"], dtype=np.int64)
+        test_indices = np.asarray(data["test_row_indices"], dtype=np.int64)
+        y_train = np.asarray(data["train_labels"], dtype=np.float32)
+        y_test = np.asarray(data["test_labels"], dtype=np.float32)
+    if len(train_indices) != len(y_train) or len(test_indices) != len(y_test):
+        raise ValueError("regression label rows and indices differ")
+    if train_indices.min() < 0 or train_indices.max() >= feature_index["train_size"]:
+        raise ValueError("regression train indices exceed the feature split")
+    if test_indices.min() < 0 or test_indices.max() >= feature_index["test_size"]:
+        raise ValueError("regression test indices exceed the feature split")
+    return (
+        select_branch_rows(train_branches, train_indices), y_train,
+        select_branch_rows(test_branches, test_indices), y_test,
+    )
+
+
+def load_test_identities(labels_npz: str | Path | None, expected_rows: int) -> dict[str, np.ndarray]:
+    if not labels_npz:
+        return {}
+    with np.load(labels_npz, allow_pickle=False) as data:
+        mapping = {
+            "row_indices": "test_row_indices", "contract_ids": "test_contract_ids",
+            "window_starts": "test_window_starts", "timestamps_ns": "test_timestamps_ns",
+        }
+        result = {
+            output: np.asarray(data[source])
+            for output, source in mapping.items()
+            if source in data.files
+        }
+    if any(len(values) != expected_rows for values in result.values()):
+        raise ValueError("saved test identities do not match regression targets")
+    return result
 
 
 def load_trend_labels(
@@ -606,6 +676,8 @@ def train_and_snapshot(
     history: list[float] = []
     checkpoints: list[Path] = []
     budgets = set(config.epoch_budgets)
+    started = time.perf_counter()
+    parameter_count = int(sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad))
     for epoch in range(1, max(config.epoch_budgets) + 1):
         train_loss = train_one_epoch(model, loader, optimizer, criterion, device)
         history.append(train_loss)
@@ -626,6 +698,8 @@ def train_and_snapshot(
                 "seed": config.seed,
                 "processed_npz": str(processed_npz),
                 "features_npz": str(features_npz),
+                "parameter_count": parameter_count,
+                "training_seconds_to_checkpoint": time.perf_counter() - started,
             },
             checkpoint_path,
         )
@@ -642,6 +716,7 @@ def evaluate_snapshots(
     train_sample_count: int,
     run_root: Path,
     config: FrameworkConfig,
+    identities: Mapping[str, np.ndarray] | None = None,
 ) -> list[dict]:
     device = resolve_device(config.device)
     sweep: list[dict] = []
@@ -650,25 +725,29 @@ def evaluate_snapshots(
         loaded_config = FrameworkConfig(**checkpoint["training_config"])
         model = make_model(checkpoint["branch_dims"], loaded_config).to(device)
         model.load_state_dict(checkpoint["model_state_dict"])
+        inference_started = time.perf_counter()
         result = evaluate_model(model, test_branches, y_test, loaded_config, device)
+        inference_seconds = time.perf_counter() - inference_started
         budget_dir = checkpoint_path.parent
         if loaded_config.task == "trend_classification":
-            np.savez(
+            np.savez_compressed(
                 budget_dir / "predictions.npz",
                 preds=result["predictions"],
                 targets=result["targets"],
                 logits=result["logits"],
                 probabilities=result["probabilities"],
+                **dict(identities or {}),
             )
             np.savez(
                 budget_dir / "confusion_matrix.npz",
                 confusion_matrix=np.asarray(result["metrics"]["confusion_matrix"], dtype=np.int64),
             )
         else:
-            np.savez(
+            np.savez_compressed(
                 budget_dir / "predictions.npz",
                 preds=result["predictions"],
                 targets=result["targets"],
+                **dict(identities or {}),
             )
         with np.load(budget_dir / "history.npz") as history_npz:
             train_loss = float(history_npz["train_loss"][-1])
@@ -687,10 +766,22 @@ def evaluate_snapshots(
                 "labels_npz": loaded_config.labels_npz,
                 "branch_dims": checkpoint["branch_dims"],
                 "training_config": checkpoint["training_config"],
+                "parameter_count": int(checkpoint.get("parameter_count", 0)),
+                "training_seconds_to_checkpoint": float(checkpoint.get("training_seconds_to_checkpoint", float("nan"))),
+                "inference_seconds": inference_seconds,
             }
         )
         _json_write(budget_dir / "metrics.json", metrics)
         _write_budget_summary(budget_dir / "summary.md", metrics, train_loss)
+        with np.load(budget_dir / "predictions.npz", allow_pickle=False) as replay:
+            replay_ok = np.array_equal(replay["targets"], result["targets"])
+            replay_ok = replay_ok and all(
+                name in replay.files and np.array_equal(replay[name], values)
+                for name, values in (identities or {}).items()
+            )
+        if not replay_ok:
+            raise RuntimeError(f"prediction replay failed: {budget_dir}")
+        _json_write(budget_dir / "replay.json", {"verified": True})
         sweep.append(metrics)
         print(
             f"framework checkpoint evaluated: epoch={metrics['epoch']} metrics={budget_dir / 'metrics.json'}",
@@ -708,7 +799,9 @@ def run_experiment(
     config: FrameworkConfig,
 ) -> list[dict]:
     train_sequences, test_sequences = load_processed_npz(processed_npz)
-    train_raw, test_raw, feature_index = load_split_feature_branches(features_npz)
+    train_raw, test_raw, feature_index = load_split_feature_branches(
+        features_npz, config.branches, config.branch_aliases
+    )
     if feature_index["train_size"] != len(train_sequences) or feature_index["test_size"] != len(test_sequences):
         raise ValueError(
             "Feature split index does not match processed sequence split: "
@@ -717,13 +810,19 @@ def run_experiment(
 
     label_manifest: dict[str, object] | None = None
     if config.task == "price_prediction":
-        train_branches, y_train, test_branches, y_test = build_price_data(
-            train_sequences=train_sequences,
-            test_sequences=test_sequences,
-            train_branches=train_raw,
-            test_branches=test_raw,
-            config=config,
-        )
+        if config.labels_npz:
+            train_branches, y_train, test_branches, y_test = build_saved_regression_data(
+                train_raw, test_raw, feature_index, config.labels_npz
+            )
+            label_manifest = {"labels_npz": config.labels_npz, "contract_safe": True}
+        else:
+            train_branches, y_train, test_branches, y_test = build_price_data(
+                train_sequences=train_sequences,
+                test_sequences=test_sequences,
+                train_branches=train_raw,
+                test_branches=test_raw,
+                config=config,
+            )
     elif config.task == "trend_classification":
         train_branches, y_train, test_branches, y_test, label_manifest = build_trend_data(
             train_branches=train_raw,
@@ -741,6 +840,7 @@ def run_experiment(
     else:
         raise ValueError(f"Unsupported task: {config.task}")
     branch_dims = {name: values.shape[1] for name, values in train_branches.items()}
+    identities = load_test_identities(config.labels_npz, len(y_test))
     run_root.mkdir(parents=True, exist_ok=True)
 
     if config.standardize:
@@ -771,6 +871,8 @@ def run_experiment(
             "train_sample_count": int(y_train.shape[0]),
             "test_sample_count": int(y_test.shape[0]),
             "branch_dims": branch_dims,
+            "branches": config.branches,
+            "branch_aliases": config.branch_aliases,
             "task": config.task,
             "labels_npz": config.labels_npz,
             "label_manifest": label_manifest,
@@ -798,6 +900,7 @@ def run_experiment(
         train_sample_count=len(y_train),
         run_root=run_root,
         config=config,
+        identities=identities,
     )
 
 
@@ -832,6 +935,8 @@ def _parser() -> argparse.ArgumentParser:
         help="Required for trend/volatility; use the saved split-safe task label bundle.",
     )
     parser.add_argument("--mode", choices=("concat", "gated"), default="concat")
+    parser.add_argument("--branches", default=None, help="Comma-separated saved branches; default uses all.")
+    parser.add_argument("--branch-aliases", default=None, help="Comma-separated alias=selected_source duplicate controls.")
     parser.add_argument("--out-dim", type=int, default=128)
     parser.add_argument("--epoch-budgets", default="15,50,100")
     parser.add_argument("--seed", type=int, default=0)
@@ -875,6 +980,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             standardize=not args.no_standardize,
             standardize_clip=args.standardize_clip,
             device=args.device,
+            branches=args.branches,
+            branch_aliases=args.branch_aliases,
         )
         run_root = Path(args.run_root) if args.run_root else _default_run_root(config.task, args.run_name)
         _prepare_run_root(run_root, args.overwrite)

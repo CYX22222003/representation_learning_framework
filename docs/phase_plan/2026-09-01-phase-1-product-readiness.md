@@ -193,6 +193,13 @@ Phase-1 completion requires all three task runs and their saved artifacts. A
 run may be reported as a characterization result, but no epoch budget may be
 called the selected winner after reading locked-test metrics.
 
+The completed Phase-1 price run used the then-current merged-array horizon-1
+helper (109,840 train / 27,499 test rows). It is preserved as legacy
+characterisation evidence. New Phase-2 price studies use the contract-safe
+109,791/27,450-row label bundle, which removes every contract's terminal row;
+cross-generation claims require a contract-safe rerun. See
+`docs/price_prediction_label_contract.md`.
+
 ## Work deliberately deferred
 
 - Single-branch and leave-one-branch-out ablations;
