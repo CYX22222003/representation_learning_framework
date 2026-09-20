@@ -1,8 +1,19 @@
 # Phase 4 Data Selection and Walk-Forward Contract
 
 **Date:** 2026-09-20
-**Status:** design frozen; implementation and replay validation pending
+**Status:** concluded as historical feasibility design; not executed
 **Supersedes:** provisional expanding-walk language in the Phase 3 conclusion
+
+> **Phase 4 conclusion (2026-09-21):** This four-hour top-80 contract was not
+> implemented or trained. Phase 4 closed after the data-selection and
+> evaluation-design investigation. The recent FinData audit subsequently
+> selected bounded-forward-filled native one-hour data as the exploratory
+> source for the next complete walk-forward training loop. That implementation,
+> encoder retraining, downstream-task redefinition, and matched baseline matrix
+> move to Phase 5. See
+> [`2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`](2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
+> The rules below remain valuable pre-December-2025 feasibility evidence and
+> leakage constraints; they are not an active launch specification.
 
 ## 1. Decision
 
@@ -222,7 +233,7 @@ outside the rolling training interval, evaluation targets crossing the interval
 end, post-cutoff fitted state, universe selection using later history, row-mask
 differences between strict comparators, or non-finite arrays.
 
-## 11. Execution gate
+## 11. Historical execution gate
 
 This document freezes the design but does not authorize immediate training.
 Before the first Phase 4 encoder run:
@@ -233,4 +244,27 @@ Before the first Phase 4 encoder run:
 4. confirm final per-walk universe, train, and evaluation counts; and
 5. freeze the experiment matrix and launch order.
 
-No Phase 4 training has yet been launched.
+No Phase 4 training was launched. The unresolved implementation work is
+superseded by the Phase 5 handoff in the Phase 4 conclusion rather than being
+silently counted as completed.
+
+## 12. Recent FinData source extension
+
+An independent FinData acquisition module now covers `[2025-12-01,
+2026-09-01)`. The initial three-contract dry run was expanded first to 24 and
+then to a raw-first retrospectively diverse 50-market cohort. A source-semantics audit found that
+condition-level candles can mix complementary YES/NO token prices, so those
+candles are not canonical probability histories. The forward-confirmed local
+quarantine removes 0.0356% of 15-minute and 0.1366% of hourly rows while
+retaining persistent large moves, but remains exploratory. The safe token-identified
+trade fallback yielded 28,359 YES trades from 12 conditions, but only 448
+complete four-hour `seq64+h2` rows, all from two related World Cup contracts.
+This remains recent-source feasibility evidence, not an amendment to the
+primary Phase 4 universe or walk schedule.
+
+No FinData artifact may enter Phase 4 training until an amendment freezes a
+cutoff-local diverse universe, event-family handling, causal gap policy,
+token-specific probability source, and revised recent-period
+walk/confirmation boundaries. The expanded audit and reproduction commands
+are recorded in
+`docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md`.

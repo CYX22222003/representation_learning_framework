@@ -4,6 +4,13 @@ This document outlines the four-stage research plan for developing and evaluatin
 
 **Progress tracking note:** This document is the stable research roadmap. It should change when the project direction, planned stages, comparison scope, task definitions, or evaluation methodology changes. Routine implementation status, checkpoint evidence, experiment observations, and next-action tracking belong in `docs/schedule.md` and the corresponding experiment reports.
 
+**Experiment-phase transition (2026-09-21):** Numbered Phase 4 concluded the
+data-selection and exploratory-analysis loop without launching new models.
+Numbered Phase 5 will implement the recent one-hour FinData walk-forward
+builder, retrain fold-specific encoders, redefine and train downstream tasks,
+and run matched baselines. The four stable research stages below still describe
+project workstreams and are distinct from these numbered experiment iterations.
+
 ---
 
 ## Stage 1 — Data Collection and Processing
@@ -26,7 +33,7 @@ This document outlines the four-stage research plan for developing and evaluatin
     observation from entering a training sample.
   - Concatenate sequences across all selected contracts to form the final training and test sets.
 
-- For Phase 4 evaluation, replace the single final-20% lifecycle tail with two
+- For walk-forward evaluation, replace the single final-20% lifecycle tail with two
   predeclared fixed-duration rolling global calendar-time walks. Each walk fits
   preprocessing and constructs windows using only information available before
   one shared cutoff across contracts; later-walk history must never enter an
@@ -40,6 +47,29 @@ This document outlines the four-stage research plan for developing and evaluatin
   and saved feature branches encode lifecycle state. Broader 1-hour/1-day and
   event-level analysis remains pending; see
   `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md`.
+
+- Maintain recent external acquisition separately from experiment processing.
+  The expanded FinData audit covers December 2025 through August 2026 over 50
+  retrospectively selected markets. Condition-level candles can mix YES/NO
+  prices. A forward-confirmed, raw-preserving quarantine retains persistent
+  crashes and 99.9644% of 15-minute rows plus 99.8634% of hourly rows under a
+  1% fail-closed budget. Its future-confirmed decisions are usable only after
+  their recorded availability timestamps, and this remains an exploratory
+  mitigation rather than token provenance. The safe
+  token-identified fallback returned 28,359 YES trades from 12 conditions but
+  only 448 complete four-hour `seq64+h2` rows from two related contracts. It
+  remains source-feasibility evidence only; see
+  `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md`.
+  The completed native-frequency audit selects the clean one-hour series for
+  the exploratory Phase 5 training loop. Exactly one missing hourly bar may be
+  filled causally with flat OHLC, zero volume, and explicit imputation/time-
+  since-observation metadata; longer gaps split sequences and observed
+  decision/target endpoints remain primary. Native 15-minute data is retained
+  as a resolution sensitivity because its lower coverage and stronger
+  fill-induced staleness make it less suitable as the primary source. The
+  condition-candle token-identity limitation and an affected-contract
+  exclusion sensitivity remain mandatory; see the
+  [Phase 4 conclusion](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
 
 ---
 
@@ -81,11 +111,11 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
 
 Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.
 
-Under Phase 4, the primary adaptive evaluation trains separate neural encoder
+Under Phase 5, the primary adaptive evaluation will train separate neural encoder
 weights at every global calendar cutoff, freezes them, and trains that walk's
 downstream heads on embeddings from the same permitted history. Reusing an
 encoder trained at the first cutoff in later walks is an optional temporal
-transferability ablation. No Phase 3 encoder weights are Phase 4 inputs because
+transferability ablation. No Phase 3 encoder weights are Phase 5 inputs because
 their training period overlaps the new evaluation intervals.
 
 The fixed-first-walk and same-architecture fold-adaptive encoders form the
@@ -160,12 +190,14 @@ The framework is evaluated using **probing**: frozen multi-branch encoders + a l
 Phase 3 concluded after the leakage-safe encoder and framework next-close
 matrix. Its test tail was dominated by near-settlement persistence, and the
 causal no-change reference substantially outperformed every framework row.
-Phase 4 therefore evaluates continuous probability movement through causal
-global calendar-time walks, with performance stratified by contract lifecycle.
-This prevents cross-contract calendar lookahead in the pooled representation
-model. Movement classification remains a related but distinct directional
-task, and conventional arithmetic-return regression remains a secondary
-exploratory target because low prices strongly distort its scale.
+Phase 4 therefore concluded by selecting continuous probability movement,
+global calendar-time walks, and bounded-forward-filled recent one-hour inputs
+for the next experimental loop. Phase 5 will execute that loop with performance
+stratified by contract lifecycle. This prevents cross-contract calendar
+lookahead in the pooled representation model. Movement classification remains
+a related but distinct directional task, and conventional arithmetic-return
+regression remains a secondary exploratory target because low prices strongly
+distort its scale.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1
@@ -193,7 +225,7 @@ Part 3 execution contract.
 
 - Reuse saved task-label bundles and their aligned rows whenever a task has
   one. The Phase 3 horizon-1 absolute-price bundle remains immutable negative
-  characterisation evidence. Phase 4 must create a new fold-aware continuous
+  characterisation evidence. Phase 5 must create a new fold-aware continuous
   probability-movement bundle whose horizons never cross fold or contract
   boundaries. Raw LSTM, GARCH--LSTM stacking, the future framework volatility
   run, and the Raw-OHLCV MLP volatility rerun must consume the same

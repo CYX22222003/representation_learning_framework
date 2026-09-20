@@ -23,9 +23,10 @@ Read these in order:
 6. For Phase 4 design or any post-Phase-3 execution, read
    `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
-   in full. The latter is canonical: its rolling walks, cutoff-local universe,
-   activity mask, and fold-specific model lifecycle are frozen but not yet
-   implemented.
+   and
+   `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
+   in full. The conclusion is authoritative for Phase 5: the earlier four-hour
+   top-80 contract was not executed and remains historical feasibility evidence.
 7. For Phase 4 walk-count, expanding-versus-rolling, target-distribution, or
    top-80 sample-feasibility questions, read
    `docs/data_analysis/2026-09-20-phase4-top80-contract-relative-walk-analysis.md`
@@ -45,13 +46,43 @@ Read these in order:
     `docs/data_analysis/2026-09-20-phase4-top50-top80-1h-4h-comparison.md` in
     full. Match context, horizon, and activity duration in hours, not bars, and
     treat raw candle timestamps as bar starts when enforcing calendar cutoffs.
+11. For the lab FinData API, recent-data collection, sparse 15m/1h candles, or
+    the December-2025--August-2026 cohort, read both
+    `docs/data_analysis/2026-09-20-findata-expanded-recent-cohort.md` and
+    `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md` and
+    `docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md` in full.
+    Treat `data_new/` as an explicitly exploratory source. Condition-level candles
+    can mix complementary YES/NO prices; the token-consistent trade fallback is
+    too sparse for a diverse seq64 cohort. The versioned local quarantine may
+    support an exploratory sensitivity only: preserve raw rows, never invert
+    prices, retain forward-confirmed persistent crashes, leave quarantined
+    timestamps as gaps, and use each decision only after its recorded
+    `quarantine_available_at`. Require exact-consecutive windows, enforce the
+    1% batch budget, and report an affected-contract exclusion sensitivity.
+    Native-frequency forward-fill sensitivity is limited to one missing bar,
+    flat OHLC, zero volume, and explicit imputation metadata; longer gaps stay
+    missing, observed-only results remain primary, and stochastic augmentation
+    must not enter canonical OHLCV or targets.
+    More than 99% retention is not proof of YES-token
+    identity. Phase 5 selects the clean native one-hour condition candles,
+    causally fills only complete isolated one-hour gaps, uses synthetic rows as
+    context only, requires observed decision/target endpoints, and breaks
+    sequences at longer gaps. Native 15-minute data and affected-contract
+    exclusion are required sensitivities. No training may start before the
+    revised recent-period walks and replayable builder are validated.
+12. For recent one-hour Phase 5 window capacity, read
+    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
+    Treat its `seq64` balanced two-walk result as a feasibility candidate, not
+    a cleared launch contract: the audited 50 conditions were retrospectively
+    selected, `seq256` is weaker after gap breaks, and final-clean evaluation
+    must replay quarantine decisions only after their availability timestamps.
 
 ## Response Contract
 
 Present the relevant parts of:
 
 - The global 80/20 train/test split and why the test side remains locked.
-- For Phase 4, the two fixed-duration rolling global calendar-time walks, fold-specific encoder
+- For Phase 5, the revised recent-period rolling global calendar-time walks, fold-specific encoder
   weights, and proof that later timestamps from any contract never train an
   earlier-walk model. Per-contract lifecycle fractions are reporting strata,
   not the primary split.

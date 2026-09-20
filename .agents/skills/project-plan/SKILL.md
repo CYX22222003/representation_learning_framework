@@ -21,7 +21,11 @@ Read these in order:
    For the Phase 3 conclusion and Phase 4 transition, also read
    `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
-   in full.
+   and
+   `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
+   in full. The last document is authoritative for the Phase 5 handoff.
+   For Phase 5 training-capacity or readiness claims, also read
+   `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
 ## Response Contract
 
@@ -30,13 +34,17 @@ Report:
 - What is completed.
 - What is implemented but has not been trained, executed, or evaluated.
 - What has not started.
-- The current phase: A, B, C, or D.
+- The current numbered experiment phase and, when useful, its A--D workstream.
 - The most immediate actions required by that phase's exit conditions.
-- For Phase 4, the data/evaluation design is frozen; report whether its rolling
-  global calendar builder, cutoff-local universe, causal activity mask,
-  fold-specific encoder training, target maturity, and replay checks are
-  implemented and validated. Do not describe per-contract lifecycle fractions
-  as deployment-valid folds.
+- Phase 4 as concluded data-selection/exploration work, explicitly noting that
+  it ran no model training. For Phase 5, report whether revised recent-period
+  walks, the selected one-hour causal-fill builder, cutoff-local universe,
+  quarantine/activity/target availability, fold-specific model lifecycle,
+  identical baseline rows, and replay checks are implemented and validated.
+  The current `seq64` balanced two-walk counts establish feasibility only;
+  they do not complete cutoff-local universe selection or causal quarantine
+  replay.
+  Do not describe per-contract lifecycle fractions as deployment-valid folds.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.
 

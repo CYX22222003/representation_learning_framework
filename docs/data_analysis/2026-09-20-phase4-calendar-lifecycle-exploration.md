@@ -3,6 +3,11 @@
 Date: 2026-09-20
 Status: Exploratory design evidence; not a confirmatory model evaluation
 
+> **Historical note:** Phase 4 is now concluded without model training. The
+> lifecycle findings below remain reporting and ablation motivation, while the
+> [Phase 4 conclusion](../phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md)
+> is authoritative for the recent one-hour Phase 5 handoff and execution gate.
+
 ## 1. Question
 
 Phase 3 showed that a single per-contract final-20% test tail is dominated by

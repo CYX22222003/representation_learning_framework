@@ -26,9 +26,9 @@ Present the relevant parts of:
 - Why Polymarket event contracts are a suitable and challenging domain.
 - The documented innovation claims, clearly distinguishing implemented work from intended contributions.
 - The three downstream evaluation tasks and why they test transferability,
-  including the Phase 4 replacement of absolute next-close prediction with
-  continuous probability-movement regression and global calendar-time walks
-  for pooled prediction-market contracts.
+  including the Phase 4 decision to replace absolute next-close prediction
+  with continuous probability-movement regression and Phase 5 global calendar-
+  time walks for pooled prediction-market contracts.
 - The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

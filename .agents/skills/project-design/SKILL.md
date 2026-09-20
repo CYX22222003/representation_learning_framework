@@ -16,10 +16,13 @@ Read these in order:
 3. The Architecture section of `AGENTS.md`, including the branch table, aggregator modes, extension guide, and module responsibilities.
 4. For Phase 2 decoder questions, read
    `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` in full.
-5. For Phase 4 downstream-task or evaluation design, read
+5. For Phase 5 downstream-task or evaluation design, read
    `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
-   in full. The Phase 4 contract supersedes provisional walk-design language.
+   and
+   `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
+   in full. The conclusion supersedes the unexecuted four-hour contract for
+   the next training loop.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -34,7 +37,7 @@ Present the parts relevant to the request:
 - Probability-movement regression, historical absolute next-close prediction,
   volatility prediction, and tri-class movement/trend classification,
   including their documented metrics and label/target contracts when relevant.
-- For Phase 4, distinguish fold-specific encoder retraining in the primary
+- For Phase 5, distinguish fold-specific encoder retraining in the primary
   global-calendar adaptive evaluation from reuse of the first-walk encoder as
   a temporal-transfer ablation; lifecycle is a within-walk reporting stratum.
 - Treat lifecycle-conditioned models or stage-specific feature extractors as

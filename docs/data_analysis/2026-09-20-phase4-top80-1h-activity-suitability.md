@@ -3,6 +3,11 @@
 **Date:** 2026-09-20
 **Status:** exploratory data analysis; no model training, feature extraction, or model selection
 
+> **Historical note:** This pre-December-2025 top-80 audit remains qualitative
+> feasibility evidence. Its prospective Phase 4 recommendations were not
+> trained and are superseded for the next loop by the
+> [Phase 4 conclusion](../phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
+
 ## Purpose and scope
 
 This audit asks whether the one-hour data contains enough non-stale price

@@ -49,13 +49,19 @@ Use these states:
 | Not started | No substantive file, commit, artifact, or other evidence exists. |
 
 Compare every achievement-table row in `docs/schedule.md` with the evidence. Also verify the summary paragraph, current phase, and phase exit conditions.
-For the current Phase 3-to-4 transition, read
+For the current Phase 4-to-5 transition, read
 `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
-and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
-Distinguish concluded/superseded scope from fully completed scope. Phase 4 is
-past the design gate but remains blocked from training until the rolling walk
-builder, cutoff-local universe, activity mask, fold-specific encoder policy,
-target maturity, and replay validation are implemented.
+and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+and `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
+For recent one-hour sample-capacity and walk-readiness claims, also inspect
+`docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` and its
+Git-ignored manifest. Do not mark the Phase 5 data contract complete merely
+because the retrospective 50-condition cohort has enough `seq64` rows.
+Distinguish concluded exploratory scope from completed model execution: Phase
+4 ran no model training. Phase 5 remains blocked until revised recent-period
+walks, the selected one-hour causal-fill builder, cutoff-local universe,
+quarantine/activity/target availability, fold-specific models, identical
+baseline rows, and replay validation are implemented.
 
 ## 4. Update Narrowly
 

@@ -4,54 +4,72 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
-> **Phase-4 execution gate (2026-09-20):** Phase 3 is concluded. Do not launch
-> new downstream, baseline, or encoder training until the frozen Phase 4
-> data-selection and walk-forward contract is implemented and validated
-> under `scripts_v2/`. Per-contract lifecycle fractions alone are not a valid
-> primary split for the pooled encoder because they can permit cross-contract
-> calendar lookahead. The single-tail Phase 3
-> absolute next-close results remain valid negative characterisation evidence;
-> they must not be reused as Phase 4 results. See
-> `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`.
-> The supporting lifecycle and representation-drift diagnostic is recorded in
-> `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md`.
-> It motivates comparing a fixed first-walk encoder with fold-specific
-> retraining, but does not establish that lifecycle stages require different
-> encoder architectures.
-> The top-80 target and walk-schedule feasibility evidence is recorded in
-> `docs/data_analysis/2026-09-20-phase4-top80-contract-relative-walk-analysis.md`.
-> Contract-relative anchored and fixed-length walks are valid retrospective
-> lifecycle analyses, and both two and three walks have adequate aggregate
-> samples. They are not the primary pooled-model split: relative cutoffs map to
-> different calendar dates, and observed final contract length is future
-> information unless the termination boundary was known at decision time.
-> The one-hour timestamp and capacity audit is recorded in
-> `docs/data_analysis/2026-09-20-phase4-top80-1h-timestamp-capacity.md`.
-> Raw one-hour files have clean hourly timestamps and sufficient aggregate
-> capacity even at a duration-matched 256-step context. For the current cohort,
-> two global-calendar walks have materially better evaluation-contract coverage
-> than three equally spaced walks. These are feasibility results only; the
-> retrospective top-80 universe is not yet a deployment-safe selection rule.
-> The one-hour activity-suitability audit is recorded in
-> `docs/data_analysis/2026-09-20-phase4-top80-1h-activity-suitability.md`.
-> It finds adequate non-trivial eight-hour movement overall, but also material
-> inactive terminal tails: 19/80 contracts spend at least one quarter of the
-> file at a trailing constant price. The causal recent-activity eligibility rule
-> is now frozen and must be implemented identically for framework
-> and baselines; retrospective last-change truncation is diagnostic only.
-> The duration-matched frequency/universe comparison is recorded in
-> `docs/data_analysis/2026-09-20-phase4-top50-top80-1h-4h-comparison.md`.
-> One-hour and four-hour eight-hour targets have nearly identical staleness,
-> lifecycle drift, and active-row distributions; aligned target correlations
-> are 0.969--0.972. Four-hour top-80 with causal prior-24h activity is the
-> frozen primary configuration. One-hour top-80 and four-hour top-50 remain
-> resolution and universe-size sensitivities, respectively.
-> The canonical frozen design is
-> `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`:
-> four-hour top-80, two fixed-duration rolling calendar walks, cutoff-local
-> trailing-256-bar ranking, a causal prior-24h price-change mask, fold-specific
-> models, and an eight-hour signed probability-movement target. Builder
-> implementation and replay validation are the current execution gate.
+> **Phase-5 execution gate (2026-09-21):** Phase 4 data selection and
+> exploratory analysis are concluded; no Phase 4 model training was launched.
+> The next complete encoder/downstream/baseline loop moves to Phase 5. Its
+> selected exploratory source is the recent clean native one-hour FinData
+> cohort, with causal filling of complete isolated one-hour gaps, flat OHLC,
+> zero volume, explicit imputation/time-since-observation metadata, observed
+> decision and target endpoints, and sequence breaks at longer gaps. Native
+> 15-minute data remains a resolution sensitivity. See
+> `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
+> Do not launch Phase 5 training until revised recent-period global-calendar
+> walks, cutoff-local universe selection, quarantine availability, causal
+> activity eligibility, target maturity, fold-specific model lifecycle,
+> identical baseline rows, and replayable manifests are implemented and
+> validated under `scripts_v2/`. Per-contract lifecycle fractions remain
+> reporting strata, not primary pooled-model splits. The unexecuted four-hour
+> top-80 contract in
+> `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+> is historical pre-December-2025 feasibility evidence, not an active launch
+> specification. Phase 3 absolute next-close results remain negative
+> characterisation evidence and are not Phase 5 inputs.
+> A no-training capacity audit supports a 64-hour context and balanced
+> two-walk schedule as implementation candidates. It does not clear this gate:
+> the 50-condition cohort was selected retrospectively, `seq256` is materially
+> weaker after gap breaks, and evaluation must replay each quarantine decision
+> only after `quarantine_available_at`. See
+> `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+
+The recent FinData acquisition audit writes only to Git-ignored `data_new/`.
+A raw-first expanded 50-market
+audit confirms that condition-level candles can mix complementary YES/NO
+prices. Forward-confirmed rule `condition-orientation-v2-forward-confirmed`
+retains persistent crashes/repricings and quarantines 116/325,730 native
+15-minute rows and 147/107,635 native hourly rows. Raw files remain immutable,
+removed timestamps remain gaps, and every decision records when its future
+confirmation became available. More than 99% retention is an exploratory
+operational result, not proof of YES-token identity. The token-identified
+YES-trade fallback is correctly oriented but supplies only 448 complete
+four-hour `seq64+h2` rows from two related contracts. Phase 4 nevertheless
+selects bounded-forward-filled clean native one-hour condition candles for an
+explicitly exploratory Phase 5 loop, with affected-contract exclusion and
+source-limitation reporting mandatory. See
+`docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md` and
+`docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md`.
+
+```bash
+.venv/bin/python3 scripts_v2/collect_findata_prediction_markets.py \
+  --top-k 3 --candidate-limit 30 --workers 6
+.venv/bin/python3 scripts_v2/analyze_findata_prediction_markets.py
+.venv/bin/python3 scripts_v2/collect_findata_historical_cohort.py \
+  --top-k 50 --candidate-limit 250 --max-per-family 2 --workers 8 \
+  --defer-quarantine \
+  --output-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/analyze_findata_prediction_markets.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31 \
+  --audit-only
+.venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/analyze_findata_native_dynamics.py \
+  --maximum-fill-bars 1 --overwrite
+.venv/bin/python3 scripts_v2/analyze_findata_native_gaps.py --overwrite
+.venv/bin/python3 scripts_v2/analyze_findata_walk_capacity.py --overwrite
+.venv/bin/python3 scripts_v2/collect_findata_yes_trade_ohlcv.py --workers 8
+.venv/bin/python3 scripts_v2/analyze_findata_yes_trade_ohlcv.py
+```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
 > extraction, or downstream evaluation against the current processed bundles.
@@ -416,6 +434,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 | Directory | Responsibility |
 |---|---|
+| `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
@@ -429,12 +448,33 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 ### Key data contracts
 
+- Recent FinData raw data lives under Git-ignored `data_new/`. Condition-level
+  candles retain UTC timestamps for source auditing but can mix complementary
+  YES/NO prices and are not a canonical probability series. The versioned
+  `condition-orientation-v2-forward-confirmed` quarantine distinguishes
+  transient reversions from persistent crashes using up to four later bars,
+  writes the original rows and decision-availability timestamps to an audit
+  artifact, never repairs prices, preserves removed timestamps as gaps, and
+  fails when more than 1% of either native resolution is flagged. A walk may
+  use a decision only after `quarantine_available_at`. Clean artifacts require
+  exact-consecutive timestamp checks for every aggregation, context, and
+  target. Phase 5 selects the clean native one-hour series as an exploratory
+  source. It may causally fill only complete isolated one-hour gaps with flat
+  OHLC, zero volume, and explicit imputation/time-since-observation metadata;
+  decision and target endpoints must remain observed, longer gaps split
+  sequences, and no stochastic augmentation is written to OHLCV or targets.
+  Native 15-minute data remains a resolution sensitivity.
+  Token-consistent OHLCV must map the declared outcome to
+  `clob_token_ids` and retain that provenance. The selected one-hour source is
+  not training-ready until Phase 5 freezes revised recent-period walks, its
+  cutoff-local universe, source/quarantine availability, causal gap and
+  activity rules, identical baseline rows, and replayable manifests.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
-- Phase-4 probability-movement regression: planned continuous
+- Phase-5 probability-movement regression: planned continuous
   `close[t+h] - close[t]` labels constructed independently inside each
   contract and global calendar walk. Each primary walk requires separately
   trained encoder/head weights from information available before its cutoff;

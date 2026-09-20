@@ -201,7 +201,21 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 3. Data: 
 
-- Source: Polymarket event prediction market OHLCV data (legacy/Phase 3 top-50; Phase 4 cutoff-local four-hour top-80 primary with nested top-50 sensitivity)
+- Source: Polymarket event prediction market OHLCV data (legacy/Phase 3 top-50;
+  unexecuted Phase 4 archive feasibility on four-hour top-80). A lab FinData
+  acquisition audit covers 50 exploratory December-2025--
+  August-2026 markets under `data_new/`. Condition-level candles can mix
+  complementary outcome prices. A versioned forward-confirmed quarantine
+  retains persistent crashes and more than 99% at both native resolutions
+  while preserving raw rows and timestamp gaps. Decisions become usable only
+  after their recorded confirmation time. It can support a predeclared
+  exploratory training, but it does not establish token identity. The token-
+  consistent YES-trade fallback is too sparse for diverse seq64 training.
+  Phase 4 selects the clean native one-hour condition candles for the Phase 5
+  loop, with causal isolated-one-bar filling, observed endpoints, revised
+  global-calendar walks, cutoff-local selection, and an affected-contract
+  exclusion sensitivity. Native 15-minute data remains a resolution
+  sensitivity.
 - Timeframes: 1-hour, 4-hour, 1-day
 - Features: raw OHLCV (5 columns) only — no order book or external data
 
@@ -211,7 +225,7 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised, then fuses all branches via learned gating.
 
-**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks (probability movement, volatility, classification). Under Phase 4, each primary global calendar walk has encoder weights trained only from information available before that walk's cutoff, then reused across tasks within that walk. Reusing the first-walk encoder in later walks is reported separately as a temporal-transfer test. A lightweight task-specific head, and the aggregator when it is learnable, are trained per task.
+**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks (probability movement, volatility, classification). Under Phase 5, each primary global calendar walk has encoder weights trained only from information available before that walk's cutoff, then reused across tasks within that walk. Reusing the first-walk encoder in later walks is reported separately as a temporal-transfer test. A lightweight task-specific head, and the aggregator when it is learnable, are trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
@@ -236,24 +250,23 @@ separate experimental axes. Prior prediction-market work likewise finds that
 time to expiration affects calibration ([Page and Clemen, 2013](https://doi.org/10.1111/j.1468-0297.2012.02561.x)) and that raw probability changes are more suitable than percentage/log returns for bounded contracts ([Restocchi et al., 2019](https://doi.org/10.1016/j.physa.2018.09.183)).
 
 The evidence motivates, but does not yet prove, the need for different feature
-extractors by stage. Phase 4 therefore uses global calendar walks with
-fold-specific encoder weights as the primary adaptive evaluation, reports
+extractors by stage. Phase 4 therefore selected global calendar walks with
+fold-specific encoder weights for the Phase 5 adaptive evaluation, which reports
 lifecycle strata within every walk, and compares against a first-walk encoder
 kept fixed over time. A lifecycle-conditioned shared model or stage-specific
 experts remain optional hypotheses that require paired downstream evidence.
 See the [calendar/lifecycle exploration](data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md).
 
-The frozen Phase 4 primary data design uses four-hour, top-80 contracts under
-two fixed-duration rolling global-calendar walks. Each cutoff rebuilds the
-top-80 universe from trailing training-only activity, applies a causal prior-24h
-price-change eligibility mask, and trains new fold-specific encoders and task
-models. Four-hour top-50, one-hour top-80, and unfiltered all-row populations
-are sensitivity analyses. See the
-[Phase 4 data contract](phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md).
+The original four-hour top-80 Phase 4 design was not executed. The completed
+recent-data analysis instead selects bounded-forward-filled native one-hour
+FinData for the next exploratory loop, while preserving cutoff-local selection,
+a causal prior-24h activity rule, observed target endpoints, and fold-specific
+models. See the
+[Phase 4 conclusion](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
 
 ## 5. Evaluation
 
-The framework is evaluated on three downstream tasks. In Phase 4, every model
+The framework is evaluated on three downstream tasks. In Phase 5, every model
 uses the same predeclared global calendar walks and aligned rows. The exact set
 of comparison models is provisional and will be finalised based on the
 literature review.
