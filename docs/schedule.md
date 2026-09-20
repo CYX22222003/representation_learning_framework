@@ -8,7 +8,9 @@
 > historical characterisation evidence, but the processed data, encoders,
 > features, and task bundles must be rebuilt under
 > [`docs/data_processing_split_contract.md`](data_processing_split_contract.md)
-> before experiments resume.
+> before experiments resume. All legacy generated outputs are isolated under
+> `_old` roots documented in [`LEGACY_ARTIFACTS.md`](../LEGACY_ARTIFACTS.md);
+> canonical output directories are now reserved for leakage-safe reruns.
 
 ---
 
@@ -19,10 +21,10 @@
 |---|---|
 | Collect Polymarket OHLCV feather files | ✅ Done |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
-| Forward-fill and interpolate missing values | ⚠️ Implemented on complete contracts; must be audited/refactored for causal train-fitted behavior |
-| Z-score normalise volume | ❌ Must be corrected; legacy implementation fitted full-contract statistics |
-| Sliding window segmentation → `[N, seq_len, features]` | ⚠️ Must occur after a raw-time boundary under an explicit context policy |
-| 80/20 chronological train/test split per contract | ❌ Legacy split occurs after window generation; raw-time-first rebuild required |
+| Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
+| Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
+| Sliding window segmentation → `[N, seq_len, features]` | 🔄 Raw-time-first isolated-window policy implemented; full top-50 rebuild/audit pending |
+| 80/20 chronological train/test split per contract | 🔄 Raw boundary now precedes fitted preprocessing and windows; full top-50 rebuild/audit pending |
 | Merge sequences across contracts | ✅ Done |
 | Exploratory data analysis (distributions, volatility regimes) | ⬜ Not started |
 
@@ -84,7 +86,7 @@
 | Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Ablation study (per-branch contribution) | ⬜ Not started |
-| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are recorded under `experiments/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
+| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are archived under `experiments_old/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments_old/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments_old/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 Canonical Phase 2 scope is maintained in
@@ -101,10 +103,11 @@ Phase-A completion claim was based on tensor shapes and stored split counts,
 not on raw-observation and preprocessing-fit provenance. An end-to-end audit
 found that full-contract volume statistics influenced training inputs and that
 the split was applied after stride-one windows were generated. All existing
-results and artifacts remain reproducible and must be kept, but they are
-historical characterisation evidence. The immediate priority is to implement
-the raw-time-first split contract, add leakage-invariant tests and provenance,
-and rebuild downstream inputs before any Phase-2 execution resumes.
+results and artifacts remain reproducible under `_old` archive roots, but they
+are historical characterisation evidence. The raw-time-first builder,
+leakage-invariant tests, and provenance are implemented. The immediate priority
+is to generate and audit the full top-50 processed bundle, then rebuild
+downstream inputs before any Phase-2 execution resumes.
 
 The legacy data pipeline produced all three processed timeframes, but the
 raw-time split and fitted-preprocessing audit has invalidated their status as
@@ -113,15 +116,15 @@ features, and task evaluations remain preserved and structurally replayable;
 they are not valid inputs for further confirmatory execution.
 
 The current project state has returned temporarily to **Phase A — Data
-correction**. The Phase B/C implementation and experiment artifacts still
-exist, but their inputs inherit the legacy preprocessing-before-split contract.
-They are preserved as historical characterisation evidence rather than proof
-of leakage-free held-out performance. Phase C execution resumes only after the
-corrected processed bundle, encoders, features, and task identities are rebuilt.
+correction**. The Phase B/C implementation still exists, while all prior
+generated outputs have been moved to the `_old` archive roots. Those outputs
+are historical characterisation evidence rather than proof of leakage-free
+held-out performance. Phase C execution resumes only after the corrected
+processed bundle, encoders, features, and task identities are rebuilt.
 
-The five-branch Phase-1 price sweep is complete under `experiments/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP within the legacy merged-array price contract and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. New Phase-2 price runs instead use the contract-safe bundle with 109,791 train / 27,450 test rows, removing the terminal row of each contract and the 49 invalid internal boundary transitions retained by the legacy helper. Phase-1 absolute metrics are therefore not strict comparators for new price runs. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row target alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance. See `docs/price_prediction_label_contract.md`.
+The five-branch Phase-1 price sweep is archived under `experiments_old/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP within the legacy merged-array price contract and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. New Phase-2 price runs instead use the contract-safe bundle with 109,791 train / 27,450 test rows, removing the terminal row of each contract and the 49 invalid internal boundary transitions retained by the legacy helper. Phase-1 absolute metrics are therefore not strict comparators for new price runs. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row target alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance. See `docs/price_prediction_label_contract.md`.
 
-Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run under `experiments/framework/phase1/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. The existing TA-MLP sweep remains contextual until it consumes the identical saved rows.
+Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run archived under `experiments_old/framework/phase1/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. The existing TA-MLP sweep remains contextual until it consumes the identical saved rows.
 
 The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
 
@@ -193,8 +196,8 @@ a diagnostic rather than used for checkpoint selection. Embedding standard
 deviation increased from `0.1457` after epoch 1 to `1.3357` after epoch 100,
 remaining well above the configured collapse threshold (`0.001`). The full raw
 histories, checkpoint metrics, plots, and report are stored under
-`experiments/byol_encoder/byol-4h-seq64-top50/`; the canonical checkpoint is
-`checkpoints/byol_4h_seq64_top50.pth`. Downstream BYOL feature extraction and
+`experiments_old/byol_encoder/byol-4h-seq64-top50/`; the archived checkpoint is
+`checkpoints_old/byol_4h_seq64_top50.pth`. Downstream BYOL feature extraction and
 branch ablation remain pending.
 
 ### Recent GINN progress
@@ -253,7 +256,7 @@ The goal of this phase is a single end-to-end run: train one neural encoder, tra
 - [ ] Write a unified cross-model `evaluate.py`/comparison harness for all framework and baseline artifacts
 
 **Baseline side** (run in parallel once data is ready)
-- [x] Train `RawOHLCVMLP` baseline (flattened OHLCV, no representation); 4h price, volatility, and trend artifacts exist under `src/baselines/mlp_baseline/experiments/`. The volatility artifact predates the shared bundle and requires a strict rerun.
+- [x] Train `RawOHLCVMLP` baseline (flattened OHLCV, no representation); legacy 4h price, volatility, and trend artifacts are archived under `src/baselines/mlp_baseline/experiments_old/`. The volatility artifact predates the shared bundle and requires a strict rerun.
 - [ ] Run statistical-only ablation (AR + GARCH features only, no aggregator)
 
 **Exit condition:** framework and at least two baselines produce numbers on the same test split. **Status:** achieved for the first price-prediction loop; trend MVP is also implemented, while strict external-baseline row alignment remains pending.
@@ -273,11 +276,11 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [ ] Pretrain and evaluate the Phase-2 `contrastive_lstm` and `contrastive_transformer` candidates using the fixed shallow probe *(basic implementation and CPU tests complete; final experiment specification and CUDA matrix pending)*
 
 **Expand external benchmarks** (wire into evaluation harness one at a time)
-- [x] Retrain LSTM benchmark on unified `.npz` data splits; record results *(v5 sweep, see `src/baselines/lstm_baseline/experiments/`)*
+- [x] Retrain LSTM benchmark on unified `.npz` data splits; legacy results archived *(v5 sweep, see `src/baselines/lstm_baseline/experiments_old/`)*
 - [x] Train Raw LSTM volatility benchmark on the shared realised-volatility label bundle; record matched 15/50/100 epoch artifacts
 - [x] Run the adapted GARCH--LSTM stacking volatility benchmark using Raw LSTM predictions and fixed ElasticNet meta-learning
 - [x] Train GINN benchmark on the unified 4h split at 15 epochs; document the GARCH-target failure and defer further GINN sweeps while selecting a more suitable volatility benchmark
-- [x] Train TA-MLP natural-sampling adaptation *(v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments/2026-06-22-v1/`)*; paper-derived training-only undersampling and strict saved-label alignment remain pending
+- [x] Train TA-MLP natural-sampling adaptation *(legacy v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments_old/2026-06-22-v1/`)*; paper-derived training-only undersampling and strict saved-label alignment remain pending
 - [ ] Additional benchmarks from literature (TBD after literature review) — retrain each on same data splits
 
 **Expand internal baselines** (order by complexity)

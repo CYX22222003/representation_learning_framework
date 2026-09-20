@@ -1,7 +1,7 @@
 # Raw-to-Sequence Split and Preprocessing Contract
 
 Date: 2026-09-20
-Status: Required correction; Phase 2 execution paused
+Status: Replacement implementation launched; Phase 2 execution remains paused
 
 Tracking issue: [#15 — Rebuild split-safe data pipeline before resuming Phase 2](https://github.com/CYX22222003/representation_learning_framework/issues/15)
 
@@ -82,7 +82,9 @@ Tests must fail when:
 
 ## Artifact and execution policy
 
-- Do not delete or overwrite existing artifacts.
+- Do not delete or overwrite existing artifacts. Legacy generated artifacts
+  have been moved into `_old` roots; see `LEGACY_ARTIFACTS.md` for the complete
+  old-to-new location map.
 - Do not continue Phase-2 training or downstream evaluation on the legacy
   processed or feature bundles.
 - Rebuild processed data first, then retrain the neural encoders and regenerate
@@ -90,3 +92,23 @@ Tests must fail when:
 - Regenerate price, volatility, and classification label/alignment bundles from
   the corrected identities.
 - Rerun only the predeclared comparisons needed for the revised Phase-2 scope.
+
+## Implementation status (2026-09-20)
+
+The raw-time-first builder is implemented in
+`src/data_processing/data_processing.py` and exposed by
+`scripts/prepare_sequences.py`. The selected context policy is
+`isolated_test_windows`: training windows end before the raw boundary and test
+windows begin at or after it, so the two sample sets share no raw rows. Missing
+values are forward-filled causally, with any leading gaps filled from
+training-prefix medians; volume scaling is fitted on that same prefix only.
+
+New builds use the `_split_safe.npz` suffix, refuse overwrite by default, and
+write contract IDs, window starts/ends, timestamps, source hashes, preprocessing
+parameters, and identity/sequence replay hashes. Unit tests cover test-period
+perturbation invariance, boundary separation, causal filling, short-contract
+rejection, and deterministic replay identities.
+
+This implementation does not lift the execution pause. The full 4-hour top-50
+bundle must still be generated and audited, then all inherited checkpoints,
+features, and task-label bundles must be rebuilt before Phase 2 resumes.
