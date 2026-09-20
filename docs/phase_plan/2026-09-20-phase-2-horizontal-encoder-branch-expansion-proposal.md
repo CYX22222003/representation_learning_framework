@@ -1,7 +1,7 @@
 # Phase 2 Horizontal Encoder-Branch Expansion Proposal
 
 Date: 2026-09-20  
-Status: Draft for review; not frozen for execution
+Status: Reviewed
 
 ## Purpose
 
@@ -321,8 +321,12 @@ primary evidence of branch complementarity.
 ## Artifact proposal
 
 ```text
-data/features/phase2/branch_expansion/<family>/<configuration>/
-experiments/framework/phase2/branch_expansion/<task>/<family>/<configuration>/seed<seed>/
+experiments/framework/phase2/encoder_refinement_horizontal/
+├── checkpoints/<encoder_variant>/seed<seed>.pth
+├── features/branches/<encoder_variant>/seed<seed>.npz
+├── features/supersets/<family>/seed<seed>.npz
+├── diagnostics/linear_cka/<family>/seed<seed>/
+└── probes/<task>/<configuration>/seed<seed>/
 ```
 
 Each bundle manifest should record:
@@ -354,18 +358,26 @@ write-up when requested; they do not require a permanent comparison script.
   later encoder-decoder interaction experiment with separately frozen scope.
 - Current-split results are characterisation evidence, not fresh confirmation.
 
-## Open decisions before freezing
+## Frozen execution decisions
 
-- which candidate checkpoints are eligible for addition;
-- whether the first matrix covers contrastive, BYOL, or both families;
-- how encoder seeds are paired when several neural branches appear together;
-- the exact duplicate-branch implementation and naming convention;
-- whether leave-one-branch-out runs cover all branches or only newly added
-  branches;
-- any training-only filtering rule based on the fixed linear CKA diagnostic;
-- downstream budgets; and
-- whether a fixed-width fusion analysis is included now or deferred.
+The executable matrix freezes the following choices before inspecting new
+task-test results:
 
-This proposal becomes executable only after these choices, all identifiers,
-and the complete comparison matrix are frozen without reference to additional
-task-test results.
+- both the contrastive and BYOL families are included;
+- LSTM and Transformer candidate encoders use 128-dimensional outputs and
+  epoch-100 checkpoints from the predeclared `15,50,100` training trajectory;
+- encoder seed `s` is paired with downstream-probe seed `s` for `s=0,1,2`;
+- `H0` and duplicate controls retain the existing canonical encoder features
+  while varying the downstream seed;
+- duplicate branches are explicit aliases named `contrastive_dup1`,
+  `contrastive_dup2`, `byol_dup1`, and `byol_dup2`;
+- leave-one-out coverage concerns the newly added temporal branches and is
+  represented by each `ALT` arm versus its `AL` and `AT` arms;
+- linear CKA is descriptive and does not filter the matrix;
+- every downstream task retains budgets `15,50,100`; and
+- fixed-width fusion is deferred to a separately frozen study.
+
+The exact commands and source hashes are frozen in
+`experiments/framework/phase2/encoder_refinement_horizontal/matrix_manifest.json`.
+The launcher records raw artifacts only; cross-run comparison remains an
+on-demand analysis and has no dedicated comparison script.

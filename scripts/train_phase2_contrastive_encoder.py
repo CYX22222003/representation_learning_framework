@@ -320,6 +320,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--variant", choices=CONTRASTIVE_VARIANTS, required=True)
     parser.add_argument("--processed-npz", type=Path, default=Path("data/processed/market_4h_seq64_top50.npz"))
     parser.add_argument("--run-name", required=True)
+    parser.add_argument("--run-root", type=Path, default=None)
+    parser.add_argument("--checkpoint-path", type=Path, default=None)
     parser.add_argument("--epoch-budgets", default="15,50,100")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=256)
@@ -367,8 +369,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             collapse_std_threshold=args.collapse_std_threshold,
             device=args.device,
         )
-        run_root = ROOT / "experiments/framework/phase2/encoder_refinement/pretraining" / run_name
-        checkpoint_path = ROOT / "checkpoints/phase2" / f"{run_name}.pth"
+        run_root = args.run_root or ROOT / "experiments/framework/phase2/encoder_refinement/pretraining" / run_name
+        checkpoint_path = args.checkpoint_path or ROOT / "checkpoints/phase2" / f"{run_name}.pth"
         occupied = (run_root.exists() and any(run_root.iterdir())) or checkpoint_path.exists()
         if occupied and not args.overwrite:
             raise FileExistsError("Phase-2 run artifacts already exist; pass --overwrite to replace them")

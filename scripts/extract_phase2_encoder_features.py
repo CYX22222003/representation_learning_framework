@@ -18,8 +18,10 @@ SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
 from models.encoder_variants import (  # noqa: E402
+    BYOL_VARIANTS,
     CONTRASTIVE_VARIANTS,
     TemporalBackboneConfig,
+    build_byol_variant,
     build_contrastive_variant,
 )
 
@@ -61,8 +63,9 @@ def extract_feature_artifact(
     device = _device(device_name)
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
     variant = str(checkpoint.get("variant", ""))
-    if variant not in CONTRASTIVE_VARIANTS:
-        raise ValueError(f"checkpoint variant must be one of {CONTRASTIVE_VARIANTS}")
+    supported = (*CONTRASTIVE_VARIANTS, *BYOL_VARIANTS)
+    if variant not in supported:
+        raise ValueError(f"checkpoint variant must be one of {supported}")
     with np.load(processed_npz) as data:
         train = np.asarray(data["train"], dtype=np.float32)
         test = np.asarray(data["test"], dtype=np.float32)
@@ -76,12 +79,23 @@ def extract_feature_artifact(
         raise ValueError("checkpoint dataset checksum does not match processed data")
 
     backbone_config = TemporalBackboneConfig(**checkpoint["backbone_config"])
-    model = build_contrastive_variant(
-        variant,
-        input_dim=train.shape[2],
-        embedding_dim=int(checkpoint.get("embedding_dim", 128)),
-        backbone_config=backbone_config,
-    ).to(device)
+    if variant in CONTRASTIVE_VARIANTS:
+        model = build_contrastive_variant(
+            variant,
+            input_dim=train.shape[2],
+            embedding_dim=int(checkpoint.get("embedding_dim", 128)),
+            backbone_config=backbone_config,
+        ).to(device)
+        embedding_source = "TemporalContrastiveEncoder.encode(...)[backbone_state]"
+    else:
+        model = build_byol_variant(
+            variant,
+            input_dim=train.shape[2],
+            projection_dim=int(checkpoint.get("projection_dim", 128)),
+            predictor_hidden_dim=int(checkpoint.get("predictor_hidden_dim", 128)),
+            backbone_config=backbone_config,
+        ).to(device)
+        embedding_source = "TemporalBYOLEncoder.encode(...)[online_backbone_state]"
     model.load_state_dict(checkpoint["model_state_dict"])
     started_at = time.perf_counter()
     train_embeddings = _extract(model, train, batch_size, device)
@@ -104,7 +118,7 @@ def extract_feature_artifact(
         "completed_epoch": int(checkpoint["completed_epoch"]),
         "processed_npz": str(processed_npz),
         "processed_npz_sha256": processed_hash,
-        "embedding_source": "TemporalContrastiveEncoder.encode(...)[backbone_state]",
+        "embedding_source": embedding_source,
         "embedding_dim": int(combined.shape[1]),
         "train_shape": list(train_embeddings.shape),
         "test_shape": list(test_embeddings.shape),
