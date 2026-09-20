@@ -49,6 +49,13 @@ Use these states:
 | Not started | No substantive file, commit, artifact, or other evidence exists. |
 
 Compare every achievement-table row in `docs/schedule.md` with the evidence. Also verify the summary paragraph, current phase, and phase exit conditions.
+For the current Phase 3-to-4 transition, read
+`docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
+and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
+Distinguish concluded/superseded scope from fully completed scope. Phase 4 is
+past the design gate but remains blocked from training until the rolling walk
+builder, cutoff-local universe, activity mask, fold-specific encoder policy,
+target maturity, and replay validation are implemented.
 
 ## 4. Update Narrowly
 

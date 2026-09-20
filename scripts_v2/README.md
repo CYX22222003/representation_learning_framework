@@ -68,3 +68,86 @@ window. The transformation branch computes FFT magnitudes and Haar energies
 only from that same window. Neither branch fits state across samples or uses a
 future target. Downstream standardization is fitted after contract-safe label
 eligibility is applied and uses selected training rows only.
+
+## Phase 4 walk-forward data analysis
+
+The canonical post-analysis decision is frozen in
+`docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
+The primary configuration is four-hour top-80 under two fixed-duration rolling
+calendar walks with cutoff-local universe ranking and a causal prior-24h
+price-change mask. The commands below are supporting diagnostics, not the final
+training builder.
+
+These commands perform exploratory top-80 data analysis only. They do not
+prepare training bundles or launch models. Both schemes use identical
+contract-relative evaluation fractions. One keeps the relative start anchored
+at zero; the other advances a fixed-width relative training window:
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_phase4_walk_data.py --scheme relative_anchored
+.venv/bin/python3 scripts_v2/analyze_phase4_walk_data.py --scheme relative_window
+.venv/bin/python3 scripts_v2/report_phase4_walk_data.py
+```
+
+The analysis covers signed horizon-2 probability movement, arithmetic return,
+and fixed-threshold `DOWN/STABLE/UP` labels. The fixed top-80 cohort comes from
+the Phase 3 per-contract prefix ranking. Relative position uses each contract's
+final observed row count, so this is retrospective lifecycle evidence rather
+than a causal pooled-model backtest. Relative cutoffs from different contracts
+must not be treated as simultaneous calendar cutoffs.
+
+The default command diagnoses three walks. A two-walk coverage sensitivity is
+stored separately so it cannot overwrite the default artifacts:
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_phase4_walk_data.py \
+  --scheme relative_anchored --walk-count 2 \
+  --output-root experiments/phase4/data_analysis/top80_contract_relative_walk_forward/candidate_2walk
+.venv/bin/python3 scripts_v2/analyze_phase4_walk_data.py \
+  --scheme relative_window --walk-count 2 \
+  --output-root experiments/phase4/data_analysis/top80_contract_relative_walk_forward/candidate_2walk
+.venv/bin/python3 scripts_v2/report_phase4_walk_data.py \
+  --root experiments/phase4/data_analysis/top80_contract_relative_walk_forward/candidate_2walk
+```
+
+All 80 contracts contribute to every corrected relative evaluation interval.
+Both two and three walks are feasible by aggregate sample count; three walks
+give finer lifecycle resolution, while two reduce compute. Neither relative
+scheme replaces the required global-calendar evaluation for deployment claims.
+
+## One-hour timestamp and capacity audit
+
+The following diagnostic verifies timestamp quality for the same top-80
+contract identities and compares two- and three-walk sample capacity at
+sequence lengths 64 and 256. The latter preserves the 256-hour context duration
+of the four-hour, length-64 encoder inputs.
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_phase4_1h_timestamp_capacity.py
+```
+
+This command performs no model training and writes only data-analysis artifacts
+under `experiments/phase4/data_analysis/top80_1h_timestamp_capacity/`.
+
+To examine whether those rows contain enough trading activity and target
+movement to support meaningful modelling, run:
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_phase4_1h_activity_suitability.py
+```
+
+This audit measures per-contract volume coverage, unchanged-price fractions,
+longest stale runs, eight-hour probability-movement distributions, lifecycle
+drift, and the two-walk global-calendar evaluation intervals. It does not train
+or select a model.
+
+For a duration-matched top-50/top-80 comparison between one-hour and four-hour
+data, run:
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_phase4_1h_4h_activity_comparison.py
+```
+
+The comparison fixes the context at 256 hours, target horizon at eight hours,
+and causal activity lookback at 24 hours. It uses the same early-prefix-ranked
+contract identities at both frequencies and launches no training.

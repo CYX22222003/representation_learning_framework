@@ -3,6 +3,23 @@
 Date: 2026-09-20
 Status: Replacement implementation launched; Phase 2 execution remains paused
 
+> **Phase 4 transition (2026-09-20):** Phase 3 implemented and validated the
+> raw-time-first correction specified here. Its downstream study then exposed
+> a separate evaluation-design limitation: one final-20% holdout concentrates
+> near-settlement, persistent observations. Phase 4 retains every causality
+> requirement in this document but replaces the single boundary with
+> predeclared global calendar-time walks. A per-contract lifecycle split alone
+> is insufficient for the pooled model because training rows from one contract
+> can be later in calendar time than evaluation rows from another. Each walk
+> must fit preprocessing and construct windows from only information available
+> before its global cutoff. Lifecycle position is a reporting stratum, not the
+> primary split. See the Phase 3 conclusion document.
+> The frozen two-walk rolling intervals, cutoff-local top-80 universe, candle
+> availability timestamps, and causal activity mask are specified in
+> `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
+> Phase 4 implementation is tracked in
+> [issue #19](https://github.com/CYX22222003/representation_learning_framework/issues/19).
+
 Tracking issue: [#15 — Rebuild split-safe data pipeline before resuming Phase 2](https://github.com/CYX22222003/representation_learning_framework/issues/15)
 
 ## Purpose
@@ -61,6 +78,30 @@ historical observations from immediately before the boundary. If permitted,
 those observations are context only: no test-period value may enter a training
 input, training target, scaler, imputer, encoder update, or selection rule.
 
+## Phase 4 global-calendar extension
+
+For a pooled cross-contract Phase 4 model, the raw boundary is a global
+timestamp, not a separately calculated fraction of each contract's final row
+count. At cutoff `T_k`, preprocessing, universe eligibility, encoder training,
+task-head training, and baseline fitting may use only information whose
+decision-time availability is before `T_k`. Targets used for training must
+also have matured before the cutoff. The immediately following calendar
+interval is evaluation-only for that walk.
+
+The primary Phase 4 history is a fixed-duration rolling window rather than an
+expanding prefix. A contract must have its complete input inside that rolling
+window, and supervised targets must mature before the cutoff. Raw candle dates
+label bar starts, so availability is `date + 4h` for the primary four-hour
+data. Universe selection uses only the trailing 256 permitted four-hour bars
+before each cutoff; row eligibility uses the causal prior-24h price-change
+rule. These requirements apply before fitted preprocessing and window merging.
+
+Each walk has separate preprocessing parameters, encoder checkpoints, feature
+bundles, task heads, and prediction identities. Later history may train the
+next walk but can never update an earlier-walk model. Contract lifecycle
+position may be calculated for stratified reporting only from metadata known
+at decision time; otherwise it must be clearly marked as retrospective.
+
 ## Required provenance and tests
 
 The replacement processed bundle must record:
@@ -70,6 +111,9 @@ The replacement processed bundle must record:
 - preprocessing parameters and the exact training prefix used to fit them;
 - the train/test context policy;
 - source-file hashes and contract ordering; and
+- the global calendar cutoff and evaluation interval for every Phase 4 walk;
+- decision-time and target-maturity timestamps for every eligible row;
+- fold-specific encoder/checkpoint hashes; and
 - processed row identities that downstream label bundles can replay.
 
 Tests must fail when:
@@ -77,6 +121,10 @@ Tests must fail when:
 - a fitted statistic reads any test-period observation;
 - a training window or target contains a test-period observation;
 - a horizon crosses a contract or split endpoint;
+- a training row, fitted parameter, encoder update, or matured target occurs
+  at or after its walk's global cutoff;
+- a pooled model uses later calendar information from one contract to predict
+  an earlier timestamp from another contract;
 - reconstruction from the manifest changes row identities; or
 - framework and baseline samples differ under a claimed strict comparison.
 

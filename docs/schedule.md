@@ -2,15 +2,18 @@
 
 **Last updated:** 2026-09-20
 
-> **Current blocker:** Phase 2 execution is paused. The legacy pipeline fitted
-> volume normalisation and generated sliding windows on each complete contract
-> before splitting the windows 80/20. Existing artifacts are preserved as
-> historical characterisation evidence, but the processed data, encoders,
-> features, and task bundles must be rebuilt under
-> [`docs/data_processing_split_contract.md`](data_processing_split_contract.md)
-> before experiments resume. All legacy generated outputs are isolated under
-> `_old` roots documented in [`LEGACY_ARTIFACTS.md`](../LEGACY_ARTIFACTS.md);
-> canonical output directories are now reserved for leakage-safe reruns.
+> **Current phase:** Phase 3 is concluded and Phase 4 is at the
+> data/evaluation-contract implementation gate. Phase 3 removed the identified future
+> leakage, then demonstrated that the single per-contract final-20% test tail
+> is dominated by near-settlement persistence and that absolute next-close
+> prediction is not an informative representation probe. Do not launch Phase 4
+> training until the frozen two-walk rolling calendar contract is implemented
+> and replay-validated. See the
+> [Phase 3 conclusion](phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md).
+> The canonical Phase 4 decision is the
+> [data-selection and walk-forward contract](phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md).
+> Phase 4 implementation is tracked in
+> [issue #19](https://github.com/CYX22222003/representation_learning_framework/issues/19).
 
 ---
 
@@ -26,7 +29,7 @@
 | Sliding window segmentation → `[N, seq_len, features]` | 🔄 Raw-time-first isolated-window policy implemented; full top-50 rebuild/audit pending |
 | 80/20 chronological train/test split per contract | 🔄 Raw boundary now precedes fitted preprocessing and windows; full top-50 rebuild/audit pending |
 | Merge sequences across contracts | ✅ Done |
-| Exploratory data analysis (distributions, volatility regimes) | ⬜ Not started |
+| Exploratory data analysis (distributions, volatility regimes) | 🔄 Top-50 lifecycle, top-80 relative-walk, 1h timestamp/activity, and duration-matched 1h-vs-4h top-50/top-80 audits complete; 1h and 4h target distributions are nearly identical, and 4h top-80 with causal prior-24h activity is the frozen primary configuration; cutoff-local universe implementation and broader 1d/event-level EDA remain |
 
 ### Stage 2 — Framework Implementation and Training
 | Task | Status |
@@ -78,7 +81,9 @@
 | Task | Status |
 |---|---|
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
-| Price prediction benchmark (MAE, RMSE) | ⚠️ Sweeps are preserved, but all inherit the legacy upstream pipeline; some additionally use invalid merged-array targets |
+| Absolute next-close benchmark (MAE, RMSE) | ⚠️ Phase 3 is leakage-safe but persistence-dominated; retained as negative characterisation evidence and superseded as the primary regression probe |
+| Probability-movement regression | 🔄 Phase 4 design: continuous contract-local future probability change under global calendar walks with lifecycle-stratified reporting; arithmetic-return regression is secondary/exploratory; not implemented or executed |
+| Temporal encoder adaptation/transfer | 🔄 Phase 4 comparison frozen at design level: fixed-first-walk encoder versus same-architecture fold-specific retraining; lifecycle-conditioned/stage-specific models are optional hypotheses; not implemented or executed |
 | Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
@@ -94,7 +99,7 @@ Canonical Phase 2 scope is maintained in
 classification matrix is maintained in
 `docs/phase_plan/2026-09-08-phase-2-probabilistic-classification.md`.
 
-The next leakage-safe rerun is specified in
+The concluded leakage-safe rerun is specified in
 `docs/phase_plan/2026-09-20-phase-3-experiment-plan.md`. Its raw-time-first
 4-hour bundle is built and validated at 21,696 train / 3,085 test windows over
 50 contracts. The seed-0 encoder-pretraining matrix is complete: canonical VAE,
@@ -109,23 +114,78 @@ contract-local horizon-1 labels (21,646 train / 3,035 test), nine-branch master
 feature bundle, and all 15 seed-0 framework price trajectories are complete.
 All 45 snapshots passed common-row prediction replay; the exploratory best
 held-out result is HB-ALT at epoch 50 (MAE 0.009234, RMSE 0.022782, correlation
-0.998993). Downstream baseline execution remains unstarted. Existing `scripts/` entry
-points and all `_old` artifacts remain excluded from Phase 3 execution.
+0.998993). A subsequent exact persistence audit obtained MAE 0.001063 and RMSE
+0.003789 on the same 3,035 test identities, so no Phase 3 framework row added
+value over copying the current close. The test tail contained 75.45% unchanged
+targets and 77.83% prices near 0/1, versus 43.74% and 36.10% in training.
+Phase 3 is therefore closed before its originally planned classification and
+baseline execution; those runs are superseded by Phase 4's global-calendar
+walk-forward and probability-movement-regression redesign. Existing `scripts/`
+entry points and all `_old` artifacts remain excluded from new execution.
 
 ---
 
 ## 2. Summary
 
-Phase 2 is currently blocked on returning to **Phase A — Data**. The earlier
-Phase-A completion claim was based on tensor shapes and stored split counts,
-not on raw-observation and preprocessing-fit provenance. An end-to-end audit
-found that full-contract volume statistics influenced training inputs and that
-the split was applied after stride-one windows were generated. All existing
-results and artifacts remain reproducible under `_old` archive roots, but they
-are historical characterisation evidence. The raw-time-first builder,
-leakage-invariant tests, and provenance are implemented. The immediate priority
-is to generate and audit the full top-50 processed bundle, then rebuild
-downstream inputs before any Phase-2 execution resumes.
+The current project state is **Phase A — Phase 4 data/evaluation implementation**.
+Phase 3 proved that the raw-time-first builder, training-only fitted
+preprocessing, isolated windows, contract-local labels, and artifact replay can
+remove the Phase 1/2 future leakage. It also established that the single
+final-20% test tail is a lifecycle-biased evaluation for prediction markets
+and that absolute next-close regression is dominated by persistence. A further
+audit found that per-contract lifecycle walks are not sufficient for the
+pooled model: a shared encoder could train on a later calendar timestamp from
+one contract before being evaluated on an earlier timestamp from another. The
+design has now frozen two rolling global calendar-time walks, four-hour top-80
+cutoff-local selection, fold-specific encoder training, causal active-row
+eligibility, lifecycle-stratified reporting, and continuous probability-
+movement regression. The immediate priority is to implement and replay-validate
+that contract before rebuilding any Phase 4 encoder, downstream, or baseline
+inputs.
+
+The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
+from early to late contract thirds, exact-zero movement increased from `30.00%`
+to `58.06%`, near-boundary prices from `29.62%` to `55.97%`, and the
+zero-movement baseline MAE fell from `0.010659` to `0.004268`. All saved feature
+branches contained lifecycle-separable information in contract-grouped probes.
+This justifies the fixed-versus-adaptive encoder test and within-walk lifecycle
+reporting, but not a conclusion that different encoder architectures are
+already required. See
+`docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md`.
+
+The matching top-80 one-hour audit found 192,658 raw rows with a clean
+`datetime64[ns]` hourly `date` field, zero duplicate/gapped timestamps, and no
+missing or non-finite OHLCV cells. At a duration-matched 256-step context, the
+candidate rolling folds provide 75,241--75,262 contract-relative training rows
+and 97,511--130,054 global-calendar training rows, well above the 21,696-row
+Phase 3 four-hour reference. However, the middle interval of an equally spaced
+three-walk global schedule contains only two contracts; the two-walk schedule
+has healthier evaluation coverage of 20 and 15 contracts. See
+`docs/data_analysis/2026-09-20-phase4-top80-1h-timestamp-capacity.md`.
+
+The subsequent one-hour activity audit found that aggregate capacity
+overstates usable information. Across 171,618 duration-matched eligible rows,
+46.23% of eight-hour targets are exactly unchanged and 69.57% remain within
+0.005. Twenty contracts have meaningful movement in fewer than 10% of rows,
+and 19 contracts have a trailing constant-price tail covering at least one
+quarter of the file. A causal prior-24h price-change filter retains 130,878
+rows across all 80 contracts, lowers the exact-zero share to 29.61%, and leaves
+104,629/90,504 training rows across 59 contracts and 12,876/13,278 evaluation
+rows across 14/13 contracts in the two calendar walks. The Phase 4 contract
+now freezes this activity-eligibility rule; implementation remains pending. See
+`docs/data_analysis/2026-09-20-phase4-top80-1h-activity-suitability.md`.
+
+The duration-matched comparison explains why four-hour top-ranked contracts
+remain the stronger primary choice. With 256 hours of context, an eight-hour
+target, and a causal prior-24h activity rule, top-80 one-hour and four-hour
+data have aligned-target correlation `0.9690`, exact delta agreement `88.12%`,
+and nearly identical stable shares and zero-baseline errors. Four-hour top-80
+retains 25,476/22,163 active training rows over 59 contracts and 3,202/3,311
+evaluation rows over 14/13 contracts in the two calendar walks. Top-50 is
+somewhat more active but falls to seven evaluation contracts in walk 2.
+Therefore four-hour top-80 is the frozen primary configuration, top-50 is a
+universe sensitivity, and one-hour top-80 is a later resolution sensitivity.
+See `docs/data_analysis/2026-09-20-phase4-top50-top80-1h-4h-comparison.md`.
 
 The legacy data pipeline produced all three processed timeframes, but the
 raw-time split and fitted-preprocessing audit has invalidated their status as
@@ -133,12 +193,12 @@ clean held-out bundles. The existing 4h bundles, encoder checkpoints, frozen
 features, and task evaluations remain preserved and structurally replayable;
 they are not valid inputs for further confirmatory execution.
 
-The current project state has returned temporarily to **Phase A — Data
-correction**. The Phase B/C implementation still exists, while all prior
-generated outputs have been moved to the `_old` archive roots. Those outputs
-are historical characterisation evidence rather than proof of leakage-free
-held-out performance. Phase C execution resumes only after the corrected
-processed bundle, encoders, features, and task identities are rebuilt.
+The Phase B/C implementation remains available, but Phase 4 must use new
+`scripts_v2` entry points and new artifacts tied to global-walk provenance.
+Each primary walk needs its own preprocessing state, encoder checkpoint,
+feature bundle, downstream head, and baseline weights. Phase 3 artifacts remain
+immutable characterisation evidence; they are not silently relabelled as
+Phase 4 inputs.
 
 The five-branch Phase-1 price sweep is archived under `experiments_old/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP within the legacy merged-array price contract and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. New Phase-2 price runs instead use the contract-safe bundle with 109,791 train / 27,450 test rows, removing the terminal row of each contract and the 49 invalid internal boundary transitions retained by the legacy helper. Phase-1 absolute metrics are therefore not strict comparators for new price runs. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row target alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance. See `docs/price_prediction_label_contract.md`.
 

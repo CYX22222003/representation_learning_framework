@@ -1,0 +1,38 @@
+{
+  "status": "exploratory_descriptive_not_confirmatory",
+  "data": "Phase 3 selected top-50 raw 4-hour contracts",
+  "sequence_length": 64,
+  "horizon_steps": 2,
+  "horizon_hours": 8,
+  "contracts": 50,
+  "eligible_raw_rows": 27831,
+  "calendar_start": "2024-07-09 08:00:00",
+  "calendar_end": "2025-12-31 20:00:00",
+  "exploratory_equal_duration_calendar_edges": [
+    "2024-07-09 08:00:00",
+    "2025-01-05 12:00:00",
+    "2025-07-04 16:00:00",
+    "2025-12-31 20:00:00"
+  ],
+  "processed_sha256": "a8eb367be99bb1485b34186073940024b05806409df68d52dd83aa4728e6693a",
+  "processed_manifest_sha256": "c4c0d676051a0dc313f44cfb671d6aaae621b71d9f8dc96457b521295b6d7416",
+  "features_sha256": "03f45a286a063631d4c190ea3d3ca7baf16fbfeea9f093d569f9631f7f1c2f90",
+  "caveats": [
+    "Calendar thirds are descriptive equal-duration bins selected after observing coverage; they are not frozen Phase 4 walk cutoffs.",
+    "Phase 3 neural features are descriptive only because the encoders were trained under the Phase 3 80/20 contract, not per global calendar walk.",
+    "Distribution and embedding drift do not by themselves prove that different encoder architectures are necessary.",
+    "Stride-one windows are dependent; paired contract summaries and bootstrap intervals are more informative than treating rows as independent."
+  ],
+  "outputs": [
+    "calendar_lifecycle_composition.png",
+    "calendar_lifecycle_counts.csv",
+    "calendar_lifecycle_fractions.csv",
+    "calendar_period_summary.csv",
+    "contract_lifecycle_metrics.csv",
+    "feature_branch_drift.csv",
+    "feature_lifecycle_drift.png",
+    "lifecycle_dynamics.png",
+    "lifecycle_stage_summary.csv",
+    "paired_contract_lifecycle_differences.csv"
+  ]
+}

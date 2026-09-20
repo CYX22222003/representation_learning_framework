@@ -1,7 +1,18 @@
 # Phase 3 Experiment Plan
 
 Date: 2026-09-20  
-Status: Encoder pretraining and seed-0 framework price matrix complete
+Status: Concluded after encoder pretraining and seed-0 framework price matrix; remaining scope superseded by Phase 4 redesign
+
+> **Conclusion update (2026-09-20):** Phase 3 is closed. Its raw-time-first
+> implementation removed the identified future leakage, but the downstream
+> study showed that a single final-20% test tail overrepresents near-settlement,
+> persistent prices and that absolute next-close prediction is dominated by a
+> causal no-change reference. The unrun classification and baseline matrices
+> are superseded rather than counted as completed. Phase 4 will specify
+> global calendar-time walk-forward evaluation, fold-specific encoder weights,
+> lifecycle-stratified reporting, and probability-movement regression before
+> any new execution. See
+> [`2026-09-20-phase-3-experiment-observation-and-conclusion.md`](2026-09-20-phase-3-experiment-observation-and-conclusion.md).
 
 > **Execution update (2026-09-20):** The leakage-safe 4-hour bundle was built
 > and validated with 21,696 train windows, 3,085 test windows, 50 contracts,

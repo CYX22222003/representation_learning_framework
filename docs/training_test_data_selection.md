@@ -1,6 +1,20 @@
 # Training and Test Data Selection
 
-This document specifies exactly which data subset each model component uses for training and evaluation. The rules here exist to prevent data leakage and ensure all models are compared fairly on the same held-out test set.
+This document specifies exactly which data subset each model component uses for
+training and evaluation. The rules prevent leakage and ensure all models are
+compared fairly on the same held-out split or Phase 4 calendar interval.
+
+> **Phase 4 transition (2026-09-20):** The single per-contract raw 80/20 rule
+> below remains the authority for legacy and Phase 3 artifacts. It is not the
+> Phase 4 primary evaluation design. Phase 4 uses two predeclared fixed-duration
+> rolling global calendar-time walks: every walk establishes one timestamp cutoff
+> across the pooled contracts before fitted preprocessing/windows and evaluates
+> only the immediately following calendar interval. Per-contract lifecycle
+> position is reported within each walk but cannot define the primary split.
+> Later information must not enter an earlier model. The continuous primary
+> regression target becomes contract-local future probability movement rather
+> than absolute next close. The complete frozen contract is
+> [`phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`](phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md).
 
 ---
 
@@ -79,7 +93,12 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
 | Future additional symbolic alpha mining (outside current budget) | chronological OOF predictions from downstream heads on aligned training rows; GP fits/selects formulas only on those rows | requires a fresh, still-unseen holdout or temporally later data once the current test split has been used for task evaluation |
 
-All entries share the same `data/processed/*.npz` train/test split. There is no per-component val split.
+Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
+split. Phase 4 instead rebuilds these allocations per global calendar walk.
+Every primary walk uses a separately trained encoder and downstream head from
+the same causally permitted history, then freezes both before its next-interval
+evaluation. An optional fixed-first-walk encoder is a transferability ablation,
+not the primary adaptive result. There is no per-component validation split.
 
 ---
 
@@ -306,3 +325,16 @@ Both modes are trained on the same data splits and evaluated identically, making
 7. **Test evaluation follows a predeclared matrix.** Evaluate each fixed model, task, seed, and epoch budget once; report the complete matrix. Do not add configurations, select a best-on-test run, or otherwise change the protocol after reading test metrics.
 8. **Frozen encoder inference on test sequences is valid.** Encoder weights are fixed; no test-set gradient flows back.
 9. **Alpha-factor research is training-only model selection.** Raw-OHLCV screens and bounded GP may use a chronological discovery/confirmation split inside the original train portion, while the framework-facing symbolic search must use OOF economically meaningful downstream predictions rather than arbitrary latent coordinates. All require a fresh holdout or later data for final evaluation.
+10. **Phase 4 uses two rolling global calendar walk-forward folds.** For each evaluation
+    interval, all fitted state and model parameters—including the unsupervised
+    encoder—must come only from information available before one shared
+    timestamp cutoff across contracts. Per-contract lifecycle fractions alone
+    do not prevent cross-contract calendar lookahead. Never combine later-walk
+    history into an earlier model; aggregate only predictions that were
+    genuinely out-of-future at their decision time, then report lifecycle
+    strata inside each walk.
+11. **Phase 4 primary data is four-hour top-80 selected per cutoff.** Rank
+    candidates using the trailing 256 permitted four-hour bars, freeze the
+    universe for the next interval, and apply the causal prior-24h price-change
+    mask identically to framework and baselines. Top-50, one-hour, and all-row
+    results are declared sensitivities.

@@ -4,6 +4,55 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
+> **Phase-4 execution gate (2026-09-20):** Phase 3 is concluded. Do not launch
+> new downstream, baseline, or encoder training until the frozen Phase 4
+> data-selection and walk-forward contract is implemented and validated
+> under `scripts_v2/`. Per-contract lifecycle fractions alone are not a valid
+> primary split for the pooled encoder because they can permit cross-contract
+> calendar lookahead. The single-tail Phase 3
+> absolute next-close results remain valid negative characterisation evidence;
+> they must not be reused as Phase 4 results. See
+> `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`.
+> The supporting lifecycle and representation-drift diagnostic is recorded in
+> `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md`.
+> It motivates comparing a fixed first-walk encoder with fold-specific
+> retraining, but does not establish that lifecycle stages require different
+> encoder architectures.
+> The top-80 target and walk-schedule feasibility evidence is recorded in
+> `docs/data_analysis/2026-09-20-phase4-top80-contract-relative-walk-analysis.md`.
+> Contract-relative anchored and fixed-length walks are valid retrospective
+> lifecycle analyses, and both two and three walks have adequate aggregate
+> samples. They are not the primary pooled-model split: relative cutoffs map to
+> different calendar dates, and observed final contract length is future
+> information unless the termination boundary was known at decision time.
+> The one-hour timestamp and capacity audit is recorded in
+> `docs/data_analysis/2026-09-20-phase4-top80-1h-timestamp-capacity.md`.
+> Raw one-hour files have clean hourly timestamps and sufficient aggregate
+> capacity even at a duration-matched 256-step context. For the current cohort,
+> two global-calendar walks have materially better evaluation-contract coverage
+> than three equally spaced walks. These are feasibility results only; the
+> retrospective top-80 universe is not yet a deployment-safe selection rule.
+> The one-hour activity-suitability audit is recorded in
+> `docs/data_analysis/2026-09-20-phase4-top80-1h-activity-suitability.md`.
+> It finds adequate non-trivial eight-hour movement overall, but also material
+> inactive terminal tails: 19/80 contracts spend at least one quarter of the
+> file at a trailing constant price. The causal recent-activity eligibility rule
+> is now frozen and must be implemented identically for framework
+> and baselines; retrospective last-change truncation is diagnostic only.
+> The duration-matched frequency/universe comparison is recorded in
+> `docs/data_analysis/2026-09-20-phase4-top50-top80-1h-4h-comparison.md`.
+> One-hour and four-hour eight-hour targets have nearly identical staleness,
+> lifecycle drift, and active-row distributions; aligned target correlations
+> are 0.969--0.972. Four-hour top-80 with causal prior-24h activity is the
+> frozen primary configuration. One-hour top-80 and four-hour top-50 remain
+> resolution and universe-size sensitivities, respectively.
+> The canonical frozen design is
+> `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`:
+> four-hour top-80, two fixed-duration rolling calendar walks, cutoff-local
+> trailing-256-bar ranking, a causal prior-24h price-change mask, fold-specific
+> models, and an eight-hour signed probability-movement target. Builder
+> implementation and replay validation are the current execution gate.
+
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
 > extraction, or downstream evaluation against the current processed bundles.
 > The legacy pipeline fits volume preprocessing and creates windows before the
@@ -385,6 +434,14 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
+- Phase-4 probability-movement regression: planned continuous
+  `close[t+h] - close[t]` labels constructed independently inside each
+  contract and global calendar walk. Each primary walk requires separately
+  trained encoder/head weights from information available before its cutoff;
+  lifecycle position is reported within walks. Exact zero movement is the
+  mandatory primary reference. Arithmetic-return regression is secondary and
+  must report starting-price sensitivity. The builder and canonical artifact
+  path are not implemented yet.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.

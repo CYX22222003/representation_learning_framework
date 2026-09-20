@@ -13,6 +13,15 @@ Status: Target contract retained; execution paused pending upstream data rebuild
 
 This document records the transition from the legacy merged-array
 price-target helper to the saved, contract-safe horizon-1 price-label bundle.
+
+> **Phase 4 transition (2026-09-20):** The Phase 3 version of this contract is
+> leakage-safe and remains replayable, but its absolute next-close target is
+> persistence-dominated and is no longer the primary regression task. Phase 4
+> will define continuous probability movement
+> `close[t+h] - close[t]` under global calendar-time walks, aligned in concept
+> with movement classification but evaluated as regression. Contract lifecycle
+> becomes a reporting stratum inside each walk. The horizon-1
+> bundle and results are retained as negative characterisation evidence.
 It is the comparison authority when an older Phase-1 or early Phase-2 price
 result differs from a newer result using the same representation and decoder.
 

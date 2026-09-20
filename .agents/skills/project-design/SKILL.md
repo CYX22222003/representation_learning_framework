@@ -16,6 +16,14 @@ Read these in order:
 3. The Architecture section of `AGENTS.md`, including the branch table, aggregator modes, extension guide, and module responsibilities.
 4. For Phase 2 decoder questions, read
    `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md` in full.
+5. For Phase 4 downstream-task or evaluation design, read
+   `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
+   and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+   in full. The Phase 4 contract supersedes provisional walk-design language.
+6. For prediction-market lifecycle effects, representation drift, or temporal
+   encoder adaptation, read
+   `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
+   full.
 
 ## Response Contract
 
@@ -23,7 +31,15 @@ Present the parts relevant to the request:
 
 - Each current representation branch, source module, and output dimension.
 - The concat and gated aggregator modes, their output dimensions, and when each is appropriate.
-- Price prediction, volatility prediction, and tri-class trend classification, including their documented metrics and label/target contracts when relevant.
+- Probability-movement regression, historical absolute next-close prediction,
+  volatility prediction, and tri-class movement/trend classification,
+  including their documented metrics and label/target contracts when relevant.
+- For Phase 4, distinguish fold-specific encoder retraining in the primary
+  global-calendar adaptive evaluation from reuse of the first-walk encoder as
+  a temporal-transfer ablation; lifecycle is a within-walk reporting stratum.
+- Treat lifecycle-conditioned models or stage-specific feature extractors as
+  optional hypotheses until paired downstream results on identical global-walk
+  rows improve over fixed and same-architecture adaptive controls.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 

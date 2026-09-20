@@ -20,12 +20,41 @@ Read these in order:
    `docs/price_prediction_label_contract.md` in full.
 5. For Phase 3 preparation, training, extraction, downstream evaluation, or
    baselines, `docs/phase_plan/2026-09-20-phase-3-experiment-plan.md` in full.
+6. For Phase 4 design or any post-Phase-3 execution, read
+   `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
+   and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+   in full. The latter is canonical: its rolling walks, cutoff-local universe,
+   activity mask, and fold-specific model lifecycle are frozen but not yet
+   implemented.
+7. For Phase 4 walk-count, expanding-versus-rolling, target-distribution, or
+   top-80 sample-feasibility questions, read
+   `docs/data_analysis/2026-09-20-phase4-top80-contract-relative-walk-analysis.md`
+   in full. Treat contract-relative anchored/fixed-length results as
+   retrospective lifecycle evidence, not as a causal pooled-model split.
+8. For one-hour timestamp availability, context-duration matching, or Phase 4
+   sample-capacity questions, read
+   `docs/data_analysis/2026-09-20-phase4-top80-1h-timestamp-capacity.md` in full.
+   Do not infer evaluation quality from row count alone; check unique-contract
+   coverage in every global-calendar interval.
+9. For one-hour staleness, volume, inactive-tail, or target-variation questions,
+   read `docs/data_analysis/2026-09-20-phase4-top80-1h-activity-suitability.md`
+   in full. Retrospective trailing-flat duration is diagnostic only. Any active
+   market eligibility rule used in an experiment must depend only on history
+   available at the decision timestamp and be shared by all comparators.
+10. For one-hour versus four-hour or top-50 versus top-80 design choices, read
+    `docs/data_analysis/2026-09-20-phase4-top50-top80-1h-4h-comparison.md` in
+    full. Match context, horizon, and activity duration in hours, not bars, and
+    treat raw candle timestamps as bar starts when enforcing calendar cutoffs.
 
 ## Response Contract
 
 Present the relevant parts of:
 
 - The global 80/20 train/test split and why the test side remains locked.
+- For Phase 4, the two fixed-duration rolling global calendar-time walks, fold-specific encoder
+  weights, and proof that later timestamps from any contract never train an
+  earlier-walk model. Per-contract lifecycle fractions are reporting strata,
+  not the primary split.
 - Whether the raw-time boundary precedes fitted imputation/scaling and window
   generation; identical stored `.npz` rows do not establish leakage safety.
 - The train/test-only rule: no validation split, no early stopping, and no test-driven checkpoint selection.
@@ -34,6 +63,10 @@ Present the relevant parts of:
 - For price prediction, whether the run uses the active contract-safe bundle or
   the legacy merged-array contract, including removal of terminal contract
   rows before fitting the feature standardiser.
+- For probability-movement regression, the continuous signed probability-change
+  horizon, fold-local eligibility, and exact zero-movement reference. Treat
+  conventional arithmetic-return regression as secondary unless its
+  zero-price, scaling, robust-loss, and price-band contract is predeclared.
 - The ordered workflow from raw data through final evaluation.
 - The rules that prevent data leakage and preserve baseline fairness.
 

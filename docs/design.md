@@ -2,7 +2,7 @@
 
 ## Architecture Design
 
-The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: price prediction, volatility prediction, and trend classification.
+The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: probability-movement regression, volatility prediction, and movement/trend classification. Absolute next-close prediction is retained as a completed negative characterisation study rather than the primary regression probe.
 
 The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Concat mode serves as the primary implementation and as an ablation comparison for gated mode. A detailed architecture diagram is provided in the Appendix.
 
@@ -18,7 +18,15 @@ The experimental setup is designed to evaluate the effectiveness of the unified 
 > scaling and left the raw holdout boundary ambiguous. The bullets below state
 > the required replacement design; see `docs/data_processing_split_contract.md`.
 
-The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. We use the top 50 most active contracts per timeframe, selected by trading volume.
+> **Phase 4 evaluation update (2026-09-20):** Phase 3 implemented the
+> raw-time-first correction, but its final-20% test tail was dominated by
+> near-settlement persistence. Phase 4 preserves raw-time-first preprocessing
+> while using two fixed-duration rolling global calendar-time walks. Every walk is rebuilt from
+> information available before one shared timestamp cutoff across contracts;
+> later information cannot train an earlier-walk model. Contract lifecycle is
+> retained as a reporting stratum inside each evaluation interval.
+
+The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. Legacy and Phase 3 experiments use top-50 cohorts. The frozen Phase 4 primary design selects up to 80 four-hour contracts independently at each cutoff from trailing training-only activity; top-50 is a nested sensitivity.
 
 - **Timestep Separation:** Markets are grouped by their time resolution (1h, 4h, 1d) to handle differing temporal dynamics. Each group is processed independently.
 
@@ -31,9 +39,24 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
     policy; no test-period observation may enter a training window or target.
   - Minor noise augmentation can be added to improve robustness of learned embeddings.
 
-- **Train-Test Split:** Each contract market's raw timeline is split chronologically before fitted preprocessing and window generation:
-  - First 80% of sequences → **training set**
-  - Last 20% of sequences → **testing set**
+- **Train-Test Split:** Phase 3 used a per-contract raw chronological 80/20
+  split before fitted preprocessing and window generation. Phase 4 instead
+  uses fixed-duration rolling global calendar-time walks. At cutoff `T_k`, every pooled
+  contract contributes only information available before `T_k`; the next
+  calendar interval is evaluation-only. This prevents a later observation
+  from one contract training a model scored on an earlier observation from
+  another. The exact timestamps, two-walk count, universe eligibility, minimum
+  history, activity mask, and target-maturity rules are frozen in the canonical
+  Phase 4 data-selection and walk-forward contract.
+
+- **Lifecycle diagnostic:** On the selected top-50 4-hour contracts, exact
+  zero movement rose from `30.00%` in the early lifecycle third to `58.06%` in
+  the late third, while the zero-movement baseline MAE fell from `0.010659` to
+  `0.004268`. Saved feature branches also contain contract-general lifecycle
+  information. This motivates lifecycle-stratified evaluation and encoder
+  adaptation tests; it does not by itself prove that different stages require
+  different architectures. See
+  `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md`.
 
 - **Merging Across Markets:** Sequences from all contract markets within the same timestep group are concatenated to form the final training and testing datasets:
 
@@ -63,11 +86,25 @@ The dataset consists of OHLCV time-series data from approximately 72,222 event c
 
 ### Training Procedure
 
-- All model training — supervised and unsupervised — uses only the training split (80% per contract). The test split is held out until evaluation under the predeclared model × task × epoch-budget matrix.
+- All model training—supervised and unsupervised—uses only causally permitted
+  training information. Legacy and Phase 3 runs use the documented
+  per-contract split; each Phase 4 walk uses one global calendar cutoff. Its
+  following interval is held out until evaluation under the predeclared model
+  × task × epoch-budget matrix.
 
 - **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
-- Neural encoders (VAE, contrastive, BYOL, and any additional methods) are pretrained unsupervised on training sequences only, then their weights are frozen.
+- Neural encoders (VAE, contrastive, BYOL, and any additional methods) are
+  pretrained unsupervised on training sequences only, then their weights are
+  frozen. The Phase 4 primary adaptive evaluation trains separate encoder
+  weights per global walk. An optional encoder frozen from the first walk and
+  reused later is reported separately as a temporal-transfer ablation.
+
+- A lifecycle-conditioned shared encoder/head or predeclared stage-specific
+  experts may be evaluated only as an optional Phase 4 ablation, using
+  decision-time-available lifecycle metadata and identical global-walk rows.
+  Architecture specialization is supported only if paired downstream results
+  improve over both the fixed and same-architecture adaptive controls.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
@@ -101,7 +138,11 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 **Evaluation paradigm (probing):** The framework uses frozen representation extractors. After pretraining, the named branch features remain fixed while a lightweight task head, and the aggregator when it is learnable, are trained for each task. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with frozen representations + a simple head is the primary claim.
 
-- **Benchmark Retraining:** Each benchmark model is retrained on the same event prediction market dataset, using the same sliding window sequences, train/test split, and temporal ordering. This project does not use a validation split or early stopping; see `docs/training_test_data_selection.md`.
+- **Benchmark Retraining:** Each benchmark model is retrained on the same event
+  prediction market data using the same sliding-window identities and global
+  calendar walk. Framework encoders, heads, and baselines all obey the same
+  cutoff. This project does not use a validation split or early stopping; see
+  `docs/training_test_data_selection.md`.
 
 - **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary, stronger hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The existing Raw-OHLCV MLP volatility sweep uses a legacy merged-array target helper and is characterization-only until it is migrated to this shared bundle; the framework volatility task must also consume this bundle before any strict comparison. A framework result should therefore report its relationship to both benchmarks rather than treating the stack as evidence that standalone GARCH is superior.
 
@@ -109,12 +150,16 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
   - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae`, `contrastive`, and `byol`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
-    - **Regression Task:** supervised pairs (X, y), where X is the sequence embedding and y is the target return or probability at a future timestep. Price experiments select rows and horizon-1 targets from the saved contract-safe price bundle before fitting the training-only feature standardiser.
+    - **Regression Task:** supervised pairs (X, y), where X is the sequence
+      embedding and `y = close[t+h] - close[t]` is continuous future
+      probability movement. Labels are contract- and fold-local. Absolute
+      next-close prediction remains a Phase 3 diagnostic only.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. Phase 1 retains its TA-MLP-style tri-class BUY/HOLD/SELL bundle. The isolated Phase 2 task uses hard `DOWN/STABLE/UP` labels from absolute probability movement over a split-safe horizon and saves three-class scores. Its candidate imbalance protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and train-prior logit-adjusted cross-entropy (`P2`); natural cross-entropy (`P0`) is an untreated reference only.
   - A lightweight MLP task head is trained on these (X, y) pairs.
 
 - **Performance Comparison:**
-  - Evaluate strict task comparisons on the same held-out test sequences and aligned label rows.
+  - Evaluate strict task comparisons on the same global-calendar walk identities
+    and aligned label rows, then stratify results by contract lifecycle stage.
   - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass Brier score. The Phase 2 classification focus is imbalance and collapse rather than confidence calibration.
   - Comparison axes:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)

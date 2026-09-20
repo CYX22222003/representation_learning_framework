@@ -18,6 +18,10 @@ Read these in order:
 4. When the request concerns a phase plan, read the applicable canonical documents in `docs/phase_plan/` in full. For Phase 2, this includes `2026-09-08-phase-2-experiment-plan.md`; for Part 1 decoder scope or execution, also read `2026-09-14-phase-2-decoder-refinement.md`; for Part 3 classification scope or execution, also read `2026-09-08-phase-2-probabilistic-classification.md`. For Phase 1 readiness or result judgement, read `2026-09-01-phase-1-product-readiness.md` and `phase1_experiment_observation_and_judgement.md`.
    For Phase 3 planning, implementation, or execution, read
    `docs/phase_plan/2026-09-20-phase-3-experiment-plan.md` in full.
+   For the Phase 3 conclusion and Phase 4 transition, also read
+   `docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`
+   and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+   in full.
 
 ## Response Contract
 
@@ -28,6 +32,11 @@ Report:
 - What has not started.
 - The current phase: A, B, C, or D.
 - The most immediate actions required by that phase's exit conditions.
+- For Phase 4, the data/evaluation design is frozen; report whether its rolling
+  global calendar builder, cutoff-local universe, causal activity mask,
+  fold-specific encoder training, target maturity, and replay checks are
+  implemented and validated. Do not describe per-contract lifecycle fractions
+  as deployment-valid folds.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.
 

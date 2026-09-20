@@ -62,6 +62,11 @@ For Phase 2 decoder work, include
 `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
 For Phase 3 scope, implementation, execution, or result judgement, include
 `docs/phase_plan/2026-09-20-phase-3-experiment-plan.md`.
+For Phase 3 conclusions or Phase 4 transition decisions, also include
+`docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`.
+For any Phase 4 data selection, rolling-walk, universe, activity-eligibility,
+target-allocation, or execution-gate change, include
+`docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
 
 ## 3. Audit Repository Skills
 

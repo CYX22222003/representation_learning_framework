@@ -1,0 +1,22 @@
+{
+  "analysis_only": true,
+  "boundary_basis": "raw_row_position_divided_by_contract_final_index",
+  "evaluation_policy": "disjoint_half_open_contract_relative_intervals",
+  "horizon_hours": 8,
+  "horizon_steps": 2,
+  "initial_train_fraction": 0.5,
+  "scheme": "relative_window",
+  "sequence_length": 64,
+  "source_manifest": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data/phase3/processed/market_4h_seq64_top50.npz.manifest.json",
+  "source_manifest_sha256": "c4c0d676051a0dc313f44cfb671d6aaae621b71d9f8dc96457b521295b6d7416",
+  "threshold": 0.005,
+  "timeframe": "4h",
+  "top_k": 80,
+  "training_input_policy": "complete_sequence_inside_relative_training_interval",
+  "training_target_policy": "target_fraction_strictly_before_relative_cutoff",
+  "training_window_policy": "contract_relative_fixed_length",
+  "universe_is_phase4_causal": false,
+  "universe_policy": "retrospective_phase3_256_row_prefix_rank_top_k",
+  "uses_retrospective_final_contract_length": true,
+  "walk_count": 2
+}
