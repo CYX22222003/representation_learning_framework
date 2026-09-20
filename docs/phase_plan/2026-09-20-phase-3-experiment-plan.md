@@ -1,7 +1,7 @@
 # Phase 3 Experiment Plan
 
 Date: 2026-09-20  
-Status: Encoder pretraining complete for the initial 4h seed-0 matrix; feature extraction not started
+Status: Encoder pretraining and seed-0 framework price matrix complete
 
 > **Execution update (2026-09-20):** The leakage-safe 4-hour bundle was built
 > and validated with 21,696 train windows, 3,085 test windows, 50 contracts,
@@ -14,6 +14,21 @@ Status: Encoder pretraining complete for the initial 4h seed-0 matrix; feature e
 > `experiments/phase3/reports/encoder_pretraining_seed0/`. Epoch 50 remains the
 > predeclared checkpoint for later frozen feature extraction; downstream task
 > metrics were not inspected or used during pretraining.
+
+> **Price execution update (2026-09-20):** New `scripts_v2` entry points
+> now build and replay contract-local horizon-1 labels, extract the two
+> window-local deterministic branches and all seven frozen epoch-50 neural
+> branches, train the complete H0/HC/HB substitution/addition/duplicate-control
+> matrix, and replay/report its predictions. Statistical AR/GARCH and
+> FFT/Haar features consume only their corresponding causal input window.
+> Price labels require the next consecutive window inside the same contract and
+> stored split, dropping each contract's terminal row. The validated label
+> bundle contains 21,646 train and 3,035 test rows. The master nine-branch
+> feature bundle and all 15 seed-0 price trajectories are complete, with
+> snapshots at epochs 5, 15, and 50. Replay validation covers all 45 snapshots
+> on identical held-out identities. The best observed row is `HB-ALT` at epoch
+> 50 (MAE 0.009234, RMSE 0.022782, correlation 0.998993); this is exploratory
+> locked-test evidence, not a test-selected deployment checkpoint.
 
 > Phase 3 must not execute against any legacy processed bundle, label bundle,
 > feature store, checkpoint, or experiment artifact. All runnable Phase 3 entry

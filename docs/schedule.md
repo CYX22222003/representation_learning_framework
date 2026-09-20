@@ -102,8 +102,14 @@ contrastive CNN/LSTM/Transformer, and BYOL CNN/LSTM/Transformer each have one
 uninterrupted 50-epoch trajectory and checkpoints at `5/15/50`. All 21
 snapshots passed the consolidated provenance/history check with no collapse
 warnings; numerical tables and six plots are stored under
-`experiments/phase3/reports/encoder_pretraining_seed0/`. Feature extraction and
-downstream/baseline execution have not started. Existing `scripts/` entry
+`experiments/phase3/reports/encoder_pretraining_seed0/`. Phase 3 price-label,
+master feature-extraction, 15-configuration framework training, manifest-first
+launch, and replay/report scripts are implemented under `scripts_v2/`. The
+contract-local horizon-1 labels (21,646 train / 3,035 test), nine-branch master
+feature bundle, and all 15 seed-0 framework price trajectories are complete.
+All 45 snapshots passed common-row prediction replay; the exploratory best
+held-out result is HB-ALT at epoch 50 (MAE 0.009234, RMSE 0.022782, correlation
+0.998993). Downstream baseline execution remains unstarted. Existing `scripts/` entry
 points and all `_old` artifacts remain excluded from Phase 3 execution.
 
 ---

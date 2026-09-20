@@ -1,0 +1,24 @@
+{
+  "batch_size": 512,
+  "branches": [
+    "statistical",
+    "transformed",
+    "vae_mlp",
+    "contrastive_cnn",
+    "byol_transformer"
+  ],
+  "config_id": "HB-ST",
+  "epoch_budgets": [
+    5,
+    15,
+    50
+  ],
+  "fusion": "concat",
+  "head": "PriceRegressor(128,64,1; dropout=0.1; linear output)",
+  "learning_rate": 0.0001,
+  "loss": "MSE",
+  "phase": 3,
+  "seed": 0,
+  "standardize": "selected train rows only; clip +/-10",
+  "task": "price_prediction"
+}
