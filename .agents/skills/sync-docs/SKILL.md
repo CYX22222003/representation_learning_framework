@@ -60,6 +60,19 @@ fairness, readiness, result judgement, or completion gates, check the
 applicable canonical Phase 1 and/or Phase 2 documents in this directory.
 For Phase 2 decoder work, include
 `docs/phase_plan/2026-09-14-phase-2-decoder-refinement.md`.
+For Phase 3 scope, implementation, execution, or result judgement, include
+`docs/phase_plan/2026-09-20-phase-3-experiment-plan.md`.
+For Phase 3 conclusions or Phase 4 transition decisions, also include
+`docs/phase_plan/2026-09-20-phase-3-experiment-observation-and-conclusion.md`.
+For any Phase 4 data selection, rolling-walk, universe, activity-eligibility,
+target-allocation, or execution-gate change, include
+`docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`.
+For the concluded Phase 4 evidence or any Phase 5 source, causal-fill,
+walk-forward, training-gate, or experiment-scope change, also include
+`docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
+For Phase 5 sequence length, walk capacity, contract concentration,
+imputation exposure, or selection-readiness changes, include
+`docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
 
 ## 3. Audit Repository Skills
 

@@ -4,6 +4,73 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
+> **Phase-5 execution gate (2026-09-21):** Phase 4 data selection and
+> exploratory analysis are concluded; no Phase 4 model training was launched.
+> The next complete encoder/downstream/baseline loop moves to Phase 5. Its
+> selected exploratory source is the recent clean native one-hour FinData
+> cohort, with causal filling of complete isolated one-hour gaps, flat OHLC,
+> zero volume, explicit imputation/time-since-observation metadata, observed
+> decision and target endpoints, and sequence breaks at longer gaps. Native
+> 15-minute data remains a resolution sensitivity. See
+> `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
+> Do not launch Phase 5 training until revised recent-period global-calendar
+> walks, cutoff-local universe selection, quarantine availability, causal
+> activity eligibility, target maturity, fold-specific model lifecycle,
+> identical baseline rows, and replayable manifests are implemented and
+> validated under `scripts_v2/`. Per-contract lifecycle fractions remain
+> reporting strata, not primary pooled-model splits. The unexecuted four-hour
+> top-80 contract in
+> `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
+> is historical pre-December-2025 feasibility evidence, not an active launch
+> specification. Phase 3 absolute next-close results remain negative
+> characterisation evidence and are not Phase 5 inputs.
+> A no-training capacity audit supports a 64-hour context and balanced
+> two-walk schedule as implementation candidates. It does not clear this gate:
+> the 50-condition cohort was selected retrospectively, `seq256` is materially
+> weaker after gap breaks, and evaluation must replay each quarantine decision
+> only after `quarantine_available_at`. See
+> `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+
+The recent FinData acquisition audit writes only to Git-ignored `data_new/`.
+A raw-first expanded 50-market
+audit confirms that condition-level candles can mix complementary YES/NO
+prices. Forward-confirmed rule `condition-orientation-v2-forward-confirmed`
+retains persistent crashes/repricings and quarantines 116/325,730 native
+15-minute rows and 147/107,635 native hourly rows. Raw files remain immutable,
+removed timestamps remain gaps, and every decision records when its future
+confirmation became available. More than 99% retention is an exploratory
+operational result, not proof of YES-token identity. The token-identified
+YES-trade fallback is correctly oriented but supplies only 448 complete
+four-hour `seq64+h2` rows from two related contracts. Phase 4 nevertheless
+selects bounded-forward-filled clean native one-hour condition candles for an
+explicitly exploratory Phase 5 loop, with affected-contract exclusion and
+source-limitation reporting mandatory. See
+`docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md` and
+`docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md`.
+
+```bash
+.venv/bin/python3 scripts_v2/collect_findata_prediction_markets.py \
+  --top-k 3 --candidate-limit 30 --workers 6
+.venv/bin/python3 scripts_v2/analyze_findata_prediction_markets.py
+.venv/bin/python3 scripts_v2/collect_findata_historical_cohort.py \
+  --top-k 50 --candidate-limit 250 --max-per-family 2 --workers 8 \
+  --defer-quarantine \
+  --output-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/analyze_findata_prediction_markets.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31 \
+  --audit-only
+.venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/analyze_findata_native_dynamics.py \
+  --maximum-fill-bars 1 --overwrite
+.venv/bin/python3 scripts_v2/analyze_findata_native_gaps.py --overwrite
+.venv/bin/python3 scripts_v2/analyze_findata_walk_capacity.py --overwrite
+.venv/bin/python3 scripts_v2/collect_findata_yes_trade_ohlcv.py --workers 8
+.venv/bin/python3 scripts_v2/analyze_findata_yes_trade_ohlcv.py
+```
+
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
 > extraction, or downstream evaluation against the current processed bundles.
 > The legacy pipeline fits volume preprocessing and creates windows before the
@@ -367,6 +434,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 | Directory | Responsibility |
 |---|---|
+| `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
@@ -380,11 +448,40 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 
 ### Key data contracts
 
+- Recent FinData raw data lives under Git-ignored `data_new/`. Condition-level
+  candles retain UTC timestamps for source auditing but can mix complementary
+  YES/NO prices and are not a canonical probability series. The versioned
+  `condition-orientation-v2-forward-confirmed` quarantine distinguishes
+  transient reversions from persistent crashes using up to four later bars,
+  writes the original rows and decision-availability timestamps to an audit
+  artifact, never repairs prices, preserves removed timestamps as gaps, and
+  fails when more than 1% of either native resolution is flagged. A walk may
+  use a decision only after `quarantine_available_at`. Clean artifacts require
+  exact-consecutive timestamp checks for every aggregation, context, and
+  target. Phase 5 selects the clean native one-hour series as an exploratory
+  source. It may causally fill only complete isolated one-hour gaps with flat
+  OHLC, zero volume, and explicit imputation/time-since-observation metadata;
+  decision and target endpoints must remain observed, longer gaps split
+  sequences, and no stochastic augmentation is written to OHLCV or targets.
+  Native 15-minute data remains a resolution sensitivity.
+  Token-consistent OHLCV must map the declared outcome to
+  `clob_token_ids` and retain that provenance. The selected one-hour source is
+  not training-ready until Phase 5 freezes revised recent-period walks, its
+  cutoff-local universe, source/quarantine availability, causal gap and
+  activity rules, identical baseline rows, and replayable manifests.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
+- Phase-5 probability-movement regression: planned continuous
+  `close[t+h] - close[t]` labels constructed independently inside each
+  contract and global calendar walk. Each primary walk requires separately
+  trained encoder/head weights from information available before its cutoff;
+  lifecycle position is reported within walks. Exact zero movement is the
+  mandatory primary reference. Arithmetic-return regression is secondary and
+  must report starting-price sensitivity. The builder and canonical artifact
+  path are not implemented yet.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
