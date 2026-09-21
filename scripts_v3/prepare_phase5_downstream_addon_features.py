@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract frozen five-branch features for both eight-hour sensitivity bundles."""
+"""Extract frozen five-branch features for the eight-hour downstream add-ons."""
 
 from __future__ import annotations
 
@@ -26,13 +26,13 @@ def main() -> None:
     results = []
     for walk in (1, 2):
         dataset = Path(
-            f"experiments/phase5/data_sensitivities/raw_delta_h8/walk{walk}/market_1h_seq64_h8.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/data/walk{walk}/market_1h_seq64_h8.npz"
         )
         encoder_dataset = Path(
             f"experiments/phase5/data_preparation/walk{walk}/market_1h_seq64_h2.npz"
         )
         output = Path(
-            f"experiments/phase5/features_sensitivities/raw_delta_h8/walk{walk}/five_branch_epoch50.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/features/walk{walk}/five_branch_epoch50.npz"
         )
         reuse_feature = Path(
             f"experiments/phase5/features/walk{walk}/five_branch_epoch50.npz"

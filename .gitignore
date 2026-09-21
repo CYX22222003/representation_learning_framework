@@ -44,6 +44,9 @@ debug.log
 # Data files (raw / large)
 data/
 data_new/
+# Phase 5 add-on datasets are experiment artifacts despite the shared `data` name.
+!experiments/phase5/downstream_addons/shared/h8/data/
+!experiments/phase5/downstream_addons/shared/h8/data/**
 *.feather
 *.csv
 *.hdf5
@@ -61,5 +64,5 @@ experiments_old/framework/phase2/encoder_refinement_horizontal/features/**/*.npz
 experiments/phase5/features/**/.five_branch_epoch50.work/
 # Canonical stores exceed normal Git hosting limits; manifests/hashes are versioned.
 experiments/phase5/features/**/five_branch_epoch50.npz
-experiments/phase5/features_sensitivities/**/.five_branch_epoch50.work/
-experiments/phase5/features_sensitivities/**/five_branch_epoch50.npz
+experiments/phase5/downstream_addons/shared/h8/features/**/.five_branch_epoch50.work/
+experiments/phase5/downstream_addons/shared/h8/features/**/five_branch_epoch50.npz

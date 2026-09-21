@@ -20,8 +20,8 @@ from training.phase5_encoder import write_json
 
 TASK_PATHS = {
     "raw_delta_h2": "experiments/phase5/downstream/walk{walk}/regression/seed0/e50/predictions.npz",
-    "raw_delta_h8": "experiments/phase5/regression_sensitivities/raw_delta_h8/walk{walk}/seed0/e50/predictions.npz",
-    "log_return_h2": "experiments/phase5/regression_sensitivities/log_return_h2/walk{walk}/seed0/e50/predictions.npz",
+    "raw_delta_h8": "experiments/phase5/downstream_addons/tasks/raw_delta_h8/walk{walk}/seed0/e50/predictions.npz",
+    "log_return_h2": "experiments/phase5/downstream_addons/tasks/log_return_h2/walk{walk}/seed0/e50/predictions.npz",
 }
 
 
@@ -64,7 +64,7 @@ def load_task(task: str, walk: int) -> tuple[np.ndarray, np.ndarray, np.ndarray,
 
 
 def main() -> None:
-    output = Path("experiments/phase5/reports/regression_rank_ic_seed0")
+    output = Path("experiments/phase5/downstream_addons/reports/regression_rank_ic_seed0")
     output.mkdir(parents=True, exist_ok=True)
     report: dict[str, object] = {
         "phase": 5,

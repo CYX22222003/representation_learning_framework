@@ -62,7 +62,7 @@ def cross_sectional_rank_ic(
 
 
 def main() -> None:
-    output = Path("experiments/phase5/reports/absolute_price_h8_seed0")
+    output = Path("experiments/phase5/downstream_addons/reports/absolute_price_h8_seed0")
     output.mkdir(parents=True, exist_ok=True)
     validations = []
     per_walk: dict[str, object] = {}

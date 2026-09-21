@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze and execute the four-run Phase 5 exploratory regression sensitivities."""
+"""Freeze and execute the four-run Phase 5 additional regression-task matrix."""
 
 from __future__ import annotations
 
@@ -15,23 +15,23 @@ if str(SRC) not in sys.path:
 
 from training.phase5_downstream import prepare_feature_standardizer
 from training.phase5_encoder import sha256_file, write_json
-from training.phase5_regression_sensitivities import (
-    RegressionSensitivityConfig,
-    run_sensitivity,
-    validate_sensitivity_run,
+from training.phase5_regression_addons import (
+    RegressionAddonConfig,
+    run_regression_addon,
+    validate_regression_addon_run,
 )
 
 
 def paths(task: str, walk: int) -> tuple[Path, Path, Path, Path]:
     if task == "raw_delta_h8":
         dataset = Path(
-            f"experiments/phase5/data_sensitivities/raw_delta_h8/walk{walk}/market_1h_seq64_h8.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/data/walk{walk}/market_1h_seq64_h8.npz"
         )
         feature = Path(
-            f"experiments/phase5/features_sensitivities/raw_delta_h8/walk{walk}/five_branch_epoch50.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/features/walk{walk}/five_branch_epoch50.npz"
         )
         scaler = Path(
-            f"experiments/phase5/regression_sensitivities/raw_delta_h8/walk{walk}/feature_standardizer.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk{walk}/feature_standardizer.npz"
         )
     else:
         dataset = Path(
@@ -42,7 +42,7 @@ def paths(task: str, walk: int) -> tuple[Path, Path, Path, Path]:
         )
         scaler = Path(f"experiments/phase5/downstream/walk{walk}/feature_standardizer.npz")
     run_root = Path(
-        f"experiments/phase5/regression_sensitivities/{task}/walk{walk}/seed0"
+        f"experiments/phase5/downstream_addons/tasks/{task}/walk{walk}/seed0"
     )
     return dataset, feature, scaler, run_root
 
@@ -51,11 +51,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
-    matrix_path = Path("experiments/phase5/manifests/regression_sensitivities_seed0.json")
+    matrix_path = Path("experiments/phase5/downstream_addons/manifests/regression_tasks_seed0.json")
     matrix: dict[str, object] = {
         "phase": 5,
-        "purpose": "frozen_exploratory_regression_sensitivity_matrix",
-        "exploratory_status": "secondary post-primary sensitivities",
+        "purpose": "frozen_additional_regression_task_matrix",
+        "exploratory_status": "additional post-primary regression tasks",
         "frozen_before_training": True,
         "runs": [],
     }
@@ -64,7 +64,7 @@ def main() -> None:
             dataset, feature, scaler, run_root = paths(task, walk)
             if task == "raw_delta_h8":
                 prepare_feature_standardizer(feature, scaler, dataset_path=dataset)
-            config = RegressionSensitivityConfig(task=task, walk=walk, device=args.device)
+            config = RegressionAddonConfig(task=task, walk=walk, device=args.device)
             matrix["runs"].append(
                 {
                     "task": task,
@@ -82,7 +82,7 @@ def main() -> None:
     if matrix_path.is_file():
         existing = json.loads(matrix_path.read_text(encoding="utf-8"))
         if existing != matrix:
-            raise ValueError("existing regression-sensitivity matrix differs")
+            raise ValueError("existing regression add-on matrix differs")
     else:
         write_json(matrix_path, matrix)
 
@@ -91,17 +91,17 @@ def main() -> None:
         task, walk = str(row["task"]), int(row["walk"])
         dataset, feature, scaler, run_root = paths(task, walk)
         if (run_root / "training_complete.json").is_file():
-            result = validate_sensitivity_run(dataset, feature, scaler, run_root)
+            result = validate_regression_addon_run(dataset, feature, scaler, run_root)
             result["action"] = "validated_existing"
         else:
-            run_sensitivity(
+            run_regression_addon(
                 dataset,
                 feature,
                 scaler,
                 run_root,
-                RegressionSensitivityConfig(task=task, walk=walk, device=args.device),
+                RegressionAddonConfig(task=task, walk=walk, device=args.device),
             )
-            result = validate_sensitivity_run(dataset, feature, scaler, run_root)
+            result = validate_regression_addon_run(dataset, feature, scaler, run_root)
             result["action"] = "trained"
         results.append(result)
     print(json.dumps({"complete": True, "runs": results}, indent=2, sort_keys=True))

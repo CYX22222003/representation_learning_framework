@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay-validate the Phase 5 eight-hour raw-change sensitivity bundles."""
+"""Replay-validate the Phase 5 eight-hour downstream add-on data bundles."""
 
 from __future__ import annotations
 
@@ -20,15 +20,15 @@ from data_processing.phase5_walks import validate_phase5_bundle_files
 def main() -> None:
     results = []
     for walk in (1, 2):
-        sensitivity = Path(
-            f"experiments/phase5/data_sensitivities/raw_delta_h8/walk{walk}/market_1h_seq64_h8.npz"
+        addon_dataset = Path(
+            f"experiments/phase5/downstream_addons/shared/h8/data/walk{walk}/market_1h_seq64_h8.npz"
         )
-        result = validate_phase5_bundle_files(sensitivity)
+        result = validate_phase5_bundle_files(addon_dataset)
         primary = Path(
             f"experiments/phase5/data_preparation/walk{walk}/market_1h_seq64_h2.npz"
         )
         with np.load(primary, allow_pickle=False) as h2, np.load(
-            sensitivity, allow_pickle=False
+            addon_dataset, allow_pickle=False
         ) as h8:
             for key in (
                 "encoder_train_condition_ids",

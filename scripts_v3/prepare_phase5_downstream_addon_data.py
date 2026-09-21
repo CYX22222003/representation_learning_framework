@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the leakage-safe eight-hour raw-change Phase 5 sensitivity bundles."""
+"""Build leakage-safe eight-hour data for additional Phase 5 downstream tasks."""
 
 from __future__ import annotations
 
@@ -27,7 +27,9 @@ from data_processing.phase5_walks import (
 from prepare_phase5_data import canonical_walk_inputs
 
 
-OUTPUT_ROOT = ROOT / "experiments" / "phase5" / "data_sensitivities" / "raw_delta_h8"
+OUTPUT_ROOT = (
+    ROOT / "experiments" / "phase5" / "downstream_addons" / "shared" / "h8" / "data"
+)
 
 
 def _write_json(path: Path, payload: object) -> None:
@@ -85,7 +87,7 @@ def prepare_walk(walk: int) -> dict[str, object]:
             "bytes": output.stat().st_size,
         },
         "exploratory_status": (
-            "secondary post-primary sensitivity; not selected from evaluation performance"
+            "additional post-primary regression task; not selected from evaluation performance"
         ),
     }
     _write_json(manifest_path, manifest)
@@ -102,7 +104,7 @@ def prepare_walk(walk: int) -> dict[str, object]:
             "encoder_train_raw_sequences",
         ):
             if not np.array_equal(h2[key], h8[key]):
-                raise ValueError(f"h8 sensitivity changed target-free encoder array: {key}")
+                raise ValueError(f"h8 add-on changed target-free encoder array: {key}")
     result["encoder_population_matches_primary_h2"] = True
     return result
 

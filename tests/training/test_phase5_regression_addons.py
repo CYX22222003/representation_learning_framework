@@ -4,8 +4,8 @@ import unittest
 
 import numpy as np
 
-from training.phase5_regression_sensitivities import (
-    RegressionSensitivityConfig,
+from training.phase5_regression_addons import (
+    RegressionAddonConfig,
     apply_target_transform,
     derive_scientific_target,
     fit_target_transform,
@@ -14,7 +14,7 @@ from training.phase5_regression_sensitivities import (
 )
 
 
-class Phase5RegressionSensitivityTests(unittest.TestCase):
+class Phase5RegressionAddonTests(unittest.TestCase):
     def test_raw_delta_and_log_return_targets(self) -> None:
         current = np.asarray([0.1, 0.5])
         future = np.asarray([0.2, 0.4])
@@ -46,9 +46,9 @@ class Phase5RegressionSensitivityTests(unittest.TestCase):
 
     def test_frozen_config_rejects_changed_seed_or_budget(self) -> None:
         with self.assertRaisesRegex(ValueError, "seed0"):
-            RegressionSensitivityConfig("raw_delta_h8", 1, seed=1)
+            RegressionAddonConfig("raw_delta_h8", 1, seed=1)
         with self.assertRaisesRegex(ValueError, "50 epochs"):
-            RegressionSensitivityConfig("log_return_h2", 1, epochs=15)
+            RegressionAddonConfig("log_return_h2", 1, epochs=15)
 
 
 if __name__ == "__main__":

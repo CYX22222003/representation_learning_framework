@@ -1,4 +1,4 @@
-"""Phase 5 exploratory eight-hour and log-return regression sensitivities."""
+"""Phase 5 exploratory eight-hour and log-return additional regression tasks."""
 
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ SNAPSHOT_EPOCHS = (5, 15, 50)
 
 
 @dataclass(frozen=True)
-class RegressionSensitivityConfig:
+class RegressionAddonConfig:
     task: str
     walk: int
     epochs: int = 50
@@ -52,9 +52,9 @@ class RegressionSensitivityConfig:
         if self.walk not in (1, 2):
             raise ValueError("walk must be 1 or 2")
         if self.epochs != 50 or self.snapshot_epochs != SNAPSHOT_EPOCHS:
-            raise ValueError("regression sensitivities require 50 epochs and 5/15/50 snapshots")
+            raise ValueError("additional regression tasks require 50 epochs and 5/15/50 snapshots")
         if self.seed != 0 or self.batch_size != 512 or self.learning_rate != 1e-4:
-            raise ValueError("regression sensitivities are frozen to seed0/batch512/lr1e-4")
+            raise ValueError("additional regression tasks are frozen to seed0/batch512/lr1e-4")
 
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
@@ -75,7 +75,7 @@ def derive_scientific_target(
         if np.any(current <= 0.0) or np.any(future <= 0.0):
             raise ValueError("ordinary log return requires strictly positive current and target prices")
         return np.log(future / current)
-    raise ValueError(f"unknown sensitivity task: {task}")
+    raise ValueError(f"unknown regression add-on task: {task}")
 
 
 def fit_target_transform(task: str, train_target: np.ndarray) -> dict[str, np.ndarray]:
@@ -90,7 +90,7 @@ def fit_target_transform(task: str, train_target: np.ndarray) -> dict[str, np.nd
         scale = raw_std if raw_std >= 1e-8 else 1.0
         method = "training_mean_std"
     else:
-        raise ValueError(f"unknown sensitivity task: {task}")
+        raise ValueError(f"unknown regression add-on task: {task}")
     return {
         "center": np.asarray(center, dtype=np.float64),
         "scale": np.asarray(scale, dtype=np.float64),
@@ -122,10 +122,10 @@ def reconstruct_probability(
         return current + prediction
     if task == "log_return_h2":
         return current * np.exp(prediction)
-    raise ValueError(f"unknown sensitivity task: {task}")
+    raise ValueError(f"unknown regression add-on task: {task}")
 
 
-def load_sensitivity_data(
+def load_regression_addon_data(
     dataset_path: Path, feature_path: Path, scaler_path: Path, task: str
 ) -> dict[str, Any]:
     validation = validate_phase5_bundle_files(dataset_path)
@@ -158,9 +158,9 @@ def load_sensitivity_data(
     expected_horizon = 8 if task == "raw_delta_h8" else 2
     manifest = json.loads(Path(f"{dataset_path}.manifest.json").read_text(encoding="utf-8"))
     if int(manifest["horizon_hours"]) != expected_horizon:
-        raise ValueError("sensitivity task and data horizon disagree")
+        raise ValueError("regression add-on task and data horizon disagree")
     if len(X_train) != len(result["y_train"]) or len(X_test) != len(result["y_test"]):
-        raise ValueError("sensitivity features and targets are not aligned")
+        raise ValueError("regression add-on features and targets are not aligned")
     result["walk"] = int(validation["walk"])
     return result
 
@@ -170,7 +170,7 @@ def _masked_metrics(prediction: np.ndarray, target: np.ndarray, mask: np.ndarray
     return regression_metrics(prediction[selected], target[selected]) if np.any(selected) else None
 
 
-def sensitivity_breakdowns(
+def regression_addon_breakdowns(
     task: str,
     prediction: np.ndarray,
     target: np.ndarray,
@@ -238,16 +238,16 @@ def _metadata(data: Mapping[str, Any], split: str = "test") -> dict[str, np.ndar
     return {field: np.asarray(data[f"{split}_{field}"]) for field in fields}
 
 
-def run_sensitivity(
+def run_regression_addon(
     dataset_path: Path,
     feature_path: Path,
     scaler_path: Path,
     run_root: Path,
-    config: RegressionSensitivityConfig,
+    config: RegressionAddonConfig,
 ) -> list[dict[str, Any]]:
     if run_root.exists():
-        raise FileExistsError(f"refusing to overwrite sensitivity run: {run_root}")
-    data = load_sensitivity_data(dataset_path, feature_path, scaler_path, config.task)
+        raise FileExistsError(f"refusing to overwrite regression add-on run: {run_root}")
+    data = load_regression_addon_data(dataset_path, feature_path, scaler_path, config.task)
     transform = fit_target_transform(config.task, data["y_train"])
     y_train_optimization = apply_target_transform(data["y_train"], transform)
     device = resolve_device(config.device)
@@ -278,8 +278,8 @@ def run_sensitivity(
         run_root / "dataset_manifest.json",
         {
             "phase": 5,
-            "purpose": "exploratory_regression_sensitivity",
-            "exploratory_status": "secondary post-primary sensitivity",
+            "purpose": "additional_regression_task",
+            "exploratory_status": "additional post-primary regression task",
             "task": config.task,
             "walk": config.walk,
             "dataset_path": str(dataset_path),
@@ -308,13 +308,13 @@ def run_sensitivity(
             optimizer.zero_grad(set_to_none=True)
             loss = criterion(model(x_batch), y_batch)
             if not torch.isfinite(loss):
-                raise FloatingPointError(f"non-finite sensitivity loss at epoch {epoch}")
+                raise FloatingPointError(f"non-finite regression add-on loss at epoch {epoch}")
             loss.backward()
             if any(
                 p.grad is not None and not torch.isfinite(p.grad).all()
                 for p in model.parameters()
             ):
-                raise FloatingPointError(f"non-finite sensitivity gradient at epoch {epoch}")
+                raise FloatingPointError(f"non-finite regression add-on gradient at epoch {epoch}")
             optimizer.step()
             total += float(loss.detach()) * len(x_batch)
             count += len(x_batch)
@@ -332,7 +332,7 @@ def run_sensitivity(
             torch.save(
                 {
                     "phase": 5,
-                    "purpose": "exploratory_regression_sensitivity",
+                    "purpose": "additional_regression_task",
                     "task": config.task,
                     "walk": config.walk,
                     "completed_epoch": epoch,
@@ -370,10 +370,10 @@ def run_sensitivity(
         inference_seconds = time.perf_counter() - inference_started
         scientific_prediction = invert_target_transform(optimized_prediction, transform)
         scientific_target = np.asarray(data["y_test"], dtype=np.float64)
-        metrics, per_contract = sensitivity_breakdowns(
+        metrics, per_contract = regression_addon_breakdowns(
             config.task, scientific_prediction, scientific_target, metadata
         )
-        reference, reference_per_contract = sensitivity_breakdowns(
+        reference, reference_per_contract = regression_addon_breakdowns(
             config.task, np.zeros_like(scientific_target), scientific_target, metadata
         )
         reconstructed = reconstruct_probability(
@@ -448,7 +448,7 @@ def run_sensitivity(
     return snapshots
 
 
-def validate_sensitivity_run(
+def validate_regression_addon_run(
     dataset_path: Path,
     feature_path: Path,
     scaler_path: Path,
@@ -466,11 +466,11 @@ def validate_sensitivity_run(
     }
     missing = sorted(name for name in required if not (run_root / name).is_file())
     if missing:
-        raise ValueError(f"sensitivity run is missing artifacts: {missing}")
+        raise ValueError(f"regression add-on run is missing artifacts: {missing}")
     payload = json.loads((run_root / "config.json").read_text(encoding="utf-8"))
     payload["snapshot_epochs"] = tuple(payload["snapshot_epochs"])
-    config = RegressionSensitivityConfig(**payload)
-    data = load_sensitivity_data(dataset_path, feature_path, scaler_path, config.task)
+    config = RegressionAddonConfig(**payload)
+    data = load_regression_addon_data(dataset_path, feature_path, scaler_path, config.task)
     manifest = json.loads((run_root / "dataset_manifest.json").read_text(encoding="utf-8"))
     expected_hashes = {
         "dataset_sha256": sha256_file(dataset_path),
@@ -480,16 +480,16 @@ def validate_sensitivity_run(
     }
     for key, value in expected_hashes.items():
         if manifest.get(key) != value:
-            raise ValueError(f"sensitivity manifest {key} mismatch")
+            raise ValueError(f"regression add-on manifest {key} mismatch")
     with np.load(run_root / "target_transform.npz", allow_pickle=False) as saved:
         transform = {name: np.asarray(saved[name]) for name in saved.files}
     expected_transform = fit_target_transform(config.task, data["y_train"])
     for key in expected_transform:
         if not np.array_equal(transform[key], expected_transform[key]):
-            raise ValueError(f"sensitivity target-transform replay mismatch: {key}")
+            raise ValueError(f"regression add-on target-transform replay mismatch: {key}")
     rows = json.loads((run_root / "sweep_metrics.json").read_text(encoding="utf-8"))["snapshots"]
     if [int(row["epoch"]) for row in rows] != list(SNAPSHOT_EPOCHS):
-        raise ValueError("sensitivity snapshot matrix is incomplete")
+        raise ValueError("regression add-on snapshot matrix is incomplete")
     metadata = _metadata(data)
     for row in rows:
         epoch = int(row["epoch"])
@@ -499,12 +499,12 @@ def validate_sensitivity_run(
         history_path = snapshot / "history.npz"
         metrics_path = snapshot / "metrics.json"
         if not all(path.is_file() for path in (checkpoint_path, predictions_path, history_path, metrics_path)):
-            raise ValueError(f"sensitivity e{epoch} artifacts are incomplete")
+            raise ValueError(f"regression add-on e{epoch} artifacts are incomplete")
         metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
         if sha256_file(checkpoint_path) != metrics["checkpoint_sha256"]:
-            raise ValueError(f"sensitivity e{epoch} checkpoint hash mismatch")
+            raise ValueError(f"regression add-on e{epoch} checkpoint hash mismatch")
         if sha256_file(predictions_path) != metrics["predictions_sha256"]:
-            raise ValueError(f"sensitivity e{epoch} predictions hash mismatch")
+            raise ValueError(f"regression add-on e{epoch} predictions hash mismatch")
         checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
         model = build_head("regression")
         model.load_state_dict(checkpoint["model_state_dict"], strict=True)
@@ -519,18 +519,18 @@ def validate_sensitivity_run(
                 rtol=tolerance,
                 atol=tolerance,
             ):
-                raise ValueError(f"sensitivity e{epoch} CPU prediction replay mismatch")
+                raise ValueError(f"regression add-on e{epoch} CPU prediction replay mismatch")
             if not np.array_equal(saved["target_scientific"], data["y_test"]):
-                raise ValueError(f"sensitivity e{epoch} target replay mismatch")
+                raise ValueError(f"regression add-on e{epoch} target replay mismatch")
             for key, expected in metadata.items():
                 if not np.array_equal(saved[key], expected):
-                    raise ValueError(f"sensitivity e{epoch} identity mismatch: {key}")
+                    raise ValueError(f"regression add-on e{epoch} identity mismatch: {key}")
         with np.load(history_path, allow_pickle=False) as history:
             if len(history["epochs"]) != epoch or int(history["epochs"][-1]) != epoch:
-                raise ValueError(f"sensitivity e{epoch} history mismatch")
+                raise ValueError(f"regression add-on e{epoch} history mismatch")
     complete = json.loads((run_root / "training_complete.json").read_text(encoding="utf-8"))
     if complete.get("complete") is not True or complete.get("principal_epoch") != 50:
-        raise ValueError("sensitivity completion marker is invalid")
+        raise ValueError("regression add-on completion marker is invalid")
     principal = rows[-1]
     return {
         "valid": True,

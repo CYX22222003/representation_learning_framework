@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Aggregate the Phase 5 eight-hour and log-return regression sensitivities."""
+"""Aggregate the Phase 5 eight-hour and log-return additional regression tasks."""
 
 from __future__ import annotations
 
@@ -22,14 +22,14 @@ if str(SRC) not in sys.path:
 if str(ROOT / "scripts_v3") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts_v3"))
 
-from launch_phase5_regression_sensitivities import paths
+from launch_phase5_regression_addons import paths
 from training.phase5_downstream import regression_metrics
 from training.phase5_encoder import write_json
-from training.phase5_regression_sensitivities import validate_sensitivity_run
+from training.phase5_regression_addons import validate_regression_addon_run
 
 
 def main() -> None:
-    output = Path("experiments/phase5/reports/regression_sensitivities_seed0")
+    output = Path("experiments/phase5/downstream_addons/reports/regression_tasks_seed0")
     output.mkdir(parents=True, exist_ok=True)
     validations = []
     per_walk: dict[str, object] = {}
@@ -45,7 +45,7 @@ def main() -> None:
         per_walk[task] = {}
         for walk in (1, 2):
             dataset, feature, scaler, run_root = paths(task, walk)
-            validations.append(validate_sensitivity_run(dataset, feature, scaler, run_root))
+            validations.append(validate_regression_addon_run(dataset, feature, scaler, run_root))
             metrics = json.loads((run_root / "e50" / "metrics.json").read_text(encoding="utf-8"))
             per_walk[task][f"walk{walk}"] = metrics
             with np.load(run_root / "e50" / "predictions.npz", allow_pickle=False) as values:
@@ -95,7 +95,7 @@ def main() -> None:
     )["pooled"]["regression"]
     summary = {
         "phase": 5,
-        "scope": "exploratory seed-0 regression sensitivities",
+        "scope": "exploratory seed-0 additional regression tasks",
         "principal_epoch": 50,
         "primary_raw_delta_h2": primary,
         "per_walk": per_walk,
@@ -110,9 +110,9 @@ def main() -> None:
     logprob = pooled["log_return_h2"]["reconstructed_probability"]
     primary_framework = primary["framework"]
     lines = [
-        "# Phase 5 Exploratory Regression Sensitivities (Seed 0)",
+        "# Phase 5 Additional Regression Tasks (Seed 0)",
         "",
-        "These tasks were frozen after the primary two-hour result and are interpreted as secondary sensitivities, not replacement targets selected from evaluation performance.",
+        "These additional tasks were frozen after the primary two-hour result and are not replacement targets selected from evaluation performance.",
         "",
         "| Task | Walk | MAE | RMSE | Pearson | Spearman | Sign agreement | Reconstructed probability MAE |",
         "|---|---:|---:|---:|---:|---:|---:|---:|",
@@ -143,7 +143,7 @@ def main() -> None:
             "",
             f"Ordinary log return also has approximately zero Pearson/Spearman (`{log['pearson']:.6f}/{log['spearman']:.6f}`). Its reconstructed probability MAE `{logprob['mae']:.8f}` is effectively unchanged from the primary model's `{primary_framework['mae']:.8f}`, while reconstructed RMSE is higher. The proportional target changes weighting toward low starting prices but does not recover direction or ordered magnitude.",
             "",
-            "Together, the sensitivities do not support horizon length or additive target units as the main explanation for the regression limitation. A learned raw temporal comparator is still needed to separate representation loss from intrinsic short-history unpredictability.",
+            "Together, the additional tasks do not support horizon length or additive target units as the main explanation for the regression limitation. A learned raw temporal comparator is still needed to separate representation loss from intrinsic short-history unpredictability.",
             "",
             "The existing two-hour raw-change result remains the primary Phase 5 regression experiment.",
             "",

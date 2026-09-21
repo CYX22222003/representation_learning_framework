@@ -23,10 +23,10 @@ from training.phase5_downstream import (
     set_seed,
 )
 from training.phase5_encoder import sha256_file, write_json
-from training.phase5_regression_sensitivities import (
+from training.phase5_regression_addons import (
     _metadata,
-    load_sensitivity_data,
-    sensitivity_breakdowns,
+    load_regression_addon_data,
+    regression_addon_breakdowns,
 )
 
 
@@ -67,9 +67,9 @@ class AbsolutePriceConfig:
         if self.walk not in (1, 2):
             raise ValueError("walk must be 1 or 2")
         if self.epochs != 50 or self.snapshot_epochs != SNAPSHOT_EPOCHS:
-            raise ValueError("absolute-price sensitivity requires 50 epochs and 5/15/50 snapshots")
+            raise ValueError("absolute-price add-on requires 50 epochs and 5/15/50 snapshots")
         if self.seed != 0 or self.batch_size != 512 or self.learning_rate != 1e-4:
-            raise ValueError("absolute-price sensitivity is frozen to seed0/batch512/lr1e-4")
+            raise ValueError("absolute-price add-on is frozen to seed0/batch512/lr1e-4")
 
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
@@ -152,7 +152,7 @@ def run_absolute_price(
 ) -> list[dict[str, Any]]:
     if run_root.exists():
         raise FileExistsError(f"refusing to overwrite absolute-price run: {run_root}")
-    data = load_sensitivity_data(dataset_path, feature_path, scaler_path, "raw_delta_h8")
+    data = load_regression_addon_data(dataset_path, feature_path, scaler_path, "raw_delta_h8")
     y_train = np.asarray(data["train_target_close"], dtype=np.float32)
     y_test = np.asarray(data["test_target_close"], dtype=np.float64)
     if np.any((y_train < 0.0) | (y_train > 1.0)) or np.any((y_test < 0.0) | (y_test > 1.0)):
@@ -291,7 +291,7 @@ def run_absolute_price(
         persistence_metrics, persistence_per_contract = price_breakdowns(
             current, y_test, metadata
         )
-        movement_metrics, movement_per_contract = sensitivity_breakdowns(
+        movement_metrics, movement_per_contract = regression_addon_breakdowns(
             "raw_delta_h8", predicted_delta, realised_delta, metadata
         )
         snapshot = checkpoint_path.parent
@@ -388,7 +388,7 @@ def validate_absolute_price_run(
     payload = json.loads((run_root / "config.json").read_text(encoding="utf-8"))
     payload["snapshot_epochs"] = tuple(payload["snapshot_epochs"])
     config = AbsolutePriceConfig(**payload)
-    data = load_sensitivity_data(dataset_path, feature_path, scaler_path, "raw_delta_h8")
+    data = load_regression_addon_data(dataset_path, feature_path, scaler_path, "raw_delta_h8")
     manifest = json.loads((run_root / "dataset_manifest.json").read_text(encoding="utf-8"))
     expected_hashes = {
         "dataset_sha256": sha256_file(dataset_path),

@@ -24,15 +24,15 @@ from training.phase5_encoder import sha256_file, write_json
 def paths(walk: int) -> tuple[Path, Path, Path, Path]:
     return (
         Path(
-            f"experiments/phase5/data_sensitivities/raw_delta_h8/walk{walk}/market_1h_seq64_h8.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/data/walk{walk}/market_1h_seq64_h8.npz"
         ),
         Path(
-            f"experiments/phase5/features_sensitivities/raw_delta_h8/walk{walk}/five_branch_epoch50.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/features/walk{walk}/five_branch_epoch50.npz"
         ),
         Path(
-            f"experiments/phase5/regression_sensitivities/raw_delta_h8/walk{walk}/feature_standardizer.npz"
+            f"experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk{walk}/feature_standardizer.npz"
         ),
-        Path(f"experiments/phase5/absolute_price_h8/walk{walk}/seed0"),
+        Path(f"experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk{walk}/seed0"),
     )
 
 
@@ -40,7 +40,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
-    matrix_path = Path("experiments/phase5/manifests/absolute_price_h8_seed0.json")
+    matrix_path = Path("experiments/phase5/downstream_addons/manifests/absolute_price_h8_seed0.json")
     matrix = {
         "phase": 5,
         "purpose": "frozen_exploratory_absolute_price_h8_matrix",
