@@ -1,0 +1,112 @@
+{
+  "exploratory_status": "additional post-primary regression tasks",
+  "frozen_before_training": true,
+  "phase": 5,
+  "purpose": "frozen_additional_regression_task_matrix",
+  "runs": [
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "raw_delta_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "feature_path": "experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+      "feature_scaler_path": "experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+      "feature_scaler_sha256": "2a9d89edd87c7e5392fab79f5679053c954a3be2d5d795c82abacc337e48fe3e",
+      "feature_sha256": "6f1bc5363730786116cc1fdf83aa56e8f1828b027103d53d404dd8a29ea89fbc",
+      "run_root": "experiments/phase5/downstream_addons/tasks/raw_delta_h8/walk1/seed0",
+      "task": "raw_delta_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "raw_delta_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "feature_path": "experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+      "feature_scaler_path": "experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+      "feature_scaler_sha256": "9f8c438db2b6ca80df7312287197291c7499580fab9c78648231b0dffcaddfd1",
+      "feature_sha256": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7",
+      "run_root": "experiments/phase5/downstream_addons/tasks/raw_delta_h8/walk2/seed0",
+      "task": "raw_delta_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "log_return_h2",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "feature_path": "experiments/phase5/features/walk1/five_branch_epoch50.npz",
+      "feature_scaler_path": "experiments/phase5/downstream/walk1/feature_standardizer.npz",
+      "feature_scaler_sha256": "72ff8007267c8ebea4d0a42e8a5b8d5a51415a7fb188708b815be876b812d999",
+      "feature_sha256": "27eadd3de0b964ccecb8f116bd81192a61773ce6e454ee646568054599a407d0",
+      "run_root": "experiments/phase5/downstream_addons/tasks/log_return_h2/walk1/seed0",
+      "task": "log_return_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "log_return_h2",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "feature_path": "experiments/phase5/features/walk2/five_branch_epoch50.npz",
+      "feature_scaler_path": "experiments/phase5/downstream/walk2/feature_standardizer.npz",
+      "feature_scaler_sha256": "5fc9a9adc53806a14464eb86c5d98fc6bd3df80f14dc7e0453486ac28ab334b0",
+      "feature_sha256": "b7148b3f058b650e7ab4132b19354346b33fa92404afce7980233b143755b86d",
+      "run_root": "experiments/phase5/downstream_addons/tasks/log_return_h2/walk2/seed0",
+      "task": "log_return_h2",
+      "walk": 2
+    }
+  ]
+}
