@@ -56,3 +56,10 @@ progress_summary/
 # Phase-2 horizontal encoder artifacts retained locally (large/recoverable)
 experiments/framework/phase2/encoder_refinement_horizontal/features/**/*.npz
 experiments_old/framework/phase2/encoder_refinement_horizontal/features/**/*.npz
+
+# Phase 5 restart-only feature-extraction chunks (canonical stores are retained)
+experiments/phase5/features/**/.five_branch_epoch50.work/
+# Canonical stores exceed normal Git hosting limits; manifests/hashes are versioned.
+experiments/phase5/features/**/five_branch_epoch50.npz
+experiments/phase5/features_sensitivities/**/.five_branch_epoch50.work/
+experiments/phase5/features_sensitivities/**/five_branch_epoch50.npz
