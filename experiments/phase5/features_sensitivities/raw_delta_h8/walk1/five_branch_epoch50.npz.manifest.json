@@ -1,0 +1,158 @@
+{
+  "alignment_audit": {
+    "encoder_rows": 39070,
+    "evaluation_disjoint": true,
+    "evaluation_rows": 29834,
+    "mapped_train_contexts_byte_identical": true,
+    "supervised_train_rows": 36773,
+    "valid": true
+  },
+  "branch_dims": {
+    "byol": 128,
+    "contrastive": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "branch_hashes": {
+    "test": {
+      "byol": "73ef08638fe40464f80b0c1740eb8da04d358380fecaaa79812aa21902485782",
+      "contrastive": "0b7e938d0ebd9c05f3ead4df5b3eddab2fbc2bce637c9425dad0ffa34b81e9d2",
+      "statistical": "030946a0e381eb4dbf135f2d7c0e40529fb1a158423bc0d654469b203d878c01",
+      "transformed": "846ca0d613d459dec75fc3ee2ab5a8465e87d700f6dafd3d53e47018dc75e7d5",
+      "vae": "9aff830a67fd163453af857d0aa9a36ec21a2a46700e792123fd57714af85f1c"
+    },
+    "train": {
+      "byol": "4d69ed3ba8b22389c3e2b7411092fb66e74d877ce8c27cc1d13cdaa6fd071c79",
+      "contrastive": "6121a3621f2c72da8c8aed433dee3c92af4f413e0a049e01d2e075b853d0c8ae",
+      "statistical": "e97e2df603a661d4f8deac2419541c98aa95fb8c02123c0e75833e39ae90787d",
+      "transformed": "338052915055b04979d7f2a6bcd323087b355945362be950f37702cde2f2a214",
+      "vae": "8658945d56f1581b304612eeabfcc9ac2eaa660d90be5d272a9e980ea3d48a89"
+    }
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "checkpoint_provenance": {
+    "byol": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk1/byol/seed0/e50/checkpoint.pth",
+      "sha256": "50bcdc8e8a99d4090cbedb6c0f7ff07a8a6581e0e1662cbb73a94d8d759f2710",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "byol",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk1/byol/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "50bcdc8e8a99d4090cbedb6c0f7ff07a8a6581e0e1662cbb73a94d8d759f2710",
+        "epoch50_embedding_std": 0.4465010464191437,
+        "epoch50_train_loss": 0.07470790022297909,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "contrastive": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk1/contrastive/seed0/e50/checkpoint.pth",
+      "sha256": "9d8d0ec6333d1ac1c7aa54abaa2d1ae4a1e464795d64068b2a586923bc821d77",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "contrastive",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk1/contrastive/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "9d8d0ec6333d1ac1c7aa54abaa2d1ae4a1e464795d64068b2a586923bc821d77",
+        "epoch50_embedding_std": 1.1878113746643066,
+        "epoch50_train_loss": 2.3370107992699274,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "vae": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk1/vae/seed0/e50/checkpoint.pth",
+      "sha256": "f0996be799a382998daf7febcd5c26ba3b8661193a124af2076325834a3b1fca",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "vae",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk1/vae/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "f0996be799a382998daf7febcd5c26ba3b8661193a124af2076325834a3b1fca",
+        "epoch50_embedding_std": 0.05645689368247986,
+        "epoch50_train_loss": 0.10893485469645575,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 1
+      }
+    }
+  },
+  "concat_dim": 445,
+  "encoder_dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "encoder_population_matches_checkpoint_source": true,
+  "feature_bundle_sha256": "6f1bc5363730786116cc1fdf83aa56e8f1828b027103d53d404dd8a29ea89fbc",
+  "feature_reuse": {
+    "counts": {
+      "test": {
+        "computed": 317,
+        "reused": 29517
+      },
+      "train": {
+        "computed": 695,
+        "reused": 36078
+      }
+    },
+    "identity_and_context_match_required": true,
+    "source_dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+    "source_dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+    "source_feature_path": "experiments/phase5/features/walk1/five_branch_epoch50.npz",
+    "source_feature_sha256": "27eadd3de0b964ccecb8f116bd81192a61773ce6e454ee646568054599a407d0"
+  },
+  "fitted_on_evaluation": false,
+  "identity_array_hashes": {
+    "test": {
+      "condition_ids": "2a711fd71e56771dc6b4cfaf979a22d67635affdc266ada154aabaaa7a24e23d",
+      "decision_availability_ns": "7d49f69952488a55ac973b167df1ae5c4c9e117ca3a2d5dd62da158b0d2198b4",
+      "decision_date_ns": "56584a0cb4f69fe03ba4ef4b5995a98de3a5fc7305c1903a9e3acfe40c669eae",
+      "window_start_ns": "caf7925ad109b428adfe57c68b9fbb12dd4ba360f7b0111a835e0f4767fe02c9"
+    },
+    "train": {
+      "condition_ids": "7e8ac2b35546f3d3c93b9c7f88d65c5bd4d921d470fc130d974732429448bca3",
+      "decision_availability_ns": "8d11c7d4250bbcf2ab8cb11b7af7fc750b8328edf5069c176d097a2a28642f7f",
+      "decision_date_ns": "8a123e849ee9324f2de926657edf5f405c131ef874821d9f1ba2ba6f232f1bb9",
+      "window_start_ns": "683ab9d658db5e6013aa4809ed46ff5833cb3cda4a10a4203c6e542dfc722d2f"
+    }
+  },
+  "input_key": {
+    "test": "test_sequences",
+    "train": "train_sequences"
+  },
+  "phase": 5,
+  "purpose": "frozen_five_branch_features",
+  "row_counts": {
+    "test": 29834,
+    "train": 36773
+  },
+  "schema_version": "phase5-feature-v1",
+  "source_dataset_path": "experiments/phase5/data_sensitivities/raw_delta_h8/walk1/market_1h_seq64_h8.npz",
+  "source_dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+  "source_identity_hashes": {
+    "test": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+    "train": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de"
+  },
+  "source_manifest_sha256": "946859af1aa3b199626964fb38077e08743c3456da729f8936960c27f690149c",
+  "walk": 1
+}
