@@ -23,6 +23,14 @@ class Phase5ScriptLayoutTests(unittest.TestCase):
         self.assertTrue((ROOT / "scripts_v3" / "prepare_phase5_data.py").is_file())
         self.assertTrue((ROOT / "scripts_v3" / "validate_phase5_data.py").is_file())
 
+    def test_phase5_baseline_entry_points_exist(self) -> None:
+        for name in (
+            "bootstrap_phase5_baselines.py",
+            "validate_phase5_baselines.py",
+            "report_phase5_baselines.py",
+        ):
+            self.assertTrue((ROOT / "scripts_v3" / name).is_file())
+
 
 if __name__ == "__main__":
     unittest.main()
