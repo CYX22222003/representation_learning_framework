@@ -19,11 +19,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
 > Retrospective cohort selection is accepted, the approved final pruning is
 > assumed correct offline cleaning, and quarantine-availability replay is not
-> required. Do not launch Phase 5 training until the walk-specific sequence
-> and label builder, causal activity eligibility, target maturity,
-> walk-specific model lifecycle,
-> identical baseline rows, and replayable manifests are implemented and
-> validated under `scripts_v2/`. Per-contract lifecycle fractions remain
+> required. The walk-specific sequence/label builder, causal activity,
+> target maturity, common comparator identities, and replayable data manifests
+> are implemented under `src/data_processing/phase5_walks.py`, exposed by
+> `scripts_v3/`, and validated under `experiments/phase5/data_preparation/`.
+> Do not launch Phase 5 training until the walk-specific model lifecycle,
+> frozen matrix, CPU smoke tests, and prediction replay are complete.
+> Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
 > top-80 contract in
 > `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
@@ -40,7 +42,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
 > staleness, and plotting pipelines are complete. Walk 2 is materially sparser
 > than Walk 1. They are the accepted primary Phase 5 cohorts; the experiment
-> builder/model lifecycle is not implemented. See
+> train/test builder is implemented; the model lifecycle is not. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk1-walk2-exploration.md`.
 
 The recent FinData acquisition audit writes only to Git-ignored `data_new/`.
@@ -99,6 +101,11 @@ canonical plan. See
 .venv/bin/python3 scripts_v2/analyze_findata_walk_capacity.py --overwrite
 .venv/bin/python3 scripts_v2/collect_findata_yes_trade_ohlcv.py --workers 8
 .venv/bin/python3 scripts_v2/analyze_findata_yes_trade_ohlcv.py
+
+# Build and replay-validate the canonical Phase 5 walk bundles. New Phase 5
+# entry points belong under scripts_v3; reusable logic belongs under src/.
+.venv/bin/python3 scripts_v3/prepare_phase5_data.py
+.venv/bin/python3 scripts_v3/validate_phase5_data.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -465,7 +472,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | Directory | Responsibility |
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
-| `src/data_processing/` | Preprocessing (ffill, volume z-score, sliding windows, 80/20 splits), `SequenceDataset`, `.npz` I/O |
+| `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, and the Phase 5 global-calendar walk builder with activity, maturity, common-row, imputation-metadata, and replay contracts |
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
@@ -474,7 +481,9 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
-| `scripts/` | Runnable entry points; each inserts `src/` into `sys.path` |
+| `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
+| `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
+| `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
 
 ### Key data contracts
 
@@ -496,9 +505,10 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   sequences, and no stochastic augmentation is written to OHLCV or targets.
   Native 15-minute data remains a resolution sensitivity.
   Under the accepted Phase 5 assumption, these clean files are canonical for
-  the thesis experiment. They are not training-ready until the sequence/label
-  builder, causal gap and activity rules, walk-specific weights, identical
-  baseline rows, and replayable manifests are validated.
+  the thesis experiment. The sequence/label builder, causal gap/activity
+  rules, common baseline identities, and replayable data manifests are now
+  validated. Model training remains gated on walk-specific model weights, the
+  frozen matrix, model smoke tests, and prediction replay.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
@@ -511,8 +521,16 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   trained encoder/head weights from information available before its cutoff;
   lifecycle position is reported within walks. Exact zero movement is the
   mandatory primary reference. Arithmetic-return regression is secondary and
-  must report starting-price sensitivity. The builder and canonical artifact
-  path are not implemented yet.
+  must report starting-price sensitivity. Canonical bundles are
+  `experiments/phase5/data_preparation/walk{1,2}/market_1h_seq64_h2.npz`
+  with companion manifests. They contain `encoder_train`, `train`, and `test`
+  populations; raw and walk-train-volume-scaled OHLCV; shared float64 movement
+  and class labels; full context imputation metadata; calendar/contract row
+  identities; and source, identity, sequence, label, and artifact hashes.
+  Encoder population selection is target-free: only context, observed decision
+  endpoint, causal activity, and pre-cutoff decision availability may affect
+  it. Future target existence, observation status, segment continuity, and
+  maturity apply only to downstream supervised train/test rows.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.

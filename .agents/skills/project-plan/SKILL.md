@@ -43,6 +43,10 @@ Report:
   walks, the selected one-hour sequence/label builder, activity/target
   eligibility, walk-specific model lifecycle,
   identical baseline rows, and replay checks are implemented and validated.
+  The data builder and common identities are currently implemented through
+  `scripts_v3/` with artifacts under `experiments/phase5/data_preparation/`;
+  do not conflate that completion with the still-pending model lifecycle and
+  model-level replay gate.
   Retrospective selection and final pruning are accepted Phase 5 assumptions;
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.

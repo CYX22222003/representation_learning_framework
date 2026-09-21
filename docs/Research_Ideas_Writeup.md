@@ -273,6 +273,10 @@ prior-24h activity rule, observed target endpoints, and independently trained
 walk-specific models. See the
 [Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md).
 
+The Phase 5 train/test implementation is isolated from earlier generations:
+reusable logic lives under `src/data_processing/`, executable orchestration
+under `scripts_v3/`, and generated bundles under `experiments/phase5/`.
+
 ## 5. Evaluation
 
 The broad framework retains three downstream-task families, but the frozen

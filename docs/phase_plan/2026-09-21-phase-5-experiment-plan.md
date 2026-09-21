@@ -1,7 +1,8 @@
 # Phase 5 Main Experiment Plan
 
 **Date:** 2026-09-21  
-**Status:** Core design decisions frozen; implementation and validation pending  
+**Status:** Core design frozen; train/test preparation implemented and validated;
+model lifecycle and experiment matrix pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
 
 ## 1. Authority and evolution of the research design
@@ -236,19 +237,53 @@ separately specified and approved.
 ## 10. Phase 5 implementation gate
 
 The data acquisition, approved pruning, bounded-fill artifacts, exploratory
-statistics, and plots already exist. Training remains blocked only until the
-following experiment-specific work is implemented and validated under
-`scripts_v2/`:
+statistics, and plots already exist. New Phase 5 executable entry points live
+under `scripts_v3/`, reusable preparation logic lives under
+`src/data_processing/`, and Phase 5 experiment artifacts live under
+`experiments/phase5/`. `scripts_v2/` remains the concluded Phase 3/4 and data-
+acquisition generation; new Phase 5 implementation must not be added there.
 
-1. build the two walk-specific sequence and identity manifests;
-2. enforce the context, activity, observed-endpoint, target-maturity, and
-   boundary rules above;
-3. build shared two-hour regression and classification label bundles;
-4. validate identical framework/baseline rows and raw-volume mask invariants;
-5. implement independent walk-specific preprocessing and model lifecycle;
-6. freeze the learned model/baseline matrix, seeds, budgets, and launch order;
-7. complete CPU smoke tests and prediction replay checks; and
-8. only then launch the Phase 5 training runs.
+The canonical preparation command now writes one replayable bundle per walk:
+
+```bash
+.venv/bin/python3 scripts_v3/prepare_phase5_data.py
+.venv/bin/python3 scripts_v3/validate_phase5_data.py
+```
+
+The validated artifacts are
+`experiments/phase5/data_preparation/walk{1,2}/market_1h_seq64_h2.npz`
+with companion manifests. Walk 1 contains 39,070 encoder-training rows,
+37,864 supervised training rows, and 30,340 supported evaluation rows over
+47/47/23 contracts. Walk 2 contains 58,473, 57,521, and 13,887 rows over
+43/43/27 contracts. The builder stores raw and train-volume-scaled OHLCV,
+source-level two-hour movement labels, fixed-threshold classes, full context
+imputation metadata, calendar identities, lifecycle reporting metadata, and
+source/artifact replay hashes. Evaluation contracts must contribute at least
+one active supervised training row before that walk's cutoff.
+
+Encoder and downstream row construction are intentionally separate. Encoder
+eligibility uses only the contiguous context, observed decision endpoint,
+causal activity state, rolling-training start, and decision availability before
+the cutoff. It never constructs or inspects a future target. Supervised
+training and evaluation then add the two-hour target-existence, same-segment,
+observed-endpoint, and maturity rules. Consequently, changing or removing any
+target whose availability is at or after the cutoff cannot change the earlier
+walk's encoder identities, sequences, or preprocessing state.
+
+Training remains blocked until the incomplete items below are finished:
+
+1. **Complete:** build the two walk-specific sequence and identity manifests.
+2. **Complete:** enforce context, activity, supported-contract,
+   observed-endpoint, target-maturity, and boundary rules.
+3. **Complete:** build shared two-hour regression and classification labels.
+4. **Complete at the data layer:** freeze common framework/baseline identities,
+   preserve raw OHLCV, and validate the raw-volume mask invariants.
+5. **Partial:** walk-specific train-only volume preprocessing is implemented;
+   independent encoder, feature, head, and baseline lifecycles remain.
+6. **Pending:** freeze the learned model/baseline matrix, seeds, budgets, and
+   launch order in an implementation amendment.
+7. **Pending:** complete model-level CPU smoke tests and prediction replay.
+8. Only then launch the Phase 5 training runs.
 
 Retrospective universe selection and `quarantine_available_at` replay are not
 Phase 5 blockers under the accepted assumptions in Section 3.

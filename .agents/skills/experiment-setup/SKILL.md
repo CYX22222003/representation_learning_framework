@@ -67,9 +67,16 @@ Read these in order:
     condition-candle cohorts under this explicit research assumption,
     causally fills only complete isolated one-hour gaps, uses synthetic rows as
     context only, requires observed decision/target endpoints, and breaks
-    sequences at longer gaps. Native 15-minute data is a later sensitivity. No
-    training may start before the walk-specific sequence/label builder,
-    identical comparator rows, model lifecycle, and replay are validated.
+    sequences at longer gaps. Native 15-minute data is a later sensitivity.
+    The walk-specific sequence/label builder and identical comparator
+    identities are implemented under `src/data_processing/` and exposed by
+    `scripts_v3/`, with validated bundles under
+    `experiments/phase5/data_preparation/`. Training remains gated on the
+    walk-specific model lifecycle, frozen matrix, model smoke tests, and
+    prediction replay.
+    Encoder row eligibility must remain target-free; apply future-target
+    existence, observed status, segment continuity, and maturity only when
+    deriving downstream supervised train/evaluation rows.
 12. For recent one-hour Phase 5 window capacity, read
     `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
     Use its capacity evidence while applying the later Phase 5 decision:

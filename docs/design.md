@@ -34,6 +34,12 @@ The experimental setup is designed to evaluate the effectiveness of the unified 
 > cleaning. Every walk has a separate model; later information cannot train an
 > earlier-walk model. Contract lifecycle remains a reporting stratum.
 
+> **Implementation location:** Phase 5 reusable train/test construction lives
+> in `src/data_processing/phase5_walks.py`, thin executable entry points live
+> in `scripts_v3/`, and generated experiment data lives under
+> `experiments/phase5/data_preparation/`. `scripts_v2/` remains the earlier
+> experiment and acquisition generation.
+
 The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. Legacy and Phase 3 experiments use top-50 cohorts. The unexecuted Phase 4 archive design studied cutoff-local four-hour top-80 selection. Phase 5 uses the already acquired fresh Walk 1 and Walk 2 top-50 one-hour cohorts and accepts their retrospective catalog selection as an FYP assumption.
 
 A separate read-only FinData acquisition module can collect newer Polymarket

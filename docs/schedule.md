@@ -11,9 +11,11 @@
 > cleaning, and does not require quarantine-availability replay. Its primary
 > contract is `seq64`, two rolling global-calendar walks, separately trained
 > canonical five-branch weights per walk, and shared two-hour movement
-> regression/classification targets. Do not launch training until the
-> walk-specific builder, labels, identical baseline rows, model lifecycle,
-> matrix, smoke tests, and replayable manifests are implemented and validated.
+> regression/classification targets. The walk-specific train/test builder,
+> shared labels, common comparator identities, and replayable data manifests
+> are now implemented and validated. Do not launch training until the
+> walk-specific encoder/head/baseline lifecycle, frozen matrix, model smoke
+> tests, and prediction replay are implemented and validated.
 
 ---
 
@@ -25,7 +27,8 @@
 | Collect Polymarket OHLCV feather files | ✅ Done |
 | Recent FinData acquisition (Dec 2025--Aug 2026) | ✅ Phase 4 source audit complete: raw-first 50-market recollection, forward-confirmed pruning, native 15m/1h dynamics, gap distribution, and one-/four-bar fill sensitivities are recorded; clean one-hour data is selected for exploratory Phase 5 training with explicit token-identity limitations |
 | Recent FinData Phase 5 walk-capacity audit | ✅ No-training feasibility complete: balanced two-walk `seq64` candidate retains 31,828/37,173 active training rows and 21,401/10,086 supported evaluation rows; retrospective selection and final pruning are now accepted Phase 5 assumptions rather than blockers |
-| Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Primary Phase 5 cohorts frozen: two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1; the experiment-specific sequence/label builder and model lifecycle remain pending. |
+| Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Primary Phase 5 cohorts frozen: two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1. |
+| Phase 5 walk-specific sequence/label preparation | ✅ Implemented in `src/data_processing/phase5_walks.py`, exposed only through `scripts_v3/`, and replay-validated under `experiments/phase5/data_preparation/`. Target-free encoder selection is separated from downstream target eligibility. Walk 1 has 39,070 encoder / 37,864 supervised-train / 30,340 supported-evaluation rows; Walk 2 has 58,473 / 57,521 / 13,887. Raw and train-scaled OHLCV, common regression/classification labels, causal activity, endpoint maturity, gap metadata, and source/artifact hashes are preserved. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
@@ -141,9 +144,11 @@ pre-December-2025 lifecycle/frequency studies and the recent FinData source,
 staleness, gap, pruning, and forward-fill audits. No Phase 4 model training was
 run. The Phase 5 plan now freezes the two fresh walk-specific cohorts, `seq64`,
 two-hour movement targets, `tau=0.001` classification, the canonical
-five-branch concat model, and separate weights per walk. The immediate priority
-is to implement and validate its sequence/label builder, identical comparator
-rows, walk-specific lifecycle, matrix, and replay before training.
+five-branch concat model, and separate weights per walk. The sequence/label
+builder and common comparator identities are now implemented and replay-
+validated. The immediate priority is the independently fitted walk-specific
+encoder/feature/head/baseline lifecycle, frozen matrix, CPU smoke tests, and
+prediction replay before training.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`
@@ -193,7 +198,9 @@ features, and task evaluations remain preserved and structurally replayable;
 they are not valid inputs for further confirmatory execution.
 
 The Phase B/C implementation remains available, but Phase 5 must use new
-`scripts_v2` entry points and new artifacts tied to global-walk provenance.
+`scripts_v3` entry points and artifacts under `experiments/phase5/` tied to
+global-walk provenance. Shared preparation logic belongs under
+`src/data_processing/`; `scripts_v2/` is not extended for Phase 5.
 Each primary walk needs its own preprocessing state, encoder checkpoint,
 feature bundle, downstream head, and baseline weights. Phase 3 artifacts remain
 immutable characterisation evidence; they are not silently relabelled as

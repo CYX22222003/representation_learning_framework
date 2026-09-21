@@ -45,6 +45,12 @@ specifications.
   each calendar interval rather than using per-contract fractions as the
   primary split.
 
+- Phase 5 executable orchestration is isolated under `scripts_v3/`, with
+  reusable walk preparation under `src/data_processing/` and generated
+  experiment artifacts under `experiments/phase5/`. The implemented data
+  bundles keep encoder-training rows separate from mature supervised rows and
+  freeze shared framework/baseline identities before any model launch.
+
 - Continue exploratory analysis of distributions, volatility regimes, and
   event-driven price jumps. The targeted top-50 4-hour lifecycle diagnostic is
   complete: later contract stages are more persistent and boundary-concentrated,

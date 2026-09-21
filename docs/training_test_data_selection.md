@@ -21,6 +21,19 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > two-hour horizon; classification uses `tau=0.001`. The authoritative plan is
 > [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md).
 
+> **Phase 5 preparation implementation:** Reusable walk construction is in
+> `src/data_processing/phase5_walks.py`; the only Phase 5 data entry points are
+> `scripts_v3/prepare_phase5_data.py` and
+> `scripts_v3/validate_phase5_data.py`. Replayable bundles live under
+> `experiments/phase5/data_preparation/`. They contain separate encoder-
+> training, mature supervised-training, and evaluation populations plus one
+> shared regression/classification identity set per walk. Training is still
+> gated on the model lifecycle and frozen experiment matrix.
+> Encoder eligibility is target-free and uses only context/decision information
+> available before the cutoff. Target existence, observed status, segment
+> continuity, and maturity are applied afterward only to downstream train/test
+> rows.
+
 ---
 
 > **Validity blocker (2026-09-20):** The legacy processed bundles do not satisfy

@@ -19,14 +19,19 @@ forward-confirmed quarantine screen may additionally create exploratory clean
 artifacts: raw rows stay immutable, persistent crashes/repricings are retained,
 suspected transient rows are not price-corrected, their timestamps remain gaps,
 and a 1% batch-level removal budget fails closed. Each forward-looking decision
-records when its confirmation became available so earlier walk cutoffs cannot
-use it. The
+records when its confirmation became available. Phase 5 treats the approved
+final pruning as offline retrospective cleaning and does not replay those
+availability times. The
 token-consistent path aggregates trades after mapping the declared `Yes`
 outcome to its token ID; only that path provides direct outcome provenance.
 Phase 5 nevertheless selects the clean native one-hour condition candles for
 an explicitly exploratory walk-forward loop, with isolated-one-bar causal
 filling, observed decision/target endpoints, longer-gap sequence breaks, and
 affected-contract/source-limitation sensitivities.
+
+The Phase 5 walk builder is implemented in `data_processing/phase5_walks.py`.
+Its thin executables are under `scripts_v3/`, and its replayable data artifacts
+are under `experiments/phase5/data_preparation/`.
 
 Baseline implementations live under `baselines/` and are kept close to the
 framework code so they can share the same processed data, target builders, and
