@@ -1,4 +1,4 @@
-# Phase 5 Exploratory Regression Sensitivities Amendment
+# Phase 5 Additional Regression Tasks Amendment
 
 **Date:** 2026-09-21
 **Status:** Implemented, executed at seed 0, and replay-validated
@@ -14,8 +14,8 @@ diagnose whether the result is specific to the short horizon or additive
 probability-change target.
 
 These experiments were specified after observing the primary result. They are
-secondary exploratory sensitivities, not replacement targets selected by test
-performance. The existing two-hour raw-change result remains primary.
+additional downstream regression tasks, not replacement targets selected by
+test performance. The existing two-hour raw-change result remains primary.
 
 ## 2. Frozen tasks
 
@@ -76,14 +76,16 @@ comparison stage.
 
 ## 5. Artifact contract
 
-All generated artifacts remain under `experiments/phase5/`:
+All generated artifacts remain under `experiments/phase5/downstream_addons/`:
 
 ```text
-data_sensitivities/raw_delta_h8/
-features_sensitivities/raw_delta_h8/
-regression_sensitivities/{raw_delta_h8,log_return_h2}/
-reports/regression_sensitivities_seed0/
-manifests/regression_sensitivities_seed0.json
+shared/h8/data/
+shared/h8/features/
+shared/h8/feature_scalers/
+tasks/{raw_delta_h8,log_return_h2}/
+reports/regression_tasks_seed0/
+reports/regression_rank_ic_seed0/
+manifests/regression_tasks_seed0.json
 ```
 
 Every run must retain configuration, data/feature/scaler hashes, target
@@ -96,7 +98,7 @@ The eight-hour bundles contain 36,773/29,834 supervised train/evaluation rows
 in Walk 1 and 56,652/13,506 in Walk 2. Their encoder populations are
 byte-identical to the primary two-hour bundles. More than 97% of the required
 feature rows were reused only after exact identity and context matching; the
-remaining 1,777 contexts were freshly extracted. Both sensitivity feature
+remaining 1,777 contexts were freshly extracted. Both add-on feature
 stores contain 445 finite coordinates and pass hash and sample replay.
 
 All four heads completed one seed-0 50-epoch trajectory with 5/15/50
@@ -123,7 +125,7 @@ primary raw-change model's `0.00271136`, while reconstructed RMSE is worse
 (`0.01142996` versus `0.01083505`). The log transform changes target weighting
 but does not reveal additional out-of-future relationship.
 
-The sensitivity evidence therefore strengthens the interpretation that the
+The additional-task evidence therefore strengthens the interpretation that the
 current representation/head can detect movement activity but does not recover
 the future signed direction or ordered magnitude. Neither a longer horizon nor
 ordinary log returns resolves the primary regression limitation. These are
@@ -148,4 +150,4 @@ are approximately 50%. The predictions therefore show no stable
 cross-sectional ranking power. Hourly stride-one decisions and targets overlap,
 so these ICIRs are descriptive and are not annualized or treated as
 independent-observation significance statistics. The complete series and
-summary are stored under `experiments/phase5/reports/regression_rank_ic_seed0/`.
+summary are stored under `experiments/phase5/downstream_addons/reports/regression_rank_ic_seed0/`.

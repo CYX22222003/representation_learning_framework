@@ -45,8 +45,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The frozen feature-extraction and seed-0 framework probing contract is
 > `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
 > The executed post-primary eight-hour raw-change and two-hour log-return
-> sensitivities are specified in
-> `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+> add-on tasks are specified in
+> `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
 > The executed recent-data eight-hour future-price probe is specified in
 > `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
@@ -137,13 +137,13 @@ canonical plan. See
 
 # Build, extract, execute, validate, and report the completed exploratory
 # eight-hour raw-change and two-hour log-return regressions.
-.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_data.py
-.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivity_data.py
-.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_features.py --device cuda --workers 6
-.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivity_features.py
-.venv/bin/python3 scripts_v3/launch_phase5_regression_sensitivities.py --device cuda
-.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivities.py
-.venv/bin/python3 scripts_v3/report_phase5_regression_sensitivities.py
+.venv/bin/python3 scripts_v3/prepare_phase5_downstream_addon_data.py
+.venv/bin/python3 scripts_v3/validate_phase5_downstream_addon_data.py
+.venv/bin/python3 scripts_v3/prepare_phase5_downstream_addon_features.py --device cuda --workers 6
+.venv/bin/python3 scripts_v3/validate_phase5_downstream_addon_features.py
+.venv/bin/python3 scripts_v3/launch_phase5_regression_addons.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_regression_addons.py
+.venv/bin/python3 scripts_v3/report_phase5_regression_addons.py
 .venv/bin/python3 scripts_v3/report_phase5_regression_rank_ic.py
 
 # Execute, replay, and report the completed eight-hour absolute future-price
@@ -586,15 +586,15 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   `experiments/phase5/features/walk{1,2}/five_branch_epoch50.npz`; downstream
   runs live under `experiments/phase5/downstream/walk{1,2}/` and use epoch 50
   as the predeclared principal checkpoint.
-- Phase-5 regression sensitivities: `raw_delta_h8` independently rebuilds
+- Phase-5 additional regression tasks: `raw_delta_h8` independently rebuilds
   supervised rows for an observed, mature, same-segment eight-hour target but
   proves its encoder population byte-identical to the primary bundle.
   `log_return_h2` requires positive current/future prices and fits its target
   mean/std on training rows only. Both are exploratory seed-0 probes under
-  `experiments/phase5/regression_sensitivities/`; neither replaces the primary
+  `experiments/phase5/downstream_addons/tasks/`; neither replaces the primary
   two-hour raw-change result.
-- Phase-5 absolute price sensitivity: `absolute_price_h8` consumes the exact
-  eight-hour sensitivity rows/features and predicts `close[t+8h]` through a
+- Phase-5 absolute price add-on: `absolute_price_h8` consumes the exact
+  eight-hour add-on rows/features and predicts `close[t+8h]` through a
   sigmoid head without an explicit current-price skip. Price-level metrics are
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker

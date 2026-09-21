@@ -29,9 +29,9 @@ Read these in order:
    For Phase 5 feature extraction and seed-0 framework downstream probing,
    also read
    `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
-   For the executed eight-hour raw-change and two-hour log-return
-   sensitivities, also read
-   `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+   For the executed eight-hour raw-change and two-hour log-return additional
+   tasks, also read
+   `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
    For the executed eight-hour absolute future-price probe, also read
    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 6. For prediction-market lifecycle effects, representation drift, or temporal

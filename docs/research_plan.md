@@ -207,7 +207,7 @@ a related but distinct directional task, and conventional arithmetic-return
 regression remains a secondary exploratory target because low prices strongly
 distort its scale.
 
-The executed Phase 5 exploratory regression sensitivities additionally test
+The executed Phase 5 exploratory additional regression tasks additionally test
 eight-hour raw probability change and two-hour ordinary log return. They are
 diagnostic horizon/target-unit probes rather than replacements selected from
 evaluation performance; neither recovered stable signed correlation.

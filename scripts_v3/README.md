@@ -45,21 +45,21 @@ features, fits one supervised-train-only scaler per walk, trains both heads for
 .venv/bin/python3 scripts_v3/report_phase5_downstream.py
 ```
 
-Artifacts live only under `experiments/phase5/features/`,
+Canonical artifacts live under `experiments/phase5/features/`,
 `experiments/phase5/downstream/`, and
 `experiments/phase5/reports/framework_downstream_seed0/`.
 
-## Exploratory regression sensitivities
+## Additional regression tasks
 
-The completed post-primary sensitivities test eight-hour raw probability
+The completed post-primary tasks test eight-hour raw probability
 change and two-hour ordinary log return without changing the 64-hour encoders:
 
 ```bash
-.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_data.py
-.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_features.py --device cuda --workers 6
-.venv/bin/python3 scripts_v3/launch_phase5_regression_sensitivities.py --device cuda
-.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivities.py
-.venv/bin/python3 scripts_v3/report_phase5_regression_sensitivities.py
+.venv/bin/python3 scripts_v3/prepare_phase5_downstream_addon_data.py
+.venv/bin/python3 scripts_v3/prepare_phase5_downstream_addon_features.py --device cuda --workers 6
+.venv/bin/python3 scripts_v3/launch_phase5_regression_addons.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_regression_addons.py
+.venv/bin/python3 scripts_v3/report_phase5_regression_addons.py
 .venv/bin/python3 scripts_v3/report_phase5_regression_rank_ic.py
 ```
 

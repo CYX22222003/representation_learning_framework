@@ -30,9 +30,9 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
    For Phase 5 feature extraction or framework downstream readiness, also read
    `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
-   For Phase 5 regression-sensitivity progress or conclusions, also read
-   `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
-   For Phase 5 absolute-price sensitivity progress or conclusions, also read
+   For Phase 5 additional-regression-task progress or conclusions, also read
+   `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
+   For Phase 5 absolute-price add-on progress or conclusions, also read
    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
@@ -58,8 +58,8 @@ Report:
   feature stores, train-only scalers, and four seed-0 framework downstream
   probes are also complete and replay-validated under
   `experiments/phase5/features/` and `experiments/phase5/downstream/`. Learned
-  The eight-hour raw-change and two-hour log-return sensitivities are complete
-  under `experiments/phase5/regression_sensitivities/`; neither recovered
+  The eight-hour raw-change and two-hour log-return tasks are complete under
+  `experiments/phase5/downstream_addons/tasks/`; neither recovered
   signed correlation. Learned baselines and additional seeds remain pending;
   do not infer cross-model superiority from the framework-only result.
   The eight-hour absolute-price probe is also complete: it reconstructs level

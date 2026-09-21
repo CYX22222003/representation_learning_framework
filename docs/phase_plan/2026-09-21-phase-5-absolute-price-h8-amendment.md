@@ -1,4 +1,4 @@
-# Phase 5 Eight-Hour Absolute-Price Sensitivity Amendment
+# Phase 5 Eight-Hour Absolute-Price Add-on Amendment
 
 **Date:** 2026-09-21
 **Status:** Implemented, executed at seed 0, and replay-validated
@@ -73,9 +73,9 @@ level reconstruction from incremental movement prediction.
 All outputs remain under:
 
 ```text
-experiments/phase5/absolute_price_h8/walk{1,2}/seed0/
-experiments/phase5/manifests/absolute_price_h8_seed0.json
-experiments/phase5/reports/absolute_price_h8_seed0/
+experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk{1,2}/seed0/
+experiments/phase5/downstream_addons/manifests/absolute_price_h8_seed0.json
+experiments/phase5/downstream_addons/reports/absolute_price_h8_seed0/
 ```
 
 Every run retains configuration and source hashes, checkpoints, cumulative

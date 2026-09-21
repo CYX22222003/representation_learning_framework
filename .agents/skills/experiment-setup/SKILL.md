@@ -85,8 +85,8 @@ Read these in order:
     It freezes walk-local train-only feature standardization and the fixed
     probability-point regression unit `100 * delta`, inverted before raw-delta
     reporting. Learned baselines and additional seeds are later work.
-    The completed post-primary regression sensitivities are governed by
-    `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`:
+    The completed post-primary additional regression tasks are governed by
+    `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`:
     eight-hour raw change uses independently mature targets, while two-hour
     log return uses a train-only target transform and price-band reporting.
     The executed absolute-price probe is governed by

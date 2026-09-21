@@ -79,9 +79,9 @@ For Phase 5 canonical encoder work, include
 feature extraction, train-only feature scaling, probability-point target
 units, or seed-0 framework probing, include
 `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
-For eight-hour raw-change or two-hour log-return sensitivity design,
+For eight-hour raw-change or two-hour log-return add-on design,
 implementation, or results, include
-`docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+`docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
 For eight-hour absolute future-price design, implementation, or results,
 include `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 For Phase 5 sequence length, walk capacity, contract concentration,

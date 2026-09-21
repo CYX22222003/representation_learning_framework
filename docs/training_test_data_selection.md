@@ -45,7 +45,7 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > `phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
 > Both walk feature stores, both train-only scalers, and all four 50-epoch
 > framework trajectories pass source-identity, hash, and CPU prediction replay.
-> The later exploratory regression sensitivities add independently mature
+> The later exploratory additional regression tasks add independently mature
 > eight-hour raw-change rows and a train-standardized two-hour log-return
 > target. Their target-free encoder populations remain identical to the
 > primary bundles; neither sensitivity is a replacement target selected from

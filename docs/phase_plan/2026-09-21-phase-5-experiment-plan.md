@@ -157,7 +157,7 @@ would define a separate task and must be labelled as a later sensitivity.
   requires a frozen zero-price rule and starting-price-band reporting.
 
 Two post-primary exploratory sensitivities are complete under
-`2026-09-21-phase-5-regression-sensitivities-amendment.md`: eight-hour raw
+`2026-09-21-phase-5-regression-addons-amendment.md`: eight-hour raw
 probability change and two-hour ordinary log return. Neither recovered stable
 signed correlation. They remain diagnostic evidence and do not replace the
 primary two-hour raw-change task.

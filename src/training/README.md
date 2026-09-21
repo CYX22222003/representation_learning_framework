@@ -25,7 +25,7 @@ logit-adjusted tri-class classification, 5/15/50 artifacts, detailed
 breakdowns and non-trained references, and CPU prediction replay. Learned
 baseline comparisons are a separate pending Phase 5 stage.
 
-`phase5_regression_sensitivities.py` owns the completed exploratory
+`phase5_regression_addons.py` owns the completed exploratory
 eight-hour raw-change and two-hour log-return probes, including train-only
 target transforms, probability reconstruction, price-band breakdowns, and
 5/15/50 CPU prediction replay.
