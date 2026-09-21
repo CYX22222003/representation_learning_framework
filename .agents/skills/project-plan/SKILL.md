@@ -28,6 +28,10 @@ Read these in order:
    authoritative Phase 5 contract and supersedes conflicting handoff language.
    For Phase 5 encoder implementation, execution, or readiness, also read
    `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
+   For Phase 5 feature extraction or framework downstream readiness, also read
+   `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+   For Phase 5 regression-sensitivity progress or conclusions, also read
+   `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -48,9 +52,14 @@ Report:
   The data builder and common identities are currently implemented through
   `scripts_v3/` with artifacts under `experiments/phase5/data_preparation/`;
   the six canonical walk-specific neural encoders are also trained and replay-
-  validated under `experiments/phase5/encoder_pretraining/`. Do not conflate
-  these completions with the still-pending feature, downstream-head, baseline,
-  and downstream prediction-replay gate.
+  validated under `experiments/phase5/encoder_pretraining/`. The canonical
+  feature stores, train-only scalers, and four seed-0 framework downstream
+  probes are also complete and replay-validated under
+  `experiments/phase5/features/` and `experiments/phase5/downstream/`. Learned
+  The eight-hour raw-change and two-hour log-return sensitivities are complete
+  under `experiments/phase5/regression_sensitivities/`; neither recovered
+  signed correlation. Learned baselines and additional seeds remain pending;
+  do not infer cross-model superiority from the framework-only result.
   Retrospective selection and final pruning are accepted Phase 5 assumptions;
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.

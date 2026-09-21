@@ -18,3 +18,14 @@ pretraining for the two global-calendar walks. It loads only
 `encoder_train_sequences`, never downstream targets or evaluation values, and
 stores independently initialized walk-specific checkpoints. Phase 5 executable
 orchestration remains under `scripts_v3/`.
+
+`phase5_downstream.py` owns the completed framework-only seed-0 probe: one
+train-only feature standardizer per walk, fixed probability-point regression,
+logit-adjusted tri-class classification, 5/15/50 artifacts, detailed
+breakdowns and non-trained references, and CPU prediction replay. Learned
+baseline comparisons are a separate pending Phase 5 stage.
+
+`phase5_regression_sensitivities.py` owns the completed exploratory
+eight-hour raw-change and two-hour log-return probes, including train-only
+target transforms, probability reconstruction, price-band breakdowns, and
+5/15/50 CPU prediction replay.

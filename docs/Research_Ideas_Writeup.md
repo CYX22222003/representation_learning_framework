@@ -306,6 +306,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Secondary diagnostic: conventional arithmetic return, with a predeclared
      zero-price rule, train-only scaling, starting-price bands, robust metrics,
      and reconstructed future-probability error
+   - Executed exploratory sensitivities: eight-hour raw probability change and
+     two-hour ordinary log return. These diagnose horizon and target-unit
+     effects without replacing the primary two-hour raw-change task.
    - Metrics: MAE, RMSE/MSE, Pearson/Spearman correlation, sign agreement,
      per-contract, per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in

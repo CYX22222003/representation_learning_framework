@@ -1,8 +1,9 @@
 # Phase 5 Main Experiment Plan
 
 **Date:** 2026-09-21  
-**Status:** Data preparation and canonical encoder pretraining complete;
-feature extraction, downstream models, and baselines pending
+**Status:** Data preparation, canonical encoder pretraining, frozen feature
+extraction, seed-0 framework downstream probing, and two exploratory regression
+sensitivities complete; learned baselines and additional seeds pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
 
 ## 1. Authority and evolution of the research design
@@ -154,6 +155,18 @@ would define a separate task and must be labelled as a later sensitivity.
 - Arithmetic-return regression at the same two-hour horizon is secondary and
   requires a frozen zero-price rule and starting-price-band reporting.
 
+Two post-primary exploratory sensitivities are complete under
+`2026-09-21-phase-5-regression-sensitivities-amendment.md`: eight-hour raw
+probability change and two-hour ordinary log return. Neither recovered stable
+signed correlation. They remain diagnostic evidence and do not replace the
+primary two-hour raw-change task.
+
+The framework-downstream implementation trains on the fixed probability-point
+unit `100 * delta` and divides predictions by 100 before primary raw-delta
+metrics. This is an exactly invertible unit conversion, not a fitted target
+transformation. See
+`2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+
 ### 6.2 Probability-movement classification
 
 The fixed Phase 5 label is:
@@ -218,6 +231,12 @@ The exact learned baseline matrix, seeds, budgets, and optimization recipes
 must be frozen in an implementation amendment before training. No validation
 split, early stopping, or evaluation-driven checkpoint selection is used.
 
+The immediate framework-only stage is frozen separately at seed 0 under
+`2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`. It applies
+walk-local, supervised-train-only coordinate standardization to the 445-
+dimensional concat representation. Learned baselines and additional seeds
+remain pending and cannot be claimed from the framework-only results.
+
 ## 9. Deferred work
 
 The following are outside the frozen Phase 5 core:
@@ -270,9 +289,9 @@ observed-endpoint, and maturity rules. Consequently, changing or removing any
 target whose availability is at or after the cutoff cannot change the earlier
 walk's encoder identities, sequences, or preprocessing state.
 
-Downstream-head and baseline training remain blocked until the incomplete
-items below are finished. Canonical encoder pretraining is complete under its
-dedicated amendment:
+Canonical encoder pretraining and the first framework-only downstream stage are
+complete under their dedicated amendments. Learned baseline training remains
+blocked until its matrix and fairness checks are frozen:
 
 1. **Complete:** build the two walk-specific sequence and identity manifests.
 2. **Complete:** enforce context, activity, supported-contract,
@@ -280,15 +299,17 @@ dedicated amendment:
 3. **Complete:** build shared two-hour regression and classification labels.
 4. **Complete at the data layer:** freeze common framework/baseline identities,
    preserve raw OHLCV, and validate the raw-volume mask invariants.
-5. **Partial:** walk-specific preprocessing and all six canonical neural-
-   encoder trajectories are implemented, executed, and replay-validated;
-   feature, downstream-head, and baseline lifecycles remain.
-6. **Partial:** the encoder matrix is frozen and complete under
-   `2026-09-21-phase-5-encoder-pretraining-amendment.md`; downstream and
-   baseline seeds, budgets, and launch order remain to be frozen.
-7. **Partial:** encoder CPU smoke tests, checkpoint replay, and epoch-50
-   inference replay are complete; downstream prediction replay remains.
-8. Only then launch the remaining Phase 5 downstream and baseline runs.
+5. **Complete for the framework:** walk-specific preprocessing, all six neural
+   encoders, two 445-dimensional feature stores, train-only feature scalers,
+   and four seed-0 downstream trajectories are executed and replay-validated.
+6. **Complete for the framework:** encoder and downstream matrices are frozen
+   under their two amendments; learned-baseline seeds, budgets, and launch
+   order remain to be frozen separately.
+7. **Complete for the framework:** CPU smoke tests, checkpoint/inference replay,
+   feature-row/hash replay, scaler perturbation invariance, and prediction
+   replay all pass at 5/15/50 epochs.
+8. **Pending:** freeze and execute learned baselines on the exact saved rows;
+   only afterward make cross-model claims or add framework seeds.
 
 Retrospective universe selection and `quarantine_available_at` replay are not
 Phase 5 blockers under the accepted assumptions in Section 3.

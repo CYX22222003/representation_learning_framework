@@ -74,11 +74,21 @@ Read these in order:
     `experiments/phase5/data_preparation/`. The six canonical walk-specific
     neural encoder trajectories are complete under
     `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
-    Remaining downstream and baseline training stays gated on its frozen
-    matrix, model smoke tests, and prediction replay.
+    The two canonical feature stores and four seed-0 framework downstream runs
+    are complete and replay-validated. Learned baselines and additional seeds
+    remain gated on their separately frozen matrix and fairness checks.
     Encoder row eligibility must remain target-free; apply future-target
     existence, observed status, segment continuity, and maturity only when
     deriving downstream supervised train/evaluation rows.
+    For feature extraction and the seed-0 framework probe, read
+    `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+    It freezes walk-local train-only feature standardization and the fixed
+    probability-point regression unit `100 * delta`, inverted before raw-delta
+    reporting. Learned baselines and additional seeds are later work.
+    The completed post-primary regression sensitivities are governed by
+    `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`:
+    eight-hour raw change uses independently mature targets, while two-hour
+    log return uses a train-only target transform and price-band reporting.
 12. For recent one-hour Phase 5 window capacity, read
     `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
     Use its capacity evidence while applying the later Phase 5 decision:

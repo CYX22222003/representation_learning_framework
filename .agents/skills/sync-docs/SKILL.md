@@ -74,6 +74,14 @@ For every Phase 5 design, implementation, readiness, or reporting change, read
 and update `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` as the
 canonical authority. Initial research documents may retain historical context
 but must point readers to this plan when their original design is superseded.
+For Phase 5 canonical encoder work, include
+`docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`. For
+feature extraction, train-only feature scaling, probability-point target
+units, or seed-0 framework probing, include
+`docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+For eight-hour raw-change or two-hour log-return sensitivity design,
+implementation, or results, include
+`docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.

@@ -13,9 +13,11 @@
 > canonical five-branch weights per walk, and shared two-hour movement
 > regression/classification targets. The walk-specific train/test builder,
 > shared labels, common comparator identities, and replayable data manifests
-> are now implemented and validated. Do not launch training until the
-> remaining walk-specific feature/head/baseline lifecycle, downstream matrix,
-> downstream smoke tests, and prediction replay are implemented and validated.
+> are implemented and validated. The six canonical neural encoders, two frozen
+> five-branch feature stores, two train-only feature scalers, and four seed-0
+> framework downstream trajectories are also complete and replay-validated.
+> Learned baselines and additional seeds remain pending and require a separately
+> frozen identical-row matrix before execution.
 
 ---
 
@@ -30,6 +32,9 @@
 | Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Primary Phase 5 cohorts frozen: two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1. |
 | Phase 5 walk-specific sequence/label preparation | ✅ Implemented in `src/data_processing/phase5_walks.py`, exposed only through `scripts_v3/`, and replay-validated under `experiments/phase5/data_preparation/`. Target-free encoder selection is separated from downstream target eligibility. Walk 1 has 39,070 encoder / 37,864 supervised-train / 30,340 supported-evaluation rows; Walk 2 has 58,473 / 57,521 / 13,887. Raw and train-scaled OHLCV, common regression/classification labels, causal activity, endpoint maturity, gap metadata, and source/artifact hashes are preserved. |
 | Phase 5 canonical encoder pretraining | ✅ Six independent seed-0 CUDA trajectories complete: VAE, contrastive CNN, and BYOL CNN for each walk, one continuous 50-epoch run with snapshots at 5/15/50. All checkpoints and histories replay-valid, epoch-50 inference passes, and no collapse warning was raised. Weights live under `experiments/phase5/encoder_pretraining/`; epoch 50 is fixed for feature extraction. |
+| Phase 5 five-branch feature extraction | ✅ Two walk-local 445-dimensional stores complete under `experiments/phase5/features/`: 37,864/30,340 train/evaluation rows for Walk 1 and 57,521/13,887 for Walk 2. Branch arrays, row identities, source bundles, and epoch-50 encoder hashes replay; every supervised training context is byte-identical to its mapped encoder context and evaluation identities are disjoint. |
+| Phase 5 framework downstream probing | ✅ Four seed-0 CUDA trajectories complete under `experiments/phase5/downstream/`: regression and classification for both walks, 50 epochs with 5/15/50 snapshots. Train-only coordinate scalers, CPU smoke tests, checkpoint/prediction replay, non-trained references, breakdowns, pooled predictions, and report are complete. |
+| Phase 5 exploratory regression sensitivities | ✅ Eight-hour raw probability change and two-hour ordinary log return are implemented and executed for both walks at seed 0. Horizon-specific maturity/gap rows, reused-or-fresh frozen features, train-only log-target scaling, reconstructed probabilities, starting-price/lifecycle/imputation breakdowns, 5/15/50 checkpoints, and CPU replay are complete. Neither target recovered stable signed correlation. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
@@ -89,7 +94,8 @@
 |---|---|
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
 | Absolute next-close benchmark (MAE, RMSE) | ⚠️ Phase 3 is leakage-safe but persistence-dominated; retained as negative characterisation evidence and superseded as the primary regression probe |
-| Probability-movement regression | 🔄 Deferred to Phase 5: continuous contract-local future probability change on observed endpoints under revised recent-period global-calendar walks; not implemented or executed |
+| Probability-movement regression | ⚠️ Phase 5 framework seed-0 probe complete: pooled out-of-future MAE/RMSE `0.002711/0.010835`; Pearson `0.0807`, Spearman approximately zero. Eight-hour raw change (`Pearson 0.0142`) and two-hour log return (`Pearson -0.0103`) did not restore signed predictability. Learned baselines and additional seeds remain pending. |
+| Probability-movement classification | ✅ Phase 5 framework seed-0 probe complete: pooled macro-F1/balanced accuracy `0.4541/0.4730` versus always-STABLE `0.2831/0.3333`; accuracy is lower (`0.6369` versus `0.7382`) because the logit-adjusted model predicts minority classes. Learned comparisons remain pending. |
 | Temporal encoder adaptation/transfer | ⏭️ Deferred to Phase 6; Phase 5 trains the same canonical architecture independently in each walk without a fixed-first-walk transfer ablation |
 | Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
@@ -134,8 +140,8 @@ entry points and all `_old` artifacts remain excluded from new execution.
 
 ## 2. Summary
 
-The current project state is **Phase 4 concluded; Phase 5 design frozen at its
-implementation gate**. Phase 3 proved that raw-time-first construction,
+The current project state is **Phase 4 concluded; Phase 5 framework-only seed-0
+probing complete, with learned baselines pending**. Phase 3 proved that raw-time-first construction,
 training-only fitted preprocessing, isolated windows, contract-local labels,
 and artifact replay can remove the Phase 1/2 future leakage. Phase 4 then
 established that the single final-20% tail is lifecycle-biased, absolute
@@ -146,10 +152,13 @@ staleness, gap, pruning, and forward-fill audits. No Phase 4 model training was
 run. The Phase 5 plan now freezes the two fresh walk-specific cohorts, `seq64`,
 two-hour movement targets, `tau=0.001` classification, the canonical
 five-branch concat model, and separate weights per walk. The sequence/label
-builder and common comparator identities are now implemented and replay-
-validated. The immediate priority is the independently fitted walk-specific
-encoder/feature/head/baseline lifecycle, frozen matrix, CPU smoke tests, and
-prediction replay before training.
+builder, encoders, feature stores, train-only scalers, framework heads, and
+5/15/50 prediction replay are now implemented, executed, and validated. The
+pooled regression probe is weaker than exact zero on MAE/RMSE, while
+classification improves macro-F1 and balanced accuracy over always-STABLE at
+the cost of accuracy. The immediate priority is to freeze and execute the
+learned-baseline matrix on identical rows before making comparative claims;
+additional framework seeds remain later work.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`

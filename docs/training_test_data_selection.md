@@ -27,12 +27,29 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > `scripts_v3/validate_phase5_data.py`. Replayable bundles live under
 > `experiments/phase5/data_preparation/`. They contain separate encoder-
 > training, mature supervised-training, and evaluation populations plus one
-> shared regression/classification identity set per walk. Training is still
-> gated on the model lifecycle and frozen experiment matrix.
+> shared regression/classification identity set per walk. The canonical
+> encoder, feature-extraction, and seed-0 framework matrices have now completed;
+> learned-baseline execution remains gated on its own frozen matrix.
 > Encoder eligibility is target-free and uses only context/decision information
 > available before the cutoff. Target existence, observed status, segment
 > continuity, and maturity are applied afterward only to downstream train/test
 > rows.
+>
+> **Framework downstream contract:** Frozen five-branch features retain exact
+> supervised train/test identities. Each walk fits coordinatewise feature
+> mean/std from supervised training features only and applies that frozen
+> scaler to evaluation features, clipping both to `[-10, 10]`. Regression is
+> optimized in fixed probability-point units (`100 * delta`) and inverted
+> before raw-delta metrics; classification uses train-prior logit adjustment.
+> The first framework stage uses seed 0 only. See
+> `phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+> Both walk feature stores, both train-only scalers, and all four 50-epoch
+> framework trajectories pass source-identity, hash, and CPU prediction replay.
+> The later exploratory regression sensitivities add independently mature
+> eight-hour raw-change rows and a train-standardized two-hour log-return
+> target. Their target-free encoder populations remain identical to the
+> primary bundles; neither sensitivity is a replacement target selected from
+> evaluation performance.
 
 ---
 

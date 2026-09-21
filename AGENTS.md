@@ -23,10 +23,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > target maturity, common comparator identities, and replayable data manifests
 > are implemented under `src/data_processing/phase5_walks.py`, exposed by
 > `scripts_v3/`, and validated under `experiments/phase5/data_preparation/`.
-> The six walk-specific canonical neural-encoder trajectories are complete and
-> replay-validated at epochs 5/15/50, with epoch 50 fixed for feature
-> extraction. Do not launch downstream or baseline training until their matrix,
-> lifecycle, CPU smoke tests, and prediction replay contract are complete.
+> The six walk-specific canonical neural-encoder trajectories, two 445-
+> dimensional frozen feature stores, train-only feature scalers, and four
+> seed-0 framework downstream trajectories are complete and replay-validated at
+> epochs 5/15/50. Epoch 50 was fixed before evaluation. Learned baseline
+> training remains gated on a separately frozen matrix and identical rows.
 > Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
 > top-80 contract in
@@ -41,12 +42,17 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
+> The frozen feature-extraction and seed-0 framework probing contract is
+> `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+> The executed post-primary eight-hour raw-change and two-hour log-return
+> sensitivities are specified in
+> `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
 > only inside each training interval and download the selected conditions
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
 > staleness, and plotting pipelines are complete. Walk 2 is materially sparser
-> than Walk 1. They are the accepted primary Phase 5 cohorts; the experiment
-> train/test builder is implemented; the model lifecycle is not. See
+> than Walk 1. They are the accepted primary Phase 5 cohorts; the train/test,
+> encoder, feature, and initial framework-head lifecycles are implemented. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk1-walk2-exploration.md`.
 
 The recent FinData acquisition audit writes only to Git-ignored `data_new/`.
@@ -118,6 +124,25 @@ canonical plan. See
 .venv/bin/python3 scripts_v3/launch_phase5_encoder_pretraining.py --execute
 .venv/bin/python3 scripts_v3/validate_phase5_encoder_pretraining.py
 .venv/bin/python3 scripts_v3/report_phase5_encoder_pretraining.py
+
+# Extract/replay the two canonical 445-dimensional stores, then freeze,
+# execute, replay, and report the four-run seed-0 framework downstream matrix.
+.venv/bin/python3 scripts_v3/launch_phase5_feature_extraction.py --device cuda --workers 6
+.venv/bin/python3 scripts_v3/validate_phase5_features.py
+.venv/bin/python3 scripts_v3/launch_phase5_downstream.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_downstream.py
+.venv/bin/python3 scripts_v3/report_phase5_downstream.py
+
+# Build, extract, execute, validate, and report the completed exploratory
+# eight-hour raw-change and two-hour log-return regressions.
+.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_data.py
+.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivity_data.py
+.venv/bin/python3 scripts_v3/prepare_phase5_regression_sensitivity_features.py --device cuda --workers 6
+.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivity_features.py
+.venv/bin/python3 scripts_v3/launch_phase5_regression_sensitivities.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivities.py
+.venv/bin/python3 scripts_v3/report_phase5_regression_sensitivities.py
+.venv/bin/python3 scripts_v3/report_phase5_regression_rank_ic.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -485,10 +510,10 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, and the Phase 5 global-calendar walk builder with activity, maturity, common-row, imputation-metadata, and replay contracts |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load; Phase 5 five-branch extraction, identity alignment, hashes, and replay validation |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) |
+| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) plus Phase 5 encoder/downstream fixed-budget training, train-only scaling, metrics, artifacts, and replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
@@ -519,8 +544,9 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   Under the accepted Phase 5 assumption, these clean files are canonical for
   the thesis experiment. The sequence/label builder, causal gap/activity
   rules, common baseline identities, and replayable data manifests are now
-  validated. Model training remains gated on walk-specific model weights, the
-  frozen matrix, model smoke tests, and prediction replay.
+  validated. Walk-specific encoders, frozen features, feature scalers, and the
+  seed-0 framework heads are complete; learned baselines remain gated on their
+  separately frozen matrix and identical-row replay.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
@@ -543,6 +569,22 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   endpoint, causal activity, and pre-cutoff decision availability may affect
   it. Future target existence, observation status, segment continuity, and
   maturity apply only to downstream supervised train/test rows.
+  Framework regression is optimized as the fixed unit conversion `100 * delta`
+  and inverted before raw-delta metrics. The 445-dimensional concat features
+  are standardized coordinatewise from supervised training features only,
+  independently per walk, with a frozen `1e-8` denominator guard and `[-10,10]`
+  clipping. Evaluation features never fit or select this state. Canonical
+  feature stores live at
+  `experiments/phase5/features/walk{1,2}/five_branch_epoch50.npz`; downstream
+  runs live under `experiments/phase5/downstream/walk{1,2}/` and use epoch 50
+  as the predeclared principal checkpoint.
+- Phase-5 regression sensitivities: `raw_delta_h8` independently rebuilds
+  supervised rows for an observed, mature, same-segment eight-hour target but
+  proves its encoder population byte-identical to the primary bundle.
+  `log_return_h2` requires positive current/future prices and fits its target
+  mean/std on training rows only. Both are exploratory seed-0 probes under
+  `experiments/phase5/regression_sensitivities/`; neither replaces the primary
+  two-hour raw-change result.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.

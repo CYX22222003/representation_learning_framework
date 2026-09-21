@@ -34,3 +34,9 @@ remain unchanged.
 Thin entry points live under `scripts_v3/`; canonical generated bundles live
 under `experiments/phase5/data_preparation/`. Phase 5 implementation must not
 be added to the already crowded `scripts_v2/` directory.
+
+The same module also supports the explicitly named
+`exploratory_raw_delta_h8` sensitivity. It preserves the target-free encoder
+population but independently applies eight-hour target existence, continuity,
+observation, and maturity rules. Those generated bundles live under
+`experiments/phase5/data_sensitivities/raw_delta_h8/`.

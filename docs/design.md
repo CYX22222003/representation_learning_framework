@@ -197,7 +197,10 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
     - **Regression Task:** supervised pairs (X, y), where X is the sequence
       embedding and `y = close[t+h] - close[t]` is continuous future
       probability movement. Labels are contract- and fold-local. Absolute
-      next-close prediction remains a Phase 3 diagnostic only.
+      next-close prediction remains a Phase 3 diagnostic only. Phase 5 also
+      records post-primary exploratory probes for eight-hour raw change and
+      two-hour ordinary log return with train-only target scaling and
+      reconstructed-probability reporting.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. Phase 1 retains its TA-MLP-style tri-class BUY/HOLD/SELL bundle. The isolated Phase 2 task uses hard `DOWN/STABLE/UP` labels from absolute probability movement over a split-safe horizon and saves three-class scores. Its candidate imbalance protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and train-prior logit-adjusted cross-entropy (`P2`); natural cross-entropy (`P0`) is an untreated reference only.
   - A lightweight MLP task head is trained on these (X, y) pairs.
 
