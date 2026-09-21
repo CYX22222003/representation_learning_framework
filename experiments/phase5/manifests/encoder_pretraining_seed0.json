@@ -1,0 +1,129 @@
+{
+  "augmentation_policy": "existing five-channel scaling/jitter/time-mask; no explicit mask input",
+  "commands": [
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "1",
+      "--encoder",
+      "vae",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk1/vae/seed0",
+      "--device",
+      "cuda"
+    ],
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "1",
+      "--encoder",
+      "contrastive",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk1/contrastive/seed0",
+      "--device",
+      "cuda"
+    ],
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "1",
+      "--encoder",
+      "byol",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk1/byol/seed0",
+      "--device",
+      "cuda"
+    ],
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "2",
+      "--encoder",
+      "vae",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/vae/seed0",
+      "--device",
+      "cuda"
+    ],
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "2",
+      "--encoder",
+      "contrastive",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/contrastive/seed0",
+      "--device",
+      "cuda"
+    ],
+    [
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/.venv/bin/python3",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/scripts_v3/train_phase5_encoder.py",
+      "--walk",
+      "2",
+      "--encoder",
+      "byol",
+      "--dataset",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "--run-root",
+      "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/byol/seed0",
+      "--device",
+      "cuda"
+    ]
+  ],
+  "datasets": {
+    "1": {
+      "encoder_train_identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+      "encoder_train_rows": 39070,
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54"
+    },
+    "2": {
+      "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+      "encoder_train_rows": 58473,
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3"
+    }
+  },
+  "deterministic_branches": [
+    "statistical",
+    "transformed"
+  ],
+  "encoders": [
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "epochs": 50,
+  "phase": 5,
+  "principal_downstream_epoch": 50,
+  "seed": 0,
+  "selection_policy": "epoch 50 predeclared; no evaluation-driven selection",
+  "snapshot_epochs": [
+    5,
+    15,
+    50
+  ],
+  "status": "complete",
+  "subtask": "canonical_encoder_pretraining",
+  "trajectory_policy": "one uninterrupted trajectory per walk and neural encoder",
+  "walks": [
+    1,
+    2
+  ]
+}
