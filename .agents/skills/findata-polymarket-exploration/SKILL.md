@@ -19,7 +19,12 @@ in full and reconcile the proposed change with them:
 ## Current Operating Scope
 
 - Source: FinData prediction-market endpoints for Polymarket only.
-- Fixed acquisition interval: `[2025-12-01 00:00 UTC, 2026-09-01 00:00 UTC)`.
+- Default full-audit acquisition interval:
+  `[2025-12-01 00:00 UTC, 2026-09-01 00:00 UTC)`.
+- A predeclared calendar walk may use a contained training-only selection
+  interval and a wider download interval ending at that walk's evaluation end.
+  Record both intervals explicitly; never use evaluation-period candle
+  availability in the eligibility probe.
 - Native resolutions: both 15 minutes and one hour.
 - Required user input: desired contract count.
 - Optional user input: search keywords and event-family preferences or exclusions.
@@ -29,9 +34,9 @@ event-family cap appropriate to the requested count. Declare those choices
 before acquisition. Do not silently ignore a requested keyword or family
 filter merely because the current collector lacks a corresponding flag.
 
-If the user later changes the date range, source, venue, or resolution, confirm
-the new scope and update this skill rather than assuming the current SOP still
-applies unchanged.
+If the user later changes the source, venue, or resolution, or requests a date
+range outside the default audit interval, confirm the new scope and update this
+skill rather than assuming the current SOP still applies unchanged.
 
 ## Non-Negotiable Boundaries
 

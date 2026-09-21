@@ -10,8 +10,10 @@
 > global-calendar walks, builder/replay validation, fold-specific encoder
 > retraining, downstream-task redefinition, and matched baseline comparison.
 > A no-training capacity audit supports `seq64` and a balanced two-walk
-> schedule as implementation candidates, but the retrospectively selected
-> cohort does not validate cutoff-local universe selection.
+> schedule as implementation candidates. Two fresh top-50 walk cohorts now
+> have complete acquisition-to-plot exploration with training-local candle
+> eligibility probes, but retrospective catalog volume/metadata still prevent
+> a production cutoff-local selection claim.
 > Do not launch Phase 5 training until that data contract and experiment matrix
 > are implemented and validated. See the
 > [Phase 4 conclusion](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
@@ -26,6 +28,7 @@
 | Collect Polymarket OHLCV feather files | ✅ Done |
 | Recent FinData acquisition (Dec 2025--Aug 2026) | ✅ Phase 4 source audit complete: raw-first 50-market recollection, forward-confirmed pruning, native 15m/1h dynamics, gap distribution, and one-/four-bar fill sensitivities are recorded; clean one-hour data is selected for exploratory Phase 5 training with explicit token-identity limitations |
 | Recent FinData Phase 5 walk-capacity audit | ✅ No-training feasibility complete: balanced two-walk `seq64` candidate retains 31,828/37,173 active training rows and 21,401/10,086 supported evaluation rows; selection/replay gate remains open because the 50-condition cohort is retrospective |
+| Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1; training remains gated by retrospective catalog ranking and the unimplemented causal builder/model lifecycle. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |

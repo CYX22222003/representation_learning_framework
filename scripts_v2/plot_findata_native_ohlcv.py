@@ -37,8 +37,8 @@ DEFAULT_INPUT = (
 DEFAULT_OUTPUT = DEFAULT_INPUT / "analysis/native_ohlcv_contract_plots"
 FEATURES = ("open", "high", "low", "close", "volume")
 RESOLUTIONS = {
-    "15m": ("candles_15min_clean.parquet", 15),
-    "1h": ("candles_1h_clean.parquet", 60),
+    "15m": ("candles_15min_clean.parquet", "candles_15min_clean_ffill1.parquet", 15),
+    "1h": ("candles_1h_clean.parquet", "candles_1h_clean_ffill1.parquet", 60),
 }
 
 
@@ -121,6 +121,50 @@ def load_clean_candles(path: Path) -> pd.DataFrame:
     if result.duplicated(["condition_id", "date"]).any():
         raise ValueError(f"clean candle file contains duplicate identities: {path}")
     return result
+
+
+def load_filled_candles(path: Path) -> pd.DataFrame:
+    frame = pd.read_parquet(path)
+    required = {"condition_id", "date", *FEATURES, "is_observed", "is_imputed"}
+    missing = sorted(required - set(frame.columns))
+    if missing:
+        raise ValueError(f"filled candle file is missing required columns: {missing}")
+    result = frame[["condition_id", "date", *FEATURES, "is_observed", "is_imputed"]].copy()
+    result["condition_id"] = result["condition_id"].astype(str)
+    result["date"] = pd.to_datetime(result["date"], utc=True, errors="raise")
+    result = result.sort_values(["condition_id", "date"], kind="stable").reset_index(drop=True)
+    if result.duplicated(["condition_id", "date"]).any():
+        raise ValueError(f"filled candle file contains duplicate identities: {path}")
+    if (result["is_observed"].astype(bool) == result["is_imputed"].astype(bool)).any():
+        raise ValueError(f"filled candle rows must be exactly observed or imputed: {path}")
+    values = result[list(FEATURES)].to_numpy(np.float64)
+    if not np.isfinite(values).all() or (result["volume"] < 0).any():
+        raise ValueError(f"filled candle file contains invalid OHLCV: {path}")
+    return result
+
+
+def plotting_grid_from_filled(
+    frame: pd.DataFrame,
+    *,
+    interval_minutes: int,
+) -> tuple[pd.DataFrame, dict[str, int]]:
+    observed = frame.loc[frame["is_observed"].astype(bool)]
+    if observed.empty:
+        raise ValueError("filled contract has no observed rows")
+    start, end = observed["date"].iloc[0], observed["date"].iloc[-1]
+    grid_index = pd.date_range(start, end, freq=f"{interval_minutes}min")
+    grid = frame.set_index("date")[[*FEATURES, "is_observed", "is_imputed"]].reindex(grid_index)
+    absent = grid["close"].isna()
+    grid.loc[absent, ["is_observed", "is_imputed"]] = False
+    grid[["is_observed", "is_imputed"]] = grid[["is_observed", "is_imputed"]].astype(bool)
+    grid.index.name = "date"
+    grid = grid.reset_index()
+    return grid, {
+        "internal_grid_rows": len(grid),
+        "internal_missing_rows": int(absent.sum() + frame["is_imputed"].sum()),
+        "imputed_rows": int(frame["is_imputed"].sum()),
+        "unfilled_missing_rows": int(absent.sum()),
+    }
 
 
 def bounded_fill_ohlcv(
@@ -281,8 +325,8 @@ def markdown_report(records: pd.DataFrame) -> str:
         "# Clean FinData Native OHLCV Contract Plots",
         "",
         "Each figure contains separate Open, High, Low, Close, and Volume panels. "
-        "Sources are the post-quarantine clean native files. Complete isolated one-bar "
-        "gaps are flat-filled from the previous observed close with zero volume and marked "
+        "Sources are the separate post-quarantine bounded-fill native files. Complete isolated "
+        "one-bar gaps are flat-filled from the previous observed close with zero volume and marked "
         "in orange; longer gaps remain visible breaks.",
         "",
         "Every x-axis is dynamically restricted to that contract-resolution's actual first "
@@ -325,36 +369,42 @@ def generate_plots(
     records: list[dict[str, object]] = []
     source_hashes: dict[str, str] = {}
 
-    for resolution, (filename, interval_minutes) in RESOLUTIONS.items():
-        source_path = input_dir / filename
-        source_hashes[filename] = sha256_file(source_path)
-        candles = load_clean_candles(source_path)
+    for resolution, (clean_filename, filled_filename, interval_minutes) in RESOLUTIONS.items():
+        clean_path = input_dir / clean_filename
+        source_path = input_dir / filled_filename
+        source_hashes[clean_filename] = sha256_file(clean_path)
+        source_hashes[filled_filename] = sha256_file(source_path)
+        clean = load_clean_candles(clean_path)
+        candles = load_filled_candles(source_path)
+        replayed_clean = candles.loc[candles["is_observed"], ["condition_id", "date", *FEATURES]]
+        if not replayed_clean.reset_index(drop=True).equals(clean.reset_index(drop=True)):
+            raise AssertionError(f"{filled_filename} observed rows do not replay {clean_filename}")
         unknown = sorted(set(candles["condition_id"]) - set(metadata["condition_id"]))
         if unknown:
-            raise ValueError(f"{filename} contains condition IDs missing from metadata: {unknown[:3]}")
+            raise ValueError(f"{filled_filename} contains condition IDs missing from metadata: {unknown[:3]}")
         by_condition = {key: group for key, group in candles.groupby("condition_id", sort=False)}
         for row in metadata.itertuples(index=False):
             condition_id = str(row.condition_id)
             if condition_id not in by_condition:
-                raise ValueError(f"{filename} has no rows for condition {condition_id}")
+                raise ValueError(f"{filled_filename} has no rows for condition {condition_id}")
             contract = by_condition[condition_id].reset_index(drop=True)
+            observed_contract = contract.loc[contract["is_observed"]].reset_index(drop=True)
             metadata_start = pd.Timestamp(row.requested_overlap_start)
             metadata_end = pd.Timestamp(row.requested_overlap_end)
-            plot_start = contract["date"].iloc[0]
-            plot_end = contract["date"].iloc[-1]
-            rows_before_metadata_start = int(contract["date"].lt(metadata_start).sum())
-            rows_at_or_after_metadata_end = int(contract["date"].ge(metadata_end).sum())
-            grid, gap_counts = bounded_fill_ohlcv(
+            plot_start = observed_contract["date"].iloc[0]
+            plot_end = observed_contract["date"].iloc[-1]
+            rows_before_metadata_start = int(observed_contract["date"].lt(metadata_start).sum())
+            rows_at_or_after_metadata_end = int(observed_contract["date"].ge(metadata_end).sum())
+            grid, gap_counts = plotting_grid_from_filled(
                 contract,
                 interval_minutes=interval_minutes,
-                maximum_fill_bars=maximum_fill_bars,
             )
             rank = int(row.selection_rank)
             slug = safe_slug(row.slug_search, fallback=condition_id[:12])
             relative_path = Path(resolution) / f"{rank:02d}_{slug}_{condition_id[2:10]}.png"
             counts = {
                 **gap_counts,
-                "observed_rows": len(contract),
+                "observed_rows": len(observed_contract),
             }
             plot_contract(
                 grid,
@@ -375,7 +425,7 @@ def generate_plots(
                 "metadata_overlap_end": metadata_end,
                 "plot_start": plot_start,
                 "plot_end": plot_end,
-                "observed_rows": len(contract),
+                "observed_rows": len(observed_contract),
                 "rows_before_metadata_start": rows_before_metadata_start,
                 "rows_at_or_after_metadata_end": rows_at_or_after_metadata_end,
                 **gap_counts,
@@ -385,7 +435,7 @@ def generate_plots(
             records.append(record)
             print(
                 f"[{resolution}] {rank:02d}/{len(metadata):02d} {row.title} "
-                f"(observed={len(contract):,}, filled={gap_counts['imputed_rows']:,})",
+                f"(observed={len(observed_contract):,}, filled={gap_counts['imputed_rows']:,})",
                 flush=True,
             )
 
@@ -398,7 +448,7 @@ def generate_plots(
     manifest = {
         "schema_version": 1,
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
-        "purpose": "per-contract OHLCV visualization of intended clean native training inputs",
+        "purpose": "per-contract OHLCV visualization of clean plus bounded-fill native data",
         "input_dir": str(input_dir.resolve()),
         "metadata_sha256": sha256_file(metadata_path),
         "source_sha256": source_hashes,

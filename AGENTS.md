@@ -30,6 +30,14 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > weaker after gap breaks, and evaluation must replay each quarantine decision
 > only after `quarantine_available_at`. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+> Two fresh independent top-50 walk acquisitions now probe candle eligibility
+> only inside each training interval and download the selected conditions
+> through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
+> staleness, and plotting pipelines are complete. Walk 2 is materially sparser
+> than Walk 1. This still does not clear training: FinData catalog volume and
+> complete market metadata remain retrospective inputs, and the causal walk
+> builder/model lifecycle is not implemented. See
+> `docs/data_analysis/2026-09-21-phase5-findata-walk1-walk2-exploration.md`.
 
 The recent FinData acquisition audit writes only to Git-ignored `data_new/`.
 A raw-first expanded 50-market
@@ -56,6 +64,14 @@ source-limitation reporting mandatory. See
   --top-k 50 --candidate-limit 250 --max-per-family 2 --workers 8 \
   --defer-quarantine \
   --output-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+# For a calendar walk, use training-only eligibility probes while downloading
+# the selected cohort through the evaluation end. Full-lifetime catalog volume
+# remains a documented retrospective limitation.
+.venv/bin/python3 scripts_v2/collect_findata_historical_cohort.py \
+  --start <TRAIN_START> --end <EVALUATION_END> \
+  --selection-start <TRAIN_START> --selection-end <TRAINING_CUTOFF> \
+  --top-k 50 --candidate-limit 250 --max-per-family 2 --workers 8 \
+  --defer-quarantine --output-dir <WALK_ROOT>
 .venv/bin/python3 scripts_v2/analyze_findata_prediction_markets.py \
   --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
 .venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
@@ -63,9 +79,19 @@ source-limitation reporting mandatory. See
   --audit-only
 .venv/bin/python3 scripts_v2/quarantine_findata_condition_candles.py \
   --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
+.venv/bin/python3 scripts_v2/analyze_findata_native_gaps.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31 \
+  --output-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31/analysis/native_gap_audit \
+  --overwrite
+.venv/bin/python3 scripts_v2/build_findata_bounded_fill.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31
 .venv/bin/python3 scripts_v2/analyze_findata_native_dynamics.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31 \
   --maximum-fill-bars 1 --overwrite
-.venv/bin/python3 scripts_v2/analyze_findata_native_gaps.py --overwrite
+.venv/bin/python3 scripts_v2/plot_findata_native_ohlcv.py \
+  --input-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31 \
+  --output-dir data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31/analysis/native_ohlcv_contract_plots \
+  --maximum-fill-bars 1 --overwrite
 .venv/bin/python3 scripts_v2/analyze_findata_walk_capacity.py --overwrite
 .venv/bin/python3 scripts_v2/collect_findata_yes_trade_ohlcv.py --workers 8
 .venv/bin/python3 scripts_v2/analyze_findata_yes_trade_ohlcv.py

@@ -1,12 +1,9 @@
-"""Explore native 15-minute/one-hour dynamics and bounded forward filling.
-
-This is descriptive EDA only. Forward-filled rows are simulated and measured;
-they do not overwrite the raw or clean source artifacts.
-"""
+"""Analyze staleness in clean and materialized bounded-fill FinData candles."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import shutil
@@ -19,11 +16,11 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECENT_ROOT = (
+DEFAULT_INPUT = (
     ROOT
     / "data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31"
 )
-DEFAULT_OUTPUT = RECENT_ROOT / "analysis/native_15m_1h_dynamics"
+DEFAULT_OUTPUT = DEFAULT_INPUT / "analysis/native_15m_1h_dynamics"
 THRESHOLD = 0.005
 
 
@@ -54,6 +51,7 @@ class Stats:
         return {
             "targets": self.targets,
             "zero_fraction": self.zero / denominator if self.targets else None,
+            "nonzero_fraction": (self.targets - self.zero) / denominator if self.targets else None,
             "meaningful_005_fraction": self.meaningful_005 / denominator if self.targets else None,
             "move_gt_01_fraction": self.move_gt_01 / denominator if self.targets else None,
             "move_gt_05_fraction": self.move_gt_05 / denominator if self.targets else None,
@@ -180,7 +178,14 @@ def deltas_at_horizon(
     return delta, touches_fill
 
 
-def add_contract(cohort: Cohort, frame: pd.DataFrame, contract_id: str, horizons: list[int]) -> None:
+def add_contract(
+    cohort: Cohort,
+    frame: pd.DataFrame,
+    contract_id: str,
+    horizons: list[int],
+    *,
+    materialized_fill: pd.DataFrame,
+) -> None:
     cohort.files_considered += 1
     frame = remove_nonfinite(frame, cohort)
     if frame.empty:
@@ -193,12 +198,28 @@ def add_contract(cohort: Cohort, frame: pd.DataFrame, contract_id: str, horizons
     close = frame["close"].to_numpy(np.float64)
     step = np.timedelta64(cohort.frequency_minutes, "m")
     observed = np.ones(len(frame), dtype=bool)
-    filled_dates, filled_close, filled_observed, missing, filled, unfilled = bounded_forward_fill(
+    expected_dates, expected_close, expected_observed, missing, filled, unfilled = bounded_forward_fill(
         dates,
         close,
         step=step,
         maximum_fill_bars=cohort.maximum_fill_bars,
     )
+    materialized_fill = materialized_fill.sort_values("date").reset_index(drop=True)
+    required_fill = {"date", "close", "is_observed", "is_imputed"}
+    missing_fill = sorted(required_fill - set(materialized_fill.columns))
+    if missing_fill:
+        raise ValueError(f"materialized fill is missing columns: {missing_fill}")
+    filled_dates = materialized_fill["date"].to_numpy(dtype="datetime64[ns]")
+    filled_close = materialized_fill["close"].to_numpy(np.float64)
+    filled_observed = materialized_fill["is_observed"].to_numpy(bool)
+    if not (
+        np.array_equal(filled_dates, expected_dates)
+        and np.array_equal(filled_observed, expected_observed)
+        and np.allclose(filled_close, expected_close, rtol=0, atol=0)
+        and materialized_fill["is_imputed"].to_numpy(bool).tolist()
+        == (~expected_observed).tolist()
+    ):
+        raise AssertionError(f"materialized bounded fill does not replay for {contract_id}")
     cohort.total_missing_grid_rows += missing
     cohort.bounded_fill_rows += filled
     cohort.long_gap_rows_not_filled += unfilled
@@ -224,10 +245,10 @@ def add_contract(cohort: Cohort, frame: pd.DataFrame, contract_id: str, horizons
         untouched_delta = filled_delta[~touches_fill]
         touched_delta = filled_delta[touches_fill]
         for mode, delta in (
-            ("strict_observed", raw_delta),
-            ("bounded_ffill_all", filled_delta),
-            ("bounded_ffill_untouched", untouched_delta),
-            ("bounded_ffill_touched", touched_delta),
+            ("observed_only_clean", raw_delta),
+            ("filled_all", filled_delta),
+            ("filled_untouched", untouched_delta),
+            ("filled_touched", touched_delta),
         ):
             cohort.stats.setdefault((horizon, mode), Stats()).update(delta)
         absolute = np.abs(raw_delta)
@@ -241,10 +262,31 @@ def add_contract(cohort: Cohort, frame: pd.DataFrame, contract_id: str, horizons
     cohort.contract_records.append(record)
 
 
-def load_recent(path: Path, cohort: Cohort, horizons: list[int]) -> None:
+def load_recent(
+    path: Path,
+    filled_path: Path,
+    cohort: Cohort,
+    horizons: list[int],
+) -> None:
     frame = normalize(pd.read_parquet(path))
+    filled_frame = normalize(pd.read_parquet(filled_path))
+    if not {"is_observed", "is_imputed"}.issubset(filled_frame.columns):
+        raise ValueError(f"filled file lacks imputation metadata: {filled_path}")
+    filled_by_condition = {
+        str(condition_id): contract.reset_index(drop=True)
+        for condition_id, contract in filled_frame.groupby("condition_id", sort=True)
+    }
     for condition_id, contract in frame.groupby("condition_id", sort=True):
-        add_contract(cohort, contract.reset_index(drop=True), str(condition_id), horizons)
+        key = str(condition_id)
+        if key not in filled_by_condition:
+            raise ValueError(f"filled file has no rows for {key}")
+        add_contract(
+            cohort,
+            contract.reset_index(drop=True),
+            key,
+            horizons,
+            materialized_fill=filled_by_condition[key],
+        )
 
 
 def summary_records(cohort: Cohort) -> list[dict[str, object]]:
@@ -296,8 +338,8 @@ def render_report(
     lines = [
         "# Native 15-Minute and One-Hour Dynamics",
         "",
-        "Descriptive EDA only. Raw and clean artifacts are read without modification. "
-        "Bounded forward filling is simulated in memory.",
+        "Descriptive EDA only. Clean artifacts are read without modification and the "
+        "separate materialized bounded-fill layer is replay-validated before analysis.",
         "",
         "## Coverage and gaps",
         "",
@@ -319,22 +361,23 @@ def render_report(
             "",
             "## Probability movement",
             "",
-            "| Cohort | Horizon | Mode | Targets | Exact zero | >0.005 | >0.01 | >0.05 | Mean abs move |",
-            "|---|---:|---|---:|---:|---:|---:|---:|---:|",
+        "| Cohort | Horizon | Mode | Targets | Exact zero | Non-zero | >0.005 | >0.01 | Mean abs move | RMS move | Fill-touched share |",
+        "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
-    shown = summary.loc[summary["mode"].isin(["strict_observed", "bounded_ffill_all", "bounded_ffill_touched"])]
+    shown = summary.loc[summary["mode"].isin(["observed_only_clean", "filled_all", "filled_touched"])]
     for row in shown.itertuples(index=False):
         lines.append(
             f"| {row.cohort} | {row.horizon_minutes}m | {row.mode} | {row.targets:,} | "
-            f"{pct(row.zero_fraction)} | {pct(row.meaningful_005_fraction)} | "
-            f"{pct(row.move_gt_01_fraction)} | {pct(row.move_gt_05_fraction)} | "
-            f"{row.mean_absolute_move:.6f} |"
+            f"{pct(row.zero_fraction)} | {pct(row.nonzero_fraction)} | "
+            f"{pct(row.meaningful_005_fraction)} | {pct(row.move_gt_01_fraction)} | "
+            f"{row.mean_absolute_move:.6f} | {row.root_mean_square_move:.6f} | "
+            f"{pct(row.fill_touched_fraction)} |"
         )
     lines.extend(
         [
             "",
-            "`bounded_ffill_touched` isolates targets whose interval contains at least one "
+            "`filled_touched` isolates targets whose interval contains at least one "
             "synthetic row. It is diagnostic and should not be interpreted as newly observed market movement.",
             "",
             "## Filling policy",
@@ -350,7 +393,8 @@ def render_report(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--output-dir", type=Path)
     parser.add_argument(
         "--maximum-fill-bars",
         type=int,
@@ -359,29 +403,50 @@ def main() -> None:
     )
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
-    if args.maximum_fill_bars < 0:
-        parser.error("maximum-fill-bars must be non-negative")
-    prepare_output(args.output_dir, args.overwrite)
+    if args.maximum_fill_bars != 1:
+        parser.error("the materialized exploratory contract requires maximum-fill-bars=1")
+    output_dir = args.output_dir or args.input_dir / "analysis/native_15m_1h_dynamics"
+    prepare_output(output_dir, args.overwrite)
 
     cohorts = [
-        Cohort("recent_raw_1h", 60, args.maximum_fill_bars, "FinData native one-hour raw"),
-        Cohort("recent_clean_1h", 60, args.maximum_fill_bars, "FinData native one-hour after quarantine"),
-        Cohort("recent_raw_15m", 15, args.maximum_fill_bars, "FinData native 15-minute raw"),
-        Cohort("recent_clean_15m", 15, args.maximum_fill_bars, "FinData native 15-minute after quarantine"),
+        Cohort("clean_1h", 60, args.maximum_fill_bars, "FinData native one-hour after quarantine"),
+        Cohort("clean_15m", 15, args.maximum_fill_bars, "FinData native 15-minute after quarantine"),
     ]
-    print("Loading only the recent FinData one-hour and 15-minute cohorts...", flush=True)
-    load_recent(RECENT_ROOT / "candles_1h.parquet", cohorts[0], [1, 2])
-    load_recent(RECENT_ROOT / "candles_1h_clean.parquet", cohorts[1], [1, 2])
-    load_recent(RECENT_ROOT / "candles_15min.parquet", cohorts[2], [1, 2, 4])
-    load_recent(RECENT_ROOT / "candles_15min_clean.parquet", cohorts[3], [1, 2, 4])
+    print("Loading clean and materialized filled one-hour/15-minute cohorts...", flush=True)
+    load_recent(
+        args.input_dir / "candles_1h_clean.parquet",
+        args.input_dir / "candles_1h_clean_ffill1.parquet",
+        cohorts[0],
+        [1, 2],
+    )
+    load_recent(
+        args.input_dir / "candles_15min_clean.parquet",
+        args.input_dir / "candles_15min_clean_ffill1.parquet",
+        cohorts[1],
+        [1, 2, 4],
+    )
 
     cohort_frame = pd.DataFrame([cohort_record(cohort) for cohort in cohorts])
     summary = pd.DataFrame(
         [record for cohort in cohorts for record in summary_records(cohort)]
     )
+    summary["fill_touched_fraction"] = np.nan
+    for (_, _), indices in summary.groupby(["cohort", "horizon_bars"]).groups.items():
+        group = summary.loc[indices].set_index("mode")
+        touched_share = group.loc["filled_touched", "targets"] / group.loc["filled_all", "targets"]
+        modes = summary.loc[indices, "mode"]
+        summary.loc[indices, "fill_touched_fraction"] = modes.map(
+            {
+                "observed_only_clean": 0.0,
+                "filled_all": touched_share,
+                "filled_untouched": 0.0,
+                "filled_touched": 1.0,
+            }
+        ).to_numpy()
     verification_columns = [
         "targets",
         "zero_fraction",
+        "nonzero_fraction",
         "meaningful_005_fraction",
         "move_gt_01_fraction",
         "move_gt_05_fraction",
@@ -390,8 +455,8 @@ def main() -> None:
     ]
     for (cohort_name, horizon), group in summary.groupby(["cohort", "horizon_bars"]):
         indexed = group.set_index("mode")
-        observed = indexed.loc["strict_observed", verification_columns]
-        untouched = indexed.loc["bounded_ffill_untouched", verification_columns]
+        observed = indexed.loc["observed_only_clean", verification_columns]
+        untouched = indexed.loc["filled_untouched", verification_columns]
         if not np.allclose(
             observed.to_numpy(np.float64),
             untouched.to_numpy(np.float64),
@@ -404,33 +469,43 @@ def main() -> None:
     contracts = pd.concat(
         [pd.DataFrame(cohort.contract_records) for cohort in cohorts], ignore_index=True
     )
-    cohort_frame.to_csv(args.output_dir / "cohort_gap_summary.csv", index=False)
-    summary.to_csv(args.output_dir / "movement_summary.csv", index=False)
-    contracts.to_parquet(args.output_dir / "contract_metrics.parquet", index=False)
+    cohort_frame.to_csv(output_dir / "cohort_gap_summary.csv", index=False)
+    summary.to_csv(output_dir / "movement_summary.csv", index=False)
+    contracts.to_parquet(output_dir / "contract_metrics.parquet", index=False)
     report = render_report(
         cohort_frame,
         summary,
         maximum_fill_bars=args.maximum_fill_bars,
     )
-    (args.output_dir / "report.md").write_text(report, encoding="utf-8")
+    (output_dir / "report.md").write_text(report, encoding="utf-8")
     manifest = {
         "schema_version": 1,
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "purpose": "descriptive native-frequency movement and bounded-forward-fill EDA",
-        "source_scope": "newly collected FinData cohort only; old feather archive excluded",
+        "source_scope": "clean and separately materialized one-bar-fill FinData cohort",
         "stable_threshold": THRESHOLD,
         "bounded_fill_policy": {
             "maximum_missing_bars": args.maximum_fill_bars,
             "15m_maximum_duration_minutes": 15 * args.maximum_fill_bars,
             "1h_maximum_duration_minutes": 60 * args.maximum_fill_bars,
             "fill_close": "last observed close",
-            "recommended_OHLC": "all equal to last observed close",
-            "recommended_volume": 0,
+            "fill_OHLC": "all equal to last observed close",
+            "fill_volume": 0,
             "raw_files_modified": False,
         },
         "cohorts": cohort_frame.to_dict(orient="records"),
+        "source_sha256": {
+            name: hashlib.sha256((args.input_dir / name).read_bytes()).hexdigest()
+            for name in (
+                "candles_1h_clean.parquet",
+                "candles_1h_clean_ffill1.parquet",
+                "candles_15min_clean.parquet",
+                "candles_15min_clean_ffill1.parquet",
+            )
+        },
+        "materialized_fill_replay_validated": True,
     }
-    (args.output_dir / "manifest.json").write_text(
+    (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, default=str), encoding="utf-8"
     )
     print(report)

@@ -299,8 +299,10 @@ def render_report(
         "",
         "## Scope",
         "",
-        f"The cohort contains {len(metadata)} retrospectively selected Polymarket conditions. "
-        "It supports exploratory acquisition and movement analysis; it is not a cutoff-local Phase 4 universe.",
+        f"The cohort contains {len(metadata)} Polymarket conditions whose candle eligibility was "
+        "probed inside the manifest's selection interval. Catalog volume and complete market metadata "
+        "remain retrospective inputs, so this is an exploratory study cohort rather than a production "
+        "cutoff-local universe.",
         "",
         "Selected markets:",
         "",
@@ -397,13 +399,15 @@ def render_report(
     lines.append("")
     lines.extend(
         [
-            "## Decision",
+            "## Interpretation",
             "",
-            "The condition-level candle API is not suitable as a model input because outcome-token orientation "
-            "is absent and sometimes mixed. Use the token-identified trade audit for valid exploratory prices. "
-            "Any later experiment still needs a predeclared causal gap policy and cutoff-local universe selection. "
-            "Rows from related contracts are not independent market regimes, so pooled row counts must not be "
-            "treated as independent evidence.",
+            "The condition-level candles are not verified canonical YES-probability histories because outcome-token "
+            "identity is absent and sometimes mixed. The project accepts them only as an explicitly exploratory "
+            "Phase 5 source after the approved quarantine, causal bounded-gap treatment, and source-limitation "
+            "reporting. This raw audit does not clear training: walk-local decision availability, activity and target "
+            "eligibility, identical baseline rows, and replayable manifests still have to be enforced. Rows from "
+            "related contracts are not independent market regimes, so pooled row counts must not be treated as "
+            "independent evidence.",
             "",
         ]
     )

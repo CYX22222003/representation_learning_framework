@@ -73,6 +73,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--start", default=DEFAULT_START)
     parser.add_argument("--end", default=DEFAULT_END, help="exclusive UTC endpoint")
+    parser.add_argument(
+        "--selection-start",
+        help="optional inclusive UTC start used only for eligibility probes",
+    )
+    parser.add_argument(
+        "--selection-end",
+        help="optional exclusive UTC end used only for eligibility probes",
+    )
     parser.add_argument("--top-k", type=int, default=24)
     parser.add_argument("--candidate-limit", type=int, default=120)
     parser.add_argument("--max-per-family", type=int, default=2)
@@ -106,6 +114,10 @@ def main() -> None:
     end = parse_timestamp(args.end)
     if not start < end:
         parser.error("start must be earlier than end")
+    selection_start = parse_timestamp(args.selection_start) if args.selection_start else start
+    selection_end = parse_timestamp(args.selection_end) if args.selection_end else end
+    if not start <= selection_start < selection_end <= end:
+        parser.error("selection interval must be non-empty and contained in the download interval")
     prepare_output(args.output_dir, args.overwrite)
 
     client = FinDataClient(load_lumid_token(ROOT / ".env"))
@@ -118,8 +130,8 @@ def main() -> None:
     )
     overlapping = overlapping_candidates(
         catalog,
-        start=start,
-        end=end,
+        start=selection_start,
+        end=selection_end,
         minimum_overlap_hours=args.minimum_market_hours,
     )
     candidate_order = diverse_candidate_order(
@@ -139,8 +151,8 @@ def main() -> None:
     selected, audit = probe_candidates(
         client,
         candidate_order,
-        start=start,
-        end=end,
+        start=selection_start,
+        end=selection_end,
         minimum_bars=args.minimum_probe_bars,
         minimum_span_hours=args.minimum_probe_span_hours,
         top_k=args.top_k,
@@ -216,6 +228,10 @@ def main() -> None:
     metadata = selected.merge(details_frame, on="condition_id", how="left", suffixes=("_search", "_detail"))
     metadata["question_snapshot"] = metadata["title"]
     metadata["mvp_rank"] = metadata["selection_rank"]
+    metadata["selection_interval_start"] = pd.Timestamp(selection_start)
+    metadata["selection_interval_end"] = pd.Timestamp(selection_end)
+    metadata["download_interval_start"] = pd.Timestamp(start)
+    metadata["download_interval_end"] = pd.Timestamp(end)
 
     catalog_path = args.output_dir / "market_search_catalog.parquet"
     metadata_path = args.output_dir / "market_metadata.parquet"
@@ -295,7 +311,11 @@ def main() -> None:
             "end_exclusive": format_rfc3339(end),
         },
         "selection": {
-            "status": "exploratory_historical_volume_category_diverse",
+            "status": "exploratory_training_interval_probe_volume_category_diverse",
+            "probe_interval": {
+                "start_inclusive": format_rfc3339(selection_start),
+                "end_exclusive": format_rfc3339(selection_end),
+            },
             "catalog_statuses": ["open", "closed"],
             "page_size": args.page_size,
             "pages_per_status": args.pages_per_status,
@@ -313,8 +333,10 @@ def main() -> None:
                 key: int(value) for key, value in selected["category"].value_counts().items()
             },
             "warning": (
-                "Full-lifetime volume, complete market dates, and heuristic categories are used for "
-                "exploratory retrospective analysis only. This is not a cutoff-local Phase 4 universe."
+                "Eligibility rows and span are probed only inside the recorded selection interval, "
+                "but catalog volume, complete market dates, and heuristic categories remain "
+                "retrospective selection inputs. This is an exploratory study cohort rather than "
+                "a production cutoff-local universe."
             ),
         },
         "intervals": {

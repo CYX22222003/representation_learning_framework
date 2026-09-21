@@ -11,7 +11,10 @@ whether a cohort is fit for training.
 
 Before network acquisition, record:
 
-- fixed UTC interval: `[2025-12-01T00:00:00Z, 2026-09-01T00:00:00Z)`;
+- download UTC interval (the default full audit is
+  `[2025-12-01T00:00:00Z, 2026-09-01T00:00:00Z)`);
+- for a calendar walk, its training-only selection/probe interval and its
+  wider download interval through the evaluation end;
 - user-provided contract count `K`;
 - both native resolutions: 15 minutes and one hour;
 - optional inclusion/exclusion keywords or event families;
@@ -43,9 +46,34 @@ Use `--defer-quarantine`: acquisition must finish with immutable raw candle
 files before any pruning. Authentication remains runtime-only and must never
 enter logs, manifests, or reports.
 
+For a predeclared calendar walk, probe eligibility only inside its training
+interval, then download the selected conditions through its evaluation end:
+
+```bash
+.venv/bin/python3 scripts_v2/collect_findata_historical_cohort.py \
+  --start <TRAIN_START> \
+  --end <EVALUATION_END> \
+  --selection-start <TRAIN_START> \
+  --selection-end <TRAINING_CUTOFF> \
+  --top-k <K> \
+  --candidate-limit <DECLARED_LIMIT> \
+  --max-per-family <DECLARED_CAP> \
+  --workers 8 \
+  --defer-quarantine \
+  --output-dir <WALK_ROOT>
+```
+
+This prevents evaluation-period candle coverage from qualifying a market for
+selection. The current FinData catalog still supplies full-lifetime volume and
+complete market dates, so the resulting universe remains a retrospective
+exploratory cohort rather than a production cutoff-local universe. Preserve
+that limitation in the manifest and research report.
+
 Verify after collection:
 
-- every timestamp is inside the global requested interval;
+- every timestamp is inside the requested download interval;
+- the manifest and market metadata reproduce the selection and download
+  bounds exactly;
 - unique `condition_id,date` identities and monotonic per-contract time;
 - finite OHLCV, nonnegative volume, and valid OHLC ordering;
 - 15-minute and one-hour contract coverage;
@@ -164,13 +192,18 @@ candles_1h_clean_ffill1.parquet
 fill_manifest.json
 ```
 
-At present, `scripts_v2/analyze_findata_native_dynamics.py` simulates bounded
-filling in memory; it does not materialize this derived layer and its input
-root is hardcoded. Before claiming that reusable processed files exist, reuse
-or implement a dedicated builder under `scripts_v2/`, add explicit
-`--input-dir`/`--output-dir` arguments, and validate it with focused tests.
-Do not silently run that script against its default top-50 path for a new
-cohort.
+Materialize and validate the separate layer with:
+
+```bash
+.venv/bin/python3 scripts_v2/build_findata_bounded_fill.py \
+  --input-dir <COHORT_ROOT>
+```
+
+The builder supports a distinct `--output-dir`, refuses to replace an existing
+fill layer unless `--overwrite` is supplied, verifies exact preservation of
+observed rows, and writes source/output hashes and row accounting to
+`fill_manifest.json`. Focused policy tests live in
+`tests/test_findata_bounded_fill.py`.
 
 The fill manifest must prove:
 
@@ -214,9 +247,19 @@ Treat a mismatch as a pipeline error. State clearly that filling repairs
 context continuity and mechanically increases zero movement; it does not create
 new observed market information.
 
-The current dynamics script can produce the comparison for the existing top-50
-cohort. Generalize its input/output arguments before using it for another
-cohort, then run with `--maximum-fill-bars 1`.
+Run the comparison against the materialized filled layer with explicit cohort
+provenance:
+
+```bash
+.venv/bin/python3 scripts_v2/analyze_findata_native_dynamics.py \
+  --input-dir <COHORT_ROOT> \
+  --output-dir <COHORT_ROOT>/analysis/native_15m_1h_dynamics \
+  --maximum-fill-bars 1 \
+  --overwrite
+```
+
+The analysis replay-validates the materialized rows against the clean series
+and fails if `observed_only_clean` differs from `filled_untouched`.
 
 ## 7. Plot Every Contract
 
@@ -225,15 +268,18 @@ figure per contract and native resolution. Use each contract-resolution's
 actual first and last clean candle as its x-axis range. Mark imputed rows and
 leave longer gaps as visible line breaks.
 
-For the current top-50 cohort:
-
 ```bash
-.venv/bin/python3 scripts_v2/plot_findata_native_ohlcv.py --overwrite
+.venv/bin/python3 scripts_v2/plot_findata_native_ohlcv.py \
+  --input-dir <COHORT_ROOT> \
+  --output-dir <COHORT_ROOT>/analysis/native_ohlcv_contract_plots \
+  --maximum-fill-bars 1 \
+  --overwrite
 ```
 
-For another cohort, pass explicit input/output roots. The plot manifest must
-record titles, condition IDs, observed and inserted row counts, actual plot
-bounds, source hashes, and plot hashes.
+The plotter reads the materialized fill layer and verifies its observed rows
+against the clean layer. The plot manifest must record titles, condition IDs,
+observed and inserted row counts, actual plot bounds, source hashes, and plot
+hashes.
 
 ## 8. Final Exploration Handoff
 

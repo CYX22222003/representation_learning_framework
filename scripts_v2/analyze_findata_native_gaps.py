@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 from datetime import datetime, timezone
@@ -18,6 +19,14 @@ DEFAULT_INPUT = (
     / "data_new/findata/polymarket/historical_diverse_top50_2025-12-01_2026-08-31"
 )
 DEFAULT_OUTPUT = DEFAULT_INPUT / "analysis/native_gap_audit"
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def prepare_output(path: Path, overwrite: bool) -> None:
@@ -197,6 +206,7 @@ def dataset_summary(
 ) -> dict[str, object]:
     missing = int(contracts["internal_missing_rows"].sum())
     observed = len(frame)
+    ranked_missing = contracts["internal_missing_rows"].sort_values(ascending=False)
     return {
         "resolution": resolution,
         "contracts": int(frame["condition_id"].nunique()),
@@ -228,6 +238,8 @@ def dataset_summary(
         "contracts_below_90pct_coverage": int(contracts["internal_coverage_fraction"].lt(0.90).sum()),
         "contracts_below_75pct_coverage": int(contracts["internal_coverage_fraction"].lt(0.75).sum()),
         "contracts_below_50pct_coverage": int(contracts["internal_coverage_fraction"].lt(0.50).sum()),
+        "top_10_contract_missing_fraction": float(ranked_missing.head(10).sum() / missing),
+        "top_20_contract_missing_fraction": float(ranked_missing.head(20).sum() / missing),
     }
 
 
@@ -265,9 +277,13 @@ def render_report(
     lines.extend(
         [
             "",
-            "The longest missing run is 1,106 quarter-hours (276.5 hours) at 15m and "
-            "275 hours at 1h. In both cases, the bounding observations are about 11.5 days "
-            "apart.",
+            "The longest missing runs are "
+            f"{summaries[0]['maximum_missing_bars']:,} native 15-minute bars "
+            f"({summaries[0]['maximum_missing_duration_hours']:,.2f} missing hours; "
+            f"{summaries[0]['maximum_observation_gap_hours']:,.2f} hours between bounding observations) "
+            f"and {summaries[1]['maximum_missing_bars']:,} native one-hour bars "
+            f"({summaries[1]['maximum_missing_duration_hours']:,.2f} missing hours; "
+            f"{summaries[1]['maximum_observation_gap_hours']:,.2f} hours between bounds).",
             "",
             "## Effect of anomaly pruning",
             "",
@@ -290,7 +306,10 @@ def render_report(
     lines.extend(
         [
             "",
-            "Pruning accounts for only 116 additional missing 15-minute slots and 147 "
+            "Pruning accounts for only "
+            f"{summaries[0]['internal_missing_rows'] - raw_summaries[0]['internal_missing_rows']:,} "
+            "additional missing 15-minute slots and "
+            f"{summaries[1]['internal_missing_rows'] - raw_summaries[1]['internal_missing_rows']:,} "
             "additional missing one-hour slots. The large majority of gaps were already "
             "present in the raw FinData response.",
         ]
@@ -332,11 +351,17 @@ def render_report(
             "## Per-contract concentration",
             "",
             f"At 15m, median per-contract coverage is {pct(summaries[0]['median_contract_coverage'])}; "
-            f"{summaries[0]['contracts_below_75pct_coverage']}/50 contracts are below 75% and "
-            f"{summaries[0]['contracts_below_50pct_coverage']}/50 are below 50%. At 1h, median "
+            f"{summaries[0]['contracts_below_75pct_coverage']}/{summaries[0]['contracts']} contracts are below 75% and "
+            f"{summaries[0]['contracts_below_50pct_coverage']}/{summaries[0]['contracts']} are below 50%. At 1h, median "
             f"coverage is {pct(summaries[1]['median_contract_coverage'])}; "
-            f"{summaries[1]['contracts_below_75pct_coverage']}/50 are below 75% and "
-            f"{summaries[1]['contracts_below_50pct_coverage']}/50 are below 50%.",
+            f"{summaries[1]['contracts_below_75pct_coverage']}/{summaries[1]['contracts']} are below 75% and "
+            f"{summaries[1]['contracts_below_50pct_coverage']}/{summaries[1]['contracts']} are below 50%.",
+            "",
+            "Missing-row concentration in the 10/20 most affected contracts is "
+            f"{pct(summaries[0]['top_10_contract_missing_fraction'])}/"
+            f"{pct(summaries[0]['top_20_contract_missing_fraction'])} at 15m and "
+            f"{pct(summaries[1]['top_10_contract_missing_fraction'])}/"
+            f"{pct(summaries[1]['top_20_contract_missing_fraction'])} at 1h.",
             "",
         ]
     )
@@ -467,6 +492,15 @@ def main() -> None:
         "cross_resolution": cross,
         "endpoint_gaps_outside_first_last_observation_measured": False,
         "source_files_modified": False,
+        "source_artifacts": {
+            name: {"sha256": sha256_file(args.input_dir / name)}
+            for name in (
+                "candles_15min.parquet",
+                "candles_1h.parquet",
+                "candles_15min_clean.parquet",
+                "candles_1h_clean.parquet",
+            )
+        },
     }
     (args.output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, default=str), encoding="utf-8"
