@@ -23,8 +23,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > target maturity, common comparator identities, and replayable data manifests
 > are implemented under `src/data_processing/phase5_walks.py`, exposed by
 > `scripts_v3/`, and validated under `experiments/phase5/data_preparation/`.
-> Do not launch Phase 5 training until the walk-specific model lifecycle,
-> frozen matrix, CPU smoke tests, and prediction replay are complete.
+> The six walk-specific canonical neural-encoder trajectories are complete and
+> replay-validated at epochs 5/15/50, with epoch 50 fixed for feature
+> extraction. Do not launch downstream or baseline training until their matrix,
+> lifecycle, CPU smoke tests, and prediction replay contract are complete.
 > Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
 > top-80 contract in
@@ -37,6 +39,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > concat framework, and separate weights per walk. Encoder variants, gating,
 > branch ablations, and temporal transfer move to Phase 6. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+> The completed canonical encoder matrix is specified in
+> `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
 > only inside each training interval and download the selected conditions
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
@@ -106,6 +110,14 @@ canonical plan. See
 # entry points belong under scripts_v3; reusable logic belongs under src/.
 .venv/bin/python3 scripts_v3/prepare_phase5_data.py
 .venv/bin/python3 scripts_v3/validate_phase5_data.py
+
+# Freeze, execute, validate, and report the six canonical Phase 5 neural
+# encoder trajectories. The matrix has already completed; these commands are
+# the replay contract.
+.venv/bin/python3 scripts_v3/launch_phase5_encoder_pretraining.py --device cuda
+.venv/bin/python3 scripts_v3/launch_phase5_encoder_pretraining.py --execute
+.venv/bin/python3 scripts_v3/validate_phase5_encoder_pretraining.py
+.venv/bin/python3 scripts_v3/report_phase5_encoder_pretraining.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature

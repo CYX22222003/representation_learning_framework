@@ -23,6 +23,9 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
    and `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full. The
    Phase 5 plan supersedes conflicting initial design and handoff language.
+   For canonical Phase 5 encoder architecture, recipes, or completed weights,
+   also read
+   `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -40,6 +43,9 @@ Present the parts relevant to the request:
 - For Phase 5, describe the canonical five-branch concat framework, separate
   weights per global walk, shared two-hour regression/classification horizon,
   and `tau=0.001` classification. Lifecycle is a reporting stratum.
+  The canonical VAE, contrastive CNN, and BYOL CNN now have independently
+  trained, replay-validated epoch-50 weights for both walks; statistical and
+  transformed branches remain deterministic.
 - Treat encoder variants, fixed-first-walk transfer, gated fusion,
   lifecycle-conditioned models, and branch ablations as Phase 6 work.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.

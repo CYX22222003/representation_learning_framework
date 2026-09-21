@@ -26,6 +26,8 @@ Read these in order:
    in full. Then read
    `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full; it is the
    authoritative Phase 5 contract and supersedes conflicting handoff language.
+   For Phase 5 encoder implementation, execution, or readiness, also read
+   `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -45,8 +47,10 @@ Report:
   identical baseline rows, and replay checks are implemented and validated.
   The data builder and common identities are currently implemented through
   `scripts_v3/` with artifacts under `experiments/phase5/data_preparation/`;
-  do not conflate that completion with the still-pending model lifecycle and
-  model-level replay gate.
+  the six canonical walk-specific neural encoders are also trained and replay-
+  validated under `experiments/phase5/encoder_pretraining/`. Do not conflate
+  these completions with the still-pending feature, downstream-head, baseline,
+  and downstream prediction-replay gate.
   Retrospective selection and final pruning are accepted Phase 5 assumptions;
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.

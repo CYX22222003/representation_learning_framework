@@ -1,8 +1,8 @@
 # Phase 5 Main Experiment Plan
 
 **Date:** 2026-09-21  
-**Status:** Core design frozen; train/test preparation implemented and validated;
-model lifecycle and experiment matrix pending
+**Status:** Data preparation and canonical encoder pretraining complete;
+feature extraction, downstream models, and baselines pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
 
 ## 1. Authority and evolution of the research design
@@ -270,7 +270,9 @@ observed-endpoint, and maturity rules. Consequently, changing or removing any
 target whose availability is at or after the cutoff cannot change the earlier
 walk's encoder identities, sequences, or preprocessing state.
 
-Training remains blocked until the incomplete items below are finished:
+Downstream-head and baseline training remain blocked until the incomplete
+items below are finished. Canonical encoder pretraining is complete under its
+dedicated amendment:
 
 1. **Complete:** build the two walk-specific sequence and identity manifests.
 2. **Complete:** enforce context, activity, supported-contract,
@@ -278,12 +280,15 @@ Training remains blocked until the incomplete items below are finished:
 3. **Complete:** build shared two-hour regression and classification labels.
 4. **Complete at the data layer:** freeze common framework/baseline identities,
    preserve raw OHLCV, and validate the raw-volume mask invariants.
-5. **Partial:** walk-specific train-only volume preprocessing is implemented;
-   independent encoder, feature, head, and baseline lifecycles remain.
-6. **Pending:** freeze the learned model/baseline matrix, seeds, budgets, and
-   launch order in an implementation amendment.
-7. **Pending:** complete model-level CPU smoke tests and prediction replay.
-8. Only then launch the Phase 5 training runs.
+5. **Partial:** walk-specific preprocessing and all six canonical neural-
+   encoder trajectories are implemented, executed, and replay-validated;
+   feature, downstream-head, and baseline lifecycles remain.
+6. **Partial:** the encoder matrix is frozen and complete under
+   `2026-09-21-phase-5-encoder-pretraining-amendment.md`; downstream and
+   baseline seeds, budgets, and launch order remain to be frozen.
+7. **Partial:** encoder CPU smoke tests, checkpoint replay, and epoch-50
+   inference replay are complete; downstream prediction replay remains.
+8. Only then launch the remaining Phase 5 downstream and baseline runs.
 
 Retrospective universe selection and `quarantine_available_at` replay are not
 Phase 5 blockers under the accepted assumptions in Section 3.

@@ -14,8 +14,8 @@
 > regression/classification targets. The walk-specific train/test builder,
 > shared labels, common comparator identities, and replayable data manifests
 > are now implemented and validated. Do not launch training until the
-> walk-specific encoder/head/baseline lifecycle, frozen matrix, model smoke
-> tests, and prediction replay are implemented and validated.
+> remaining walk-specific feature/head/baseline lifecycle, downstream matrix,
+> downstream smoke tests, and prediction replay are implemented and validated.
 
 ---
 
@@ -29,6 +29,7 @@
 | Recent FinData Phase 5 walk-capacity audit | ✅ No-training feasibility complete: balanced two-walk `seq64` candidate retains 31,828/37,173 active training rows and 21,401/10,086 supported evaluation rows; retrospective selection and final pruning are now accepted Phase 5 assumptions rather than blockers |
 | Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Primary Phase 5 cohorts frozen: two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1. |
 | Phase 5 walk-specific sequence/label preparation | ✅ Implemented in `src/data_processing/phase5_walks.py`, exposed only through `scripts_v3/`, and replay-validated under `experiments/phase5/data_preparation/`. Target-free encoder selection is separated from downstream target eligibility. Walk 1 has 39,070 encoder / 37,864 supervised-train / 30,340 supported-evaluation rows; Walk 2 has 58,473 / 57,521 / 13,887. Raw and train-scaled OHLCV, common regression/classification labels, causal activity, endpoint maturity, gap metadata, and source/artifact hashes are preserved. |
+| Phase 5 canonical encoder pretraining | ✅ Six independent seed-0 CUDA trajectories complete: VAE, contrastive CNN, and BYOL CNN for each walk, one continuous 50-epoch run with snapshots at 5/15/50. All checkpoints and histories replay-valid, epoch-50 inference passes, and no collapse warning was raised. Weights live under `experiments/phase5/encoder_pretraining/`; epoch 50 is fixed for feature extraction. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |

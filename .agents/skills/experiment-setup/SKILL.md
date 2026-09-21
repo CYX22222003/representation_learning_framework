@@ -71,9 +71,11 @@ Read these in order:
     The walk-specific sequence/label builder and identical comparator
     identities are implemented under `src/data_processing/` and exposed by
     `scripts_v3/`, with validated bundles under
-    `experiments/phase5/data_preparation/`. Training remains gated on the
-    walk-specific model lifecycle, frozen matrix, model smoke tests, and
-    prediction replay.
+    `experiments/phase5/data_preparation/`. The six canonical walk-specific
+    neural encoder trajectories are complete under
+    `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
+    Remaining downstream and baseline training stays gated on its frozen
+    matrix, model smoke tests, and prediction replay.
     Encoder row eligibility must remain target-free; apply future-target
     existence, observed status, segment continuity, and maturity only when
     deriving downstream supervised train/evaluation rows.
