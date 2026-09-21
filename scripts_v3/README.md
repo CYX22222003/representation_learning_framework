@@ -62,3 +62,12 @@ change and two-hour ordinary log return without changing the 64-hour encoders:
 .venv/bin/python3 scripts_v3/report_phase5_regression_sensitivities.py
 .venv/bin/python3 scripts_v3/report_phase5_regression_rank_ic.py
 ```
+
+The completed eight-hour absolute future-price probe reuses those same rows
+and features:
+
+```bash
+.venv/bin/python3 scripts_v3/launch_phase5_absolute_price_h8.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_absolute_price_h8.py
+.venv/bin/python3 scripts_v3/report_phase5_absolute_price_h8.py
+```

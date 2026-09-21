@@ -29,3 +29,7 @@ baseline comparisons are a separate pending Phase 5 stage.
 eight-hour raw-change and two-hour log-return probes, including train-only
 target transforms, probability reconstruction, price-band breakdowns, and
 5/15/50 CPU prediction replay.
+
+`phase5_absolute_price.py` owns the completed sigmoid-bounded eight-hour
+future-price probe. It reports level reconstruction versus current-price
+persistence and separately evaluates the implied probability movement.

@@ -89,6 +89,10 @@ Read these in order:
     `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`:
     eight-hour raw change uses independently mature targets, while two-hour
     log return uses a train-only target transform and price-band reporting.
+    The executed absolute-price probe is governed by
+    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`: it
+    reuses the eight-hour rows, has no explicit current-price skip, and reports
+    implied-movement Rank IC separately from level reconstruction.
 12. For recent one-hour Phase 5 window capacity, read
     `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
     Use its capacity evidence while applying the later Phase 5 decision:

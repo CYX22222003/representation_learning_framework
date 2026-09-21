@@ -309,6 +309,10 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Executed exploratory sensitivities: eight-hour raw probability change and
      two-hour ordinary log return. These diagnose horizon and target-unit
      effects without replacing the primary two-hour raw-change task.
+   - Executed auxiliary level probe: sigmoid-bounded eight-hour future
+     probability. Report price-level error versus persistence and evaluate the
+     implied change with Rank IC so state reconstruction is not mistaken for
+     incremental forecasting.
    - Metrics: MAE, RMSE/MSE, Pearson/Spearman correlation, sign agreement,
      per-contract, per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in

@@ -32,6 +32,8 @@ Read these in order:
    For the executed eight-hour raw-change and two-hour log-return
    sensitivities, also read
    `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+   For the executed eight-hour absolute future-price probe, also read
+   `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -55,7 +57,9 @@ Present the parts relevant to the request:
   feature stores and seed-0 regression/classification probes are complete and
   replay-validated. The exploratory eight-hour raw-change and two-hour
   log-return probes are also complete and did not recover signed correlation;
-  learned-baseline comparisons remain pending.
+  the later absolute-price probe recovers positive implied-movement Rank IC
+  but remains worse than persistence on level error and weaker than a simple
+  last-hour reversal score. Learned-baseline comparisons remain pending.
 - Treat encoder variants, fixed-first-walk transfer, gated fusion,
   lifecycle-conditioned models, and branch ablations as Phase 6 work.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.

@@ -82,6 +82,8 @@ units, or seed-0 framework probing, include
 For eight-hour raw-change or two-hour log-return sensitivity design,
 implementation, or results, include
 `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+For eight-hour absolute future-price design, implementation, or results,
+include `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.

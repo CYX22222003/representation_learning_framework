@@ -50,6 +50,10 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > target. Their target-free encoder populations remain identical to the
 > primary bundles; neither sensitivity is a replacement target selected from
 > evaluation performance.
+> The subsequent eight-hour absolute-price probe reuses the exact `h8` rows
+> and features, predicts a sigmoid-bounded future close without an explicit
+> current-price skip, and reports both price-level skill versus persistence and
+> implied-movement Rank IC.
 
 ---
 

@@ -212,6 +212,12 @@ eight-hour raw probability change and two-hour ordinary log return. They are
 diagnostic horizon/target-unit probes rather than replacements selected from
 evaluation performance; neither recovered stable signed correlation.
 
+An auxiliary Phase 5 eight-hour absolute-price probe is also complete. It
+reconstructs future probability levels but remains worse than persistence on
+level error. Its implied movement has positive Rank IC, though a simple
+last-hour reversal score is stronger; the result motivates matched raw
+temporal baselines rather than a representation-superiority claim.
+
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1
 encoders fixed, (2) encoder refinement through matched new temporal-backbone

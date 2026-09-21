@@ -47,6 +47,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The executed post-primary eight-hour raw-change and two-hour log-return
 > sensitivities are specified in
 > `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+> The executed recent-data eight-hour future-price probe is specified in
+> `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
 > only inside each training interval and download the selected conditions
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
@@ -143,6 +145,12 @@ canonical plan. See
 .venv/bin/python3 scripts_v3/validate_phase5_regression_sensitivities.py
 .venv/bin/python3 scripts_v3/report_phase5_regression_sensitivities.py
 .venv/bin/python3 scripts_v3/report_phase5_regression_rank_ic.py
+
+# Execute, replay, and report the completed eight-hour absolute future-price
+# probe and its implied-movement Rank IC diagnostics.
+.venv/bin/python3 scripts_v3/launch_phase5_absolute_price_h8.py --device cuda
+.venv/bin/python3 scripts_v3/validate_phase5_absolute_price_h8.py
+.venv/bin/python3 scripts_v3/report_phase5_absolute_price_h8.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -585,6 +593,12 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   mean/std on training rows only. Both are exploratory seed-0 probes under
   `experiments/phase5/regression_sensitivities/`; neither replaces the primary
   two-hour raw-change result.
+- Phase-5 absolute price sensitivity: `absolute_price_h8` consumes the exact
+  eight-hour sensitivity rows/features and predicts `close[t+8h]` through a
+  sigmoid head without an explicit current-price skip. Price-level metrics are
+  reported against persistence, while `prediction-current_close` is evaluated
+  as implied movement with Rank IC. Its rank signal is positive but weaker
+  than a simple last-hour reversal reference.
 - Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.

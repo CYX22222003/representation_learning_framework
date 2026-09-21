@@ -3,7 +3,8 @@
 **Date:** 2026-09-21  
 **Status:** Data preparation, canonical encoder pretraining, frozen feature
 extraction, seed-0 framework downstream probing, and two exploratory regression
-sensitivities complete; learned baselines and additional seeds pending
+sensitivities plus an eight-hour absolute-price probe complete; learned
+baselines and additional seeds pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
 
 ## 1. Authority and evolution of the research design
@@ -160,6 +161,13 @@ Two post-primary exploratory sensitivities are complete under
 probability change and two-hour ordinary log return. Neither recovered stable
 signed correlation. They remain diagnostic evidence and do not replace the
 primary two-hour raw-change task.
+
+The later `absolute_price_h8` sensitivity is complete under
+`2026-09-21-phase-5-absolute-price-h8-amendment.md`. Direct future-price
+training remains worse than persistence on level error, but its implied change
+has positive Rank IC in both walks. A simple last-hour reversal score is
+stronger, so the result motivates a raw temporal comparator rather than a
+claim that the representation adds unique predictive value.
 
 The framework-downstream implementation trains on the fixed probability-point
 unit `100 * delta` and divides predictions by 100 before primary raw-delta

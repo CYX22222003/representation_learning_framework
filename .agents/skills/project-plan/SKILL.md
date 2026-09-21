@@ -32,6 +32,8 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
    For Phase 5 regression-sensitivity progress or conclusions, also read
    `docs/phase_plan/2026-09-21-phase-5-regression-sensitivities-amendment.md`.
+   For Phase 5 absolute-price sensitivity progress or conclusions, also read
+   `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -60,6 +62,9 @@ Report:
   under `experiments/phase5/regression_sensitivities/`; neither recovered
   signed correlation. Learned baselines and additional seeds remain pending;
   do not infer cross-model superiority from the framework-only result.
+  The eight-hour absolute-price probe is also complete: it reconstructs level
+  with high correlation but trails persistence on error; its implied movement
+  Rank IC is positive but weaker than last-hour reversal.
   Retrospective selection and final pruning are accepted Phase 5 assumptions;
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.
