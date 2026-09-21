@@ -4,18 +4,24 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Running Scripts
 
-> **Phase-5 execution gate (2026-09-21):** Phase 4 data selection and
+> **Phase-5 execution gate (2026-09-21):** Read
+> `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` as the canonical
+> Phase 5 authority. The initial research idea, plan, and design changed
+> naturally after issues discovered in Phases 1--3; Phase 4 was the dedicated
+> data-analysis phase and ran no model training. Phase 4 data selection and
 > exploratory analysis are concluded; no Phase 4 model training was launched.
 > The next complete encoder/downstream/baseline loop moves to Phase 5. Its
-> selected exploratory source is the recent clean native one-hour FinData
-> cohort, with causal filling of complete isolated one-hour gaps, flat OHLC,
+> primary source is the two fresh walk-specific top-50 clean native one-hour
+> FinData cohorts, with filling of complete isolated one-hour gaps, flat OHLC,
 > zero volume, explicit imputation/time-since-observation metadata, observed
 > decision and target endpoints, and sequence breaks at longer gaps. Native
 > 15-minute data remains a resolution sensitivity. See
 > `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
-> Do not launch Phase 5 training until revised recent-period global-calendar
-> walks, cutoff-local universe selection, quarantine availability, causal
-> activity eligibility, target maturity, fold-specific model lifecycle,
+> Retrospective cohort selection is accepted, the approved final pruning is
+> assumed correct offline cleaning, and quarantine-availability replay is not
+> required. Do not launch Phase 5 training until the walk-specific sequence
+> and label builder, causal activity eligibility, target maturity,
+> walk-specific model lifecycle,
 > identical baseline rows, and replayable manifests are implemented and
 > validated under `scripts_v2/`. Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
@@ -24,18 +30,16 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > is historical pre-December-2025 feasibility evidence, not an active launch
 > specification. Phase 3 absolute next-close results remain negative
 > characterisation evidence and are not Phase 5 inputs.
-> A no-training capacity audit supports a 64-hour context and balanced
-> two-walk schedule as implementation candidates. It does not clear this gate:
-> the 50-condition cohort was selected retrospectively, `seq256` is materially
-> weaker after gap breaks, and evaluation must replay each quarantine decision
-> only after `quarantine_available_at`. See
+> Phase 5 freezes a 64-hour context, balanced two-walk schedule, shared
+> two-hour movement horizon, `tau=0.001` classification, canonical five-branch
+> concat framework, and separate weights per walk. Encoder variants, gating,
+> branch ablations, and temporal transfer move to Phase 6. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
 > only inside each training interval and download the selected conditions
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,
 > staleness, and plotting pipelines are complete. Walk 2 is materially sparser
-> than Walk 1. This still does not clear training: FinData catalog volume and
-> complete market metadata remain retrospective inputs, and the causal walk
+> than Walk 1. They are the accepted primary Phase 5 cohorts; the experiment
 > builder/model lifecycle is not implemented. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk1-walk2-exploration.md`.
 
@@ -46,13 +50,13 @@ prices. Forward-confirmed rule `condition-orientation-v2-forward-confirmed`
 retains persistent crashes/repricings and quarantines 116/325,730 native
 15-minute rows and 147/107,635 native hourly rows. Raw files remain immutable,
 removed timestamps remain gaps, and every decision records when its future
-confirmation became available. More than 99% retention is an exploratory
-operational result, not proof of YES-token identity. The token-identified
+confirmation became available. More than 99% retention is the audited basis
+for the Phase 5 assumption that approved pruning is correct offline cleaning.
+The token-identified
 YES-trade fallback is correctly oriented but supplies only 448 complete
-four-hour `seq64+h2` rows from two related contracts. Phase 4 nevertheless
-selects bounded-forward-filled clean native one-hour condition candles for an
-explicitly exploratory Phase 5 loop, with affected-contract exclusion and
-source-limitation reporting mandatory. See
+four-hour `seq64+h2` rows from two related contracts. Phase 5 uses the two
+fresh clean native one-hour walk cohorts under the assumption recorded in its
+canonical plan. See
 `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md` and
 `docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md`.
 
@@ -481,27 +485,28 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   transient reversions from persistent crashes using up to four later bars,
   writes the original rows and decision-availability timestamps to an audit
   artifact, never repairs prices, preserves removed timestamps as gaps, and
-  fails when more than 1% of either native resolution is flagged. A walk may
-  use a decision only after `quarantine_available_at`. Clean artifacts require
+  fails when more than 1% of either native resolution is flagged. Phase 5
+  assumes the approved final pruning is correct retrospective cleaning and
+  does not replay `quarantine_available_at`. Clean artifacts require
   exact-consecutive timestamp checks for every aggregation, context, and
-  target. Phase 5 selects the clean native one-hour series as an exploratory
-  source. It may causally fill only complete isolated one-hour gaps with flat
+  target. Phase 5 selects the two fresh clean native one-hour walk cohorts as
+  its primary source. It may fill only complete isolated one-hour gaps with flat
   OHLC, zero volume, and explicit imputation/time-since-observation metadata;
   decision and target endpoints must remain observed, longer gaps split
   sequences, and no stochastic augmentation is written to OHLCV or targets.
   Native 15-minute data remains a resolution sensitivity.
-  Token-consistent OHLCV must map the declared outcome to
-  `clob_token_ids` and retain that provenance. The selected one-hour source is
-  not training-ready until Phase 5 freezes revised recent-period walks, its
-  cutoff-local universe, source/quarantine availability, causal gap and
-  activity rules, identical baseline rows, and replayable manifests.
+  Under the accepted Phase 5 assumption, these clean files are canonical for
+  the thesis experiment. They are not training-ready until the sequence/label
+  builder, causal gap and activity rules, walk-specific weights, identical
+  baseline rows, and replayable manifests are validated.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.
 - Trend task label `.npz`: saved under `data/task_labels/trend_classification/`; keys include `train_labels`, `test_labels`, aligned train/test row indices, class names, and train-fitted threshold metadata. Horizon rows are dropped inside each split so labels never cross the train/test boundary.
 - Phase-2 movement label `.npz`: hard `DOWN/STABLE/UP` targets from absolute future probability movement plus aligned row indices, contract IDs, window starts, timestamps, current/future close, and realised delta. The TA feature bundle stores the frozen common eligible-row intersection used by strict C1/C2/C5 comparisons.
-- Phase-5 probability-movement regression: planned continuous
-  `close[t+h] - close[t]` labels constructed independently inside each
+- Phase-5 probability movement: continuous `close[t+2h] - close[t]`
+  regression labels and `DOWN/STABLE/UP` classification labels with fixed
+  `tau=0.001`, constructed independently inside each
   contract and global calendar walk. Each primary walk requires separately
   trained encoder/head weights from information available before its cutoff;
   lifecycle position is reported within walks. Exact zero movement is the

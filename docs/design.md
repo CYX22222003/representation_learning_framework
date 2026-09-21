@@ -1,5 +1,12 @@
 # Model Design
 
+> **Phase 5 authority (2026-09-21):** The initial architecture and experiment
+> design evolved after issues discovered in Phases 1--3; Phase 4 was a
+> data-analysis phase and ran no model training. For the active main-experiment
+> data, tasks, assumptions, and scope, read
+> [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md)
+> first. It supersedes conflicting older Phase 5 handoff language below.
+
 ## Architecture Design
 
 The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: probability-movement regression, volatility prediction, and movement/trend classification. Absolute next-close prediction is retained as a completed negative characterisation study rather than the primary regression probe.
@@ -18,16 +25,16 @@ The experimental setup is designed to evaluate the effectiveness of the unified 
 > scaling and left the raw holdout boundary ambiguous. The bullets below state
 > the required replacement design; see `docs/data_processing_split_contract.md`.
 
-> **Phase 4 conclusion / Phase 5 handoff (2026-09-21):** Phase 4 concluded the
+> **Phase 5 contract (2026-09-21):** Phase 4 concluded the
 > data-selection and exploratory-analysis stage without launching models. Phase
 > 5 preserves raw-time-first preprocessing and global-calendar walk-forward
-> evaluation, but uses the recent clean native one-hour FinData series with
-> causal isolated-one-bar filling as its exploratory primary source. Every walk
-> is rebuilt from information available before one shared timestamp cutoff;
-> later information cannot train an earlier-walk model. Contract lifecycle
-> remains a reporting stratum inside each evaluation interval.
+> evaluation and uses the two fresh walk-specific top-50 clean native one-hour
+> FinData cohorts with isolated-one-bar filling. Retrospective universe
+> selection is accepted and approved final pruning is assumed correct offline
+> cleaning. Every walk has a separate model; later information cannot train an
+> earlier-walk model. Contract lifecycle remains a reporting stratum.
 
-The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. Legacy and Phase 3 experiments use top-50 cohorts. The unexecuted Phase 4 archive design studied cutoff-local four-hour top-80 selection. Phase 5 instead selects its recent one-hour universe independently at each revised recent-period cutoff using training-only information.
+The dataset consists of OHLCV time-series data from approximately 72,222 event contracts from *Polymarket*, with varying timesteps (1-hour, 4-hour, and 1-day). The data preparation process is designed to produce training-ready sequences for representation learning while preserving temporal order and market-specific dynamics. Legacy and Phase 3 experiments use top-50 cohorts. The unexecuted Phase 4 archive design studied cutoff-local four-hour top-80 selection. Phase 5 uses the already acquired fresh Walk 1 and Walk 2 top-50 one-hour cohorts and accepts their retrospective catalog selection as an FYP assumption.
 
 A separate read-only FinData acquisition module can collect newer Polymarket
 rows under Git-ignored `data_new/`. The expanded December-2025--August-2026
@@ -40,11 +47,11 @@ removes rather than repairs transient complementary or unsupported extreme-range
 rows, leaves timestamp gaps, and fails if removal exceeds 1% of either native
 resolution. Its 116/325,730 15-minute and 147/107,635 hourly removals are below
 that budget; each decision records its causal availability time. Acquisition or
-99% retention does not prove token identity. Phase 4 nevertheless selects the
-clean native one-hour condition candles for an explicitly exploratory Phase 5
-loop, conditional on a frozen cutoff-local universe, causal missing-interval
-policy, revised walk boundaries, and an affected-contract exclusion
-sensitivity. Token-specific history remains the preferred confirmatory source.
+99% retention does not independently prove token identity. Phase 5 explicitly
+assumes the approved pruning is correct and treats the final clean native
+one-hour candles as the canonical corrected historical source for a
+confirmatory comparison within that assumption. It does not replay pruning by
+`quarantine_available_at`.
 
 For the selected Phase 5 one-hour source, at most one complete missing hourly
 bar may be filled causally as a flat, zero-volume candle with explicit
@@ -53,6 +60,12 @@ and decision and target endpoints remain observed. Native 15-minute filling is
 a resolution sensitivity only. Observed-only movement is primary, filled-grid
 results remain diagnostics, and stochastic price augmentation is not written
 into canonical OHLCV or targets.
+
+The canonical model input remains five-channel OHLCV. In both fresh walk
+artifacts, `volume == 0` exactly identifies imputed rows and all observed rows
+have positive volume, so volume is the implicit missingness signal. Explicit
+imputation metadata remains mandatory for validation, eligibility, and
+imputation-exposure reporting but is not an additional model channel.
 
 - **Timestep Separation:** Markets are grouped by their time resolution (1h, 4h, 1d) to handle differing temporal dynamics. Each group is processed independently.
 
@@ -122,17 +135,14 @@ into canonical OHLCV or targets.
 
 - **Train and test only — no validation split, no early stopping.** Every model uses a fixed epoch budget (`--epochs N`); for external benchmarks a small characterization sweep across epoch budgets is run at one fixed seed, and the full sweep is reported rather than a best-on-test entry. See `docs/training_test_data_selection.md` for the rationale and the full set of rules.
 
-- Neural encoders (VAE, contrastive, BYOL, and any additional methods) are
+- Neural encoders (VAE, contrastive, and BYOL) are
   pretrained unsupervised on training sequences only, then their weights are
   frozen. The Phase 5 primary adaptive evaluation trains separate encoder
-  weights per global walk. An optional encoder frozen from the first walk and
-  reused later is reported separately as a temporal-transfer ablation.
+  weights per global walk.
 
 - A lifecycle-conditioned shared encoder/head or predeclared stage-specific
-  experts may be evaluated only as an optional Phase 5 ablation, using
-  decision-time-available lifecycle metadata and identical global-walk rows.
-  Architecture specialization is supported only if paired downstream results
-  improve over both the fixed and same-architecture adaptive controls.
+  experts, encoder variants, gated fusion, and temporal-transfer comparisons
+  are deferred to Phase 6.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 

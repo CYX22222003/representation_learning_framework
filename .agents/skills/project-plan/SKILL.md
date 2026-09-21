@@ -23,7 +23,9 @@ Read these in order:
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
    and
    `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
-   in full. The last document is authoritative for the Phase 5 handoff.
+   in full. Then read
+   `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full; it is the
+   authoritative Phase 5 contract and supersedes conflicting handoff language.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -38,12 +40,12 @@ Report:
 - The most immediate actions required by that phase's exit conditions.
 - Phase 4 as concluded data-selection/exploration work, explicitly noting that
   it ran no model training. For Phase 5, report whether revised recent-period
-  walks, the selected one-hour causal-fill builder, cutoff-local universe,
-  quarantine/activity/target availability, fold-specific model lifecycle,
+  walks, the selected one-hour sequence/label builder, activity/target
+  eligibility, walk-specific model lifecycle,
   identical baseline rows, and replay checks are implemented and validated.
-  The current `seq64` balanced two-walk counts establish feasibility only;
-  they do not complete cutoff-local universe selection or causal quarantine
-  replay.
+  Retrospective selection and final pruning are accepted Phase 5 assumptions;
+  cutoff-local catalog selection and quarantine-availability replay are not
+  implementation blockers.
   Do not describe per-contract lifecycle fractions as deployment-valid folds.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.

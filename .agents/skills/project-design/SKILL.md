@@ -21,8 +21,8 @@ Read these in order:
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
    and
    `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
-   in full. The conclusion supersedes the unexecuted four-hour contract for
-   the next training loop.
+   and `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full. The
+   Phase 5 plan supersedes conflicting initial design and handoff language.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -37,12 +37,11 @@ Present the parts relevant to the request:
 - Probability-movement regression, historical absolute next-close prediction,
   volatility prediction, and tri-class movement/trend classification,
   including their documented metrics and label/target contracts when relevant.
-- For Phase 5, distinguish fold-specific encoder retraining in the primary
-  global-calendar adaptive evaluation from reuse of the first-walk encoder as
-  a temporal-transfer ablation; lifecycle is a within-walk reporting stratum.
-- Treat lifecycle-conditioned models or stage-specific feature extractors as
-  optional hypotheses until paired downstream results on identical global-walk
-  rows improve over fixed and same-architecture adaptive controls.
+- For Phase 5, describe the canonical five-branch concat framework, separate
+  weights per global walk, shared two-hour regression/classification horizon,
+  and `tau=0.001` classification. Lifecycle is a reporting stratum.
+- Treat encoder variants, fixed-first-walk transfer, gated fusion,
+  lifecycle-conditioned models, and branch ablations as Phase 6 work.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 

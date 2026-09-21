@@ -25,8 +25,10 @@ Read these in order:
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
    and
    `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
-   in full. The conclusion is authoritative for Phase 5: the earlier four-hour
-   top-80 contract was not executed and remains historical feasibility evidence.
+   in full. Then read
+   `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full. The Phase 5
+   plan is authoritative: the earlier four-hour top-80 contract was not
+   executed and the initial research documents may contain superseded design.
 7. For Phase 4 walk-count, expanding-versus-rolling, target-distribution, or
    top-80 sample-feasibility questions, read
    `docs/data_analysis/2026-09-20-phase4-top80-contract-relative-walk-analysis.md`
@@ -51,38 +53,35 @@ Read these in order:
     `docs/data_analysis/2026-09-20-findata-expanded-recent-cohort.md` and
     `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md` and
     `docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md` in full.
-    Treat `data_new/` as an explicitly exploratory source. Condition-level candles
+    Condition-level candles
     can mix complementary YES/NO prices; the token-consistent trade fallback is
-    too sparse for a diverse seq64 cohort. The versioned local quarantine may
-    support an exploratory sensitivity only: preserve raw rows, never invert
-    prices, retain forward-confirmed persistent crashes, leave quarantined
-    timestamps as gaps, and use each decision only after its recorded
-    `quarantine_available_at`. Require exact-consecutive windows, enforce the
-    1% batch budget, and report an affected-contract exclusion sensitivity.
+    too sparse for a diverse seq64 cohort. Preserve raw rows, never invert
+    prices, retain forward-confirmed persistent crashes, and leave quarantined
+    timestamps as gaps. Phase 5 accepts the approved final pruning as correct
+    offline cleaning and does not replay `quarantine_available_at`.
     Native-frequency forward-fill sensitivity is limited to one missing bar,
     flat OHLC, zero volume, and explicit imputation metadata; longer gaps stay
     missing, observed-only results remain primary, and stochastic augmentation
     must not enter canonical OHLCV or targets.
-    More than 99% retention is not proof of YES-token
-    identity. Phase 5 selects the clean native one-hour condition candles,
+    Phase 5 selects the two fresh walk-specific top-50 clean native one-hour
+    condition-candle cohorts under this explicit research assumption,
     causally fills only complete isolated one-hour gaps, uses synthetic rows as
     context only, requires observed decision/target endpoints, and breaks
-    sequences at longer gaps. Native 15-minute data and affected-contract
-    exclusion are required sensitivities. No training may start before the
-    revised recent-period walks and replayable builder are validated.
+    sequences at longer gaps. Native 15-minute data is a later sensitivity. No
+    training may start before the walk-specific sequence/label builder,
+    identical comparator rows, model lifecycle, and replay are validated.
 12. For recent one-hour Phase 5 window capacity, read
     `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
-    Treat its `seq64` balanced two-walk result as a feasibility candidate, not
-    a cleared launch contract: the audited 50 conditions were retrospectively
-    selected, `seq256` is weaker after gap breaks, and final-clean evaluation
-    must replay quarantine decisions only after their availability timestamps.
+    Use its capacity evidence while applying the later Phase 5 decision:
+    `seq64` and the balanced two-walk schedule are frozen; retrospective
+    selection is accepted; `seq256` remains a later sensitivity.
 
 ## Response Contract
 
 Present the relevant parts of:
 
 - The global 80/20 train/test split and why the test side remains locked.
-- For Phase 5, the revised recent-period rolling global calendar-time walks, fold-specific encoder
+- For Phase 5, the two fresh rolling global calendar-time walks, walk-specific encoder
   weights, and proof that later timestamps from any contract never train an
   earlier-walk model. Per-contract lifecycle fractions are reporting strata,
   not the primary split.
@@ -95,7 +94,8 @@ Present the relevant parts of:
   the legacy merged-array contract, including removal of terminal contract
   rows before fitting the feature standardiser.
 - For probability-movement regression, the continuous signed probability-change
-  horizon, fold-local eligibility, and exact zero-movement reference. Treat
+  two-hour horizon, fold-local eligibility, and exact zero-movement reference.
+  Classification uses the same horizon and fixed `tau=0.001`. Treat
   conventional arithmetic-return regression as secondary unless its
   zero-price, scaling, robust-loss, and price-band contract is predeclared.
 - The ordered workflow from raw data through final evaluation.

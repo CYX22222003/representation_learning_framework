@@ -70,6 +70,10 @@ target-allocation, or execution-gate change, include
 For the concluded Phase 4 evidence or any Phase 5 source, causal-fill,
 walk-forward, training-gate, or experiment-scope change, also include
 `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`.
+For every Phase 5 design, implementation, readiness, or reporting change, read
+and update `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` as the
+canonical authority. Initial research documents may retain historical context
+but must point readers to this plan when their original design is superseded.
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.

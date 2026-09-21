@@ -4,6 +4,13 @@
 **Status:** acquisition-to-plot exploration complete; no training launched;
 Phase 5 execution gate remains closed
 
+> **Phase 5 interpretation update:** These two fresh top-50 cohorts are now the
+> accepted primary Phase 5 datasets. Retrospective catalog selection and the
+> approved final pruning are explicit research assumptions; the remaining gate
+> is the experiment-specific builder, labels, model lifecycle, matrix, and
+> replay validation in
+> `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md`.
+
 ## 1. Scope and selection boundary
 
 Two independent FinData searches selected 50 Polymarket conditions per walk.

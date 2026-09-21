@@ -6,10 +6,14 @@ This document outlines the four-stage research plan for developing and evaluatin
 
 **Experiment-phase transition (2026-09-21):** Numbered Phase 4 concluded the
 data-selection and exploratory-analysis loop without launching new models.
-Numbered Phase 5 will implement the recent one-hour FinData walk-forward
-builder, retrain fold-specific encoders, redefine and train downstream tasks,
-and run matched baselines. The four stable research stages below still describe
-project workstreams and are distinct from these numbered experiment iterations.
+Numbered Phase 5 will implement the two fresh top-50 recent one-hour FinData
+walks, retrain walk-specific canonical five-branch encoders, evaluate shared
+two-hour movement regression/classification targets, and run matched baselines.
+This is a natural revision of the initial roadmap after issues discovered in
+Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
+`docs/phase_plan/2026-09-21-phase-5-experiment-plan.md`. The four stable
+research stages below remain broad workstreams rather than experiment-phase
+specifications.
 
 ---
 
@@ -53,15 +57,15 @@ project workstreams and are distinct from these numbered experiment iterations.
   retrospectively selected markets. Condition-level candles can mix YES/NO
   prices. A forward-confirmed, raw-preserving quarantine retains persistent
   crashes and 99.9644% of 15-minute rows plus 99.8634% of hourly rows under a
-  1% fail-closed budget. Its future-confirmed decisions are usable only after
-  their recorded availability timestamps, and this remains an exploratory
-  mitigation rather than token provenance. The safe
+  1% fail-closed budget. Phase 5 assumes the approved final pruning is correct
+  retrospective cleaning and therefore does not replay decisions by their
+  availability timestamps. The safe
   token-identified fallback returned 28,359 YES trades from 12 conditions but
   only 448 complete four-hour `seq64+h2` rows from two related contracts. It
   remains source-feasibility evidence only; see
   `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md`.
   The completed native-frequency audit selects the clean one-hour series for
-  the exploratory Phase 5 training loop. Exactly one missing hourly bar may be
+  the Phase 5 training loop. Exactly one missing hourly bar may be
   filled causally with flat OHLC, zero volume, and explicit imputation/time-
   since-observation metadata; longer gaps split sequences and observed
   decision/target endpoints remain primary. Native 15-minute data is retained
@@ -111,19 +115,17 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
 
 Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.
 
-Under Phase 5, the primary adaptive evaluation will train separate neural encoder
-weights at every global calendar cutoff, freezes them, and trains that walk's
-downstream heads on embeddings from the same permitted history. Reusing an
-encoder trained at the first cutoff in later walks is an optional temporal
-transferability ablation. No Phase 3 encoder weights are Phase 5 inputs because
-their training period overlaps the new evaluation intervals.
+Under Phase 5, the primary evaluation trains separate canonical VAE,
+contrastive-CNN, and BYOL-CNN weights at each global calendar cutoff, freezes
+them, and trains that walk's downstream heads on embeddings from the same
+history. Encoder variants, fixed-first-walk transfer, gating, and branch
+ablations move to Phase 6. No Phase 3 encoder weights are Phase 5 inputs.
 
-The fixed-first-walk and same-architecture fold-adaptive encoders form the
-required representation-transfer comparison. A lifecycle-conditioned shared
-model or stage-specific experts may be added only as a predeclared optional
-ablation when lifecycle metadata is available at decision time and each walk
-has adequate samples. Representation drift alone is not evidence that a
-different architecture is needed in each lifecycle stage.
+The Phase 5 core does not include a representation-transfer comparison.
+Fixed-first-walk reuse, lifecycle-conditioned shared models, stage-specific
+experts, encoder variants, and branch/fusion ablations are deferred to Phase 6.
+Representation drift alone is not evidence that a different architecture is
+needed in each lifecycle stage.
 
 ### 2.4 Representation Aggregation and Downstream Task Training
 

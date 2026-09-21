@@ -4,19 +4,16 @@
 
 > **Current phase:** Phase 4 data exploration and selection are concluded.
 > Phase 4 ran no encoder, downstream, or baseline training. Its final decision
-> selects the recent clean native one-hour FinData series with causal isolated-
-> one-bar filling as the exploratory source for the next loop; native 15-minute
-> data remains a resolution sensitivity. Phase 5 owns the revised recent-period
-> global-calendar walks, builder/replay validation, fold-specific encoder
-> retraining, downstream-task redefinition, and matched baseline comparison.
-> A no-training capacity audit supports `seq64` and a balanced two-walk
-> schedule as implementation candidates. Two fresh top-50 walk cohorts now
-> have complete acquisition-to-plot exploration with training-local candle
-> eligibility probes, but retrospective catalog volume/metadata still prevent
-> a production cutoff-local selection claim.
-> Do not launch Phase 5 training until that data contract and experiment matrix
-> are implemented and validated. See the
-> [Phase 4 conclusion](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
+> led to the canonical
+> [Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md). Phase 5 uses
+> the two fresh top-50 clean native one-hour walk cohorts, accepts their
+> retrospective selection, assumes the approved pruning is correct offline
+> cleaning, and does not require quarantine-availability replay. Its primary
+> contract is `seq64`, two rolling global-calendar walks, separately trained
+> canonical five-branch weights per walk, and shared two-hour movement
+> regression/classification targets. Do not launch training until the
+> walk-specific builder, labels, identical baseline rows, model lifecycle,
+> matrix, smoke tests, and replayable manifests are implemented and validated.
 
 ---
 
@@ -27,8 +24,8 @@
 |---|---|
 | Collect Polymarket OHLCV feather files | ✅ Done |
 | Recent FinData acquisition (Dec 2025--Aug 2026) | ✅ Phase 4 source audit complete: raw-first 50-market recollection, forward-confirmed pruning, native 15m/1h dynamics, gap distribution, and one-/four-bar fill sensitivities are recorded; clean one-hour data is selected for exploratory Phase 5 training with explicit token-identity limitations |
-| Recent FinData Phase 5 walk-capacity audit | ✅ No-training feasibility complete: balanced two-walk `seq64` candidate retains 31,828/37,173 active training rows and 21,401/10,086 supported evaluation rows; selection/replay gate remains open because the 50-condition cohort is retrospective |
-| Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1; training remains gated by retrospective catalog ranking and the unimplemented causal builder/model lifecycle. |
+| Recent FinData Phase 5 walk-capacity audit | ✅ No-training feasibility complete: balanced two-walk `seq64` candidate retains 31,828/37,173 active training rows and 21,401/10,086 supported evaluation rows; retrospective selection and final pruning are now accepted Phase 5 assumptions rather than blockers |
+| Fresh Phase 5 Walk 1/Walk 2 top-50 FinData exploration | ✅ Primary Phase 5 cohorts frozen: two independent searches/downloads complete with training-interval eligibility probes and evaluation-end history; approved quarantine, post-pruning gaps, separate one-bar bounded fill, staleness, and 200 contract-resolution plots replay-validated. Walk 2 hourly coverage is 75.40% versus 82.97% in Walk 1; the experiment-specific sequence/label builder and model lifecycle remain pending. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
@@ -89,7 +86,7 @@
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
 | Absolute next-close benchmark (MAE, RMSE) | ⚠️ Phase 3 is leakage-safe but persistence-dominated; retained as negative characterisation evidence and superseded as the primary regression probe |
 | Probability-movement regression | 🔄 Deferred to Phase 5: continuous contract-local future probability change on observed endpoints under revised recent-period global-calendar walks; not implemented or executed |
-| Temporal encoder adaptation/transfer | 🔄 Deferred to Phase 5: fold-specific retraining remains primary and fixed-first-walk reuse remains an ablation; not implemented or executed |
+| Temporal encoder adaptation/transfer | ⏭️ Deferred to Phase 6; Phase 5 trains the same canonical architecture independently in each walk without a fixed-first-walk transfer ablation |
 | Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
@@ -133,7 +130,7 @@ entry points and all `_old` artifacts remain excluded from new execution.
 
 ## 2. Summary
 
-The current project state is **Phase 4 concluded; Phase 5 at its data-contract
+The current project state is **Phase 4 concluded; Phase 5 design frozen at its
 implementation gate**. Phase 3 proved that raw-time-first construction,
 training-only fitted preprocessing, isolated windows, contract-local labels,
 and artifact replay can remove the Phase 1/2 future leakage. Phase 4 then
@@ -142,9 +139,11 @@ next-close regression is dominated by persistence, and per-contract-relative
 walks are insufficient for a pooled cross-contract model. It completed the
 pre-December-2025 lifecycle/frequency studies and the recent FinData source,
 staleness, gap, pruning, and forward-fill audits. No Phase 4 model training was
-run. The immediate priority is now to freeze revised recent-period calendar
-walks and implement/replay-validate the selected clean one-hour, isolated-one-
-bar-fill contract before any Phase 5 encoder, downstream, or baseline run.
+run. The Phase 5 plan now freezes the two fresh walk-specific cohorts, `seq64`,
+two-hour movement targets, `tau=0.001` classification, the canonical
+five-branch concat model, and separate weights per walk. The immediate priority
+is to implement and validate its sequence/label builder, identical comparator
+rows, walk-specific lifecycle, matrix, and replay before training.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`
