@@ -110,6 +110,27 @@ class Phase5WalkPreparationTests(unittest.TestCase):
         )
         np.testing.assert_array_equal(replay_class, bundle.arrays["train_classification_labels"])
 
+    def test_builds_eight_hour_sensitivity_without_changing_encoder_population(self) -> None:
+        primary = build_phase5_walk_bundle(candles(), metadata(), spec())
+        sensitivity = build_phase5_walk_bundle(
+            candles(),
+            metadata(),
+            spec(),
+            horizon=8,
+            task_role="exploratory_raw_delta_h8",
+        )
+        self.assertTrue(validate_phase5_arrays(sensitivity.arrays, sensitivity.manifest)["valid"])
+        self.assertEqual(sensitivity.manifest["horizon_hours"], 8)
+        self.assertEqual(sensitivity.manifest["task_role"], "exploratory_raw_delta_h8")
+        np.testing.assert_array_equal(
+            primary.arrays["encoder_train_sequences"],
+            sensitivity.arrays["encoder_train_sequences"],
+        )
+        np.testing.assert_array_equal(
+            sensitivity.arrays["train_target_date_ns"],
+            sensitivity.arrays["train_decision_date_ns"] + 8 * 60 * 60 * 1_000_000_000,
+        )
+
     def test_evaluation_changes_do_not_change_training_scaler_or_rows(self) -> None:
         original = candles()
         changed = original.copy()

@@ -512,12 +512,24 @@ def build_phase5_walk_bundle(
     horizon: int = 2,
     tau: float = 0.001,
     activity_hours: int = 24,
+    task_role: str = "primary_h2",
     source_provenance: Mapping[str, Any] | None = None,
 ) -> Phase5PreparedBundle:
     """Build encoder-training, supervised-training, and evaluation arrays."""
 
-    if seq_len != 64 or horizon != 2 or tau != 0.001 or activity_hours != 24:
-        raise ValueError("Phase 5 primary contract is fixed to seq64/h2/tau0.001/activity24h")
+    expected_horizon = {"primary_h2": 2, "exploratory_raw_delta_h8": 8}.get(task_role)
+    if expected_horizon is None:
+        raise ValueError("unknown Phase 5 task role")
+    if (
+        seq_len != 64
+        or horizon != expected_horizon
+        or tau != 0.001
+        or activity_hours != 24
+    ):
+        raise ValueError(
+            f"Phase 5 {task_role} contract is fixed to "
+            f"seq64/h{expected_horizon}/tau0.001/activity24h"
+        )
     clean = normalize_phase5_candles(candles)
     market_metadata = normalize_phase5_metadata(metadata)
     source_contracts = set(clean["condition_id"].unique())
@@ -604,6 +616,7 @@ def build_phase5_walk_bundle(
         "schema_version": PHASE5_SCHEMA_VERSION,
         "phase": 5,
         "purpose": "walk_specific_train_test_data",
+        "task_role": task_role,
         "pipeline": "global_calendar_walk_first",
         "walk": spec.walk,
         "intervals": {
@@ -652,7 +665,7 @@ def build_phase5_walk_bundle(
             "train": {
                 "base": "encoder context/decision eligibility",
                 "adds": [
-                    "two-hour target exists",
+                    f"{horizon}-hour target exists",
                     "target remains in the same segment",
                     "target endpoint is observed",
                     "target availability strictly before cutoff",
@@ -662,7 +675,7 @@ def build_phase5_walk_bundle(
                 "base": "context/decision eligibility",
                 "adds": [
                     "decision availability at or after cutoff",
-                    "two-hour target exists",
+                    f"{horizon}-hour target exists",
                     "target remains in the same segment",
                     "target endpoint is observed",
                     "target availability strictly before evaluation end",
@@ -853,7 +866,9 @@ def validate_phase5_arrays(arrays: Mapping[str, np.ndarray], manifest: Mapping[s
         target = np.asarray(arrays[f"{split}_target_date_ns"], dtype=np.int64)
         target_availability = np.asarray(arrays[f"{split}_target_availability_ns"], dtype=np.int64)
         if not np.array_equal(target, decision + horizon * NATIVE_STEP_NS):
-            raise ValueError(f"{split} target is not the exact two-hour contract-local endpoint")
+            raise ValueError(
+                f"{split} target is not the exact {horizon}-hour contract-local endpoint"
+            )
         if not np.array_equal(target_availability, target + NATIVE_STEP_NS):
             raise ValueError(f"{split} target availability mismatch")
         replay_delta = (
