@@ -201,6 +201,8 @@ For the expanded retrospective cohort and token-safe fallback:
 
 .venv/bin/python3 scripts_v2/analyze_findata_native_gaps.py --overwrite
 
+.venv/bin/python3 scripts_v2/plot_findata_native_ohlcv.py --overwrite
+
 .venv/bin/python3 scripts_v2/collect_findata_yes_trade_ohlcv.py --workers 8
 .venv/bin/python3 scripts_v2/analyze_findata_yes_trade_ohlcv.py
 ```
@@ -225,6 +227,13 @@ and separately reports every target touching a synthetic row. Longer gaps stay
 missing and no random augmentation is applied. Observed-only movement is the
 primary descriptive result. See
 `docs/data_analysis/2026-09-21-findata-native-15m-1h-dynamics.md`.
+
+The OHLCV plotting command reads the clean native files, dynamically restricts
+each x-axis to that contract-resolution's actual first and last candle, applies
+the same isolated-one-bar flat-OHLC/zero-volume fill, and writes one five-panel
+figure per contract and resolution. Imputed rows are marked, while longer gaps
+remain visible line breaks. A CSV/JSON manifest records source hashes, actual
+plot bounds, metadata overlap bounds, fill counts, and plot hashes.
 
 The native-gap audit measures every internal missing slot, its run length,
 per-contract coverage, the small marginal effect of pruning, and disagreement
