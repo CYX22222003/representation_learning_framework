@@ -71,3 +71,22 @@ and features:
 .venv/bin/python3 scripts_v3/validate_phase5_absolute_price_h8.py
 .venv/bin/python3 scripts_v3/report_phase5_absolute_price_h8.py
 ```
+
+## Matched raw-sequence baselines
+
+The implemented, not-yet-executed baseline stage contains Raw-OHLCV MLP and
+three-layer raw OHLCV LSTM comparators for h2 movement regression, h2 movement
+classification, and h8 absolute future-price regression in both walks. The
+first command freezes the 12-run manifest but does not train unless
+`--execute` is supplied:
+
+```bash
+.venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda
+.venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda --execute
+.venv/bin/python3 scripts_v3/validate_phase5_baselines.py
+.venv/bin/python3 scripts_v3/report_phase5_baselines.py
+```
+
+Future artifacts belong under `experiments/phase5/baselines/`. See
+`docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md` for the frozen
+architecture, optimization, row-identity, and replay contract.

@@ -11,8 +11,10 @@ Phase 5 has completed the recent-data walk builder, six walk-specific neural
 encoder trajectories, canonical five-branch feature extraction, two-hour
 movement regression/classification heads, additional raw-change/log-return
 tasks, and an eight-hour absolute future-price task. This document records the
-current interpretation before learned baselines, additional seeds, and final
-Phase 5 conclusions.
+current interpretation before learned-baseline execution, additional seeds,
+and final Phase 5 conclusions. The baseline pipeline was subsequently
+implemented under `2026-09-22-phase-5-baseline-amendment.md` but remains
+unexecuted.
 
 The evidence is generated from two global-calendar walks with separately
 trained encoder and downstream weights. All fitted preprocessing uses permitted

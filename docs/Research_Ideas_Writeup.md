@@ -333,6 +333,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      reconstructed-price space)
    - External benchmarks: Stacked LSTM; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+   - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM
+     across both walks for h2 raw-change regression and h8 future-price
+     regression; implemented but not yet executed
 
 2. **Volatility Prediction**
    - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
@@ -344,6 +347,8 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Phase 2 uses split-safe hard `DOWN/STABLE/UP` movement labels while saving three-class scores. Candidate imbalance treatments are majority undersampling, balanced oversampling, and train-prior logit-adjusted cross-entropy; untreated natural cross-entropy is reference-only.
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+   - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM on
+     the identical h2 classification rows; implemented but not yet executed
 
 ### 5.4 Additional Alpha-Research Downstream Capability
 

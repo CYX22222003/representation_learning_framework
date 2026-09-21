@@ -87,6 +87,9 @@ include `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
 For the current Phase 5 interpretation, task-priority change, supported claims,
 or candidate reversal factor, include
 `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+For Phase 5 learned-baseline architecture, matrix scope, implementation,
+execution, or reporting, include
+`docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.

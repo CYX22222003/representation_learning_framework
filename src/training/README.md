@@ -33,3 +33,9 @@ target transforms, probability reconstruction, price-band breakdowns, and
 `phase5_absolute_price.py` owns the completed sigmoid-bounded eight-hour
 future-price probe. It reports level reconstruction versus current-price
 persistence and separately evaluates the implied probability movement.
+
+`phase5_baselines.py` owns the implemented Phase 5 matched raw-sequence
+baseline matrix: Raw-OHLCV MLP and three-layer raw OHLCV LSTM models for the
+two-hour regression/classification tasks and eight-hour absolute-price task.
+It reuses the validated task rows directly, freezes 5/15/50 snapshots, and
+supports CPU checkpoint/prediction replay. Training has not yet been executed.

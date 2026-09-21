@@ -28,8 +28,9 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > `experiments/phase5/data_preparation/`. They contain separate encoder-
 > training, mature supervised-training, and evaluation populations plus one
 > shared regression/classification identity set per walk. The canonical
-> encoder, feature-extraction, and seed-0 framework matrices have now completed;
-> learned-baseline execution remains gated on its own frozen matrix.
+> encoder, feature-extraction, and seed-0 framework matrices have now completed.
+> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is implemented and frozen
+> in its amendment, but execution remains gated on explicit launch and replay.
 > Encoder eligibility is target-free and uses only context/decision information
 > available before the cutoff. Target existence, observed status, segment
 > continuity, and maturity are applied afterward only to downstream train/test

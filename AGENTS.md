@@ -26,8 +26,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The six walk-specific canonical neural-encoder trajectories, two 445-
 > dimensional frozen feature stores, train-only feature scalers, and four
 > seed-0 framework downstream trajectories are complete and replay-validated at
-> epochs 5/15/50. Epoch 50 was fixed before evaluation. Learned baseline
-> training remains gated on a separately frozen matrix and identical rows.
+> epochs 5/15/50. Epoch 50 was fixed before evaluation. The learned baseline
+> pipeline is implemented as a 12-run Raw-OHLCV MLP/raw LSTM matrix under
+> `scripts_v3/`, but no baseline training has run; execution still requires
+> its explicit `--execute` gate and identical-row replay.
 > Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
 > top-80 contract in
@@ -49,6 +51,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
 > The executed recent-data eight-hour future-price probe is specified in
 > `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
+> The implemented but unexecuted 12-run Raw-OHLCV MLP/raw LSTM matrix is
+> specified in
+> `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 > Its interpretation and the current Phase 5 reporting direction are recorded
 > in `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`: future-
 > price prediction is the clearest regression transfer task, implied movement
@@ -156,6 +161,13 @@ canonical plan. See
 .venv/bin/python3 scripts_v3/launch_phase5_absolute_price_h8.py --device cuda
 .venv/bin/python3 scripts_v3/validate_phase5_absolute_price_h8.py
 .venv/bin/python3 scripts_v3/report_phase5_absolute_price_h8.py
+
+# Freeze only; this performs CPU smoke tests and writes no model runs.
+.venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda
+# Execute later only when explicitly requested.
+.venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda --execute
+.venv/bin/python3 scripts_v3/validate_phase5_baselines.py
+.venv/bin/python3 scripts_v3/report_phase5_baselines.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -526,7 +538,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load; Phase 5 five-branch extraction, identity alignment, hashes, and replay validation |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) plus Phase 5 encoder/downstream fixed-budget training, train-only scaling, metrics, artifacts, and replay |
+| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) plus Phase 5 encoder/downstream/baseline fixed-budget training, train-only scaling, metrics, artifacts, and replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
@@ -558,8 +570,9 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   the thesis experiment. The sequence/label builder, causal gap/activity
   rules, common baseline identities, and replayable data manifests are now
   validated. Walk-specific encoders, frozen features, feature scalers, and the
-  seed-0 framework heads are complete; learned baselines remain gated on their
-  separately frozen matrix and identical-row replay.
+  seed-0 framework heads are complete. The 12-run learned-baseline matrix is
+  implemented but unexecuted and remains gated on explicit launch and
+  identical-row replay.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.

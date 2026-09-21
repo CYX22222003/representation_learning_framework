@@ -95,3 +95,8 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 - Baseline plan: `src/baselines/mlp_baseline/EXPERIMENT_PLAN.md`
 - Baseline runner: `src/baselines/mlp_baseline/run_experiment.py`
 - Plotter: `src/baselines/mlp_baseline/plot_experiment.py`
+- Phase 5 baseline contract:
+  `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`
+- Phase 5 baseline implementation: `src/training/phase5_baselines.py`
+- Phase 5 freeze/execute entry point:
+  `scripts_v3/bootstrap_phase5_baselines.py`

@@ -187,6 +187,11 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   calendar walk. Framework encoders, heads, and baselines all obey the same
   cutoff. This project does not use a validation split or early stopping; see
   `docs/training_test_data_selection.md`.
+  The implemented Phase 5 baseline matrix uses a flattened Raw-OHLCV MLP and
+  a three-layer five-channel raw OHLCV LSTM on the exact h2/h8 rows for the
+  regression, classification, and future-price tasks. Its 12 trajectories are
+  not yet executed; see
+  `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
 - **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary, stronger hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The existing Raw-OHLCV MLP volatility sweep uses a legacy merged-array target helper and is characterization-only until it is migrated to this shared bundle; the framework volatility task must also consume this bundle before any strict comparison. A framework result should therefore report its relationship to both benchmarks rather than treating the stack as evidence that standalone GARCH is superior.
 

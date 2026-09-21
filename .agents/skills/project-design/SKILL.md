@@ -36,6 +36,8 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
    For its intermediate interpretation and current regression-task priority,
    also read `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+   For the matched Raw-OHLCV MLP/raw LSTM architecture and three-task matrix,
+   also read `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -61,7 +63,10 @@ Present the parts relevant to the request:
   log-return probes are also complete and did not recover signed correlation;
   the later absolute-price probe recovers positive implied-movement Rank IC
   but remains worse than persistence on level error and weaker than a simple
-  last-hour reversal score. Learned-baseline comparisons remain pending.
+  last-hour reversal score. The matched Raw-OHLCV MLP and three-layer raw
+  OHLCV LSTM comparison code is implemented for h2 regression/classification
+  and h8 future price across both walks, but its 12 trajectories remain
+  unexecuted.
   The intermediate reporting direction uses future-price prediction as the
   clearest regression transfer task and treats implied-movement Rank IC as the
   primary financial interpretation of that output.

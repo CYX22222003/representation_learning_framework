@@ -37,6 +37,8 @@ Read these in order:
    For the current Phase 5 interpretation, headline transfer tasks, reversal
    finding, or next experiment priorities, also read
    `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+   For Phase 5 baseline implementation, readiness, execution, or reporting,
+   also read `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -63,8 +65,9 @@ Report:
   `experiments/phase5/features/` and `experiments/phase5/downstream/`. Learned
   The eight-hour raw-change and two-hour log-return tasks are complete under
   `experiments/phase5/downstream_addons/tasks/`; neither recovered
-  signed correlation. Learned baselines and additional seeds remain pending;
-  do not infer cross-model superiority from the framework-only result.
+  signed correlation. The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is
+  implemented and unit-tested but unexecuted; additional seeds remain pending.
+  Do not infer cross-model superiority from the framework-only result.
   The eight-hour absolute-price probe is also complete: it reconstructs level
   with high correlation but trails persistence on error; its implied movement
   Rank IC is positive but weaker than last-hour reversal.

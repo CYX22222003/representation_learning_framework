@@ -75,8 +75,12 @@ Read these in order:
     neural encoder trajectories are complete under
     `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
     The two canonical feature stores and four seed-0 framework downstream runs
-    are complete and replay-validated. Learned baselines and additional seeds
-    remain gated on their separately frozen matrix and fairness checks.
+    are complete and replay-validated. The 12-run Raw-OHLCV MLP/raw LSTM
+    baseline pipeline is implemented under `src/training/phase5_baselines.py`
+    and `scripts_v3/`, but it has not been executed; additional seeds remain
+    later work. Read
+    `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md` for its frozen
+    identical-row and replay contract.
     Encoder row eligibility must remain target-free; apply future-target
     existence, observed status, segment continuity, and maturity only when
     deriving downstream supervised train/evaluation rows.
@@ -84,7 +88,7 @@ Read these in order:
     `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
     It freezes walk-local train-only feature standardization and the fixed
     probability-point regression unit `100 * delta`, inverted before raw-delta
-    reporting. Learned baselines and additional seeds are later work.
+    reporting. Learned-baseline execution and additional seeds are later work.
     The completed post-primary additional regression tasks are governed by
     `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`:
     eight-hour raw change uses independently mature targets, while two-hour
