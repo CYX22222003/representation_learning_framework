@@ -1,0 +1,138 @@
+{
+  "alignment_audit": {
+    "encoder_rows": 58473,
+    "evaluation_disjoint": true,
+    "evaluation_rows": 13887,
+    "mapped_train_contexts_byte_identical": true,
+    "supervised_train_rows": 57521,
+    "valid": true
+  },
+  "branch_dims": {
+    "byol": 128,
+    "contrastive": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "branch_hashes": {
+    "test": {
+      "byol": "9ae7a4e7d6c50c0e45997c1010099f1725a3212e24409fd61d575d9696da9b9f",
+      "contrastive": "dad07346beef10ad587693e609fa96a79c601c6b0667a85366703a454458d879",
+      "statistical": "3912f3d6e4b6f2a1b4f05a3336672e5fd549bf88279e8baed937ee0612eff758",
+      "transformed": "cadaa52eca4e21c2e335f684572f3dc9b412c00d329b6531546aad30871ac0c3",
+      "vae": "a057c6e975b358172ecaff7ef3ce18cbc5129c35437989665ff3900975c3e673"
+    },
+    "train": {
+      "byol": "fcc7de81e0155894ea01421e600cbe843ccaedb9e7a077b1fef891536b4151e5",
+      "contrastive": "1d4063c20f28daa438b35c990f3b29de917139836cf89f17d7cddacff4743cda",
+      "statistical": "e5015a086b96ae015e2c24125d35f3abfd452a5f6c6c672e04c17fc490814e87",
+      "transformed": "a3dc319149d24f838a780fe54e3cf0f6e65347f71f0931c4ea6ac56057b209f3",
+      "vae": "cccba51537e93f989f1aec03af8216d38ca29d7a157c1860f44c044c9fa48ffc"
+    }
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "checkpoint_provenance": {
+    "byol": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+      "sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "byol",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+        "epoch50_embedding_std": 0.7003105878829956,
+        "epoch50_train_loss": 0.051249766036083826,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "contrastive": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+      "sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "contrastive",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+        "epoch50_embedding_std": 2.9998929500579834,
+        "epoch50_train_loss": 2.2566339237648143,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "vae": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+      "sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "vae",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+        "epoch50_embedding_std": 0.09024051576852798,
+        "epoch50_train_loss": 0.07066280411948499,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    }
+  },
+  "concat_dim": 445,
+  "feature_bundle_sha256": "b7148b3f058b650e7ab4132b19354346b33fa92404afce7980233b143755b86d",
+  "fitted_on_evaluation": false,
+  "identity_array_hashes": {
+    "test": {
+      "condition_ids": "785d7a162e8a1eafee52c3bea4d98d6f941d7668054af52bfaf93568368be60c",
+      "decision_availability_ns": "6f5f739c025a2904796c742e7c7c7e0c9f0991172fc7d5042486528060744b39",
+      "decision_date_ns": "20d48b848d3ecdb8b23a34a8d0277f41798397c9d1d950b259c711aa4db84937",
+      "window_start_ns": "0d78dda00effeabd59e7f6d5f64943f62df1c1a5c1e92436cf1319dbb2e776d2"
+    },
+    "train": {
+      "condition_ids": "6673dfb81ce20a3712707880e9a255a12cff84c38ed3181c28197f1a8faa46fd",
+      "decision_availability_ns": "e2a4c4ed183fed446ef2eaf50ac425a69a043415a57663e68261dfedee5f92a6",
+      "decision_date_ns": "bdba7375accb9063b42aa627639b2563b11cfebb537321cec41ddda69e2253e0",
+      "window_start_ns": "e462f456647591f582d7aad26dd78afd4eda7f1ffe4013b3b8109ab117118bed"
+    }
+  },
+  "input_key": {
+    "test": "test_sequences",
+    "train": "train_sequences"
+  },
+  "phase": 5,
+  "purpose": "frozen_five_branch_features",
+  "row_counts": {
+    "test": 13887,
+    "train": 57521
+  },
+  "schema_version": "phase5-feature-v1",
+  "source_dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "source_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "source_identity_hashes": {
+    "test": "1e125e600176d53b62a0066d9b1cce2455476ffb8fa68ed95192edf8bdbf0e51",
+    "train": "f5663e57e37354397c0077dff0eef8d12d99c56f002e67014258589b3ca01521"
+  },
+  "source_manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+  "walk": 2
+}
