@@ -55,6 +55,13 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > current-price skip, and reports both price-level skill versus persistence and
 > implied-movement Rank IC.
 
+> **Phase 5 intermediate reporting decision (2026-09-22):** The predeclared
+> two-hour movement regression remains immutable experimental evidence, but
+> eight-hour future-price prediction is the clearest regression transfer task
+> for the final framework narrative. Its implied change is evaluated on the
+> same out-of-future rows using global and timestamp-level Rank IC. See
+> `phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+
 ---
 
 > **Validity blocker (2026-09-20):** The legacy processed bundles do not satisfy

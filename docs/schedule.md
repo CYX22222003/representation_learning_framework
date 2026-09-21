@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-21
+**Last updated:** 2026-09-22
 
 > **Current phase:** Phase 4 data exploration and selection are concluded.
 > Phase 4 ran no encoder, downstream, or baseline training. Its final decision
@@ -10,12 +10,18 @@
 > retrospective selection, assumes the approved pruning is correct offline
 > cleaning, and does not require quarantine-availability replay. Its primary
 > contract is `seq64`, two rolling global-calendar walks, separately trained
-> canonical five-branch weights per walk, and shared two-hour movement
-> regression/classification targets. The walk-specific train/test builder,
+> canonical five-branch weights per walk, and shared movement identities. The
+> Phase 5 intermediate observation now treats eight-hour future-price
+> prediction as the clearest regression transfer task, movement classification
+> as the directional task, and direct raw/log movement regressions as target-
+> formulation diagnostics. The walk-specific train/test builder,
 > shared labels, common comparator identities, and replayable data manifests
 > are implemented and validated. The six canonical neural encoders, two frozen
 > five-branch feature stores, two train-only feature scalers, and four seed-0
 > framework downstream trajectories are also complete and replay-validated.
+> The future-price head produces positive implied-movement Rank IC in both
+> walks, while a causal last-hour reversal diagnostic is stronger and is now a
+> candidate empirical factor requiring fresh-holdout confirmation.
 > Learned baselines and additional seeds remain pending and require a separately
 > frozen identical-row matrix before execution.
 
@@ -155,12 +161,16 @@ run. The Phase 5 plan now freezes the two fresh walk-specific cohorts, `seq64`,
 two-hour movement targets, `tau=0.001` classification, the canonical
 five-branch concat model, and separate weights per walk. The sequence/label
 builder, encoders, feature stores, train-only scalers, framework heads, and
-5/15/50 prediction replay are now implemented, executed, and validated. The
-pooled regression probe is weaker than exact zero on MAE/RMSE, while
-classification improves macro-F1 and balanced accuracy over always-STABLE at
-the cost of accuracy. The immediate priority is to freeze and execute the
-learned-baseline matrix on identical rows before making comparative claims;
-additional framework seeds remain later work.
+5/15/50 prediction replay are now implemented, executed, and validated.
+Direct movement/return regression does not recover stable signed ranking, but
+the eight-hour future-price task produces positive implied-movement Rank IC in
+both walks and is now the clearest regression transfer result. Classification
+improves macro-F1 and balanced accuracy over always-STABLE. A stronger causal
+last-hour reversal diagnostic is a candidate empirical factor, not yet a
+confirmed trading alpha. The immediate priority is to freeze and execute the
+matched raw MLP/temporal and classification baseline matrix, test incremental
+IC beyond reversal, and confirm reversal on fresh data before comparative or
+profitability claims; additional framework seeds remain later work.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`

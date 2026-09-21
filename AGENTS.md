@@ -49,6 +49,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
 > The executed recent-data eight-hour future-price probe is specified in
 > `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
+> Its interpretation and the current Phase 5 reporting direction are recorded
+> in `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`: future-
+> price prediction is the clearest regression transfer task, implied movement
+> Rank IC is the finance-relevant diagnostic, and last-hour reversal is a
+> candidate empirical factor pending fresh-holdout confirmation.
 > Two fresh independent top-50 walk acquisitions now probe candle eligibility
 > only inside each training interval and download the selected conditions
 > through that walk's evaluation end. Their full quarantine, gap, bounded-fill,

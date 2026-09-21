@@ -34,6 +34,9 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
    For Phase 5 absolute-price add-on progress or conclusions, also read
    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
+   For the current Phase 5 interpretation, headline transfer tasks, reversal
+   finding, or next experiment priorities, also read
+   `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -65,6 +68,9 @@ Report:
   The eight-hour absolute-price probe is also complete: it reconstructs level
   with high correlation but trails persistence on error; its implied movement
   Rank IC is positive but weaker than last-hour reversal.
+  The intermediate reporting decision treats eight-hour future-price
+  prediction as the clearest regression transfer task and last-hour reversal
+  as a candidate empirical factor requiring fresh-holdout confirmation.
   Retrospective selection and final pruning are accepted Phase 5 assumptions;
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.

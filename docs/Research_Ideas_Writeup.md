@@ -4,7 +4,15 @@
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications
 
-Evaluate this framework on Polymarket event-contract OHLCV data through continuous probability-movement regression, volatility forecasting, and movement/trend classification. These are transferability probes for alpha-related predictive signal generation, not direct alpha-factor discovery or a trading-strategy claim. Absolute next-close regression was evaluated in Phase 3 and is retained as negative characterisation evidence because causal persistence was substantially stronger.
+Evaluate this framework on Polymarket event-contract OHLCV data through
+future-probability regression, movement/return diagnostics, volatility
+forecasting, and movement/trend classification. These are transferability
+probes for alpha-related predictive signal generation, not direct trading-
+strategy claims. Phase 5 finds eight-hour future-price regression to be the
+clearest regression transfer task because its implied movements have positive
+Rank IC across both global-calendar walks. Direct raw/log movement regressions
+remain target-formulation evidence, while the discovered one-hour reversal is
+a candidate empirical factor requiring fresh-holdout confirmation.
 
 > **Phase 5 reading note (2026-09-21):** This write-up records the initial
 > research direction, not the complete active experiment contract. The design
@@ -300,9 +308,14 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 ### 5.3 Tasks and Metrics
 
-1. **Probability-Movement Regression**
-   - Primary target: signed contract-local `close[t+h] - close[t]`; use
-     probability-point change rather than percentage return near zero
+1. **Future-Probability Regression and Movement Diagnostics**
+   - Principal transfer target: sigmoid-bounded `close[t+8h]` on the Phase 5
+     global-calendar rows
+   - Financial interpretation: subtract current close and report global plus
+     timestamp-level cross-sectional Rank IC of the implied movement
+   - Predeclared diagnostic target: signed contract-local
+     `close[t+h] - close[t]`; use probability-point change rather than
+     percentage return near zero
    - Secondary diagnostic: conventional arithmetic return, with a predeclared
      zero-price rule, train-only scaling, starting-price bands, robust metrics,
      and reconstructed future-probability error
@@ -313,8 +326,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      probability. Report price-level error versus persistence and evaluate the
      implied change with Rank IC so state reconstruction is not mistaken for
      incremental forecasting.
-   - Metrics: MAE, RMSE/MSE, Pearson/Spearman correlation, sign agreement,
-     per-contract, per-global-walk, and per-lifecycle-stage results
+   - Metrics: price MAE/RMSE and correlation; implied-movement
+     Pearson/Spearman, sign agreement, Rank IC/ICIR, and per-contract,
+     per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in
      reconstructed-price space)
    - External benchmarks: Stacked LSTM; additional TBD from literature review

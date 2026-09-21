@@ -34,6 +34,8 @@ Read these in order:
    `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
    For the executed eight-hour absolute future-price probe, also read
    `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
+   For its intermediate interpretation and current regression-task priority,
+   also read `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
 6. For prediction-market lifecycle effects, representation drift, or temporal
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
@@ -60,6 +62,9 @@ Present the parts relevant to the request:
   the later absolute-price probe recovers positive implied-movement Rank IC
   but remains worse than persistence on level error and weaker than a simple
   last-hour reversal score. Learned-baseline comparisons remain pending.
+  The intermediate reporting direction uses future-price prediction as the
+  clearest regression transfer task and treats implied-movement Rank IC as the
+  primary financial interpretation of that output.
 - Treat encoder variants, fixed-first-walk transfer, gated fusion,
   lifecycle-conditioned models, and branch ablations as Phase 6 work.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.

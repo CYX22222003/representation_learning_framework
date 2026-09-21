@@ -218,6 +218,14 @@ level error. Its implied movement has positive Rank IC, though a simple
 last-hour reversal score is stronger; the result motivates matched raw
 temporal baselines rather than a representation-superiority claim.
 
+The Phase 5 intermediate observation therefore promotes eight-hour future-
+price prediction as the clearest regression transfer task for the final
+framework narrative. Direct movement and return heads remain diagnostic
+target-formulation evidence. Financial evaluation emphasizes the implied-
+movement Rank IC rather than treating level error as the sole objective. The
+last-hour reversal finding is a candidate empirical factor pending a fresh
+holdout and cost-aware evaluation.
+
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1
 encoders fixed, (2) encoder refinement through matched new temporal-backbone

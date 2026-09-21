@@ -195,21 +195,24 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - All branch embeddings are extracted into a branch-aware `FeatureBundle`: deterministic arrays are saved as `statistical` and `transformed`, and neural embeddings are saved under their encoder names such as `vae`, `contrastive`, and `byol`. The `RepresentationAggregator` receives these named branch tensors and fuses them into a unified embedding *h_i* per sequence.
   - **Downstream Task Preparation:**
     - **Regression Task:** supervised pairs (X, y), where X is the sequence
-      embedding and `y = close[t+h] - close[t]` is continuous future
-      probability movement. Labels are contract- and fold-local. Absolute
-      next-close prediction remains a Phase 3 diagnostic only. Phase 5 also
-      records post-primary exploratory probes for eight-hour raw change and
-      two-hour ordinary log return with train-only target scaling and
-      reconstructed-probability reporting. A separate eight-hour absolute-
-      price probe uses a bounded head and evaluates its implied change so high
-      level correlation is not treated as movement predictability.
+      embedding. The clearest Phase 5 transfer target is the sigmoid-bounded
+      eight-hour future probability `close[t+8h]`. Its implied movement is
+      evaluated with Pearson/Spearman, sign agreement, and cross-sectional
+      Rank IC. Direct raw-change and log-return heads remain aligned diagnostic
+      tasks showing that target formulation changes what the frozen
+      representation exposes. Labels are contract- and fold-local.
     - **Classification Task:** labels such as trend direction or event outcome mapped to embeddings as input-output pairs. Phase 1 retains its TA-MLP-style tri-class BUY/HOLD/SELL bundle. The isolated Phase 2 task uses hard `DOWN/STABLE/UP` labels from absolute probability movement over a split-safe horizon and saves three-class scores. Its candidate imbalance protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and train-prior logit-adjusted cross-entropy (`P2`); natural cross-entropy (`P0`) is an untreated reference only.
   - A lightweight MLP task head is trained on these (X, y) pairs.
 
 - **Performance Comparison:**
   - Evaluate strict task comparisons on the same global-calendar walk identities
     and aligned label rows, then stratify results by contract lifecycle stage.
-  - Consistent metrics: Regression → MAE, RMSE; Classification → Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass Brier score. The Phase 2 classification focus is imbalance and collapse rather than confidence calibration.
+  - Consistent metrics: Regression → MAE, RMSE, Pearson/Spearman, implied-
+    movement Rank IC and sign agreement; Classification → Accuracy, macro-F1,
+    balanced accuracy, per-class precision/recall/F1, confusion matrix,
+    predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass
+    Brier score. The Phase 2 classification focus is imbalance and collapse
+    rather than confidence calibration.
   - Comparison axes:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
     - Single-branch ablations vs. full aggregated framework

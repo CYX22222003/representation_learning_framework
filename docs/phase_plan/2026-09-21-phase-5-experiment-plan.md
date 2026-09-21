@@ -2,10 +2,11 @@
 
 **Date:** 2026-09-21  
 **Status:** Data preparation, canonical encoder pretraining, frozen feature
-extraction, seed-0 framework downstream probing, and two exploratory regression
-sensitivities plus an eight-hour absolute-price probe complete; learned
-baselines and additional seeds pending
+extraction, seed-0 framework downstream probing, two additional regression
+tasks, and an eight-hour absolute-price probe complete; learned baselines and
+additional seeds pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
+**Intermediate observation:** `2026-09-22-phase-5-intermediate-observation.md`
 
 ## 1. Authority and evolution of the research design
 
@@ -31,13 +32,15 @@ contract:
 
 1. prepare walk-specific training and evaluation data;
 2. train the canonical encoders and downstream models separately per walk;
-3. extract frozen features and evaluate probability-movement regression and
-   classification; and
+3. extract frozen features and evaluate future-probability regression,
+   probability-movement diagnostics, and movement classification; and
 4. train matched baselines and compare them on identical rows.
 
 The main research question is whether the canonical five-branch frozen
-representation provides useful information for short-horizon probability
-movement relative to simple and task-specific alternatives.
+representation transfers useful information to short-horizon future-
+probability prediction and movement classification relative to simple and
+task-specific alternatives. The predeclared movement regressions remain
+diagnostic evidence about target formulation.
 
 ## 3. Accepted research assumptions
 
