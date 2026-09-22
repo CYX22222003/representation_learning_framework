@@ -6,6 +6,7 @@ import torch
 
 from training.phase5_baselines import (
     BASELINES,
+    CPU_REPLAY_TOLERANCE,
     TASKS,
     Phase5BaselineConfig,
     Phase5RawBaseline,
@@ -48,6 +49,14 @@ class Phase5BaselineTests(unittest.TestCase):
     def test_architecture_declares_no_explicit_price_skip(self) -> None:
         config = Phase5BaselineConfig("raw_ohlcv_mlp", "absolute_price_h8", 1, device="cpu")
         self.assertFalse(model_spec(config)["explicit_current_price_skip"])
+
+    def test_cpu_replay_tolerance_is_architecture_specific(self) -> None:
+        self.assertEqual(CPU_REPLAY_TOLERANCE["raw_ohlcv_mlp"], 2e-5)
+        self.assertEqual(CPU_REPLAY_TOLERANCE["raw_ohlcv_lstm"], 2e-3)
+        self.assertGreater(
+            CPU_REPLAY_TOLERANCE["raw_ohlcv_lstm"],
+            CPU_REPLAY_TOLERANCE["raw_ohlcv_mlp"],
+        )
 
     def test_cpu_smoke_matrix(self) -> None:
         result = smoke_test_baselines()
