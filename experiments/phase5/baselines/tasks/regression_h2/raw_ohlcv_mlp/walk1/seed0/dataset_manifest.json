@@ -1,0 +1,30 @@
+{
+  "baseline": "raw_ohlcv_mlp",
+  "checkpoint_selection": "epoch 50 predeclared",
+  "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "evaluation_used_for_fitting_or_selection": false,
+  "input_array": "train_sequences/test_sequences",
+  "input_preprocessing": {
+    "ohlc": "unscaled_probability",
+    "volume": {
+      "denominator": 97457.40431931993,
+      "fit_population": "unique bounded-fill candles with date >= train_start and availability < cutoff",
+      "fit_row_count": 75449,
+      "imputed_raw_value": 0.0,
+      "imputed_scaled_value": -0.14797330007971587,
+      "mean": 14421.093734332926,
+      "method": "global_walk_training_interval_volume_zscore",
+      "std": 97457.40431931993,
+      "uses_evaluation_rows": false
+    }
+  },
+  "phase": 5,
+  "purpose": "matched_raw_sequence_baseline",
+  "task": "regression_h2",
+  "test_identity_hash": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+  "test_rows": 30340,
+  "train_identity_hash": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+  "train_rows": 37864,
+  "walk": 1
+}

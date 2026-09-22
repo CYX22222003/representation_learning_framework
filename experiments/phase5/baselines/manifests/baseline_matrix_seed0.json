@@ -1,0 +1,333 @@
+{
+  "frozen_before_training": true,
+  "phase": 5,
+  "purpose": "frozen_matched_raw_sequence_baseline_matrix",
+  "run_count": 12,
+  "runs": [
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "regression_h2",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "run_root": "experiments/phase5/baselines/tasks/regression_h2/raw_ohlcv_mlp/walk1/seed0",
+      "task": "regression_h2",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "regression_h2",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "run_root": "experiments/phase5/baselines/tasks/regression_h2/raw_ohlcv_mlp/walk2/seed0",
+      "task": "regression_h2",
+      "walk": 2
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "regression_h2",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "run_root": "experiments/phase5/baselines/tasks/regression_h2/raw_ohlcv_lstm/walk1/seed0",
+      "task": "regression_h2",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "regression_h2",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "run_root": "experiments/phase5/baselines/tasks/regression_h2/raw_ohlcv_lstm/walk2/seed0",
+      "task": "regression_h2",
+      "walk": 2
+    },
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "run_root": "experiments/phase5/baselines/tasks/classification_h2/raw_ohlcv_mlp/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "run_root": "experiments/phase5/baselines/tasks/classification_h2/raw_ohlcv_mlp/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "run_root": "experiments/phase5/baselines/tasks/classification_h2/raw_ohlcv_lstm/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "run_root": "experiments/phase5/baselines/tasks/classification_h2/raw_ohlcv_lstm/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "run_root": "experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_mlp/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_mlp",
+      "config": {
+        "baseline": "raw_ohlcv_mlp",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "run_root": "experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_mlp/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "run_root": "experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "baseline": "raw_ohlcv_lstm",
+      "config": {
+        "baseline": "raw_ohlcv_lstm",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "head_hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "regression_target_multiplier": 100.0,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "run_root": "experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    }
+  ],
+  "selection_rule": "epoch 50 predeclared; no evaluation-driven selection"
+}
