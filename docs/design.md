@@ -6,12 +6,19 @@
 > data, tasks, assumptions, and scope, read
 > [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md)
 > first. It supersedes conflicting older Phase 5 handoff language below.
+>
+> **Phase 6 authority (2026-09-22):** For the current future-interval realised-
+> variance task and temporal encoder matrix, read
+> [`phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`](phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md)
+> and
+> [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
+> They supersede conflicting Phase 6 scope statements below.
 
 ## Architecture Design
 
 The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: probability-movement regression, volatility prediction, and movement/trend classification. Absolute next-close prediction is retained as a completed negative characterisation study rather than the primary regression probe.
 
-The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Concat mode serves as the primary implementation and as an ablation comparison for gated mode. A detailed architecture diagram is provided in the Appendix.
+The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Gated mode remains an implemented historical comparison capability, but it is not part of the active Phase 6 matrix. A detailed architecture diagram is provided in the Appendix.
 
 ## Experiment Design
 
@@ -146,9 +153,11 @@ imputation-exposure reporting but is not an additional model channel.
   frozen. The Phase 5 primary adaptive evaluation trains separate encoder
   weights per global walk.
 
-- A lifecycle-conditioned shared encoder/head or predeclared stage-specific
-  experts, encoder variants, gated fusion, and temporal-transfer comparisons
-  are deferred to Phase 6.
+- Phase 6 actively tests walk-specific LSTM/Transformer substitutions and
+  heterogeneous single additions under concat, with duplicated-CNN width
+  controls. Lifecycle conditioning, stage-specific experts, gated fusion,
+  fixed-first-walk transfer, branch ablations, decoder variants, and
+  additional seeds remain outside the active plan.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
@@ -193,7 +202,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   trajectories are complete and replay-validated; see
   `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
-- **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary, stronger hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The existing Raw-OHLCV MLP volatility sweep uses a legacy merged-array target helper and is characterization-only until it is migrated to this shared bundle; the framework volatility task must also consume this bundle before any strict comparison. A framework result should therefore report its relationship to both benchmarks rather than treating the stack as evidence that standalone GARCH is superior.
+- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 strict comparison requires a new walk-specific shared bundle of realised variance over a strictly future interval of observed raw probability changes. Its primary horizon is frozen from a training-period-only audit. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, and all Phase 6 temporal configurations must consume the identical replacement rows. See `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
@@ -218,7 +227,8 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
     predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass
     Brier score. The Phase 2 classification focus is imbalance and collapse
     rather than confidence calibration.
-  - Comparison axes:
+  - Broad comparison axes, only when separately approved for the applicable
+    phase:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
     - Single-branch ablations vs. full aggregated framework
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining

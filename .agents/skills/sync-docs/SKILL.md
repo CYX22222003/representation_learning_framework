@@ -93,6 +93,13 @@ execution, or reporting, include
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+For the Phase 6 volatility definition, horizon audit, label eligibility,
+comparison matrix, implementation status, or result judgement, include
+`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+For Phase 6 temporal encoder substitution, heterogeneous additions,
+duplicate-width controls, CKA, task scope, implementation status, or result
+judgement, include
+`docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 
 ## 3. Audit Repository Skills
 

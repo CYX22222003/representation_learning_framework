@@ -42,6 +42,14 @@ Read these in order:
    encoder adaptation, read
    `docs/data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md` in
    full.
+7. For Phase 6 volatility-task design, read
+   `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
+   Preserve its distinction between future interval realised variance and the
+   historical overlapping shifted-window proxy.
+8. For Phase 6 temporal encoder substitution, heterogeneous feature addition,
+   duplicate-width controls, CKA, or task-transfer design, read
+   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
+   full.
 
 ## Response Contract
 
@@ -70,8 +78,10 @@ Present the parts relevant to the request:
   The intermediate reporting direction uses future-price prediction as the
   clearest regression transfer task and treats implied-movement Rank IC as the
   primary financial interpretation of that output.
-- Treat encoder variants, fixed-first-walk transfer, gated fusion,
-  lifecycle-conditioned models, and branch ablations as Phase 6 work.
+- Treat temporal encoder substitutions and controlled heterogeneous additions
+  as the active Phase 6 encoder work. Fixed-first-walk transfer, gated fusion,
+  lifecycle-conditioned models, decoder variants, branch ablations, and
+  additional seeds are outside the frozen Phase 6 task plans.
 - The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 

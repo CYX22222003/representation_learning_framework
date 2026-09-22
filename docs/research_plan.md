@@ -124,12 +124,18 @@ Frozen neural embeddings are stored as separate named feature arrays, not as one
 Under Phase 5, the primary evaluation trains separate canonical VAE,
 contrastive-CNN, and BYOL-CNN weights at each global calendar cutoff, freezes
 them, and trains that walk's downstream heads on embeddings from the same
-history. Encoder variants, fixed-first-walk transfer, gating, and branch
-ablations move to Phase 6. No Phase 3 encoder weights are Phase 5 inputs.
+history. No Phase 3 encoder weights are Phase 5 inputs.
 
 The Phase 5 core does not include a representation-transfer comparison.
-Fixed-first-walk reuse, lifecycle-conditioned shared models, stage-specific
-experts, encoder variants, and branch/fusion ablations are deferred to Phase 6.
+Phase 6 tests walk-specific contrastive and BYOL LSTM/Transformer backbones as
+fixed-width substitutions and as heterogeneous single additions under concat.
+Same-width duplicated-CNN features control for the wider downstream head.
+Movement classification, future price, and the independently frozen future-
+realised-variance task form the downstream matrix. Fixed-first-walk reuse,
+lifecycle-conditioned models, stage-specific experts, gating, decoder
+variants, branch ablations, and additional seeds remain outside the active
+Phase 6 plans. See
+`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 Representation drift alone is not evidence that a different architecture is
 needed in each lifecycle stage.
 
@@ -146,7 +152,13 @@ needed in each lifecycle stage.
   - Probability-movement regression — MLP regressor for continuous
     contract-local `close[t+h] - close[t]`; absolute next-close regression is
     retained only as historical/negative characterisation evidence.
-  - Volatility prediction — MLP regressor, MSE loss on realised volatility targets.
+  - Volatility prediction — MLP regressor on future interval realised variance,
+    defined from raw probability changes as
+    `sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2`. The historical shifted-window
+    proxy remains characterisation evidence only. The Phase 6 primary horizon
+    is frozen from training-period capacity and target diagnostics before any
+    model evaluation; see
+    `phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
   - Trend classification — MLP classifier trained with cross-entropy on TA-MLP-style tri-class BUY/HOLD/SELL labels.
 
 - Write end-to-end training scripts connecting data loading, feature extraction, encoder inference, aggregation, and task training.
@@ -257,16 +269,21 @@ Part 3 execution contract.
     correlation, sign agreement, per-contract, per-global-walk, and
     per-lifecycle-stage metrics, with exact zero movement as the primary
     reference
-  - Volatility prediction: MSE, Pearson correlation of predicted vs. realised volatility
+  - Volatility prediction: MAE, RMSE/MSE, Pearson and Spearman correlation of
+    predicted versus future interval realised variance, together with zero and
+    historical-volatility-persistence references
   - Trend classification: Accuracy, macro-F1, per-class precision/recall/F1, and confusion matrix. Accuracy is reported as a supporting metric because the HOLD class can dominate.
 
 - Reuse saved task-label bundles and their aligned rows whenever a task has
   one. The Phase 3 horizon-1 absolute-price bundle remains immutable negative
   characterisation evidence. Phase 5 must create a new fold-aware continuous
   probability-movement bundle whose horizons never cross fold or contract
-  boundaries. Raw LSTM, GARCH--LSTM stacking, the future framework volatility
-  run, and the Raw-OHLCV MLP volatility rerun must consume the same
-  contract-aware realised-volatility bundle.
+  boundaries. The old volatility bundle is an overlapping shifted-window
+  proxy. Phase 6 must create a new walk-specific future-interval realised-
+  variance bundle whose component closes are observed, consecutive, contract-
+  local, gap-segment-local, and mature within the applicable walk boundary.
+  Raw LSTM, GARCH--LSTM stacking, the future framework volatility run, and the
+  Raw-OHLCV MLP volatility rerun must consume its identical rows and targets.
 
 - For volatility, retain both the Raw LSTM and the adapted GARCH--LSTM stack in the final table. Beating or approaching Raw LSTM indicates competitiveness with direct neural sequence prediction; beating or approaching the stack is stronger hybrid-comparator evidence. The stack comparison must be described as a complete-system comparison, not a standalone-GARCH result.
 

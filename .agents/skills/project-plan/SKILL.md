@@ -41,6 +41,16 @@ Read these in order:
    also read `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
+   For Phase 6 volatility planning, readiness, implementation, or execution,
+   also read
+   `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
+   Do not describe the task as implemented merely because the formula and plan
+   are frozen; the horizon audit and replacement artifacts have not started.
+   For Phase 6 temporal-encoder planning, readiness, implementation, or
+   execution, also read
+   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
+   full. Existing Phase 3 model classes and artifacts are not evidence that
+   the walk-specific Phase 6 matrix has executed.
 
 ## Response Contract
 
@@ -68,8 +78,9 @@ Report:
   signed correlation. The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is
   complete and replay-validated under `experiments/phase5/baselines/`; the
   framework leads h2 classification macro-F1 and the raw LSTM leads h8 price
-  error and implied-movement Rank IC. Additional seeds remain pending. Do not
-  infer universal framework superiority from the seed-0 comparison.
+  error and implied-movement Rank IC. Additional seeds are deferred until
+  after Phase 6 and currently have the lowest priority. Do not infer universal
+  framework superiority from the seed-0 comparison.
   The eight-hour absolute-price probe is also complete: it reconstructs level
   with high correlation but trails persistence on error; its implied movement
   Rank IC is positive but weaker than last-hour reversal.

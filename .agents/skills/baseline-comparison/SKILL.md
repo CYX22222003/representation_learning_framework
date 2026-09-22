@@ -35,7 +35,14 @@ invalid cross-contract transitions per split. Treat those as legacy
 characterisation evidence unless they are retrained on the saved bundle. See
 `docs/price_prediction_label_contract.md`.
 
-For volatility, strict comparisons must use `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz`: Raw LSTM, GARCH--LSTM stacking, the framework volatility task, and a rerun of the Raw-OHLCV MLP must use its aligned rows. Existing Raw-OHLCV MLP volatility artifacts that use the legacy merged-array target builder are characterization evidence only.
+The historical volatility bundle at
+`data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` uses the old
+four-hour shifted-window proxy and is characterization evidence only. Phase 6
+strict volatility comparisons must instead use the new walk-specific
+future-interval realized-variance bundle after its horizon is frozen under
+`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`. The Raw
+MLP, Raw LSTM, adapted GARCH--LSTM, canonical framework, and temporal encoder
+variants must share those exact aligned rows.
 
 ### 2. Define comparison levels
 
@@ -54,6 +61,14 @@ branch-aware residual MLP, gated fusion, temporal LSTM, and temporal
 Transformer. Keep the five Phase-1 branches fixed and use identical final task
 rows. Treat end-to-end task benchmarks as contextual complete-system
 comparisons rather than decoder-isolating controls.
+
+For Phase 6 temporal encoder claims, use the precommitted 11-configuration
+matrix in
+`docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+Interpret same-dimensional temporal substitutions against the canonical H0
+framework. Interpret heterogeneous additions against both H0 and the matched
+duplicate-feature controls, so evidence for new temporal information is not
+confused with evidence for a wider downstream head.
 
 ### 3. Run matched characterization sweeps
 
@@ -100,3 +115,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 - Phase 5 baseline implementation: `src/training/phase5_baselines.py`
 - Phase 5 freeze/execute entry point:
   `scripts_v3/bootstrap_phase5_baselines.py`
+- Phase 6 future-volatility comparison contract:
+  `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`
+- Phase 6 temporal encoder comparison matrix:
+  `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`

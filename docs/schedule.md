@@ -2,9 +2,10 @@
 
 **Last updated:** 2026-09-22
 
-> **Current phase:** Phase 4 data exploration and selection are concluded.
-> Phase 4 ran no encoder, downstream, or baseline training. Its final decision
-> led to the canonical
+> **Current phase:** Phase 5 seed-0 execution is complete and Phase 6 is at the
+> planning-contract stage; no Phase 6 data audit, implementation, training, or
+> evaluation has started. Phase 4 data exploration and selection concluded
+> without model training and led to the canonical
 > [Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md). Phase 5 uses
 > the two fresh top-50 clean native one-hour walk cohorts, accepts their
 > retrospective selection, assumes the approved pruning is correct offline
@@ -25,7 +26,17 @@
 > The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is complete and replay-
 > validated at epochs 5/15/50. The framework leads h2 classification macro-F1;
 > the raw LSTM leads h8 future-price error and implied-movement Rank IC.
-> Additional seeds and attribution tests remain pending.
+> Additional seeds and attribution tests remain pending after Phase 6;
+> multiple-seed confirmation currently has the lowest priority.
+>
+> **Phase 6 planning update:** The two task contracts are now recorded in
+> `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` and
+> `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+> The first fixes a strictly future interval realised-variance formula and a
+> data-first horizon gate. The second freezes 11 seed-0 substitution,
+> heterogeneous-addition, and duplicate-control configurations across
+> classification, future price, and the new volatility task. Phase 6 data
+> audits, implementation, training, and evaluation have not started.
 
 ---
 
@@ -107,8 +118,8 @@
 | Eight-hour absolute-price add-on | 🔄 Phase 5 recent-data probe complete: price Pearson is high (`0.9938`) but level errors trail persistence; implied-movement Rank IC is positive across both walks but weaker than last-hour reversal. This is useful state-reconstruction/ranking evidence, not a return-forecasting win. |
 | Probability-movement regression | ⚠️ Phase 5 seed-0 comparison complete: framework/Raw-MLP/Raw-LSTM MAE is `0.002711/0.002405/0.002406`, but all trail exact-zero MAE and all have near-zero Spearman. Raw-MLP Pearson is concentrated in a genuine extreme Walk 1 reversal rather than broad monotonic signal. Eight-hour raw change and two-hour log return also did not restore stable signed predictability. |
 | Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
-| Temporal encoder adaptation/transfer | ⏭️ Deferred to Phase 6; Phase 5 trains the same canonical architecture independently in each walk without a fixed-first-walk transfer ablation |
-| Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
+| Temporal encoder variants | ⏭️ Phase 6 plan frozen: walk-specific contrastive/BYOL LSTM and Transformer substitutions, heterogeneous additions, and duplicated-CNN width controls at seed 0; implementation and execution have not started |
+| Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | ⚠️ Historical row-aligned artifacts are preserved but use the overlapping MVP target. The Phase 6 future-interval realised-variance replacement is planned; its horizon audit, labels, and model matrix have not started. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |

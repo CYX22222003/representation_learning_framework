@@ -123,8 +123,9 @@ This project deliberately uses **train and test partitions only**. There is no v
 |---|---|---|
 | VAE encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
 | Contrastive encoder | train data (fixed-epoch pretraining) | — (frozen after pretraining) |
-| Phase-2 temporal variants: contrastive LSTM/Transformer | same train sequences and fixed NT-Xent protocol as the CNN contrastive reference | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
-| BYOL encoder and Phase-2 BYOL LSTM/Transformer variants | same train sequences; each temporal variant retains the CNN BYOL reference's fixed BYOL protocol | — (frozen after pretraining; test inference only after the candidate matrix is frozen) |
+| Phase-6 contrastive LSTM/Transformer variants | each walk's target-free encoder rows and the fixed NT-Xent protocol used by that walk's CNN reference | frozen inference on aligned task rows only after the candidate matrix is frozen |
+| Phase-6 BYOL LSTM/Transformer variants | each walk's target-free encoder rows; each temporal variant retains the CNN BYOL reference's fixed online/EMA-target protocol | frozen inference on aligned task rows only after the candidate matrix is frozen |
+| Phase-6 heterogeneous additions and duplicate controls | no encoder fitting beyond the named frozen branches; concatenate one temporal branch or one exact CNN duplicate | task heads train on task-training rows and evaluate on identical task/walk rows |
 | Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
 | Statistical features | *(deterministic — no fitting)* | — |
 | Transformation features | *(deterministic — no fitting)* | — |
@@ -146,8 +147,8 @@ Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
 split. Phase 5 instead rebuilds these allocations per global calendar walk.
 Every primary walk uses a separately trained encoder and downstream head from
 the same causally permitted history, then freezes both before its next-interval
-evaluation. An optional fixed-first-walk encoder is a transferability ablation,
-not part of the Phase 5 core; encoder-transfer work is deferred to Phase 6.
+evaluation. The active Phase 6 encoder plan retains walk-specific fitting and
+does not include a fixed-first-walk transfer ablation.
 There is no per-component validation split.
 
 ---
@@ -238,10 +239,15 @@ It stores realised-volatility targets plus train/test row indices, contract IDs,
 This bundle is now classified as the **historical MVP next-window proxy**. Its
 stride-one input and target windows overlap by 63 of 64 prices, so it must not
 support claims about a genuinely unseen future-volatility window. Preserve it
-to reproduce earlier runs, but predeclare a revised target, generate a new
-bundle, and rerun all required comparators before making confirmatory volatility
-forecasting claims. See
-`docs/phase_plan/phase2_experiment_observation_and_outcome.md`.
+to reproduce earlier runs. The planned Phase 6 replacement predicts realised
+variance over a strictly future interval,
+`sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2`, using observed consecutive future
+closes and no imputed target candles. Its horizon remains gated by a
+training-period data audit, and no replacement bundle has been generated yet.
+Generate that bundle and rerun all required comparators before making
+confirmatory volatility-forecasting claims. See
+`docs/phase_plan/phase2_experiment_observation_and_outcome.md` and
+`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 
 ---
 

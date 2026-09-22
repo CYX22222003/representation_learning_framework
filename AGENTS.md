@@ -40,9 +40,26 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > characterisation evidence and are not Phase 5 inputs.
 > Phase 5 freezes a 64-hour context, balanced two-walk schedule, shared
 > two-hour movement horizon, `tau=0.001` classification, canonical five-branch
-> concat framework, and separate weights per walk. Encoder variants, gating,
-> branch ablations, and temporal transfer move to Phase 6. See
+> concat framework, and separate weights per walk. Phase 6 now plans temporal
+> encoder substitution plus controlled heterogeneous single-branch additions
+> under concat fusion. Gating, decoder variants, branch ablations,
+> fixed-first-walk transfer, lifecycle conditioning, and additional seeds are
+> outside that active plan. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+> The first Phase 6 task is now planned in
+> `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+> It defines the scientific target as realised variance over a strictly future
+> interval using raw probability changes. Its primary horizon must be frozen
+> from a training-period-only data audit before a replacement label bundle or
+> model matrix is executed. No Phase 6 volatility implementation or training
+> is complete yet.
+> The second Phase 6 task is specified in
+> `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+> It freezes 11 seed-0 concat configurations: the canonical reference, four
+> fixed-width LSTM/Transformer substitutions, four heterogeneous additions,
+> and two duplicated-CNN width controls. All configurations are precommitted
+> to movement classification, future price, and the new volatility task once
+> its independent target gate passes. No Phase 6 variant run is complete yet.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > The frozen feature-extraction and seed-0 framework probing contract is
@@ -618,7 +635,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker
   than a simple last-hour reversal reference.
-- Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
+- Historical volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains the overlapping shifted-window proxy plus aligned train/test row indices, contract IDs, and window starts. It remains Phase 1/2 characterisation evidence only. Phase 6 must create a new walk-specific bundle for `sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2` over a strictly future interval, with every component close observed and consecutive. Raw LSTM, GARCH--LSTM stacking, the framework, and Raw-OHLCV MLP must consume identical rows from that replacement bundle; see `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`
