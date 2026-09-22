@@ -27,9 +27,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > dimensional frozen feature stores, train-only feature scalers, and four
 > seed-0 framework downstream trajectories are complete and replay-validated at
 > epochs 5/15/50. Epoch 50 was fixed before evaluation. The learned baseline
-> pipeline is implemented as a 12-run Raw-OHLCV MLP/raw LSTM matrix under
-> `scripts_v3/`, but no baseline training has run; execution still requires
-> its explicit `--execute` gate and identical-row replay.
+> pipeline is complete as a 12-run Raw-OHLCV MLP/raw LSTM matrix under
+> `scripts_v3/`; all 36 checkpoints pass identical-row and CPU prediction
+> replay, and the pooled comparison report is under
+> `experiments/phase5/baselines/reports/baseline_matrix_seed0/`.
 > Per-contract lifecycle fractions remain
 > reporting strata, not primary pooled-model splits. The unexecuted four-hour
 > top-80 contract in
@@ -51,8 +52,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
 > The executed recent-data eight-hour future-price probe is specified in
 > `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
-> The implemented but unexecuted 12-run Raw-OHLCV MLP/raw LSTM matrix is
-> specified in
+> The completed 12-run Raw-OHLCV MLP/raw LSTM matrix is specified in
 > `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 > Its interpretation and the current Phase 5 reporting direction are recorded
 > in `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`: future-
@@ -570,9 +570,10 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   the thesis experiment. The sequence/label builder, causal gap/activity
   rules, common baseline identities, and replayable data manifests are now
   validated. Walk-specific encoders, frozen features, feature scalers, and the
-  seed-0 framework heads are complete. The 12-run learned-baseline matrix is
-  implemented but unexecuted and remains gated on explicit launch and
-  identical-row replay.
+  seed-0 framework heads and the 12-run learned-baseline matrix are complete.
+  The framework leads h2 classification macro-F1, while the raw LSTM leads h8
+  future-price error and implied-movement Rank IC; all comparison artifacts
+  pass identical-row replay.
 - Raw feather files must have columns: `open`, `high`, `low`, `close`, `volume`
 - Processed `.npz`: keys `train` and `test`, both `float32` of shape `[N, seq_len, 5]`
 - Feature `.npz` (via `NpzFeatureStore`): keys `statistical`, `transformed`, plus one key per frozen neural branch such as `vae`, `contrastive`, or `byol`; a companion `.index.npz` stores `train_size`/`test_size` to recover the split after train+test concatenation. Legacy files with an empty or packed `neural` key remain loadable, but new neural features should be stored by branch name.

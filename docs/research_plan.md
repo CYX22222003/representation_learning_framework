@@ -226,12 +226,14 @@ movement Rank IC rather than treating level error as the sole objective. The
 last-hour reversal finding is a candidate empirical factor pending a fresh
 holdout and cost-aware evaluation.
 
-The matched Phase 5 comparison is now implemented, but not executed, as a
-12-run seed-0 matrix: Raw-OHLCV MLP and three-layer raw OHLCV LSTM models for
-two-hour movement regression, two-hour movement classification, and eight-hour
-absolute future price in each walk. Both consume the exact saved task rows;
-TA-MLP, TCN, additional seeds, and the exploratory raw/log-return targets are
-outside this baseline stage. See
+The matched Phase 5 comparison is complete as a 12-run seed-0 matrix: Raw-
+OHLCV MLP and three-layer raw OHLCV LSTM models for two-hour movement
+regression, two-hour movement classification, and eight-hour absolute future
+price in each walk. Both consume the exact saved task rows and all 5/15/50
+checkpoints replay. The framework leads h2 classification macro-F1, while the
+raw LSTM leads h8 future-price error and implied-movement Rank IC. TA-MLP, TCN,
+additional seeds, and the exploratory raw/log-return targets remain outside
+this baseline stage. See
 `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
 Phase 2 contains three separate experiment parts whose effects must not be

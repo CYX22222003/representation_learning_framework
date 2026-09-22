@@ -22,8 +22,10 @@
 > The future-price head produces positive implied-movement Rank IC in both
 > walks, while a causal last-hour reversal diagnostic is stronger and is now a
 > candidate empirical factor requiring fresh-holdout confirmation.
-> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is implemented and frozen
-> in documentation but has not been executed. Additional seeds remain pending.
+> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is complete and replay-
+> validated at epochs 5/15/50. The framework leads h2 classification macro-F1;
+> the raw LSTM leads h8 future-price error and implied-movement Rank IC.
+> Additional seeds and attribution tests remain pending.
 
 ---
 
@@ -42,7 +44,7 @@
 | Phase 5 framework downstream probing | ✅ Four seed-0 CUDA trajectories complete under `experiments/phase5/downstream/`: regression and classification for both walks, 50 epochs with 5/15/50 snapshots. Train-only coordinate scalers, CPU smoke tests, checkpoint/prediction replay, non-trained references, breakdowns, pooled predictions, and report are complete. |
 | Phase 5 exploratory additional regression tasks | ✅ Eight-hour raw probability change and two-hour ordinary log return are implemented and executed for both walks at seed 0. Horizon-specific maturity/gap rows, reused-or-fresh frozen features, train-only log-target scaling, reconstructed probabilities, starting-price/lifecycle/imputation breakdowns, 5/15/50 checkpoints, and CPU replay are complete. Neither target recovered stable signed correlation. |
 | Phase 5 eight-hour absolute-price probe | ✅ Two walk-specific sigmoid heads completed at seed 0 and 5/15/50 epochs. Price-level MAE remains worse than current-price persistence, but implied movement has positive pooled Spearman `0.1287` and mean cross-sectional Rank IC `0.1264`. A simple last-hour reversal score is stronger (`0.2794` pooled mean IC), so representation value is not established. |
-| Phase 5 matched raw-sequence baselines | 🔄 Implemented and unit-tested, not executed: Raw-OHLCV MLP and three-layer raw OHLCV LSTM across h2 regression, h2 classification, h8 absolute price, and both walks (12 seed-0 trajectories). The manifest-only bootstrap, explicit execution gate, replay validator, and pooled framework comparison report are ready under `scripts_v3/`. |
+| Phase 5 matched raw-sequence baselines | ✅ Twelve seed-0 trajectories complete: Raw-OHLCV MLP and three-layer raw OHLCV LSTM across h2 regression, h2 classification, h8 absolute price, and both walks. All 36 checkpoints pass artifact, identity, history, and CPU prediction replay; the pooled framework comparison and plots are under `experiments/phase5/baselines/reports/baseline_matrix_seed0/`. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
@@ -103,8 +105,8 @@
 | Evaluation harness (unified test loop for all models) | 🔄 Framework runner records configs, manifests, metrics, predictions, summaries, and comparisons; baseline runners still evaluate independently |
 | Absolute next-close benchmark (MAE, RMSE) | ⚠️ Phase 3 is leakage-safe but persistence-dominated; retained as negative characterisation evidence and superseded as the primary regression probe |
 | Eight-hour absolute-price add-on | 🔄 Phase 5 recent-data probe complete: price Pearson is high (`0.9938`) but level errors trail persistence; implied-movement Rank IC is positive across both walks but weaker than last-hour reversal. This is useful state-reconstruction/ranking evidence, not a return-forecasting win. |
-| Probability-movement regression | ⚠️ Phase 5 framework seed-0 probe complete: pooled out-of-future MAE/RMSE `0.002711/0.010835`; Pearson `0.0807`, Spearman approximately zero. Eight-hour raw change (`Pearson 0.0142`) and two-hour log return (`Pearson -0.0103`) did not restore signed predictability. Learned baselines and additional seeds remain pending. |
-| Probability-movement classification | ✅ Phase 5 framework seed-0 probe complete: pooled macro-F1/balanced accuracy `0.4541/0.4730` versus always-STABLE `0.2831/0.3333`; accuracy is lower (`0.6369` versus `0.7382`) because the logit-adjusted model predicts minority classes. Learned comparisons remain pending. |
+| Probability-movement regression | ⚠️ Phase 5 seed-0 comparison complete: framework/Raw-MLP/Raw-LSTM MAE is `0.002711/0.002405/0.002406`, but all trail exact-zero MAE and all have near-zero Spearman. Raw-MLP Pearson is concentrated in a genuine extreme Walk 1 reversal rather than broad monotonic signal. Eight-hour raw change and two-hour log return also did not restore stable signed predictability. |
+| Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
 | Temporal encoder adaptation/transfer | ⏭️ Deferred to Phase 6; Phase 5 trains the same canonical architecture independently in each walk without a fixed-first-walk transfer ablation |
 | Volatility prediction benchmark (MSE, correlation) | ⚠️ Row-aligned artifacts are preserved, but they inherit the upstream defect and use the overlapping MVP target |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
@@ -149,8 +151,8 @@ entry points and all `_old` artifacts remain excluded from new execution.
 
 ## 2. Summary
 
-The current project state is **Phase 4 concluded; Phase 5 framework-only seed-0
-probing complete, with learned baselines implemented but not executed**. Phase 3 proved that raw-time-first construction,
+The current project state is **Phase 4 concluded; the Phase 5 seed-0 framework
+and matched learned-baseline loop is complete and replay-validated**. Phase 3 proved that raw-time-first construction,
 training-only fitted preprocessing, isolated windows, contract-local labels,
 and artifact replay can remove the Phase 1/2 future leakage. Phase 4 then
 established that the single final-20% tail is lifecycle-biased, absolute
@@ -165,13 +167,13 @@ builder, encoders, feature stores, train-only scalers, framework heads, and
 5/15/50 prediction replay are now implemented, executed, and validated.
 Direct movement/return regression does not recover stable signed ranking, but
 the eight-hour future-price task produces positive implied-movement Rank IC in
-both walks and is now the clearest regression transfer result. Classification
-improves macro-F1 and balanced accuracy over always-STABLE. A stronger causal
-last-hour reversal diagnostic is a candidate empirical factor, not yet a
-confirmed trading alpha. The immediate priority is to execute and replay-
-validate the frozen matched raw MLP/temporal and classification baseline matrix, test incremental
-IC beyond reversal, and confirm reversal on fresh data before comparative or
-profitability claims; additional framework seeds remain later work.
+both walks and is now the clearest regression transfer result. The framework
+has the strongest matched h2 classification macro-F1, while the raw temporal
+LSTM has the strongest h8 learned-model Rank IC (`0.2080` versus framework
+`0.1264`) and still trails last-hour reversal (`0.2794`). The immediate
+priorities are to test incremental IC beyond reversal, confirm reversal on
+fresh data, and add uncertainty through seeds or paired intervals before
+strong comparative or profitability claims.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`

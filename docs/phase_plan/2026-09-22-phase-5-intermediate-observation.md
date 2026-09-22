@@ -1,7 +1,7 @@
 # Phase 5 Intermediate Experiment Observation
 
 **Date:** 2026-09-22
-**Status:** Intermediate evidence and reporting decision; Phase 5 remains open
+**Status:** Seed-0 framework and matched-baseline evidence complete; Phase 5 follow-ups remain open
 **Authority:** Supplements `2026-09-21-phase-5-experiment-plan.md` without
 retrospectively changing the predeclared execution contracts
 
@@ -10,11 +10,11 @@ retrospectively changing the predeclared execution contracts
 Phase 5 has completed the recent-data walk builder, six walk-specific neural
 encoder trajectories, canonical five-branch feature extraction, two-hour
 movement regression/classification heads, additional raw-change/log-return
-tasks, and an eight-hour absolute future-price task. This document records the
-current interpretation before learned-baseline execution, additional seeds,
-and final Phase 5 conclusions. The baseline pipeline was subsequently
-implemented under `2026-09-22-phase-5-baseline-amendment.md` but remains
-unexecuted.
+tasks, an eight-hour absolute future-price task, and the matched 12-run Raw-
+OHLCV MLP/raw LSTM matrix. This document records the current interpretation
+after seed-0 baseline execution but before additional seeds and final Phase 5
+conclusions. The baseline contract and full result table are in
+`2026-09-22-phase-5-baseline-amendment.md`.
 
 The evidence is generated from two global-calendar walks with separately
 trained encoder and downstream weights. All fitted preprocessing uses permitted
@@ -57,6 +57,31 @@ positive IC, and non-zero movement sign accuracy is approximately 55.7%.
 Unlike the direct movement heads, the price-supervised decoder therefore
 extracts a consistent cross-contract ranking of subsequent eight-hour
 probability movements from the frozen representation.
+
+### 2.4 Matched raw-sequence baselines
+
+The seed-0 matched comparison changes the strength, but not the validity, of
+the transfer claim:
+
+- On h2 classification, the framework has the highest pooled macro-F1
+  (`0.4541`) and accuracy (`0.6369`). The raw LSTM is marginally higher on
+  balanced accuracy (`0.4743` versus `0.4730`), so this is a competitive rather
+  than dominant framework result.
+- On direct h2 movement regression, Raw MLP and raw LSTM have lower MAE than
+  the framework, but both remain worse than exact-zero MAE and have pooled
+  Spearman near zero. Raw MLP Pearson `0.2774` is concentrated in a genuine
+  extreme reversal observation; it is not evidence of broad monotonic
+  forecasting ability.
+- On h8 future price, the raw LSTM is the strongest learned model: price MAE
+  `0.005137`, implied-movement Spearman `0.2200`, and mean cross-sectional Rank
+  IC `0.2080`, versus framework `0.008630`, `0.1287`, and `0.1264`.
+- Raw-LSTM h8 Rank IC remains positive in both walks (`0.2574`, `0.1191`) but
+  stays below last-hour reversal (`0.3012`, `0.2400`).
+
+The comparison therefore rejects a universal-superiority narrative. The
+five-branch representation is most competitive for classification, whereas a
+model that preserves raw temporal order extracts more of the h8 reversal-like
+ranking structure.
 
 ## 3. Updated transferability interpretation
 
@@ -105,10 +130,12 @@ with transaction costs, liquidity, signal-spacing, and source-orientation
 checks before a profitable-alpha claim.
 
 The framework implied score is not merely the reversal score: their rank
-correlation is only approximately `0.18--0.19`. This leaves open the
-possibility that the representation supplies complementary probability-level,
-lifecycle, activity, or volatility information. Incremental value has not yet
-been established.
+correlation is only approximately `0.18--0.19`. The completed raw LSTM
+comparison strengthens the evidence that recent temporal structure is
+important: its pooled implied-movement Rank IC is `0.2080`, above the framework
+but still below reversal. This leaves open the possibility that the
+representation supplies complementary probability-level, lifecycle, activity,
+or volatility information, but incremental value has not yet been established.
 
 ## 5. Leakage and validity judgement
 
@@ -134,8 +161,8 @@ retrospective cohort selection and approved offline condition-candle pruning.
 The intermediate evidence supports the following statements:
 
 1. The canonical five-branch representation transfers to recent-data
-   probability-level regression and movement classification using lightweight
-   task heads.
+   probability-level regression and yields the strongest seed-0 h2
+   classification macro-F1 among the matched learned models.
 2. Direct future-price supervision extracts substantially stronger subsequent-
    movement ranking information than direct raw-change or log-return
    supervision.
@@ -143,10 +170,13 @@ The intermediate evidence supports the following statements:
    both global-calendar walks.
 4. Recent Polymarket condition candles exhibit a strong candidate one-hour
    reversal relationship with subsequent eight-hour movement.
+5. A raw temporal LSTM preserves more h8 movement-ranking information than the
+   frozen five-branch representation, while still trailing the direct reversal
+   reference.
 
 The evidence does not yet establish:
 
-- superiority over matched raw MLP or sequential models;
+- universal superiority over matched raw MLP or sequential models;
 - incremental framework value beyond the reversal factor;
 - statistically independent IC observations, because stride-one horizons
   overlap;
@@ -157,15 +187,15 @@ The evidence does not yet establish:
 
 Before the final Phase 5 conclusion:
 
-1. train matched Raw-OHLCV MLP and raw temporal LSTM/TCN price models on the
-   exact eight-hour rows;
-2. include last-hour reversal as a fixed causal reference;
-3. test whether framework implied movement retains IC after training-only
-   neutralization against reversal;
-4. evaluate a training-only combination of framework and reversal scores;
-5. confirm the reversal finding on a later walk or fresh holdout; and
-6. complete the learned classification comparisons on identical two-hour
-   rows.
+1. test whether framework and raw-LSTM implied movement retain IC after
+   training-only neutralization against reversal;
+2. evaluate training-only combinations of framework, raw-LSTM, and reversal
+   scores;
+3. confirm the reversal finding on a later walk or fresh holdout;
+4. add seeds or paired uncertainty estimates before strong model-ranking
+   claims; and
+5. defer representation ablations and temporal encoder variants to Phase 6 as
+   planned.
 
 All additional-task artifacts are organized under
 `experiments/phase5/downstream_addons/`.

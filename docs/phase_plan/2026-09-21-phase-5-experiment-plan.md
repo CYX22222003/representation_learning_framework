@@ -1,10 +1,10 @@
 # Phase 5 Main Experiment Plan
 
 **Date:** 2026-09-21  
-**Status:** Data preparation, canonical encoder pretraining, frozen feature
-extraction, seed-0 framework downstream probing, two additional regression
-tasks, and an eight-hour absolute-price probe complete; the 12-run learned-
-baseline pipeline is implemented but not executed; additional seeds pending
+**Status:** Seed-0 core complete: data preparation, encoder pretraining,
+features, framework tasks, regression add-ons, absolute-price probe, and the
+12-run matched learned-baseline matrix are executed and replay-validated;
+additional seeds and follow-up attribution tests remain pending
 **Predecessor:** `2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
 **Intermediate observation:** `2026-09-22-phase-5-intermediate-observation.md`
 
@@ -246,9 +246,9 @@ split, early stopping, or evaluation-driven checkpoint selection is used.
 The immediate framework-only stage is frozen separately at seed 0 under
 `2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`. It applies
 walk-local, supervised-train-only coordinate standardization to the 445-
-dimensional concat representation. Learned-baseline code is now ready, but its
-12 trajectories and additional seeds remain unexecuted and cannot be claimed
-from the framework-only results.
+dimensional concat representation. The 12 learned-baseline trajectories are
+now complete and replay-validated; additional seeds remain outside the current
+seed-0 comparison.
 
 ## 9. Deferred work
 
@@ -302,10 +302,10 @@ observed-endpoint, and maturity rules. Consequently, changing or removing any
 target whose availability is at or after the cutoff cannot change the earlier
 walk's encoder identities, sequences, or preprocessing state.
 
-Canonical encoder pretraining and the first framework-only downstream stage are
-complete under their dedicated amendments. The learned baseline implementation
-and fairness contract are frozen under
-`2026-09-22-phase-5-baseline-amendment.md`; execution remains pending:
+Canonical encoder pretraining, the framework downstream stage, and the learned
+baseline comparison are complete under their dedicated amendments. The
+baseline implementation, fairness contract, and results are recorded under
+`2026-09-22-phase-5-baseline-amendment.md`:
 
 1. **Complete:** build the two walk-specific sequence and identity manifests.
 2. **Complete:** enforce context, activity, supported-contract,
@@ -317,13 +317,15 @@ and fairness contract are frozen under
    encoders, two 445-dimensional feature stores, train-only feature scalers,
    and four seed-0 downstream trajectories are executed and replay-validated.
 6. **Complete:** encoder, downstream, and 12-run learned-baseline matrices are
-   frozen under their amendments. The baseline bootstrap defaults to manifest-
-   only operation and requires explicit `--execute` for training.
-7. **Complete for the framework:** CPU smoke tests, checkpoint/inference replay,
+   frozen and executed under their amendments. The baseline bootstrap retains
+   a manifest-only default and requires explicit `--execute` for training.
+7. **Complete:** CPU smoke tests, checkpoint/inference replay,
    feature-row/hash replay, scaler perturbation invariance, and prediction
-   replay all pass at 5/15/50 epochs.
-8. **Pending:** execute and replay-validate the learned baselines on the exact
-   saved rows; only afterward make cross-model claims or add framework seeds.
+   replay pass at 5/15/50 epochs for framework and learned-baseline artifacts.
+8. **Complete at seed 0:** both raw baselines were trained on the exact saved
+   rows and pooled only after walk-local out-of-future prediction. The
+   framework leads h2 classification macro-F1, while the raw LSTM leads h8
+   future-price error and implied-movement Rank IC.
 
 Retrospective universe selection and `quarantine_available_at` replay are not
 Phase 5 blockers under the accepted assumptions in Section 3.

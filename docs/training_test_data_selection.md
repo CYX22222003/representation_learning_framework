@@ -29,8 +29,10 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > training, mature supervised-training, and evaluation populations plus one
 > shared regression/classification identity set per walk. The canonical
 > encoder, feature-extraction, and seed-0 framework matrices have now completed.
-> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is implemented and frozen
-> in its amendment, but execution remains gated on explicit launch and replay.
+> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is complete under its
+> amendment. All runs use the exact saved task rows, fixed epoch 50 selection,
+> and replay-valid 5/15/50 checkpoints; the pooled comparison is stored under
+> `experiments/phase5/baselines/reports/baseline_matrix_seed0/`.
 > Encoder eligibility is target-free and uses only context/decision information
 > available before the cutoff. Target existence, observed status, segment
 > continuity, and maturity are applied afterward only to downstream train/test

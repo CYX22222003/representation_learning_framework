@@ -62,12 +62,14 @@ Report:
   validated under `experiments/phase5/encoder_pretraining/`. The canonical
   feature stores, train-only scalers, and four seed-0 framework downstream
   probes are also complete and replay-validated under
-  `experiments/phase5/features/` and `experiments/phase5/downstream/`. Learned
-  The eight-hour raw-change and two-hour log-return tasks are complete under
+  `experiments/phase5/features/` and `experiments/phase5/downstream/`. The
+  eight-hour raw-change and two-hour log-return tasks are complete under
   `experiments/phase5/downstream_addons/tasks/`; neither recovered
   signed correlation. The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is
-  implemented and unit-tested but unexecuted; additional seeds remain pending.
-  Do not infer cross-model superiority from the framework-only result.
+  complete and replay-validated under `experiments/phase5/baselines/`; the
+  framework leads h2 classification macro-F1 and the raw LSTM leads h8 price
+  error and implied-movement Rank IC. Additional seeds remain pending. Do not
+  infer universal framework superiority from the seed-0 comparison.
   The eight-hour absolute-price probe is also complete: it reconstructs level
   with high correlation but trails persistence on error; its implied movement
   Rank IC is positive but weaker than last-hour reversal.

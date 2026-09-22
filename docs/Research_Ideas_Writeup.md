@@ -12,7 +12,11 @@ strategy claims. Phase 5 finds eight-hour future-price regression to be the
 clearest regression transfer task because its implied movements have positive
 Rank IC across both global-calendar walks. Direct raw/log movement regressions
 remain target-formulation evidence, while the discovered one-hour reversal is
-a candidate empirical factor requiring fresh-holdout confirmation.
+a candidate empirical factor requiring fresh-holdout confirmation. The matched
+seed-0 comparison finds that the framework leads h2 classification macro-F1,
+whereas the raw temporal LSTM leads h8 future-price error and implied-movement
+Rank IC; the current evidence therefore supports task-dependent transfer, not
+universal framework superiority.
 
 > **Phase 5 reading note (2026-09-21):** This write-up records the initial
 > research direction, not the complete active experiment contract. The design
@@ -335,7 +339,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
    - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM
      across both walks for h2 raw-change regression and h8 future-price
-     regression; implemented but not yet executed
+     regression; all seed-0 trajectories executed and replay-validated
 
 2. **Volatility Prediction**
    - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
@@ -348,7 +352,8 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
    - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM on
-     the identical h2 classification rows; implemented but not yet executed
+     the identical h2 classification rows; all seed-0 trajectories executed
+     and replay-validated
 
 ### 5.4 Additional Alpha-Research Downstream Capability
 

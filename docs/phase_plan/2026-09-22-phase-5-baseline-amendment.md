@@ -1,7 +1,7 @@
 # Phase 5 Matched Raw-Baseline Amendment
 
 **Date:** 2026-09-22  
-**Status:** Implemented and unit-tested; matrix not frozen on disk and no training executed  
+**Status:** Complete; 12 seed-0 trajectories executed, replay-validated, and reported
 **Parent authority:** `2026-09-21-phase-5-experiment-plan.md`
 
 ## 1. Scope
@@ -112,9 +112,14 @@ been generated.
 
 Every checkpoint retains configuration and source hashes. Validation reloads
 all 5/15/50 checkpoints on CPU, replays predictions, verifies row identities,
-and checks cumulative histories and completion markers.
+and checks cumulative histories and completion markers. Cross-backend replay
+uses architecture-specific numerical tolerances: `2e-5` for the feed-forward
+MLP and `2e-3` for the three-layer LSTM. The latter accommodates accumulated
+cuDNN-versus-CPU recurrent arithmetic only; checkpoint and prediction hashes
+remain exact, and `2e-3` in the scaled movement output is `2e-5` in raw
+probability-change units.
 
-## 6. Implementation and later execution
+## 6. Implementation and execution
 
 Reusable code:
 
@@ -128,13 +133,13 @@ Entry points:
 # Freeze the 12-run manifest and perform architecture smoke tests only.
 .venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda
 
-# On the later execution day, train only missing runs.
+# Train only missing runs, then independently validate and report the matrix.
 .venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda --execute
 .venv/bin/python3 scripts_v3/validate_phase5_baselines.py
 .venv/bin/python3 scripts_v3/report_phase5_baselines.py
 ```
 
-The default bootstrap command does not train. Future artifacts belong under:
+The default bootstrap command does not train. Completed artifacts live under:
 
 ```text
 experiments/phase5/baselines/
@@ -143,6 +148,39 @@ experiments/phase5/baselines/
   reports/baseline_matrix_seed0/
 ```
 
-Implementation readiness is not experimental completion. Until the 12 runs
-and report exist and pass replay validation, Phase 5 baseline results remain
-pending and no cross-model performance claim is supported.
+All 12 runs contain epochs 5/15/50 and pass the standalone replay validator.
+The pooled report is
+`experiments/phase5/baselines/reports/baseline_matrix_seed0/summary.md`.
+
+## 7. Epoch-50 results and judgement
+
+| Task / metric | Five-branch framework | Raw MLP | Raw LSTM |
+|---|---:|---:|---:|
+| h2 movement MAE | 0.002711 | 0.002405 | 0.002406 |
+| h2 movement Pearson | 0.0807 | 0.2774 | 0.0090 |
+| h2 movement Spearman | -0.0005 | 0.0045 | 0.0040 |
+| h2 classification macro-F1 | **0.4541** | 0.4417 | 0.4307 |
+| h2 classification balanced accuracy | 0.4730 | 0.4598 | **0.4743** |
+| h8 future-price MAE | 0.008630 | 0.008193 | **0.005137** |
+| h8 implied-movement Spearman | 0.1287 | 0.0953 | **0.2200** |
+| h8 mean cross-sectional Rank IC | 0.1264 | 0.1193 | **0.2080** |
+
+The framework provides the strongest h2 classification macro-F1 and accuracy,
+while the raw LSTM is marginally higher on balanced accuracy. Direct h2
+movement regression remains weak as a broad ordering task for every model:
+both raw baselines have near-zero Spearman correlation and remain worse than
+the exact-zero reference on MAE. The Raw MLP's high pooled Pearson is
+concentrated in one genuine extreme reversal observation in Walk 1; after
+excluding only the largest 0.1% of absolute Walk 1 targets, its Pearson falls
+from `0.3977` to `0.0029`. This is a post-hoc concentration diagnostic, not a
+redefinition of the evaluator-provided data.
+
+For h8 future price, the raw temporal LSTM is the strongest learned model on
+level error and implied-movement ranking. Its mean cross-sectional Rank IC is
+positive in both walks (`0.2574` and `0.1191`) and `0.2080` pooled, above the
+framework's `0.1264` but below the fixed last-hour reversal reference's
+`0.2794`. The seed-0 result therefore does not support universal
+representation superiority. It instead indicates that ordered recent-price
+dynamics retain information that the frozen 445-dimensional representation
+partly compresses, while the framework remains competitive for movement
+classification.
