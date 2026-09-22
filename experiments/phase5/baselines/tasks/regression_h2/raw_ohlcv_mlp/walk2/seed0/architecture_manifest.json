@@ -1,0 +1,28 @@
+{
+  "encoder": {
+    "activation": "ReLU",
+    "dropout": 0.1,
+    "embedding_dim": 128,
+    "hidden_layers": [
+      512,
+      512,
+      256,
+      256,
+      128
+    ],
+    "type": "flattened_raw_ohlcv_mlp"
+  },
+  "explicit_current_price_skip": false,
+  "head": {
+    "activation": "GELU",
+    "dropout": 0.1,
+    "hidden_layers": [
+      128,
+      64
+    ],
+    "output_dim": 1,
+    "output_transform": "identity"
+  },
+  "input": "stored train/test sequences [N,64,5]",
+  "parameter_count": 698369
+}

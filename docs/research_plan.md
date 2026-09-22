@@ -6,10 +6,14 @@ This document outlines the four-stage research plan for developing and evaluatin
 
 **Experiment-phase transition (2026-09-21):** Numbered Phase 4 concluded the
 data-selection and exploratory-analysis loop without launching new models.
-Numbered Phase 5 will implement the recent one-hour FinData walk-forward
-builder, retrain fold-specific encoders, redefine and train downstream tasks,
-and run matched baselines. The four stable research stages below still describe
-project workstreams and are distinct from these numbered experiment iterations.
+Numbered Phase 5 will implement the two fresh top-50 recent one-hour FinData
+walks, retrain walk-specific canonical five-branch encoders, evaluate shared
+two-hour movement regression/classification targets, and run matched baselines.
+This is a natural revision of the initial roadmap after issues discovered in
+Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
+`docs/phase_plan/2026-09-21-phase-5-experiment-plan.md`. The four stable
+research stages below remain broad workstreams rather than experiment-phase
+specifications.
 
 ---
 
@@ -41,6 +45,12 @@ project workstreams and are distinct from these numbered experiment iterations.
   each calendar interval rather than using per-contract fractions as the
   primary split.
 
+- Phase 5 executable orchestration is isolated under `scripts_v3/`, with
+  reusable walk preparation under `src/data_processing/` and generated
+  experiment artifacts under `experiments/phase5/`. The implemented data
+  bundles keep encoder-training rows separate from mature supervised rows and
+  freeze shared framework/baseline identities before any model launch.
+
 - Continue exploratory analysis of distributions, volatility regimes, and
   event-driven price jumps. The targeted top-50 4-hour lifecycle diagnostic is
   complete: later contract stages are more persistent and boundary-concentrated,
@@ -53,15 +63,15 @@ project workstreams and are distinct from these numbered experiment iterations.
   retrospectively selected markets. Condition-level candles can mix YES/NO
   prices. A forward-confirmed, raw-preserving quarantine retains persistent
   crashes and 99.9644% of 15-minute rows plus 99.8634% of hourly rows under a
-  1% fail-closed budget. Its future-confirmed decisions are usable only after
-  their recorded availability timestamps, and this remains an exploratory
-  mitigation rather than token provenance. The safe
+  1% fail-closed budget. Phase 5 assumes the approved final pruning is correct
+  retrospective cleaning and therefore does not replay decisions by their
+  availability timestamps. The safe
   token-identified fallback returned 28,359 YES trades from 12 conditions but
   only 448 complete four-hour `seq64+h2` rows from two related contracts. It
   remains source-feasibility evidence only; see
   `docs/data_analysis/2026-09-21-findata-forward-confirmed-quarantine.md`.
   The completed native-frequency audit selects the clean one-hour series for
-  the exploratory Phase 5 training loop. Exactly one missing hourly bar may be
+  the Phase 5 training loop. Exactly one missing hourly bar may be
   filled causally with flat OHLC, zero volume, and explicit imputation/time-
   since-observation metadata; longer gaps split sequences and observed
   decision/target endpoints remain primary. Native 15-minute data is retained
@@ -111,19 +121,17 @@ The neural branch is designed to accommodate multiple unsupervised learning meth
 
 Frozen neural embeddings are stored as separate named feature arrays, not as one packed neural matrix. This preserves branch identity for concat aggregation, gated aggregation, and single-branch ablations.
 
-Under Phase 5, the primary adaptive evaluation will train separate neural encoder
-weights at every global calendar cutoff, freezes them, and trains that walk's
-downstream heads on embeddings from the same permitted history. Reusing an
-encoder trained at the first cutoff in later walks is an optional temporal
-transferability ablation. No Phase 3 encoder weights are Phase 5 inputs because
-their training period overlaps the new evaluation intervals.
+Under Phase 5, the primary evaluation trains separate canonical VAE,
+contrastive-CNN, and BYOL-CNN weights at each global calendar cutoff, freezes
+them, and trains that walk's downstream heads on embeddings from the same
+history. Encoder variants, fixed-first-walk transfer, gating, and branch
+ablations move to Phase 6. No Phase 3 encoder weights are Phase 5 inputs.
 
-The fixed-first-walk and same-architecture fold-adaptive encoders form the
-required representation-transfer comparison. A lifecycle-conditioned shared
-model or stage-specific experts may be added only as a predeclared optional
-ablation when lifecycle metadata is available at decision time and each walk
-has adequate samples. Representation drift alone is not evidence that a
-different architecture is needed in each lifecycle stage.
+The Phase 5 core does not include a representation-transfer comparison.
+Fixed-first-walk reuse, lifecycle-conditioned shared models, stage-specific
+experts, encoder variants, and branch/fusion ablations are deferred to Phase 6.
+Representation drift alone is not evidence that a different architecture is
+needed in each lifecycle stage.
 
 ### 2.4 Representation Aggregation and Downstream Task Training
 
@@ -198,6 +206,35 @@ lookahead in the pooled representation model. Movement classification remains
 a related but distinct directional task, and conventional arithmetic-return
 regression remains a secondary exploratory target because low prices strongly
 distort its scale.
+
+The executed Phase 5 exploratory additional regression tasks additionally test
+eight-hour raw probability change and two-hour ordinary log return. They are
+diagnostic horizon/target-unit probes rather than replacements selected from
+evaluation performance; neither recovered stable signed correlation.
+
+An auxiliary Phase 5 eight-hour absolute-price probe is also complete. It
+reconstructs future probability levels but remains worse than persistence on
+level error. Its implied movement has positive Rank IC, though a simple
+last-hour reversal score is stronger; the result motivates matched raw
+temporal baselines rather than a representation-superiority claim.
+
+The Phase 5 intermediate observation therefore promotes eight-hour future-
+price prediction as the clearest regression transfer task for the final
+framework narrative. Direct movement and return heads remain diagnostic
+target-formulation evidence. Financial evaluation emphasizes the implied-
+movement Rank IC rather than treating level error as the sole objective. The
+last-hour reversal finding is a candidate empirical factor pending a fresh
+holdout and cost-aware evaluation.
+
+The matched Phase 5 comparison is complete as a 12-run seed-0 matrix: Raw-
+OHLCV MLP and three-layer raw OHLCV LSTM models for two-hour movement
+regression, two-hour movement classification, and eight-hour absolute future
+price in each walk. Both consume the exact saved task rows and all 5/15/50
+checkpoints replay. The framework leads h2 classification macro-F1, while the
+raw LSTM leads h8 future-price error and implied-movement Rank IC. TA-MLP, TCN,
+additional seeds, and the exploratory raw/log-return targets remain outside
+this baseline stage. See
+`phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

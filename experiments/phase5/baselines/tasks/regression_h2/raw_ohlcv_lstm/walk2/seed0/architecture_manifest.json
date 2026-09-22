@@ -1,0 +1,29 @@
+{
+  "encoder": {
+    "dropout": [
+      0.2,
+      0.1,
+      0.05
+    ],
+    "embedding_dim": 20,
+    "hidden_layers": [
+      50,
+      30,
+      20
+    ],
+    "type": "three_layer_raw_ohlcv_lstm"
+  },
+  "explicit_current_price_skip": false,
+  "head": {
+    "activation": "GELU",
+    "dropout": 0.1,
+    "hidden_layers": [
+      128,
+      64
+    ],
+    "output_dim": 1,
+    "output_transform": "identity"
+  },
+  "input": "stored train/test sequences [N,64,5]",
+  "parameter_count": 36409
+}

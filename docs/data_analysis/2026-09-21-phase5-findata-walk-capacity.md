@@ -4,6 +4,11 @@
 **Status:** training-capacity feasibility complete; selection and builder gate
 remain open; no model training launched
 
+> **Phase 5 interpretation update:** The capacity measurements remain valid,
+> but retrospective selection and final-clean pruning are now accepted research
+> assumptions rather than blockers. The active implementation gate is defined
+> in `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md`.
+
 ## 1. Question and validity boundary
 
 This audit asks whether the selected recent native one-hour FinData source can

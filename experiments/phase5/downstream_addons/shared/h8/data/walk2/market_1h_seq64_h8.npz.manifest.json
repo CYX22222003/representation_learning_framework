@@ -1,0 +1,684 @@
+{
+  "accepted_assumptions": {
+    "approved_final_pruning_is_offline_cleaning": true,
+    "quarantine_availability_replay_required": false,
+    "retrospective_cohort_selection": true
+  },
+  "activity_hours": 24,
+  "activity_rule": "at least one non-zero close change in the 24 intervals ending at decision",
+  "artifact": {
+    "bytes": 6629182,
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+    "sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c"
+  },
+  "availability_rule": "date + 1h",
+  "candle_timestamp_semantics": "bar_start",
+  "class_counts": {
+    "test": {
+      "DOWN": 2482,
+      "STABLE": 8670,
+      "UP": 2354
+    },
+    "train": {
+      "DOWN": 15270,
+      "STABLE": 27554,
+      "UP": 13828
+    }
+  },
+  "classification": {
+    "class_names": [
+      "DOWN",
+      "STABLE",
+      "UP"
+    ],
+    "tau": 0.001
+  },
+  "contract_counts": {
+    "encoder_train": 43,
+    "test": 25,
+    "train": 43
+  },
+  "contracts": [
+    {
+      "category": "other",
+      "condition_id": "0x0b4cc3b739e1dfe5d73274740e7308b6fb389c5af040c3a174923d928d134bee",
+      "encoder_train_rows": 2658,
+      "event_family": "jesus_christ_return_#",
+      "filled_rows": 4569,
+      "selection_rank": 4,
+      "test_rows": 734,
+      "train_rows": 2616
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x0c4cd2055d6ea89354ffddc55d6dbcef9355748112ea952fc925f3db6a5c457f",
+      "encoder_train_rows": 2597,
+      "event_family": "2026_fifa_world_cup",
+      "filled_rows": 3692,
+      "selection_rank": 5,
+      "test_rows": 812,
+      "train_rows": 2548
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x0e4a0c937b8934c2475613b6322b3f8edc8dedc24762e01e42b0e6f87424a089",
+      "encoder_train_rows": 1215,
+      "event_family": "us_x_iran_permanent_peace_deal",
+      "filled_rows": 1279,
+      "selection_rank": 8,
+      "test_rows": 0,
+      "train_rows": 1206
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x1adf074e048fa613f4ddbc0766088748a48d120a3a713b0183e219032a411ae3",
+      "encoder_train_rows": 600,
+      "event_family": "#_fed_rate_cuts_happen_#",
+      "filled_rows": 1792,
+      "selection_rank": 41,
+      "test_rows": 0,
+      "train_rows": 555
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x232342e2a9200b203703a816f9d99d1c6a872333567af16f43d67a255e1a6aa8",
+      "encoder_train_rows": 154,
+      "event_family": "germany_win_#_#_#",
+      "filled_rows": 554,
+      "selection_rank": 33,
+      "test_rows": 112,
+      "train_rows": 136
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x2e4b58fc18dbffd74d5275d89fb076943f21992763c45dcadd81391b83bde13c",
+      "encoder_train_rows": 0,
+      "event_family": "fed_increase_interest_rates_#_bps",
+      "filled_rows": 1364,
+      "selection_rank": 35,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "politics",
+      "condition_id": "0x30cfb887558b20373a984da60c372fe5a90c0296aa6d8bb413a8aa7543846da2",
+      "encoder_train_rows": 2241,
+      "event_family": "2028_democratic_nomination",
+      "filled_rows": 4510,
+      "selection_rank": 27,
+      "test_rows": 685,
+      "train_rows": 2157
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x32552863fe8014da2613037970661f0d49f415c86a88cb3d65af7a43395bc4ad",
+      "encoder_train_rows": 17,
+      "event_family": "united_states_win_#_#_#",
+      "filled_rows": 429,
+      "selection_rank": 22,
+      "test_rows": 116,
+      "train_rows": 9
+    },
+    {
+      "category": "other",
+      "condition_id": "0x348cd9adf4f6855f58bd9c6dbf9ff251c4142ef77233a5dc95c65b4b61cd2187",
+      "encoder_train_rows": 1277,
+      "event_family": "strait_hormuz_traffic_returns_normal_end",
+      "filled_rows": 1864,
+      "selection_rank": 9,
+      "test_rows": 353,
+      "train_rows": 1265
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x3733a1b647e7364095736ab0966465d896a84cf3b6bc1695ca1f26c3239b3868",
+      "encoder_train_rows": 635,
+      "event_family": "microstrategy_sells_any_bitcoin_may_#",
+      "filled_rows": 698,
+      "selection_rank": 1,
+      "test_rows": 0,
+      "train_rows": 627
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x3b0107a80edd066fe987784d7ab5963c177888433efbec10689951c17320606c",
+      "encoder_train_rows": 109,
+      "event_family": "satoshi_move_any_bitcoin_#",
+      "filled_rows": 1974,
+      "selection_rank": 34,
+      "test_rows": 0,
+      "train_rows": 78
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x3ceb5b631318be5000758200590efe2b308a581d6787c3e7bc050bfd8f627627",
+      "encoder_train_rows": 174,
+      "event_family": "belgium_win_#_#_#",
+      "filled_rows": 454,
+      "selection_rank": 39,
+      "test_rows": 0,
+      "train_rows": 157
+    },
+    {
+      "category": "politics",
+      "condition_id": "0x41c6341dd79903aca4bb0c29f5a7976946c3774d2fd72f38cbb7de7092144520",
+      "encoder_train_rows": 1846,
+      "event_family": "2028_republican_nomination",
+      "filled_rows": 4503,
+      "selection_rank": 44,
+      "test_rows": 416,
+      "train_rows": 1742
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x46d40e851b24d9b0af4bc1942ccd86439cae82a9011767da14950df0ad997adf",
+      "encoder_train_rows": 342,
+      "event_family": "fed_chair",
+      "filled_rows": 405,
+      "selection_rank": 2,
+      "test_rows": 0,
+      "train_rows": 334
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x4e4a7df876b0c04f0b8b29b9073eddfbaf5c787192da825ae7ca1031bc8cfd15",
+      "encoder_train_rows": 1068,
+      "event_family": "fed_decrease_interest_rates_#_bps",
+      "filled_rows": 2617,
+      "selection_rank": 30,
+      "test_rows": 38,
+      "train_rows": 1017
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x502a94e5c525766d5ee7f16c6568131ba1b2cbadb69c703af05a6ef00336ed64",
+      "encoder_train_rows": 271,
+      "event_family": "united_russia_er_gain_most_seats",
+      "filled_rows": 4275,
+      "selection_rank": 48,
+      "test_rows": 963,
+      "train_rows": 206
+    },
+    {
+      "category": "other",
+      "condition_id": "0x518a5b030b205706b8ffe6bbad9bd3de59548348e5c0471827f5de21e513333c",
+      "encoder_train_rows": 1391,
+      "event_family": "strait_hormuz_traffic_returns_normal_end",
+      "filled_rows": 1462,
+      "selection_rank": 37,
+      "test_rows": 0,
+      "train_rows": 1381
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x58078283e2356f9b9537b42e7479d7785b83bcd6f18002de8a2526c499eda837",
+      "encoder_train_rows": 647,
+      "event_family": "bitcoin_reach_#_#_may",
+      "filled_rows": 733,
+      "selection_rank": 29,
+      "test_rows": 0,
+      "train_rows": 637
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x5db999fad322cea2914535aae5517060c3f80ad6d8c0231cde2124a434d16846",
+      "encoder_train_rows": 2504,
+      "event_family": "u_s_invade_iran_#",
+      "filled_rows": 4585,
+      "selection_rank": 13,
+      "test_rows": 1304,
+      "train_rows": 2475
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x61b66d02793b4a68ab0cc25be60d65f517fe18c7d654041281bb130341244fcc",
+      "encoder_train_rows": 342,
+      "event_family": "fed_chair",
+      "filled_rows": 405,
+      "selection_rank": 25,
+      "test_rows": 0,
+      "train_rows": 334
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x6992fdf39435fb8aa0b765e24f98cb621fd1f7b6458865387c0ea303da2f0003",
+      "encoder_train_rows": 0,
+      "event_family": "bitcoin_dip_#_#_june",
+      "filled_rows": 353,
+      "selection_rank": 40,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x6fefc0438c7598b23531457c8c60541990d0786bd4bd9dfc3eabc8d95c291092",
+      "encoder_train_rows": 1576,
+      "event_family": "bitcoin_reach_#_#_december_#",
+      "filled_rows": 3065,
+      "selection_rank": 23,
+      "test_rows": 211,
+      "train_rows": 1473
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x713641f745d71f6ec61f906237ffca3c8583f251e49384429a63ceb0ccdb2d37",
+      "encoder_train_rows": 2623,
+      "event_family": "new_york_knicks_win_#_nba",
+      "filled_rows": 2814,
+      "selection_rank": 28,
+      "test_rows": 0,
+      "train_rows": 2599
+    },
+    {
+      "category": "other",
+      "condition_id": "0x747dc809fb79e1b05be09c42d6179459a58de2ef3e40f02484a4e1260f741f75",
+      "encoder_train_rows": 2672,
+      "event_family": "us_confirm_that_aliens_exist_#",
+      "filled_rows": 4534,
+      "selection_rank": 20,
+      "test_rows": 463,
+      "train_rows": 2637
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x752fa61c93f16c4b15e85b0bd438d9c684176b0ea7b319a84c8aca34616e8a8c",
+      "encoder_train_rows": 237,
+      "event_family": "bitcoin_dip_#_#_december_#",
+      "filled_rows": 3950,
+      "selection_rank": 17,
+      "test_rows": 76,
+      "train_rows": 165
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x757c144993b3cb831e04c42bfcff8c18864c7da4f4688a5939d2f62e031cbc87",
+      "encoder_train_rows": 260,
+      "event_family": "#_fed_rate_cuts_happen_#",
+      "filled_rows": 1666,
+      "selection_rank": 47,
+      "test_rows": 0,
+      "train_rows": 228
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x789c947a9415600d30d56a4aae88d4111996679b0caed166d0c96242fdce92a2",
+      "encoder_train_rows": 1082,
+      "event_family": "iranian_regime_fall_may_#",
+      "filled_rows": 1428,
+      "selection_rank": 31,
+      "test_rows": 0,
+      "train_rows": 1054
+    },
+    {
+      "category": "sports",
+      "condition_id": "0x7976b8dbacf9077eb1453a62bcefd6ab2df199acd28aad276ff0d920d6992892",
+      "encoder_train_rows": 2745,
+      "event_family": "2026_fifa_world_cup",
+      "filled_rows": 3697,
+      "selection_rank": 10,
+      "test_rows": 812,
+      "train_rows": 2723
+    },
+    {
+      "category": "other",
+      "condition_id": "0x8063a2c9fa21c4a1470b33fee132d6d61fb5b7dcd667dcac3bb82ae15ad70c0d",
+      "encoder_train_rows": 217,
+      "event_family": "frank_donovan_leader_venezuela_end_#",
+      "filled_rows": 3091,
+      "selection_rank": 49,
+      "test_rows": 436,
+      "train_rows": 196
+    },
+    {
+      "category": "other",
+      "condition_id": "0x831493dce463d9adcad78c492f2cbec6ecdac31f4e8c5a894fdac68c130549d4",
+      "encoder_train_rows": 0,
+      "event_family": "richard_grenell_leader_venezuela_end_#",
+      "filled_rows": 1645,
+      "selection_rank": 43,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "politics",
+      "condition_id": "0x836b850fc838195374862551a36f1c8691d96ff01e58b0a071f0fc1a0e357fb1",
+      "encoder_train_rows": 2179,
+      "event_family": "lebron_james_win_#_us_presidential",
+      "filled_rows": 4582,
+      "selection_rank": 15,
+      "test_rows": 791,
+      "train_rows": 2107
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0x876506d8b2bd7a0d3fa4fe18c024eee6e1dd81ee24c26795dadd6cfe4a7b5d0d",
+      "encoder_train_rows": 0,
+      "event_family": "fed_increase_interest_rates_#_bps",
+      "filled_rows": 1771,
+      "selection_rank": 24,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0x8e7a03cb1970e2ad6533b01892403516b6b3f5b5fa90ed7d104c28b27e40ba00",
+      "encoder_train_rows": 593,
+      "event_family": "microstrategy_sells_any_bitcoin_june_#",
+      "filled_rows": 1848,
+      "selection_rank": 11,
+      "test_rows": 0,
+      "train_rows": 583
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0x9352c559e9648ab4cab236087b64ca85c5b7123a4c7d9d7d4efde4a39c18056f",
+      "encoder_train_rows": 2592,
+      "event_family": "iranian_regime_fall_june_#",
+      "filled_rows": 3212,
+      "selection_rank": 19,
+      "test_rows": 298,
+      "train_rows": 2558
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0xa0f4c4924ea1a8b410b4ce821c2a9955fad21a1b19bdcfde90816732278b3dd5",
+      "encoder_train_rows": 862,
+      "event_family": "bitcoin_hit_k_june_#_#",
+      "filled_rows": 2118,
+      "selection_rank": 6,
+      "test_rows": 26,
+      "train_rows": 819
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0xa3b36b2d6104d34af4e6c6215fc818e43352e78a748fbfb0b85e3a35f71dec9a",
+      "encoder_train_rows": 0,
+      "event_family": "there_no_change_fed_interest_rates",
+      "filled_rows": 1885,
+      "selection_rank": 7,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0xa885bfe10688056a9d0f4e9a1523bfa18f66fda065f0400d714ba54776083713",
+      "encoder_train_rows": 1229,
+      "event_family": "bitcoin_dip_#_#_december_#",
+      "filled_rows": 2635,
+      "selection_rank": 46,
+      "test_rows": 0,
+      "train_rows": 1148
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0xac02cbb049e46d6a3627c0fdf52fa554982a9025d45968207b362acb6ca4b830",
+      "encoder_train_rows": 0,
+      "event_family": "fed_decrease_interest_rates_#_bps",
+      "filled_rows": 1748,
+      "selection_rank": 12,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "politics",
+      "condition_id": "0xae70ab9bf1c3726fe430a2ba8b517697ae24e0f0ab554b876a5b521153068882",
+      "encoder_train_rows": 1856,
+      "event_family": "tim_walz_win_#_us_presidential",
+      "filled_rows": 4522,
+      "selection_rank": 32,
+      "test_rows": 668,
+      "train_rows": 1754
+    },
+    {
+      "category": "sports",
+      "condition_id": "0xb6b3d7a2037b3faa7e1306d741840d453432902d73cc9a146a035e40271eae73",
+      "encoder_train_rows": 2703,
+      "event_family": "san_antonio_spurs_win_#_nba",
+      "filled_rows": 2838,
+      "selection_rank": 16,
+      "test_rows": 0,
+      "train_rows": 2678
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0xbb4d51e6364066d92eb6f9b8413dd7193de70966736044463b205834805a1f3b",
+      "encoder_train_rows": 2179,
+      "event_family": "iranian_regime_fall_#",
+      "filled_rows": 4471,
+      "selection_rank": 36,
+      "test_rows": 221,
+      "train_rows": 2095
+    },
+    {
+      "category": "crypto",
+      "condition_id": "0xbb57ccf5853a85487bc3d83d04d669310d28c6c810758953b9d9b91d1aee89d2",
+      "encoder_train_rows": 1459,
+      "event_family": "bitcoin_hit_m_gta_vi",
+      "filled_rows": 2455,
+      "selection_rank": 50,
+      "test_rows": 0,
+      "train_rows": 1351
+    },
+    {
+      "category": "politics",
+      "condition_id": "0xd1747284d6048b2a3dcfbee489db405f36de18f9590197dd0e5c9f0c246bf050",
+      "encoder_train_rows": 2023,
+      "event_family": "2028_republican_nomination",
+      "filled_rows": 4437,
+      "selection_rank": 38,
+      "test_rows": 443,
+      "train_rows": 1921
+    },
+    {
+      "category": "other",
+      "condition_id": "0xd595eb9b81885ff018738300c79047e3ec89e87294424f57a29a7fa9162bf116",
+      "encoder_train_rows": 2682,
+      "event_family": "trump_acquire_greenland_#",
+      "filled_rows": 4478,
+      "selection_rank": 26,
+      "test_rows": 1290,
+      "train_rows": 2650
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0xd86a816093fcd0a0e1ca440bc5ce199bd3c5a8d6139e044b076958164f8c5423",
+      "encoder_train_rows": 682,
+      "event_family": "us_x_iran_permanent_peace_deal",
+      "filled_rows": 746,
+      "selection_rank": 3,
+      "test_rows": 0,
+      "train_rows": 674
+    },
+    {
+      "category": "other",
+      "condition_id": "0xd9fb1184af0064e5e34b129f5b79afa5a17b7e32f2953ab05efed82315fee6d4",
+      "encoder_train_rows": 2811,
+      "event_family": "china_invade_taiwan_end_#",
+      "filled_rows": 4680,
+      "selection_rank": 14,
+      "test_rows": 1449,
+      "train_rows": 2798
+    },
+    {
+      "category": "economy_business",
+      "condition_id": "0xde04b189b3f19eaccda02529a3ea67abfc46bff5c0c8fc42d8a2d0ed7b8f0d41",
+      "encoder_train_rows": 1403,
+      "event_family": "there_no_change_fed_interest_rates",
+      "filled_rows": 2698,
+      "selection_rank": 18,
+      "test_rows": 39,
+      "train_rows": 1344
+    },
+    {
+      "category": "politics",
+      "condition_id": "0xe06a7e94cf2fa8dc2085b7610fe16e9be1cde6654f34d365c13da1149b276c61",
+      "encoder_train_rows": 1590,
+      "event_family": "2028_democratic_nomination",
+      "filled_rows": 4488,
+      "selection_rank": 21,
+      "test_rows": 750,
+      "train_rows": 1495
+    },
+    {
+      "category": "sports",
+      "condition_id": "0xe1bd581c13be7103749ca1a64d21230ed6693a162fc057d81e3d1e9237fc81f8",
+      "encoder_train_rows": 0,
+      "event_family": "japan_win_#_#_#",
+      "filled_rows": 485,
+      "selection_rank": 45,
+      "test_rows": 0,
+      "train_rows": 0
+    },
+    {
+      "category": "geopolitics",
+      "condition_id": "0xe70fd51f42e61fc309d8e57019a7b76c8dc7bd19b473351d56ff1e125ae0d9d4",
+      "encoder_train_rows": 130,
+      "event_family": "ir_iran_win_#_#_#",
+      "filled_rows": 496,
+      "selection_rank": 42,
+      "test_rows": 0,
+      "train_rows": 122
+    }
+  ],
+  "evaluation_context_policy": "historical_pre_cutoff_context_allowed",
+  "evaluation_contract_support_rule": "condition must contribute at least one active supervised training row with a target mature before the walk cutoff",
+  "exploratory_status": "secondary post-primary sensitivity; not selected from evaluation performance",
+  "feature_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+  ],
+  "gap_policy": {
+    "decision_endpoint": "observed_only",
+    "input": "approved candles_1h_clean_ffill1.parquet",
+    "isolated_one_bar_gaps": "already filled with flat OHLC and zero volume",
+    "longer_gaps": "sequence_break",
+    "target_endpoint": "observed_only"
+  },
+  "horizon_bars": 8,
+  "horizon_hours": 8,
+  "identity_hashes": {
+    "encoder_train": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+    "test": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+    "train": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e"
+  },
+  "imputation_exposure_counts": {
+    "encoder_train": 18911,
+    "test": 4966,
+    "train": 17589
+  },
+  "intervals": {
+    "evaluation": {
+      "end_exclusive": "2026-09-01T00:00:00+00:00",
+      "start_inclusive": "2026-06-16T00:00:00+00:00"
+    },
+    "training": {
+      "cutoff_exclusive": "2026-06-16T00:00:00+00:00",
+      "start_inclusive": "2026-02-16T00:00:00+00:00"
+    }
+  },
+  "label_hashes": {
+    "test": "5d5f68997fbeb73af739d113d637cfcabd3372d64f5a1b63dc0df3272291cac5",
+    "train": "a8f42b9eacc6f974465f54cf813772ba1ac4ac44da7d7ce36f7261fe9131d8f9"
+  },
+  "lifecycle_metadata": {
+    "fraction": "clipped elapsed fraction between retrospective market start/end metadata",
+    "role": "reporting_only",
+    "stage_codes": {
+      "-1": "unknown",
+      "0": "early",
+      "1": "middle",
+      "2": "late"
+    },
+    "used_for_eligibility_or_fitting": false
+  },
+  "native_resolution": "1h",
+  "phase": 5,
+  "pipeline": "global_calendar_walk_first",
+  "preprocessing": {
+    "ohlc": "unscaled_probability",
+    "volume": {
+      "denominator": 73420.07990320201,
+      "fit_population": "unique bounded-fill candles with date >= train_start and availability < cutoff",
+      "fit_row_count": 89121,
+      "imputed_raw_value": 0.0,
+      "imputed_scaled_value": -0.09818534868094896,
+      "mean": 7208.7761454790225,
+      "method": "global_walk_training_interval_volume_zscore",
+      "std": 73420.07990320201,
+      "uses_evaluation_rows": false
+    }
+  },
+  "purpose": "walk_specific_train_test_data",
+  "raw_sequence_hashes": {
+    "encoder_train": "9641e3b58b51a9e1e3dc10a44818df24f8b3546eea7b2e701a41b8aa4af13588",
+    "test": "8421e9869e2035934f21e3698fec0ce585fccf7870c634142fc76737ae4328b3",
+    "train": "63b192c5c2fc83bcbe546063825424929a4672fa25812bd86b32047bd4c9eb47"
+  },
+  "row_counts": {
+    "encoder_train": 58473,
+    "test": 13506,
+    "train": 56652
+  },
+  "row_population_rules": {
+    "encoder_train": {
+      "target_dependency": "none",
+      "uses": [
+        "contiguous context",
+        "observed decision endpoint",
+        "causal prior-24h activity",
+        "rolling training start",
+        "decision availability strictly before cutoff"
+      ]
+    },
+    "test": {
+      "adds": [
+        "decision availability at or after cutoff",
+        "8-hour target exists",
+        "target remains in the same segment",
+        "target endpoint is observed",
+        "target availability strictly before evaluation end",
+        "contract has active supervised training support"
+      ],
+      "base": "context/decision eligibility"
+    },
+    "train": {
+      "adds": [
+        "8-hour target exists",
+        "target remains in the same segment",
+        "target endpoint is observed",
+        "target availability strictly before cutoff"
+      ],
+      "base": "encoder context/decision eligibility"
+    }
+  },
+  "schema_version": 1,
+  "seq_len": 64,
+  "sequence_hashes": {
+    "encoder_train": "66bf4f1346b6375f77dc061497b682dc873a57a82b642c22e7c1bb82333c826d",
+    "test": "f67d5aa457a4cf7aa02c5c3c554abbe7ac6c9691d4ec5d9d3459f37286b9e48c",
+    "train": "17f46b3f3eab8f63c0d07191af26761f91ecffaf67647f9b83c1e958fb78b771"
+  },
+  "source_provenance": {
+    "candles_1h_clean_ffill1": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/candles_1h_clean_ffill1.parquet",
+      "sha256": "023845c48a5e40ea6bee5e7bd1e17abe1dd4c9cf782505d7caee3659d284351d"
+    },
+    "fill_manifest": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/fill_manifest.json",
+      "sha256": "f3a155cba00fc7b5097074e12a6288d0dd967a3ac6856e43d47165ab2cfc036b"
+    },
+    "market_metadata": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/market_metadata.parquet",
+      "sha256": "ee1da1a4d3e97f103db3ed92da571a5dc3346db1fd7556a555b8aa51510508f8"
+    }
+  },
+  "task_role": "exploratory_raw_delta_h8",
+  "walk": 2,
+  "zero_delta_counts": {
+    "test": 3497,
+    "train": 10381
+  }
+}

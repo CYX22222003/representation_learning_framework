@@ -166,3 +166,26 @@ rejection, and deterministic replay identities.
 This implementation does not lift the execution pause. The full 4-hour top-50
 bundle must still be generated and audited, then all inherited checkpoints,
 features, and task-label bundles must be rebuilt before Phase 2 resumes.
+
+## Phase 5 implementation status (2026-09-21)
+
+Phase 5 does not reuse the legacy 80/20 artifacts above. Its global-calendar
+builder is implemented in `src/data_processing/phase5_walks.py` and exposed by
+`scripts_v3/prepare_phase5_data.py` and
+`scripts_v3/validate_phase5_data.py`. Outputs live under
+`experiments/phase5/data_preparation/`, not `data/phase3/` or `scripts_v2/`.
+
+The builder validates the approved bounded-fill source before scaling, fits
+volume normalisation only on unique candles in the walk training interval,
+creates separate encoder-training, mature supervised-training, and next-
+interval evaluation populations, and permits pre-cutoff historical context for
+evaluation. Encoder rows use context and decision information only; future
+target existence, gap status, observation status, and maturity are consulted
+only for downstream supervised rows. It requires exact contract/segment
+continuity, active prior-24h history, observed decision and target endpoints,
+target maturity, and a supported training contract for evaluation. It stores raw and scaled OHLCV,
+the four imputation metadata fields, shared two-hour regression/classification
+labels, source hashes, row-identity hashes, and replay hashes. This completes
+the Phase 5 data-preparation portion of the gate; it does not authorize model
+training before the independent model lifecycle, matrix, smoke tests, and
+prediction replay are complete.

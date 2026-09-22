@@ -4,7 +4,28 @@
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications
 
-Evaluate this framework on Polymarket event-contract OHLCV data through continuous probability-movement regression, volatility forecasting, and movement/trend classification. These are transferability probes for alpha-related predictive signal generation, not direct alpha-factor discovery or a trading-strategy claim. Absolute next-close regression was evaluated in Phase 3 and is retained as negative characterisation evidence because causal persistence was substantially stronger.
+Evaluate this framework on Polymarket event-contract OHLCV data through
+future-probability regression, movement/return diagnostics, volatility
+forecasting, and movement/trend classification. These are transferability
+probes for alpha-related predictive signal generation, not direct trading-
+strategy claims. Phase 5 finds eight-hour future-price regression to be the
+clearest regression transfer task because its implied movements have positive
+Rank IC across both global-calendar walks. Direct raw/log movement regressions
+remain target-formulation evidence, while the discovered one-hour reversal is
+a candidate empirical factor requiring fresh-holdout confirmation. The matched
+seed-0 comparison finds that the framework leads h2 classification macro-F1,
+whereas the raw temporal LSTM leads h8 future-price error and implied-movement
+Rank IC; the current evidence therefore supports task-dependent transfer, not
+universal framework superiority.
+
+> **Phase 5 reading note (2026-09-21):** This write-up records the initial
+> research direction, not the complete active experiment contract. The design
+> changed naturally after Phases 1--3 exposed preprocessing, alignment, target,
+> staleness, and evaluation problems. Phase 4 was the dedicated data-analysis
+> phase and ran no model training. For Phase 5 data, tasks, model scope, and
+> evaluation, read
+> [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md)
+> first; it supersedes conflicting initial statements in this document.
 
 ## 2. Literature Review (Brief \& Informal)
 
@@ -207,15 +228,16 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
   August-2026 markets under `data_new/`. Condition-level candles can mix
   complementary outcome prices. A versioned forward-confirmed quarantine
   retains persistent crashes and more than 99% at both native resolutions
-  while preserving raw rows and timestamp gaps. Decisions become usable only
-  after their recorded confirmation time. It can support a predeclared
-  exploratory training, but it does not establish token identity. The token-
+  while preserving raw rows and timestamp gaps. The audit retains confirmation
+  times, while Phase 5 treats the approved final clean result as correct
+  offline cleaning under its explicit research assumption. The token-
   consistent YES-trade fallback is too sparse for diverse seq64 training.
-  Phase 4 selects the clean native one-hour condition candles for the Phase 5
-  loop, with causal isolated-one-bar filling, observed endpoints, revised
-  global-calendar walks, cutoff-local selection, and an affected-contract
-  exclusion sensitivity. Native 15-minute data remains a resolution
-  sensitivity.
+  Phase 5 uses the two fresh walk-specific top-50 clean native one-hour
+  cohorts, with isolated-one-bar filling, observed endpoints, and two rolling
+  global-calendar walks. It accepts retrospective universe selection and
+  treats the approved final pruning as correct offline cleaning; decision-time
+  quarantine replay is not required. Native 15-minute data remains a later
+  resolution sensitivity.
 - Timeframes: 1-hour, 4-hour, 1-day
 - Features: raw OHLCV (5 columns) only — no order book or external data
 
@@ -225,7 +247,7 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised, then fuses all branches via learned gating.
 
-**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks (probability movement, volatility, classification). Under Phase 5, each primary global calendar walk has encoder weights trained only from information available before that walk's cutoff, then reused across tasks within that walk. Reusing the first-walk encoder in later walks is reported separately as a temporal-transfer test. A lightweight task-specific head, and the aggregator when it is learnable, are trained per task.
+**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks within a walk. Under Phase 5, each primary global calendar walk has independently trained encoder weights from information before that walk's cutoff. First-walk encoder reuse and other temporal-transfer tests move to Phase 6. A lightweight task-specific head is trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
@@ -251,25 +273,29 @@ time to expiration affects calibration ([Page and Clemen, 2013](https://doi.org/
 
 The evidence motivates, but does not yet prove, the need for different feature
 extractors by stage. Phase 4 therefore selected global calendar walks with
-fold-specific encoder weights for the Phase 5 adaptive evaluation, which reports
-lifecycle strata within every walk, and compares against a first-walk encoder
-kept fixed over time. A lifecycle-conditioned shared model or stage-specific
-experts remain optional hypotheses that require paired downstream evidence.
+fold-specific encoder weights for the Phase 5 evaluation, which reports
+lifecycle strata within every walk. First-walk reuse, lifecycle-conditioned
+models, and stage-specific experts are Phase 6 hypotheses.
 See the [calendar/lifecycle exploration](data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md).
 
 The original four-hour top-80 Phase 4 design was not executed. The completed
-recent-data analysis instead selects bounded-forward-filled native one-hour
-FinData for the next exploratory loop, while preserving cutoff-local selection,
-a causal prior-24h activity rule, observed target endpoints, and fold-specific
-models. See the
-[Phase 4 conclusion](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
+recent-data analysis instead supports bounded-forward-filled native one-hour
+FinData. Phase 5 freezes the two fresh walk-specific top-50 cohorts, a causal
+prior-24h activity rule, observed target endpoints, and independently trained
+walk-specific models. See the
+[Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md).
+
+The Phase 5 train/test implementation is isolated from earlier generations:
+reusable logic lives under `src/data_processing/`, executable orchestration
+under `scripts_v3/`, and generated bundles under `experiments/phase5/`.
 
 ## 5. Evaluation
 
-The framework is evaluated on three downstream tasks. In Phase 5, every model
-uses the same predeclared global calendar walks and aligned rows. The exact set
-of comparison models is provisional and will be finalised based on the
-literature review.
+The broad framework retains three downstream-task families, but the frozen
+Phase 5 core evaluates two-hour probability-movement regression and
+classification only. Volatility is deferred until a future non-overlapping
+target is specified. Every Phase 5 model uses the same predeclared global
+calendar walks and aligned rows.
 
 ### 5.1 Evaluation Paradigm
 
@@ -286,18 +312,34 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 ### 5.3 Tasks and Metrics
 
-1. **Probability-Movement Regression**
-   - Primary target: signed contract-local `close[t+h] - close[t]`; use
-     probability-point change rather than percentage return near zero
+1. **Future-Probability Regression and Movement Diagnostics**
+   - Principal transfer target: sigmoid-bounded `close[t+8h]` on the Phase 5
+     global-calendar rows
+   - Financial interpretation: subtract current close and report global plus
+     timestamp-level cross-sectional Rank IC of the implied movement
+   - Predeclared diagnostic target: signed contract-local
+     `close[t+h] - close[t]`; use probability-point change rather than
+     percentage return near zero
    - Secondary diagnostic: conventional arithmetic return, with a predeclared
      zero-price rule, train-only scaling, starting-price bands, robust metrics,
      and reconstructed future-probability error
-   - Metrics: MAE, RMSE/MSE, Pearson/Spearman correlation, sign agreement,
-     per-contract, per-global-walk, and per-lifecycle-stage results
+   - Executed exploratory sensitivities: eight-hour raw probability change and
+     two-hour ordinary log return. These diagnose horizon and target-unit
+     effects without replacing the primary two-hour raw-change task.
+   - Executed auxiliary level probe: sigmoid-bounded eight-hour future
+     probability. Report price-level error versus persistence and evaluate the
+     implied change with Rank IC so state reconstruction is not mistaken for
+     incremental forecasting.
+   - Metrics: price MAE/RMSE and correlation; implied-movement
+     Pearson/Spearman, sign agreement, Rank IC/ICIR, and per-contract,
+     per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in
      reconstructed-price space)
    - External benchmarks: Stacked LSTM; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+   - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM
+     across both walks for h2 raw-change regression and h8 future-price
+     regression; all seed-0 trajectories executed and replay-validated
 
 2. **Volatility Prediction**
    - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
@@ -309,6 +351,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Phase 2 uses split-safe hard `DOWN/STABLE/UP` movement labels while saving three-class scores. Candidate imbalance treatments are majority undersampling, balanced oversampling, and train-prior logit-adjusted cross-entropy; untreated natural cross-entropy is reference-only.
    - External benchmarks: TA-MLP; additional TBD from literature review
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+   - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM on
+     the identical h2 classification rows; all seed-0 trajectories executed
+     and replay-validated
 
 ### 5.4 Additional Alpha-Research Downstream Capability
 

@@ -16,6 +16,8 @@ Read these sections of `docs/Research_Ideas_Writeup.md`:
 3. Section 3.1 for the problem addressed by the proposed model.
 4. Section 5.4 for the alpha-research contribution boundary when relevant.
 5. Section 6 for the stated inspiration and motivation.
+6. For the current Phase 5 transferability and candidate-alpha interpretation,
+   read `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
 
 ## Response Contract
 
@@ -29,6 +31,13 @@ Present the relevant parts of:
   including the Phase 4 decision to replace absolute next-close prediction
   with continuous probability-movement regression and Phase 5 global calendar-
   time walks for pooled prediction-market contracts.
+- The Phase 5 intermediate finding that eight-hour future-price prediction is
+  the clearest regression transfer task, with implied-movement Rank IC as the
+  finance-relevant diagnostic; direct raw/log movement heads are diagnostic
+  negative evidence.
+- Last-hour reversal as a candidate empirical factor discovered in the recent
+  Polymarket cohorts, not a confirmed profitable strategy or novel mining
+  algorithm.
 - The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

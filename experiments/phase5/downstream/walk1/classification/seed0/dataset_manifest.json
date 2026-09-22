@@ -1,0 +1,43 @@
+{
+  "branch_hashes": {
+    "test": {
+      "byol": "d4de08e762e67ddff7086f3f20e165540bd42997e18af9e41bf8b6a46da76247",
+      "contrastive": "17bf314efd0b5b2265969d0730823beeb4a7258ba8954c15d97af0f200cf4a68",
+      "statistical": "5cc40456e57bee46659aa1780bc44d21b79d7d65ce58605138f77dbcf2a3845a",
+      "transformed": "3dada77378ef7eb792aeb6a54c39e4cffd2b4dea7fd65f7f0cd6ee011163e8eb",
+      "vae": "25d2738bc701aa875cbfa7acf456bbc41be9139577a5e64c63f58958b80384ff"
+    },
+    "train": {
+      "byol": "9f3279dfbe13be2d0539f4f804c0c509489e0d821539953180990a0cf5e8ceb3",
+      "contrastive": "83cfb907ad3c95d76cc5a9f623c87b6705893bfd51c55d6bb1a26f2b64c89d1b",
+      "statistical": "d8015eed2a7564fc1ed872d0393f0eadb19cb037cc90e03caeea87b08bf9df58",
+      "transformed": "6019cabbbe8f0eaeb2da50f17b18a7c79dcee3e3f1222af3b6fbc50445a0bc5a",
+      "vae": "568a645fe686215ade47c62565a72b584ac407b39b81b773efcafb785836a700"
+    }
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "checkpoint_selection": "epoch 50 predeclared",
+  "dataset_path": "experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "evaluation_used_for_fitting_or_selection": false,
+  "feature_path": "experiments/phase5/features/walk1/five_branch_epoch50.npz",
+  "feature_sha256": "27eadd3de0b964ccecb8f116bd81192a61773ce6e454ee646568054599a407d0",
+  "phase": 5,
+  "purpose": "framework_downstream_probe",
+  "scaler_path": "experiments/phase5/downstream/walk1/feature_standardizer.npz",
+  "scaler_sha256": "72ff8007267c8ebea4d0a42e8a5b8d5a51415a7fb188708b815be876b812d999",
+  "scientific_reporting_unit": "DOWN/STABLE/UP",
+  "target_unit": "class_index",
+  "task": "classification",
+  "test_identity_hash": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+  "test_rows": 30340,
+  "train_identity_hash": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+  "train_rows": 37864,
+  "walk": 1
+}

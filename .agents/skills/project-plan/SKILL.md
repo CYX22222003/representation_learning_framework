@@ -23,7 +23,22 @@ Read these in order:
    and `docs/phase_plan/2026-09-20-phase-4-data-selection-and-walk-forward-contract.md`
    and
    `docs/phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`
-   in full. The last document is authoritative for the Phase 5 handoff.
+   in full. Then read
+   `docs/phase_plan/2026-09-21-phase-5-experiment-plan.md` in full; it is the
+   authoritative Phase 5 contract and supersedes conflicting handoff language.
+   For Phase 5 encoder implementation, execution, or readiness, also read
+   `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
+   For Phase 5 feature extraction or framework downstream readiness, also read
+   `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+   For Phase 5 additional-regression-task progress or conclusions, also read
+   `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`.
+   For Phase 5 absolute-price add-on progress or conclusions, also read
+   `docs/phase_plan/2026-09-21-phase-5-absolute-price-h8-amendment.md`.
+   For the current Phase 5 interpretation, headline transfer tasks, reversal
+   finding, or next experiment priorities, also read
+   `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+   For Phase 5 baseline implementation, readiness, execution, or reporting,
+   also read `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
 
@@ -38,12 +53,32 @@ Report:
 - The most immediate actions required by that phase's exit conditions.
 - Phase 4 as concluded data-selection/exploration work, explicitly noting that
   it ran no model training. For Phase 5, report whether revised recent-period
-  walks, the selected one-hour causal-fill builder, cutoff-local universe,
-  quarantine/activity/target availability, fold-specific model lifecycle,
+  walks, the selected one-hour sequence/label builder, activity/target
+  eligibility, walk-specific model lifecycle,
   identical baseline rows, and replay checks are implemented and validated.
-  The current `seq64` balanced two-walk counts establish feasibility only;
-  they do not complete cutoff-local universe selection or causal quarantine
-  replay.
+  The data builder and common identities are currently implemented through
+  `scripts_v3/` with artifacts under `experiments/phase5/data_preparation/`;
+  the six canonical walk-specific neural encoders are also trained and replay-
+  validated under `experiments/phase5/encoder_pretraining/`. The canonical
+  feature stores, train-only scalers, and four seed-0 framework downstream
+  probes are also complete and replay-validated under
+  `experiments/phase5/features/` and `experiments/phase5/downstream/`. The
+  eight-hour raw-change and two-hour log-return tasks are complete under
+  `experiments/phase5/downstream_addons/tasks/`; neither recovered
+  signed correlation. The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is
+  complete and replay-validated under `experiments/phase5/baselines/`; the
+  framework leads h2 classification macro-F1 and the raw LSTM leads h8 price
+  error and implied-movement Rank IC. Additional seeds remain pending. Do not
+  infer universal framework superiority from the seed-0 comparison.
+  The eight-hour absolute-price probe is also complete: it reconstructs level
+  with high correlation but trails persistence on error; its implied movement
+  Rank IC is positive but weaker than last-hour reversal.
+  The intermediate reporting decision treats eight-hour future-price
+  prediction as the clearest regression transfer task and last-hour reversal
+  as a candidate empirical factor requiring fresh-holdout confirmation.
+  Retrospective selection and final pruning are accepted Phase 5 assumptions;
+  cutoff-local catalog selection and quarantine-availability replay are not
+  implementation blockers.
   Do not describe per-contract lifecycle fractions as deployment-valid folds.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.

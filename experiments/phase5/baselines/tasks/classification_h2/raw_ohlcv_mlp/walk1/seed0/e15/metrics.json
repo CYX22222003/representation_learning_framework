@@ -1,0 +1,265 @@
+{
+  "accuracy": 0.5352340145023072,
+  "always_stable_reference": {
+    "accuracy": 0.7365853658536585,
+    "balanced_accuracy": 0.3333333333333333,
+    "confusion_matrix": [
+      [
+        0,
+        4077,
+        0
+      ],
+      [
+        0,
+        22348,
+        0
+      ],
+      [
+        0,
+        3915,
+        0
+      ]
+    ],
+    "macro_average_precision": 0.3333333333333333,
+    "macro_f1": 0.2827715355805243,
+    "macro_roc_auc": 0.5,
+    "multiclass_brier": 0.5268292682925352,
+    "nll": 7.278415318342293,
+    "observed_class_counts": [
+      4077,
+      22348,
+      3915
+    ],
+    "observed_class_proportions": [
+      0.1343770599868161,
+      0.7365853658536585,
+      0.12903757415952538
+    ],
+    "per_class": [
+      {
+        "average_precision": 0.1343770599868161,
+        "class_index": 0,
+        "class_name": "DOWN",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.5,
+        "support": 4077
+      },
+      {
+        "average_precision": 0.7365853658536585,
+        "class_index": 1,
+        "class_name": "STABLE",
+        "f1": 0.848314606741573,
+        "precision": 0.7365853658536585,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "support": 22348
+      },
+      {
+        "average_precision": 0.12903757415952538,
+        "class_index": 2,
+        "class_name": "UP",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.5,
+        "support": 3915
+      }
+    ],
+    "predicted_class_counts": [
+      0,
+      30340,
+      0
+    ],
+    "predicted_class_proportions": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "weighted_f1": 0.624856124965744
+  },
+  "balanced_accuracy": 0.46736194594533637,
+  "baseline": {
+    "accuracy": 0.5352340145023072,
+    "balanced_accuracy": 0.46736194594533637,
+    "confusion_matrix": [
+      [
+        0,
+        698,
+        3379
+      ],
+      [
+        0,
+        13033,
+        9315
+      ],
+      [
+        0,
+        709,
+        3206
+      ]
+    ],
+    "macro_average_precision": 0.44972754516291785,
+    "macro_f1": 0.3440465008442734,
+    "macro_roc_auc": 0.7227057350317309,
+    "multiclass_brier": 0.5277138148680137,
+    "nll": 0.917751708396211,
+    "observed_class_counts": [
+      4077,
+      22348,
+      3915
+    ],
+    "observed_class_proportions": [
+      0.1343770599868161,
+      0.7365853658536585,
+      0.12903757415952538
+    ],
+    "per_class": [
+      {
+        "average_precision": 0.24978017848420708,
+        "class_index": 0,
+        "class_name": "DOWN",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.7134503794007394,
+        "support": 4077
+      },
+      {
+        "average_precision": 0.8674775844637961,
+        "class_index": 1,
+        "class_name": "STABLE",
+        "f1": 0.7085462650864411,
+        "precision": 0.9025623268698061,
+        "recall": 0.5831841775550385,
+        "roc_auc": 0.7475848241744518,
+        "support": 22348
+      },
+      {
+        "average_precision": 0.23192487254075034,
+        "class_index": 2,
+        "class_name": "UP",
+        "f1": 0.323593237446379,
+        "precision": 0.20163522012578616,
+        "recall": 0.8189016602809707,
+        "roc_auc": 0.7070820015200011,
+        "support": 3915
+      }
+    ],
+    "predicted_class_counts": [
+      0,
+      14440,
+      15900
+    ],
+    "predicted_class_proportions": [
+      0.0,
+      0.4759393539881345,
+      0.5240606460118655
+    ],
+    "weighted_f1": 0.5636604962674476
+  },
+  "checkpoint_path": "experiments/phase5/baselines/tasks/classification_h2/raw_ohlcv_mlp/walk1/seed0/e15/checkpoint.pth",
+  "checkpoint_sha256": "a480a5a02856d925c2d677a42a00b6d930ba6b62c6f34264fa48cc3dc98d8174",
+  "class_names": [
+    "DOWN",
+    "STABLE",
+    "UP"
+  ],
+  "elapsed_training_seconds": 6.4966900309973425,
+  "epoch": 15,
+  "inference_seconds": 0.07316368200008583,
+  "macro_average_precision": 0.44972754516291785,
+  "macro_f1": 0.3440465008442734,
+  "macro_roc_auc": 0.7227057350317309,
+  "multiclass_brier": 0.5277138148680137,
+  "nll": 0.917751708396211,
+  "parameter_count": 698499,
+  "peak_cuda_memory_bytes": 48432640,
+  "phase": 5,
+  "predictions_sha256": "177167c2dfd9efb11c52fb4d7629433933038025d69d343e421f84af50d6f057",
+  "repeated_training_prior_reference": {
+    "accuracy": 0.7365853658536585,
+    "balanced_accuracy": 0.3333333333333333,
+    "confusion_matrix": [
+      [
+        0,
+        4077,
+        0
+      ],
+      [
+        0,
+        22348,
+        0
+      ],
+      [
+        0,
+        3915,
+        0
+      ]
+    ],
+    "macro_average_precision": 0.3333333333333333,
+    "macro_f1": 0.2827715355805243,
+    "macro_roc_auc": 0.5,
+    "multiclass_brier": 0.4830999239990787,
+    "nll": 0.8441522928453559,
+    "observed_class_counts": [
+      4077,
+      22348,
+      3915
+    ],
+    "observed_class_proportions": [
+      0.1343770599868161,
+      0.7365853658536585,
+      0.12903757415952538
+    ],
+    "per_class": [
+      {
+        "average_precision": 0.1343770599868161,
+        "class_index": 0,
+        "class_name": "DOWN",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.5,
+        "support": 4077
+      },
+      {
+        "average_precision": 0.7365853658536585,
+        "class_index": 1,
+        "class_name": "STABLE",
+        "f1": 0.848314606741573,
+        "precision": 0.7365853658536585,
+        "recall": 1.0,
+        "roc_auc": 0.5,
+        "support": 22348
+      },
+      {
+        "average_precision": 0.12903757415952538,
+        "class_index": 2,
+        "class_name": "UP",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.5,
+        "support": 3915
+      }
+    ],
+    "predicted_class_counts": [
+      0,
+      30340,
+      0
+    ],
+    "predicted_class_proportions": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "weighted_f1": 0.624856124965744
+  },
+  "seed": 0,
+  "task": "classification_h2",
+  "train_loss": 0.9192630072464127,
+  "walk": 1,
+  "weighted_f1": 0.5636604962674476
+}

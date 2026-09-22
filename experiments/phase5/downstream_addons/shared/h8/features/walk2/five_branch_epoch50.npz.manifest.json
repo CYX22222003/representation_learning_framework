@@ -1,0 +1,158 @@
+{
+  "alignment_audit": {
+    "encoder_rows": 58473,
+    "evaluation_disjoint": true,
+    "evaluation_rows": 13506,
+    "mapped_train_contexts_byte_identical": true,
+    "supervised_train_rows": 56652,
+    "valid": true
+  },
+  "branch_dims": {
+    "byol": 128,
+    "contrastive": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "branch_hashes": {
+    "test": {
+      "byol": "8874325af11e857d75484559507e77b4836a88f2b08268aee885402bdbf0d8d6",
+      "contrastive": "3af9e8bea7acaf618e9a8b9b7b2051392578ceb89a9468d78efd556ce92fb1fe",
+      "statistical": "9c8ccdf6333211d09ea2e34f4999d5810d8d3f86857f054b46d4c861e93fb3b4",
+      "transformed": "a13df70705142497e681f709e37719bb9183d79f817896c38e8599a9f2da80e7",
+      "vae": "95a604dbd939f5625dba5dc02f232a8788035483edd47cb259637aea797ba2ce"
+    },
+    "train": {
+      "byol": "468d1c184d1774aa529c12ee31ac977fbc3ee5895c6aeaee8107e62e94eacdaa",
+      "contrastive": "044d55c379328c81153ce5bc9e2b800bf0387e190c5e6b0f85a16a974f96acfc",
+      "statistical": "2cfc8a8de5628c1e9d61c51f255b77684786a4afdd74afa663eb7c199bf11e82",
+      "transformed": "c9c66a60642aff721118c8d5fe46f1899df3f22d9a31081fd63b8a02d9ec3c50",
+      "vae": "94716938158101700f18cc8b3c9eca3a81797d2e6952f3c01a0fdb1f1bd80df5"
+    }
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "checkpoint_provenance": {
+    "byol": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+      "sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "byol",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+        "epoch50_embedding_std": 0.7003105878829956,
+        "epoch50_train_loss": 0.051249766036083826,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "contrastive": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+      "sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "contrastive",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+        "epoch50_embedding_std": 2.9998929500579834,
+        "epoch50_train_loss": 2.2566339237648143,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "vae": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+      "sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "vae",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+        "epoch50_embedding_std": 0.09024051576852798,
+        "epoch50_train_loss": 0.07066280411948499,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    }
+  },
+  "concat_dim": 445,
+  "encoder_dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "encoder_population_matches_checkpoint_source": true,
+  "feature_bundle_sha256": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7",
+  "feature_reuse": {
+    "counts": {
+      "test": {
+        "computed": 213,
+        "reused": 13293
+      },
+      "train": {
+        "computed": 552,
+        "reused": 56100
+      }
+    },
+    "identity_and_context_match_required": true,
+    "source_dataset_path": "experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+    "source_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+    "source_feature_path": "experiments/phase5/features/walk2/five_branch_epoch50.npz",
+    "source_feature_sha256": "b7148b3f058b650e7ab4132b19354346b33fa92404afce7980233b143755b86d"
+  },
+  "fitted_on_evaluation": false,
+  "identity_array_hashes": {
+    "test": {
+      "condition_ids": "e5a14aaae44c3c5ee26a9a8503411ff726ffbd99eb3babfa6049cc415e17bb07",
+      "decision_availability_ns": "c2bcde37ee94ff3e505b55a41ed497cf8e65a2913c51adc3997c36780baa9f99",
+      "decision_date_ns": "237e430bf7fff3cf757e0c161a6403ef846125311b8bb3ce6a2e7d753758e32d",
+      "window_start_ns": "3be2c32546ed72165582f88053d3831b9d0d21ca5ac1505596b2bdccf3418121"
+    },
+    "train": {
+      "condition_ids": "f2cdffcc4a56487b341c2b36197449c3b8c97124ff9e2e622cdde3b61e7d75c2",
+      "decision_availability_ns": "dde0601d1c62fc155a2f6086372ad8943a7e414916fc9f3b068345153ce7c9d4",
+      "decision_date_ns": "73929dc1548e76f3f7f41f02fbf5d05de88a5c126919c9d2e9696e68af844093",
+      "window_start_ns": "a81ecc18a15179e763135736ceba648d37d4f17438af5b8bdd2833c3d7dbbc74"
+    }
+  },
+  "input_key": {
+    "test": "test_sequences",
+    "train": "train_sequences"
+  },
+  "phase": 5,
+  "purpose": "frozen_five_branch_features",
+  "row_counts": {
+    "test": 13506,
+    "train": 56652
+  },
+  "schema_version": "phase5-feature-v1",
+  "source_dataset_path": "experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+  "source_dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+  "source_identity_hashes": {
+    "test": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+    "train": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e"
+  },
+  "source_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+  "walk": 2
+}

@@ -6,6 +6,15 @@ no Phase 4 encoder, downstream head, or baseline was trained
 **Next stage:** Phase 5 walk-forward implementation, encoder retraining,
 downstream-task redefinition/training, and matched baseline comparison
 
+> **Later Phase 5 decision:** This document remains the authoritative record of
+> Phase 4 data analysis, but its proposed Phase 5 execution gate was revised
+> after discussion. Phase 5 accepts retrospective selection, assumes the
+> approved final pruning is correct offline cleaning, and does not require
+> quarantine-availability replay. Read
+> [`2026-09-21-phase-5-experiment-plan.md`](2026-09-21-phase-5-experiment-plan.md)
+> for the active main-experiment contract. Phase 4 itself remains a concluded
+> data-analysis phase with no model training.
+
 ## 1. Scope and phase boundary
 
 Phase 4 investigated the data and evaluation contract required after Phase 3

@@ -1,0 +1,19 @@
+{
+  "baseline": "raw_ohlcv_lstm",
+  "batch_size": 512,
+  "device": "cuda",
+  "epochs": 50,
+  "head_hidden_dim": 128,
+  "learning_rate": 0.0001,
+  "logit_adjustment_strength": 1.0,
+  "regression_target_multiplier": 100.0,
+  "seed": 0,
+  "snapshot_epochs": [
+    5,
+    15,
+    50
+  ],
+  "task": "regression_h2",
+  "walk": 2,
+  "weight_decay": 0.0
+}

@@ -4,7 +4,7 @@ This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are
 compared fairly on the same held-out split or walk-forward calendar interval.
 
-> **Phase 4 conclusion / Phase 5 transition (2026-09-21):** The single per-contract raw 80/20 rule
+> **Phase 5 contract (2026-09-21):** The single per-contract raw 80/20 rule
 > below remains the authority for legacy and Phase 3 artifacts. It is not the
 > next-stage primary evaluation design. Phase 5 uses predeclared fixed-duration
 > rolling global calendar-time walks: every walk establishes one timestamp cutoff
@@ -14,14 +14,56 @@ compared fairly on the same held-out split or walk-forward calendar interval.
 > Later information must not enter an earlier model. The continuous primary
 > regression target becomes contract-local future probability movement rather
 > than absolute next close. Phase 4 selected recent clean native one-hour
-> FinData with causal isolated-one-bar filling for the exploratory Phase 5
-> loop. The authoritative handoff is
-> [`phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md`](phase_plan/2026-09-21-phase-4-data-exploration-observation-and-conclusion.md).
-> A follow-up capacity audit supports a 64-hour context and balanced two-walk
-> schedule as implementation candidates, but does not clear the training gate:
-> the 50-condition audit cohort was selected retrospectively, and final-clean
-> rows must be replayed according to quarantine availability. See
-> [`data_analysis/2026-09-21-phase5-findata-walk-capacity.md`](data_analysis/2026-09-21-phase5-findata-walk-capacity.md).
+> FinData with isolated-one-bar filling. Phase 5 freezes the two fresh
+> walk-specific top-50 cohorts, accepts retrospective selection and final
+> pruning as research assumptions, uses a 64-hour context, and does not replay
+> pruning by quarantine availability. Regression and classification share a
+> two-hour horizon; classification uses `tau=0.001`. The authoritative plan is
+> [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md).
+
+> **Phase 5 preparation implementation:** Reusable walk construction is in
+> `src/data_processing/phase5_walks.py`; the only Phase 5 data entry points are
+> `scripts_v3/prepare_phase5_data.py` and
+> `scripts_v3/validate_phase5_data.py`. Replayable bundles live under
+> `experiments/phase5/data_preparation/`. They contain separate encoder-
+> training, mature supervised-training, and evaluation populations plus one
+> shared regression/classification identity set per walk. The canonical
+> encoder, feature-extraction, and seed-0 framework matrices have now completed.
+> The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is complete under its
+> amendment. All runs use the exact saved task rows, fixed epoch 50 selection,
+> and replay-valid 5/15/50 checkpoints; the pooled comparison is stored under
+> `experiments/phase5/baselines/reports/baseline_matrix_seed0/`.
+> Encoder eligibility is target-free and uses only context/decision information
+> available before the cutoff. Target existence, observed status, segment
+> continuity, and maturity are applied afterward only to downstream train/test
+> rows.
+>
+> **Framework downstream contract:** Frozen five-branch features retain exact
+> supervised train/test identities. Each walk fits coordinatewise feature
+> mean/std from supervised training features only and applies that frozen
+> scaler to evaluation features, clipping both to `[-10, 10]`. Regression is
+> optimized in fixed probability-point units (`100 * delta`) and inverted
+> before raw-delta metrics; classification uses train-prior logit adjustment.
+> The first framework stage uses seed 0 only. See
+> `phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
+> Both walk feature stores, both train-only scalers, and all four 50-epoch
+> framework trajectories pass source-identity, hash, and CPU prediction replay.
+> The later exploratory additional regression tasks add independently mature
+> eight-hour raw-change rows and a train-standardized two-hour log-return
+> target. Their target-free encoder populations remain identical to the
+> primary bundles; neither sensitivity is a replacement target selected from
+> evaluation performance.
+> The subsequent eight-hour absolute-price probe reuses the exact `h8` rows
+> and features, predicts a sigmoid-bounded future close without an explicit
+> current-price skip, and reports both price-level skill versus persistence and
+> implied-movement Rank IC.
+
+> **Phase 5 intermediate reporting decision (2026-09-22):** The predeclared
+> two-hour movement regression remains immutable experimental evidence, but
+> eight-hour future-price prediction is the clearest regression transfer task
+> for the final framework narrative. Its implied change is evaluated on the
+> same out-of-future rows using global and timestamp-level Rank IC. See
+> `phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
 
 ---
 
@@ -105,7 +147,8 @@ split. Phase 5 instead rebuilds these allocations per global calendar walk.
 Every primary walk uses a separately trained encoder and downstream head from
 the same causally permitted history, then freezes both before its next-interval
 evaluation. An optional fixed-first-walk encoder is a transferability ablation,
-not the primary adaptive result. There is no per-component validation split.
+not part of the Phase 5 core; encoder-transfer work is deferred to Phase 6.
+There is no per-component validation split.
 
 ---
 
@@ -340,20 +383,20 @@ Both modes are trained on the same data splits and evaluated identically, making
     history into an earlier model; aggregate only predictions that were
     genuinely out-of-future at their decision time, then report lifecycle
     strata inside each walk.
-11. **Phase 5 primary exploratory data is recent clean native one-hour FinData
-    selected per cutoff.** Fill only complete isolated one-hour gaps causally,
+11. **Phase 5 primary data is the two fresh walk-specific top-50 clean native
+    one-hour FinData cohorts.** Retrospective selection and approved final
+    pruning are accepted research assumptions. Fill only complete isolated
+    one-hour gaps,
     retain explicit imputation metadata, require observed decision and target
-    endpoints, and split windows at longer gaps. Freeze the cutoff-local
-    universe for the next interval and apply the causal prior-24h observed-
+    endpoints, and split windows at longer gaps. Apply the causal prior-24h observed-
     price-change mask identically to framework and baselines. Native 15-minute,
     affected-contract exclusion, and all-row results are declared
     sensitivities. Condition-candle token identity remains a reported source
     limitation.
-12. **Capacity does not validate selection.** The current 50-condition cohort
-    supports `seq64` under a balanced two-walk feasibility schedule, but its
-    full-period retrospective selection cannot establish a cutoff-local
-    universe. Freeze candidates from cutoff-available information, replay
-    quarantine decisions only after `quarantine_available_at`, and rerun
-    capacity on the exact manifest before training. Treat `seq256` and monthly
-    refitting as sensitivities because their later folds are sparse or
-    concentrated.
+12. **Phase 5 uses the frozen 64-hour/two-hour task contract.** Regression and
+    classification use identical two-hour target identities; classification
+    applies the fixed `tau=0.001` rule and train-prior logit-adjusted loss.
+    Zero volume is the implicit imputation signal under a validated invariant,
+    while explicit imputation metadata remains in artifacts for eligibility
+    and reporting. `seq256`, monthly refitting, alternative thresholds, and
+    explicit-mask inputs are later sensitivities rather than primary runs.

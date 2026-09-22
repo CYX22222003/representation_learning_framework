@@ -10,3 +10,32 @@ training logic shared and testable.
 `train_encoder_variants.py` provides the Phase 2 temporal-contrastive epoch
 loop with non-finite gradient checks and representation-health diagnostics.
 The fixed-budget entry point is `scripts/train_phase2_contrastive_encoder.py`.
+
+# Phase 5
+
+`phase5_encoder.py` owns reusable canonical VAE, contrastive-CNN, and BYOL-CNN
+pretraining for the two global-calendar walks. It loads only
+`encoder_train_sequences`, never downstream targets or evaluation values, and
+stores independently initialized walk-specific checkpoints. Phase 5 executable
+orchestration remains under `scripts_v3/`.
+
+`phase5_downstream.py` owns the completed framework-only seed-0 probe: one
+train-only feature standardizer per walk, fixed probability-point regression,
+logit-adjusted tri-class classification, 5/15/50 artifacts, detailed
+breakdowns and non-trained references, and CPU prediction replay. Learned
+baseline comparisons are a separate pending Phase 5 stage.
+
+`phase5_regression_addons.py` owns the completed exploratory
+eight-hour raw-change and two-hour log-return probes, including train-only
+target transforms, probability reconstruction, price-band breakdowns, and
+5/15/50 CPU prediction replay.
+
+`phase5_absolute_price.py` owns the completed sigmoid-bounded eight-hour
+future-price probe. It reports level reconstruction versus current-price
+persistence and separately evaluates the implied probability movement.
+
+`phase5_baselines.py` owns the implemented Phase 5 matched raw-sequence
+baseline matrix: Raw-OHLCV MLP and three-layer raw OHLCV LSTM models for the
+two-hour regression/classification tasks and eight-hour absolute-price task.
+It reuses the validated task rows directly, freezes 5/15/50 snapshots, and
+supports CPU checkpoint/prediction replay. Training has not yet been executed.
