@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import rankdata
 
@@ -64,6 +65,87 @@ def _rows(matrix: dict[str, object], baseline: str, task: str) -> list[dict[str,
         row for row in matrix["runs"]
         if row["baseline"] == baseline and row["task"] == task
     ]
+
+
+def _plot_training_losses(matrix: dict[str, object]) -> None:
+    fig, axes = plt.subplots(len(TASKS), len(BASELINES), figsize=(13, 11))
+    for task_index, task in enumerate(TASKS):
+        for baseline_index, baseline in enumerate(BASELINES):
+            axis = axes[task_index, baseline_index]
+            for row in _rows(matrix, baseline, task):
+                history_path = Path(row["run_root"]) / "e50" / "history.npz"
+                with np.load(history_path, allow_pickle=False) as history:
+                    axis.plot(
+                        history["epochs"],
+                        history["train_loss"],
+                        label=f"Walk {row['walk']}",
+                    )
+            axis.set_title(f"{baseline.replace('_', ' ')} — {task}")
+            axis.set_xlabel("Epoch")
+            axis.set_ylabel("Training loss")
+            axis.grid(alpha=0.25)
+            axis.legend()
+    fig.suptitle("Phase 5 matched baseline training trajectories", fontsize=14)
+    fig.tight_layout()
+    fig.savefig(OUTPUT / "training_losses.png", dpi=180)
+    plt.close(fig)
+
+
+def _plot_principal_comparison(
+    pooled: dict[str, object],
+    framework_h2: dict[str, object],
+    framework_price: dict[str, object],
+) -> None:
+    labels = ["Five-branch", "Raw MLP", "Raw LSTM"]
+    colors = ["#4c78a8", "#f58518", "#54a24b"]
+    framework_reg = framework_h2["regression"]["framework"]
+    framework_cls = framework_h2["classification"]["framework"]
+    panels = (
+        (
+            "h2 movement MAE (lower is better)",
+            [
+                framework_reg["mae"],
+                pooled["raw_ohlcv_mlp"]["regression_h2"]["mae"],
+                pooled["raw_ohlcv_lstm"]["regression_h2"]["mae"],
+            ],
+        ),
+        (
+            "h2 classification macro-F1",
+            [
+                framework_cls["macro_f1"],
+                pooled["raw_ohlcv_mlp"]["classification_h2"]["macro_f1"],
+                pooled["raw_ohlcv_lstm"]["classification_h2"]["macro_f1"],
+            ],
+        ),
+        (
+            "h8 future-price MAE (lower is better)",
+            [
+                framework_price["price"]["mae"],
+                pooled["raw_ohlcv_mlp"]["absolute_price_h8"]["price"]["mae"],
+                pooled["raw_ohlcv_lstm"]["absolute_price_h8"]["price"]["mae"],
+            ],
+        ),
+        (
+            "h8 implied-movement mean Rank IC",
+            [
+                framework_price["implied_movement_cross_sectional_rank_ic"]["mean"],
+                pooled["raw_ohlcv_mlp"]["absolute_price_h8"]
+                ["implied_movement_cross_sectional_rank_ic"]["mean"],
+                pooled["raw_ohlcv_lstm"]["absolute_price_h8"]
+                ["implied_movement_cross_sectional_rank_ic"]["mean"],
+            ],
+        ),
+    )
+    fig, axes = plt.subplots(2, 2, figsize=(12, 9))
+    for axis, (title, values) in zip(axes.flat, panels):
+        bars = axis.bar(labels, values, color=colors)
+        axis.set_title(title)
+        axis.grid(axis="y", alpha=0.25)
+        axis.bar_label(bars, fmt="%.4f", padding=3)
+    fig.suptitle("Phase 5 epoch-50 matched comparison", fontsize=14)
+    fig.tight_layout()
+    fig.savefig(OUTPUT / "principal_comparison.png", dpi=180)
+    plt.close(fig)
 
 
 def main() -> None:
@@ -152,6 +234,8 @@ def main() -> None:
         },
     }
     write_json(OUTPUT / "summary.json", summary)
+    _plot_training_losses(matrix)
+    _plot_principal_comparison(pooled, framework_h2, framework_price)
     lines = [
         "# Phase 5 Matched Raw-Sequence Baselines (Seed 0)",
         "",
