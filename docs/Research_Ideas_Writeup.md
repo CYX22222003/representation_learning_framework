@@ -31,8 +31,10 @@ universal framework superiority.
 > [`phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`](phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md)
 > and
 > [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
-> These plans supersede older statements that moved every deferred architecture
-> axis into Phase 6.
+> The primary future-realised-variance horizon is frozen to eight hours by
+> [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
+> These documents supersede older statements that moved every deferred
+> architecture axis into Phase 6.
 
 ## 2. Literature Review (Brief \& Informal)
 
@@ -301,10 +303,10 @@ under `scripts_v3/`, and generated bundles under `experiments/phase5/`.
 
 The broad framework retains three downstream-task families. Phase 5 evaluated
 movement classification/regression and the later eight-hour future-price
-probe. Phase 6 now specifies volatility as realised variance over a strictly
-future interval, while leaving its primary horizon gated by a training-period-
-only audit. Every strict comparison uses the same predeclared global-calendar
-walks and aligned task rows.
+probe. Phase 6 now specifies volatility as realised variance over the strictly
+future eight-hour interval `(t,t+8h]`, frozen from a training-period-only audit.
+Every strict comparison uses the same predeclared global-calendar walks and
+aligned task rows.
 
 ### 5.1 Evaluation Paradigm
 
@@ -351,9 +353,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      regression; all seed-0 trajectories executed and replay-validated
 
 2. **Volatility Prediction**
-   - Target: future interval realised variance from observed raw probability
-     changes, `sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2`; no square root,
-     annualisation, or shifted trailing window
+   - Target: eight-hour future interval realised variance from observed raw
+     probability changes, `sum_{j=1..8} (p[t+j] - p[t+j-1])^2`; no square
+     root, annualisation, or shifted trailing window
    - Metrics: MAE, RMSE/MSE, Pearson and Spearman correlation
    - Required references: zero variance, a training-only location constant,
      and trailing historical realised-variance persistence

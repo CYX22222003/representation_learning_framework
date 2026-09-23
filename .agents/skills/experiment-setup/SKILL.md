@@ -111,8 +111,11 @@ Read these in order:
     `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
     The historical 4-hour volatility bundle is an overlapping shifted-window
     proxy. The replacement target is realised variance over a strictly future
-    interval from observed consecutive raw probability changes; its primary
-    horizon is not frozen until the training-period data audit is reviewed.
+    interval from observed consecutive raw probability changes. The completed
+    training-period-only audit freezes the primary horizon to eight hours in
+    `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+    The replacement label bundles must be built and validated before feature
+    alignment or any model execution.
 14. For Phase 6 temporal encoder training, feature substitution/addition,
     duplicated-CNN width controls, or downstream comparison, read
     `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in

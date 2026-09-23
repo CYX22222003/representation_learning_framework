@@ -40,3 +40,19 @@ The same module also supports the explicitly named
 population but independently applies eight-hour target existence, continuity,
 observation, and maturity rules. Those generated bundles live under
 `experiments/phase5/downstream_addons/shared/h8/data/`.
+
+## Phase 6 volatility horizon audit
+
+`phase6_volatility.py` implements the no-training Stage A audit for future
+realised variance from raw probability changes. It replays Phase 5 encoder
+identities, evaluates exact observed future intervals for the predeclared
+`2/4/8/24`-hour candidates, and reports target distributions, dependence, and
+strata from training rows only. Evaluation rows contribute capacity counts but
+no target values. Retrospective lifecycle/end metadata is reporting-only.
+
+The thin audit and validation entry points are under `scripts_v4/`; canonical
+CSV, plot, report, and hash-manifest outputs are under
+`experiments/phase6/volatility_prediction/data_exploration/`. These artifacts
+did not themselves freeze the primary horizon. The separate
+`2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` now freezes H=8 and
+authorizes label construction, but not model execution.

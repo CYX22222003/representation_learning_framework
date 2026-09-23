@@ -242,10 +242,11 @@ support claims about a genuinely unseen future-volatility window. Preserve it
 to reproduce earlier runs. The planned Phase 6 replacement predicts realised
 variance over a strictly future interval,
 `sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2`, using observed consecutive future
-closes and no imputed target candles. Its horizon remains gated by a
-training-period data audit, and no replacement bundle has been generated yet.
-Generate that bundle and rerun all required comparators before making
-confirmatory volatility-forecasting claims. See
+closes and no imputed target candles. The training-period-only audit is
+complete and the primary horizon is frozen to eight hours by
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+No replacement bundle has been generated yet. Generate and validate that
+bundle before aligning features or running any comparator. See
 `docs/phase_plan/phase2_experiment_observation_and_outcome.md` and
 `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 

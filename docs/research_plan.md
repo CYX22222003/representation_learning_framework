@@ -154,11 +154,11 @@ needed in each lifecycle stage.
     retained only as historical/negative characterisation evidence.
   - Volatility prediction — MLP regressor on future interval realised variance,
     defined from raw probability changes as
-    `sum_j (p[t+j*delta] - p[t+(j-1)*delta])^2`. The historical shifted-window
-    proxy remains characterisation evidence only. The Phase 6 primary horizon
-    is frozen from training-period capacity and target diagnostics before any
-    model evaluation; see
-    `phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+    `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`. The historical
+    shifted-window proxy remains characterisation evidence only. The Phase 6
+    eight-hour horizon was frozen from training-period capacity and target
+    diagnostics before label construction or model evaluation; see
+    `phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
   - Trend classification — MLP classifier trained with cross-entropy on TA-MLP-style tri-class BUY/HOLD/SELL labels.
 
 - Write end-to-end training scripts connecting data loading, feature extraction, encoder inference, aggregation, and task training.

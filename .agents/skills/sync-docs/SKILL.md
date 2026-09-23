@@ -96,6 +96,9 @@ imputation exposure, or selection-readiness changes, include
 For the Phase 6 volatility definition, horizon audit, label eligibility,
 comparison matrix, implementation status, or result judgement, include
 `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+For the frozen Phase 6 volatility horizon, future interval, or transition to
+label construction, also include
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
 For Phase 6 temporal encoder substitution, heterogeneous additions,
 duplicate-width controls, CKA, task scope, implementation status, or result
 judgement, include

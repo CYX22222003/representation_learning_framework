@@ -45,7 +45,9 @@ Read these in order:
 7. For Phase 6 volatility-task design, read
    `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
    Preserve its distinction between future interval realised variance and the
-   historical overlapping shifted-window proxy.
+   historical overlapping shifted-window proxy. Then read
+   `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`;
+   the primary target is frozen to eight hourly increments over `(t,t+8h]`.
 8. For Phase 6 temporal encoder substitution, heterogeneous feature addition,
    duplicate-width controls, CKA, or task-transfer design, read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in

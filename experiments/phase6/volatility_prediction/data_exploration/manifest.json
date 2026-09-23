@@ -1,0 +1,306 @@
+{
+  "artifacts": {
+    "capacity": {
+      "canonical_frame_sha256": "801e9d495c2cc11d85c9ffe66663c2f3f2f089a4b2a08144924a2a2cb5d5aa8e",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/horizon_capacity.csv",
+      "rows": 816,
+      "sha256": "801e9d495c2cc11d85c9ffe66663c2f3f2f089a4b2a08144924a2a2cb5d5aa8e"
+    },
+    "dependence": {
+      "canonical_frame_sha256": "5c43f2c3f61024ef9335f07858fddc0426a03272af2d39eb313598f8dfb4834d",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/target_dependence.csv",
+      "rows": 8,
+      "sha256": "5c43f2c3f61024ef9335f07858fddc0426a03272af2d39eb313598f8dfb4834d"
+    },
+    "distribution": {
+      "canonical_frame_sha256": "71483ca8b750532c3f29b624bd40dbd6b381720d8344648a041329f9d4b5c947",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/target_distribution.csv",
+      "rows": 8,
+      "sha256": "71483ca8b750532c3f29b624bd40dbd6b381720d8344648a041329f9d4b5c947"
+    },
+    "plot_1": {
+      "bytes": 89373,
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/plots/training_target_degeneracy.png",
+      "sha256": "012d9b2785906b511cfc403ac428897cc336b1f433a70844e20698fe03c69e6e"
+    },
+    "plot_2": {
+      "bytes": 75076,
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/plots/horizon_capacity.png",
+      "sha256": "7cbc01d6caa2bb2c1e79854990ae0ecaec358368f0953ed260f624c645bc384c"
+    },
+    "report": {
+      "bytes": 1517,
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/report.md",
+      "sha256": "0c455660f78e5e610031a35dcb5147e80c043d50b18877523d2ac875d82b28bd"
+    },
+    "strata": {
+      "canonical_frame_sha256": "eea70443deda4ce34d62b02492dff06ff0a25125aba52fe3922499fa2f595686",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/target_strata.csv",
+      "rows": 179,
+      "sha256": "eea70443deda4ce34d62b02492dff06ff0a25125aba52fe3922499fa2f595686"
+    }
+  },
+  "candidate_horizons_hours": [
+    2,
+    4,
+    8,
+    24
+  ],
+  "evaluation_outcomes_used": false,
+  "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+  "git_commit": "7a95551c624cf76d3a29b8bf2dc76a69dfc7b2ae",
+  "phase": 6,
+  "primary_horizon_frozen": false,
+  "schema_version": 1,
+  "source_provenance": {
+    "walk1": {
+      "candles_1h_clean_ffill1": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/candles_1h_clean_ffill1.parquet",
+        "sha256": "a2b382fb9c167f0aa91a4bb086a6b04b184716066ee6582b0a4dfaf59c977ae3"
+      },
+      "fill_manifest": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/fill_manifest.json",
+        "sha256": "a34e9bd4b073b2dc85a6b0a30721fd3e1ddb227393327c8940a0ef7210442c26"
+      },
+      "market_metadata": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/market_metadata.parquet",
+        "sha256": "57cfc19e388f892dfd55f2e9aace40655e769bcf3242843a5bfdf014cf9f9b74"
+      },
+      "phase5_bundle": {
+        "manifest_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54"
+      }
+    },
+    "walk2": {
+      "candles_1h_clean_ffill1": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/candles_1h_clean_ffill1.parquet",
+        "sha256": "023845c48a5e40ea6bee5e7bd1e17abe1dd4c9cf782505d7caee3659d284351d"
+      },
+      "fill_manifest": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/fill_manifest.json",
+        "sha256": "f3a155cba00fc7b5097074e12a6288d0dd967a3ac6856e43d47165ab2cfc036b"
+      },
+      "market_metadata": {
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/market_metadata.parquet",
+        "sha256": "ee1da1a4d3e97f103db3ed92da571a5dc3346db1fd7556a555b8aa51510508f8"
+      },
+      "phase5_bundle": {
+        "manifest_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+        "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3"
+      }
+    }
+  },
+  "stage": "A_read_only_horizon_audit",
+  "walks": [
+    {
+      "candidate_horizons_hours": [
+        2,
+        4,
+        8,
+        24
+      ],
+      "context": {
+        "activity_hours": 24,
+        "sequence_length": 64
+      },
+      "counts": {
+        "2": {
+          "evaluation": {
+            "candidate_rows": 32342,
+            "eligible_contracts": 23,
+            "eligible_rows": 29970
+          },
+          "train": {
+            "candidate_rows": 39070,
+            "eligible_contracts": 47,
+            "eligible_rows": 36985
+          }
+        },
+        "24": {
+          "evaluation": {
+            "candidate_rows": 32342,
+            "eligible_contracts": 23,
+            "eligible_rows": 23882
+          },
+          "train": {
+            "candidate_rows": 39070,
+            "eligible_contracts": 41,
+            "eligible_rows": 25685
+          }
+        },
+        "4": {
+          "evaluation": {
+            "candidate_rows": 32342,
+            "eligible_contracts": 23,
+            "eligible_rows": 29168
+          },
+          "train": {
+            "candidate_rows": 39070,
+            "eligible_contracts": 47,
+            "eligible_rows": 35256
+          }
+        },
+        "8": {
+          "evaluation": {
+            "candidate_rows": 32342,
+            "eligible_contracts": 23,
+            "eligible_rows": 27806
+          },
+          "train": {
+            "candidate_rows": 39070,
+            "eligible_contracts": 46,
+            "eligible_rows": 32470
+          }
+        }
+      },
+      "evaluation_outcome_policy": {
+        "capacity_only": true,
+        "target_values_computed_or_emitted": false,
+        "used_for_horizon_selection": false
+      },
+      "formula": "RV(t,H)=sum_{j=1..H}(p[t+j]-p[t+j-1])^2",
+      "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+      "intervals": {
+        "evaluation": {
+          "end_inclusive_for_target_maturity": "2026-06-16T00:00:00+00:00",
+          "start_inclusive": "2026-04-01T00:00:00+00:00"
+        },
+        "training": {
+          "cutoff_exclusive": "2026-04-01T00:00:00+00:00",
+          "start_inclusive": "2025-12-02T00:00:00+00:00"
+        }
+      },
+      "phase": 6,
+      "phase5_encoder_identity_replayed": true,
+      "price_change_convention": "raw bounded probability changes",
+      "primary_horizon_frozen": false,
+      "schema_version": 1,
+      "source_contract_count": 50,
+      "stage": "A_read_only_horizon_audit",
+      "supported_contract_count": 47,
+      "target_rules": {
+        "all_future_closes_exact_native_timestamps": true,
+        "all_future_closes_observed": true,
+        "future_interval": "(t,t+H]",
+        "future_update_count_used_for_eligibility": false,
+        "retrospective_end_metadata_used_for_eligibility": false,
+        "same_contract_and_gap_segment": true,
+        "zero_targets_retained": true
+      },
+      "timestamp_semantics": {
+        "availability": "date + 1h",
+        "candle": "bar_start",
+        "evaluation_target": "availability no later than evaluation end",
+        "training_target": "availability strictly before cutoff"
+      },
+      "walk": 1
+    },
+    {
+      "candidate_horizons_hours": [
+        2,
+        4,
+        8,
+        24
+      ],
+      "context": {
+        "activity_hours": 24,
+        "sequence_length": 64
+      },
+      "counts": {
+        "2": {
+          "evaluation": {
+            "candidate_rows": 16464,
+            "eligible_contracts": 27,
+            "eligible_rows": 13614
+          },
+          "train": {
+            "candidate_rows": 58473,
+            "eligible_contracts": 43,
+            "eligible_rows": 56827
+          }
+        },
+        "24": {
+          "evaluation": {
+            "candidate_rows": 16464,
+            "eligible_contracts": 23,
+            "eligible_rows": 9806
+          },
+          "train": {
+            "candidate_rows": 58473,
+            "eligible_contracts": 41,
+            "eligible_rows": 46295
+          }
+        },
+        "4": {
+          "evaluation": {
+            "candidate_rows": 16464,
+            "eligible_contracts": 26,
+            "eligible_rows": 13047
+          },
+          "train": {
+            "candidate_rows": 58473,
+            "eligible_contracts": 43,
+            "eligible_rows": 55443
+          }
+        },
+        "8": {
+          "evaluation": {
+            "candidate_rows": 16464,
+            "eligible_contracts": 25,
+            "eligible_rows": 12115
+          },
+          "train": {
+            "candidate_rows": 58473,
+            "eligible_contracts": 43,
+            "eligible_rows": 53112
+          }
+        }
+      },
+      "evaluation_outcome_policy": {
+        "capacity_only": true,
+        "target_values_computed_or_emitted": false,
+        "used_for_horizon_selection": false
+      },
+      "formula": "RV(t,H)=sum_{j=1..H}(p[t+j]-p[t+j-1])^2",
+      "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+      "intervals": {
+        "evaluation": {
+          "end_inclusive_for_target_maturity": "2026-09-01T00:00:00+00:00",
+          "start_inclusive": "2026-06-16T00:00:00+00:00"
+        },
+        "training": {
+          "cutoff_exclusive": "2026-06-16T00:00:00+00:00",
+          "start_inclusive": "2026-02-16T00:00:00+00:00"
+        }
+      },
+      "phase": 6,
+      "phase5_encoder_identity_replayed": true,
+      "price_change_convention": "raw bounded probability changes",
+      "primary_horizon_frozen": false,
+      "schema_version": 1,
+      "source_contract_count": 50,
+      "stage": "A_read_only_horizon_audit",
+      "supported_contract_count": 43,
+      "target_rules": {
+        "all_future_closes_exact_native_timestamps": true,
+        "all_future_closes_observed": true,
+        "future_interval": "(t,t+H]",
+        "future_update_count_used_for_eligibility": false,
+        "retrospective_end_metadata_used_for_eligibility": false,
+        "same_contract_and_gap_segment": true,
+        "zero_targets_retained": true
+      },
+      "timestamp_semantics": {
+        "availability": "date + 1h",
+        "candle": "bar_start",
+        "evaluation_target": "availability no later than evaluation end",
+        "training_target": "availability strictly before cutoff"
+      },
+      "walk": 2
+    }
+  ]
+}

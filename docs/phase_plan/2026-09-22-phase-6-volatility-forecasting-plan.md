@@ -2,11 +2,18 @@
 
 **Date:** 2026-09-22
 
-**Status:** Planning contract; target definition is fixed, while the forecast
-horizon and executable matrix remain gated by a training-period-only data
-audit. No Phase 6 volatility model has been implemented, trained, or evaluated.
+**Status (updated 2026-09-24):** The target definition and primary eight-hour
+horizon are frozen. The Stage A training-period-only audit is implemented,
+executed, and hash-validated for predeclared `H={2,4,8,24}` hours. It used
+evaluation rows only for capacity, replayed the Phase 5 encoder identities,
+and emitted no evaluation target values. The H=8 decision is recorded in
+`2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`. No replacement
+label bundle or Phase 6 volatility model has yet been implemented, trained, or
+evaluated.
 
 **Predecessor:** `2026-09-21-phase-5-experiment-plan.md`
+
+**Horizon amendment:** `2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`
 
 **Scope:** Phase 6 Task 1 only. The temporal-encoder-alternative study is a
 separate Phase 6 task specified in
@@ -236,8 +243,8 @@ evaluation outcomes.
 
 ### 6.1 Horizon audit
 
-The forecast horizon `H` is the only unresolved parameter in the scientific
-target. Before inspecting model performance:
+The following procedure governed the formerly unresolved forecast horizon
+`H`. Before inspecting model performance:
 
 1. predeclare a small candidate set with `H > 1h`;
 2. compute training-period target diagnostics for every candidate;
@@ -258,6 +265,10 @@ The primary horizon must:
 
 Other audited horizons remain data-characterisation evidence unless a later
 document explicitly approves a sensitivity experiment.
+
+**Gate result (2026-09-24):** Steps 1--5 are complete and `H=8h` is frozen by
+the dated horizon amendment. Stage B label construction may proceed; model
+training remains blocked by the later gates in Section 10.
 
 ### 6.2 Required target diagnostics
 
@@ -493,6 +504,9 @@ and IID significance tests are invalid. If uncertainty intervals are included,
 the resampling unit and block construction must be frozen before reporting.
 
 ## 10. Ordered implementation and execution gates
+
+Gates 1--3 are complete. Gate 4, construction and validation of the H=8 walk
+label bundles, is the current next action.
 
 1. **Complete the literature-grounded definition.** The future realised-
    variance formula and raw probability-change convention are now fixed.

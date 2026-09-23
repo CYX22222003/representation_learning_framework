@@ -64,13 +64,14 @@ validation; do not infer additional seeds or deferred attribution work.
 
 For Phase 6 status, read
 `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` and
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and
 `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in full.
 Distinguish a frozen planning contract from implementation and execution.
 Verify any claimed progress through substantive Phase 6 source/entry points,
 generated manifests, label bundles, checkpoints, predictions, and replay
 reports. Prior Phase 3 temporal classes do not prove that the Phase 6 walk-
-specific matrix exists, and historical volatility artifacts do not prove that
-the future-interval target has been built.
+specific matrix exists, and a frozen H=8 decision does not prove that the
+future-interval label bundles have been built.
 
 ## 4. Update Narrowly
 

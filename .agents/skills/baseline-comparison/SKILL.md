@@ -39,8 +39,9 @@ The historical volatility bundle at
 `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` uses the old
 four-hour shifted-window proxy and is characterization evidence only. Phase 6
 strict volatility comparisons must instead use the new walk-specific
-future-interval realized-variance bundle after its horizon is frozen under
-`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`. The Raw
+eight-hour future-interval realized-variance bundle frozen under
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+The Raw
 MLP, Raw LSTM, adapted GARCH--LSTM, canonical framework, and temporal encoder
 variants must share those exact aligned rows.
 
@@ -117,5 +118,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `scripts_v3/bootstrap_phase5_baselines.py`
 - Phase 6 future-volatility comparison contract:
   `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`
+- Phase 6 eight-hour horizon freeze:
+  `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`
 - Phase 6 temporal encoder comparison matrix:
   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`

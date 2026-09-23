@@ -12,7 +12,9 @@
 > [`phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`](phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md)
 > and
 > [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
-> They supersede conflicting Phase 6 scope statements below.
+> The primary future-realised-variance horizon is frozen to eight hours by
+> [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
+> These documents supersede conflicting Phase 6 scope statements below.
 
 ## Architecture Design
 
@@ -202,7 +204,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   trajectories are complete and replay-validated; see
   `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
-- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 strict comparison requires a new walk-specific shared bundle of realised variance over a strictly future interval of observed raw probability changes. Its primary horizon is frozen from a training-period-only audit. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, and all Phase 6 temporal configurations must consume the identical replacement rows. See `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 strict comparison requires a new walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, and all Phase 6 temporal configurations must consume the identical replacement rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.

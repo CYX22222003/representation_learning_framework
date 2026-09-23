@@ -1,10 +1,13 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-22
+**Last updated:** 2026-09-24
 
-> **Current phase:** Phase 5 seed-0 execution is complete and Phase 6 is at the
-> planning-contract stage; no Phase 6 data audit, implementation, training, or
-> evaluation has started. Phase 4 data exploration and selection concluded
+> **Current phase:** Phase 5 seed-0 execution is complete and Phase 6 has
+> completed the read-only volatility audit and H=8 horizon-freeze gates.
+> The primary volatility horizon is now frozen to eight hours. The replacement
+> label bundle, temporal-variant implementation, and every Phase 6 model run
+> remain pending. Phase 4 data
+> exploration and selection concluded
 > without model training and led to the canonical
 > [Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md). Phase 5 uses
 > the two fresh top-50 clean native one-hour walk cohorts, accepts their
@@ -29,14 +32,18 @@
 > Additional seeds and attribution tests remain pending after Phase 6;
 > multiple-seed confirmation currently has the lowest priority.
 >
-> **Phase 6 planning update:** The two task contracts are now recorded in
+> **Phase 6 update:** The two task contracts are recorded in
 > `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` and
 > `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 > The first fixes a strictly future interval realised-variance formula and a
 > data-first horizon gate. The second freezes 11 seed-0 substitution,
 > heterogeneous-addition, and duplicate-control configurations across
-> classification, future price, and the new volatility task. Phase 6 data
-> audits, implementation, training, and evaluation have not started.
+> classification, future price, and the new volatility task. The Stage A
+> volatility audit is now implemented under `src/data_processing/` and
+> `scripts_v4/` and replay-validated for `H={2,4,8,24}` hours. It used only
+> training target distributions and evaluation capacity. The dated amendment
+> freezes H=8. No replacement label bundle exists, and no Phase 6 training has
+> started.
 
 ---
 
@@ -56,6 +63,7 @@
 | Phase 5 exploratory additional regression tasks | ✅ Eight-hour raw probability change and two-hour ordinary log return are implemented and executed for both walks at seed 0. Horizon-specific maturity/gap rows, reused-or-fresh frozen features, train-only log-target scaling, reconstructed probabilities, starting-price/lifecycle/imputation breakdowns, 5/15/50 checkpoints, and CPU replay are complete. Neither target recovered stable signed correlation. |
 | Phase 5 eight-hour absolute-price probe | ✅ Two walk-specific sigmoid heads completed at seed 0 and 5/15/50 epochs. Price-level MAE remains worse than current-price persistence, but implied movement has positive pooled Spearman `0.1287` and mean cross-sectional Rank IC `0.1264`. A simple last-hour reversal score is stronger (`0.2794` pooled mean IC), so representation value is not established. |
 | Phase 5 matched raw-sequence baselines | ✅ Twelve seed-0 trajectories complete: Raw-OHLCV MLP and three-layer raw OHLCV LSTM across h2 regression, h2 classification, h8 absolute price, and both walks. All 36 checkpoints pass artifact, identity, history, and CPU prediction replay; the pooled framework comparison and plots are under `experiments/phase5/baselines/reports/baseline_matrix_seed0/`. |
+| Phase 6 future-realised-variance horizon audit | ✅ Stage A implemented and executed for `H={2,4,8,24}` with exact observed future intervals, maturity/gap/imputation diagnostics, training-only distributions/dependence/strata, evaluation capacity only, Phase 5 encoder-identity replay, plots, hashes, and validation under `experiments/phase6/volatility_prediction/data_exploration/`. H=8 is frozen by the dated amendment and replayable decision manifest. |
 | Select top-50 active contracts per timeframe (1h, 4h, 1d) | ✅ Done |
 | Causal missing-value handling | 🔄 Implemented, not run at full scale; active top-50 1h/4h/1d audit found zero missing/non-finite OHLCV cells |
 | Z-score normalise volume | 🔄 Corrected to fit the raw training prefix only; full top-50 rebuild/audit pending |
@@ -119,7 +127,7 @@
 | Probability-movement regression | ⚠️ Phase 5 seed-0 comparison complete: framework/Raw-MLP/Raw-LSTM MAE is `0.002711/0.002405/0.002406`, but all trail exact-zero MAE and all have near-zero Spearman. Raw-MLP Pearson is concentrated in a genuine extreme Walk 1 reversal rather than broad monotonic signal. Eight-hour raw change and two-hour log return also did not restore stable signed predictability. |
 | Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
 | Temporal encoder variants | ⏭️ Phase 6 plan frozen: walk-specific contrastive/BYOL LSTM and Transformer substitutions, heterogeneous additions, and duplicated-CNN width controls at seed 0; implementation and execution have not started |
-| Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | ⚠️ Historical row-aligned artifacts are preserved but use the overlapping MVP target. The Phase 6 future-interval realised-variance replacement is planned; its horizon audit, labels, and model matrix have not started. |
+| Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | ⚠️ Historical row-aligned artifacts are preserved but use the overlapping MVP target. The Phase 6 Stage A audit and H=8 freeze are complete; replacement labels, matrix freeze, and all model execution remain pending. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
@@ -163,7 +171,8 @@ entry points and all `_old` artifacts remain excluded from new execution.
 ## 2. Summary
 
 The current project state is **Phase 4 concluded; the Phase 5 seed-0 framework
-and matched learned-baseline loop is complete and replay-validated**. Phase 3 proved that raw-time-first construction,
+and matched learned-baseline loop is complete and replay-validated; Phase 6
+Stage A is complete**. Phase 3 proved that raw-time-first construction,
 training-only fitted preprocessing, isolated windows, contract-local labels,
 and artifact replay can remove the Phase 1/2 future leakage. Phase 4 then
 established that the single final-20% tail is lifecycle-biased, absolute
@@ -181,10 +190,15 @@ the eight-hour future-price task produces positive implied-movement Rank IC in
 both walks and is now the clearest regression transfer result. The framework
 has the strongest matched h2 classification macro-F1, while the raw temporal
 LSTM has the strongest h8 learned-model Rank IC (`0.2080` versus framework
-`0.1264`) and still trails last-hour reversal (`0.2794`). The immediate
-priorities are to test incremental IC beyond reversal, confirm reversal on
-fresh data, and add uncertainty through seeds or paired intervals before
-strong comparative or profitability claims.
+`0.1264`) and still trails last-hour reversal (`0.2794`). The completed
+training-only audit selected and froze the eight-hour volatility horizon. H=8
+retains 32,470/53,112 training
+rows and 27,806/12,115 evaluation-capacity rows in Walks 1/2, with training
+zero rates of 0.66%/0.43%. The immediate Phase 6 action is to build and
+independently validate the two H=8 replacement label bundles. Feature
+alignment, literature review, and model-matrix freeze follow; training remains
+blocked. Reversal confirmation and additional seeds remain deferred rather
+than being used to screen Phase 6.
 
 The targeted top-50 4-hour lifecycle audit now provides supporting evidence:
 from early to late contract thirds, exact-zero movement increased from `30.00%`
