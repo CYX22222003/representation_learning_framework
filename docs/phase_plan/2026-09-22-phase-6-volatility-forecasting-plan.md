@@ -2,14 +2,20 @@
 
 **Date:** 2026-09-22
 
-**Status (updated 2026-09-24):** The target definition and primary eight-hour
-horizon are frozen. The Stage A training-period-only audit is implemented,
-executed, and hash-validated for predeclared `H={2,4,8,24}` hours. It used
-evaluation rows only for capacity, replayed the Phase 5 encoder identities,
-and emitted no evaluation target values. The H=8 decision is recorded in
-`2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`. No replacement
-label bundle or Phase 6 volatility model has yet been implemented, trained, or
-evaluated.
+**Status (updated 2026-09-25):** Gates 1--7 are complete. Gate 8 is complete for
+the six ready neural trajectories and remains open for the temporal/control
+subset; gate 9 is therefore partial. The Stage A audit
+and H=8 decision remain frozen. Both replacement label bundles replay every
+target from source closes, and both canonical 445-dimensional feature stores
+are identity-aligned and byte-identical to their frozen Phase 5 sources. The
+paper feasibility decision and 26-entry current-round volatility matrix are
+frozen by `2026-09-25-phase-6-volatility-model-matrix-freeze.md`. CPU smoke
+tests and manifest-only bootstrap pass. H0, Raw-OHLCV MLP, and Raw LSTM are
+complete for both walks at epochs 5/15/50 with CPU prediction replay. The
+ten temporal/control configurations per walk remain pending, so the matrix
+and task are not complete. By user-directed scope amendment on 2026-09-25,
+GARCH--LSTM is deferred to a later round and is not an active or mandatory
+current-round entry.
 
 **Predecessor:** `2026-09-21-phase-5-experiment-plan.md`
 
@@ -401,7 +407,6 @@ The initial strict comparison should contain:
 | Raw-OHLCV MLP | Minimum learned raw-input reference |
 | Raw-OHLCV LSTM | Direct temporal neural benchmark |
 | Canonical five-branch framework | Frozen-representation transfer test |
-| Adapted GARCH--LSTM stack | Task-specific econometric/neural hybrid benchmark |
 
 After the target and volatility-training contract pass their independent
 gates, the canonical framework row expands into the complete 11-configuration
@@ -415,12 +420,13 @@ All learned models must be refitted independently per walk on identical
 volatility rows. Existing Phase 1/2 volatility checkpoints and predictions are
 not reusable evidence because both their source pipeline and target differ.
 
-The GARCH--LSTM implementation must be audited before reuse. GARCH state,
-scaling, caps, and forecasts must use only permitted historical changes.
-Training meta-features must be chronological out-of-fold predictions; test
-predictions must use parameters fitted only from the walk's training history.
-The stack is a complete-system comparator, not evidence about standalone GARCH
-superiority.
+The adapted GARCH--LSTM stack is deferred to the next experiment round. It is
+not an active matrix member and cannot block completion of the current round.
+Before any later reuse, its GARCH state, scaling, caps, and forecasts must be
+audited against permitted historical changes; training meta-features must be
+chronological out-of-fold predictions, and test predictions must use only the
+walk's training history. Any later stack remains a complete-system comparator,
+not evidence about standalone GARCH superiority.
 
 GINN remains limitation evidence unless a later amendment defines a corrected,
 scale-compatible adaptation. It is not a mandatory headline comparator for
@@ -505,8 +511,10 @@ the resampling unit and block construction must be frozen before reporting.
 
 ## 10. Ordered implementation and execution gates
 
-Gates 1--3 are complete. Gate 4, construction and validation of the H=8 walk
-label bundles, is the current next action.
+Gates 1--7 are complete. The ready neural subset has passed gate 8 and six
+trajectories are complete under gate 9. Gate 8 remains open for the
+temporal/control implementation, whose 20 downstream trajectories are the
+current-round next actions. GARCH--LSTM is deferred to a later round.
 
 1. **Complete the literature-grounded definition.** The future realised-
    variance formula and raw probability-change convention are now fixed.

@@ -1,0 +1,74 @@
+{
+  "checkpoint_sha256": "74f0282972d21f47fb9474689fe133af7eeb9628d1f059fa4b81e6fdcbdcf26f",
+  "elapsed_training_seconds": 19.212500729000567,
+  "epoch": 50,
+  "inference_seconds": 0.0421722520000003,
+  "mae": 0.0006274372617767119,
+  "model": "raw_ohlcv_mlp",
+  "model_metrics": {
+    "count": 27806,
+    "mae": 0.0006274372617767119,
+    "mse": 0.0006525696620020496,
+    "pearson": 0.12454980915078262,
+    "prediction_mean": 0.00012985696309853687,
+    "prediction_std": 0.00039954436745911196,
+    "rmse": 0.02554544307703528,
+    "spearman": 0.486825570225552,
+    "target_mean": 0.0006615789611895927,
+    "target_std": 0.02558659489657802
+  },
+  "mse": 0.0006525696620020496,
+  "parameter_count": 698369,
+  "peak_cuda_memory_bytes": 48073216,
+  "pearson": 0.12454980915078262,
+  "phase": 6,
+  "predictions_sha256": "53920156def3721074d9128e1a5372be45ad85661d267fb0fe495f41df5d33c9",
+  "references": {
+    "historical_persistence": {
+      "count": 27806,
+      "mae": 0.0010663083606295388,
+      "mse": 0.0012650033236422417,
+      "pearson": 0.03386143749884096,
+      "prediction_mean": 0.0006606453187383549,
+      "prediction_std": 0.025586433903998878,
+      "rmse": 0.035566885211418806,
+      "spearman": 0.5586187119239698,
+      "target_mean": 0.0006615789611895927,
+      "target_std": 0.02558659489657802
+    },
+    "training_median": {
+      "count": 27806,
+      "mae": 0.0006699484100347905,
+      "mse": 0.0006550739945437318,
+      "pearson": NaN,
+      "prediction_mean": 2.9000000000000054e-05,
+      "prediction_std": 0.0,
+      "rmse": 0.025594413346348297,
+      "spearman": NaN,
+      "target_mean": 0.0006615789611895927,
+      "target_std": 0.02558659489657802
+    },
+    "zero": {
+      "count": 27806,
+      "mae": 0.0006615789611895927,
+      "mse": 0.000655111525123481,
+      "pearson": NaN,
+      "prediction_mean": 0.0,
+      "prediction_std": 0.0,
+      "rmse": 0.025595146514983676,
+      "spearman": NaN,
+      "target_mean": 0.0006615789611895927,
+      "target_std": 0.02558659489657802
+    }
+  },
+  "rmse": 0.02554544307703528,
+  "seed": 0,
+  "spearman": 0.486825570225552,
+  "train_loss": 12.44997241792952,
+  "unit_contract": {
+    "inverse_applied": true,
+    "optimization": "10000 * raw future realised variance",
+    "reporting": "raw future realised variance"
+  },
+  "walk": 1
+}

@@ -15,6 +15,10 @@ from data_processing.phase6_volatility import (
     validate_audit_artifacts,
     write_audit_tables,
 )
+from data_processing.phase6_volatility_labels import (
+    build_volatility_label_bundle,
+    validate_volatility_label_arrays,
+)
 
 
 def _candles(*, imputed_position: int | None = None) -> pd.DataFrame:
@@ -166,6 +170,59 @@ class FutureRealisedVarianceTests(unittest.TestCase):
             self.assertFalse(result["evaluation_outcomes_used"])
             self.assertTrue((output / "report.md").is_file())
             self.assertEqual(len(list((output / "plots").glob("*.png"))), 2)
+
+
+class VolatilityLabelBundleTests(unittest.TestCase):
+    def test_h8_bundle_stores_replayable_paths_and_shared_rows(self) -> None:
+        bundle = build_volatility_label_bundle(
+            _candles(),
+            _metadata(),
+            _spec(),
+            supported_contracts={"contract-a"},
+        )
+        result = validate_volatility_label_arrays(bundle.arrays, bundle.manifest)
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["row_counts"], {"train": 8, "test": 13})
+        self.assertEqual(bundle.arrays["train_target_close_path"].shape[1], 9)
+        self.assertEqual(bundle.arrays["train_target_squared_changes"].shape[1], 8)
+        np.testing.assert_allclose(
+            bundle.arrays["train_realised_variance"],
+            bundle.arrays["train_target_squared_changes"].sum(axis=1),
+            rtol=1e-12,
+            atol=1e-15,
+        )
+        np.testing.assert_array_equal(
+            bundle.arrays["test_shared_row_indices"],
+            np.arange(len(bundle.arrays["test_realised_variance"])),
+        )
+
+    def test_h8_bundle_rejects_an_imputed_future_candle(self) -> None:
+        bundle = build_volatility_label_bundle(
+            _candles(imputed_position=75),
+            _metadata(),
+            _spec(),
+            supported_contracts={"contract-a"},
+        )
+        decision_dates = bundle.arrays["train_decision_date_ns"]
+        imputed_date = int(pd.Timestamp("2026-01-04 03:00:00+00:00").value)
+        self.assertFalse(
+            np.any(
+                (decision_dates < imputed_date)
+                & (bundle.arrays["train_target_end_ns"] >= imputed_date)
+            )
+        )
+
+    def test_validator_detects_target_component_tampering(self) -> None:
+        bundle = build_volatility_label_bundle(
+            _candles(),
+            _metadata(),
+            _spec(),
+            supported_contracts={"contract-a"},
+        )
+        arrays = {name: value.copy() for name, value in bundle.arrays.items()}
+        arrays["train_target_squared_changes"][0, 0] += 1.0
+        with self.assertRaisesRegex(ValueError, "component squared changes"):
+            validate_volatility_label_arrays(arrays, bundle.manifest)
 
 
 if __name__ == "__main__":

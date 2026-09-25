@@ -60,6 +60,7 @@ class VolatilityRegressor(nn.Module):
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.GELU(),
             nn.Linear(hidden_dim // 2, 1),
+            nn.Softplus(beta=1.0, threshold=20.0),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

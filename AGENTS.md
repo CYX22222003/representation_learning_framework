@@ -46,7 +46,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > fixed-first-walk transfer, lifecycle conditioning, and additional seeds are
 > outside that active plan. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
-> The first Phase 6 task is now planned in
+> The first Phase 6 task is active under
 > `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 > It defines the scientific target as realised variance over a strictly future
 > interval using raw probability changes. The read-only Stage A audit is
@@ -56,8 +56,16 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `experiments/phase6/volatility_prediction/data_exploration/`. It uses
 > training target diagnostics and evaluation capacity only. H=8 is now frozen
 > by `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
-> The next gate is the replacement label bundle; no Phase 6 labels or model
-> training are complete.
+> Both H=8 replacement label bundles and canonical 445-dimensional aligned
+> feature stores now pass full source/identity/hash replay. The method review,
+> fixed `10000 * RV` optimization unit, Smooth L1 loss, Softplus head, and
+> 26-entry current-round seed-0 matrix are frozen by
+> `docs/phase_plan/2026-09-25-phase-6-volatility-model-matrix-freeze.md`.
+> H0, Raw-OHLCV MLP, and Raw LSTM are complete for both walks at epochs
+> 5/15/50 and all 18 checkpoints pass CPU prediction replay. The adapted
+> ten temporal/control configurations per walk remain pending. GARCH--LSTM is
+> deferred to a later round and is not an active or mandatory current-round
+> entry; the interim report is not a model-selection result.
 > The second Phase 6 task is specified in
 > `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 > It freezes 11 seed-0 concat configurations: the canonical reference, four
@@ -196,6 +204,18 @@ canonical plan. See
 .venv/bin/python3 scripts_v4/audit_phase6_volatility.py
 .venv/bin/python3 scripts_v4/validate_phase6_volatility_audit.py
 .venv/bin/python3 scripts_v4/validate_phase6_volatility_horizon_freeze.py
+
+# Build/replay the stricter H=8 labels and identity-select frozen canonical features.
+.venv/bin/python3 scripts_v4/prepare_phase6_volatility_labels.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_labels.py
+.venv/bin/python3 scripts_v4/prepare_phase6_volatility_features.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_features.py
+
+# Freeze and CPU-smoke the 26-entry current-round matrix; training requires --execute.
+.venv/bin/python3 scripts_v4/bootstrap_phase6_volatility.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_volatility.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_runs.py
+.venv/bin/python3 scripts_v4/report_phase6_volatility.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -562,11 +582,11 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | Directory | Responsibility |
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
-| `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and the Phase 6 training-only future-realised-variance audit with activity, maturity, common-row, imputation-metadata, and replay contracts |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load; Phase 5 five-branch extraction, identity alignment, hashes, and replay validation |
+| `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; and Phase 6 identity-only alignment to frozen canonical features |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) plus Phase 5 encoder/downstream/baseline fixed-budget training, train-only scaling, metrics, artifacts, and replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows and Phase 6 fixed-contract H0/raw volatility training, nonnegative output, references, artifacts, and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
@@ -574,7 +594,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
-| `scripts_v4/` | Thin Phase 6 entry points; current scope is the no-training volatility horizon audit and validation |
+| `scripts_v4/` | Thin Phase 6 entry points for volatility audit, H=8 labels, canonical feature alignment, matrix bootstrap, ready-run execution/replay, and interim reporting |
 
 ### Key data contracts
 
@@ -647,7 +667,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker
   than a simple last-hour reversal reference.
-- Historical volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains the overlapping shifted-window proxy plus aligned train/test row indices, contract IDs, and window starts. It remains Phase 1/2 characterisation evidence only. Phase 6 must create a new walk-specific bundle for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over the strictly future interval `(t,t+8h]`, with every component close observed and consecutive. The completed Stage A audit compared `H={2,4,8,24}` using training target diagnostics and evaluation capacity only; the dated amendment now freezes H=8 but does not create labels. Raw LSTM, GARCH--LSTM stacking, the framework, and Raw-OHLCV MLP must consume identical rows from the eventual replacement bundle; see `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, and Raw LSTM consume those exact rows; temporal/control entries remain pending under the 26-entry current-round matrix, while GARCH--LSTM is deferred to a later round.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

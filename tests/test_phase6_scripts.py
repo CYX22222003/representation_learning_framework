@@ -17,6 +17,12 @@ class Phase6ScriptContractTests(unittest.TestCase):
         self.assertTrue(
             (ROOT / "scripts_v4" / "validate_phase6_volatility_horizon_freeze.py").is_file()
         )
+        self.assertTrue((ROOT / "scripts_v4" / "prepare_phase6_volatility_labels.py").is_file())
+        self.assertTrue((ROOT / "scripts_v4" / "validate_phase6_volatility_labels.py").is_file())
+        self.assertTrue((ROOT / "scripts_v4" / "prepare_phase6_volatility_features.py").is_file())
+        self.assertTrue((ROOT / "scripts_v4" / "validate_phase6_volatility_features.py").is_file())
+        self.assertTrue((ROOT / "scripts_v4" / "bootstrap_phase6_volatility.py").is_file())
+        self.assertTrue((ROOT / "scripts_v4" / "validate_phase6_volatility_runs.py").is_file())
 
     def test_audit_entry_point_does_not_import_training_or_models(self) -> None:
         path = ROOT / "scripts_v4" / "audit_phase6_volatility.py"

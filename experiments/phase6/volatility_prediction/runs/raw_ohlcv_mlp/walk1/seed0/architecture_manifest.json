@@ -1,0 +1,21 @@
+{
+  "encoder": {
+    "hidden_layers": [
+      512,
+      512,
+      256,
+      256,
+      128
+    ],
+    "type": "raw_ohlcv_mlp"
+  },
+  "head": {
+    "activation": "GELU",
+    "hidden_layers": [
+      128,
+      64
+    ],
+    "output": "Softplus(beta=1,threshold=20)"
+  },
+  "parameter_count": 698369
+}
