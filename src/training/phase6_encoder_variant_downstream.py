@@ -619,16 +619,13 @@ def validate_variant_downstream(dataset_path: Path, feature_path: Path, run_root
         model = build_head(config)
         model.load_state_dict(checkpoint["model_state_dict"], strict=True)
         replay = _predict(model, data["X_test"], config.batch_size, torch.device("cpu"))
-        replay_metrics, expected = _evaluate(config, replay, data)
-        _assert_metric_replay(metrics_payload["metrics"], replay_metrics)
         with np.load(prediction_path, allow_pickle=False) as saved:
-            if set(saved.files) != set(expected):
-                raise ValueError("variant prediction store has missing or unexpected arrays")
             output_key = {
                 "classification_h2": "logits",
                 "absolute_price_h8": "prediction_future_price",
                 "realised_variance": "prediction_scaled_squared_probability_points",
             }[config.task]
+            saved_output = np.asarray(saved[output_key])
             replay_output = (
                 replay
                 if config.task == "classification_h2"
@@ -636,9 +633,17 @@ def validate_variant_downstream(dataset_path: Path, feature_path: Path, run_root
             )
             tolerance = 2e-5
             if not np.allclose(
-                saved[output_key], replay_output, rtol=tolerance, atol=tolerance
+                saved_output, replay_output, rtol=tolerance, atol=tolerance
             ):
                 raise ValueError(f"variant prediction replay mismatch: {output_key}")
+            # Metrics are a deterministic product of the persisted predictions.
+            # Recompute them from those exact values: sub-ULP CUDA/CPU prediction
+            # differences can change ties in grouped rank statistics even when
+            # the independent prediction replay is well within tolerance.
+            replay_metrics, expected = _evaluate(config, saved_output, data)
+            _assert_metric_replay(metrics_payload["metrics"], replay_metrics)
+            if set(saved.files) != set(expected):
+                raise ValueError("variant prediction store has missing or unexpected arrays")
             exact_fields = set(IDENTITY_FIELDS)
             if config.task == "classification_h2":
                 exact_fields.add("targets")

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -32,6 +33,18 @@ from training.phase6_volatility import validate_volatility_run  # noqa: E402
 CONFIGURATIONS = tuple(CONFIG_BRANCHES)
 PHASE6_ROOT = ROOT / "experiments" / "phase6" / "encoder_variants"
 MANIFEST = PHASE6_ROOT / "manifests" / "downstream_seed0.json"
+PROJECT_PATH_FIELDS = ("run_root", "dataset_path", "feature_path")
+
+
+def manifest_for_comparison(payload: dict[str, object]) -> dict[str, object]:
+    """Normalize runtime-only and project-path fields for freeze comparison."""
+    normalized = copy.deepcopy(payload)
+    for entry in normalized["entries"]:
+        if entry["config"] is not None:
+            entry["config"]["device"] = "<runtime>"
+        for field in PROJECT_PATH_FIELDS:
+            entry[field] = entry[field].casefold()
+    return normalized
 
 
 def task_paths(task: str, walk: int) -> tuple[Path, Path]:
@@ -105,11 +118,7 @@ def main() -> int:
             raise ValueError("Phase 6 downstream matrix must contain 66 entries")
         if MANIFEST.exists():
             existing = json.loads(MANIFEST.read_text(encoding="utf-8"))
-            for payload in (existing, frozen):
-                for entry in payload["entries"]:
-                    if entry["config"] is not None:
-                        entry["config"]["device"] = "<runtime>"
-            if existing != frozen:
+            if manifest_for_comparison(existing) != manifest_for_comparison(frozen):
                 raise ValueError("existing Phase 6 downstream manifest differs from freeze")
         else:
             write_json(MANIFEST, frozen)

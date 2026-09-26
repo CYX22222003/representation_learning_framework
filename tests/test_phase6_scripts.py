@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import importlib.util
 import unittest
 from pathlib import Path
 
@@ -8,6 +9,16 @@ from data_processing.phase6_volatility import validate_horizon_freeze_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def load_downstream_bootstrap():
+    path = ROOT / "scripts_v4" / "bootstrap_phase6_encoder_variant_downstream.py"
+    spec = importlib.util.spec_from_file_location("phase6_downstream_bootstrap", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"could not load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 class Phase6ScriptContractTests(unittest.TestCase):
@@ -44,6 +55,34 @@ class Phase6ScriptContractTests(unittest.TestCase):
             source = (ROOT / "scripts_v4" / name).read_text(encoding="utf-8")
             self.assertIn('parser.add_argument("--execute", action="store_true")', source)
             self.assertIn("if args.execute:", source)
+
+    def test_downstream_manifest_comparison_is_project_path_case_insensitive(self) -> None:
+        module = load_downstream_bootstrap()
+        lower = {
+            "entries": [
+                {
+                    "config": {"device": "cpu", "epochs": 50},
+                    "run_root": "/mnt/e/project/experiments/run",
+                    "dataset_path": "/mnt/e/project/data/input.npz",
+                    "feature_path": "/mnt/e/project/data/features.npz",
+                }
+            ]
+        }
+        upper = {
+            "entries": [
+                {
+                    "config": {"device": "cuda", "epochs": 50},
+                    "run_root": "/mnt/e/PROJECT/experiments/run",
+                    "dataset_path": "/mnt/e/PROJECT/data/input.npz",
+                    "feature_path": "/mnt/e/PROJECT/data/features.npz",
+                }
+            ]
+        }
+        self.assertEqual(
+            module.manifest_for_comparison(lower),
+            module.manifest_for_comparison(upper),
+        )
+        self.assertEqual(lower["entries"][0]["config"]["device"], "cpu")
 
     def test_audit_entry_point_does_not_import_training_or_models(self) -> None:
         path = ROOT / "scripts_v4" / "audit_phase6_volatility.py"
