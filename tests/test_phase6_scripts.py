@@ -23,6 +23,27 @@ class Phase6ScriptContractTests(unittest.TestCase):
         self.assertTrue((ROOT / "scripts_v4" / "validate_phase6_volatility_features.py").is_file())
         self.assertTrue((ROOT / "scripts_v4" / "bootstrap_phase6_volatility.py").is_file())
         self.assertTrue((ROOT / "scripts_v4" / "validate_phase6_volatility_runs.py").is_file())
+        encoder_variant_scripts = (
+            "bootstrap_phase6_encoder_variants.py",
+            "validate_phase6_encoder_variants.py",
+            "prepare_phase6_encoder_variant_features.py",
+            "validate_phase6_encoder_variant_features.py",
+            "analyze_phase6_encoder_variant_cka.py",
+            "bootstrap_phase6_encoder_variant_downstream.py",
+            "validate_phase6_encoder_variant_downstream.py",
+            "report_phase6_encoder_variants.py",
+        )
+        for name in encoder_variant_scripts:
+            self.assertTrue((ROOT / "scripts_v4" / name).is_file(), name)
+
+    def test_encoder_bootstraps_are_manifest_only_without_execute(self) -> None:
+        for name in (
+            "bootstrap_phase6_encoder_variants.py",
+            "bootstrap_phase6_encoder_variant_downstream.py",
+        ):
+            source = (ROOT / "scripts_v4" / name).read_text(encoding="utf-8")
+            self.assertIn('parser.add_argument("--execute", action="store_true")', source)
+            self.assertIn("if args.execute:", source)
 
     def test_audit_entry_point_does_not_import_training_or_models(self) -> None:
         path = ROOT / "scripts_v4" / "audit_phase6_volatility.py"
