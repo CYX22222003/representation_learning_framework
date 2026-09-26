@@ -22,6 +22,7 @@ from features.phase6_encoder_variant_features import (
 from training.phase6_encoder_variant_downstream import (
     Phase6VariantDownstreamConfig,
     fit_standardizer,
+    project_paths_equal,
     run_variant_downstream,
     smoke_test_variant_downstream,
 )
@@ -83,6 +84,20 @@ class Phase6EncoderVariantInfrastructureTests(unittest.TestCase):
         second = fit_standardizer(train)
         for name in first:
             np.testing.assert_array_equal(first[name], second[name])
+
+    def test_project_path_comparison_is_case_insensitive(self) -> None:
+        self.assertTrue(
+            project_paths_equal(
+                Path("/mnt/e/school-work/project/data.npz"),
+                Path("/mnt/e/School-Work/PROJECT/data.npz"),
+            )
+        )
+        self.assertFalse(
+            project_paths_equal(
+                Path("/mnt/e/school-work/project/data.npz"),
+                Path("/mnt/e/school-work/project/other.npz"),
+            )
+        )
 
     def test_centered_linear_cka_identity(self) -> None:
         values = np.random.default_rng(7).normal(size=(32, 8))

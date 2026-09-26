@@ -38,6 +38,11 @@ EXECUTED_CONFIGURATIONS = tuple(name for name in CONFIGURATIONS if name != "H0")
 SNAPSHOT_EPOCHS = (5, 15, 50)
 
 
+def project_paths_equal(left: Path, right: Path) -> bool:
+    """Compare project paths across WSL/DrvFs casing aliases."""
+    return str(left.resolve()).casefold() == str(right.resolve()).casefold()
+
+
 @dataclass(frozen=True)
 class Phase6VariantDownstreamConfig:
     task: str
@@ -118,7 +123,7 @@ def _load_task_data(dataset_path: Path, feature_path: Path, config: Phase6Varian
     feature_manifest = json.loads(
         Path(f"{feature_path}.manifest.json").read_text(encoding="utf-8")
     )
-    if Path(feature_manifest["dataset_path"]).resolve() != dataset_path.resolve():
+    if not project_paths_equal(Path(feature_manifest["dataset_path"]), dataset_path):
         raise ValueError("variant downstream dataset path differs from feature source")
     if feature_manifest["dataset_sha256"] != sha256_file(dataset_path):
         raise ValueError("variant downstream dataset hash differs from feature source")
