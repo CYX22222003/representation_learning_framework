@@ -2,9 +2,8 @@
 
 **Date:** 2026-09-22
 
-**Status (updated 2026-09-25):** Gates 1--7 are complete. Gate 8 is complete for
-the six ready neural trajectories and remains open for the temporal/control
-subset; gate 9 is therefore partial. The Stage A audit
+**Status (updated 2026-09-26):** Gates 1--8 are complete and gate 9 is partial.
+The Stage A audit
 and H=8 decision remain frozen. Both replacement label bundles replay every
 target from source closes, and both canonical 445-dimensional feature stores
 are identity-aligned and byte-identical to their frozen Phase 5 sources. The
@@ -89,15 +88,15 @@ The target interval begins only after that availability time.
 
 Define the contract-local raw probability change in future subinterval `j` as:
 
-\[
+$$
 r^{PM}_{t+j\delta,\delta}
 =
 p_{t+j\delta}-p_{t+(j-1)\delta}.
-\]
+$$
 
 The Phase 6 target is:
 
-\[
+$$
 \boxed{
 RV^{PM}_{t,H,\delta}
 =
@@ -106,7 +105,7 @@ RV^{PM}_{t,H,\delta}
 p_{t+j\delta}-p_{t+(j-1)\delta}
 \right)^2
 }
-\]
+$$
 
 The target uses only price changes realised after the forecast origin. The
 input and target may share the boundary price `p_t`, which is known at the
@@ -114,14 +113,14 @@ decision time, but they share no close-to-close return.
 
 For example, with native hourly data and an eight-hour horizon:
 
-\[
+$$
 RV^{PM}_{t,8h,1h}
 =
 (p_{t+1}-p_t)^2
 +(p_{t+2}-p_{t+1})^2
 +\cdots+
 (p_{t+8}-p_{t+7})^2.
-\]
+$$
 
 ### 3.2 Terminology
 
@@ -511,9 +510,9 @@ the resampling unit and block construction must be frozen before reporting.
 
 ## 10. Ordered implementation and execution gates
 
-Gates 1--7 are complete. The ready neural subset has passed gate 8 and six
-trajectories are complete under gate 9. Gate 8 remains open for the
-temporal/control implementation, whose 20 downstream trajectories are the
+Gates 1--8 are complete. Six trajectories are complete under gate 9, and the
+complete temporal/control downstream manifest has passed its CPU smoke and
+row-identity freeze without training. Its 20 volatility trajectories are the
 current-round next actions. GARCH--LSTM is deferred to a later round.
 
 1. **Complete the literature-grounded definition.** The future realised-

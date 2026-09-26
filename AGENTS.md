@@ -71,8 +71,17 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > It freezes 11 seed-0 concat configurations: the canonical reference, four
 > fixed-width LSTM/Transformer substitutions, four heterogeneous additions,
 > and two duplicated-CNN width controls. All configurations are precommitted
-> to movement classification, future price, and the new volatility task once
-> its independent target gate passes. No Phase 6 variant run is complete yet.
+> to movement classification, future price, and the new volatility task. The
+> walk-aware trainers, feature construction, exact duplicate controls,
+> train-only scaling, three-task heads, checkpoint/prediction replay, CKA, and
+> complete-matrix reporting infrastructure are implemented under `src/` and
+> exposed by `scripts_v4/`; CPU integration tests pass. The seed-0 temporal
+> manifest is frozen, all eight walk-specific encoder trajectories are trained
+> and replay-validated at epochs 5/15/50, and all six task/walk master feature
+> stores pass identity, hash, width, finiteness, and exact-duplicate replay.
+> The complete 66-entry downstream manifest is frozen and replay-valid without
+> executing training. The 60 temporal/control downstream runs, CKA, and the
+> comparison report remain pending.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > The frozen feature-extraction and seed-0 framework probing contract is
@@ -216,6 +225,19 @@ canonical plan. See
 .venv/bin/python3 scripts_v4/bootstrap_phase6_volatility.py --device cuda --execute
 .venv/bin/python3 scripts_v4/validate_phase6_volatility_runs.py
 .venv/bin/python3 scripts_v4/report_phase6_volatility.py
+
+# Phase 6 temporal-encoder infrastructure. Both bootstrap commands are
+# manifest-only by default; only their explicit --execute forms train models.
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variants.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variants.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variants.py
+.venv/bin/python3 scripts_v4/prepare_phase6_encoder_variant_features.py --device cuda
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_features.py
+.venv/bin/python3 scripts_v4/analyze_phase6_encoder_variant_cka.py --device cuda
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_downstream.py
+.venv/bin/python3 scripts_v4/report_phase6_encoder_variants.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -583,18 +605,18 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; and Phase 6 identity-only alignment to frozen canonical features |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; and temporal-variant master stores with exact duplicate controls and 445/573-dimensional named configurations |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows and Phase 6 fixed-contract H0/raw volatility training, nonnegative output, references, artifacts, and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, and unexecuted walk-specific temporal SSL/three-task variant infrastructure with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
-| `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
+| `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
-| `scripts_v4/` | Thin Phase 6 entry points for volatility audit, H=8 labels, canonical feature alignment, matrix bootstrap, ready-run execution/replay, and interim reporting |
+| `scripts_v4/` | Thin Phase 6 entry points for volatility and the unexecuted temporal-encoder lifecycle: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 
 ### Key data contracts
 

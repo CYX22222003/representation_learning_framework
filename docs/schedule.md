@@ -1,10 +1,9 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-25
+**Last updated:** 2026-09-26
 
 > **Current phase:** Phase 5 seed-0 execution is complete. Phase 6 volatility
-> gates 1--7 are complete, gate 8 is complete for the ready neural subset and
-> open for the temporal/control subset, and model execution is partial. The two H=8 label
+> gates 1--8 are complete and model execution under gate 9 is partial. The two H=8 label
 > bundles and two aligned canonical feature stores replay from source; the
 > 26-entry current-round matrix is frozen. H0, Raw-OHLCV MLP, and Raw LSTM are complete for
 > both walks at epochs 5/15/50 with CPU replay. The ten temporal/control
@@ -50,6 +49,17 @@
 > complete. The interim report is under
 > `experiments/phase6/volatility_prediction/reports/initial_neural_seed0/` and
 > explicitly performs no model selection.
+> Phase 6 temporal-encoder integration is now implemented and CPU-tested:
+> eight walk-specific SSL trajectories, six task/walk master feature stores,
+> all 11 named configurations, exact duplicate controls, 60 new downstream
+> trajectories plus six immutable H0 references, CKA, replay, and reporting
+> have entry points under `scripts_v4/`. The temporal manifest is frozen; all
+> eight encoder trajectories are complete and replay-valid at epochs 5/15/50;
+> and all six epoch-50 task/walk master feature stores pass identity, hash,
+> width, finiteness, and exact-duplicate replay. The 66-entry downstream
+> manifest is frozen with six immutable H0 references and 60 required new
+> trajectories; its default action did not train. Temporal/control downstream
+> runs, CKA, and the comparison report remain pending.
 
 ---
 
@@ -133,7 +143,7 @@
 | Eight-hour absolute-price add-on | 🔄 Phase 5 recent-data probe complete: price Pearson is high (`0.9938`) but level errors trail persistence; implied-movement Rank IC is positive across both walks but weaker than last-hour reversal. This is useful state-reconstruction/ranking evidence, not a return-forecasting win. |
 | Probability-movement regression | ⚠️ Phase 5 seed-0 comparison complete: framework/Raw-MLP/Raw-LSTM MAE is `0.002711/0.002405/0.002406`, but all trail exact-zero MAE and all have near-zero Spearman. Raw-MLP Pearson is concentrated in a genuine extreme Walk 1 reversal rather than broad monotonic signal. Eight-hour raw change and two-hour log return also did not restore stable signed predictability. |
 | Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
-| Temporal encoder variants | ⏭️ Phase 6 architecture definitions and CPU shape smoke tests pass, and all 11 configurations are frozen in the volatility matrix; the eight temporal encoder trajectories, variant features, and downstream execution remain pending. |
+| Temporal encoder variants | 🔄 The encoder and 66-entry downstream manifests are frozen; all eight walk-specific SSL trajectories are trained and replay-valid at epochs 5/15/50; and all six task/walk epoch-50 master stores validate all 11 configurations, 445/573 widths, identities, hashes, finite values, and exact duplicate controls. The downstream freeze replayed six H0 references and authorized 60 new trajectories without training them. Those runs, CKA, and the complete report remain pending. |
 | Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | 🔄 Correct H=8 future realised-variance task is partially executed. H0, Raw-OHLCV MLP, and Raw LSTM are complete for both walks at 5/15/50 with exact-row and CPU replay. The active current-round matrix has 26 entries; 20 temporal/control downstream runs remain pending. Adapted GARCH--LSTM is deferred to a later round. Interim epoch-50 results are reported without selection. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
@@ -203,9 +213,13 @@ retains 32,470/53,112 training rows and 27,806/12,115 evaluation rows in Walks
 1/2, with training zero rates of 0.66%/0.43%. Labels and canonical features now
 pass full replay; the method review, loss/scaling/head, and 26-entry current-round matrix are
 frozen. Six H0/raw neural trajectories are complete at 5/15/50 with CPU replay.
-The immediate Phase 6 actions are the eight temporal encoder trajectories
-feeding 20 remaining framework runs. Adapted GARCH--LSTM is deferred to the
-next round.
+The temporal encoder manifest, eight temporal encoder trajectories, and six
+task/walk epoch-50 master feature stores are also complete and replay-valid.
+The complete 66-entry downstream manifest is now frozen and replay-valid. The
+immediate Phase 6 action is 60 new temporal/control trajectories across
+classification, future price, and volatility; the volatility slice accounts
+for 20 of them.
+Adapted GARCH--LSTM is deferred to the next round.
 Interim results cannot screen those entries. Reversal confirmation and
 additional seeds remain deferred.
 

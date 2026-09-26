@@ -2,9 +2,17 @@
 
 **Date:** 2026-09-22
 
-**Status:** Planning contract; prior model definitions and Phase 3
-characterisation artifacts exist, but no Phase 6 temporal encoder, feature
-bundle, downstream head, or comparison has been implemented or executed.
+**Status (updated 2026-09-26):** Integration infrastructure and thin
+`scripts_v4` entry points are implemented and CPU-tested for all encoder
+families, feature widths, and task heads. The seed-0 encoder manifest is
+frozen, all eight walk-specific temporal encoder trajectories are trained and
+replay-validated at epochs 5/15/50, and all six task/walk epoch-50 master
+feature stores pass identity, hash, width, finiteness, and exact-duplicate
+replay for the 11 configurations. The sibling volatility gate is complete.
+The 66-entry downstream manifest is frozen with six replayed H0 references and
+60 required new trajectories; its manifest-only freeze did not train models.
+Variant downstream trajectories, CKA, and the comparison report have not run;
+execution gate 10 is next.
 
 **Predecessors:** `2026-09-20-phase-3-experiment-plan.md` and
 `2026-09-21-phase-5-experiment-plan.md`
@@ -93,6 +101,10 @@ immutable `H0` references after their data, recipe, checkpoint, and inference
 hashes replay. Phase 3 checkpoints are not initialization inputs.
 
 ## 4. Temporal encoder contract
+
+For a code-aligned description of tensor shapes, recurrent gates, attention,
+positional encoding, SSL wrappers, and downstream readout, see
+[`../phase6_temporal_encoder_architecture.md`](../phase6_temporal_encoder_architecture.md).
 
 ### 4.1 Candidate inventory
 
@@ -291,12 +303,12 @@ Every configuration must also be evaluated on the Phase 6 future interval
 realised-variance task defined in
 `2026-09-22-phase-6-volatility-forecasting-plan.md`:
 
-\[
+$$
 RV^{PM}_{t,H,\delta}
 =
 \sum_{j=1}^{H/\delta}
 \left(p_{t+j\delta}-p_{t+(j-1)\delta}\right)^2.
-\]
+$$
 
 This part of the downstream launcher remains blocked until the sibling task:
 
@@ -321,15 +333,15 @@ The complete comparison table contains:
 11 configurations x 2 walks x 3 tasks = 66 configuration-walk-task entries
 ```
 
-Four `H0` entries already exist for Phase 5 classification and future price
-and may be reused only after complete artifact, feature, head, task-row, and
-prediction replay. Both `H0` volatility entries are new. The planned new
-downstream execution count is therefore:
+All six `H0` entries now exist: four Phase 5 classification/future-price
+references and two independently completed sibling-task volatility references.
+They may be reused only after complete artifact, feature, head, task-row, and
+prediction replay. The remaining new downstream execution count is therefore:
 
 ```text
 40 temporal/control entries for classification and future price
-+ 22 entries for future realised variance
-= 62 new downstream trajectories
++ 20 temporal/control entries for future realised variance
+= 60 new downstream trajectories
 ```
 
 ## 7. Downstream training and fairness contract
@@ -454,8 +466,8 @@ execution flag.
    widths, identities, duplicate-source hashes, and finite values.
 8. **Complete the sibling volatility gate.** Freeze `H`, labels, head, loss,
    references, and metrics before downstream comparative results are used.
-9. **Freeze the complete 66-entry downstream manifest.** Include the four
-   replayed Phase 5 `H0` references and all 62 new trajectories.
+9. **Freeze the complete 66-entry downstream manifest.** Include the six
+   replayed `H0` task/walk references and all 60 new trajectories.
 10. **Execute every downstream configuration.** Weak early results do not
     truncate the matrix.
 11. **Replay checkpoints, predictions, metrics, and identities.** Reject
@@ -499,8 +511,8 @@ The Phase 6 temporal-encoder task is complete only when:
 - all 11 feature configurations have exact declared branches and widths;
 - the volatility horizon and label contract are frozen independently of
   encoder results;
-- all 66 task/walk/configuration entries exist, including replayed `H0`
-  references and 62 new trajectories;
+- all 66 task/walk/configuration entries exist, including six replayed `H0`
+  references and 60 new trajectories;
 - every comparison uses identical rows and targets within its task and walk;
 - every prediction and metric replays from its saved checkpoint;
 - substitution and heterogeneous-addition results are reported separately

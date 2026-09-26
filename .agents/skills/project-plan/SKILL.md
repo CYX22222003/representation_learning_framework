@@ -96,9 +96,15 @@ Report:
   implementation blockers.
   Do not describe per-contract lifecycle fractions as deployment-valid folds.
 - For Phase 6, report the completed Stage A audit and frozen H=8 decision
-  separately from the unbuilt replacement label bundle, unimplemented temporal
-  variant matrix, and unrun training/evaluation trajectories. Evaluation
-  target distributions were deliberately excluded from horizon selection.
+  separately from later execution. The replacement H=8 labels and canonical
+  features are built and replay-valid. The temporal manifest, all eight
+  walk-specific temporal encoder trajectories, and all six task/walk master
+  feature stores are also complete and replay-valid. The 66-entry downstream
+  manifest is frozen with six replayed H0 references and 60 required new
+  trajectories; those trajectories, CKA, and the final comparison report
+  remain unrun.
+  Evaluation target distributions were deliberately excluded from horizon
+  selection.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.
 
