@@ -1,0 +1,3635 @@
+{
+  "cpu_smoke_test": {
+    "heads": {
+      "absolute_price_h8_445": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          1
+        ]
+      },
+      "absolute_price_h8_573": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          1
+        ]
+      },
+      "classification_h2_445": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          3
+        ]
+      },
+      "classification_h2_573": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          3
+        ]
+      },
+      "realised_variance_445": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          1
+        ]
+      },
+      "realised_variance_573": {
+        "loss_finite": true,
+        "shape": [
+          4,
+          1
+        ]
+      }
+    },
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-sl/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-sl/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-st/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-al/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-at/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-al/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-at/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-dc/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 30340,
+          "train": 37864
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-dc/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-sl/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-sl/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-st/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-al/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-at/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-al/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-at/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-dc/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13887,
+          "train": 57521
+        },
+        "target_independent": true,
+        "task": "classification_h2",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hb-dc/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-sl/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-st/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-sl/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-st/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-al/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-at/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-at/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-dc/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "feature_sha256": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-dc/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-sl/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-st/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-sl/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-st/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-al/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-at/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-at/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hc-dc/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "feature_sha256": "46f98f0febe8d8e047894150d2345f8704eb7fc547c9d79dcaeb11b59f9ce230",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-dc/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-sl/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-st/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-sl/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-st/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-at/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-al/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-at/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-dc/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "feature_sha256": "a8019085e401e4d210e12268855cde9a6d1033be6ee079f3e1833dc77702e490",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-dc/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "configuration": "H0",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-sl/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-st/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-sl/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-ST",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-ST",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-st/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-at/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AL",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AL",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-al/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AT",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AT",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-at/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-dc/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-DC",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-DC",
+      "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_training_required",
+      "feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "feature_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AL": 573,
+          "HB-AT": 573,
+          "HB-DC": 573,
+          "HB-SL": 445,
+          "HB-ST": 445,
+          "HC-AL": 573,
+          "HC-AT": 573,
+          "HC-DC": 573,
+          "HC-SL": 445,
+          "HC-ST": 445
+        },
+        "duplicates_exact": true,
+        "row_counts": {
+          "test": 12115,
+          "train": 53112
+        },
+        "target_independent": true,
+        "task": "realised_variance",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hb-dc/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "entry_count": 66,
+  "evaluation_used_to_screen_matrix": false,
+  "new_trajectory_count": 60,
+  "phase": 6,
+  "reference_entry_count": 6,
+  "schema_version": "phase6-encoder-variant-downstream-matrix-v1",
+  "seed": 0
+}

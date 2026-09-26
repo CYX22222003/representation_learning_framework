@@ -1,0 +1,266 @@
+{
+  "branch_hashes": {
+    "test": {
+      "byol": "5b6aab243cef897a3d4bdbef320eab51ddbe6638eede6c3797cdb49cb51007bb",
+      "byol_duplicate": "5b6aab243cef897a3d4bdbef320eab51ddbe6638eede6c3797cdb49cb51007bb",
+      "byol_lstm": "90a667b7426a0ddd6da6a2ea5b5bcbbf5ba8fcafd2e39c14bc664de916312683",
+      "byol_transformer": "fd38af59b4e1ad600ce7e503f4a1c76641f2c9f5c9f7653ec9a3a4d502cb6c78",
+      "contrastive": "0af74dd0d736a3273608a1f43e878a9cbe57b7c046f3383de58f125f7dd8f6ed",
+      "contrastive_duplicate": "0af74dd0d736a3273608a1f43e878a9cbe57b7c046f3383de58f125f7dd8f6ed",
+      "contrastive_lstm": "a51d18a551bdb8daa3b09c7920986a81ebd86955e70504a4155f03322166e5ce",
+      "contrastive_transformer": "ae614c4ad3f16f36c9d36f64af6566bfef2133885cb33c2145bda854f9a54155",
+      "statistical": "0ba3ea6199a591a36e650209eede16b5e0924962befdf42c67209fad51be149e",
+      "transformed": "7a0399218415650b95b5ee6edd95432b2510fe46878fa8f76f688eb9c0b83bf3",
+      "vae": "ff1500d060d308b81d7d42e4298727a6dc992d80bdfe7be358ae222ee5bc960b"
+    },
+    "train": {
+      "byol": "ecf13e27c87df66fe268402ffa9ac10327406ef52eb2f9daa07df3f5d52490f8",
+      "byol_duplicate": "ecf13e27c87df66fe268402ffa9ac10327406ef52eb2f9daa07df3f5d52490f8",
+      "byol_lstm": "14bbe110fb61298fbc4fc5ccb11d667683b23123e377bfd98eed858ea673cc74",
+      "byol_transformer": "b2a7cdc039549f5e2b90422f931dd6c04f31d77e13ba13f47594f9aec763754c",
+      "contrastive": "7823eff49b8f9af7f96c37d5db0d1040aca771af6e283dd922263dd1b32a08d4",
+      "contrastive_duplicate": "7823eff49b8f9af7f96c37d5db0d1040aca771af6e283dd922263dd1b32a08d4",
+      "contrastive_lstm": "81187ac01b6f61d8d99d8acf564f6a8b591e5ce6960cc1570b2e6632346380a8",
+      "contrastive_transformer": "5ba6f2972b4f146cb52a54a96ce827cc7e5320a85ec049460fafe47d2eefcff4",
+      "statistical": "0d60064a492547c38eecb60279eca3a52e672ab2d53c9739da14546ea4246a5a",
+      "transformed": "716f89d3234b56141751b2f1a4d8b4235af38fbb1f3e8a903a3dabd2aa923394",
+      "vae": "07dff2ce04955169c913d153e4b3f9ec2e671c609c5e5ae965bdd18534532350"
+    }
+  },
+  "checkpoint_provenance": {
+    "byol_lstm": {
+      "extraction_seconds": {
+        "test": 0.12071599000046263,
+        "train": 0.39710888099943986
+      },
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/lstm/seed0/e50/checkpoint.pth",
+      "sha256": "b3344899192c94513225926894aeb3f1ab98c50266c33ecbe744419b0a5b24fa",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "byol_lstm",
+        "walk": 2
+      }
+    },
+    "byol_transformer": {
+      "extraction_seconds": {
+        "test": 0.21679631200095173,
+        "train": 0.7422624570008338
+      },
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/transformer/seed0/e50/checkpoint.pth",
+      "sha256": "fd5949f4fda212e8f7dddcd83c7b34fe1dbea2be42db499ba2b74931539be695",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "byol_transformer",
+        "walk": 2
+      }
+    },
+    "contrastive_lstm": {
+      "extraction_seconds": {
+        "test": 0.09566178100067191,
+        "train": 0.5915043429995421
+      },
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/lstm/seed0/e50/checkpoint.pth",
+      "sha256": "6938a61d624678b5ccb1f6eee00caf243a13d8a7683bb8b38f338941978ff47d",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "contrastive_lstm",
+        "walk": 2
+      }
+    },
+    "contrastive_transformer": {
+      "extraction_seconds": {
+        "test": 0.2080629959982616,
+        "train": 0.7386991620005574
+      },
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/transformer/seed0/e50/checkpoint.pth",
+      "sha256": "3984ae24174a580845791efb69a6b7d5e599c5612d1a68c11057178cfe76c9d3",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "contrastive_transformer",
+        "walk": 2
+      }
+    }
+  },
+  "configuration_branches": {
+    "H0": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol"
+    ],
+    "HB-AL": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "byol_lstm"
+    ],
+    "HB-AT": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "byol_transformer"
+    ],
+    "HB-DC": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "byol_duplicate"
+    ],
+    "HB-SL": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol_lstm"
+    ],
+    "HB-ST": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol_transformer"
+    ],
+    "HC-AL": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "contrastive_lstm"
+    ],
+    "HC-AT": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "contrastive_transformer"
+    ],
+    "HC-DC": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "contrastive_duplicate"
+    ],
+    "HC-SL": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive_lstm",
+      "byol"
+    ],
+    "HC-ST": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive_transformer",
+      "byol"
+    ]
+  },
+  "configuration_dims": {
+    "H0": 445,
+    "HB-AL": 573,
+    "HB-AT": 573,
+    "HB-DC": 573,
+    "HB-SL": 445,
+    "HB-ST": 445,
+    "HC-AL": 573,
+    "HC-AT": 573,
+    "HC-DC": 573,
+    "HC-SL": 445,
+    "HC-ST": 445
+  },
+  "dataset_manifest_sha256": "c37187197f23f2966e51f0b7686efec96ca6b428abfc782dca8d5d1399b20b8b",
+  "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+  "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+  "duplicate_controls": {
+    "byol_duplicate": "byol",
+    "contrastive_duplicate": "contrastive",
+    "exact_array_copy_required": true
+  },
+  "encoder_dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "eccf478063af59cae3fe52aeb823dd8b72b3abd1",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "epoch": 50,
+  "feature_store_sha256": "f4d98ba3fab0b51590de70a3fde13eee96df7a8750dd459b2992a6bfa588fec7",
+  "h0_feature_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+  "h0_feature_sha256": "48cf8e76ecbdadd0972865ec483fdecd7772a1d1c79455aa56a0333991c528c0",
+  "h0_feature_validation": {
+    "all_features_byte_identical_to_frozen_source": true,
+    "concat_dim": 445,
+    "feature_bundle_sha256": "48cf8e76ecbdadd0972865ec483fdecd7772a1d1c79455aa56a0333991c528c0",
+    "target_independent": true,
+    "test_rows": 12115,
+    "train_rows": 53112,
+    "valid": true,
+    "walk": 2
+  },
+  "master_branch_dims": {
+    "byol": 128,
+    "byol_duplicate": 128,
+    "byol_lstm": 128,
+    "byol_transformer": 128,
+    "contrastive": 128,
+    "contrastive_duplicate": 128,
+    "contrastive_lstm": 128,
+    "contrastive_transformer": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "phase": 6,
+  "row_counts": {
+    "test": 12115,
+    "train": 53112
+  },
+  "schema_version": "phase6-encoder-variant-features-v1",
+  "target_independent_extraction": true,
+  "task": "realised_variance",
+  "walk": 2
+}
