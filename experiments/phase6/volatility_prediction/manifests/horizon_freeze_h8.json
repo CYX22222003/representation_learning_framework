@@ -1,0 +1,63 @@
+{
+  "approval": {
+    "approved_at_date": "2026-09-24",
+    "basis": "explicit user approval after review of the Stage A audit",
+    "evaluation_outcomes_used": false
+  },
+  "audit_evidence": {
+    "audit_git_commit": "7a95551c624cf76d3a29b8bf2dc76a69dfc7b2ae",
+    "audit_manifest_path": "experiments/phase6/volatility_prediction/data_exploration/manifest.json",
+    "audit_manifest_sha256": "8b4f7ea858ee7c0a42787e65dc780462034fa3d8c6bb66431ddea62646096376",
+    "candidate_horizons_hours": [
+      2,
+      4,
+      8,
+      24
+    ],
+    "horizon_capacity_sha256": "801e9d495c2cc11d85c9ffe66663c2f3f2f089a4b2a08144924a2a2cb5d5aa8e",
+    "target_dependence_sha256": "5c43f2c3f61024ef9335f07858fddc0426a03272af2d39eb313598f8dfb4834d",
+    "target_distribution_sha256": "71483ca8b750532c3f29b624bd40dbd6b381720d8344648a041329f9d4b5c947"
+  },
+  "decision": {
+    "formula": "RV(t,8h)=sum_{j=1..8}(p[t+j]-p[t+j-1])^2",
+    "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+    "future_interval": "(t,t+8h]",
+    "native_interval_hours": 1,
+    "primary_horizon_hours": 8,
+    "target_name": "future_realised_variance_raw_probability_h8"
+  },
+  "evidence_summary": {
+    "walk1": {
+      "evaluation_capacity_contracts": 23,
+      "evaluation_capacity_rows": 27806,
+      "historical_future_spearman": 0.860182,
+      "largest_interval_share": 0.018602,
+      "rv_lag1_pearson": 0.716747,
+      "training_contracts": 46,
+      "training_rows": 32470,
+      "training_zero_rate": 0.006591
+    },
+    "walk2": {
+      "evaluation_capacity_contracts": 25,
+      "evaluation_capacity_rows": 12115,
+      "historical_future_spearman": 0.791574,
+      "largest_interval_share": 0.026334,
+      "rv_lag1_pearson": 0.932603,
+      "training_contracts": 43,
+      "training_rows": 53112,
+      "training_zero_rate": 0.00433
+    }
+  },
+  "gate_status": {
+    "horizon_freeze_complete": true,
+    "label_bundle_authorized": true,
+    "label_bundle_complete": false,
+    "model_training_authorized": false
+  },
+  "phase": 6,
+  "schema_version": 1,
+  "supporting_amendment": {
+    "path": "docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md",
+    "sha256": "a6681fd35d12c63d430463690a92a3a0ed4f9e2e13aac0e8ad3568f19cdd2067"
+  }
+}

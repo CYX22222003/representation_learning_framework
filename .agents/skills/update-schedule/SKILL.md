@@ -58,10 +58,29 @@ For recent one-hour sample-capacity and walk-readiness claims, also inspect
 Git-ignored manifest. Do not mark the Phase 5 data contract complete merely
 because the retrospective 50-condition cohort has enough `seq64` rows.
 Distinguish concluded exploratory scope from completed model execution: Phase
-4 ran no model training. Phase 5 remains blocked until revised recent-period
-walks, the selected one-hour causal-fill builder, cutoff-local universe,
-quarantine/activity/target availability, fold-specific models, identical
-baseline rows, and replay validation are implemented.
+4 ran no model training. Phase 5 is now complete only to the extent supported
+by its saved walk bundles, checkpoints, predictions, reports, and replay
+validation; do not infer additional seeds or deferred attribution work.
+
+For Phase 6 status, read
+`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` and
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and
+`docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in full.
+Distinguish a frozen planning contract from implementation and execution.
+Verify any claimed progress through substantive Phase 6 source/entry points,
+generated manifests, label bundles, checkpoints, predictions, and replay
+reports. Prior Phase 3 temporal classes do not prove that the Phase 6 walk-
+specific matrix exists, and a frozen H=8 decision does not prove that the
+future-interval label bundles have been built.
+
+For Phase 6.5 and Phase 7 status, also read
+`docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
+`docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`,
+and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+full. The two-layer LSTM capacity matrix, strict H=8 adapted GARCH--LSTM, and
+canonical branch-ablation matrix are planned only until their own source,
+manifests, checkpoints/predictions, and replay reports exist. Phase 7B alpha
+research is deferred and has no approved execution contract.
 
 ## 4. Update Narrowly
 

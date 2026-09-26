@@ -1,0 +1,259 @@
+{
+  "cpu_smoke_test": {
+    "models": {
+      "byol_lstm": {
+        "loss_finite": true,
+        "output_shape": [
+          3,
+          128
+        ],
+        "trainable_parameter_count": 135168
+      },
+      "byol_transformer": {
+        "loss_finite": true,
+        "output_shape": [
+          3,
+          128
+        ],
+        "trainable_parameter_count": 332032
+      },
+      "contrastive_lstm": {
+        "loss_finite": true,
+        "output_shape": [
+          3,
+          128
+        ],
+        "trainable_parameter_count": 102144
+      },
+      "contrastive_transformer": {
+        "loss_finite": true,
+        "output_shape": [
+          3,
+          128
+        ],
+        "trainable_parameter_count": 299008
+      }
+    },
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "contrastive_lstm",
+        "walk": 1,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk1/contrastive/lstm/seed0",
+      "variant": "contrastive_lstm",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "contrastive_transformer",
+        "walk": 1,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk1/contrastive/transformer/seed0",
+      "variant": "contrastive_transformer",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "byol_lstm",
+        "walk": 1,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk1/byol/lstm/seed0",
+      "variant": "byol_lstm",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "byol_transformer",
+        "walk": 1,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk1/byol/transformer/seed0",
+      "variant": "byol_transformer",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "contrastive_lstm",
+        "walk": 2,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/lstm/seed0",
+      "variant": "contrastive_lstm",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "contrastive_transformer",
+        "walk": 2,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/transformer/seed0",
+      "variant": "contrastive_transformer",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "byol_lstm",
+        "walk": 2,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/lstm/seed0",
+      "variant": "byol_lstm",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "target_decay": 0.99,
+        "temperature": 0.2,
+        "variant": "byol_transformer",
+        "walk": 2,
+        "weight_decay": 0.0001
+      },
+      "dataset": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/transformer/seed0",
+      "variant": "byol_transformer",
+      "walk": 2
+    }
+  ],
+  "entry_count": 8,
+  "evaluation_values_loaded": false,
+  "schema_version": "phase6-temporal-pretraining-matrix-v1",
+  "source_datasets": {
+    "walk1": {
+      "cka_sample": {
+        "identity_sha256": "a75cbe6aae965507b11a8696742abca8f36a426cd58ebd5986f04bac35748acf",
+        "sample_size": 4096,
+        "selection": "first_rows_in_saved_encoder_train_order"
+      },
+      "manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54"
+    },
+    "walk2": {
+      "cka_sample": {
+        "identity_sha256": "7154e51d919b9ae37130ca57ad7addde7ce54331f9c48c473b7ff95d97010d6a",
+        "sample_size": 4096,
+        "selection": "first_rows_in_saved_encoder_train_order"
+      },
+      "manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+      "path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3"
+    }
+  }
+}

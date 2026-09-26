@@ -33,6 +33,12 @@ The Phase 5 walk builder is implemented in `data_processing/phase5_walks.py`.
 Its thin executables are under `scripts_v3/`, and its replayable data artifacts
 are under `experiments/phase5/data_preparation/`.
 
+The Phase 6 training-only future-realised-variance horizon audit is implemented
+in `data_processing/phase6_volatility.py`, exposed under `scripts_v4/`, and
+writes replayable diagnostics under
+`experiments/phase6/volatility_prediction/data_exploration/`. It does not build
+model labels or launch training.
+
 Baseline implementations live under `baselines/` and are kept close to the
 framework code so they can share the same processed data, target builders, and
 metrics.

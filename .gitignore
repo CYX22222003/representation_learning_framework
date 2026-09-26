@@ -66,3 +66,11 @@ experiments/phase5/features/**/.five_branch_epoch50.work/
 experiments/phase5/features/**/five_branch_epoch50.npz
 experiments/phase5/downstream_addons/shared/h8/features/**/.five_branch_epoch50.work/
 experiments/phase5/downstream_addons/shared/h8/features/**/five_branch_epoch50.npz
+
+# Phase 6 canonical volatility feature stores are reproducible from Phase 5
+# stores and exceed normal Git hosting limits; retain their manifests/hashes.
+experiments/phase6/volatility_prediction/features/**/five_branch_epoch50_h8.npz
+
+# Phase 6 temporal-variant master feature stores are reproducible from frozen
+# Phase 5 features and epoch-50 temporal checkpoints; retain their manifests.
+experiments/phase6/encoder_variants/features/**/*.npz

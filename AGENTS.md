@@ -40,9 +40,64 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > characterisation evidence and are not Phase 5 inputs.
 > Phase 5 freezes a 64-hour context, balanced two-walk schedule, shared
 > two-hour movement horizon, `tau=0.001` classification, canonical five-branch
-> concat framework, and separate weights per walk. Encoder variants, gating,
-> branch ablations, and temporal transfer move to Phase 6. See
+> concat framework, and separate weights per walk. Phase 6 now plans temporal
+> encoder substitution plus controlled heterogeneous single-branch additions
+> under concat fusion. Gating, decoder variants, branch ablations,
+> fixed-first-walk transfer, lifecycle conditioning, and additional seeds are
+> outside that active plan. See
 > `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+> The first Phase 6 task is active under
+> `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+> It defines the scientific target as realised variance over a strictly future
+> interval using raw probability changes. The read-only Stage A audit is
+> implemented in
+> `src/data_processing/phase6_volatility.py`, exposed through `scripts_v4/`,
+> and replay-validated for `H={2,4,8,24}` under
+> `experiments/phase6/volatility_prediction/data_exploration/`. It uses
+> training target diagnostics and evaluation capacity only. H=8 is now frozen
+> by `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+> Both H=8 replacement label bundles and canonical 445-dimensional aligned
+> feature stores now pass full source/identity/hash replay. The method review,
+> fixed `10000 * RV` optimization unit, Smooth L1 loss, Softplus head, and
+> 26-entry current-round seed-0 matrix are frozen by
+> `docs/phase_plan/2026-09-25-phase-6-volatility-model-matrix-freeze.md`.
+> H0, Raw-OHLCV MLP, Raw LSTM, and all ten temporal/control configurations are
+> complete for both walks at epochs 5/15/50 and pass CPU prediction replay.
+> The current-round per-walk comparison and outcome report are complete; a
+> pooled artifact for every temporal configuration remains a reporting
+> follow-up. GARCH--LSTM is
+> deferred to a later round and is not an active or mandatory current-round
+> entry; the interim report is not a model-selection result.
+> The second Phase 6 task is specified in
+> `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+> It freezes 11 seed-0 concat configurations: the canonical reference, four
+> fixed-width LSTM/Transformer substitutions, four heterogeneous additions,
+> and two duplicated-CNN width controls. All configurations are precommitted
+> to movement classification, future price, and the new volatility task. The
+> walk-aware trainers, feature construction, exact duplicate controls,
+> train-only scaling, three-task heads, checkpoint/prediction replay, CKA, and
+> complete-matrix reporting infrastructure are implemented under `src/` and
+> exposed by `scripts_v4/`; CPU integration tests pass. The seed-0 temporal
+> manifest is frozen, all eight walk-specific encoder trajectories are trained
+> and replay-validated at epochs 5/15/50, and all six task/walk master feature
+> stores pass identity, hash, width, finiteness, and exact-duplicate replay.
+> The complete 66-entry downstream matrix is executed and replay-valid: all 60
+> temporal/control runs, both linear-CKA diagnostics, resource tables, 360
+> paired differences, and the comparison report are complete. The result
+> judgement is recorded in
+> `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
+> The approved next experiment scope is split between
+> `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+> and
+> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+> Phase 6.5A freezes one seed-0 two-layer, 128-wide LSTM capacity candidate
+> under both contrastive and BYOL; Phase 6.5B separately adapts the deferred
+> GARCH--LSTM stack to the strict H=8 future-realised-variance rows with
+> chronological OOF meta-features. Phase 7A freezes canonical five-branch
+> single-branch and leave-one-branch-out probing across the three current
+> tasks. These plans are documented but not implemented or executed. Phase 7B
+> alpha research is intentionally unspecified and deferred pending further
+> literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > The frozen feature-extraction and seed-0 framework probing contract is
@@ -168,6 +223,37 @@ canonical plan. See
 .venv/bin/python3 scripts_v3/bootstrap_phase5_baselines.py --device cuda --execute
 .venv/bin/python3 scripts_v3/validate_phase5_baselines.py
 .venv/bin/python3 scripts_v3/report_phase5_baselines.py
+
+# Execute and replay-validate the Phase 6 Stage A training-only horizon audit.
+# This writes diagnostics only; it does not freeze H or launch model training.
+.venv/bin/python3 scripts_v4/audit_phase6_volatility.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_audit.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_horizon_freeze.py
+
+# Build/replay the stricter H=8 labels and identity-select frozen canonical features.
+.venv/bin/python3 scripts_v4/prepare_phase6_volatility_labels.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_labels.py
+.venv/bin/python3 scripts_v4/prepare_phase6_volatility_features.py
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_features.py
+
+# Freeze and CPU-smoke the 26-entry current-round matrix; training requires --execute.
+.venv/bin/python3 scripts_v4/bootstrap_phase6_volatility.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_volatility.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_volatility_runs.py
+.venv/bin/python3 scripts_v4/report_phase6_volatility.py
+
+# Phase 6 temporal-encoder infrastructure. Both bootstrap commands are
+# manifest-only by default; only their explicit --execute forms train models.
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variants.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variants.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variants.py
+.venv/bin/python3 scripts_v4/prepare_phase6_encoder_variant_features.py --device cuda
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_features.py
+.venv/bin/python3 scripts_v4/analyze_phase6_encoder_variant_cka.py --device cuda
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cpu
+.venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_downstream.py
+.venv/bin/python3 scripts_v4/report_phase6_encoder_variants.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -534,18 +620,19 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | Directory | Responsibility |
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
-| `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, and the Phase 5 global-calendar walk builder with activity, maturity, common-row, imputation-metadata, and replay contracts |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle` dataclass; `NpzFeatureStore` save/load; Phase 5 five-branch extraction, identity alignment, hashes, and replay validation |
+| `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; and temporal-variant master stores with exact duplicate controls and 445/573-dimensional named configurations |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loop functions (`train_vae_epoch`, `train_contrastive_epoch`, `train_byol_epoch`, Phase-2 temporal contrastive diagnostics) plus Phase 5 encoder/downstream/baseline fixed-budget training, train-only scaling, metrics, artifacts, and replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, and unexecuted walk-specific temporal SSL/three-task variant infrastructure with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
-| `src/evaluation/` | Unified metrics (`regression_metrics`, `mse_and_corr`, `classification_metrics`) |
+| `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence) |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
+| `scripts_v4/` | Thin Phase 6 entry points for volatility and the unexecuted temporal-encoder lifecycle: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 
 ### Key data contracts
 
@@ -618,7 +705,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker
   than a simple last-hour reversal reference.
-- Volatility task label `.npz`: saved under `data/task_labels/volatility_prediction/`; contains realised-volatility targets, aligned train/test row indices, contract IDs, and window starts. The Raw LSTM, GARCH--LSTM stack, framework volatility run, and Raw-OHLCV MLP volatility rerun must use this bundle for strict comparison; older MLP volatility artifacts are characterization-only.
+- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, Raw LSTM, and all temporal/control entries consume those exact rows and are complete under the 26-entry current-round matrix; GARCH--LSTM is deferred to a later round.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

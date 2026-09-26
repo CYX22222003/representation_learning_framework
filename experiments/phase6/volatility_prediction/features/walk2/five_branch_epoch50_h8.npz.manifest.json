@@ -1,0 +1,156 @@
+{
+  "branch_dims": {
+    "byol": 128,
+    "contrastive": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "branch_hashes": {
+    "test": {
+      "byol": "5b6aab243cef897a3d4bdbef320eab51ddbe6638eede6c3797cdb49cb51007bb",
+      "contrastive": "0af74dd0d736a3273608a1f43e878a9cbe57b7c046f3383de58f125f7dd8f6ed",
+      "statistical": "0ba3ea6199a591a36e650209eede16b5e0924962befdf42c67209fad51be149e",
+      "transformed": "7a0399218415650b95b5ee6edd95432b2510fe46878fa8f76f688eb9c0b83bf3",
+      "vae": "ff1500d060d308b81d7d42e4298727a6dc992d80bdfe7be358ae222ee5bc960b"
+    },
+    "train": {
+      "byol": "ecf13e27c87df66fe268402ffa9ac10327406ef52eb2f9daa07df3f5d52490f8",
+      "contrastive": "7823eff49b8f9af7f96c37d5db0d1040aca771af6e283dd922263dd1b32a08d4",
+      "statistical": "0d60064a492547c38eecb60279eca3a52e672ab2d53c9739da14546ea4246a5a",
+      "transformed": "716f89d3234b56141751b2f1a4d8b4235af38fbb1f3e8a903a3dabd2aa923394",
+      "vae": "07dff2ce04955169c913d153e4b3f9ec2e671c609c5e5ae965bdd18534532350"
+    }
+  },
+  "branch_order": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "byol"
+  ],
+  "checkpoint_provenance": {
+    "byol": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+      "sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "byol",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+        "epoch50_embedding_std": 0.7003105878829956,
+        "epoch50_train_loss": 0.051249766036083826,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "contrastive": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+      "sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "contrastive",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+        "epoch50_embedding_std": 2.9998929500579834,
+        "epoch50_train_loss": 2.2566339237648143,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    },
+    "vae": {
+      "completed_epoch": 50,
+      "path": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+      "sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+      "validation": {
+        "collapse_warning": false,
+        "encoder": "vae",
+        "epoch50_checkpoint": "experiments/phase5/encoder_pretraining/walk2/vae/seed0/e50/checkpoint.pth",
+        "epoch50_checkpoint_sha256": "df00a887c19f90cbf351ea26c99e7a14fa31f518b918fb9447ab1a1ad645734b",
+        "epoch50_embedding_std": 0.09024051576852798,
+        "epoch50_train_loss": 0.07066280411948499,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      }
+    }
+  },
+  "concat_dim": 445,
+  "feature_bundle_sha256": "48cf8e76ecbdadd0972865ec483fdecd7772a1d1c79455aa56a0333991c528c0",
+  "identity_array_hashes": {
+    "test": {
+      "condition_ids": "7d0332966c6fd14af77e54d671106b7a5c56b7a13f0eacf1920fcad672fe6398",
+      "decision_availability_ns": "e8d4bd63ca2d17d8efa5f5085d9aa7a55ff1e68a2347aa977c4e62e6f0fd9cf4",
+      "decision_date_ns": "8ee4c2263f6461d0022796ed8eede6602d9a36032c351f13727dc27e2a11df83",
+      "window_start_ns": "48edc4bc11d9eef35d71b86bb978d487ac168d53c1748af2d81ceb0b4b1370a0"
+    },
+    "train": {
+      "condition_ids": "31eade5f866f9f5bf1adb3d92e673295b31e6e04c68a775a20a686493e1d1611",
+      "decision_availability_ns": "f45343f8b41875b0bd294d243b967b110e3eadd858911450d5e37f0531a89bab",
+      "decision_date_ns": "424510cdb34ef5b8fbc6ec9ff376b3db769d3f99cb1ddd2218fe9134503ef0a7",
+      "window_start_ns": "bc96d131432d510b3a1ad2c7b8e373bf226b12c660f34a2385ea056994364809"
+    }
+  },
+  "label_bundle": {
+    "identity_hashes": {
+      "test": "ec8a0ace01b2e30f90fe66bf1074f7d8efc58ff3f1ac0d350c796055b1512090",
+      "train": "b36053b19da5ca6275658379e3bba7ae1f8f89efe31c025a12112a6179dc3175"
+    },
+    "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+    "manifest_sha256": "c37187197f23f2966e51f0b7686efec96ca6b428abfc782dca8d5d1399b20b8b",
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+    "sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63"
+  },
+  "phase": 6,
+  "phase5_dataset_source": {
+    "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+    "manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+    "sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3"
+  },
+  "phase5_feature_source": {
+    "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+    "manifest_sha256": "ee853d473d83f86390c62eb83231f4f278c452e29b29f9744ad3d99d8424da9f",
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+    "sha256": "b7148b3f058b650e7ab4132b19354346b33fa92404afce7980233b143755b86d"
+  },
+  "purpose": "canonical_five_branch_features_for_future_realised_variance",
+  "row_counts": {
+    "test": 12115,
+    "train": 53112
+  },
+  "schema_version": "phase6-volatility-feature-v1",
+  "shared_row_index_hashes": {
+    "test": "c02d66db45e38955efaefa50e68bb0ac2119ba4e5baebec2da127890b0f6779f",
+    "train": "85835882538c84ff4f16e36b1f15e8117b4a473469da69cba7db8d3f1b07a21e"
+  },
+  "source_index_hashes": {
+    "test": "453fed5cbdf46bde1e4b284d52a74bc1b930ebfa995d48cc69826934623ae9ea",
+    "train": "1ca1aedf4d949406203d68183481464d57d571fd6569aeef2031dffeea524c84"
+  },
+  "stage": "frozen_canonical_feature_alignment",
+  "target_independence": {
+    "all_aligned_contexts_byte_identical": true,
+    "encoder_weights_pretrained_on_target_free_phase5_encoder_population": true,
+    "evaluation_rows_used_to_fit_parameters": false,
+    "features_selected_by_context_identity_only": true,
+    "target_values_read_by_feature_extractor": false
+  },
+  "walk": 2
+}

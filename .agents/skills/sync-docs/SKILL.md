@@ -93,6 +93,22 @@ execution, or reporting, include
 For Phase 5 sequence length, walk capacity, contract concentration,
 imputation exposure, or selection-readiness changes, include
 `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md`.
+For the Phase 6 volatility definition, horizon audit, label eligibility,
+comparison matrix, implementation status, or result judgement, include
+`docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+For the frozen Phase 6 volatility horizon, future interval, or transition to
+label construction, also include
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+For Phase 6 temporal encoder substitution, heterogeneous additions,
+duplicate-width controls, CKA, task scope, implementation status, or result
+judgement, include
+`docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+For Phase 6.5 LSTM depth/capacity or the strict adapted GARCH--LSTM follow-up,
+include
+`docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
+For canonical single-branch or leave-one-branch-out attribution, or the
+Phase 7B deferral boundary, include
+`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 
 ## 3. Audit Repository Skills
 

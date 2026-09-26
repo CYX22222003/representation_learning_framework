@@ -6,12 +6,31 @@
 > data, tasks, assumptions, and scope, read
 > [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md)
 > first. It supersedes conflicting older Phase 5 handoff language below.
+>
+> **Phase 6 authority (2026-09-22):** For the current future-interval realised-
+> variance task and temporal encoder matrix, read
+> [`phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`](phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md)
+> and
+> [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
+> The primary future-realised-variance horizon is frozen to eight hours by
+> [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
+> The completed seed-0 matrix and its claim boundaries are interpreted in
+> [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
+> These documents supersede conflicting Phase 6 scope statements below.
+>
+> **Next-scope authority (2026-09-26):** Phase 6.5 LSTM capacity and strict
+> adapted GARCH--LSTM are frozen in
+> [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
+> Canonical single-branch and leave-one-out attribution is frozen in
+> [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> These are plans, not executed evidence. Phase 7B alpha research remains
+> unspecified pending further literature review.
 
 ## Architecture Design
 
 The proposed model processes raw OHLCV time-series data through an extensible set of named representation branches: a `statistical` branch (AR and GARCH features), a `transformed` branch (FFT and Haar wavelet features), and neural branches (`vae`, `contrastive`, and `byol`; additional unsupervised methods may be added). These representations are fused by a `RepresentationAggregator` into a unified embedding *h_i*, which is passed to lightweight MLP task heads for three downstream tasks: probability-movement regression, volatility prediction, and movement/trend classification. Absolute next-close prediction is retained as a completed negative characterisation study rather than the primary regression probe.
 
-The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Concat mode serves as the primary implementation and as an ablation comparison for gated mode. A detailed architecture diagram is provided in the Appendix.
+The aggregator supports two fusion modes. In *concat mode* (default), branches are concatenated into a single higher-dimensional vector with no learnable parameters; the task head absorbs all supervised learning. In *gated mode*, each branch is projected to a shared dimension and a gating network produces per-branch softmax weights. Gated mode remains an implemented historical comparison capability, but it is not part of the active Phase 6 matrix. A detailed architecture diagram is provided in the Appendix.
 
 ## Experiment Design
 
@@ -128,7 +147,7 @@ imputation-exposure reporting but is not an additional model channel.
   - **Variational Autoencoder (VAE)** — MLP encoder-decoder trained with β-VAE loss; encoder frozen after pretraining.
   - **Contrastive Encoder** — CNN backbone with projector head, trained via NT-Xent loss on augmented view pairs (time masking, jittering, scaling).
   - **BYOL Encoder** — CNN online/target encoder with projector and predictor heads, trained by bootstrap prediction on augmented view pairs. The target encoder is updated by exponential moving average; frozen online-backbone embeddings form the downstream branch.
-  - **Phase 2 temporal variants** — contrastive and BYOL are selected peer branches. Each has named LSTM and compact-Transformer substitutions that preserve its own SSL objective, augmentations, and projector/predictor contract and expose a 128-dimensional frozen backbone state. A primary comparison replaces exactly one corresponding CNN branch; it never adds a sixth branch or changes both neural branches together.
+  - **Phase 2 temporal variants** — contrastive and BYOL are selected peer branches. Each has named LSTM and compact-Transformer substitutions that preserve its own SSL objective, augmentations, and projector/predictor contract and expose a 128-dimensional frozen backbone state. A primary comparison replaces exactly one corresponding CNN branch; it never adds a sixth branch or changes both neural branches together. The active Phase 6 implementation is described in detail in [`phase6_temporal_encoder_architecture.md`](phase6_temporal_encoder_architecture.md).
   - **Additional methods (TBD)** — further unsupervised approaches (e.g. masked autoencoders, self-supervised Transformers) may be integrated based on the literature review. Each new method is registered as an independent branch in the aggregator.
 
 ### Training Procedure
@@ -146,9 +165,13 @@ imputation-exposure reporting but is not an additional model channel.
   frozen. The Phase 5 primary adaptive evaluation trains separate encoder
   weights per global walk.
 
-- A lifecycle-conditioned shared encoder/head or predeclared stage-specific
-  experts, encoder variants, gated fusion, and temporal-transfer comparisons
-  are deferred to Phase 6.
+- Phase 6 completed walk-specific LSTM/Transformer substitutions and
+  heterogeneous single additions under concat, with duplicated-CNN width
+  controls. Phase 6.5 plans one two-layer LSTM capacity candidate per SSL
+  family, and Phase 7A plans canonical single/leave-one-out attribution.
+  Lifecycle conditioning, stage-specific experts, gated fusion,
+  fixed-first-walk transfer, decoder variants, and additional seeds remain
+  outside these plans.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
@@ -193,7 +216,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   trajectories are complete and replay-validated; see
   `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
-- **Volatility benchmark adaptation:** The strict volatility comparison uses a shared realised-volatility label bundle. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary, stronger hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The existing Raw-OHLCV MLP volatility sweep uses a legacy merged-array target helper and is characterization-only until it is migrated to this shared bundle; the framework volatility task must also consume this bundle before any strict comparison. A framework result should therefore report its relationship to both benchmarks rather than treating the stack as evidence that standalone GARCH is superior.
+- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM stack is a planned Phase 6.5 complementary hybrid: it will fuse causal guarded GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, temporal configurations, and later stack consume the identical replacement rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
@@ -218,9 +241,11 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
     predicted-class counts, one-vs-rest ROC-AUC/PR-AUC, NLL, and multiclass
     Brier score. The Phase 2 classification focus is imbalance and collapse
     rather than confidence calibration.
-  - Comparison axes:
+  - Broad comparison axes, only when separately approved for the applicable
+    phase:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
-    - Single-branch ablations vs. full aggregated framework
+    - Canonical single-branch and leave-one-branch-out ablations vs. the full
+      aggregated framework
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
 - **Phase 2 decoder refinement:**

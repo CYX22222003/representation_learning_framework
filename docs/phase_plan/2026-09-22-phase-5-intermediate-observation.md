@@ -197,5 +197,11 @@ Before the final Phase 5 conclusion:
 5. defer representation ablations and temporal encoder variants to Phase 6 as
    planned.
 
+The later Phase 6 scope decision narrows item 5 to walk-specific temporal
+substitutions and heterogeneous additions with duplicate-width controls.
+Representation ablations and the other deferred architecture axes are not in
+the active Phase 6 plans. Item 4 is also deferred until after Phase 6 and has
+the lowest current priority.
+
 All additional-task artifacts are organized under
 `experiments/phase5/downstream_addons/`.

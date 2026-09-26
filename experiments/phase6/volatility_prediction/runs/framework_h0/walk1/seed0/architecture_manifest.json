@@ -1,0 +1,15 @@
+{
+  "encoder": {
+    "input_dim": 445,
+    "type": "frozen_five_branch_concat"
+  },
+  "head": {
+    "activation": "GELU",
+    "hidden_layers": [
+      128,
+      64
+    ],
+    "output": "Softplus(beta=1,threshold=20)"
+  },
+  "parameter_count": 65409
+}

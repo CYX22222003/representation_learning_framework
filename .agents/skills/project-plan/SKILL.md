@@ -41,6 +41,28 @@ Read these in order:
    also read `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
    For Phase 5 training-capacity or readiness claims, also read
    `docs/data_analysis/2026-09-21-phase5-findata-walk-capacity.md` in full.
+   For Phase 6 volatility planning, readiness, implementation, or execution,
+   also read
+   `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
+   The Stage A horizon audit is implemented and executed under
+   `experiments/phase6/volatility_prediction/data_exploration/` for
+   `H={2,4,8,24}` with training target diagnostics and evaluation capacity
+   only. The primary horizon is frozen to eight hours by
+   `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+   Replacement labels, aligned features, and the active current-round neural
+   matrix are complete. Read
+   `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`
+   for the result judgement and remaining reporting/confirmation boundaries.
+   For Phase 6 temporal-encoder planning, readiness, implementation, or
+   execution, also read
+   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
+   full. Existing Phase 3 model classes and artifacts are not evidence that
+   the walk-specific Phase 6 matrix has executed.
+   For the next approved scope, read
+   `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+   full. Both are planned but not implemented or executed. Phase 7B alpha
+   research is intentionally deferred pending further literature review.
 
 ## Response Contract
 
@@ -68,8 +90,9 @@ Report:
   signed correlation. The 12-run Raw-OHLCV MLP/raw LSTM baseline matrix is
   complete and replay-validated under `experiments/phase5/baselines/`; the
   framework leads h2 classification macro-F1 and the raw LSTM leads h8 price
-  error and implied-movement Rank IC. Additional seeds remain pending. Do not
-  infer universal framework superiority from the seed-0 comparison.
+  error and implied-movement Rank IC. Additional seeds are deferred until
+  after Phase 6 and currently have the lowest priority. Do not infer universal
+  framework superiority from the seed-0 comparison.
   The eight-hour absolute-price probe is also complete: it reconstructs level
   with high correlation but trails persistence on error; its implied movement
   Rank IC is positive but weaker than last-hour reversal.
@@ -80,6 +103,24 @@ Report:
   cutoff-local catalog selection and quarantine-availability replay are not
   implementation blockers.
   Do not describe per-contract lifecycle fractions as deployment-valid folds.
+- For Phase 6, report the completed Stage A audit and frozen H=8 decision
+  separately from later execution. The replacement H=8 labels and canonical
+  features are built and replay-valid. The temporal manifest, all eight
+  walk-specific temporal encoder trajectories, and all six task/walk master
+  feature stores are also complete and replay-valid. The complete 66-entry
+  downstream matrix, all 60 new trajectories, both linear-CKA diagnostics,
+  checkpoint/prediction replay, resource tables, and the per-walk comparison
+  report are complete. The temporal task supports task-specific representation
+  value but not universal encoder superiority. The volatility parent plan
+  still has pooled all-configuration reporting as a follow-up, while
+  additional seeds and GARCH--LSTM remain deferred.
+  Evaluation target distributions were deliberately excluded from horizon
+  selection.
+- For Phase 6.5 and Phase 7A, distinguish frozen plans from executed evidence:
+  the two-layer LSTM capacity matrix, strict H=8 GARCH--LSTM stack, and
+  canonical single/leave-one-out ablations have not started. Do not treat
+  legacy GARCH--LSTM artifacts or existing branch-selection utilities as
+  completion evidence.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.
 

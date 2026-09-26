@@ -1,0 +1,21 @@
+{
+  "batch_size": 512,
+  "configuration": "HB-DC",
+  "device": "cuda",
+  "epochs": 50,
+  "hidden_dim": 128,
+  "learning_rate": 0.0001,
+  "logit_adjustment_strength": 1.0,
+  "seed": 0,
+  "smooth_l1_beta": 1.0,
+  "snapshot_epochs": [
+    5,
+    15,
+    50
+  ],
+  "task": "realised_variance",
+  "volatility_gradient_clip_norm": 5.0,
+  "volatility_target_multiplier": 10000.0,
+  "walk": 2,
+  "weight_decay": 0.0
+}

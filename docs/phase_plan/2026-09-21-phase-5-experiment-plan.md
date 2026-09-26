@@ -218,9 +218,17 @@ Phase 5 uses only the canonical five representation branches:
 | Contrastive | Canonical CNN NT-Xent encoder |
 | BYOL | Canonical CNN BYOL encoder |
 
-Primary fusion is concatenation with the lightweight task head. Encoder
-variants, gated fusion, branch ablations, duplicate-width controls, temporal
-transfer, and fixed-first-walk encoder reuse are deferred to Phase 6.
+Primary fusion is concatenation with the lightweight task head. At the Phase 5
+freeze, encoder variants, gated fusion, branch ablations, duplicate-width
+controls, temporal transfer, and fixed-first-walk encoder reuse were deferred
+for later scoping.
+
+The later Phase 6 decision narrows the active encoder scope to temporal
+LSTM/Transformer substitutions and heterogeneous single additions under
+concat, with duplicated-CNN width controls. Gating, branch ablations,
+fixed-first-walk transfer, lifecycle conditioning, decoder variants, and
+additional seeds are not part of that active plan. See
+`2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 
 Walk 1 and Walk 2 use the same declared architecture, training recipe, seeds,
 and fixed budgets, but they have independently fitted weights. Each walk owns
@@ -262,9 +270,23 @@ The following are outside the frozen Phase 5 core:
   GARCH--LSTM, GINN, and framework volatility matrix; and
 - alpha-factor or trading-strategy evaluation.
 
-Encoder variants and representation ablations move to Phase 6. Volatility may
-be added only after its future, non-overlapping target and capacity are
-separately specified and approved.
+Temporal encoder substitutions and controlled heterogeneous additions move to
+Phase 6. Representation ablations and the other deferred axes above remain
+outside its active task plans. Volatility may be added only after its future,
+non-overlapping target and capacity are separately specified and approved.
+
+The successor volatility task is now specified, but not implemented or
+executed, in
+`2026-09-22-phase-6-volatility-forecasting-plan.md`. It fixes the scientific
+target as future interval realised variance from raw probability changes while
+gating the primary horizon and executable model matrix on a training-period
+data audit.
+
+The successor temporal-encoder task is now specified, but not implemented or
+executed, in `2026-09-22-phase-6-temporal-encoder-variants-plan.md`. It freezes
+four fixed-width substitutions, four heterogeneous single additions, two
+same-width duplicate controls, and the canonical reference across movement
+classification, future price, and the gated future-realised-variance task.
 
 ## 10. Phase 5 implementation gate
 

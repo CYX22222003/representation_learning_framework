@@ -18,6 +18,11 @@ Read these sections of `docs/Research_Ideas_Writeup.md`:
 5. Section 6 for the stated inspiration and motivation.
 6. For the current Phase 5 transferability and candidate-alpha interpretation,
    read `docs/phase_plan/2026-09-22-phase-5-intermediate-observation.md`.
+7. For the Phase 6 volatility rationale and target boundary, read
+   `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
+8. For the Phase 6 temporal-backbone and heterogeneous-complementarity
+   questions, read
+   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 
 ## Response Contract
 
@@ -38,6 +43,12 @@ Present the relevant parts of:
 - Last-hour reversal as a candidate empirical factor discovered in the recent
   Polymarket cohorts, not a confirmed profitable strategy or novel mining
   algorithm.
+- The Phase 6 volatility target as future interval realised variance from raw
+  probability changes, with its horizon selected from training-period data
+  diagnostics rather than model evaluation.
+- The Phase 6 encoder distinction between fixed-width backbone substitution
+  and heterogeneous feature complementarity, including duplicated-CNN width
+  controls and evaluation on classification, future price, and volatility.
 - The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

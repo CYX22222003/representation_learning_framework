@@ -77,8 +77,9 @@ Read these in order:
     The two canonical feature stores and four seed-0 framework downstream runs
     are complete and replay-validated. The 12-run Raw-OHLCV MLP/raw LSTM
     baseline pipeline is implemented under `src/training/phase5_baselines.py`
-    and `scripts_v3/`, but it has not been executed; additional seeds remain
-    later work. Read
+    and `scripts_v3/`; all runs are complete and replay-validated. Additional
+    seeds are deferred until after Phase 6 and currently have the lowest
+    priority. Read
     `docs/phase_plan/2026-09-22-phase-5-baseline-amendment.md` for its frozen
     identical-row and replay contract.
     Encoder row eligibility must remain target-free; apply future-target
@@ -88,7 +89,8 @@ Read these in order:
     `docs/phase_plan/2026-09-21-phase-5-feature-and-framework-downstream-amendment.md`.
     It freezes walk-local train-only feature standardization and the fixed
     probability-point regression unit `100 * delta`, inverted before raw-delta
-    reporting. Learned-baseline execution and additional seeds are later work.
+    reporting. Learned-baseline execution is complete; additional seeds remain
+    deferred until after Phase 6.
     The completed post-primary additional regression tasks are governed by
     `docs/phase_plan/2026-09-21-phase-5-regression-addons-amendment.md`:
     eight-hour raw change uses independently mature targets, while two-hour
@@ -104,6 +106,29 @@ Read these in order:
     Use its capacity evidence while applying the later Phase 5 decision:
     `seq64` and the balanced two-walk schedule are frozen; retrospective
     selection is accepted; `seq256` remains a later sensitivity.
+13. For Phase 6 volatility target design, horizon selection, label
+    preparation, or model comparison, read
+    `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md` in full.
+    The historical 4-hour volatility bundle is an overlapping shifted-window
+    proxy. The replacement target is realised variance over a strictly future
+    interval from observed consecutive raw probability changes. The completed
+    training-period-only audit freezes the primary horizon to eight hours in
+    `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+    The replacement label bundles must be built and validated before feature
+    alignment or any model execution.
+14. For Phase 6 temporal encoder training, feature substitution/addition,
+    duplicated-CNN width controls, or downstream comparison, read
+    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
+    full. All temporal encoders are walk-specific and target-free; all 11
+    configurations are precommitted to all three tasks, while volatility
+    execution remains blocked on item 13's target gate.
+15. For Phase 6.5 LSTM depth/capacity or strict H=8 adapted GARCH--LSTM work,
+    read
+    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+    in full. For canonical branch attribution, read
+    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+    full. Phase 7B alpha research remains deferred and has no approved
+    execution contract.
 
 ## Response Contract
 

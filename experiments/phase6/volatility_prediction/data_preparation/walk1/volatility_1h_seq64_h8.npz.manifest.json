@@ -1,0 +1,162 @@
+{
+  "activity_hours": 24,
+  "artifact": {
+    "bytes": 4674801,
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+    "sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb"
+  },
+  "comparator_alignment": {
+    "all_consume_identical_saved_rows": true,
+    "comparators": [
+      "zero_reference",
+      "training_median_reference",
+      "historical_persistence_reference",
+      "canonical_framework",
+      "raw_ohlcv_mlp",
+      "raw_lstm"
+    ],
+    "row_index_field": "shared_row_indices"
+  },
+  "configuration": {
+    "activity_hours": 24,
+    "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+    "future_candles_required_observed": true,
+    "horizon_hours": 8,
+    "native_resolution": "1h",
+    "phase": 6,
+    "price_change_convention": "raw bounded probability changes",
+    "sequence_length": 64,
+    "stage": "B_supervised_label_bundle",
+    "target_interval": "(t,t+8h]",
+    "walk": 1,
+    "zero_targets_retained": true
+  },
+  "configuration_sha256": "d50f43d9b8eaa92cf18584e4120a540def19a8ad45174d2d9056144c46aeda46",
+  "context_hashes": {
+    "test": "978a4b781e1867ef6ba38a9419e802c785523b10343c54621fbbf5a73f9242e8",
+    "train": "e9ea526fe5587710306ab089f30af498f0da082daa7f8ec583e0f010f16d22d8"
+  },
+  "context_imputation_exposure_counts": {
+    "test": 9177,
+    "train": 11718
+  },
+  "contract_counts": {
+    "test": 23,
+    "train": 46
+  },
+  "feature_columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+  ],
+  "formula": "RV(t,8h)=sum_{j=1..8}(p[t+j]-p[t+j-1])^2",
+  "formula_version": "phase6-future-realised-variance-raw-probability-v1",
+  "future_candles_required_observed": true,
+  "horizon_hours": 8,
+  "identity_hashes": {
+    "test": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+    "train": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866"
+  },
+  "intervals": {
+    "evaluation": {
+      "end_inclusive_for_target_availability": "2026-06-16T00:00:00+00:00",
+      "start_inclusive_for_decision_availability": "2026-04-01T00:00:00+00:00"
+    },
+    "training": {
+      "cutoff_exclusive_for_target_availability": "2026-04-01T00:00:00+00:00",
+      "start_inclusive": "2025-12-02T00:00:00+00:00"
+    }
+  },
+  "native_resolution": "1h",
+  "phase": 6,
+  "preprocessing": {
+    "ohlc": "unchanged",
+    "volume": {
+      "denominator": 97457.40431931993,
+      "fit_population": "unique bounded-fill candles with date >= train_start and availability < cutoff",
+      "fit_row_count": 75449,
+      "imputed_raw_value": 0.0,
+      "imputed_scaled_value": -0.14797330007971587,
+      "mean": 14421.093734332926,
+      "method": "global_walk_training_interval_volume_zscore",
+      "std": 97457.40431931993,
+      "uses_evaluation_rows": false
+    }
+  },
+  "price_change_convention": "raw bounded probability changes",
+  "purpose": "walk_specific_future_realised_variance_labels",
+  "row_counts": {
+    "test": 27806,
+    "train": 32470
+  },
+  "row_population_rules": {
+    "active_24h_at_decision": true,
+    "all_future_target_candles_observed": true,
+    "context_isolated_one_hour_imputation_permitted": true,
+    "evaluation_contract_support_source": "Phase 5 canonical supervised training contracts",
+    "exact_future_hourly_timestamps": true,
+    "future_activity_used_for_filtering": false,
+    "observed_decision_endpoint": true,
+    "retrospective_end_metadata_used_for_filtering": false,
+    "same_contract_and_gap_segment": true
+  },
+  "schema_version": 1,
+  "sequence_length": 64,
+  "shared_row_index_hashes": {
+    "test": "906437f07478dc24e02e238b01b305c5de63a775ad0065edb9439260aed67ae7",
+    "train": "4f7ee63c816664c77c5ba0c668c7868c6c9db57081f5dcb5507fac1a4a27602c"
+  },
+  "source_provenance": {
+    "candles_1h_clean_ffill1": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/candles_1h_clean_ffill1.parquet",
+      "sha256": "a2b382fb9c167f0aa91a4bb086a6b04b184716066ee6582b0a4dfaf59c977ae3"
+    },
+    "fill_manifest": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/fill_manifest.json",
+      "sha256": "a34e9bd4b073b2dc85a6b0a30721fd3e1ddb227393327c8940a0ef7210442c26"
+    },
+    "market_metadata": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/market_metadata.parquet",
+      "sha256": "57cfc19e388f892dfd55f2e9aace40655e769bcf3242843a5bfdf014cf9f9b74"
+    },
+    "phase5_bundle": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54"
+    },
+    "phase5_bundle_manifest": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+      "sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf"
+    },
+    "phase6_stage_a_capacity": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_exploration/horizon_capacity.csv",
+      "sha256": "801e9d495c2cc11d85c9ffe66663c2f3f2f089a4b2a08144924a2a2cb5d5aa8e"
+    }
+  },
+  "source_row_semantics": "zero-based row positions after canonical condition/date normalization",
+  "stage": "B_supervised_label_bundle",
+  "stage_a_eligible_rows": {
+    "test": 27806,
+    "train": 32470
+  },
+  "target_hashes": {
+    "test": "9235089c681e9d9ca815bffe764295f9ccc6206532f102a9ab17d80e651eab82",
+    "train": "a10dcc9911c44a8f2549dce705a1b2c8e2a6a1c002d4258d23c0ba6076f8e9b5"
+  },
+  "target_interval": "(t,t+8h]",
+  "timestamp_semantics": {
+    "availability": "date + 1h",
+    "candle": "bar_start",
+    "target_availability": "target_end + 1h",
+    "target_end": "t + 8h",
+    "target_first_future": "t + 1h",
+    "target_start": "forecast-origin candle timestamp t"
+  },
+  "walk": 1,
+  "zero_target_counts": {
+    "test": 111,
+    "train": 214
+  },
+  "zero_targets_retained": true
+}

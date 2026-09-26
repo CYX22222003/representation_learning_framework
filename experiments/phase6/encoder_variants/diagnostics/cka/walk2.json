@@ -1,0 +1,65 @@
+{
+  "dataset_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "2148f12f8e230fc3800da0d3835b1fa9febbfd39",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "phase": 6,
+  "purpose": "descriptive_temporal_vs_family_cnn_linear_cka",
+  "rows": [
+    {
+      "canonical_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+      "canonical_checkpoint_sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+      "cka": 0.21512084405987705,
+      "family": "contrastive",
+      "temporal_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/lstm/seed0/e50/checkpoint.pth",
+      "temporal_checkpoint_sha256": "6938a61d624678b5ccb1f6eee00caf243a13d8a7683bb8b38f338941978ff47d",
+      "variant": "contrastive_lstm",
+      "walk": 2
+    },
+    {
+      "canonical_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/contrastive/seed0/e50/checkpoint.pth",
+      "canonical_checkpoint_sha256": "eb95f41c818d6848a6476c1aca296b6c863151ae81b8e2cd0484182f4f10d503",
+      "cka": 0.20437376447490996,
+      "family": "contrastive",
+      "temporal_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/contrastive/transformer/seed0/e50/checkpoint.pth",
+      "temporal_checkpoint_sha256": "3984ae24174a580845791efb69a6b7d5e599c5612d1a68c11057178cfe76c9d3",
+      "variant": "contrastive_transformer",
+      "walk": 2
+    },
+    {
+      "canonical_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+      "canonical_checkpoint_sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+      "cka": 0.20758442865055346,
+      "family": "byol",
+      "temporal_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/lstm/seed0/e50/checkpoint.pth",
+      "temporal_checkpoint_sha256": "b3344899192c94513225926894aeb3f1ab98c50266c33ecbe744419b0a5b24fa",
+      "variant": "byol_lstm",
+      "walk": 2
+    },
+    {
+      "canonical_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/encoder_pretraining/walk2/byol/seed0/e50/checkpoint.pth",
+      "canonical_checkpoint_sha256": "9553f80de1ff836d67000b35546693cff8acaea87d5900f66aa33d289812d105",
+      "cka": 0.17086062036573457,
+      "family": "byol",
+      "temporal_checkpoint_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase6/encoder_variants/pretraining/walk2/byol/transformer/seed0/e50/checkpoint.pth",
+      "temporal_checkpoint_sha256": "fd5949f4fda212e8f7dddcd83c7b34fe1dbea2be42db499ba2b74931539be695",
+      "variant": "byol_transformer",
+      "walk": 2
+    }
+  ],
+  "sample_contract": {
+    "identity_sha256": "7154e51d919b9ae37130ca57ad7addde7ce54331f9c48c473b7ff95d97010d6a",
+    "sample_size": 4096,
+    "selection": "first_rows_in_saved_encoder_train_order"
+  },
+  "selection_or_checkpoint_choice_performed": false,
+  "walk": 2
+}

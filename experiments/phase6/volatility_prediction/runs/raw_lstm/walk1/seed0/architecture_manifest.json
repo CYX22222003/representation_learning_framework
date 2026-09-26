@@ -1,0 +1,19 @@
+{
+  "encoder": {
+    "hidden_layers": [
+      50,
+      30,
+      20
+    ],
+    "type": "raw_lstm"
+  },
+  "head": {
+    "activation": "GELU",
+    "hidden_layers": [
+      128,
+      64
+    ],
+    "output": "Softplus(beta=1,threshold=20)"
+  },
+  "parameter_count": 36409
+}

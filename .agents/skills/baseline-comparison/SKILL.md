@@ -35,7 +35,15 @@ invalid cross-contract transitions per split. Treat those as legacy
 characterisation evidence unless they are retrained on the saved bundle. See
 `docs/price_prediction_label_contract.md`.
 
-For volatility, strict comparisons must use `data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz`: Raw LSTM, GARCH--LSTM stacking, the framework volatility task, and a rerun of the Raw-OHLCV MLP must use its aligned rows. Existing Raw-OHLCV MLP volatility artifacts that use the legacy merged-array target builder are characterization evidence only.
+The historical volatility bundle at
+`data/task_labels/volatility_prediction/rv_4h_seq64_top50.npz` uses the old
+four-hour shifted-window proxy and is characterization evidence only. Phase 6
+strict volatility comparisons must instead use the new walk-specific
+eight-hour future-interval realized-variance bundle frozen under
+`docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+The Raw
+MLP, Raw LSTM, adapted GARCH--LSTM, canonical framework, and temporal encoder
+variants must share those exact aligned rows.
 
 ### 2. Define comparison levels
 
@@ -54,6 +62,23 @@ branch-aware residual MLP, gated fusion, temporal LSTM, and temporal
 Transformer. Keep the five Phase-1 branches fixed and use identical final task
 rows. Treat end-to-end task benchmarks as contextual complete-system
 comparisons rather than decoder-isolating controls.
+
+For Phase 6 temporal encoder claims, use the precommitted 11-configuration
+matrix in
+`docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+Interpret same-dimensional temporal substitutions against the canonical H0
+framework. Interpret heterogeneous additions against both H0 and the matched
+duplicate-feature controls, so evidence for new temporal information is not
+confused with evidence for a wider downstream head.
+
+For Phase 6.5, follow
+`docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`:
+compare the two-layer LSTM primarily with its same-family one-layer reference,
+and treat the GARCH--LSTM stack as a complete-system volatility comparator
+built from chronological OOF meta-features. For Phase 7A, use both the frozen
+single-branch and leave-one-branch-out comparisons in
+`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`; do not
+interpret them as parameter-matched causal feature importance.
 
 ### 3. Run matched characterization sweeps
 
@@ -100,3 +125,13 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
 - Phase 5 baseline implementation: `src/training/phase5_baselines.py`
 - Phase 5 freeze/execute entry point:
   `scripts_v3/bootstrap_phase5_baselines.py`
+- Phase 6 future-volatility comparison contract:
+  `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`
+- Phase 6 eight-hour horizon freeze:
+  `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`
+- Phase 6 temporal encoder comparison matrix:
+  `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`
+- Phase 6.5 LSTM capacity and adapted GARCH--LSTM contract:
+  `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+- Phase 7A canonical representation ablation contract:
+  `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`

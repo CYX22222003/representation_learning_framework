@@ -26,6 +26,25 @@ universal framework superiority.
 > evaluation, read
 > [`phase_plan/2026-09-21-phase-5-experiment-plan.md`](phase_plan/2026-09-21-phase-5-experiment-plan.md)
 > first; it supersedes conflicting initial statements in this document.
+>
+> **Phase 6 reading note (2026-09-22):** The active successor scope is fixed in
+> [`phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`](phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md)
+> and
+> [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
+> The primary future-realised-variance horizon is frozen to eight hours by
+> [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
+> These documents supersede older statements that moved every deferred
+> architecture axis into Phase 6.
+>
+> **Next-scope reading note (2026-09-26):** The completed Phase 6 outcome is
+> interpreted in
+> [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
+> The approved but unexecuted follow-ups are the
+> [Phase 6.5 LSTM-capacity/GARCH--LSTM plan](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md)
+> and the
+> [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> Phase 7B alpha research remains intentionally unspecified pending further
+> literature review.
 
 ## 2. Literature Review (Brief \& Informal)
 
@@ -218,7 +237,7 @@ Statistical and transformation-based features are computed directly from histori
 
 2. Train Aggregator on Downstream Tasks: 
 
-With frozen encoder weights, the `RepresentationAggregator` is trained jointly with a shallow MLP task head for each downstream task (probability-movement regression, volatility prediction, movement/trend classification). The MVP implementation uses concat aggregation first, where the task head learns from the concatenated branch representation. Gated aggregation remains the planned comparison mode, where learned softmax weights adaptively weight contributions from each branch. Each task is trained and evaluated independently, sharing the same pretrained encoder checkpoints.
+With frozen encoder weights, the `RepresentationAggregator` is trained jointly with a shallow MLP task head for each downstream task (probability-movement regression, volatility prediction, movement/trend classification). The MVP implementation uses concat aggregation first, where the task head learns from the concatenated branch representation. Gated aggregation is an implemented optional comparison mode, where learned softmax weights adaptively weight contributions from each branch, but it is not part of the active Phase 6 matrix. Each task is trained and evaluated independently, sharing the same pretrained encoder checkpoints.
 
 3. Data: 
 
@@ -245,9 +264,9 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Extensible multi-branch design**: The `RepresentationAggregator` accepts an arbitrary number of named branches via a dictionary API. Adding a new unsupervised encoder (e.g. a Transformer-based method) requires only registering a new key in `branch_dims` — no changes to the aggregator or any other component.
 
-**Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised, then fuses all branches via learned gating.
+**Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised. Concat is the canonical fusion; learned gating exists as a separate historical comparison capability.
 
-**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks within a walk. Under Phase 5, each primary global calendar walk has independently trained encoder weights from information before that walk's cutoff. First-walk encoder reuse and other temporal-transfer tests move to Phase 6. A lightweight task-specific head is trained per task.
+**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks within a walk. Under the completed Phase 5/6 contracts, each primary global calendar walk has independently trained encoder weights from information before that walk's cutoff. Fixed-first-walk reuse remains outside the approved follow-up scope. A lightweight task-specific head is trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
@@ -275,7 +294,8 @@ The evidence motivates, but does not yet prove, the need for different feature
 extractors by stage. Phase 4 therefore selected global calendar walks with
 fold-specific encoder weights for the Phase 5 evaluation, which reports
 lifecycle strata within every walk. First-walk reuse, lifecycle-conditioned
-models, and stage-specific experts are Phase 6 hypotheses.
+models, and stage-specific experts remain later hypotheses outside the
+approved Phase 6.5/7A plans.
 See the [calendar/lifecycle exploration](data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md).
 
 The original four-hour top-80 Phase 4 design was not executed. The completed
@@ -291,11 +311,13 @@ under `scripts_v3/`, and generated bundles under `experiments/phase5/`.
 
 ## 5. Evaluation
 
-The broad framework retains three downstream-task families, but the frozen
-Phase 5 core evaluates two-hour probability-movement regression and
-classification only. Volatility is deferred until a future non-overlapping
-target is specified. Every Phase 5 model uses the same predeclared global
-calendar walks and aligned rows.
+The broad framework retains three downstream-task families. Phase 5 evaluated
+movement classification/regression and the later eight-hour future-price
+probe. Phase 6 specifies and has executed volatility as realised variance over
+the strictly future eight-hour interval `(t,t+8h]`, frozen from a training-
+period-only audit.
+Every strict comparison uses the same predeclared global-calendar walks and
+aligned task rows.
 
 ### 5.1 Evaluation Paradigm
 
@@ -342,9 +364,15 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      regression; all seed-0 trajectories executed and replay-validated
 
 2. **Volatility Prediction**
-   - Metrics: MSE, Pearson correlation of predicted vs. realised volatility
+   - Target: eight-hour future interval realised variance from observed raw
+     probability changes, `sum_{j=1..8} (p[t+j] - p[t+j-1])^2`; no square
+     root, annualisation, or shifted trailing window
+   - Metrics: MAE, RMSE/MSE, Pearson and Spearman correlation
+   - Required references: zero variance, a training-only location constant,
+     and trailing historical realised-variance persistence
    - External benchmarks: Raw LSTM volatility (direct end-to-end neural reference); adapted GARCH--LSTM stacking (a complementary hybrid benchmark using causal guarded GARCH, the Raw LSTM forecasts, and fixed ElasticNet meta-features `[g, l, g*l]`); GINN retained as documented limitation evidence. The stack evaluates the complete hybrid, not standalone GARCH superiority.
-   - Internal baselines: Raw-OHLCV MLP, single-branch ablations
+   - Internal baseline: Raw-OHLCV MLP; the canonical framework and every
+     Phase 6 temporal substitution/addition/control use identical rows
 
 3. **Trend Classification**
    - Metrics: Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, and one-vs-rest ROC-AUC/PR-AUC; NLL and multiclass Brier score are compact score-quality diagnostics rather than a calibration research track
