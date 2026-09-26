@@ -122,6 +122,13 @@ Read these in order:
     full. All temporal encoders are walk-specific and target-free; all 11
     configurations are precommitted to all three tasks, while volatility
     execution remains blocked on item 13's target gate.
+15. For Phase 6.5 LSTM depth/capacity or strict H=8 adapted GARCH--LSTM work,
+    read
+    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+    in full. For canonical branch attribution, read
+    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+    full. Phase 7B alpha research remains deferred and has no approved
+    execution contract.
 
 ## Response Contract
 

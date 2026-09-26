@@ -17,6 +17,14 @@
 > The completed seed-0 matrix and its claim boundaries are interpreted in
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
+>
+> **Next-scope authority (2026-09-26):** Phase 6.5 LSTM capacity and strict
+> adapted GARCH--LSTM are frozen in
+> [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
+> Canonical single-branch and leave-one-out attribution is frozen in
+> [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> These are plans, not executed evidence. Phase 7B alpha research remains
+> unspecified pending further literature review.
 
 ## Architecture Design
 
@@ -157,11 +165,13 @@ imputation-exposure reporting but is not an additional model channel.
   frozen. The Phase 5 primary adaptive evaluation trains separate encoder
   weights per global walk.
 
-- Phase 6 actively tests walk-specific LSTM/Transformer substitutions and
+- Phase 6 completed walk-specific LSTM/Transformer substitutions and
   heterogeneous single additions under concat, with duplicated-CNN width
-  controls. Lifecycle conditioning, stage-specific experts, gated fusion,
-  fixed-first-walk transfer, branch ablations, decoder variants, and
-  additional seeds remain outside the active plan.
+  controls. Phase 6.5 plans one two-layer LSTM capacity candidate per SSL
+  family, and Phase 7A plans canonical single/leave-one-out attribution.
+  Lifecycle conditioning, stage-specific experts, gated fusion,
+  fixed-first-walk transfer, decoder variants, and additional seeds remain
+  outside these plans.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
@@ -206,7 +216,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   trajectories are complete and replay-validated; see
   `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
-- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 strict comparison requires a new walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The adapted GARCH--LSTM stack is a complementary hybrid benchmark: it fuses causal guarded GARCH forecasts with the same Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, and all Phase 6 temporal configurations must consume the identical replacement rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
+- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM stack is a planned Phase 6.5 complementary hybrid: it will fuse causal guarded GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, temporal configurations, and later stack consume the identical replacement rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.
@@ -234,7 +244,8 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   - Broad comparison axes, only when separately approved for the applicable
     phase:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
-    - Single-branch ablations vs. full aggregated framework
+    - Canonical single-branch and leave-one-branch-out ablations vs. the full
+      aggregated framework
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
 - **Phase 2 decoder refinement:**

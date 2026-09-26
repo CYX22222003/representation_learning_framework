@@ -2,14 +2,21 @@
 
 **Last updated:** 2026-09-26
 
-> **Current phase:** Phase 5 seed-0 execution is complete. The Phase 6
+> **Current phase:** Phase 6 is complete for its frozen seed-0 scope; Phase 6.5
+> and Phase 7A are documented next-stage plans. Phase 5 seed-0 execution is
+> complete. The Phase 6
 > temporal-encoder seed-0 task and all 26 active current-round volatility
 > trajectories are complete and replay-validated. The two H=8 label bundles,
 > aligned feature stores, 66-entry encoder-variant downstream matrix, linear-
 > CKA diagnostics, resource tables, per-walk report, and observation document
 > are complete. Pooled reporting across every temporal volatility
 > configuration remains a narrow reporting follow-up. Adapted GARCH--LSTM is
-> deferred to a later round and does not block the current round. Phase 4 data
+> now assigned to the documented Phase 6.5 follow-up and does not block the
+> completed Phase 6 round. Phase 6.5 also freezes a seed-0 two-layer LSTM
+> capacity probe, while Phase 7A freezes canonical single-branch and
+> leave-one-branch-out ablations. Neither plan is implemented or executed yet.
+> Phase 7B alpha research is intentionally deferred pending further literature
+> review and has no approved execution contract. Phase 4 data
 > exploration and selection concluded
 > without model training and led to the canonical
 > [Phase 5 plan](phase_plan/2026-09-21-phase-5-experiment-plan.md). Phase 5 uses
@@ -62,6 +69,10 @@
 > All entries replay at epochs 5/15/50; the CKA and complete per-walk report are
 > under `experiments/phase6/encoder_variants/`. Interpretation is recorded in
 > `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
+> The approved follow-ups are
+> `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+> and
+> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 
 ---
 
@@ -129,11 +140,11 @@
 | Task | Status |
 |---|---|
 | Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs. The volatility sweep predates the shared contract-aware label bundle and is characterization-only pending a strict rerun. |
-| Statistical-only ablation | ⬜ Not started |
-| Transformation-only ablation | ⬜ Not started |
-| VAE-only ablation | ⬜ Not started |
-| Contrastive-only ablation | ⬜ Not started |
-| BYOL-only ablation | ⬜ Not started |
+| Statistical-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
+| Transformation-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
+| VAE-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
+| Contrastive-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
+| BYOL-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
 | Additional neural encoder ablations (per TBD methods) | ⬜ TBD |
 | Additional internal baselines (TBD) | ⬜ TBD |
 
@@ -146,14 +157,16 @@
 | Probability-movement regression | ⚠️ Phase 5 seed-0 comparison complete: framework/Raw-MLP/Raw-LSTM MAE is `0.002711/0.002405/0.002406`, but all trail exact-zero MAE and all have near-zero Spearman. Raw-MLP Pearson is concentrated in a genuine extreme Walk 1 reversal rather than broad monotonic signal. Eight-hour raw change and two-hour log return also did not restore stable signed predictability. |
 | Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
 | Temporal encoder variants | ✅ Frozen seed-0 scope complete: eight walk-specific SSL trajectories, six master stores, all 11 configurations, six H0 references, 60 new downstream trajectories, 5/15/50 replay, linear CKA, resources, duplicate controls, 360 paired differences, and the valid 66-entry per-walk report are complete. Results support task-specific representation value, not universal encoder superiority. |
+| Phase 6.5A LSTM capacity follow-up | 📝 Plan frozen; implementation/execution not started. One two-layer, 128-wide candidate is precommitted under contrastive and BYOL at seed 0, with 24 downstream trajectories and deep-versus-shallow comparisons. |
 | Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | 🔄 All 26 active current-round H=8 neural trajectories are complete and replay-valid. Per-walk temporal/raw comparisons and the outcome document are complete; pooled aggregation for every temporal configuration remains a reporting follow-up. Adapted GARCH--LSTM is deferred to a later round. |
+| Phase 6.5B strict H=8 adapted GARCH--LSTM | 📝 Plan frozen; implementation/execution not started. It requires raw-change GARCH forecasts, five chronological expanding OOF folds, matched Raw-LSTM predictions, and train-OOF-only ElasticNet stacking on the exact Phase 6 rows. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
 | Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
-| Ablation study (per-branch contribution) | ⬜ Not started |
-| Additional alpha-research capability (OOF downstream predictions → shallow symbolic factors) | 🔄 Train-only raw-OHLCV Alpha101-style and bounded GP dry runs are archived under `experiments_old/alpha/raw_ohlcv_4h_top50_dry_run/` and `experiments_old/alpha/raw_gp_4h_top50_dry_run/`; the 20-coordinate direct-representation run found no useful confirmation signal, while the exhaustive 445-coordinate + OHLCV GP run found only weak mixed signal under `experiments_old/alpha/representation_ohlcv_gp_4h_top50_all_features/`; downstream-head OOF symbolic mining and a fresh-holdout evaluation remain unrun |
+| Phase 7A ablation study (per-branch contribution) | 📝 Plan frozen; implementation/execution not started. The seed-0 matrix contains five canonical single-branch and five leave-one-branch-out configurations across both walks and all three current tasks. |
+| Phase 7B alpha research | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. Earlier raw-OHLCV and direct-representation GP dry runs remain exploratory implementation evidence only. |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 Canonical Phase 2 scope is maintained in

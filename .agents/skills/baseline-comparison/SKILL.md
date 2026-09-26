@@ -71,6 +71,15 @@ framework. Interpret heterogeneous additions against both H0 and the matched
 duplicate-feature controls, so evidence for new temporal information is not
 confused with evidence for a wider downstream head.
 
+For Phase 6.5, follow
+`docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`:
+compare the two-layer LSTM primarily with its same-family one-layer reference,
+and treat the GARCH--LSTM stack as a complete-system volatility comparator
+built from chronological OOF meta-features. For Phase 7A, use both the frozen
+single-branch and leave-one-branch-out comparisons in
+`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`; do not
+interpret them as parameter-matched causal feature importance.
+
 ### 3. Run matched characterization sweeps
 
 Use the same predeclared budgets for every model, such as `15,50,100`. Train from the same seed and report every budget. Do not call the lowest test error the selected model when the budget was chosen after reading test results. For a single final operating point, choose the budget from a training-only rule or commit to it before evaluation.
@@ -122,3 +131,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`
 - Phase 6 temporal encoder comparison matrix:
   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`
+- Phase 6.5 LSTM capacity and adapted GARCH--LSTM contract:
+  `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+- Phase 7A canonical representation ablation contract:
+  `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`

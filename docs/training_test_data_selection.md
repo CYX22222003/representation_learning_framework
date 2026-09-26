@@ -126,6 +126,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase-6 contrastive LSTM/Transformer variants | each walk's target-free encoder rows and the fixed NT-Xent protocol used by that walk's CNN reference | frozen inference on aligned task rows only after the candidate matrix is frozen |
 | Phase-6 BYOL LSTM/Transformer variants | each walk's target-free encoder rows; each temporal variant retains the CNN BYOL reference's fixed online/EMA-target protocol | frozen inference on aligned task rows only after the candidate matrix is frozen |
 | Phase-6 heterogeneous additions and duplicate controls | no encoder fitting beyond the named frozen branches; concatenate one temporal branch or one exact CNN duplicate | task heads train on task-training rows and evaluate on identical task/walk rows |
+| Phase-6.5 two-layer LSTM capacity variants | each walk's unchanged target-free encoder rows under the frozen Phase-6 SSL recipe, seed 0 only | frozen inference followed by task-training-only scalers/heads on the exact three Phase-6 task row sets |
 | Additional neural encoders (TBD) | train data | — (frozen after pretraining) |
 | Statistical features | *(deterministic — no fitting)* | — |
 | Transformation features | *(deterministic — no fitting)* | — |
@@ -134,21 +135,21 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase 2 temporal decoders | `K=8` contract-local sequences of frozen train embeddings; scalers and decoder parameters use training rows only | identically constructed contract-local test embedding sequences with frozen scalers/decoders |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
 | Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
-| GARCH--LSTM stacking volatility benchmark | train-only expanding OOF base predictions for fixed ElasticNet meta-features; GARCH fit/scaling/caps use allowed training prefixes only | locked test rows using reused Raw LSTM test predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
+| Phase-6.5 GARCH--LSTM stacking volatility benchmark | five-fold chronological expanding OOF base predictions on each walk's strict H=8 training rows; GARCH fit/scaling/caps and meta scaling/ElasticNet use permitted training information only | the identical locked Phase-6 H=8 evaluation rows using replayed Raw LSTM predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
 | TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
-| Single-branch ablations | train feature bundles (fixed-epoch) | test feature bundles |
+| Phase-7A canonical single/leave-one-out ablations | no encoder fitting; select exact canonical branch coordinates, then fit per-configuration scalers and fixed-epoch task heads on task-training rows only | identical task/walk evaluation rows with frozen scalers/heads; all configurations reported without evaluation-driven selection |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
 | Direct-representation GP exploration | saved Phase-1 feature rows aligned back to original train-only contract timestamps; a fixed coordinate lattice is standardized on discovery only, then GP fit/selection occurs only on discovery | chronological confirmation only; no global-test use and no interpretation as a tradeable or economically named factor |
 | Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
-| Future additional symbolic alpha mining (outside current budget) | chronological OOF predictions from downstream heads on aligned training rows; GP fits/selects formulas only on those rows | requires a fresh, still-unseen holdout or temporally later data once the current test split has been used for task evaluation |
+| Potential Phase-7B symbolic alpha research | intentionally unspecified pending literature review; any later plan must freeze its training/OOF allocation before execution | no active evaluation allocation or profitable-alpha claim is currently approved |
 
 Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
 split. Phase 5 instead rebuilds these allocations per global calendar walk.
 Every primary walk uses a separately trained encoder and downstream head from
 the same causally permitted history, then freezes both before its next-interval
-evaluation. The active Phase 6 encoder plan retains walk-specific fitting and
-does not include a fixed-first-walk transfer ablation.
+evaluation. The completed Phase 6 and planned Phase 6.5/7A contracts retain
+walk-specific fitting and do not include a fixed-first-walk transfer ablation.
 There is no per-component validation split.
 
 ---

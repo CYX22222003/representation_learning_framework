@@ -73,6 +73,15 @@ reports. Prior Phase 3 temporal classes do not prove that the Phase 6 walk-
 specific matrix exists, and a frozen H=8 decision does not prove that the
 future-interval label bundles have been built.
 
+For Phase 6.5 and Phase 7 status, also read
+`docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
+`docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`,
+and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+full. The two-layer LSTM capacity matrix, strict H=8 adapted GARCH--LSTM, and
+canonical branch-ablation matrix are planned only until their own source,
+manifests, checkpoints/predictions, and replay reports exist. Phase 7B alpha
+research is deferred and has no approved execution contract.
+
 ## 4. Update Narrowly
 
 Apply only evidence-supported changes:

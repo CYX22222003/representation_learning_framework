@@ -131,11 +131,17 @@ Phase 6 tests walk-specific contrastive and BYOL LSTM/Transformer backbones as
 fixed-width substitutions and as heterogeneous single additions under concat.
 Same-width duplicated-CNN features control for the wider downstream head.
 Movement classification, future price, and the independently frozen future-
-realised-variance task form the downstream matrix. Fixed-first-walk reuse,
+realised-variance task form the downstream matrix. That seed-0 matrix is now
+complete. Phase 6.5 separately precommits one two-layer, 128-wide LSTM
+capacity candidate under both SSL families and a strict H=8 adapted
+GARCH--LSTM benchmark. Phase 7A then tests the canonical five branches through
+single-branch and leave-one-branch-out probes. Fixed-first-walk reuse,
 lifecycle-conditioned models, stage-specific experts, gating, decoder
-variants, branch ablations, and additional seeds remain outside the active
-Phase 6 plans. See
+variants, and additional seeds remain outside these active follow-ups. See
 `phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+The follow-up contracts are
+`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
+`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 Representation drift alone is not evidence that a different architecture is
 needed in each lifecycle stage.
 
@@ -180,24 +186,31 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
-- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is planned but unexecuted. Causal guarded GARCH forecasts and Raw LSTM forecasts will be fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. The paper reports random majority-`HOLD` undersampling, while the existing repository v1 sweep used natural sampling and is therefore an adaptation rather than an exact reproduction. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle and explicitly name the training-only sampling protocol so rows, thresholds, class definitions, and imbalance treatment are traceable. For the Phase 2 movement-label task, candidate protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and logit-adjusted cross-entropy (`P2`); `P2` is fixed for architecture comparisons, while natural cross-entropy (`P0`) is an untreated reference only.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
 
-- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. Its existing volatility sweep predates the contract-aware realised-volatility bundle and is characterization evidence only; it must be migrated to the shared bundle before strict volatility comparison.
+- **Raw-OHLCV MLP** — 5-layer MLP trained directly on flattened OHLCV sequences with no representation learning; serves as the minimum competence reference. The older four-hour volatility sweep is characterisation evidence, while the strict walk-specific H=8 Phase 6 run is complete on the replacement future-interval labels.
 
-- **Single-branch ablations** — run each active representation branch independently (no aggregation) through the same task heads. Will include at minimum:
+- **Canonical branch ablations** — run each canonical representation branch
+  independently and remove each branch once from `H0`, using the same task
+  heads and rows. The frozen Phase 7A scope includes:
+
   - Statistical-only (AR + GARCH features)
   - Transformation-only (FFT + Wavelet features)
   - VAE-only (latent embeddings from the pretrained VAE)
   - Contrastive-only (embeddings from the pretrained contrastive encoder)
   - BYOL-only (embeddings from the pretrained BYOL encoder)
-  - One ablation per additional neural encoder that is integrated (TBD)
 
-  These ablations isolate each branch's individual contribution and verify that the aggregated framework outperforms any single branch.
+  The five matching leave-one-out rows remove statistical, transformed, VAE,
+  contrastive CNN, and BYOL CNN in turn. These probes distinguish standalone
+  usefulness from marginal usefulness in the correlated full representation;
+  they do not require the full framework to beat every branch on every task.
+  Temporal encoder branches are excluded because their substitution and
+  addition roles were already tested in Phase 6.
 
 - **Additional internal baselines (TBD)** — further baselines may be added as identified.
 
@@ -297,9 +310,18 @@ Part 3 execution contract.
 
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 
-- **Ablation study** — compare the full aggregated framework against each single-branch baseline to quantify each branch's marginal contribution.
+- **Ablation study** — use single-branch probes for standalone usefulness and
+  matched leave-one-branch-out probes for marginal usefulness relative to the
+  canonical full representation.
 
-- **Additional alpha-research downstream capability (deferred beyond the current task-evaluation budget)** — a future extension may test whether interpretable formulaic factors can be composed from downstream predictions rather than latent dimensions. The representation-learning framework remains the contribution; GP/symbolic regression is a small-scale established search tool, not a claimed algorithmic novelty.
+- **Additional alpha-research downstream capability (Phase 7B, intentionally
+  deferred)** — its research question, data allocation, search protocol, and
+  economic evaluation will be reconsidered only after further literature
+  review. A possible future extension may test whether interpretable formulaic
+  scores can be composed from downstream predictions rather than latent
+  dimensions. The representation-learning framework remains the contribution;
+  GP/symbolic regression would be an established search tool, not a claimed
+  algorithmic novelty, and no profitable-alpha claim is currently proposed.
   - Primitive set \(\mathcal F_0\): predeclared downstream outputs available at decision time, initially predicted return/price movement, predicted realised volatility, trend probabilities, and confidence margins such as \(p_{bull}-p_{bear}\). Multiple horizons are optional and must use split-safe targets.
   - Before implementation, lock whether the directional primitive is future probability change or return, and make its horizon, eligible contract universe, and factor objective consistent. A price-level forecast is not a directly comparable cross-contract factor.
   - Exclude raw embedding coordinates \(z_j\) as GP terminals because they have no guaranteed individual financial interpretation.

@@ -35,6 +35,16 @@ universal framework superiority.
 > [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
 > These documents supersede older statements that moved every deferred
 > architecture axis into Phase 6.
+>
+> **Next-scope reading note (2026-09-26):** The completed Phase 6 outcome is
+> interpreted in
+> [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
+> The approved but unexecuted follow-ups are the
+> [Phase 6.5 LSTM-capacity/GARCH--LSTM plan](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md)
+> and the
+> [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> Phase 7B alpha research remains intentionally unspecified pending further
+> literature review.
 
 ## 2. Literature Review (Brief \& Informal)
 
@@ -256,7 +266,7 @@ With frozen encoder weights, the `RepresentationAggregator` is trained jointly w
 
 **Hybrid representation**: Combines deterministic statistical and transformation features (no training required) with neural encoders that are pretrained unsupervised. Concat is the canonical fusion; learned gating exists as a separate historical comparison capability.
 
-**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks within a walk. Under Phase 5 and the active Phase 6 encoder plan, each primary global calendar walk has independently trained encoder weights from information before that walk's cutoff. Fixed-first-walk reuse is outside the active Phase 6 scope. A lightweight task-specific head is trained per task.
+**Task-transferable representation pipeline**: The same causally permitted frozen encoder checkpoints and named branch feature bundles are reused across downstream tasks within a walk. Under the completed Phase 5/6 contracts, each primary global calendar walk has independently trained encoder weights from information before that walk's cutoff. Fixed-first-walk reuse remains outside the approved follow-up scope. A lightweight task-specific head is trained per task.
 
 **Semi-/unsupervised support**: Neural encoders are trained without labels (reconstruction, contrastive objectives), requiring only unlabeled OHLCV sequences.
 
@@ -284,8 +294,8 @@ The evidence motivates, but does not yet prove, the need for different feature
 extractors by stage. Phase 4 therefore selected global calendar walks with
 fold-specific encoder weights for the Phase 5 evaluation, which reports
 lifecycle strata within every walk. First-walk reuse, lifecycle-conditioned
-models, and stage-specific experts remain later hypotheses outside the active
-Phase 6 plans.
+models, and stage-specific experts remain later hypotheses outside the
+approved Phase 6.5/7A plans.
 See the [calendar/lifecycle exploration](data_analysis/2026-09-20-phase4-calendar-lifecycle-exploration.md).
 
 The original four-hour top-80 Phase 4 design was not executed. The completed
@@ -303,8 +313,9 @@ under `scripts_v3/`, and generated bundles under `experiments/phase5/`.
 
 The broad framework retains three downstream-task families. Phase 5 evaluated
 movement classification/regression and the later eight-hour future-price
-probe. Phase 6 now specifies volatility as realised variance over the strictly
-future eight-hour interval `(t,t+8h]`, frozen from a training-period-only audit.
+probe. Phase 6 specifies and has executed volatility as realised variance over
+the strictly future eight-hour interval `(t,t+8h]`, frozen from a training-
+period-only audit.
 Every strict comparison uses the same predeclared global-calendar walks and
 aligned task rows.
 

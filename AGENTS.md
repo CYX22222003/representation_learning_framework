@@ -86,6 +86,18 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > paired differences, and the comparison report are complete. The result
 > judgement is recorded in
 > `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
+> The approved next experiment scope is split between
+> `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+> and
+> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+> Phase 6.5A freezes one seed-0 two-layer, 128-wide LSTM capacity candidate
+> under both contrastive and BYOL; Phase 6.5B separately adapts the deferred
+> GARCH--LSTM stack to the strict H=8 future-realised-variance rows with
+> chronological OOF meta-features. Phase 7A freezes canonical five-branch
+> single-branch and leave-one-branch-out probing across the three current
+> tasks. These plans are documented but not implemented or executed. Phase 7B
+> alpha research is intentionally unspecified and deferred pending further
+> literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > The frozen feature-extraction and seed-0 framework probing contract is

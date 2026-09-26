@@ -58,6 +58,11 @@ Read these in order:
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
    full. Existing Phase 3 model classes and artifacts are not evidence that
    the walk-specific Phase 6 matrix has executed.
+   For the next approved scope, read
+   `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
+   full. Both are planned but not implemented or executed. Phase 7B alpha
+   research is intentionally deferred pending further literature review.
 
 ## Response Contract
 
@@ -111,6 +116,11 @@ Report:
   additional seeds and GARCH--LSTM remain deferred.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
+- For Phase 6.5 and Phase 7A, distinguish frozen plans from executed evidence:
+  the two-layer LSTM capacity matrix, strict H=8 GARCH--LSTM stack, and
+  canonical single/leave-one-out ablations have not started. Do not treat
+  legacy GARCH--LSTM artifacts or existing branch-selection utilities as
+  completion evidence.
 - Scope that remains open or depends on the literature review.
 - When relevant, the alpha-research capability's dependency on completed predictive heads, ablations, and leakage-safe chronological OOF predictions; treat it as deferred unless the user explicitly expands the current task-evaluation budget.
 

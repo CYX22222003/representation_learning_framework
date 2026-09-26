@@ -52,6 +52,11 @@ Read these in order:
    duplicate-width controls, CKA, or task-transfer design, read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
    full.
+9. For the approved two-layer LSTM capacity extension or strict adapted
+   GARCH--LSTM design, read
+   `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
+   For canonical single-branch and leave-one-out attribution, read
+   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 
 ## Response Contract
 
@@ -74,17 +79,19 @@ Present the parts relevant to the request:
   the later absolute-price probe recovers positive implied-movement Rank IC
   but remains worse than persistence on level error and weaker than a simple
   last-hour reversal score. The matched Raw-OHLCV MLP and three-layer raw
-  OHLCV LSTM comparison code is implemented for h2 regression/classification
-  and h8 future price across both walks, but its 12 trajectories remain
-  unexecuted.
+  OHLCV LSTM comparison is complete and replay-validated for h2 regression/
+  classification and h8 future price across both walks.
   The intermediate reporting direction uses future-price prediction as the
   clearest regression transfer task and treats implied-movement Rank IC as the
   primary financial interpretation of that output.
 - Treat temporal encoder substitutions and controlled heterogeneous additions
-  as the active Phase 6 encoder work. Fixed-first-walk transfer, gated fusion,
-  lifecycle-conditioned models, decoder variants, branch ablations, and
-  additional seeds are outside the frozen Phase 6 task plans.
-- The additional alpha-research capability: downstream predictions rather than latent dimensions as primitives, shallow symbolic search, and chronological OOF-only formula selection.
+  as completed Phase 6 work. Phase 6.5 and Phase 7A are frozen follow-up plans
+  but remain unimplemented: one two-layer LSTM candidate per SSL family, a
+  separate strict H=8 GARCH--LSTM benchmark, and canonical single/leave-one-
+  out ablations. Fixed-first-walk transfer, gated fusion, lifecycle-conditioned
+  models, decoder variants, and additional seeds remain outside these plans.
+- Treat Phase 7B alpha research as deferred pending literature review; no
+  search protocol or profitable-alpha claim is currently approved.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 
 Prefer dimension utilities and `RepresentationAggregator.output_dim` over hard-coded assumptions. If documents disagree with current source code, call out the discrepancy and inspect the implementation before recommending a change.
