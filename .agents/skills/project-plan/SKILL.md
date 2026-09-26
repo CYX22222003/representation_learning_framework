@@ -49,7 +49,10 @@ Read these in order:
    `H={2,4,8,24}` with training target diagnostics and evaluation capacity
    only. The primary horizon is frozen to eight hours by
    `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
-   Replacement labels and all Phase 6 model runs remain pending.
+   Replacement labels, aligned features, and the active current-round neural
+   matrix are complete. Read
+   `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`
+   for the result judgement and remaining reporting/confirmation boundaries.
    For Phase 6 temporal-encoder planning, readiness, implementation, or
    execution, also read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
@@ -99,10 +102,13 @@ Report:
   separately from later execution. The replacement H=8 labels and canonical
   features are built and replay-valid. The temporal manifest, all eight
   walk-specific temporal encoder trajectories, and all six task/walk master
-  feature stores are also complete and replay-valid. The 66-entry downstream
-  manifest is frozen with six replayed H0 references and 60 required new
-  trajectories; those trajectories, CKA, and the final comparison report
-  remain unrun.
+  feature stores are also complete and replay-valid. The complete 66-entry
+  downstream matrix, all 60 new trajectories, both linear-CKA diagnostics,
+  checkpoint/prediction replay, resource tables, and the per-walk comparison
+  report are complete. The temporal task supports task-specific representation
+  value but not universal encoder superiority. The volatility parent plan
+  still has pooled all-configuration reporting as a follow-up, while
+  additional seeds and GARCH--LSTM remain deferred.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
 - Scope that remains open or depends on the literature review.

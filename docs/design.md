@@ -14,6 +14,8 @@
 > [`phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`](phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md).
 > The primary future-realised-variance horizon is frozen to eight hours by
 > [`phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`](phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md).
+> The completed seed-0 matrix and its claim boundaries are interpreted in
+> [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 
 ## Architecture Design

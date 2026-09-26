@@ -2,19 +2,22 @@
 
 **Date:** 2026-09-22
 
-**Status (updated 2026-09-26):** Gates 1--8 are complete and gate 9 is partial.
-The Stage A audit
+**Status (updated 2026-09-26):** Gates 1--10 are complete for the active
+26-entry current-round neural matrix. The Stage A audit
 and H=8 decision remain frozen. Both replacement label bundles replay every
 target from source closes, and both canonical 445-dimensional feature stores
 are identity-aligned and byte-identical to their frozen Phase 5 sources. The
 paper feasibility decision and 26-entry current-round volatility matrix are
 frozen by `2026-09-25-phase-6-volatility-model-matrix-freeze.md`. CPU smoke
-tests and manifest-only bootstrap pass. H0, Raw-OHLCV MLP, and Raw LSTM are
-complete for both walks at epochs 5/15/50 with CPU prediction replay. The
-ten temporal/control configurations per walk remain pending, so the matrix
-and task are not complete. By user-directed scope amendment on 2026-09-25,
-GARCH--LSTM is deferred to a later round and is not an active or mandatory
-current-round entry.
+tests and manifest-only bootstrap pass. H0, Raw-OHLCV MLP, Raw LSTM, and all
+ten temporal/control configurations are complete for both walks at epochs
+5/15/50 with CPU prediction replay. Per-walk results and matched interpretation
+are reported in the encoder-variant report and
+`2026-09-26-phase-6-experiment-observation-and-outcomes.md`. A pooled artifact
+covering every temporal configuration remains the final reporting follow-up
+under gate 11. By user-directed scope amendment on 2026-09-25, GARCH--LSTM is
+deferred to a later round and is not an active or mandatory current-round
+entry.
 
 **Predecessor:** `2026-09-21-phase-5-experiment-plan.md`
 
@@ -510,10 +513,10 @@ the resampling unit and block construction must be frozen before reporting.
 
 ## 10. Ordered implementation and execution gates
 
-Gates 1--8 are complete. Six trajectories are complete under gate 9, and the
-complete temporal/control downstream manifest has passed its CPU smoke and
-row-identity freeze without training. Its 20 volatility trajectories are the
-current-round next actions. GARCH--LSTM is deferred to a later round.
+Gates 1--10 are complete for all 26 active current-round trajectories. The
+per-walk frozen-matrix report and observation document are complete; gate 11
+retains pooled aggregation of all temporal configurations as a reporting
+follow-up. GARCH--LSTM is deferred to a later round.
 
 1. **Complete the literature-grounded definition.** The future realised-
    variance formula and raw probability-change convention are now fixed.

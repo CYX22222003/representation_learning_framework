@@ -245,8 +245,11 @@ variance over a strictly future interval,
 closes and no imputed target candles. The training-period-only audit is
 complete and the primary horizon is frozen to eight hours by
 `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
-No replacement bundle has been generated yet. Generate and validate that
-bundle before aligning features or running any comparator. See
+The two H=8 replacement bundles, aligned canonical features, and complete
+current-round neural comparison now pass source, row-identity, and prediction
+replay. The result judgement is recorded in
+`docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
+See
 `docs/phase_plan/phase2_experiment_observation_and_outcome.md` and
 `docs/phase_plan/2026-09-22-phase-6-volatility-forecasting-plan.md`.
 

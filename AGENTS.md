@@ -61,9 +61,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > fixed `10000 * RV` optimization unit, Smooth L1 loss, Softplus head, and
 > 26-entry current-round seed-0 matrix are frozen by
 > `docs/phase_plan/2026-09-25-phase-6-volatility-model-matrix-freeze.md`.
-> H0, Raw-OHLCV MLP, and Raw LSTM are complete for both walks at epochs
-> 5/15/50 and all 18 checkpoints pass CPU prediction replay. The adapted
-> ten temporal/control configurations per walk remain pending. GARCH--LSTM is
+> H0, Raw-OHLCV MLP, Raw LSTM, and all ten temporal/control configurations are
+> complete for both walks at epochs 5/15/50 and pass CPU prediction replay.
+> The current-round per-walk comparison and outcome report are complete; a
+> pooled artifact for every temporal configuration remains a reporting
+> follow-up. GARCH--LSTM is
 > deferred to a later round and is not an active or mandatory current-round
 > entry; the interim report is not a model-selection result.
 > The second Phase 6 task is specified in
@@ -79,9 +81,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > manifest is frozen, all eight walk-specific encoder trajectories are trained
 > and replay-validated at epochs 5/15/50, and all six task/walk master feature
 > stores pass identity, hash, width, finiteness, and exact-duplicate replay.
-> The complete 66-entry downstream manifest is frozen and replay-valid without
-> executing training. The 60 temporal/control downstream runs, CKA, and the
-> comparison report remain pending.
+> The complete 66-entry downstream matrix is executed and replay-valid: all 60
+> temporal/control runs, both linear-CKA diagnostics, resource tables, 360
+> paired differences, and the comparison report are complete. The result
+> judgement is recorded in
+> `docs/phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
 > The completed canonical encoder matrix is specified in
 > `docs/phase_plan/2026-09-21-phase-5-encoder-pretraining-amendment.md`.
 > The frozen feature-extraction and seed-0 framework probing contract is
@@ -689,7 +693,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker
   than a simple last-hour reversal reference.
-- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, and Raw LSTM consume those exact rows; temporal/control entries remain pending under the 26-entry current-round matrix, while GARCH--LSTM is deferred to a later round.
+- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, Raw LSTM, and all temporal/control entries consume those exact rows and are complete under the 26-entry current-round matrix; GARCH--LSTM is deferred to a later round.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

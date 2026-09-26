@@ -2,17 +2,15 @@
 
 **Date:** 2026-09-22
 
-**Status (updated 2026-09-26):** Integration infrastructure and thin
-`scripts_v4` entry points are implemented and CPU-tested for all encoder
-families, feature widths, and task heads. The seed-0 encoder manifest is
-frozen, all eight walk-specific temporal encoder trajectories are trained and
-replay-validated at epochs 5/15/50, and all six task/walk epoch-50 master
-feature stores pass identity, hash, width, finiteness, and exact-duplicate
-replay for the 11 configurations. The sibling volatility gate is complete.
-The 66-entry downstream manifest is frozen with six replayed H0 references and
-60 required new trajectories; its manifest-only freeze did not train models.
-Variant downstream trajectories, CKA, and the comparison report have not run;
-execution gate 10 is next.
+**Status (updated 2026-09-26):** Complete for the frozen seed-0 scope. All
+eight walk-specific temporal encoder trajectories, six task/walk epoch-50
+master feature stores, six replayed H0 references, and 60 new downstream
+trajectories pass checkpoint, prediction, metric, identity, hash, width,
+finiteness, and duplicate-control replay. Centered linear CKA is complete for
+both walks, and the valid 66-entry comparison report includes 360 predeclared
+paired differences and resource measurements. Interpretation and matched raw-
+baseline comparisons are recorded in
+`2026-09-26-phase-6-experiment-observation-and-outcomes.md`.
 
 **Predecessors:** `2026-09-20-phase-3-experiment-plan.md` and
 `2026-09-21-phase-5-experiment-plan.md`
