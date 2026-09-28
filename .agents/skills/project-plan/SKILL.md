@@ -60,9 +60,16 @@ Read these in order:
    the walk-specific Phase 6 matrix has executed.
    For the next approved scope, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
-   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-   full. Both are planned but not implemented or executed. Phase 7B alpha
-   research is intentionally deferred pending further literature review.
+   in full. Phase 6.5A infrastructure and all four deep-LSTM encoder
+   trajectories are implemented and replay-valid; feature extraction,
+   downstream evaluation, CKA, and reporting remain. Phase 6.5B/C
+   infrastructure is implemented but no canonical manifests, generated TA
+   stores, training runs, predictions, or reports exist. Also read
+   `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
+   for the frozen, unimplemented raw/residual-fusion and residual-CNN scope,
+   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
+   for the frozen, unimplemented representation-ablation scope. Phase 7B
+   alpha research is intentionally deferred pending further literature review.
 
 ## Response Contract
 
@@ -116,9 +123,15 @@ Report:
   additional seeds and GARCH--LSTM remain deferred.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
-- For Phase 6.5 and Phase 7A, distinguish frozen plans from executed evidence:
-  the two-layer LSTM capacity matrix, strict H=8 GARCH--LSTM stack, and
-  canonical single/leave-one-out ablations have not started. Do not treat
+- For Phase 6.5, Phase 6.6, and Phase 7A, distinguish frozen plans from
+  executed evidence. Phase 6.5A infrastructure and all four deep-LSTM encoder
+  trajectories are implemented and replay-valid, while its feature,
+  downstream, CKA, and report gates remain. The strict H=8 GARCH--LSTM and
+  current-task TA-MLP model/data/training infrastructure is implemented but
+  unexecuted. The two richer canonical static decoder matrices and canonical
+  single/leave-one-out ablations have not started. Phase 6.6 raw/representation fusion and residual-CNN work is a
+  frozen plan only; grouped SHAP is deferred to a later analysis amendment.
+  The simple decoder remains the primary representation probe. Do not treat
   legacy GARCH--LSTM artifacts or existing branch-selection utilities as
   completion evidence.
 - Scope that remains open or depends on the literature review.

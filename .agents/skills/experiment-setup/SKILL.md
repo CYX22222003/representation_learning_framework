@@ -122,13 +122,21 @@ Read these in order:
     full. All temporal encoders are walk-specific and target-free; all 11
     configurations are precommitted to all three tasks, while volatility
     execution remains blocked on item 13's target gate.
-15. For Phase 6.5 LSTM depth/capacity or strict H=8 adapted GARCH--LSTM work,
+15. For Phase 6.5 LSTM depth/capacity, strict H=8 adapted GARCH--LSTM,
+    current-task TA-MLP classification, or canonical decoder-capacity work,
     read
     `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
     in full. For canonical branch attribution, read
     `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
     full. Phase 7B alpha research remains deferred and has no approved
     execution contract.
+16. For raw-OHLCV plus frozen-representation residual fusion, supervised
+    LSTM/BiLSTM towers, deeper residual-CNN SSL encoders, or later grouped
+    attribution, read
+    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
+    in full. `F-H0` is the required matched-capacity fusion control;
+    bidirectionality is restricted to the observed historical context; and
+    SHAP-style attribution cannot select models or checkpoints.
 
 ## Response Contract
 

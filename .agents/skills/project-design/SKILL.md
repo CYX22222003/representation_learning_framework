@@ -52,11 +52,15 @@ Read these in order:
    duplicate-width controls, CKA, or task-transfer design, read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
    full.
-9. For the approved two-layer LSTM capacity extension or strict adapted
-   GARCH--LSTM design, read
+9. For the approved two-layer LSTM capacity extension, strict adapted
+   GARCH--LSTM design, current-task TA-MLP comparison, or canonical decoder-
+   capacity sensitivity, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
    For canonical single-branch and leave-one-out attribution, read
    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+10. For raw/representation residual fusion, supervised raw LSTM/BiLSTM
+    towers, residual-CNN SSL backbones, or grouped post-hoc attribution, read
+    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 
 ## Response Contract
 
@@ -85,11 +89,19 @@ Present the parts relevant to the request:
   clearest regression transfer task and treats implied-movement Rank IC as the
   primary financial interpretation of that output.
 - Treat temporal encoder substitutions and controlled heterogeneous additions
-  as completed Phase 6 work. Phase 6.5 and Phase 7A are frozen follow-up plans
-  but remain unimplemented: one two-layer LSTM candidate per SSL family, a
-  separate strict H=8 GARCH--LSTM benchmark, and canonical single/leave-one-
-  out ablations. Fixed-first-walk transfer, gated fusion, lifecycle-conditioned
-  models, decoder variants, and additional seeds remain outside these plans.
+  as completed Phase 6 work. Phase 6.5A infrastructure and its four deep-LSTM
+  encoder trajectories are implemented, trained, and replay-valid; its
+  feature/downstream/CKA/reporting gates remain. Phase 6.5B/C model, causal-
+  data, training, manifest-only launch, replay-validation, and CPU-test
+  infrastructure is implemented but unexecuted. Phase 6.5D and Phase 7A
+  remain unimplemented: two richer static canonical decoders and canonical
+  single/leave-one-out ablations. The simple head remains the primary
+  representation probe; the branch-gated decoder is a complete-system
+  sensitivity. Phase 6.6 additionally freezes matched raw/`H0` residual fusion
+  and residual-CNN substitution/addition; grouped SHAP remains later
+  descriptive analysis rather than model selection. Fixed-first-walk
+  transfer, other temporal decoders, lifecycle-
+  conditioned models, and additional seeds remain outside these plans.
 - Treat Phase 7B alpha research as deferred pending literature review; no
   search protocol or profitable-alpha claim is currently approved.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.

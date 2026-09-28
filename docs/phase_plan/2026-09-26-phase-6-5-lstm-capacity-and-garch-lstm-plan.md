@@ -1,35 +1,55 @@
-# Phase 6.5 LSTM Capacity and GARCH--LSTM Plan
+# Phase 6.5 Capacity and Task-Benchmark Plan
 
 **Date:** 2026-09-26
-**Status:** Approved planning contract; implementation and execution have not
-started
+**Scope amended:** 2026-09-29 to add the classification-only TA-MLP benchmark
+and the canonical decoder-capacity sensitivity
+**Status:** Approved contract. Phase 6.5A infrastructure is implemented and
+all four two-layer SSL encoder trajectories are trained and replay-valid at
+epochs 5/15/50; feature extraction, downstream execution, CKA, and reporting
+remain. Phase 6.5B and Phase 6.5C model/data/training infrastructure is
+implemented and CPU-tested under `src/baselines/` and `scripts_v5/`, but their
+canonical manifests, generated TA stores, training trajectories, predictions,
+and reports do not yet exist. Phase 6.5D has not started.
 **Predecessor:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 
 ## 1. Purpose and scope
 
-Phase 6.5 contains two separate follow-ups motivated by Phase 6:
+Phase 6.5 contains four separate follow-ups motivated by Phase 6 and the
+subsequent baseline review:
 
 - **Phase 6.5A -- LSTM encoder capacity:** test whether the deliberately
   compact one-layer temporal encoder limited the LSTM representation results;
   and
 - **Phase 6.5B -- adapted GARCH--LSTM:** complete the deferred, task-specific
-  hybrid benchmark on the strict eight-hour future-realised-variance task.
+  hybrid benchmark on the strict eight-hour future-realised-variance task; and
+- **Phase 6.5C -- adapted TA-MLP:** restore the paper-inspired handcrafted-
+  indicator MLP as a strict classification-only benchmark on the current
+  two-hour probability-movement task; and
+- **Phase 6.5D -- decoder capacity:** test whether the intentionally simple
+  downstream probe masks useful information in the frozen canonical
+  representation.
 
-The two studies answer different questions and must be reported separately.
+The four studies answer different questions and must be reported separately.
 Phase 6.5A changes an unsupervised representation backbone while holding the
 self-supervised objective and 128-dimensional output fixed. Phase 6.5B changes
 the volatility forecasting system by adding a causal econometric branch and a
-train-only stacking model. Neither study may be interpreted as selecting a
-universal model from the completed Phase 6 evaluation results.
+train-only stacking model. Phase 6.5C compares learned representations and raw
+sequences with one fixed handcrafted-feature classifier under a matched
+classification contract. None may be interpreted as selecting a universal
+model from the completed Phase 6 evaluation results. Phase 6.5D changes only
+the supervised mapping and, in one named row, the fusion rule over immutable
+canonical branches.
 
-Both studies retain the two accepted Phase 5/6 one-hour global-calendar walks,
+All four studies retain the two accepted Phase 5/6 one-hour global-calendar walks,
 the 64-hour OHLCV context, walk-specific fitting, fixed epoch budgets, and the
 train/test-only policy. There is no validation split, early stopping, restart
 selection, or evaluation-driven hyperparameter choice.
 
-Phase 6.5 does not include Transformer retuning, hidden-width search, gated
-fusion, decoder search, branch ablation, alpha research, or a multi-seed
-architecture claim.
+Phase 6.5 does not include Transformer retuning, hidden-width search, temporal
+decoder search, branch ablation, alpha research, or a multi-seed architecture
+claim. The TA-MLP addition is classification-only. Decoder capacity is limited
+to the two predeclared static candidates below rather than an open-ended head
+search.
 
 ## 2. Shared data and evaluation boundary
 
@@ -48,9 +68,13 @@ been frozen and the implementation has passed its replay checks.
 Phase 6.5A reuses the exact target-free `encoder_train_sequences` used by the
 completed Phase 6 encoders. Phase 6.5B reuses the exact H=8 volatility rows and
 target arrays frozen by
-`2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`. Neither task may
-rebuild a cohort, window, label, activity filter, or comparator-specific row
-set.
+`2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`. Phase 6.5C starts
+from the exact completed Phase 6/Phase 5 two-hour classification rows and
+labels at `tau=0.001`, then applies only a feature-availability intersection
+frozen before training. Phase 6.5D reuses the exact canonical `H0` features,
+train-only feature scalers, task rows, targets, and references for all three
+completed Phase 6 tasks. No study may rebuild a cohort, window, label,
+activity filter, or outcome-dependent comparator row set.
 
 ## 3. Phase 6.5A -- deeper LSTM encoder
 
@@ -281,7 +305,203 @@ Because the target intervals overlap, row-wise IID significance claims are
 not valid. Any uncertainty analysis requires a separately frozen contract/
 calendar-block procedure.
 
-## 5. Artifact and implementation boundary
+## 5. Phase 6.5C -- strict adapted TA-MLP classification benchmark
+
+### 5.1 Research question
+
+> On the current two-hour `DOWN/STABLE/UP` probability-movement task, does the
+> fixed paper-inspired TA-MLP provide a competitive complete-system
+> classification benchmark against the canonical representation framework and
+> raw-sequence models on identical eligible rows?
+
+This restores TA-MLP as an external handcrafted-feature benchmark. It does not
+restore the historical stock-style `BUY/HOLD/SELL` target, and it is not a
+source-faithful reproduction of the paper's random split or test-driven model
+selection. The adaptation preserves the paper-inspired feature family and MLP
+architecture while enforcing this project's walk-forward and locked-
+evaluation rules.
+
+### 5.2 Frozen target and causal TA-feature rows
+
+Reuse the exact walk-specific Phase 6 classification target:
+
+```text
+horizon = 2 hours
+tau = 0.001 probability points
+classes = DOWN / STABLE / UP
+```
+
+The 36 existing TA features remain the candidate input: oscillators, moving-
+average ratios, calendar features, and 23 candlestick-pattern indicators. They
+must be evaluated at each saved decision timestamp from only the same contract
+and causally available history. Rolling indicators reset at a longer-gap
+segment boundary. Evaluation candles may never affect a training feature.
+
+The legacy feature helper cannot be reused blindly because its `zsVol`
+calculation standardizes volume over the complete supplied frame. For each
+walk, volume location/scale and every later coordinate scaler are fitted on
+permitted training history only and then frozen for evaluation. Rolling
+warm-up, including the 100-hour moving average, may make early task rows
+unavailable. Freeze one train/evaluation intersection from TA-feature
+availability alone, save every included and excluded identity with a reason,
+and apply that exact ordered intersection to every strict comparator. No row
+may be removed because of its label or any model result.
+
+### 5.3 Frozen model, protocols, and matched matrix
+
+The adapted TA-MLP remains:
+
+```text
+36 -> 128 -> 64 -> 32 -> 3
+LeakyReLU(0.01) after each hidden layer
+```
+
+Use Adam, learning rate `1e-3`, batch size `64`, seed `0`, and one uninterrupted
+50-epoch trajectory with snapshots at 5, 15, and 50. Epoch 50 is the
+predeclared principal result. Fit the 36-coordinate standardizer on the exact
+walk-specific training intersection only.
+
+Two TA-MLP protocols are frozen:
+
+| ID | Training rule | Role |
+|---|---|---|
+| `TA-P2` | Natural training rows plus train-prior logit-adjusted cross-entropy, `lambda=1.0` | Primary protocol matched to the completed Phase 5/6 classifiers |
+| `TA-P1U` | Retain every minority row and randomly undersample only the majority `STABLE` class on training rows; ordinary cross-entropy | Source-paper-derived imbalance sensitivity |
+
+The evaluation distribution is never resampled. `TA-P1U` stores the original
+counts, selected source identities, sampler seed, and draw counts. It is a
+training-protocol sensitivity, not the primary architecture comparison.
+Natural cross-entropy and balanced oversampling are outside this bounded
+follow-up.
+
+The strict `P2` matrix retrains four models on the identical TA-eligible rows
+for both walks:
+
+| ID | Model/input | Walk-specific trajectories |
+|---|---|---:|
+| `C-H0-P2` | canonical 445-dimensional five-branch framework | 2 |
+| `C-RM-P2` | flattened Raw-OHLCV MLP | 2 |
+| `C-RL-P2` | three-layer Raw-OHLCV LSTM | 2 |
+| `C-TA-P2` | 36-feature TA-MLP | 2 |
+
+The two `C-TA-P1U` sensitivity runs bring Phase 6.5C to ten new
+classification trajectories. H0, Raw MLP, and Raw LSTM retain their existing
+architectures and optimization recipes; only their training/evaluation row
+set changes to the frozen common intersection. Completed full-row Phase 6 and
+Phase 6.5A classification results remain contextual and are not silently
+relabeled as members of this strict subset matrix.
+
+### 5.4 Evaluation and claim boundary
+
+Save logits, softmax scores, predictions, targets, contract IDs, timestamps,
+and source-row identities. Report macro-F1 as the primary metric, followed by
+balanced accuracy, per-class precision/recall/F1, accuracy, predicted-class
+counts, confusion matrices, and macro/per-class one-vs-rest ROC-AUC and
+average precision. Include the always-`STABLE` and repeated train-prior
+references and retain lifecycle, activity, imputation, and per-contract
+breakdowns used by the completed classification reports.
+
+The primary claim is the `C-TA-P2` comparison with the three `P2` models on
+identical rows. The `C-TA-P1U` comparison answers only whether the paper-
+derived sampling choice changes this adapted TA-MLP. Legacy TA-MLP results on
+four-hour data or `BUY/HOLD/SELL` labels are historical characterisation and
+cannot establish performance on the current task.
+
+## 6. Phase 6.5D -- canonical decoder-capacity sensitivity
+
+### 6.1 Research question and interpretation
+
+> With the canonical five frozen branches and all task data held fixed, does a
+> predeclared richer static decoder improve downstream performance relative to
+> the simple Phase 6 probe?
+
+The existing shallow task head remains the primary representation probe: its
+low capacity makes it easier to attribute performance to the frozen features.
+Phase 6.5D is a sensitivity asking whether those features contain useful
+nonlinear or cross-branch interactions that the probe cannot expose. An
+improvement supports a representation--decoder interaction or a stronger
+complete system; it does not retroactively prove that the representation alone
+improved.
+
+### 6.2 Frozen decoder configurations
+
+Use only canonical `H0` branch arrays and the completed task-specific
+train-only coordinate scalers. The immutable reference is:
+
+| ID | Decoder | Role |
+|---|---|---|
+| `D0` | completed Phase 6 shallow task head | Primary representation probe; no retraining required |
+
+Two new static candidates are frozen:
+
+**`D1-RP` -- residual projection head**
+
+```text
+concat H0 (445)
+-> LayerNorm
+-> Linear(445, 256) -> GELU -> Dropout(0.1)
+-> two pre-norm residual MLP blocks at width 256
+   [LayerNorm -> Linear(256, 256) -> GELU -> Dropout(0.1)
+    -> Linear(256, 256) -> residual add]
+-> Linear(256, 128) -> GELU
+-> task output layer
+```
+
+This is a supervised projection decoder. It is separate from, and does not
+reuse, either SSL method's pretraining projector.
+
+**`D2-BG` -- branch-aware gated projection head**
+
+```text
+each canonical branch -> branch-specific Linear(input_dim, 128)
+                      -> GELU -> LayerNorm
+concatenated projected branches -> Linear(5*128, 128) -> GELU
+                                -> Linear(128, 5) -> softmax gates
+weighted sum of five projected branches
+-> residual MLP [LayerNorm -> Linear(128, 256) -> GELU
+                 -> Dropout(0.1) -> Linear(256, 128) -> residual add]
+-> task output layer
+```
+
+`D2-BG` changes both supervised capacity and fusion, so it is a named
+complete-system sensitivity rather than a decoder-only causal contrast.
+Neither candidate consumes temporal sequences of embeddings. Historical
+recurrent/attention D3--D4 decoder ideas remain outside Phase 6.5 because they
+would change context construction and row eligibility.
+
+### 6.3 Tasks, training, and matrix
+
+Run both candidates on all three established tasks and both walks:
+
+```text
+2 new decoders x 3 tasks x 2 walks = 12 new downstream trajectories
+```
+
+Reuse each task's exact Phase 6 loss, output transform, references, batch size
+`512`, Adam learning rate `1e-4`, seed `0`, and one uninterrupted 50-epoch
+trajectory with snapshots at 5, 15, and 50. In particular:
+
+- classification emits three logits and retains train-prior logit-adjusted
+  cross-entropy;
+- future price retains its sigmoid output and implied-movement diagnostics;
+  and
+- realised variance retains the fixed `10000 * RV` unit, Smooth L1 loss, and
+  Softplus output.
+
+Epoch 50 remains the principal result. No dropout, width, depth, optimizer,
+loss, or output transform may be selected from evaluation performance.
+
+### 6.4 Reporting and claim boundary
+
+Compare `D1-RP - D0` as the primary decoder-capacity contrast for every
+task/walk. Compare `D2-BG` separately with both `D0` and `D1-RP`. Report total
+and trainable parameters, training and inference time, peak device memory,
+checkpoint histories, prediction replay, and the unchanged task metrics and
+breakdowns. The completed simple-head results remain the headline
+representation-quality evidence even if a richer complete system performs
+better.
+
+## 7. Artifact and implementation boundary
 
 New generated artifacts belong under a separate root so Phase 6 evidence is
 immutable:
@@ -299,6 +519,17 @@ experiments/phase6_5/
     walk{1,2}/
     oof/
     reports/
+  ta_mlp/
+    data_preparation/walk{1,2}/
+    manifests/
+    downstream/{h0,raw_mlp,raw_lstm,ta_mlp}/walk{1,2}/
+    reports/
+  decoder_capacity/
+    manifests/
+    downstream/{classification_h2,absolute_price_h8,realised_variance}/
+      walk{1,2}/{d1_rp,d2_bg}/seed0/
+    diagnostics/resources/
+    reports/
 ```
 
 Reusable code belongs under `src/`; thin new orchestration belongs under a new
@@ -311,7 +542,7 @@ environment, checkpoints or fitted econometric state, complete histories,
 predictions, metrics, completion markers, and independent CPU or deterministic
 numerical replay as applicable.
 
-## 6. Ordered gates
+## 8. Ordered gates
 
 1. Replay the completed Phase 6 source bundles, encoders, task rows, and
    reference predictions.
@@ -330,12 +561,25 @@ numerical replay as applicable.
    meta-learner.
 9. Fit, replay, and report both walk-specific GARCH--LSTM stacks at all three
    declared snapshots.
+10. Build, hash, and replay the causal 36-feature TA stores and feature-
+    availability-only common row intersections for both walks.
+11. Freeze the ten-entry Phase 6.5C matrix after CPU smoke tests verify the
+    matched `P2` loss, training-only `P1U` sampling, identities, and metrics.
+12. Train, replay, and report all strict TA-eligible classification runs at
+    the three declared snapshots.
+13. Implement `D1-RP` and `D2-BG` without altering the completed `D0` model or
+    any frozen Phase 6 feature store; add forward/backward, output-transform,
+    occupied-path, and parameter-count tests.
+14. Freeze the 12-entry decoder-capacity manifest after CPU smoke tests verify
+    exact task rows, targets, train-only scalers, losses, and references.
+15. Train, replay, and report the full Phase 6.5D matrix with resource tables
+    and the predeclared `D1-RP - D0` and `D2-BG` comparisons.
 
-Phase 6.5A and 6.5B are scientifically independent. The order above is an
-engineering order, not a condition that one result determines whether the
-other runs.
+Phase 6.5A, 6.5B, 6.5C, and 6.5D are scientifically independent. The order
+above is an engineering order, not a condition that one result determines
+whether the other studies run.
 
-## 7. Exit conditions and claim boundary
+## 9. Exit conditions and claim boundary
 
 Phase 6.5 is complete only when:
 
@@ -347,10 +591,23 @@ Phase 6.5 is complete only when:
   replayable;
 - both GARCH--LSTM evaluation runs use the unchanged Phase 6 H=8 rows;
 - all train-fitted scalers, econometric state, and meta-learner parameters are
-  shown to exclude evaluation data; and
+  shown to exclude evaluation data;
+- both TA stores and common classification intersections replay from causal
+  feature availability without outcome-dependent filtering;
+- all ten Phase 6.5C classification trajectories pass checkpoint, prediction,
+  target, and identity replay, and the primary TA-MLP comparison uses the
+  matched `P2` rows and loss;
+- all 12 Phase 6.5D trajectories pass replay on unchanged Phase 6 task rows,
+  and decoder-capacity, fusion, and resource comparisons are reported without
+  selecting an evaluation winner; and
 - limitations are stated as single-seed, two-walk characterisation.
 
 This phase may support a narrow depth-capacity conclusion and a narrow
-complete-system hybrid comparison. It cannot establish an optimal recurrent
-architecture, universal LSTM superiority, standalone GARCH superiority, or a
-profitable forecasting strategy.
+complete-system hybrid comparison, a narrow statement about the adapted
+TA-MLP on the named movement-classification task, and a bounded conclusion
+about whether the two richer static heads expose additional task signal. It
+cannot establish an optimal recurrent architecture, universal LSTM
+superiority, standalone GARCH
+superiority, universal technical-indicator superiority, an optimal decoder,
+reproduction of the TA-MLP paper's original claim, or a profitable forecasting
+strategy.

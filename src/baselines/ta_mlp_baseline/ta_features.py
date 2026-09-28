@@ -47,7 +47,12 @@ FEATURE_NAMES: list[str] = [
 N_FEATURES = len(FEATURE_NAMES)  # 36
 
 
-def compute_ta_features(df: pd.DataFrame) -> pd.DataFrame:
+def compute_ta_features(
+    df: pd.DataFrame,
+    *,
+    volume_mean: float | None = None,
+    volume_std: float | None = None,
+) -> pd.DataFrame:
     """
     Compute all 36 TA features from an OHLCV DataFrame.
 
@@ -77,7 +82,16 @@ def compute_ta_features(df: pd.DataFrame) -> pd.DataFrame:
     d["boll"] = (close - lower) / (upper - lower)
     d["ULTOSC"] = talib.ULTOSC(high, low, close) / 100.0
     d["pct_change"] = close.pct_change()
-    d["zsVol"] = (volume - volume.mean()) / volume.std()
+    if (volume_mean is None) != (volume_std is None):
+        raise ValueError("volume_mean and volume_std must be supplied together")
+    if volume_mean is None:
+        # Historical behavior retained for legacy callers.  New walk-forward
+        # code must supply training-only statistics explicitly.
+        d["zsVol"] = (volume - volume.mean()) / volume.std()
+    else:
+        if not np.isfinite(volume_mean) or not np.isfinite(volume_std) or volume_std <= 0.0:
+            raise ValueError("fixed volume statistics must be finite with positive std")
+        d["zsVol"] = (volume - float(volume_mean)) / float(volume_std)
     sma21 = talib.SMA(close, 21)
     sma50 = talib.SMA(close, 50)
     sma100 = talib.SMA(close, 100)

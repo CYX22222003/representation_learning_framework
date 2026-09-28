@@ -133,14 +133,22 @@ Same-width duplicated-CNN features control for the wider downstream head.
 Movement classification, future price, and the independently frozen future-
 realised-variance task form the downstream matrix. That seed-0 matrix is now
 complete. Phase 6.5 separately precommits one two-layer, 128-wide LSTM
-capacity candidate under both SSL families and a strict H=8 adapted
-GARCH--LSTM benchmark. Phase 7A then tests the canonical five branches through
+capacity candidate under both SSL families, a strict H=8 adapted
+GARCH--LSTM benchmark, a classification-only TA-MLP benchmark on the current
+h2/tau=0.001 task, and two richer static canonical decoders. The simple head
+remains the primary representation probe. Phase 6.6 subsequently tests a
+matched supervised fusion of canonical `H0` with raw-sequence LSTM/BiLSTM
+towers and a deeper residual-CNN substitution/addition under both SSL
+families. Grouped SHAP-style attribution is deferred until the Phase 6.6
+models and predictions are frozen and cannot select the model matrix. Phase
+7A then tests the canonical five branches through
 single-branch and leave-one-branch-out probes. Fixed-first-walk reuse,
-lifecycle-conditioned models, stage-specific experts, gating, decoder
+lifecycle-conditioned models, stage-specific experts, temporal decoder
 variants, and additional seeds remain outside these active follow-ups. See
 `phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 The follow-up contracts are
 `phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
+`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md` and
 `phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 Representation drift alone is not evidence that a different architecture is
 needed in each lifecycle stage.
@@ -165,7 +173,10 @@ needed in each lifecycle stage.
     eight-hour horizon was frozen from training-period capacity and target
     diagnostics before label construction or model evaluation; see
     `phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`.
-  - Trend classification — MLP classifier trained with cross-entropy on TA-MLP-style tri-class BUY/HOLD/SELL labels.
+  - Movement/trend classification — the current task uses two-hour
+    `DOWN/STABLE/UP` labels at `tau=0.001` with train-prior logit-adjusted
+    cross-entropy. The older TA-MLP-style `BUY/HOLD/SELL` task remains
+    historical stock-label-transfer characterisation.
 
 - Write end-to-end training scripts connecting data loading, feature extraction, encoder inference, aggregation, and task training.
 
@@ -186,9 +197,9 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
-- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is planned but unexecuted. Causal guarded GARCH forecasts and Raw LSTM forecasts will be fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is implemented but unexecuted. Causal guarded GARCH forecasts and Raw LSTM forecasts will be fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
-- **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary benchmark for the trend classification task. Labels follow the paper's tri-class BUY/HOLD/SELL formulation (`src/baselines/ta_mlp_baseline/ta_labels.py`); thresholds are quantiles of `|pct_change|` fit per contract on training rows only. The paper reports random majority-`HOLD` undersampling, while the existing repository v1 sweep used natural sampling and is therefore an adaptation rather than an exact reproduction. Strict framework-vs-TA-MLP comparison should reuse the saved task label bundle and explicitly name the training-only sampling protocol so rows, thresholds, class definitions, and imbalance treatment are traceable. For the Phase 2 movement-label task, candidate protocols are majority undersampling (`P1U`), balanced oversampling (`P1O`), and logit-adjusted cross-entropy (`P2`); `P2` is fixed for architecture comparisons, while natural cross-entropy (`P0`) is an untreated reference only.
+- **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
 
 **Internal baselines:**
@@ -260,6 +271,20 @@ raw LSTM leads h8 future-price error and implied-movement Rank IC. TA-MLP, TCN,
 additional seeds, and the exploratory raw/log-return targets remain outside
 this baseline stage. See
 `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
+
+Phase 6.5C adds TA-MLP back only for the current two-hour movement-
+classification task. Because long-window TA indicators may exclude early
+rows, it freezes a feature-availability-only common intersection and reruns
+H0, Raw MLP, Raw LSTM, and TA-MLP under the matched `P2` protocol. The
+paper-derived training-only undersampling variant is a separately labelled
+sensitivity, not the primary architecture comparison.
+
+Phase 6.5D separately tests whether the intentionally simple probe limits what
+the canonical frozen representation can expose. It compares immutable `D0`
+with a residual projection head and a branch-aware gated projection head on
+all three current tasks and both walks. These are decoder/complete-system
+sensitivities; they do not replace the simple-head representation evidence or
+change any encoder.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

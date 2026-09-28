@@ -89,13 +89,33 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The approved next experiment scope is split between
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
-> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`, with
+> the subsequent raw-fusion/residual-CNN work frozen separately in
+> `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 > Phase 6.5A freezes one seed-0 two-layer, 128-wide LSTM capacity candidate
 > under both contrastive and BYOL; Phase 6.5B separately adapts the deferred
 > GARCH--LSTM stack to the strict H=8 future-realised-variance rows with
-> chronological OOF meta-features. Phase 7A freezes canonical five-branch
+> chronological OOF meta-features. Phase 6.5C restores the 36-feature TA-MLP
+> as a classification-only benchmark on the exact h2/tau=0.001 task through
+> a feature-availability-only common intersection, matched P2 comparator
+> reruns, and a training-only P1U sensitivity. Phase 6.5D tests two frozen
+> richer static heads on canonical H0: a residual projection decoder and a
+> branch-aware gated projection decoder, across all three tasks and both
+> walks. The simple head remains the primary representation probe. Phase 6.5A
+> infrastructure is implemented and all four walk/family two-layer encoders
+> are trained and replay-valid at 5/15/50; its feature, downstream, CKA, and
+> reporting gates remain. Phase 6.5B/C model, causal-data, training,
+> manifest-only launch, replay-validation, and CPU-test infrastructure is
+> implemented under `src/baselines/` and `scripts_v5/`, but neither study has
+> generated its canonical stores/manifests or executed any training. Phase
+> 6.5D remains unimplemented. Phase 6.6 then
+> freezes a matched 24-run raw-OHLCV/`H0` residual-fusion matrix plus four
+> Contrastive/BYOL residual-CNN encoders and 24 residual-CNN downstream runs.
+> SHAP-style attribution is deferred until those predictions are frozen and
+> requires a separate sampling/estimator amendment. Phase 7A
+> freezes canonical five-branch
 > single-branch and leave-one-branch-out probing across the three current
-> tasks. These plans are documented but not implemented or executed. Phase 7B
+> tasks. Phase 7A is documented but not implemented or executed. Phase 7B
 > alpha research is intentionally unspecified and deferred pending further
 > literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in
@@ -254,6 +274,18 @@ canonical plan. See
 .venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_downstream.py
 .venv/bin/python3 scripts_v4/report_phase6_encoder_variants.py
+
+# Phase 6.5B/C infrastructure. TA preparation writes feature/intersection
+# stores but does not train. Both bootstraps are manifest-only unless their
+# explicit --execute flag is supplied.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_garch_lstm.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_garch_lstm.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_garch_lstm.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_ta_mlp_data.py
+.venv/bin/python3 scripts_v5/validate_phase6_5_ta_mlp_data.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_ta_mlp.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature

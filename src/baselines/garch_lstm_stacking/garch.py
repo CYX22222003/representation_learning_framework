@@ -229,3 +229,239 @@ class GuardedGarchForecaster:
         for value in np.asarray(observed_returns, dtype=np.float64).reshape(-1):
             var = self.ewma_decay * var + (1.0 - self.ewma_decay) * float(value * value)
         return float(max(var, EPS**2))
+
+
+@dataclass(frozen=True)
+class RawChangeGarchState:
+    """Frozen state for a strict raw-probability-change GARCH forecast."""
+
+    status: str
+    fallback_reason: str | None
+    omega: float | None
+    alpha: float | None
+    beta: float | None
+    location: float
+    scale: float
+    last_standardized_change: float
+    last_standardized_variance: float
+    raw_variance_cap: float
+    fit_price_count: int
+    fit_change_count: int
+
+    def to_dict(self) -> dict[str, object]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class RawChangeGarchForecast:
+    prediction_raw: float
+    prediction_guarded: float
+    hourly_variance_raw: np.ndarray
+    hourly_variance_guarded: np.ndarray
+    capped_steps: int
+    state: RawChangeGarchState
+
+
+class RawChangeGarchHorizonForecaster:
+    """GARCH(1,1) on raw probability changes with a frozen H-step state.
+
+    Unlike :class:`GuardedGarchForecaster`, this class implements the Phase
+    6.5B target contract.  It never takes logs, never mixes a historical
+    window into the target definition, and recursively sums future one-hour
+    conditional variances.  ``fit`` and ``forecast`` are intentionally
+    separate so evaluation candles cannot silently update the fitted state.
+    """
+
+    def __init__(
+        self,
+        *,
+        ewma_decay: float = 0.94,
+        min_scale: float = 1e-8,
+        cap_quantile: float = 0.995,
+        optimizer: Callable[..., object] | None = None,
+    ) -> None:
+        if not 0.0 < ewma_decay < 1.0:
+            raise ValueError("ewma_decay must be in (0, 1)")
+        if min_scale <= 0.0:
+            raise ValueError("min_scale must be positive")
+        if not 0.0 < cap_quantile <= 1.0:
+            raise ValueError("cap_quantile must be in (0, 1]")
+        self.ewma_decay = float(ewma_decay)
+        self.min_scale = float(min_scale)
+        self.cap_quantile = float(cap_quantile)
+        self._optimizer = optimizer or minimize
+
+    def fit(self, close_history: np.ndarray) -> RawChangeGarchState:
+        close = np.asarray(close_history, dtype=np.float64).reshape(-1)
+        if close.size < 2 or not np.all(np.isfinite(close)):
+            raise ValueError("close_history must contain at least two finite prices")
+        return self.fit_changes(np.diff(close), price_count=close.size)
+
+    def fit_changes(
+        self, raw_changes: np.ndarray, *, price_count: int | None = None
+    ) -> RawChangeGarchState:
+        """Fit from explicitly validated contiguous one-hour raw changes."""
+
+        changes = np.asarray(raw_changes, dtype=np.float64).reshape(-1)
+        if not len(changes) or not np.all(np.isfinite(changes)):
+            raise ValueError("raw_changes must contain finite observations")
+        fitted_price_count = int(price_count if price_count is not None else len(changes) + 1)
+        if fitted_price_count < 2:
+            raise ValueError("price_count must be at least two")
+        location = float(np.mean(changes))
+        scale = float(np.std(changes, ddof=0))
+        centered = changes - location
+        empirical_variances = np.square(centered)
+        cap = float(np.quantile(empirical_variances, self.cap_quantile))
+        if not np.isfinite(cap) or cap <= 0.0:
+            cap = max(float(np.mean(empirical_variances)), EPS**2)
+
+        if changes.size < 8:
+            return self._fallback_state(
+                changes,
+                location,
+                max(scale, self.min_scale),
+                cap,
+                "too_few_changes",
+                fitted_price_count,
+            )
+        if not np.isfinite(scale) or scale < self.min_scale:
+            return self._fallback_state(
+                changes,
+                location,
+                max(scale, self.min_scale),
+                cap,
+                "near_static",
+                fitted_price_count,
+            )
+
+        z = centered / scale
+
+        def objective(parameters: np.ndarray) -> float:
+            omega, alpha, beta = parameters
+            if omega <= 0.0 or alpha < 0.0 or beta < 0.0 or alpha + beta >= 0.9999:
+                return 1e30
+            variance = max(float(np.var(z)), EPS**2)
+            total = 0.0
+            for value in z:
+                variance = max(
+                    float(omega + alpha * value * value + beta * variance), EPS**2
+                )
+                total += np.log(variance) + float(value * value) / variance
+            return 0.5 * total
+
+        result = self._optimizer(
+            objective,
+            np.asarray([0.05, 0.05, 0.90], dtype=np.float64),
+            method="SLSQP",
+            bounds=((1e-12, 10.0), (0.0, 0.999), (0.0, 0.999)),
+            constraints=({"type": "ineq", "fun": lambda x: 0.9999 - x[1] - x[2]},),
+            options={"maxiter": 500, "ftol": 1e-9, "disp": False},
+        )
+        parameters = np.asarray(getattr(result, "x", np.asarray([])), dtype=np.float64)
+        if not getattr(result, "success", False):
+            return self._fallback_state(
+                changes, location, scale, cap, "optimizer_failed", fitted_price_count
+            )
+        if (
+            parameters.shape != (3,)
+            or not np.all(np.isfinite(parameters))
+            or parameters[0] <= 0.0
+            or parameters[1] < 0.0
+            or parameters[2] < 0.0
+            or parameters[1] + parameters[2] >= 0.9999
+        ):
+            return self._fallback_state(
+                changes, location, scale, cap, "invalid_parameters", fitted_price_count
+            )
+        omega, alpha, beta = (float(value) for value in parameters)
+        variance = max(float(np.var(z)), EPS**2)
+        for value in z:
+            variance = max(omega + alpha * float(value * value) + beta * variance, EPS**2)
+        return RawChangeGarchState(
+            status="fitted",
+            fallback_reason=None,
+            omega=omega,
+            alpha=alpha,
+            beta=beta,
+            location=location,
+            scale=scale,
+            last_standardized_change=float(z[-1]),
+            last_standardized_variance=float(variance),
+            raw_variance_cap=cap,
+            fit_price_count=fitted_price_count,
+            fit_change_count=int(changes.size),
+        )
+
+    def forecast(self, state: RawChangeGarchState, *, horizon: int = 8) -> RawChangeGarchForecast:
+        if horizon <= 0:
+            raise ValueError("horizon must be positive")
+        if state.status == "fitted":
+            assert state.omega is not None and state.alpha is not None and state.beta is not None
+            standardized = np.empty(horizon, dtype=np.float64)
+            standardized[0] = max(
+                state.omega
+                + state.alpha * state.last_standardized_change**2
+                + state.beta * state.last_standardized_variance,
+                EPS**2,
+            )
+            persistence = state.alpha + state.beta
+            for step in range(1, horizon):
+                standardized[step] = max(
+                    state.omega + persistence * standardized[step - 1], EPS**2
+                )
+            raw = standardized * state.scale**2
+        else:
+            raw = np.empty(horizon, dtype=np.float64)
+            raw[0] = max(state.last_standardized_variance, EPS**2) * state.scale**2
+            unconditional = max(state.raw_variance_cap, EPS**2)
+            for step in range(1, horizon):
+                raw[step] = (
+                    self.ewma_decay * raw[step - 1]
+                    + (1.0 - self.ewma_decay) * unconditional
+                )
+        guarded = np.minimum(raw, state.raw_variance_cap)
+        return RawChangeGarchForecast(
+            prediction_raw=float(np.sum(raw)),
+            prediction_guarded=float(np.sum(guarded)),
+            hourly_variance_raw=raw,
+            hourly_variance_guarded=guarded,
+            capped_steps=int(np.count_nonzero(raw > state.raw_variance_cap)),
+            state=state,
+        )
+
+    def fit_forecast(
+        self, close_history: np.ndarray, *, horizon: int = 8
+    ) -> RawChangeGarchForecast:
+        return self.forecast(self.fit(close_history), horizon=horizon)
+
+    def _fallback_state(
+        self,
+        changes: np.ndarray,
+        location: float,
+        scale: float,
+        cap: float,
+        reason: str,
+        price_count: int,
+    ) -> RawChangeGarchState:
+        centered = np.asarray(changes, dtype=np.float64) - float(location)
+        variance = max(float(np.mean(np.square(centered))), EPS**2)
+        for value in centered:
+            variance = (
+                self.ewma_decay * variance
+                + (1.0 - self.ewma_decay) * float(value * value)
+            )
+        return RawChangeGarchState(
+            status="fallback",
+            fallback_reason=reason,
+            omega=None,
+            alpha=None,
+            beta=None,
+            location=float(location),
+            scale=float(max(scale, self.min_scale)),
+            last_standardized_change=float(centered[-1] / max(scale, self.min_scale)),
+            last_standardized_variance=float(variance / max(scale, self.min_scale) ** 2),
+            raw_variance_cap=float(max(cap, EPS**2)),
+            fit_price_count=int(price_count),
+            fit_change_count=int(len(changes)),
+        )
