@@ -102,9 +102,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > richer static heads on canonical H0: a residual projection decoder and a
 > branch-aware gated projection decoder, across all three tasks and both
 > walks. The simple head remains the primary representation probe. Phase 6.5A
-> infrastructure is implemented and all four walk/family two-layer encoders
-> are trained and replay-valid at 5/15/50; its feature, downstream, CKA, and
-> reporting gates remain. Phase 6.5B/C model, causal-data, training,
+> is complete for its frozen seed-0 scope: all four walk/family two-layer
+> encoders, six task/walk feature stores, 24 downstream trajectories, 72
+> snapshots, and both linear-CKA diagnostics are replay-valid; the complete
+> report is generated.
+> Phase 6.5B/C model, causal-data, training,
 > manifest-only launch, replay-validation, and CPU-test infrastructure is
 > implemented under `src/baselines/` and `scripts_v5/`, but neither study has
 > generated its canonical stores/manifests or executed any training. Phase
@@ -274,6 +276,20 @@ canonical plan. See
 .venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_downstream.py
 .venv/bin/python3 scripts_v4/report_phase6_encoder_variants.py
+
+# Phase 6.5A LSTM-capacity replay contract. Bootstrap commands are manifest-
+# only by default; their explicit --execute forms train or resume incomplete
+# trajectories while skipping validated completed runs.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_lstm_capacity_features.py --device cuda
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity_features.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity_downstream.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity_downstream.py
+.venv/bin/python3 scripts_v5/analyze_phase6_5_lstm_capacity_cka.py --device cuda
+.venv/bin/python3 scripts_v5/report_phase6_5_lstm_capacity.py
 
 # Phase 6.5B/C infrastructure. TA preparation writes feature/intersection
 # stores but does not train. Both bootstraps are manifest-only unless their

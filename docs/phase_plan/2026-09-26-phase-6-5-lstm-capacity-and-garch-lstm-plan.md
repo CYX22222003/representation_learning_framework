@@ -3,13 +3,15 @@
 **Date:** 2026-09-26
 **Scope amended:** 2026-09-29 to add the classification-only TA-MLP benchmark
 and the canonical decoder-capacity sensitivity
-**Status:** Approved contract. Phase 6.5A infrastructure is implemented and
-all four two-layer SSL encoder trajectories are trained and replay-valid at
-epochs 5/15/50; feature extraction, downstream execution, CKA, and reporting
-remain. Phase 6.5B and Phase 6.5C model/data/training infrastructure is
-implemented and CPU-tested under `src/baselines/` and `scripts_v5/`, but their
-canonical manifests, generated TA stores, training trajectories, predictions,
-and reports do not yet exist. Phase 6.5D has not started.
+**Status:** Approved contract. Phase 6.5A is complete for its frozen seed-0,
+two-walk scope: all four two-layer SSL encoder trajectories, six task/walk
+feature stores, 24 downstream trajectories, 72 epoch snapshots, two linear-
+CKA diagnostics, and the complete report are replay-validated or generated
+after prerequisite replay. Phase 6.5B and Phase
+6.5C model/data/training infrastructure is implemented and CPU-tested under
+`src/baselines/` and `scripts_v5/`, but their canonical manifests, generated
+TA stores, training trajectories, predictions, and reports do not yet exist.
+Phase 6.5D has not started.
 **Predecessor:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 
 ## 1. Purpose and scope
@@ -77,6 +79,15 @@ completed Phase 6 tasks. No study may rebuild a cohort, window, label,
 activity filter, or outcome-dependent comparator row set.
 
 ## 3. Phase 6.5A -- deeper LSTM encoder
+
+**Execution update (2026-09-29):** Gates 1--6 are complete. The four encoder
+trajectories and all 5/15/50 checkpoints replay; all six aligned feature
+stores validate; the frozen 24-entry downstream matrix and all 72 snapshots
+pass checkpoint, prediction, target, identity, scaler, and metric replay; and
+both walk-specific linear-CKA diagnostics validate. The generated report is
+under `experiments/phase6_5/lstm_capacity/reports/complete_seed0/`. This is
+single-seed capacity characterisation and does not identify an optimal LSTM
+depth.
 
 ### 3.1 Research question
 

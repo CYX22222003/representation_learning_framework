@@ -60,9 +60,10 @@ Read these in order:
    the walk-specific Phase 6 matrix has executed.
    For the next approved scope, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
-   in full. Phase 6.5A infrastructure and all four deep-LSTM encoder
-   trajectories are implemented and replay-valid; feature extraction,
-   downstream evaluation, CKA, and reporting remain. Phase 6.5B/C
+   in full. Phase 6.5A is complete for its frozen seed-0 scope: all four deep-
+   LSTM encoders, six task/walk feature stores, 24 downstream trajectories,
+   72 snapshots, and two CKA diagnostics replay; the report is generated.
+   Phase 6.5B/C
    infrastructure is implemented but no canonical manifests, generated TA
    stores, training runs, predictions, or reports exist. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
@@ -124,9 +125,10 @@ Report:
   Evaluation target distributions were deliberately excluded from horizon
   selection.
 - For Phase 6.5, Phase 6.6, and Phase 7A, distinguish frozen plans from
-  executed evidence. Phase 6.5A infrastructure and all four deep-LSTM encoder
-  trajectories are implemented and replay-valid, while its feature,
-  downstream, CKA, and report gates remain. The strict H=8 GARCH--LSTM and
+  executed evidence. Phase 6.5A is complete for its frozen seed-0 scope: four
+  deep-LSTM encoders, six feature stores, 24 downstream trajectories, 72
+  snapshots, and two CKA diagnostics replay; the report is generated. The
+  strict H=8 GARCH--LSTM and
   current-task TA-MLP model/data/training infrastructure is implemented but
   unexecuted. The two richer canonical static decoder matrices and canonical
   single/leave-one-out ablations have not started. Phase 6.6 raw/representation fusion and residual-CNN work is a
