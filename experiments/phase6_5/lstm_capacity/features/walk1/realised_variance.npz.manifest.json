@@ -1,0 +1,157 @@
+{
+  "branch_hashes": {
+    "test": {
+      "byol": "308528ba43ae6ae0d56e9c8929b1a76c1bcdeeed62e860e40ef82ec841a74fbc",
+      "byol_lstm2": "11161dfd20f0c4c363514821231faf362985b8a799a11b7040af31df8bdc7c7f",
+      "contrastive": "50284dc462883f73a8ee1b7e3244e8693af86d120e18e6dfc590fd23469dc6d1",
+      "contrastive_lstm2": "da15ea502c7d98f1e9546a213794d77947d6e67e3c4fbf80ffe5794cb6b1a078",
+      "statistical": "d261f0b54d31130b148d7c37ecb781ae59b7d136b3d59c47157929cc8ea47cbb",
+      "transformed": "8fbf5010a626ea8255c4ce78127d9c4cbb39e7d21492034da0739aa9096c87ad",
+      "vae": "7e5ff7f154be4fef664662a1a570fb1a60efb6e6f968ccbee4bba6ae699ddf3c"
+    },
+    "train": {
+      "byol": "094c04d49c65bf0120ab65cc994b5c828c269c24a0e547423f6cff99ababd89b",
+      "byol_lstm2": "73d9250580945d42738a152ab9fd5bd94c85e580dfcbdd319a59b718acd3b615",
+      "contrastive": "0b6ba5778143d08789c7654e07b0da4887f9e6cf75a06b2eeeb519ee328c97de",
+      "contrastive_lstm2": "d0d23c121652688d2032a22605d040caef8be6596582483dfe975eb7c9487dae",
+      "statistical": "c395df5d8d82d46266e4bbe0aa3d52affae4819f915fe516802b58e5c40ca7f2",
+      "transformed": "bc2e7189daa88d403e66560a27fe9e65b342e2a6d5bd990008c0ae920005da35",
+      "vae": "d17cd8181f7f1228d80077dee2004aa2d9f0638ee6b19b01d58a699596dba6a5"
+    }
+  },
+  "checkpoint_provenance": {
+    "byol_lstm2": {
+      "extraction_seconds": {
+        "test": 0.3865450579996832,
+        "train": 0.6383636540003863
+      },
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/lstm_capacity/pretraining/walk1/byol/lstm2/seed0/e50/checkpoint.pth",
+      "sha256": "beebb70b87265fcb56932283601f2c5b2a0e3845f980ce8a6774a3470c3c9e22",
+      "validation": {
+        "encoder_train_identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "byol_lstm2",
+        "walk": 1
+      }
+    },
+    "contrastive_lstm2": {
+      "extraction_seconds": {
+        "test": 0.3584064189999481,
+        "train": 0.6953904500005592
+      },
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/lstm_capacity/pretraining/walk1/contrastive/lstm2/seed0/e50/checkpoint.pth",
+      "sha256": "a6d2a870037f42f7657712373a3277b03820f9fceebecb64ec20d7e711d1bac4",
+      "validation": {
+        "encoder_train_identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "contrastive_lstm2",
+        "walk": 1
+      }
+    }
+  },
+  "configuration_branches": {
+    "H0": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol"
+    ],
+    "HB-AL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "byol_lstm2"
+    ],
+    "HB-SL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol_lstm2"
+    ],
+    "HC-AL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "contrastive_lstm2"
+    ],
+    "HC-SL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive_lstm2",
+      "byol"
+    ]
+  },
+  "configuration_dims": {
+    "H0": 445,
+    "HB-AL2": 573,
+    "HB-SL2": 445,
+    "HC-AL2": 573,
+    "HC-SL2": 445
+  },
+  "dataset_manifest_sha256": "caee0746caa7f8971cf0df1876e530d1ab99d087351f38ede66736bbd0b95c4d",
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+  "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+  "encoder_dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "1ad9bb381001a1661f3b6da0b256a2856f321079",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "epoch": 50,
+  "feature_store_sha256": "a22903d4167eb56801940a9024ca5147f01bba3643689c4364f982840dff34fa",
+  "h0_feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+  "h0_feature_sha256": "16ee6a293b93f3a413ce2e1b76b70e356ae085d202f6eaaa8cdc3c7c34dc8b7d",
+  "h0_feature_validation": {
+    "all_features_byte_identical_to_frozen_source": true,
+    "concat_dim": 445,
+    "feature_bundle_sha256": "16ee6a293b93f3a413ce2e1b76b70e356ae085d202f6eaaa8cdc3c7c34dc8b7d",
+    "target_independent": true,
+    "test_rows": 27806,
+    "train_rows": 32470,
+    "valid": true,
+    "walk": 1
+  },
+  "master_branch_dims": {
+    "byol": 128,
+    "byol_lstm2": 128,
+    "contrastive": 128,
+    "contrastive_lstm2": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "phase": "6.5A",
+  "row_counts": {
+    "test": 27806,
+    "train": 32470
+  },
+  "schema_version": "phase6-5a-lstm-capacity-features-v1",
+  "target_independent_extraction": true,
+  "task": "realised_variance",
+  "walk": 1
+}
