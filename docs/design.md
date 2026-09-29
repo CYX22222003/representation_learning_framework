@@ -28,8 +28,11 @@
 > with grouped SHAP deferred to a later analysis amendment.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
-> Phase 6.5A--C are executed for their frozen seed-0 scope; Phase 6.5D, Phase
-> 6.6, and Phase 7A remain plans rather than executed evidence. Phase 7B alpha research remains
+> Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
+> residual-CNN encoders, two feature stores, eight price trajectories, CKA,
+> resources, subgroup tables, and complete report are replay-valid. Phase 6.6
+> and Phase 7A remain plans rather
+> than executed evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -178,8 +181,10 @@ imputation-exposure reporting but is not an additional model channel.
   comparison. Phase 6.5B/C artifacts and replay-valid 5/15/50 snapshots live
   under `experiments/phase6_5/`; their compact principal-result report is
   generated, while expanded contract-macro/subgroup reporting remains.
-  Phase 6.5D plans deeper residual-CNN candidates under both SSL families with
-  eight future-price downstream trajectories. Phase 6.6 plans a matched
+  Phase 6.5D's deeper residual-CNN candidates under both SSL families and all
+  eight future-price trajectories are complete and replay-valid. Contrastive
+  residual variants reduce price error against H0 in both walks, while BYOL
+  does not improve consistently and movement ranking remains weaker. Phase 6.6 plans a matched
   frozen-H0/raw-sequence residual fusion system and two richer static canonical
   heads—residual projection and branch-aware gated projection—on future price
   only. The completed simple head remains the primary representation probe.

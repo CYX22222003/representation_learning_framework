@@ -48,8 +48,11 @@ universal framework superiority.
 > which defers grouped SHAP until after its frozen model comparisons,
 > and the
 > [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
-> Phase 6.5A--C are executed and replay-valid; price-focused Phase 6.5D,
-> Phase 6.6, and Phase 7A remain unexecuted plans.
+> Phase 6.5A--D are executed and replay-valid. Price-focused Phase 6.5D finds
+> a repeatable Contrastive residual-CNN price-error improvement over H0 and its
+> same-width control, but not over Raw LSTM or persistence, and not in movement
+> ranking; BYOL does not improve error consistently across walks.
+> Phase 6.6 and Phase 7A remain unexecuted plans.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -397,8 +400,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks
    - Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
-     LSTM/BiLSTM towers on future price; Phase 6.5D tests deeper residual CNNs
-     under both SSL families with the same price-first boundary. Grouped SHAP
+     LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
+     residual CNNs under both SSL families with the same price-first boundary.
+     Grouped SHAP
      is reserved for post-model analysis and does not select a configuration.
 
 ### 5.4 Additional Alpha-Research Downstream Capability

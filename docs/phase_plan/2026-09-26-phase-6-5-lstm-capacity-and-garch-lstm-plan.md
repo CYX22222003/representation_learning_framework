@@ -15,9 +15,11 @@ all ten strict classification trajectories pass standalone replay at epochs
 5/15/50. The compact epoch-50 result summary is under
 `experiments/phase6_5/reports/b_c_seed0/`; contract-macro and subgroup report
 expansion remains the only Phase 6.5B/C reporting follow-up.
-Phase 6.5D is frozen but not implemented or executed: it contains four
-walk/family residual-CNN encoder trajectories and eight future-price
-downstream trajectories.
+Phase 6.5D is complete for its frozen price-only seed-0 scope. All four
+residual-CNN encoders, both feature stores, all eight price trajectories, all
+5/15/50 snapshots, both CKA diagnostics, and the complete report pass replay.
+The report is under
+`experiments/phase6_5/residual_cnn/reports/complete_seed0/`.
 **Predecessor:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 
 ## 1. Purpose and scope
@@ -457,6 +459,15 @@ cannot establish performance on the current task.
 > simple downstream price head are fixed, does a deeper residual temporal CNN
 > produce more useful eight-hour future-price representations than the
 > canonical two-convolution CNN?
+
+**Execution update (2026-09-29):** All Phase 6.5D gates are complete. The
+Contrastive substitution and addition reduce price MAE/RMSE relative to H0 in
+both walks; the addition also beats the same-width `HC-DC` control in both
+walks, so its error gain is not explained by width alone. The BYOL variants do
+not improve error consistently. Raw LSTM and current-price persistence remain
+stronger error references, while the residual variants do not improve
+movement Rank IC over H0 overall. This is a narrow price-level reconstruction
+result, not evidence of profitable trading or cross-task superiority.
 
 The canonical CNN is only two convolutional layers deep. This bounded study
 tests one deeper practical architecture; it does not claim that the canonical

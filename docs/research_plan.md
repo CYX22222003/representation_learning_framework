@@ -135,8 +135,12 @@ realised-variance task form the downstream matrix. That seed-0 matrix is now
 complete. Phase 6.5 has completed one two-layer, 128-wide LSTM capacity
 candidate under both SSL families, a strict H=8 adapted GARCH--LSTM benchmark,
 and a classification-only TA-MLP benchmark on the current h2/tau=0.001 task.
-Its next frozen workstream, Phase 6.5D, tests deeper residual CNNs under both
-SSL families with only the eight-hour future-price task in this first round.
+Phase 6.5D is also complete: four deeper residual-CNN SSL encoders, two
+walk-specific feature stores, eight future-price probes, CKA, resources,
+subgroups, and the complete report are replay-valid. The Contrastive
+substitution and addition improve price MAE/RMSE over H0 in both walks, and
+the addition beats its same-width duplicate control, but Raw LSTM and
+persistence remain stronger error references and movement ranking weakens.
 The simple head remains the primary representation
 probe. Phase 6.6 subsequently tests a matched supervised fusion of canonical
 `H0` with raw-sequence LSTM/BiLSTM towers and two richer static canonical
@@ -283,10 +287,12 @@ sensitivity, not the primary architecture comparison. This matrix is now
 complete and replay-valid: TA-P2 leads H0 on Walk 1 macro-F1 but trails H0 on
 Walk 2, while P1U is not consistently better across walks.
 
-Phase 6.5D tests whether a deeper residual CNN produces more useful future-
+Phase 6.5D tested whether a deeper residual CNN produces more useful future-
 price representations under the existing Contrastive and BYOL objectives.
-Its two substitutions and two additions use the simple probe on both walks;
-classification and volatility extensions are deferred.
+Its two substitutions and two additions use the simple probe on both walks.
+The Contrastive result supports a narrow price-level improvement, while BYOL
+is not consistently better and no movement-ranking or trading claim follows;
+classification and volatility extensions remain deferred.
 
 Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`

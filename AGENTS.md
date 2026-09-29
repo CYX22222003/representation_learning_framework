@@ -109,14 +109,21 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > causal TA stores, all ten strict classification trajectories, and every
 > 5/15/50 snapshot pass standalone replay. The compact principal-result report
 > is generated under `experiments/phase6_5/reports/b_c_seed0/`; expanded
-> contract-macro and subgroup reporting remains. Phase 6.5D now freezes four
-> Contrastive/BYOL residual-CNN encoders and eight future-price downstream
-> runs; it is unimplemented. Phase 6.6 freezes a matched eight-run price-only
+> contract-macro and subgroup reporting remains. Phase 6.5D is complete for its
+> frozen seed-0 price-only scope: all four three-block residual-CNN SSL
+> encoders, both walk-specific feature stores, eight downstream trajectories,
+> every 5/15/50 snapshot, both CKA diagnostics, subgroup/resource tables, and
+> the complete report pass standalone replay. Contrastive substitution and
+> addition reduce future-price MAE/RMSE versus H0 in both walks, and the
+> addition also beats its same-width duplicate control on those errors in both
+> walks. BYOL does not improve error consistently; Raw LSTM and persistence
+> remain stronger error references, and movement Rank IC does not improve over
+> H0 overall. Phase 6.6 freezes a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix and a four-run price-only Phase 6.6C
 > canonical decoder-capacity matrix. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. Phase 6.5D and all Phase 6.6 studies remain unimplemented.
+> representation probe. All Phase 6.6 studies remain unimplemented.
 > SHAP-style attribution is deferred until those predictions are frozen and
 > requires a separate sampling/estimator amendment. Phase 7A
 > freezes canonical five-branch
@@ -306,6 +313,19 @@ canonical plan. See
 .venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cpu
 .venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cuda --execute
 .venv/bin/python3 scripts_v5/validate_phase6_5_ta_mlp.py
+
+# Phase 6.5D residual-CNN infrastructure. Both bootstrap commands are
+# manifest-only by default; only their explicit --execute forms train models.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_residual_cnn_features.py --device cuda
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn_features.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn_downstream.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn_downstream.py
+.venv/bin/python3 scripts_v5/analyze_phase6_5_residual_cnn_cka.py --device cuda
+.venv/bin/python3 scripts_v5/report_phase6_5_residual_cnn.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature

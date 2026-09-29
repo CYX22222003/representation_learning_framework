@@ -64,8 +64,9 @@ Read these in order:
    LSTM encoders, six task/walk feature stores, 24 downstream trajectories,
    72 snapshots, and two CKA diagnostics replay; the report is generated.
    Phase 6.5B/C execution and compact principal reporting are complete. Phase
-   6.5D freezes four residual-CNN encoders and eight future-price probes but is
-   not implemented or executed. Also read
+   6.5D's four residual-CNN encoders, two feature stores, eight future-price
+   probes, CKA, resources, subgroups, and report are also complete and replay-
+   valid. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
    for the frozen, unimplemented price-focused raw/residual-fusion and
    decoder-capacity scope,
@@ -133,9 +134,10 @@ Report:
   strict H=8 GARCH--LSTM and current-task TA-MLP studies are also executed:
   both stacks, both causal TA stores, all ten classification trajectories, and
   every 5/15/50 snapshot replay. Their compact principal report is generated;
-  expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
-  residual-CNN encoders and eight future-price probes are frozen but have not
-  started. Canonical single/leave-one-out ablations have not started. Phase
+   expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
+   residual-CNN encoders, two feature stores, eight future-price probes, CKA,
+   resources, subgroups, and report are complete and replay-valid. Canonical
+   single/leave-one-out ablations have not started. Phase
   6.6 price-focused raw/representation fusion and two richer canonical static
   decoder studies are a frozen plan only; grouped SHAP is deferred to a later
   analysis amendment.

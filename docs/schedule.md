@@ -25,11 +25,12 @@
 > trajectories, and every 5/15/50 snapshot pass standalone replay. The compact
 > principal-result report is generated; contract-macro and subgroup report
 > expansion remains a reporting follow-up.
-> Phase 7A remains unimplemented. Phase 6.5D now precommits four residual-CNN
-> SSL encoders and eight future-price downstream trajectories. Phase 6.6
+> Phase 7A remains unimplemented. Phase 6.5D's four residual-CNN encoders, two
+> feature stores, eight future-price paths, CKA, resources, subgroups, and
+> complete report are executed and replay-valid. Phase 6.6
 > precommits an eight-run price-only raw-OHLCV/`H0` residual-fusion matrix and
-> a four-run price-only canonical decoder-capacity study. All three new studies
-> remain unimplemented. Grouped SHAP is
+> a four-run price-only canonical decoder-capacity study. Both Phase 6.6
+> studies remain unimplemented. Grouped SHAP is
 > explicitly deferred to a later post-model analysis amendment.
 > Phase 7B alpha research is intentionally deferred pending further literature
 > review and has no approved execution contract. Phase 4 data
@@ -177,7 +178,7 @@
 | Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | 🔄 All 26 Phase 6 H=8 neural trajectories and both separate Phase 6.5B GARCH--LSTM stacks are complete and replay-valid. Per-walk temporal/raw comparisons and the compact stack result summary are complete; pooled all-temporal and expanded stack subgroup reporting remain follow-ups. |
 | Phase 6.5B strict H=8 adapted GARCH--LSTM | ✅ Both walk-specific stacks and all five chronological OOF folds are trained and replay-valid at 5/15/50. The final OOF populations are 25,174/44,874 rows. Epoch-50 stack MSE is only marginally lower than Raw LSTM in both walks, while MAE and Spearman are worse; no broad hybrid win is supported. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5C strict adapted TA-MLP classification | ✅ Both causal TA stores and all ten H0/Raw-MLP/Raw-LSTM/TA-MLP P2 plus TA-P1U trajectories are replay-valid at 5/15/50. TA-P2 leads Walk 1 macro-F1 (`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus `0.4632`); P1U is not consistently better. Contract-macro/subgroup report expansion remains. |
-| Phase 6.5D residual-CNN encoders | 📝 Plan frozen; implementation/execution not started. Contrastive and BYOL ResCNNs are precommitted per walk, followed by two substitutions and two additions on eight-hour future-price prediction only (4 encoders and 8 downstream trajectories). Classification and volatility extensions are deferred. |
+| Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
 | Phase 6.6A raw-representation residual fusion | 📝 Plan frozen; implementation/execution not started. A matched `F-H0`, raw-LSTM, residual H0+LSTM, and residual H0+BiLSTM matrix runs on eight-hour future-price prediction in both walks (8 trajectories). |
 | Phase 6.6C canonical decoder capacity | 📝 Plan frozen; implementation/execution not started. It compares the immutable simple `D0` probe with one residual projection head and one branch-aware gated projection head on canonical H0 for eight-hour future-price prediction in both walks (4 new trajectories). |
 | Post-model grouped attribution | 📝 Deferred until the Phase 6.6 model matrix is frozen and evaluated. A later amendment must predeclare SHAP/background sampling and representation, OHLCV-channel, and lag groups; attribution is not a model-selection rule. |
@@ -260,8 +261,11 @@ Adapted GARCH--LSTM moved to and completed in Phase 6.5B. Phase 6.5A is complete
 its frozen seed-0 scope: all four deep-LSTM encoders, six feature stores, 24
 downstream trajectories, 72 snapshots, and CKA replay; reporting is complete. Phase
 6.5B/C execution and principal-result reporting are complete; expanded
-contract-macro and subgroup tables remain a reporting follow-up. Phase 6.5D
-now freezes a price-focused residual-CNN SSL study. The subsequent Phase 6.6
+contract-macro and subgroup tables remain a reporting follow-up. Phase 6.5D's
+four encoders, two price feature stores, eight downstream trajectories, CKA,
+resource/subgroup tables, and complete report are replay-valid. Its narrow
+Contrastive price-error gain does not displace Raw LSTM or persistence and
+does not improve movement ranking overall. The subsequent Phase 6.6
 plan freezes price-focused raw/representation residual fusion and canonical
 decoder-capacity studies while deferring grouped SHAP to a later
 analysis amendment. Pooled all-temporal volatility reporting, reversal

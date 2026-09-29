@@ -94,9 +94,11 @@ Present the parts relevant to the request:
   downstream probes, CKA, and reporting. Phase 6.5B/C is executed and replay-
   valid for both walks: two stacks, two causal TA stores, ten classification
   trajectories, and all 5/15/50 snapshots. The principal report is generated;
-  expanded contract-macro/subgroup reporting remains. Phase 6.5D freezes four
-  residual-CNN SSL encoders and eight future-price probes but remains
-  unimplemented. Phase 7A remains unimplemented. Phase 6.6 freezes price-only
+  expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
+  residual-CNN SSL encoders, two feature stores, eight future-price probes,
+  CKA, resources, subgroups, and report are complete and replay-valid. Its
+  Contrastive variants improve price error over H0 in both walks but do not
+  improve movement ranking overall. Phase 7A remains unimplemented. Phase 6.6 freezes price-only
   matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
   decoders. The simple head remains the primary representation
   probe; the branch-gated decoder is a complete-system sensitivity. Grouped
