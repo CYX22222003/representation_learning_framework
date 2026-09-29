@@ -1,0 +1,388 @@
+{
+  "cpu_smoke_test": {
+    "heads": {
+      "HC-AR": {
+        "input_dim": 573,
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ],
+        "sigmoid_bounded": true
+      },
+      "HC-SR": {
+        "input_dim": 445,
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ],
+        "sigmoid_bounded": true
+      }
+    },
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk1/absolute_price_h8/features.npz",
+      "feature_sha256": "a186a3bcbf1379ccb64dc663cddbfcddba93819b7b8b10d08da04c1f941c0337",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hc-sr/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk1/absolute_price_h8/features.npz",
+      "feature_sha256": "a186a3bcbf1379ccb64dc663cddbfcddba93819b7b8b10d08da04c1f941c0337",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hb-sr/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk1/absolute_price_h8/features.npz",
+      "feature_sha256": "a186a3bcbf1379ccb64dc663cddbfcddba93819b7b8b10d08da04c1f941c0337",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hc-ar/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk1/absolute_price_h8/features.npz",
+      "feature_sha256": "a186a3bcbf1379ccb64dc663cddbfcddba93819b7b8b10d08da04c1f941c0337",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 29834,
+          "train": 36773
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 1
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hb-ar/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-SR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-SR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk2/absolute_price_h8/features.npz",
+      "feature_sha256": "4aabd3ed38127f87f3955fe5abf5b36b8c6091eaf5f5f9c083876f55682269b1",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hc-sr/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-SR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-SR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk2/absolute_price_h8/features.npz",
+      "feature_sha256": "4aabd3ed38127f87f3955fe5abf5b36b8c6091eaf5f5f9c083876f55682269b1",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hb-sr/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HC-AR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HC-AR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk2/absolute_price_h8/features.npz",
+      "feature_sha256": "4aabd3ed38127f87f3955fe5abf5b36b8c6091eaf5f5f9c083876f55682269b1",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hc-ar/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "configuration": "HB-AR",
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "configuration": "HB-AR",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/features/walk2/absolute_price_h8/features.npz",
+      "feature_sha256": "4aabd3ed38127f87f3955fe5abf5b36b8c6091eaf5f5f9c083876f55682269b1",
+      "feature_validation": {
+        "configuration_dims": {
+          "H0": 445,
+          "HB-AR": 573,
+          "HB-SR": 445,
+          "HC-AR": 573,
+          "HC-SR": 445
+        },
+        "row_counts": {
+          "test": 13506,
+          "train": 56652
+        },
+        "target_independent": true,
+        "task": "absolute_price_h8",
+        "valid": true,
+        "walk": 2
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/downstream/absolute_price_h8/hb-ar/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    }
+  ],
+  "entry_count": 8,
+  "evaluation_used_to_screen_matrix": false,
+  "new_trajectory_count": 8,
+  "phase": "6.5D",
+  "principal_epoch": 50,
+  "schema_version": "phase6-5d-residual-cnn-downstream-v1",
+  "seed": 0,
+  "task": "absolute_price_h8"
+}

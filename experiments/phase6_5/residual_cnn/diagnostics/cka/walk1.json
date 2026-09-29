@@ -1,0 +1,47 @@
+{
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "0b7b2cae9a05d5d14680db9750b620979e061146",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "phase": "6.5D",
+  "purpose": "descriptive_residual_cnn_vs_same_family_canonical_cnn_linear_cka",
+  "rows": [
+    {
+      "candidate": "contrastive_rescnn",
+      "candidate_checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/pretraining/walk1/contrastive/rescnn/seed0/e50/checkpoint.pth",
+      "candidate_checkpoint_sha256": "6c328901c5977936dc3cbae145de113675077627f956d276af593fbe20a07a74",
+      "cka": 0.09891028647475292,
+      "family": "contrastive",
+      "reference": "contrastive_canonical_cnn",
+      "reference_checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk1/contrastive/seed0/e50/checkpoint.pth",
+      "reference_checkpoint_sha256": "9d8d0ec6333d1ac1c7aa54abaa2d1ae4a1e464795d64068b2a586923bc821d77",
+      "walk": 1
+    },
+    {
+      "candidate": "byol_rescnn",
+      "candidate_checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/residual_cnn/pretraining/walk1/byol/rescnn/seed0/e50/checkpoint.pth",
+      "candidate_checkpoint_sha256": "ad9cc78ed256abb738d6e1479d81d19eae4b50a1c8cab5a451b6b3feedc3ce78",
+      "cka": 0.1205187102716092,
+      "family": "byol",
+      "reference": "byol_canonical_cnn",
+      "reference_checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/encoder_pretraining/walk1/byol/seed0/e50/checkpoint.pth",
+      "reference_checkpoint_sha256": "50bcdc8e8a99d4090cbedb6c0f7ff07a8a6581e0e1662cbb73a94d8d759f2710",
+      "walk": 1
+    }
+  ],
+  "sample_contract": {
+    "identity_sha256": "a75cbe6aae965507b11a8696742abca8f36a426cd58ebd5986f04bac35748acf",
+    "sample_size": 4096,
+    "selection": "first_rows_in_saved_encoder_train_order"
+  },
+  "selection_or_checkpoint_choice_performed": false,
+  "walk": 1
+}
