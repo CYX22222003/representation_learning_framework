@@ -39,7 +39,7 @@ from training.phase6_volatility import (
 
 HOUR_NS = 3_600_000_000_000
 OOF_FOLDS = 5
-OOF_SCHEMA = "phase6-5b-calendar-expanding-oof-v1"
+OOF_SCHEMA = "phase6-5b-calendar-expanding-oof-v2"
 
 
 @dataclass(frozen=True)
@@ -138,13 +138,16 @@ def make_calendar_expanding_oof_plan(
     target_availability_ns: np.ndarray,
     condition_ids: np.ndarray,
     *,
+    decision_date_ns: np.ndarray | None = None,
     folds: int = OOF_FOLDS,
 ) -> CalendarOOFPlan:
     """Split unique decision times into burn-in plus five ordered blocks.
 
     A fold may train only on targets available strictly before its first
     prediction decision.  Grouping by timestamp prevents rows at one calendar
-    instant from being divided between earlier and later folds.
+    instant from being divided between earlier and later folds.  When decision
+    dates are supplied, rows whose contract lacks two causal fold-start prices
+    are recorded as discarded warm-up rather than entering the meta learner.
     """
 
     decisions = np.asarray(decision_availability_ns, dtype=np.int64).reshape(-1)
@@ -152,19 +155,39 @@ def make_calendar_expanding_oof_plan(
     contracts = np.asarray(condition_ids).astype(str).reshape(-1)
     if not (len(decisions) == len(targets) == len(contracts)) or not len(decisions):
         raise ValueError("OOF identity arrays must be non-empty and equally sized")
+    decision_dates = None
+    earliest_history_start_by_contract: dict[str, int] = {}
+    if decision_date_ns is not None:
+        decision_dates = np.asarray(decision_date_ns, dtype=np.int64).reshape(-1)
+        if len(decision_dates) != len(decisions):
+            raise ValueError("OOF decision dates must align with identity arrays")
+        for condition_id in np.unique(contracts):
+            local = decision_dates[contracts == condition_id]
+            earliest_history_start_by_contract[str(condition_id)] = int(local.min()) - 63 * HOUR_NS
     if folds != 5:
         raise ValueError("Phase 6.5B requires exactly five OOF folds")
     unique_times = np.unique(decisions)
     time_blocks = np.array_split(unique_times, folds + 1)
     if any(not len(block) for block in time_blocks):
         raise ValueError("insufficient unique decision timestamps for OOF plan")
-    burn_in = np.flatnonzero(np.isin(decisions, time_blocks[0])).astype(np.int64)
+    discarded_warmup = [np.flatnonzero(np.isin(decisions, time_blocks[0])).astype(np.int64)]
     fold_rows: list[CalendarOOFFold] = []
     all_predictions: list[np.ndarray] = []
     all_fold_ids: list[np.ndarray] = []
     for fold_id, time_block in enumerate(time_blocks[1:], start=1):
         prediction = np.flatnonzero(np.isin(decisions, time_block)).astype(np.int64)
         cutoff = int(time_block.min())
+        if decision_dates is not None:
+            eligible = np.asarray(
+                [
+                    earliest_history_start_by_contract[str(contracts[position])] + HOUR_NS
+                    <= cutoff
+                    for position in prediction
+                ],
+                dtype=bool,
+            )
+            discarded_warmup.append(prediction[~eligible])
+            prediction = prediction[eligible]
         training = np.flatnonzero(targets < cutoff).astype(np.int64)
         if not len(prediction) or not len(training):
             raise ValueError(f"OOF fold {fold_id} has an empty train or prediction population")
@@ -190,6 +213,7 @@ def make_calendar_expanding_oof_plan(
     fold_ids = np.concatenate(all_fold_ids)
     if len(np.unique(prediction_positions)) != len(prediction_positions):
         raise ValueError("an OOF row was assigned to more than one fold")
+    burn_in = np.unique(np.concatenate(discarded_warmup)).astype(np.int64)
     return CalendarOOFPlan(
         folds=tuple(fold_rows),
         burn_in_positions=burn_in,
@@ -302,15 +326,40 @@ def _garch_evaluation_predictions(
     output = np.empty(len(test_contracts), dtype=np.float64)
     diagnostics: list[dict[str, Any]] = []
     forecaster = RawChangeGarchHorizonForecaster()
+    training_forecasts: list[float] = []
+    for timestamps, closes in histories.values():
+        contiguous = np.diff(timestamps) == HOUR_NS
+        changes = np.diff(closes)[contiguous]
+        if not len(changes):
+            continue
+        state = forecaster.fit_changes(changes, price_count=len(closes))
+        training_forecasts.append(forecaster.forecast(state, horizon=8).prediction_guarded)
+    if not training_forecasts:
+        raise ValueError("no training-only GARCH forecasts are available for evaluation fallback")
+    pooled_fallback = float(np.median(np.asarray(training_forecasts, dtype=np.float64)))
     for condition_id in np.unique(test_contracts):
+        positions = np.flatnonzero(test_contracts == condition_id)
         if condition_id not in histories:
-            raise ValueError(f"evaluation contract lacks GARCH training history: {condition_id}")
+            output[positions] = pooled_fallback
+            diagnostics.append(
+                {
+                    "condition_id": condition_id,
+                    "prediction_rows": int(len(positions)),
+                    "prediction_raw": pooled_fallback,
+                    "prediction_guarded": pooled_fallback,
+                    "capped_steps": 0,
+                    "state": None,
+                    "fallback_reason": "unseen_evaluation_contract",
+                    "pooled_training_contract_count": int(len(training_forecasts)),
+                    "evaluation_updates_state": False,
+                }
+            )
+            continue
         timestamps, closes = histories[condition_id]
         contiguous = np.diff(timestamps) == HOUR_NS
         changes = np.diff(closes)[contiguous]
         state = forecaster.fit_changes(changes, price_count=len(closes))
         forecast = forecaster.forecast(state, horizon=8)
-        positions = np.flatnonzero(test_contracts == condition_id)
         output[positions] = forecast.prediction_guarded
         diagnostics.append(
             {
@@ -515,17 +564,21 @@ def run_phase65_garch_lstm(
 ) -> dict[str, Any]:
     if run_root.exists():
         raise FileExistsError(f"refusing to overwrite Phase 6.5B run: {run_root}")
+    # Resolve the requested runtime before creating any persistent run files.
+    # A missing CUDA device must leave no directory that a later bootstrap can
+    # mistake for a completed or replay-valid experiment.
+    device = resolve_device(config.device)
     labels = _load_labels(label_path)
     plan = make_calendar_expanding_oof_plan(
         labels["train_decision_availability_ns"],
         labels["train_target_availability_ns"],
         labels["train_condition_ids"],
+        decision_date_ns=labels["train_decision_date_ns"],
         folds=config.folds,
     )
     run_root.mkdir(parents=True, exist_ok=False)
     (run_root / "oof").mkdir()
     write_json(run_root / "config.json", config.to_dict())
-    device = resolve_device(config.device)
     write_json(run_root / "environment.json", environment_manifest(device))
     label_manifest = json.loads(Path(f"{label_path}.manifest.json").read_text(encoding="utf-8"))
     write_json(
@@ -543,6 +596,9 @@ def run_phase65_garch_lstm(
             "target_hashes": label_manifest["target_hashes"],
             "target_definition": "sum of 8 strictly future squared raw probability changes",
             "evaluation_updates_garch_state": False,
+            "unseen_evaluation_contract_fallback": (
+                "median guarded H=8 forecast across contract-local training-only GARCH states"
+            ),
         },
     )
     write_json(run_root / "crossfit_manifest.json", plan.manifest())
@@ -663,6 +719,7 @@ def validate_phase65_garch_lstm_run(
         labels["train_decision_availability_ns"],
         labels["train_target_availability_ns"],
         labels["train_condition_ids"],
+        decision_date_ns=labels["train_decision_date_ns"],
     )
     if json.loads((run_root / "crossfit_manifest.json").read_text(encoding="utf-8")) != plan.manifest():
         raise ValueError("Phase 6.5B crossfit manifest replay mismatch")
@@ -706,10 +763,15 @@ def validate_phase65_garch_lstm_run(
                 config.batch_size,
                 torch.device("cpu"),
             )
+            # cuDNN and the CPU LSTM backend accumulate small recurrent
+            # reduction differences.  OOF folds can amplify that drift more
+            # than the full-data Phase 6 trajectory; 5e-5 is in raw realised-
+            # variance units (0.5 in the 10,000x optimization unit).  Saved
+            # CUDA predictions remain immutable and drive all reported metrics.
             if not np.allclose(
                 replay,
                 lstm_oof[epoch][output_positions],
-                atol=6e-6,
+                atol=5e-5,
                 rtol=1e-5,
             ):
                 raise ValueError(f"Phase 6.5B fold {fold.fold_id}/e{epoch} Raw-LSTM replay mismatch")

@@ -57,6 +57,7 @@ def freeze(device: str) -> dict[str, object]:
                 stored["train_decision_availability_ns"],
                 stored["train_target_availability_ns"],
                 stored["train_condition_ids"],
+                decision_date_ns=stored["train_decision_date_ns"],
             )
         entries.append(
             {
