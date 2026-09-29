@@ -240,9 +240,10 @@ selecting one temporal backbone for every downstream task.
 - The adapted GARCH--LSTM comparator remains outside the completed current-
   round neural matrix and is now scoped separately by
   `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
-- The later Phase 6.5 scope amendment also adds a strict current-task TA-MLP
-  classification benchmark and a bounded canonical decoder-capacity
-  sensitivity. Neither changes the completed Phase 6 result matrix.
+- The later Phase 6.5 scope amendments add a strict current-task TA-MLP
+  classification benchmark and a price-focused residual-CNN encoder study.
+  The bounded price-focused canonical decoder-capacity sensitivity remains
+  Phase 6.6C. None changes the completed Phase 6 result matrix.
 - The volatility parent plan requested pooled reporting for every model. The
   current temporal report is complete per walk, while the initial H0/raw report
   contains the existing pooled comparison. A pooled artifact for all temporal
@@ -256,7 +257,9 @@ not a rerun of only the observed winners.
 
 The approved immediate follow-ups are instead the bounded seed-0 LSTM-depth
 capacity study, strict H=8 GARCH--LSTM benchmark, strict current-task TA-MLP
-classification comparison, and canonical decoder-capacity sensitivity in the
-Phase 6.5 plan, plus the canonical branch-attribution matrix in
+classification comparison, and price-focused residual-CNN study in the Phase
+6.5 plan; price-focused raw fusion and canonical decoder-capacity sensitivity
+in the Phase 6.6 plan; plus the
+canonical branch-attribution matrix in
 `2026-09-26-phase-7a-representation-ablation-plan.md`. Phase 7B alpha research
 remains unspecified pending further literature review.

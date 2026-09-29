@@ -132,14 +132,16 @@ fixed-width substitutions and as heterogeneous single additions under concat.
 Same-width duplicated-CNN features control for the wider downstream head.
 Movement classification, future price, and the independently frozen future-
 realised-variance task form the downstream matrix. That seed-0 matrix is now
-complete. Phase 6.5 separately precommits one two-layer, 128-wide LSTM
-capacity candidate under both SSL families, a strict H=8 adapted
-GARCH--LSTM benchmark, a classification-only TA-MLP benchmark on the current
-h2/tau=0.001 task, and two richer static canonical decoders. The simple head
-remains the primary representation probe. Phase 6.6 subsequently tests a
-matched supervised fusion of canonical `H0` with raw-sequence LSTM/BiLSTM
-towers and a deeper residual-CNN substitution/addition under both SSL
-families. Grouped SHAP-style attribution is deferred until the Phase 6.6
+complete. Phase 6.5 has completed one two-layer, 128-wide LSTM capacity
+candidate under both SSL families, a strict H=8 adapted GARCH--LSTM benchmark,
+and a classification-only TA-MLP benchmark on the current h2/tau=0.001 task.
+Its next frozen workstream, Phase 6.5D, tests deeper residual CNNs under both
+SSL families with only the eight-hour future-price task in this first round.
+The simple head remains the primary representation
+probe. Phase 6.6 subsequently tests a matched supervised fusion of canonical
+`H0` with raw-sequence LSTM/BiLSTM towers and two richer static canonical
+decoders, also on eight-hour future price only. Grouped SHAP-style attribution
+is deferred until the Phase 6.6
 models and predictions are frozen and cannot select the model matrix. Phase
 7A then tests the canonical five branches through
 single-branch and leave-one-branch-out probes. Fixed-first-walk reuse,
@@ -197,7 +199,7 @@ Two categories of comparison models are used:
 
 - **Stacked LSTM** — 3-layer LSTM trained directly on raw OHLCV sequences as the primary external benchmark for price prediction.
 - **Raw LSTM volatility** — LSTM trained directly on raw OHLCV sequences and the shared realised-volatility label bundle. This is the direct end-to-end neural benchmark for volatility prediction.
-- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is implemented but unexecuted. Causal guarded GARCH forecasts and Raw LSTM forecasts will be fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction.
+- **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is now complete and replay-valid for both walks. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction. The completed stack gives only marginal MSE gains while worsening MAE and Spearman, so it is not a broad win.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
 - **Additional benchmarks (TBD)** — further models may be added based on the literature review.
@@ -277,14 +279,28 @@ classification task. Because long-window TA indicators may exclude early
 rows, it freezes a feature-availability-only common intersection and reruns
 H0, Raw MLP, Raw LSTM, and TA-MLP under the matched `P2` protocol. The
 paper-derived training-only undersampling variant is a separately labelled
-sensitivity, not the primary architecture comparison.
+sensitivity, not the primary architecture comparison. This matrix is now
+complete and replay-valid: TA-P2 leads H0 on Walk 1 macro-F1 but trails H0 on
+Walk 2, while P1U is not consistently better across walks.
 
-Phase 6.5D separately tests whether the intentionally simple probe limits what
+Phase 6.5D tests whether a deeper residual CNN produces more useful future-
+price representations under the existing Contrastive and BYOL objectives.
+Its two substitutions and two additions use the simple probe on both walks;
+classification and volatility extensions are deferred.
+
+Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`
 with a residual projection head and a branch-aware gated projection head on
-all three current tasks and both walks. These are decoder/complete-system
+eight-hour future price in both walks. These are decoder/complete-system
 sensitivities; they do not replace the simple-head representation evidence or
 change any encoder.
+
+Phase 6.6A uses the same price-only boundary for matched `F-H0`, raw-LSTM,
+`H0`+LSTM, and `H0`+BiLSTM systems. Classification already supplies the
+clearest representation advantage, while volatility remains metric- and walk-
+dependent; the new work therefore prioritises the task on which the Raw LSTM,
+persistence, and reversal references leave the framework's edge least
+convincing.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

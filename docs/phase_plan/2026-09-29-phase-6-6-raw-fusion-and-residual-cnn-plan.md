@@ -1,29 +1,35 @@
-# Phase 6.6 Raw-Representation Fusion and Residual-CNN Plan
+# Phase 6.6 Price-Focused Fusion and Decoder-Capacity Plan
 
 **Date:** 2026-09-29
-**Status:** Approved planning contract; implementation and execution have not
-started
+**Status:** Approved planning contract, amended 2026-09-29; implementation and
+execution have not started. The former Phase 6.6B residual-CNN study now
+belongs to price-focused Phase 6.5D. Phase 6.6A/C are restricted to eight-hour
+future-price prediction in this first round. The existing filename is retained
+so repository links remain stable.
 **Predecessors:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 and `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 
 ## 1. Purpose and boundary
 
-Phase 6.6 adds two independent model studies motivated by the possibility that
-the frozen representation discards useful ordering information and that the
-canonical two-layer CNN is too shallow to benefit from residual learning:
+Phase 6.6 contains two related downstream-system studies motivated by the
+possibility that the frozen representation discards useful ordering
+information or that the simple downstream probe cannot expose useful
+interactions:
 
 - **Phase 6.6A -- raw-representation residual fusion:** combine the canonical
   frozen `H0` vector with a supervised LSTM or bidirectional-LSTM encoding of
   the exact raw 64-hour OHLCV context; and
-- **Phase 6.6B -- residual CNN encoder:** replace one canonical SSL CNN at a
-  time with a deeper one-dimensional residual CNN while holding the SSL
-  objective and 128-dimensional output fixed.
+- **Phase 6.6C -- decoder capacity:** test two richer static decoders on the
+  immutable canonical `H0` branches while keeping future-price rows and
+  targets fixed.
 
-The studies answer different questions. Phase 6.6A changes the supervised
-downstream system while preserving all frozen `H0` encoders. Phase 6.6B
-changes one unsupervised encoder backbone while retaining the simple
-downstream probe. Their results must not be combined into one candidate during
-this phase.
+The studies answer different questions. Phase 6.6A asks whether frozen
+representations and exact raw temporal ordering are complementary in one
+supervised price model. Phase 6.6C asks whether useful price information is
+already present in `H0` but underused by the simple probe. Phase 6.6C changes
+only the supervised mapping and, in one named row, the fusion rule over
+immutable canonical branches. Their results must not be combined into one
+candidate during this phase.
 
 Post-hoc SHAP-style attribution is deliberately placed after model execution
 and comparison. It is not a training input, model-selection rule, or Phase
@@ -31,9 +37,12 @@ and comparison. It is not a training input, model-selection rule, or Phase
 population, evaluation subset, feature groups, masking rule, and estimator
 before attribution values are computed.
 
-Phase 6.6 does not alter or reopen Phase 6.5A. In particular, the two-layer
-unidirectional SSL LSTM remains the exact predeclared Phase 6.5A candidate.
-Phase 6.6 also does not change the Phase 7A canonical branch-ablation matrix.
+Phase 6.6 does not alter completed Phase 6.5A--C. The residual-CNN SSL study
+formerly specified here is now Phase 6.5D and remains a separate encoder
+experiment with the simple probe. The Phase 6.6C architecture remains the
+decoder design previously frozen here, but its active matrix is narrowed to
+future price. Phase 6.6 also does not change the Phase 7A canonical branch-
+ablation matrix.
 
 ## 2. Shared data and evaluation contract
 
@@ -48,27 +57,26 @@ Every fitted parameter remains walk-specific. Walk 2 history may not update,
 select, or reinterpret a Walk 1 model. Both studies reuse:
 
 - the exact saved 64-by-5 walk-scaled OHLCV contexts;
-- the exact canonical epoch-50 `H0` branch arrays where applicable;
-- the exact task-specific training and evaluation identities;
-- two-hour `DOWN/STABLE/UP` classification at `tau=0.001`;
-- eight-hour future-price prediction and implied-movement diagnostics; and
-- strict eight-hour future realised variance from observed raw probability
-  changes.
+- the exact canonical epoch-50 `H0` branch arrays;
+- the exact eight-hour future-price training and evaluation identities; and
+- the existing price-level and implied-movement diagnostics and references.
 
 No cohort, window, activity filter, label, target, reference, or row set may be
 rebuilt for this phase. Feature and model fitting uses training rows only. The
 test-only policy remains: no validation split, early stopping, restart
 selection, or evaluation-driven architecture choice. Seed `0`, one 50-epoch
 trajectory, 5/15/50 snapshots, and predeclared epoch 50 remain the initial
-characterisation contract.
+characterisation contract. Classification and realised-variance extensions
+are deferred and may not be added after reading the price results without a
+separate amendment.
 
 ## 3. Phase 6.6A -- raw-representation residual fusion
 
 ### 3.1 Research question
 
-> Does the exact raw historical OHLCV ordering provide useful task signal
-> beyond the canonical frozen representation when supervised capacity and
-> task rows are held fixed?
+> Does the exact raw historical OHLCV ordering provide useful eight-hour
+> future-price signal beyond the canonical frozen representation when
+> supervised capacity and price rows are held fixed?
 
 The input sources describe the same decision-time window in different forms:
 
@@ -135,11 +143,8 @@ Every configuration ends with the same task mapping:
 h [128] -> Linear(128, 64) -> GELU -> task output
 ```
 
-The task outputs and losses remain unchanged:
-
-- classification: three logits with train-prior logit-adjusted cross-entropy;
-- future price: sigmoid probability with mean squared error; and
-- realised variance: Softplus output with Smooth L1 loss on `10000 * RV`.
+The output is a sigmoid-bounded future probability trained with mean squared
+error, matching the completed eight-hour future-price task.
 
 ### 3.4 Frozen comparison matrix
 
@@ -150,10 +155,10 @@ The task outputs and losses remain unchanged:
 | `F-H0-RL` | `H0` plus residual raw LSTM | primary unidirectional fusion candidate |
 | `F-H0-RBL` | `H0` plus residual raw BiLSTM | primary bidirectional fusion candidate |
 
-Run all four configurations on all three tasks and both walks:
+Run all four configurations on future price in both walks:
 
 ```text
-4 configurations x 3 tasks x 2 walks = 24 downstream trajectories
+4 configurations x 1 task x 2 walks = 8 downstream trajectories
 ```
 
 The primary comparisons are:
@@ -168,104 +173,130 @@ comparisons. `H0-D0` remains the primary simple representation probe. `F-H0`
 is required because comparing a fused model only with `H0-D0` would confound
 raw information with the new supervised projection.
 
-For each task, fit the H0 coordinate scaler only on eligible training rows.
+To support a complementarity statement rather than only “raw information
+helps H0,” also report each fused model against `F-RL`. A fused win over both
+unimodal controls is complete-system evidence of complementary usefulness,
+not parameter-matched causal attribution.
+
+Fit the H0 coordinate scaler only on eligible price-training rows.
 The raw tower consumes the exact saved walk-scaled sequences used by the
 matched task rows and does not fit a second full-frame normalization.
 
-## 4. Phase 6.6B -- residual CNN SSL encoder
+## 4. Phase 6.6C -- canonical decoder-capacity sensitivity
 
-### 4.1 Research question
+### 4.1 Research question and interpretation
 
-> When the SSL family, training identities, augmentations, output width, and
-> simple downstream head are fixed, does a deeper residual temporal CNN
-> produce more useful representations than the canonical two-convolution CNN?
+> With the canonical five frozen branches and all future-price data held
+> fixed, does a predeclared richer static decoder improve price prediction
+> relative to the simple Phase 6 probe?
 
-The canonical CNN is only two convolutional layers deep. The residual
-candidate therefore tests a deeper practical architecture; it does not claim
-that the shallow reference currently suffers proven vanishing gradients.
+The existing shallow task head remains the primary representation probe: its
+low capacity makes it easier to attribute performance to the frozen features.
+Phase 6.6C is a sensitivity asking whether those features contain useful
+nonlinear or cross-branch interactions that the probe cannot expose. An
+improvement supports a representation--decoder interaction or a stronger
+complete system; it does not retroactively prove that the representation alone
+improved.
 
-### 4.2 Frozen residual backbone
+### 4.2 Frozen decoder configurations
 
-The candidate consumes `[N,64,5]` and returns one 128-dimensional vector:
+Use only canonical `H0` branch arrays and the completed task-specific
+train-only coordinate scalers. The immutable reference is:
 
-```text
-transpose to [N,5,64]
--> Conv1d(5,128,kernel=5,padding=2)
--> three pre-activation residual blocks at width 128
-   [GroupNorm(8,128) -> GELU -> Conv1d(128,128,kernel=3,padding=1)
-    -> GroupNorm(8,128) -> GELU -> Dropout(0.1)
-    -> Conv1d(128,128,kernel=3,padding=1)
-    -> residual add]
--> AdaptiveAvgPool1d(1)
--> width-128 representation
-```
+| ID | Decoder | Role |
+|---|---|---|
+| `D0` | completed Phase 6 shallow task head | Primary representation probe; no retraining required |
 
-There is no temporal downsampling, dilation, attention, channel-width search,
-or stochastic-depth search. The skip is identity because every block retains
-width and sequence length.
+Two new static candidates are frozen:
 
-Train the backbone independently under both existing SSL families:
-
-| SSL family | Branch name | Walk-specific trajectories |
-|---|---|---:|
-| Contrastive / NT-Xent | `contrastive_rescnn` | 2 |
-| BYOL | `byol_rescnn` | 2 |
-
-This produces four new encoder trajectories. Both candidates retain the Phase
-6 SSL views, projectors/predictor, temperature `0.2`, target decay `0.99`,
-AdamW learning rate `1e-3`, weight decay `1e-4`, batch size `256`, seed `0`,
-and 5/15/50 checkpoints. Epoch 50 is the sole downstream feature source.
-
-### 4.3 Feature configurations
-
-| ID | Change from canonical `H0` | Width | Role |
-|---|---|---:|---|
-| `HC-SR` | contrastive CNN -> contrastive ResCNN | 445 | same-width substitution |
-| `HB-SR` | BYOL CNN -> BYOL ResCNN | 445 | same-width substitution |
-| `HC-AR` | add contrastive ResCNN to `H0` | 573 | heterogeneous addition |
-| `HB-AR` | add BYOL ResCNN to `H0` | 573 | heterogeneous addition |
-
-All four configurations run on all three tasks and both walks:
+**`D1-RP` -- residual projection head**
 
 ```text
-4 configurations x 3 tasks x 2 walks = 24 downstream trajectories
+concat H0 (445)
+-> LayerNorm
+-> Linear(445, 256) -> GELU -> Dropout(0.1)
+-> two pre-norm residual MLP blocks at width 256
+   [LayerNorm -> Linear(256, 256) -> GELU -> Dropout(0.1)
+    -> Linear(256, 256) -> residual add]
+-> Linear(256, 128) -> GELU
+-> task output layer
 ```
 
-Substitutions are compared with `H0`. Additions are compared with both `H0`
-and the completed same-family duplicate-CNN controls `HC-DC` or `HB-DC`.
-Consequently, an addition is not interpreted as new information merely
-because it widens the task head.
+This is a supervised projection decoder. It is separate from, and does not
+reuse, either SSL method's pretraining projector.
 
-Centered linear CKA compares each residual CNN with its same-family canonical
-CNN on the predeclared first 4,096 encoder-training identities. CKA is
-descriptive and cannot select a candidate or establish predictive usefulness.
+**`D2-BG` -- branch-aware gated projection head**
+
+```text
+each canonical branch -> branch-specific Linear(input_dim, 128)
+                      -> GELU -> LayerNorm
+concatenated projected branches -> Linear(5*128, 128) -> GELU
+                                -> Linear(128, 5) -> softmax gates
+weighted sum of five projected branches
+-> residual MLP [LayerNorm -> Linear(128, 256) -> GELU
+                 -> Dropout(0.1) -> Linear(256, 128) -> residual add]
+-> task output layer
+```
+
+`D2-BG` changes both supervised capacity and fusion, so it is a named
+complete-system sensitivity rather than a decoder-only causal contrast.
+Neither candidate consumes temporal sequences of embeddings. Historical
+recurrent/attention decoder ideas remain outside Phase 6.6C because they would
+change context construction and row eligibility.
+
+### 4.3 Price training and matrix
+
+Run both candidates on the established future-price task and both walks:
+
+```text
+2 new decoders x 1 task x 2 walks = 4 new downstream trajectories
+```
+
+Reuse the exact Phase 6 `absolute_price_h8` rows, MSE loss, sigmoid output,
+current-price persistence and reversal references, batch size `512`, Adam
+learning rate `1e-4`, seed `0`, and one uninterrupted 50-epoch trajectory with
+snapshots at 5, 15, and 50. Retain price-level and implied-movement metrics.
+
+Epoch 50 remains the principal result. No dropout, width, depth, optimizer,
+loss, or output transform may be selected from evaluation performance.
+
+### 4.4 Reporting and claim boundary
+
+Compare `D1-RP - D0` as the primary decoder-capacity contrast for each walk.
+Compare `D2-BG` separately with both `D0` and `D1-RP`. Report total
+and trainable parameters, training and inference time, peak device memory,
+checkpoint histories, prediction replay, and the unchanged price metrics and
+breakdowns. The completed simple-head results remain the headline
+representation-quality evidence even if a richer complete system performs
+better.
 
 ## 5. Training, reporting, and claim boundary
 
 Phase 6.6A trains its towers and task mapping end to end on supervised
-training rows. Phase 6.6B freezes each epoch-50 SSL backbone before fitting
-the unchanged simple task head. Both studies retain task-specific training-
-only scaling, batch size `512`, Adam learning rate `1e-4`, weight decay `0`,
-and the completed task metrics and references.
+price-training rows. Phase 6.6C trains only its static decoder on the unchanged
+frozen H0 features. Both studies retain price-training-only scaling, batch
+size `512`, Adam learning rate `1e-4`, weight decay `0`, and the completed
+price metrics and references.
 
-Report every configuration, task, walk, and snapshot. Primary conclusions use
-epoch 50 and remain separated by task and walk. Record parameter counts,
+Report every configuration, walk, and snapshot. Primary conclusions use epoch
+50 and remain separated by walk. Record parameter counts,
 training time, inference time, peak device memory, loss histories, prediction
 hashes, and replay results.
 
 The studies may support only narrow conclusions:
 
-- residual fusion improves or does not improve the named task/walk relative
+- residual fusion improves or does not improve future price in the named walk relative
   to its matched `F-H0` control;
+- a fused model does or does not improve on the raw-only `F-RL` system;
 - bidirectional historical processing changes performance relative to the
   unidirectional fused model;
-- the fixed residual CNN substitutes for or complements its same-family CNN
-  under the named SSL objective; and
+- a richer static decoder exposes or does not expose additional price signal
+  relative to the immutable simple `D0` probe; and
 - any effect is seed-0, two-walk characterisation.
 
-They cannot establish causal feature importance, optimal fusion, optimal CNN
-depth, universal bidirectional superiority, robust multi-seed superiority, or
-a profitable strategy.
+They cannot establish causal feature importance, optimal fusion, an optimal
+decoder, universal bidirectional superiority, cross-task superiority, robust
+multi-seed superiority, or a profitable strategy.
 
 ## 6. Later attribution-analysis boundary
 
@@ -295,14 +326,13 @@ Generated artifacts belong under a new immutable root:
 experiments/phase6_6/
   manifests/
   raw_representation_fusion/
-    downstream/{classification_h2,absolute_price_h8,realised_variance}/
+    downstream/absolute_price_h8/
+      walk{1,2}/{f_h0,f_rl,f_h0_rl,f_h0_rbl}/seed0/
     diagnostics/resources/
     reports/
-  residual_cnn/
-    pretraining/walk{1,2}/{contrastive,byol}/rescnn/seed0/
-    features/walk{1,2}/
-    downstream/{classification_h2,absolute_price_h8,realised_variance}/
-    diagnostics/{health,cka,resources}/
+  decoder_capacity/
+    downstream/absolute_price_h8/walk{1,2}/{d1_rp,d2_bg}/seed0/
+    diagnostics/resources/
     reports/
 ```
 
@@ -312,40 +342,36 @@ default and require an explicit execution flag.
 
 Ordered gates are:
 
-1. Replay the exact Phase 5/6 source datasets, H0 features, task rows, and
-   named reference predictions.
+1. Replay the exact Phase 5/6 source datasets, H0 features, future-price rows,
+   and named reference predictions.
 2. Implement all four fusion configurations and CPU-test forward, loss,
    backward, directionality, output transforms, occupied paths, and train-only
    scaling.
-3. Freeze the 24-entry fusion manifest before any fused-model evaluation.
+3. Freeze the eight-entry fusion manifest before any fused-model evaluation.
 4. Train, replay, and report the complete fusion matrix without selecting a
-   task or walk winner.
-5. Implement the residual CNN once and wrap it independently in the existing
-   Contrastive and BYOL semantics.
-6. CPU-test residual identity shapes, gradients, BYOL EMA, collapse checks,
-   parameter counts, provenance failure, and occupied paths; then freeze the
-   four-encoder manifest.
-7. Train and replay all four residual-CNN encoders.
-8. Extract and validate all task/walk feature stores; freeze the 24-entry
-   residual-CNN downstream manifest.
-9. Train, replay, and report the complete substitution/addition matrix with
-   CKA, resources, H0 references, and duplicate controls.
-10. Only afterward, write and approve the separate grouped-attribution
+   walk winner.
+5. Implement `D1-RP` and `D2-BG` without altering the completed `D0` model or
+   any frozen Phase 6 feature store; add forward/backward, output-transform,
+   occupied-path, and parameter-count tests.
+6. Freeze the four-entry decoder-capacity manifest after CPU smoke tests verify
+    exact price rows, targets, train-only scalers, loss, and references.
+7. Train, replay, and report the complete Phase 6.6C matrix with resource
+    tables and the predeclared `D1-RP - D0` and `D2-BG` comparisons.
+8. Only afterward, write and approve the separate grouped-attribution
     amendment before computing SHAP-style results.
 
 ## 8. Completion conditions
 
 Phase 6.6 is complete only when:
 
-- all 24 fusion trajectories pass checkpoint, prediction, target, identity,
+- all eight fusion trajectories pass checkpoint, prediction, target, identity,
   scaler, and metric replay;
 - `F-H0` is used as the primary matched-capacity fusion control;
-- all four residual-CNN SSL trajectories pass health and checkpoint replay;
-- all six residual-CNN task/walk feature stores preserve exact H0 coordinates
-  and task identities;
-- all 24 residual-CNN downstream trajectories pass replay;
-- substitution, addition, duplicate-control, CKA, and resource comparisons
-  are reported without result-driven matrix changes; and
+- fusion is also reported against `F-RL` so complementarity is not inferred
+  only from improvement over representation-only input;
+- all four Phase 6.6C trajectories pass replay on unchanged future-price rows,
+  and decoder-capacity, fusion, and resource comparisons are reported without
+  selecting an evaluation winner; and
 - limitations are stated as single-seed, two-walk characterisation.
 
 Grouped SHAP or other attribution is a later analysis deliverable and is not

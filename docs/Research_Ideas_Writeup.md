@@ -42,12 +42,14 @@ universal framework superiority.
 > The approved follow-ups are the
 > [Phase 6.5 capacity and task-benchmark plan](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md),
 > covering LSTM depth, strict GARCH--LSTM, current-task TA-MLP classification,
-> and canonical decoder capacity,
+> and a price-focused residual-CNN encoder study,
 > the
-> [Phase 6.6 raw-fusion and residual-CNN plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
+> [Phase 6.6 price-focused fusion and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > which defers grouped SHAP until after its frozen model comparisons,
 > and the
 > [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> Phase 6.5A--C are executed and replay-valid; price-focused Phase 6.5D,
+> Phase 6.6, and Phase 7A remain unexecuted plans.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -335,7 +337,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 | **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
-| **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.5D freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
+| **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
 
 ### 5.3 Tasks and Metrics
 
@@ -391,13 +393,13 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      h2/tau=0.001 movement labels, with a causal common TA-eligible row
      intersection, matched P2 H0/raw comparator reruns, and a training-only
      paper-derived undersampling sensitivity
-   - Phase 6.5D retains the simple probe as the representation-quality
+   - Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
-     projection head across all three tasks and both walks
+     projection head on eight-hour future price in both walks
    - Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
-     LSTM/BiLSTM towers; Phase 6.6B tests deeper residual CNNs under both SSL
-     families. Grouped SHAP is reserved for post-model analysis and does not
-     select a configuration.
+     LSTM/BiLSTM towers on future price; Phase 6.5D tests deeper residual CNNs
+     under both SSL families with the same price-first boundary. Grouped SHAP
+     is reserved for post-model analysis and does not select a configuration.
 
 ### 5.4 Additional Alpha-Research Downstream Capability
 

@@ -14,19 +14,22 @@
 > configuration remains a narrow reporting follow-up. Adapted GARCH--LSTM is
 > now assigned to the documented Phase 6.5 follow-up and does not block the
 > completed Phase 6 round. Phase 6.5 also freezes a seed-0 two-layer LSTM
-> capacity probe, a strict current-task TA-MLP classification benchmark, and
-> two richer canonical static decoder candidates, while Phase 7A freezes
+> capacity probe and a strict current-task TA-MLP classification benchmark,
+> while Phase 7A freezes
 > canonical single-branch and
 > leave-one-branch-out ablations. Phase 6.5A is complete for its frozen seed-0
 > scope: all four two-layer SSL encoders, six task/walk feature stores, 24
 > downstream trajectories, 72 snapshots, and two CKA diagnostics replay; the
-> complete report is generated. Phase 6.5B and 6.5C model/data/training
-> infrastructure is
-> implemented and CPU-tested, but no canonical B/C data stores, frozen
-> manifests, training runs, predictions, or reports have been generated.
-> Phase 6.5D and Phase 7A remain unimplemented. Phase 6.6
-> now precommits a 24-run raw-OHLCV/`H0` residual-fusion matrix and a four-
-> encoder residual-CNN study with 24 downstream trajectories; grouped SHAP is
+> complete report is generated. Phase 6.5B and 6.5C execution is complete:
+> both GARCH--LSTM stacks, both causal TA stores, all ten strict classification
+> trajectories, and every 5/15/50 snapshot pass standalone replay. The compact
+> principal-result report is generated; contract-macro and subgroup report
+> expansion remains a reporting follow-up.
+> Phase 7A remains unimplemented. Phase 6.5D now precommits four residual-CNN
+> SSL encoders and eight future-price downstream trajectories. Phase 6.6
+> precommits an eight-run price-only raw-OHLCV/`H0` residual-fusion matrix and
+> a four-run price-only canonical decoder-capacity study. All three new studies
+> remain unimplemented. Grouped SHAP is
 > explicitly deferred to a later post-model analysis amendment.
 > Phase 7B alpha research is intentionally deferred pending further literature
 > review and has no approved execution contract. Phase 4 data
@@ -146,7 +149,7 @@
 | Raw LSTM volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs |
 | Adapted GARCH--LSTM stacking volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs; replay verification and plots complete |
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
-| TA-MLP benchmark (FreqTrade, trend classification) | 🔄 Historical natural-sampling adaptation complete on legacy four-hour BUY/HOLD/SELL data (seed-0 accuracy 0.71–0.73, macro-F1 0.45–0.47). The strict current-data h2/tau=0.001 Phase 6.5C causal feature builder, fixed TA-MLP, matched H0/Raw-MLP/Raw-LSTM trainers, P2/P1U protocols, manifest-only launcher, validators, and CPU tests are implemented; canonical stores and all ten runs remain unexecuted. |
+| TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
 | Additional benchmarks from literature review (TBD) | ⬜ TBD |
 
 **Internal baselines** (designed within this project)
@@ -171,12 +174,12 @@
 | Probability-movement classification | ✅ Phase 5 matched seed-0 comparison complete: framework macro-F1/balanced accuracy is `0.4541/0.4730`, Raw MLP `0.4417/0.4598`, and Raw LSTM `0.4307/0.4743`. The framework leads macro-F1 and accuracy; Raw LSTM is marginally higher on balanced accuracy. |
 | Temporal encoder variants | ✅ Frozen seed-0 scope complete: eight walk-specific SSL trajectories, six master stores, all 11 configurations, six H0 references, 60 new downstream trajectories, 5/15/50 replay, linear CKA, resources, duplicate controls, 360 paired differences, and the valid 66-entry per-walk report are complete. Results support task-specific representation value, not universal encoder superiority. |
 | Phase 6.5A LSTM capacity follow-up | ✅ Frozen seed-0 scope complete: four walk/family two-layer SSL encoders, six task/walk feature stores, 24 downstream trajectories, 72 replay-valid 5/15/50 snapshots, two linear-CKA diagnostics, resource tables, paired differences, and the complete report are recorded under `experiments/phase6_5/lstm_capacity/`. |
-| Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | 🔄 All 26 active current-round H=8 neural trajectories are complete and replay-valid. Per-walk temporal/raw comparisons and the outcome document are complete; pooled aggregation for every temporal configuration remains a reporting follow-up. Adapted GARCH--LSTM is deferred to a later round. |
-| Phase 6.5B strict H=8 adapted GARCH--LSTM | 🔄 Implemented, not run. A separate raw-change H=8 GARCH forecaster, gap-safe fitting, five global-calendar expanding OOF folds, Phase 6 Raw-LSTM identity/hash reuse, fold-local Raw-LSTM training, train-OOF-only RobustScaler/ElasticNet stacking, manifest-only launcher, replay validator, and CPU tests now live under `src/baselines/garch_lstm_stacking/` and `scripts_v5/`. No B manifest or stack trajectory has been generated. |
-| Phase 6.5C strict adapted TA-MLP classification | 🔄 Implemented, not run. The causal 36-feature builder uses training-only volume statistics and resets rolling indicators at longer gaps; it freezes a feature-availability-only intersection and supplies fixed H0/Raw MLP/Raw LSTM/TA-MLP P2 plus TA-only P1U trainers, manifest-only launch, replay validation, and CPU tests under `src/baselines/ta_mlp_baseline/` and `scripts_v5/`. No canonical TA store, matrix manifest, or trajectory has been generated. |
-| Phase 6.5D canonical decoder capacity | 📝 Plan frozen; implementation/execution not started. It compares the immutable simple `D0` probe with one residual projection head and one branch-aware gated projection head on canonical H0 across all three tasks and both walks (12 new trajectories). |
-| Phase 6.6A raw-representation residual fusion | 📝 Plan frozen; implementation/execution not started. A matched `F-H0`, raw-LSTM, residual H0+LSTM, and residual H0+BiLSTM matrix spans all three tasks and both walks (24 trajectories). |
-| Phase 6.6B residual-CNN encoders | 📝 Plan frozen; implementation/execution not started. Contrastive and BYOL ResCNNs are precommitted per walk, followed by two substitutions and two additions across all three tasks (4 encoders and 24 downstream trajectories). |
+| Volatility prediction benchmark (MAE, RMSE/MSE, correlation) | 🔄 All 26 Phase 6 H=8 neural trajectories and both separate Phase 6.5B GARCH--LSTM stacks are complete and replay-valid. Per-walk temporal/raw comparisons and the compact stack result summary are complete; pooled all-temporal and expanded stack subgroup reporting remain follow-ups. |
+| Phase 6.5B strict H=8 adapted GARCH--LSTM | ✅ Both walk-specific stacks and all five chronological OOF folds are trained and replay-valid at 5/15/50. The final OOF populations are 25,174/44,874 rows. Epoch-50 stack MSE is only marginally lower than Raw LSTM in both walks, while MAE and Spearman are worse; no broad hybrid win is supported. Contract-macro/subgroup report expansion remains. |
+| Phase 6.5C strict adapted TA-MLP classification | ✅ Both causal TA stores and all ten H0/Raw-MLP/Raw-LSTM/TA-MLP P2 plus TA-P1U trajectories are replay-valid at 5/15/50. TA-P2 leads Walk 1 macro-F1 (`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus `0.4632`); P1U is not consistently better. Contract-macro/subgroup report expansion remains. |
+| Phase 6.5D residual-CNN encoders | 📝 Plan frozen; implementation/execution not started. Contrastive and BYOL ResCNNs are precommitted per walk, followed by two substitutions and two additions on eight-hour future-price prediction only (4 encoders and 8 downstream trajectories). Classification and volatility extensions are deferred. |
+| Phase 6.6A raw-representation residual fusion | 📝 Plan frozen; implementation/execution not started. A matched `F-H0`, raw-LSTM, residual H0+LSTM, and residual H0+BiLSTM matrix runs on eight-hour future-price prediction in both walks (8 trajectories). |
+| Phase 6.6C canonical decoder capacity | 📝 Plan frozen; implementation/execution not started. It compares the immutable simple `D0` probe with one residual projection head and one branch-aware gated projection head on canonical H0 for eight-hour future-price prediction in both walks (4 new trajectories). |
 | Post-model grouped attribution | 📝 Deferred until the Phase 6.6 model matrix is frozen and evaluated. A later amendment must predeclare SHAP/background sampling and representation, OHLCV-channel, and lag groups; attribution is not a model-selection rule. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
@@ -253,12 +256,14 @@ resources, and per-walk report are now complete and replay-valid. Temporal
 features are most competitive for classification and price-level
 reconstruction, Raw LSTM remains strongest for learned future-price error and
 movement ranking, and volatility results are metric- and walk-dependent.
-Adapted GARCH--LSTM is deferred to the next round. Phase 6.5A is complete for
+Adapted GARCH--LSTM moved to and completed in Phase 6.5B. Phase 6.5A is complete for
 its frozen seed-0 scope: all four deep-LSTM encoders, six feature stores, 24
 downstream trajectories, 72 snapshots, and CKA replay; reporting is complete. Phase
-6.5B/C are implemented but unexecuted; Phase 6.5D remains
-planned. The subsequent Phase 6.6 plan freezes raw/representation residual
-fusion and residual-CNN SSL studies while deferring grouped SHAP to a later
+6.5B/C execution and principal-result reporting are complete; expanded
+contract-macro and subgroup tables remain a reporting follow-up. Phase 6.5D
+now freezes a price-focused residual-CNN SSL study. The subsequent Phase 6.6
+plan freezes price-focused raw/representation residual fusion and canonical
+decoder-capacity studies while deferring grouped SHAP to a later
 analysis amendment. Pooled all-temporal volatility reporting, reversal
 confirmation, and additional seeds remain deferred follow-ups.
 
@@ -337,7 +342,7 @@ the correctly oriented trade fallback is too sparse. See the
 
 The five-branch Phase-1 price sweep is archived under `experiments_old/framework/phase1/price_prediction/4h_phase1_all5_concat/`. It uses the validated 445-dimensional concat representation (`statistical`, `transformed`, `vae`, `contrastive`, `byol`), seed 0, and fixed 15/50/100 budgets. Its MAE/RMSE are `0.0512/0.0908`, `0.0651/0.0993`, and `0.0678/0.1009`, respectively. The saved comparison records a strict 27,499-row match to the Raw-OHLCV MLP within the legacy merged-array price contract and shows Phase-1 lower MLP-matched MAE/RMSE at epoch 15 only (`38.6%`/`14.9%` relative error reduction); later budgets are worse. New Phase-2 price runs instead use the contract-safe bundle with 109,791 train / 27,450 test rows, removing the terminal row of each contract and the 49 invalid internal boundary transitions retained by the legacy helper. Phase-1 absolute metrics are therefore not strict comparators for new price runs. The LSTM table is contextual rather than strict because it uses 27,500 close-only rows with a documented one-row target alignment difference. All fixed-budget results are retained; no epoch is selected from locked-test performance. See `docs/price_prediction_label_contract.md`.
 
-Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run archived under `experiments_old/framework/phase1/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. The existing TA-MLP sweep remains contextual until it consumes the identical saved rows.
+Trend classification has both four-branch and five-branch framework results on the same TA-MLP-style tri-class BUY/HOLD/SELL label bundle. The Phase-1 run archived under `experiments_old/framework/phase1/trend_classification/4h_phase1_all5_concat/` reports accuracy/macro-F1 of `0.4550/0.3757` at 15 epochs, `0.4761/0.3942` at 50 epochs, and `0.4765/0.3935` at 100 epochs. It remains below the exact majority-HOLD accuracy (`0.5046`) but above its macro-F1 (`0.2236`), showing non-trivial minority-class predictions. The strict matched four-branch comparison is stronger at every budget, so the current BYOL-plus-concat configuration does not improve trend classification. That legacy TA-MLP sweep remains contextual; the separate Phase 6.5C current-task comparison now supplies identical-row evidence.
 
 The five-branch Phase-1 volatility run, Raw LSTM, and adapted GARCH--LSTM stack use the same realised-volatility bundle and exactly identical `27,450` locked test targets. Phase-1 records MSE/correlation of `0.00793/0.767`, `0.00749/0.770`, and `0.00769/0.764` at 15/50/100 epochs. It improves on Raw LSTM at every matched budget (about `22-33%` lower MSE), while the stack remains stronger overall; Phase-1 and the stack are nearly tied on RMSE/MSE at 15 and 50 epochs, but the stack has lower MAE and higher correlation. The framework head also produces `5.8-8.4%` negative predictions because its output is unconstrained; raw results remain primary, zero-clipping is diagnostic only, and a predeclared nonnegative decoder rerun is needed before final claims. The legacy Raw-OHLCV MLP remains contextual pending migration to the shared bundle.
 
@@ -502,7 +507,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [x] Train Raw LSTM volatility benchmark on the shared realised-volatility label bundle; record matched 15/50/100 epoch artifacts
 - [x] Run the adapted GARCH--LSTM stacking volatility benchmark using Raw LSTM predictions and fixed ElasticNet meta-learning
 - [x] Train GINN benchmark on the unified 4h split at 15 epochs; document the GARCH-target failure and defer further GINN sweeps while selecting a more suitable volatility benchmark
-- [x] Train TA-MLP natural-sampling adaptation *(legacy v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments_old/2026-06-22-v1/`)*; paper-derived training-only undersampling and strict saved-label alignment remain pending
+- [x] Train TA-MLP natural-sampling adaptation *(legacy v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments_old/2026-06-22-v1/`)*; strict current-task alignment and the training-only P1U sensitivity are complete separately in Phase 6.5C
 - [ ] Additional benchmarks from literature (TBD after literature review) — retrain each on same data splits
 
 **Expand internal baselines** (order by complexity)

@@ -104,12 +104,12 @@ duplicate-width controls, CKA, task scope, implementation status, or result
 judgement, include
 `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
 For Phase 6.5 LSTM depth/capacity, the strict adapted GARCH--LSTM follow-up,
-the current-task TA-MLP classification benchmark, or canonical decoder-
-capacity sensitivity, include
+the current-task TA-MLP classification benchmark, or price-focused residual-
+CNN SSL, include
 `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
-For raw-OHLCV/representation residual fusion, bidirectional historical raw
-towers, residual-CNN SSL substitution/addition, or grouped post-model
-attribution, include
+For price-focused raw-OHLCV/representation residual fusion, bidirectional
+historical raw towers, canonical decoder-capacity sensitivity, or grouped
+post-model attribution, include
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 For canonical single-branch or leave-one-branch-out attribution, or the
 Phase 7B deferral boundary, include

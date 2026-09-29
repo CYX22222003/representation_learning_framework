@@ -2,16 +2,22 @@
 
 **Date:** 2026-09-26
 **Scope amended:** 2026-09-29 to add the classification-only TA-MLP benchmark
-and the canonical decoder-capacity sensitivity
+and again to move the residual-CNN SSL encoder study from the former Phase
+6.6B into a new price-focused Phase 6.5D. The canonical decoder-capacity
+sensitivity remains in Phase 6.6C.
 **Status:** Approved contract. Phase 6.5A is complete for its frozen seed-0,
 two-walk scope: all four two-layer SSL encoder trajectories, six task/walk
 feature stores, 24 downstream trajectories, 72 epoch snapshots, two linear-
 CKA diagnostics, and the complete report are replay-validated or generated
-after prerequisite replay. Phase 6.5B and Phase
-6.5C model/data/training infrastructure is implemented and CPU-tested under
-`src/baselines/` and `scripts_v5/`, but their canonical manifests, generated
-TA stores, training trajectories, predictions, and reports do not yet exist.
-Phase 6.5D has not started.
+after prerequisite replay. Phase 6.5B and Phase 6.5C execution is also
+complete: both chronological GARCH--LSTM stacks, both causal TA stores, and
+all ten strict classification trajectories pass standalone replay at epochs
+5/15/50. The compact epoch-50 result summary is under
+`experiments/phase6_5/reports/b_c_seed0/`; contract-macro and subgroup report
+expansion remains the only Phase 6.5B/C reporting follow-up.
+Phase 6.5D is frozen but not implemented or executed: it contains four
+walk/family residual-CNN encoder trajectories and eight future-price
+downstream trajectories.
 **Predecessor:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 
 ## 1. Purpose and scope
@@ -27,9 +33,9 @@ subsequent baseline review:
 - **Phase 6.5C -- adapted TA-MLP:** restore the paper-inspired handcrafted-
   indicator MLP as a strict classification-only benchmark on the current
   two-hour probability-movement task; and
-- **Phase 6.5D -- decoder capacity:** test whether the intentionally simple
-  downstream probe masks useful information in the frozen canonical
-  representation.
+- **Phase 6.5D -- residual CNN encoder capacity:** test a deeper residual
+  one-dimensional CNN under both SSL families, using eight-hour future-price
+  prediction as the sole downstream task in this first bounded study.
 
 The four studies answer different questions and must be reported separately.
 Phase 6.5A changes an unsupervised representation backbone while holding the
@@ -37,10 +43,11 @@ self-supervised objective and 128-dimensional output fixed. Phase 6.5B changes
 the volatility forecasting system by adding a causal econometric branch and a
 train-only stacking model. Phase 6.5C compares learned representations and raw
 sequences with one fixed handcrafted-feature classifier under a matched
-classification contract. None may be interpreted as selecting a universal
-model from the completed Phase 6 evaluation results. Phase 6.5D changes only
-the supervised mapping and, in one named row, the fusion rule over immutable
-canonical branches.
+classification contract. Phase 6.5D changes an unsupervised CNN backbone while
+holding the SSL family, 128-dimensional output, simple probe, and price rows
+fixed. None may be interpreted as selecting a universal
+model from the completed Phase 6 evaluation results. The separately frozen
+decoder-capacity study now belongs to Phase 6.6C.
 
 All four studies retain the two accepted Phase 5/6 one-hour global-calendar walks,
 the 64-hour OHLCV context, walk-specific fitting, fixed epoch budgets, and the
@@ -49,9 +56,9 @@ selection, or evaluation-driven hyperparameter choice.
 
 Phase 6.5 does not include Transformer retuning, hidden-width search, temporal
 decoder search, branch ablation, alpha research, or a multi-seed architecture
-claim. The TA-MLP addition is classification-only. Decoder capacity is limited
-to the two predeclared static candidates below rather than an open-ended head
-search.
+claim. The TA-MLP addition is classification-only. Phase 6.5D is price-only;
+classification and realised-variance probes of the residual CNN are deferred
+unless separately amended before their evaluation.
 
 ## 2. Shared data and evaluation boundary
 
@@ -73,10 +80,16 @@ target arrays frozen by
 `2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`. Phase 6.5C starts
 from the exact completed Phase 6/Phase 5 two-hour classification rows and
 labels at `tau=0.001`, then applies only a feature-availability intersection
-frozen before training. Phase 6.5D reuses the exact canonical `H0` features,
-train-only feature scalers, task rows, targets, and references for all three
-completed Phase 6 tasks. No study may rebuild a cohort, window, label,
+frozen before training. No study may rebuild a cohort, window, label,
 activity filter, or outcome-dependent comparator row set.
+
+Phase 6.5D also reuses the unchanged target-free encoder rows and the exact
+completed `absolute_price_h8` training/evaluation identities. Its restricted
+price scope is motivated by the existing evidence: classification provides
+the clearest representation advantage, volatility remains metric- and walk-
+dependent, and Raw LSTM plus persistence/reversal references still make the
+incremental future-price edge unconvincing. This prioritisation is frozen
+before any residual-CNN checkpoint or prediction is generated.
 
 ## 3. Phase 6.5A -- deeper LSTM encoder
 
@@ -227,6 +240,16 @@ outcome identifies an optimal LSTM depth.
 
 ## 4. Phase 6.5B -- strict adapted GARCH--LSTM benchmark
 
+**Execution update (2026-09-29):** Both walk-specific stacks are trained and
+replay-valid at epochs 5/15/50. The final chronological OOF populations contain
+25,174 rows in Walk 1 and 44,874 in Walk 2. Contract rows lacking two causal
+prices at a fold start are recorded as discarded warm-up rows. An evaluation
+condition absent from training receives a deterministic median of guarded H=8
+forecasts from contract-local training-only GARCH states; evaluation outcomes
+never update that fallback. At epoch 50 the stack lowers MSE only marginally
+against Raw LSTM, while worsening MAE and Spearman in both walks, so the result
+does not support a broad hybrid win.
+
 ### 4.1 Research question
 
 > Does a causal, task-specific combination of GARCH conditional-variance
@@ -317,6 +340,14 @@ not valid. Any uncertainty analysis requires a separately frozen contract/
 calendar-block procedure.
 
 ## 5. Phase 6.5C -- strict adapted TA-MLP classification benchmark
+
+**Execution update (2026-09-29):** Both 36-feature stores and all ten
+trajectories pass data, checkpoint, prediction, target, and identity replay at
+epochs 5/15/50. TA-MLP/P2 leads the strict Walk 1 macro-F1 comparison
+(`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus
+`0.4632`). P1U is marginally stronger than TA-P2 in Walk 1 and weaker in Walk
+2. The evidence supports competitiveness on one walk, not universal
+technical-indicator or sampling superiority.
 
 ### 5.1 Research question
 
@@ -418,99 +449,93 @@ derived sampling choice changes this adapted TA-MLP. Legacy TA-MLP results on
 four-hour data or `BUY/HOLD/SELL` labels are historical characterisation and
 cannot establish performance on the current task.
 
-## 6. Phase 6.5D -- canonical decoder-capacity sensitivity
+## 6. Phase 6.5D -- price-focused residual CNN SSL encoder
 
-### 6.1 Research question and interpretation
+### 6.1 Research question
 
-> With the canonical five frozen branches and all task data held fixed, does a
-> predeclared richer static decoder improve downstream performance relative to
-> the simple Phase 6 probe?
+> When the SSL family, training identities, augmentations, output width, and
+> simple downstream price head are fixed, does a deeper residual temporal CNN
+> produce more useful eight-hour future-price representations than the
+> canonical two-convolution CNN?
 
-The existing shallow task head remains the primary representation probe: its
-low capacity makes it easier to attribute performance to the frozen features.
-Phase 6.5D is a sensitivity asking whether those features contain useful
-nonlinear or cross-branch interactions that the probe cannot expose. An
-improvement supports a representation--decoder interaction or a stronger
-complete system; it does not retroactively prove that the representation alone
-improved.
+The canonical CNN is only two convolutional layers deep. This bounded study
+tests one deeper practical architecture; it does not claim that the canonical
+reference suffers proven vanishing gradients or identify an optimal CNN.
 
-### 6.2 Frozen decoder configurations
+### 6.2 Frozen residual backbone and SSL recipe
 
-Use only canonical `H0` branch arrays and the completed task-specific
-train-only coordinate scalers. The immutable reference is:
-
-| ID | Decoder | Role |
-|---|---|---|
-| `D0` | completed Phase 6 shallow task head | Primary representation probe; no retraining required |
-
-Two new static candidates are frozen:
-
-**`D1-RP` -- residual projection head**
+The candidate consumes `[N,64,5]` and returns one 128-dimensional vector:
 
 ```text
-concat H0 (445)
--> LayerNorm
--> Linear(445, 256) -> GELU -> Dropout(0.1)
--> two pre-norm residual MLP blocks at width 256
-   [LayerNorm -> Linear(256, 256) -> GELU -> Dropout(0.1)
-    -> Linear(256, 256) -> residual add]
--> Linear(256, 128) -> GELU
--> task output layer
+transpose to [N,5,64]
+-> Conv1d(5,128,kernel=5,padding=2)
+-> three pre-activation residual blocks at width 128
+   [GroupNorm(8,128) -> GELU -> Conv1d(128,128,kernel=3,padding=1)
+    -> GroupNorm(8,128) -> GELU -> Dropout(0.1)
+    -> Conv1d(128,128,kernel=3,padding=1)
+    -> residual add]
+-> AdaptiveAvgPool1d(1)
+-> width-128 representation
 ```
 
-This is a supervised projection decoder. It is separate from, and does not
-reuse, either SSL method's pretraining projector.
+There is no temporal downsampling, dilation, attention, channel-width search,
+or stochastic-depth search. The skip is identity because every block retains
+width and sequence length.
 
-**`D2-BG` -- branch-aware gated projection head**
+Train the backbone independently under both existing SSL families:
+
+| SSL family | Branch name | Walk-specific trajectories |
+|---|---|---:|
+| Contrastive / NT-Xent | `contrastive_rescnn` | 2 |
+| BYOL | `byol_rescnn` | 2 |
+
+This produces four new encoder trajectories. Both candidates retain the Phase
+6 SSL views, projectors/predictor, temperature `0.2`, target decay `0.99`,
+AdamW learning rate `1e-3`, weight decay `1e-4`, batch size `256`, seed `0`,
+and one uninterrupted 50-epoch trajectory with 5/15/50 checkpoints. Epoch 50
+is the sole downstream feature source.
+
+### 6.3 Frozen feature configurations and price matrix
+
+| ID | Change from canonical `H0` | Width | Role |
+|---|---|---:|---|
+| `HC-SR` | contrastive CNN -> contrastive ResCNN | 445 | same-width substitution |
+| `HB-SR` | BYOL CNN -> BYOL ResCNN | 445 | same-width substitution |
+| `HC-AR` | add contrastive ResCNN to `H0` | 573 | heterogeneous addition |
+| `HB-AR` | add BYOL ResCNN to `H0` | 573 | heterogeneous addition |
+
+All four configurations run only on the established eight-hour future-price
+task in both walks:
 
 ```text
-each canonical branch -> branch-specific Linear(input_dim, 128)
-                      -> GELU -> LayerNorm
-concatenated projected branches -> Linear(5*128, 128) -> GELU
-                                -> Linear(128, 5) -> softmax gates
-weighted sum of five projected branches
--> residual MLP [LayerNorm -> Linear(128, 256) -> GELU
-                 -> Dropout(0.1) -> Linear(256, 128) -> residual add]
--> task output layer
+4 configurations x 1 task x 2 walks = 8 downstream trajectories
 ```
 
-`D2-BG` changes both supervised capacity and fusion, so it is a named
-complete-system sensitivity rather than a decoder-only causal contrast.
-Neither candidate consumes temporal sequences of embeddings. Historical
-recurrent/attention D3--D4 decoder ideas remain outside Phase 6.5 because they
-would change context construction and row eligibility.
+Substitutions are compared with immutable `H0`. Additions are compared with
+both `H0` and the completed same-family duplicate-CNN controls `HC-DC` or
+`HB-DC`, so a wider head is not mistaken for evidence of new information.
+The completed Raw MLP and Raw LSTM are contextual learned baselines;
+current-price persistence and last-hour reversal remain required references.
 
-### 6.3 Tasks, training, and matrix
+Reuse the exact `absolute_price_h8` rows, sigmoid output, MSE training loss,
+train-only coordinate scaling, Adam learning rate `1e-4`, batch size `512`,
+seed `0`, and 5/15/50 snapshots. Report price MAE/RMSE/MSE and Pearson, then
+implied-movement Pearson/Spearman, sign agreement, timestamp-level
+cross-sectional Rank IC/ICIR, contract/lifecycle breakdowns, and the unchanged
+references. Epoch 50 remains the predeclared principal result.
 
-Run both candidates on all three established tasks and both walks:
+### 6.4 Diagnostics and claim boundary
 
-```text
-2 new decoders x 3 tasks x 2 walks = 12 new downstream trajectories
-```
+Centered linear CKA compares each residual CNN with its same-family canonical
+CNN on the predeclared first 4,096 encoder-training identities. Report SSL
+loss, embedding health, total/trainable parameters, training and inference
+time, and peak device memory. CKA is descriptive and cannot select a model.
 
-Reuse each task's exact Phase 6 loss, output transform, references, batch size
-`512`, Adam learning rate `1e-4`, seed `0`, and one uninterrupted 50-epoch
-trajectory with snapshots at 5, 15, and 50. In particular:
-
-- classification emits three logits and retains train-prior logit-adjusted
-  cross-entropy;
-- future price retains its sigmoid output and implied-movement diagnostics;
-  and
-- realised variance retains the fixed `10000 * RV` unit, Smooth L1 loss, and
-  Softplus output.
-
-Epoch 50 remains the principal result. No dropout, width, depth, optimizer,
-loss, or output transform may be selected from evaluation performance.
-
-### 6.4 Reporting and claim boundary
-
-Compare `D1-RP - D0` as the primary decoder-capacity contrast for every
-task/walk. Compare `D2-BG` separately with both `D0` and `D1-RP`. Report total
-and trainable parameters, training and inference time, peak device memory,
-checkpoint histories, prediction replay, and the unchanged task metrics and
-breakdowns. The completed simple-head results remain the headline
-representation-quality evidence even if a richer complete system performs
-better.
+A positive result supports only a named family/role/walk statement that this
+fixed residual backbone improved the future-price probe at seed 0. It does
+not establish task-general representation superiority, profitable trading,
+or an optimal residual depth. Classification and realised-variance evaluation
+remain outside Phase 6.5D unless frozen by a later amendment.
 
 ## 7. Artifact and implementation boundary
 
@@ -535,11 +560,11 @@ experiments/phase6_5/
     manifests/
     downstream/{h0,raw_mlp,raw_lstm,ta_mlp}/walk{1,2}/
     reports/
-  decoder_capacity/
-    manifests/
-    downstream/{classification_h2,absolute_price_h8,realised_variance}/
-      walk{1,2}/{d1_rp,d2_bg}/seed0/
-    diagnostics/resources/
+  residual_cnn/
+    pretraining/walk{1,2}/{contrastive,byol}/rescnn/seed0/
+    features/walk{1,2}/absolute_price_h8/
+    downstream/absolute_price_h8/walk{1,2}/
+    diagnostics/{health,cka,resources}/
     reports/
 ```
 
@@ -578,13 +603,17 @@ numerical replay as applicable.
     matched `P2` loss, training-only `P1U` sampling, identities, and metrics.
 12. Train, replay, and report all strict TA-eligible classification runs at
     the three declared snapshots.
-13. Implement `D1-RP` and `D2-BG` without altering the completed `D0` model or
-    any frozen Phase 6 feature store; add forward/backward, output-transform,
-    occupied-path, and parameter-count tests.
-14. Freeze the 12-entry decoder-capacity manifest after CPU smoke tests verify
-    exact task rows, targets, train-only scalers, losses, and references.
-15. Train, replay, and report the full Phase 6.5D matrix with resource tables
-    and the predeclared `D1-RP - D0` and `D2-BG` comparisons.
+13. Implement the residual CNN once and wrap it independently in the existing
+    Contrastive and BYOL semantics; add CPU shape, gradient, residual-path,
+    BYOL EMA, collapse, provenance, and parameter-count tests.
+14. Freeze the four-encoder Phase 6.5D manifest before training or evaluation.
+15. Train and replay all four residual-CNN encoder trajectories, then extract
+    and validate the two walk-specific future-price feature stores.
+16. Freeze the eight-entry future-price downstream manifest after replaying
+    the exact rows, targets, H0 references, duplicate controls, and train-only
+    scalers.
+17. Train, replay, and report all eight price trajectories with CKA and
+    resource diagnostics.
 
 Phase 6.5A, 6.5B, 6.5C, and 6.5D are scientifically independent. The order
 above is an engineering order, not a condition that one result determines
@@ -608,17 +637,22 @@ Phase 6.5 is complete only when:
 - all ten Phase 6.5C classification trajectories pass checkpoint, prediction,
   target, and identity replay, and the primary TA-MLP comparison uses the
   matched `P2` rows and loss;
-- all 12 Phase 6.5D trajectories pass replay on unchanged Phase 6 task rows,
-  and decoder-capacity, fusion, and resource comparisons are reported without
-  selecting an evaluation winner; and
+- all four residual-CNN SSL trajectories pass health and checkpoint replay;
+- both future-price residual-CNN feature stores preserve exact canonical
+  coordinates and task identities, and all eight Phase 6.5D downstream
+  trajectories pass replay;
+- substitution, addition, duplicate-control, price-ranking, CKA, and resource
+  comparisons are reported without adding classification or volatility after
+  reading price results; and
 - limitations are stated as single-seed, two-walk characterisation.
 
-This phase may support a narrow depth-capacity conclusion and a narrow
-complete-system hybrid comparison, a narrow statement about the adapted
-TA-MLP on the named movement-classification task, and a bounded conclusion
-about whether the two richer static heads expose additional task signal. It
-cannot establish an optimal recurrent architecture, universal LSTM
+This phase may support a narrow depth-capacity conclusion, a narrow
+complete-system hybrid comparison, and a narrow statement about the adapted
+TA-MLP on the named movement-classification task. It cannot establish an
+optimal recurrent architecture, universal LSTM
 superiority, standalone GARCH
-superiority, universal technical-indicator superiority, an optimal decoder,
+superiority, universal technical-indicator superiority,
 reproduction of the TA-MLP paper's original claim, or a profitable forecasting
-strategy.
+strategy. Phase 6.5D may additionally support only a narrow future-price
+statement about the frozen residual-CNN candidate; it cannot establish
+cross-task superiority.

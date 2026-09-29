@@ -78,16 +78,19 @@ For Phase 6.5, Phase 6.6, and Phase 7 status, also read
 `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`,
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`,
 and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-full. The two-layer LSTM capacity matrix, strict H=8 adapted GARCH--LSTM,
-current-task TA-MLP classification matrix, richer canonical decoder matrix,
-and canonical branch-ablation matrix remain only implemented or planned until
-their own manifests, generated stores where applicable, checkpoints/
-predictions, and replay reports exist. Source and CPU tests support only an
-"implemented, not run" status. Phase 7B alpha
+full. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
+LSTM, and current-task TA-MLP classification matrix now have their own
+manifests, generated stores where applicable, checkpoints, predictions, and
+replay evidence; treat them as executed. Phase 6.5D's price-focused residual-
+CNN matrix, Phase 6.6A/C's price-focused fusion/decoder matrices, and the
+canonical branch-ablation matrix remain only planned until
+their own source, manifests, checkpoints, predictions, and replay reports
+exist. Source and CPU tests alone support only an "implemented, not run"
+status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
-planning evidence only until its fusion/residual-CNN source, manifests,
-checkpoints, predictions, and replay reports exist; grouped attribution is a
-later analysis and not model-completion evidence.
+planning evidence only until its fusion/decoder-capacity source,
+manifests, checkpoints, predictions, and replay reports exist; grouped
+attribution is a later analysis and not model-completion evidence.
 
 ## 4. Update Narrowly
 
