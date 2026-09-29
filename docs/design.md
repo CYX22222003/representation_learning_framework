@@ -18,12 +18,21 @@
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 >
-> **Next-scope authority (2026-09-26):** Phase 6.5 LSTM capacity and strict
-> adapted GARCH--LSTM are frozen in
+> **Next-scope authority (amended 2026-09-29):** Phase 6.5 LSTM capacity,
+> strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
+> focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
+> Price-focused Raw-OHLCV/`H0` residual fusion and canonical decoder-capacity
+> sensitivity are frozen separately in
+> [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
+> with grouped SHAP deferred to a later analysis amendment.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
-> These are plans, not executed evidence. Phase 7B alpha research remains
+> Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
+> residual-CNN encoders, two feature stores, eight price trajectories, CKA,
+> resources, subgroup tables, and complete report are replay-valid. Phase 6.6
+> and Phase 7A remain plans rather
+> than executed evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -167,11 +176,21 @@ imputation-exposure reporting but is not an additional model channel.
 
 - Phase 6 completed walk-specific LSTM/Transformer substitutions and
   heterogeneous single additions under concat, with duplicated-CNN width
-  controls. Phase 6.5 plans one two-layer LSTM capacity candidate per SSL
-  family, and Phase 7A plans canonical single/leave-one-out attribution.
-  Lifecycle conditioning, stage-specific experts, gated fusion,
-  fixed-first-walk transfer, decoder variants, and additional seeds remain
-  outside these plans.
+  controls. Phase 6.5 completed one two-layer LSTM capacity candidate per SSL
+  family, both strict GARCH--LSTM stacks, and the ten-run current-task TA-MLP
+  comparison. Phase 6.5B/C artifacts and replay-valid 5/15/50 snapshots live
+  under `experiments/phase6_5/`; their compact principal-result report is
+  generated, while expanded contract-macro/subgroup reporting remains.
+  Phase 6.5D's deeper residual-CNN candidates under both SSL families and all
+  eight future-price trajectories are complete and replay-valid. Contrastive
+  residual variants reduce price error against H0 in both walks, while BYOL
+  does not improve consistently and movement ranking remains weaker. Phase 6.6 plans a matched
+  frozen-H0/raw-sequence residual fusion system and two richer static canonical
+  heads—residual projection and branch-aware gated projection—on future price
+  only. The completed simple head remains the primary representation probe.
+  Phase 7A plans canonical single/leave-one-out attribution. Lifecycle conditioning,
+  stage-specific experts, temporal decoder variants, fixed-first-walk
+  transfer, and additional seeds remain outside these plans.
 
 - Frozen encoders are used to extract neural embeddings for both training and test sequences. Running inference through a frozen encoder on test data is not leakage — the encoder parameters contain no information derived from test sequences.
 
@@ -201,7 +220,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 | **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
-| **Refined decoder** | Phase-2 static residual, gated, recurrent, or attention decoder trained on the unchanged frozen five-branch representation. |
+| **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
 
 **Evaluation paradigm (probing):** The framework uses frozen representation extractors. After pretraining, the named branch features remain fixed while a lightweight task head, and the aggregator when it is learnable, are trained for each task. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with frozen representations + a simple head is the primary claim.
 
@@ -216,7 +235,31 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   trajectories are complete and replay-validated; see
   `phase_plan/2026-09-22-phase-5-baseline-amendment.md`.
 
-- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM stack is a planned Phase 6.5 complementary hybrid: it will fuse causal guarded GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l, g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. The Raw-OHLCV MLP, canonical framework, temporal configurations, and later stack consume the identical replacement rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
+- **Classification benchmark adaptation:** Phase 6.5C restores the fixed
+  36-feature `36-128-64-32-3` TA-MLP on the current h2/tau=0.001
+  `DOWN/STABLE/UP` task. A causal feature-availability intersection is shared
+  by retrained H0, Raw MLP, Raw LSTM, and TA-MLP `P2` runs. The paper-derived
+  majority-undersampling rule is a separate TA-only training sensitivity; the
+  natural evaluation distribution remains untouched. Legacy BUY/HOLD/SELL
+  metrics are not current-task evidence.
+
+- **Decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
+  features, future-price rows, scaler, target, loss, and output transform fixed.
+  It compares the immutable simple probe with a residual projection head and
+  a branch-aware gated projection head across both walks. The gated row is a
+  complete-system sensitivity because it changes both supervised capacity and
+  fusion.
+
+- **Raw/representation fusion sensitivity:** Phase 6.6A projects frozen H0 to
+  width 128 and optionally adds a learned residual correction from an LSTM or
+  historical-context-only BiLSTM over the matching 64-by-5 OHLCV sequence.
+  `F-H0` is the matched supervised-capacity control, while `F-RL` is required
+  to assess whether H0 adds value beyond raw temporal modelling. Phase 6.5D
+  separately tests deeper residual-CNN SSL encoders with the simple future-
+  price probe. Grouped SHAP is post-hoc description only and cannot select
+  either matrix.
+
+- **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 
 - **Embedding-based Model Training:**
   - Deterministic branches (statistical, transformed) require no training; neural branches are pretrained unsupervised and their encoder weights are frozen.

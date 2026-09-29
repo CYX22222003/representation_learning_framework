@@ -1,0 +1,163 @@
+{
+  "branch_hashes": {
+    "test": {
+      "byol": "8874325af11e857d75484559507e77b4836a88f2b08268aee885402bdbf0d8d6",
+      "byol_lstm2": "b075e37a42a4c1022146bdd6911def461b71900533ec1277bd3aea43c2acf4ef",
+      "contrastive": "3af9e8bea7acaf618e9a8b9b7b2051392578ceb89a9468d78efd556ce92fb1fe",
+      "contrastive_lstm2": "d59575badd49f5fc94296caf3f9b78f22f11aad6b49997e9e3c81d75876daabd",
+      "statistical": "9c8ccdf6333211d09ea2e34f4999d5810d8d3f86857f054b46d4c861e93fb3b4",
+      "transformed": "a13df70705142497e681f709e37719bb9183d79f817896c38e8599a9f2da80e7",
+      "vae": "95a604dbd939f5625dba5dc02f232a8788035483edd47cb259637aea797ba2ce"
+    },
+    "train": {
+      "byol": "468d1c184d1774aa529c12ee31ac977fbc3ee5895c6aeaee8107e62e94eacdaa",
+      "byol_lstm2": "5a312dfe98e99678c591614723dd5b68cc397be291cdc4977d7ebb4cd1ea61fb",
+      "contrastive": "044d55c379328c81153ce5bc9e2b800bf0387e190c5e6b0f85a16a974f96acfc",
+      "contrastive_lstm2": "0d93766d7157d84681bb242e8306c32c6d673060fff368b777998ea1bfb3a9c4",
+      "statistical": "2cfc8a8de5628c1e9d61c51f255b77684786a4afdd74afa663eb7c199bf11e82",
+      "transformed": "c9c66a60642aff721118c8d5fe46f1899df3f22d9a31081fd63b8a02d9ec3c50",
+      "vae": "94716938158101700f18cc8b3c9eca3a81797d2e6952f3c01a0fdb1f1bd80df5"
+    }
+  },
+  "checkpoint_provenance": {
+    "byol_lstm2": {
+      "extraction_seconds": {
+        "test": 0.29243644700000004,
+        "train": 0.810384993000298
+      },
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/lstm_capacity/pretraining/walk2/byol/lstm2/seed0/e50/checkpoint.pth",
+      "sha256": "ecf1bfb17163ac2af6c15f8e52914150e550027f4adef531c1e2610159de518e",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "byol_lstm2",
+        "walk": 2
+      }
+    },
+    "contrastive_lstm2": {
+      "extraction_seconds": {
+        "test": 0.19255049399998825,
+        "train": 1.1272897119997651
+      },
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/lstm_capacity/pretraining/walk2/contrastive/lstm2/seed0/e50/checkpoint.pth",
+      "sha256": "26944d3cb1e8b4a306e1b17b841c53c1e4218db0e102b942c91fb1ca167cd498",
+      "validation": {
+        "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "target_independent": true,
+        "valid": true,
+        "variant": "contrastive_lstm2",
+        "walk": 2
+      }
+    }
+  },
+  "configuration_branches": {
+    "H0": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol"
+    ],
+    "HB-AL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "byol_lstm2"
+    ],
+    "HB-SL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol_lstm2"
+    ],
+    "HC-AL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol",
+      "contrastive_lstm2"
+    ],
+    "HC-SL2": [
+      "statistical",
+      "transformed",
+      "vae",
+      "contrastive_lstm2",
+      "byol"
+    ]
+  },
+  "configuration_dims": {
+    "H0": 445,
+    "HB-AL2": 573,
+    "HB-SL2": 445,
+    "HC-AL2": 573,
+    "HC-SL2": 445
+  },
+  "dataset_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+  "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+  "encoder_dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "1ad9bb381001a1661f3b6da0b256a2856f321079",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "epoch": 50,
+  "feature_store_sha256": "e55cd9d7372a139fcdac51434b50107e49403577e0d1452de6df340ee0273def",
+  "h0_feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+  "h0_feature_sha256": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7",
+  "h0_feature_validation": {
+    "alignment_audit": {
+      "encoder_rows": 58473,
+      "evaluation_disjoint": true,
+      "evaluation_rows": 13506,
+      "mapped_train_contexts_byte_identical": true,
+      "supervised_train_rows": 56652,
+      "valid": true
+    },
+    "concat_dim": 445,
+    "feature_bundle_sha256": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7",
+    "test_rows": 13506,
+    "train_rows": 56652,
+    "valid": true,
+    "walk": 2
+  },
+  "master_branch_dims": {
+    "byol": 128,
+    "byol_lstm2": 128,
+    "contrastive": 128,
+    "contrastive_lstm2": 128,
+    "statistical": 70,
+    "transformed": 55,
+    "vae": 64
+  },
+  "phase": "6.5A",
+  "row_counts": {
+    "test": 13506,
+    "train": 56652
+  },
+  "schema_version": "phase6-5a-lstm-capacity-features-v1",
+  "target_independent_extraction": true,
+  "task": "absolute_price_h8",
+  "walk": 2
+}

@@ -89,13 +89,46 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The approved next experiment scope is split between
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
-> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`, with
+> the subsequent price-focused raw-fusion/decoder-capacity work frozen
+> separately in
+> `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 > Phase 6.5A freezes one seed-0 two-layer, 128-wide LSTM capacity candidate
 > under both contrastive and BYOL; Phase 6.5B separately adapts the deferred
 > GARCH--LSTM stack to the strict H=8 future-realised-variance rows with
-> chronological OOF meta-features. Phase 7A freezes canonical five-branch
+> chronological OOF meta-features. Phase 6.5C restores the 36-feature TA-MLP
+> as a classification-only benchmark on the exact h2/tau=0.001 task through
+> a feature-availability-only common intersection, matched P2 comparator
+> reruns, and a training-only P1U sensitivity. Phase 6.5A
+> is complete for its frozen seed-0 scope: all four walk/family two-layer
+> encoders, six task/walk feature stores, 24 downstream trajectories, 72
+> snapshots, and both linear-CKA diagnostics are replay-valid; the complete
+> report is generated.
+> Phase 6.5B/C execution is complete under `src/baselines/`, `scripts_v5/`,
+> and `experiments/phase6_5/`: both chronological GARCH--LSTM stacks, both
+> causal TA stores, all ten strict classification trajectories, and every
+> 5/15/50 snapshot pass standalone replay. The compact principal-result report
+> is generated under `experiments/phase6_5/reports/b_c_seed0/`; expanded
+> contract-macro and subgroup reporting remains. Phase 6.5D is complete for its
+> frozen seed-0 price-only scope: all four three-block residual-CNN SSL
+> encoders, both walk-specific feature stores, eight downstream trajectories,
+> every 5/15/50 snapshot, both CKA diagnostics, subgroup/resource tables, and
+> the complete report pass standalone replay. Contrastive substitution and
+> addition reduce future-price MAE/RMSE versus H0 in both walks, and the
+> addition also beats its same-width duplicate control on those errors in both
+> walks. BYOL does not improve error consistently; Raw LSTM and persistence
+> remain stronger error references, and movement Rank IC does not improve over
+> H0 overall. Phase 6.6 freezes a matched eight-run price-only
+> raw-OHLCV/`H0` residual-fusion matrix and a four-run price-only Phase 6.6C
+> canonical decoder-capacity matrix. The decoder study
+> compares the immutable simple `D0` probe with residual-projection `D1-RP`
+> and branch-aware gated `D2-BG`; the simple head remains the primary
+> representation probe. All Phase 6.6 studies remain unimplemented.
+> SHAP-style attribution is deferred until those predictions are frozen and
+> requires a separate sampling/estimator amendment. Phase 7A
+> freezes canonical five-branch
 > single-branch and leave-one-branch-out probing across the three current
-> tasks. These plans are documented but not implemented or executed. Phase 7B
+> tasks. Phase 7A is documented but not implemented or executed. Phase 7B
 > alpha research is intentionally unspecified and deferred pending further
 > literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in
@@ -254,6 +287,45 @@ canonical plan. See
 .venv/bin/python3 scripts_v4/bootstrap_phase6_encoder_variant_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v4/validate_phase6_encoder_variant_downstream.py
 .venv/bin/python3 scripts_v4/report_phase6_encoder_variants.py
+
+# Phase 6.5A LSTM-capacity replay contract. Bootstrap commands are manifest-
+# only by default; their explicit --execute forms train or resume incomplete
+# trajectories while skipping validated completed runs.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_lstm_capacity_features.py --device cuda
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity_features.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity_downstream.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_lstm_capacity_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_lstm_capacity_downstream.py
+.venv/bin/python3 scripts_v5/analyze_phase6_5_lstm_capacity_cka.py --device cuda
+.venv/bin/python3 scripts_v5/report_phase6_5_lstm_capacity.py
+
+# Phase 6.5B/C infrastructure. TA preparation writes feature/intersection
+# stores but does not train. Both bootstraps are manifest-only unless their
+# explicit --execute flag is supplied.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_garch_lstm.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_garch_lstm.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_garch_lstm.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_ta_mlp_data.py
+.venv/bin/python3 scripts_v5/validate_phase6_5_ta_mlp_data.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_ta_mlp.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_ta_mlp.py
+
+# Phase 6.5D residual-CNN infrastructure. Both bootstrap commands are
+# manifest-only by default; only their explicit --execute forms train models.
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn.py
+.venv/bin/python3 scripts_v5/prepare_phase6_5_residual_cnn_features.py --device cuda
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn_features.py
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn_downstream.py --device cpu
+.venv/bin/python3 scripts_v5/bootstrap_phase6_5_residual_cnn_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn_downstream.py
+.venv/bin/python3 scripts_v5/analyze_phase6_5_residual_cnn_cka.py --device cuda
+.venv/bin/python3 scripts_v5/report_phase6_5_residual_cnn.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -624,7 +696,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; and temporal-variant master stores with exact duplicate controls and 445/573-dimensional named configurations |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, and unexecuted walk-specific temporal SSL/three-task variant infrastructure with train-only scaling and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, and completed walk-specific temporal SSL/three-task variant infrastructure with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
@@ -632,7 +704,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
-| `scripts_v4/` | Thin Phase 6 entry points for volatility and the unexecuted temporal-encoder lifecycle: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
+| `scripts_v4/` | Thin Phase 6 entry points for the completed volatility and temporal-encoder lifecycles: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 
 ### Key data contracts
 
@@ -705,7 +777,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
   reported against persistence, while `prediction-current_close` is evaluated
   as implied movement with Rank IC. Its rank signal is positive but weaker
   than a simple last-hour reversal reference.
-- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, Raw LSTM, and all temporal/control entries consume those exact rows and are complete under the 26-entry current-round matrix; GARCH--LSTM is deferred to a later round.
+- Historical volatility task label `.npz`: the old `data/task_labels/volatility_prediction/` shifted-window proxy remains Phase 1/2 characterisation evidence only. Phase 6 now has two replayed walk-specific bundles under `experiments/phase6/volatility_prediction/data_preparation/` for `sum_{j=1..8} (p[t+j] - p[t+j-1])^2` over `(t,t+8h]`; every component close is observed and consecutive, and shared comparator rows are hash-locked. Canonical aligned features live under the sibling `features/` root. H0, Raw MLP, Raw LSTM, and all temporal/control entries consume those exact rows and are complete under the 26-entry current-round matrix; the complementary GARCH--LSTM stack is complete separately under Phase 6.5B.
 - Phase-2 decoder temporal index: `data/features/phase2/temporal_index_4h_seq64_top50_k8.npz`; stores split-local `[N, 8]` feature-row contexts plus final row, contract, window-start, timestamp, hashes, and source provenance. Static D0--D2 and temporal D3--D4 use identical eligible final rows.
 - Price label `.npz`: `data/task_labels/price_prediction/price_4h_h1_seq64_top50.npz`; stores horizon-1 close targets and contract-safe identities built independently inside each stored split. It is required for new price experiments, not only decoder refinement. The final row of every contract is excluded, giving 109,791 train / 27,450 test eligible rows before any decoder-specific context restriction. Legacy Phase-1 and early Phase-2 runs with `labels_npz: null` used 109,840/27,499 merged-array rows and retained 49 invalid cross-contract transitions per split; see `docs/price_prediction_label_contract.md`.
 - GARCH feature vector per column: `[omega, alpha, beta, persistence, uncond_var, mean_cond_var, std_cond_var]`

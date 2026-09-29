@@ -60,9 +60,19 @@ Read these in order:
    the walk-specific Phase 6 matrix has executed.
    For the next approved scope, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
-   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-   full. Both are planned but not implemented or executed. Phase 7B alpha
-   research is intentionally deferred pending further literature review.
+   in full. Phase 6.5A is complete for its frozen seed-0 scope: all four deep-
+   LSTM encoders, six task/walk feature stores, 24 downstream trajectories,
+   72 snapshots, and two CKA diagnostics replay; the report is generated.
+   Phase 6.5B/C execution and compact principal reporting are complete. Phase
+   6.5D's four residual-CNN encoders, two feature stores, eight future-price
+   probes, CKA, resources, subgroups, and report are also complete and replay-
+   valid. Also read
+   `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
+   for the frozen, unimplemented price-focused raw/residual-fusion and
+   decoder-capacity scope,
+   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
+   for the frozen, unimplemented representation-ablation scope. Phase 7B
+   alpha research is intentionally deferred pending further literature review.
 
 ## Response Contract
 
@@ -113,12 +123,25 @@ Report:
   report are complete. The temporal task supports task-specific representation
   value but not universal encoder superiority. The volatility parent plan
   still has pooled all-configuration reporting as a follow-up, while
-  additional seeds and GARCH--LSTM remain deferred.
+  additional seeds remain deferred; GARCH--LSTM moved to and completed in
+  Phase 6.5B.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
-- For Phase 6.5 and Phase 7A, distinguish frozen plans from executed evidence:
-  the two-layer LSTM capacity matrix, strict H=8 GARCH--LSTM stack, and
-  canonical single/leave-one-out ablations have not started. Do not treat
+- For Phase 6.5, Phase 6.6, and Phase 7A, distinguish frozen plans from
+  executed evidence. Phase 6.5A is complete for its frozen seed-0 scope: four
+  deep-LSTM encoders, six feature stores, 24 downstream trajectories, 72
+  snapshots, and two CKA diagnostics replay; the report is generated. The
+  strict H=8 GARCH--LSTM and current-task TA-MLP studies are also executed:
+  both stacks, both causal TA stores, all ten classification trajectories, and
+  every 5/15/50 snapshot replay. Their compact principal report is generated;
+   expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
+   residual-CNN encoders, two feature stores, eight future-price probes, CKA,
+   resources, subgroups, and report are complete and replay-valid. Canonical
+   single/leave-one-out ablations have not started. Phase
+  6.6 price-focused raw/representation fusion and two richer canonical static
+  decoder studies are a frozen plan only; grouped SHAP is deferred to a later
+  analysis amendment.
+  The simple decoder remains the primary representation probe. Do not treat
   legacy GARCH--LSTM artifacts or existing branch-selection utilities as
   completion evidence.
 - Scope that remains open or depends on the literature review.

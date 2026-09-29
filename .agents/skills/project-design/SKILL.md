@@ -52,11 +52,16 @@ Read these in order:
    duplicate-width controls, CKA, or task-transfer design, read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md` in
    full.
-9. For the approved two-layer LSTM capacity extension or strict adapted
-   GARCH--LSTM design, read
+9. For the approved two-layer LSTM capacity extension, strict adapted
+   GARCH--LSTM design, current-task TA-MLP comparison, or price-focused
+   residual-CNN SSL study, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
    For canonical single-branch and leave-one-out attribution, read
    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+10. For price-focused raw/representation residual fusion, supervised raw
+    LSTM/BiLSTM towers, canonical decoder-capacity sensitivity, or grouped
+    post-hoc attribution, read
+    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 
 ## Response Contract
 
@@ -85,11 +90,22 @@ Present the parts relevant to the request:
   clearest regression transfer task and treats implied-movement Rank IC as the
   primary financial interpretation of that output.
 - Treat temporal encoder substitutions and controlled heterogeneous additions
-  as completed Phase 6 work. Phase 6.5 and Phase 7A are frozen follow-up plans
-  but remain unimplemented: one two-layer LSTM candidate per SSL family, a
-  separate strict H=8 GARCH--LSTM benchmark, and canonical single/leave-one-
-  out ablations. Fixed-first-walk transfer, gated fusion, lifecycle-conditioned
-  models, decoder variants, and additional seeds remain outside these plans.
+  as completed Phase 6 work. Phase 6.5A is complete for encoders, features,
+  downstream probes, CKA, and reporting. Phase 6.5B/C is executed and replay-
+  valid for both walks: two stacks, two causal TA stores, ten classification
+  trajectories, and all 5/15/50 snapshots. The principal report is generated;
+  expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
+  residual-CNN SSL encoders, two feature stores, eight future-price probes,
+  CKA, resources, subgroups, and report are complete and replay-valid. Its
+  Contrastive variants improve price error over H0 in both walks but do not
+  improve movement ranking overall. Phase 7A remains unimplemented. Phase 6.6 freezes price-only
+  matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
+  decoders. The simple head remains the primary representation
+  probe; the branch-gated decoder is a complete-system sensitivity. Grouped
+  SHAP remains later
+  descriptive analysis rather than model selection. Fixed-first-walk
+  transfer, other temporal decoders, lifecycle-
+  conditioned models, and additional seeds remain outside these plans.
 - Treat Phase 7B alpha research as deferred pending literature review; no
   search protocol or profitable-alpha claim is currently approved.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.

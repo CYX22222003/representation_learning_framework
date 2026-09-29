@@ -48,6 +48,85 @@ class SequenceLSTMBackbone(nn.Module):
         return hidden[-1]
 
 
+class PreActivationResidualBlock1D(nn.Module):
+    """Fixed-width pre-activation residual block for temporal sequences."""
+
+    def __init__(
+        self,
+        channels: int = 128,
+        groups: int = 8,
+        dropout: float = 0.1,
+    ) -> None:
+        super().__init__()
+        if channels <= 0 or groups <= 0 or channels % groups != 0:
+            raise ValueError("channels must be positive and divisible by groups")
+        if not 0.0 <= dropout < 1.0:
+            raise ValueError("dropout must be in [0, 1)")
+        self.channels = channels
+        self.groups = groups
+        self.dropout_probability = dropout
+        self.norm1 = nn.GroupNorm(groups, channels)
+        self.activation1 = nn.GELU()
+        self.conv1 = nn.Conv1d(channels, channels, kernel_size=3, padding=1)
+        self.norm2 = nn.GroupNorm(groups, channels)
+        self.activation2 = nn.GELU()
+        self.dropout = nn.Dropout(dropout)
+        self.conv2 = nn.Conv1d(channels, channels, kernel_size=3, padding=1)
+
+    def residual(self, x: torch.Tensor) -> torch.Tensor:
+        value = self.conv1(self.activation1(self.norm1(x)))
+        value = self.conv2(self.dropout(self.activation2(self.norm2(value))))
+        return value
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        if x.ndim != 3 or x.shape[1] != self.channels:
+            raise ValueError(
+                f"expected [batch,{self.channels},time], got {tuple(x.shape)}"
+            )
+        return x + self.residual(x)
+
+
+class SequenceResidualCNNBackbone(nn.Module):
+    """Phase 6.5D fixed three-block residual temporal CNN backbone."""
+
+    def __init__(
+        self,
+        input_dim: int,
+        hidden_dim: int = 128,
+        num_blocks: int = 3,
+        groups: int = 8,
+        dropout: float = 0.1,
+    ) -> None:
+        super().__init__()
+        if input_dim <= 0 or hidden_dim <= 0 or num_blocks <= 0:
+            raise ValueError("input_dim, hidden_dim, and num_blocks must be positive")
+        if hidden_dim % groups != 0:
+            raise ValueError("groups must divide hidden_dim")
+        self.input_dim = input_dim
+        self.output_dim = hidden_dim
+        self.num_blocks = num_blocks
+        self.groups = groups
+        self.dropout = dropout
+        self.stem = nn.Conv1d(input_dim, hidden_dim, kernel_size=5, padding=2)
+        self.blocks = nn.ModuleList(
+            [
+                PreActivationResidualBlock1D(hidden_dim, groups, dropout)
+                for _ in range(num_blocks)
+            ]
+        )
+        self.pool = nn.AdaptiveAvgPool1d(1)
+
+    def forward_features(self, x: torch.Tensor) -> torch.Tensor:
+        _validate_sequence(x, self.input_dim)
+        value = self.stem(x.transpose(1, 2))
+        for block in self.blocks:
+            value = block(value)
+        return value
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.pool(self.forward_features(x)).squeeze(-1)
+
+
 class SinusoidalPositionEncoding(nn.Module):
     """Deterministic positional encoding for batch-first sequence tensors."""
 

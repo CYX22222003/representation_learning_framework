@@ -1,0 +1,95 @@
+{
+  "artifact": {
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+    "sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b"
+  },
+  "candle_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk1_top50_train-2025-12-02_cutoff-2026-04-01_eval-end-2026-06-16/candles_1h_clean_ffill1.parquet",
+  "candle_sha256": "a2b382fb9c167f0aa91a4bb086a6b04b184716066ee6582b0a4dfaf59c977ae3",
+  "canonical_feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+  "canonical_feature_sha256": "1458c799b8e28b0ff27008ada9fee577b397e16f3a7e7b925e0e305598349459",
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "feature_contract": {
+    "available_feature_rows": 58900,
+    "feature_count": 36,
+    "feature_names": [
+      "z_score",
+      "rsi",
+      "boll",
+      "ULTOSC",
+      "pct_change",
+      "zsVol",
+      "PR_MA_Ratio_short",
+      "MA_Ratio_short",
+      "MA_Ratio",
+      "PR_MA_Ratio",
+      "DayOfWeek",
+      "Month",
+      "Hourly",
+      "CDL2CROWS",
+      "CDL3BLACKCROWS",
+      "CDL3WHITESOLDIERS",
+      "CDLABANDONEDBABY",
+      "CDLBELTHOLD",
+      "CDLCOUNTERATTACK",
+      "CDLDARKCLOUDCOVER",
+      "CDLDRAGONFLYDOJI",
+      "CDLENGULFING",
+      "CDLEVENINGDOJISTAR",
+      "CDLEVENINGSTAR",
+      "CDLGRAVESTONEDOJI",
+      "CDLHANGINGMAN",
+      "CDLHARAMICROSS",
+      "CDLINVERTEDHAMMER",
+      "CDLMARUBOZU",
+      "CDLMORNINGDOJISTAR",
+      "CDLMORNINGSTAR",
+      "CDLPIERCING",
+      "CDLRISEFALL3METHODS",
+      "CDLSHOOTINGSTAR",
+      "CDLSPINNINGTOP",
+      "CDLUPSIDEGAP2CROWS"
+    ],
+    "rolling_resets_at_gap_segment": true,
+    "segment_count": 3462,
+    "volume_fit": {
+      "fit_availability_cutoff_exclusive": "2026-04-01T00:00:00+00:00",
+      "fit_row_count": 75449,
+      "fit_start_inclusive": "2025-12-02T00:00:00+00:00",
+      "mean": 14421.093734332926,
+      "std": 97457.40431931993,
+      "uses_evaluation_rows": false
+    }
+  },
+  "intersection": {
+    "test": {
+      "excluded_rows": 4519,
+      "identity_sha256": "55a29f81d142443ec045082a05ff79d492d92e534941cba74d6a7e0fc020a372",
+      "included_rows": 25821,
+      "labels_sha256": "d94a4edd9d651f9505f6853febcddc43ee059ff4f5b7b31a6dd64f0db5b1c1c5",
+      "source_positions_sha256": "8912f7808fdbfd66c571f6093c70d45cbbde8460e5caed7290a0c940901cce41",
+      "source_rows": 30340
+    },
+    "train": {
+      "excluded_rows": 7821,
+      "identity_sha256": "7d7c4e3516b268bcc5aebcdfb6434f54952b78990454cb384fe17e281f33d709",
+      "included_rows": 30043,
+      "labels_sha256": "21ba270173c71381611357f9d4c08a1f1e555957f2d4d54f6c47997617c169c7",
+      "source_positions_sha256": "4bc7633382577a80e2862ade3a8663948cb511b4dc41e40526e1d2177f025117",
+      "source_rows": 37864
+    }
+  },
+  "intersection_uses_labels": false,
+  "phase": "6.5C",
+  "schema_version": "phase6-5c-ta-store-v1",
+  "target": {
+    "class_names": [
+      "DOWN",
+      "STABLE",
+      "UP"
+    ],
+    "horizon_hours": 2,
+    "tau": 0.001
+  },
+  "walk": 1
+}

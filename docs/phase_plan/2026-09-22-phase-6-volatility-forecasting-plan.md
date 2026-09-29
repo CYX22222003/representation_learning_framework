@@ -422,8 +422,9 @@ All learned models must be refitted independently per walk on identical
 volatility rows. Existing Phase 1/2 volatility checkpoints and predictions are
 not reusable evidence because both their source pipeline and target differ.
 
-The adapted GARCH--LSTM stack is deferred to the next experiment round. It is
-not an active matrix member and cannot block completion of the current round.
+The adapted GARCH--LSTM stack was deferred to the next experiment round and is
+now complete separately under Phase 6.5B. It was not an active Phase 6 matrix
+member and did not block completion of this round.
 Before any later reuse, its GARCH state, scaling, caps, and forecasts must be
 audited against permitted historical changes; training meta-features must be
 chronological out-of-fold predictions, and test predictions must use only the
@@ -516,7 +517,8 @@ the resampling unit and block construction must be frozen before reporting.
 Gates 1--10 are complete for all 26 active current-round trajectories. The
 per-walk frozen-matrix report and observation document are complete; gate 11
 retains pooled aggregation of all temporal configurations as a reporting
-follow-up. GARCH--LSTM is deferred to a later round.
+follow-up. GARCH--LSTM was deferred from this matrix and is now complete under
+Phase 6.5B.
 
 1. **Complete the literature-grounded definition.** The future realised-
    variance formula and raw probability-change convention are now fixed.

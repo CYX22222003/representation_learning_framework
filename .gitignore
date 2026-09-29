@@ -74,3 +74,15 @@ experiments/phase6/volatility_prediction/features/**/five_branch_epoch50_h8.npz
 # Phase 6 temporal-variant master feature stores are reproducible from frozen
 # Phase 5 features and epoch-50 temporal checkpoints; retain their manifests.
 experiments/phase6/encoder_variants/features/**/*.npz
+
+# Phase 6.5 LSTM-capacity master feature stores are reproducible from frozen
+# Phase 5 features and epoch-50 two-layer LSTM checkpoints; retain manifests.
+experiments/phase6_5/lstm_capacity/features/**/*.npz
+
+# Phase 6.5D residual-CNN price feature stores are reproducible from frozen
+# Phase 5 features and epoch-50 residual-CNN checkpoints; retain manifests.
+experiments/phase6_5/residual_cnn/features/**/*.npz
+
+# Phase 6.5 TA feature/intersection stores are reproducible from the frozen
+# Phase 5 walk bundles; retain their manifests and hashes.
+experiments/phase6_5/ta_mlp/data_preparation/**/*.npz

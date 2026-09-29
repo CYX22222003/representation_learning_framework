@@ -75,10 +75,28 @@ For Phase 6.5, follow
 `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`:
 compare the two-layer LSTM primarily with its same-family one-layer reference,
 and treat the GARCH--LSTM stack as a complete-system volatility comparator
-built from chronological OOF meta-features. For Phase 7A, use both the frozen
+built from chronological OOF meta-features. For the TA-MLP classification
+benchmark, use the causal feature-availability-only common intersection and
+compare its primary P2 run with retrained H0, Raw MLP, and Raw LSTM on
+identical rows; keep its P1U source-paper sensitivity separate. For Phase 7A,
+use both the frozen
 single-branch and leave-one-branch-out comparisons in
 `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`; do not
 interpret them as parameter-matched causal feature importance.
+
+For Phase 6.5D, compare price-only residual-CNN substitutions with `H0` and
+their additions with both `H0` and the completed same-family duplicate-CNN
+control. Classification and volatility are deferred. For Phase 6.6, follow
+`docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
+Compare residual raw-sequence fusion primarily against the matched `F-H0`
+projection control, not only against the simpler `H0-D0` head. Treat raw-only
+`F-RL` as the second required comparison when discussing complementary
+information. The active fusion and decoder matrices are future-price-only.
+For Phase 6.6C decoder capacity, retain the simple D0 head as the
+representation probe, compare residual projection D1-RP with D0, and interpret
+branch-aware gated D2-BG as a complete-system fusion sensitivity.
+Grouped SHAP is descriptive post-hoc attribution and cannot replace matched
+ablation or select a model from evaluation results.
 
 ### 3. Run matched characterization sweeps
 
@@ -131,7 +149,13 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md`
 - Phase 6 temporal encoder comparison matrix:
   `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`
-- Phase 6.5 LSTM capacity and adapted GARCH--LSTM contract:
+- Phase 6.5 capacity and task-benchmark contract:
   `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
+- Phase 6.5B strict GARCH--LSTM implementation:
+  `src/baselines/garch_lstm_stacking/phase6_5.py`
+- Phase 6.5C causal TA-MLP implementation:
+  `src/baselines/ta_mlp_baseline/phase6_5.py`
+- Phase 6.6 price-focused raw-fusion and decoder contract:
+  `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
 - Phase 7A canonical representation ablation contract:
   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`

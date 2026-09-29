@@ -135,8 +135,12 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase 2 temporal decoders | `K=8` contract-local sequences of frozen train embeddings; scalers and decoder parameters use training rows only | identically constructed contract-local test embedding sequences with frozen scalers/decoders |
 | LSTM baseline | train sequences (fixed-epoch sweep) | test sequences |
 | Raw LSTM volatility benchmark | train sequences + shared volatility label bundle (fixed-epoch sweep) | test sequences + shared volatility label bundle |
-| Phase-6.5 GARCH--LSTM stacking volatility benchmark | five-fold chronological expanding OOF base predictions on each walk's strict H=8 training rows; GARCH fit/scaling/caps and meta scaling/ElasticNet use permitted training information only | the identical locked Phase-6 H=8 evaluation rows using replayed Raw LSTM predictions and train-fitted GARCH/meta parameters; a complementary hybrid comparator, not a replacement for Raw LSTM |
-| TA-MLP baseline (trend classification) | train TA-feature rows + train tri-class labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels |
+| Phase-6.5 GARCH--LSTM stacking volatility benchmark | five-fold chronological expanding OOF base predictions on each walk's strict H=8 training rows; contract/fold rows without two causal prices at the fold start are recorded as discarded warm-up rows; GARCH fit/scaling/caps and meta scaling/ElasticNet use permitted training information only | the identical locked Phase-6 H=8 evaluation rows using replayed Raw LSTM predictions and train-fitted GARCH/meta parameters; an unseen evaluation condition uses the median guarded H=8 forecast across contract-local training-only GARCH states; a complementary hybrid comparator, not a replacement for Raw LSTM |
+| Phase-6.5C strict adapted TA-MLP matrix | exact h2/tau=0.001 training labels restricted only by a frozen causal TA-feature-availability intersection; H0, Raw MLP, Raw LSTM, and TA-MLP use the identical P2 training rows, while TA-P1U undersamples only the training majority class | the identical natural-distribution TA-eligible evaluation identities for every strict comparator; no evaluation resampling, TA fitting, or label-derived row filtering |
+| Phase-6.5D residual-CNN encoders and probes | each walk's unchanged target-free encoder rows under the frozen Contrastive/BYOL recipes; epoch-50 residual-CNN embeddings are then frozen and price-training-only scalers/heads fit on exact `absolute_price_h8` rows | exact future-price evaluation identities, with substitutions compared to H0 and additions compared to both H0 and the completed duplicate-CNN controls; classification and volatility are deferred |
+| Phase-6.6C canonical decoder-capacity sensitivity | immutable canonical H0 features on exact `absolute_price_h8` training rows, with the existing train-only scaler, target, MSE loss, and sigmoid output; seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation rows for D0, residual-projection D1-RP, and branch-aware gated D2-BG; D0 remains the primary representation probe |
+| Phase-6.6A raw-representation fusion | exact future-price training identities; the `H0` projection scaler is fit on training rows only, while raw LSTM/BiLSTM towers consume the matching saved walk-scaled 64-by-5 contexts; all supervised parameters use seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation identities through frozen training scalers; `F-H0` is the matched-capacity control, `F-RL` is the raw-only complementarity reference, and no SHAP value selects a model |
+| Legacy TA-MLP baseline (trend classification) | train TA-feature rows + train BUY/HOLD/SELL labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels; historical characterisation only for the current movement task |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
 | Phase-7A canonical single/leave-one-out ablations | no encoder fitting; select exact canonical branch coordinates, then fit per-configuration scalers and fixed-epoch task heads on task-training rows only | identical task/walk evaluation rows with frozen scalers/heads; all configurations reported without evaluation-driven selection |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
@@ -148,9 +152,24 @@ Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
 split. Phase 5 instead rebuilds these allocations per global calendar walk.
 Every primary walk uses a separately trained encoder and downstream head from
 the same causally permitted history, then freezes both before its next-interval
-evaluation. The completed Phase 6 and planned Phase 6.5/7A contracts retain
+evaluation. The completed Phase 6 and Phase 6.5/6.6/7A contracts retain
 walk-specific fitting and do not include a fixed-first-walk transfer ablation.
 There is no per-component validation split.
+
+For Phase 6.5C, long-window TA indicators may remove early decision rows only
+because their causal history is unavailable. The common intersection must be
+frozen from feature availability before training and applied to every strict
+P2 comparator. The legacy `zsVol` helper's complete-frame normalization is
+not permitted: walk-training volume statistics and all TA-coordinate scaling
+are fitted on training history only and then frozen. For Phase 6.6C, the
+richer heads may not refit an encoder or change task rows, scalers, labels,
+losses, output transforms, references, or checkpoint budgets.
+
+For Phase 6.6A, the bidirectional raw tower may traverse both directions only
+inside the already observed historical context; no target-interval candle may
+enter either direction. For Phase 6.5D, residual-CNN pretraining remains
+target-free and its downstream matrix is price-only. Grouped SHAP or gradient attribution is a later descriptive
+analysis and may not change the frozen model matrix or checkpoint choice.
 
 ---
 
