@@ -1,0 +1,91 @@
+{
+  "checkpoint_sha256": "eaddc42b36fe79938d7e7fc5d283cba288ff82cc9fe713f905e360a2a698f702",
+  "classification": {
+    "accuracy": 0.6750319507377716,
+    "balanced_accuracy": 0.419676108659876,
+    "confusion_matrix": [
+      [
+        952,
+        2108,
+        494
+      ],
+      [
+        1923,
+        15990,
+        917
+      ],
+      [
+        888,
+        2061,
+        488
+      ]
+    ],
+    "macro_average_precision": 0.4359156967766675,
+    "macro_f1": 0.42111860950763674,
+    "macro_roc_auc": 0.6959152994428647,
+    "multiclass_brier": 0.49035314215414166,
+    "nll": 0.8641985285590562,
+    "observed_class_counts": [
+      3554,
+      18830,
+      3437
+    ],
+    "observed_class_proportions": [
+      0.13763990550327254,
+      0.7292513845319701,
+      0.13310870996475738
+    ],
+    "per_class": [
+      {
+        "average_precision": 0.23744849492263242,
+        "class_index": 0,
+        "class_name": "DOWN",
+        "f1": 0.26021593549268823,
+        "precision": 0.2529896359287802,
+        "recall": 0.2678671918964547,
+        "roc_auc": 0.6887776069318242,
+        "support": 3554
+      },
+      {
+        "average_precision": 0.8385956366583699,
+        "class_index": 1,
+        "class_name": "STABLE",
+        "f1": 0.8202313473030857,
+        "precision": 0.7931941068505383,
+        "recall": 0.8491768454593733,
+        "roc_auc": 0.718714403535142,
+        "support": 18830
+      },
+      {
+        "average_precision": 0.23170295874900027,
+        "class_index": 2,
+        "class_name": "UP",
+        "f1": 0.18290854572713647,
+        "precision": 0.25697735650342285,
+        "recall": 0.14198428862379983,
+        "roc_auc": 0.6802538878616278,
+        "support": 3437
+      }
+    ],
+    "predicted_class_counts": [
+      3763,
+      20159,
+      1899
+    ],
+    "predicted_class_proportions": [
+      0.14573409240540644,
+      0.7807211184694628,
+      0.07354478912513071
+    ],
+    "weighted_f1": 0.6583176629922267
+  },
+  "elapsed_training_seconds": 9.666027628998563,
+  "epoch": 50,
+  "inference_seconds": 0.028348380000352336,
+  "model": "raw_mlp",
+  "phase": "6.5C",
+  "predictions_sha256": "bfee17d37fa5406eab7835f98cea385a583f5457a615ee1907ee48294413ef5c",
+  "protocol": "P2",
+  "train_loss": 0.8715241326812945,
+  "walk": 1
+}

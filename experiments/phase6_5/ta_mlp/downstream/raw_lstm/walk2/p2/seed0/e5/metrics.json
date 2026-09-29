@@ -1,0 +1,91 @@
+{
+  "checkpoint_sha256": "4beb8f9df4d825eaac8a5a3f4a14ff6e2d4ab9ef41bc2b0de6f6c6f6f5df0fb3",
+  "classification": {
+    "accuracy": 0.6062437059415912,
+    "balanced_accuracy": 0.4887242139694303,
+    "confusion_matrix": [
+      [
+        1160,
+        333,
+        1
+      ],
+      [
+        2457,
+        5462,
+        0
+      ],
+      [
+        1188,
+        322,
+        0
+      ]
+    ],
+    "macro_average_precision": 0.4789845611518855,
+    "macro_f1": 0.38219894735259413,
+    "macro_roc_auc": 0.7674225878370745,
+    "multiclass_brier": 0.4712441817503278,
+    "nll": 0.8191469373876948,
+    "observed_class_counts": [
+      1494,
+      7919,
+      1510
+    ],
+    "observed_class_proportions": [
+      0.1367756110958528,
+      0.7249839787604138,
+      0.1382404101437334
+    ],
+    "per_class": [
+      {
+        "average_precision": 0.2419468027530485,
+        "class_index": 0,
+        "class_name": "DOWN",
+        "f1": 0.3683124305445309,
+        "precision": 0.24141519250780438,
+        "recall": 0.7764390896921017,
+        "roc_auc": 0.7427906556760503,
+        "support": 1494
+      },
+      {
+        "average_precision": 0.9239492473348461,
+        "class_index": 1,
+        "class_name": "STABLE",
+        "f1": 0.7782844115132516,
+        "precision": 0.8929213666830146,
+        "recall": 0.6897335522161889,
+        "roc_auc": 0.7992566715356499,
+        "support": 7919
+      },
+      {
+        "average_precision": 0.27105763336776195,
+        "class_index": 2,
+        "class_name": "UP",
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "roc_auc": 0.7602204362995236,
+        "support": 1510
+      }
+    ],
+    "predicted_class_counts": [
+      4805,
+      6117,
+      1
+    ],
+    "predicted_class_proportions": [
+      0.43989746406664837,
+      0.5600109859928591,
+      9.154994049253868e-05
+    ],
+    "weighted_f1": 0.6146198870280113
+  },
+  "elapsed_training_seconds": 3.027043264000895,
+  "epoch": 5,
+  "inference_seconds": 0.02380846300002304,
+  "model": "raw_lstm",
+  "phase": "6.5C",
+  "predictions_sha256": "769d51a919958766d61e6ca666d0056970766df3425b4087b2b5016cf6409367",
+  "protocol": "P2",
+  "train_loss": 0.9140757759030445,
+  "walk": 2
+}

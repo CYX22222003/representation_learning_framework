@@ -1,0 +1,69 @@
+{
+  "clipping": {
+    "clipped_row_count": 0,
+    "clipping_mse_delta": 0.0,
+    "nonnegative_mse": 9.631241391008467e-05,
+    "raw_mse": 9.631241391008467e-05,
+    "raw_negative_fraction": 0.0
+  },
+  "epoch": 50,
+  "garch": {
+    "count": 12115,
+    "mae": 0.0005651743220950434,
+    "mse": 9.733823254507533e-05,
+    "pearson": 0.0006846340774688775,
+    "prediction_mean": 0.00011871841226377871,
+    "prediction_std": 0.0004801093517794493,
+    "rmse": 0.009866014015045556,
+    "spearman": 0.1466131516744804,
+    "target_mean": 0.0005129295171961853,
+    "target_std": 0.009846765885749056
+  },
+  "meta_model": {
+    "alpha": 0.0001,
+    "coefficient_scope": "global per fitted epoch budget, not adaptive per-sample weights",
+    "coefficients": {
+      "garch": 5.812952301416954e-06,
+      "interaction": -3.101629998672337e-07,
+      "lstm": 0.00035299451929415805
+    },
+    "dual_gap": 0.0007733814444446407,
+    "feature_names": [
+      "garch",
+      "lstm",
+      "interaction"
+    ],
+    "intercept": 0.0008063527520939187,
+    "l1_ratio": 0.5,
+    "max_iter": 10000,
+    "n_iter": 25,
+    "selection": "cyclic"
+  },
+  "phase": "6.5B",
+  "predictions_sha256": "8e8d81931ffb055151694de4bbf435f97d4130a1b3db4ef03fa2a1624be7ea9e",
+  "raw_lstm": {
+    "count": 12115,
+    "mae": 0.0005407223695887315,
+    "mse": 9.631508644890347e-05,
+    "pearson": 0.11168933817226455,
+    "prediction_mean": 0.00019012956092728347,
+    "prediction_std": 0.00042036610669899836,
+    "rmse": 0.009814024987175419,
+    "spearman": 0.555140021988364,
+    "target_mean": 0.0005129295171961853,
+    "target_std": 0.009846765885749056
+  },
+  "stack": {
+    "count": 12115,
+    "mae": 0.0014700097722465414,
+    "mse": 9.631241391008467e-05,
+    "pearson": 0.11152566069690954,
+    "prediction_mean": 0.0012606772408557487,
+    "prediction_std": 0.0010767250744340984,
+    "rmse": 0.00981388882706976,
+    "spearman": 0.5541326122606686,
+    "target_mean": 0.0005129295171961853,
+    "target_std": 0.009846765885749056
+  },
+  "walk": 2
+}

@@ -1,0 +1,277 @@
+{
+  "snapshots": [
+    {
+      "checkpoint_sha256": "60c685782d4f6ac249411202c82f6de132ff1b1cf795c3a5f399518be79eeb62",
+      "classification": {
+        "accuracy": 0.5609000426009837,
+        "balanced_accuracy": 0.46185545647700604,
+        "confusion_matrix": [
+          [
+            231,
+            892,
+            2431
+          ],
+          [
+            660,
+            11882,
+            6288
+          ],
+          [
+            194,
+            873,
+            2370
+          ]
+        ],
+        "macro_average_precision": 0.4384064035006448,
+        "macro_f1": 0.3858732338684318,
+        "macro_roc_auc": 0.7061378535225802,
+        "multiclass_brier": 0.5459212660288809,
+        "nll": 0.9421099417738125,
+        "observed_class_counts": [
+          3554,
+          18830,
+          3437
+        ],
+        "observed_class_proportions": [
+          0.13763990550327254,
+          0.7292513845319701,
+          0.13310870996475738
+        ],
+        "per_class": [
+          {
+            "average_precision": 0.23267190065043478,
+            "class_index": 0,
+            "class_name": "DOWN",
+            "f1": 0.09959042897176115,
+            "precision": 0.2129032258064516,
+            "recall": 0.06499718626899269,
+            "roc_auc": 0.6954121589622685,
+            "support": 3554
+          },
+          {
+            "average_precision": 0.8525339189520778,
+            "class_index": 1,
+            "class_name": "STABLE",
+            "f1": 0.731717831080457,
+            "precision": 0.8706675459808016,
+            "recall": 0.6310143388210303,
+            "roc_auc": 0.7301658539357142,
+            "support": 18830
+          },
+          {
+            "average_precision": 0.23001339089942194,
+            "class_index": 2,
+            "class_name": "UP",
+            "f1": 0.32631144155307723,
+            "precision": 0.2137253133736135,
+            "recall": 0.689554844340995,
+            "roc_auc": 0.6928355476697577,
+            "support": 3437
+          }
+        ],
+        "predicted_class_counts": [
+          1085,
+          13647,
+          11089
+        ],
+        "predicted_class_proportions": [
+          0.04202006119050385,
+          0.528523294992448,
+          0.4294566438170481
+        ],
+        "weighted_f1": 0.5907487536667274
+      },
+      "elapsed_training_seconds": 2.007775302000482,
+      "epoch": 5,
+      "inference_seconds": 0.062216862000241235,
+      "model": "raw_lstm",
+      "phase": "6.5C",
+      "predictions_sha256": "4608001988292eb731fda1bab4d280cce298202f58392528280e8503c600b08e",
+      "protocol": "P2",
+      "train_loss": 0.9849598578962645,
+      "walk": 1
+    },
+    {
+      "checkpoint_sha256": "b0bd91391ba9db24f7e422d6965cd784334698c1a9dfe8f485d39b3657b683a0",
+      "classification": {
+        "accuracy": 0.5582277990782696,
+        "balanced_accuracy": 0.4695856933925828,
+        "confusion_matrix": [
+          [
+            1152,
+            777,
+            1625
+          ],
+          [
+            3824,
+            11663,
+            3343
+          ],
+          [
+            1065,
+            773,
+            1599
+          ]
+        ],
+        "macro_average_precision": 0.4376064911998641,
+        "macro_f1": 0.429252166989988,
+        "macro_roc_auc": 0.705269084720971,
+        "multiclass_brier": 0.5082972088878085,
+        "nll": 0.8877774116279095,
+        "observed_class_counts": [
+          3554,
+          18830,
+          3437
+        ],
+        "observed_class_proportions": [
+          0.13763990550327254,
+          0.7292513845319701,
+          0.13310870996475738
+        ],
+        "per_class": [
+          {
+            "average_precision": 0.23297660598355807,
+            "class_index": 0,
+            "class_name": "DOWN",
+            "f1": 0.24012506513809273,
+            "precision": 0.19069690448601226,
+            "recall": 0.3241418120427687,
+            "roc_auc": 0.6948035302562579,
+            "support": 3554
+          },
+          {
+            "average_precision": 0.8496365363554053,
+            "class_index": 1,
+            "class_name": "STABLE",
+            "f1": 0.7279593046843305,
+            "precision": 0.8826912888821615,
+            "recall": 0.6193839617631439,
+            "roc_auc": 0.729203923745977,
+            "support": 18830
+          },
+          {
+            "average_precision": 0.230206331260629,
+            "class_index": 2,
+            "class_name": "UP",
+            "f1": 0.31967213114754095,
+            "precision": 0.24349017816354498,
+            "recall": 0.4652313063718359,
+            "roc_auc": 0.6917998001606783,
+            "support": 3437
+          }
+        ],
+        "predicted_class_counts": [
+          6041,
+          13213,
+          6567
+        ],
+        "predicted_class_proportions": [
+          0.23395685682196662,
+          0.5117152705162464,
+          0.2543278726617869
+        ],
+        "weighted_f1": 0.6064672670872865
+      },
+      "elapsed_training_seconds": 5.394631576001302,
+      "epoch": 15,
+      "inference_seconds": 0.06472295100047631,
+      "model": "raw_lstm",
+      "phase": "6.5C",
+      "predictions_sha256": "f1ab40ce643925052f26e5c08e43ac4b04425780acd50f289acd45d79c031d24",
+      "protocol": "P2",
+      "train_loss": 0.9712310603236095,
+      "walk": 1
+    },
+    {
+      "checkpoint_sha256": "c44761f42d4e4f61bb5d3116eacb4deb5ca28fe0bd6abf5385977246842fd000",
+      "classification": {
+        "accuracy": 0.5585763525812323,
+        "balanced_accuracy": 0.46373437019850344,
+        "confusion_matrix": [
+          [
+            1793,
+            846,
+            915
+          ],
+          [
+            5651,
+            11722,
+            1457
+          ],
+          [
+            1681,
+            848,
+            908
+          ]
+        ],
+        "macro_average_precision": 0.4325694466476742,
+        "macro_f1": 0.42674152624368866,
+        "macro_roc_auc": 0.6958966137936896,
+        "multiclass_brier": 0.5203151076290844,
+        "nll": 0.9015069267968444,
+        "observed_class_counts": [
+          3554,
+          18830,
+          3437
+        ],
+        "observed_class_proportions": [
+          0.13763990550327254,
+          0.7292513845319701,
+          0.13310870996475738
+        ],
+        "per_class": [
+          {
+            "average_precision": 0.22909628220980105,
+            "class_index": 0,
+            "class_name": "DOWN",
+            "f1": 0.28282987617319977,
+            "precision": 0.1964931506849315,
+            "recall": 0.5045019696117051,
+            "roc_auc": 0.6888377305772762,
+            "support": 3554
+          },
+          {
+            "average_precision": 0.8459664202749635,
+            "class_index": 1,
+            "class_name": "STABLE",
+            "f1": 0.7270359114308751,
+            "precision": 0.8737328562909958,
+            "recall": 0.6225172596919809,
+            "roc_auc": 0.7187825892223314,
+            "support": 18830
+          },
+          {
+            "average_precision": 0.22264563745825805,
+            "class_index": 2,
+            "class_name": "UP",
+            "f1": 0.2703587911269912,
+            "precision": 0.27682926829268295,
+            "recall": 0.26418388129182424,
+            "roc_auc": 0.6800695215814613,
+            "support": 3437
+          }
+        ],
+        "predicted_class_counts": [
+          9125,
+          13416,
+          3280
+        ],
+        "predicted_class_proportions": [
+          0.3533945238371868,
+          0.5195770884164053,
+          0.12702838774640796
+        ],
+        "weighted_f1": 0.6051077323599551
+      },
+      "elapsed_training_seconds": 17.092943293001554,
+      "epoch": 50,
+      "inference_seconds": 0.06331095000041387,
+      "model": "raw_lstm",
+      "phase": "6.5C",
+      "predictions_sha256": "366204c16c1a082c155fa60230ac43e6b41c7539a0534ed28c0132fdd9370b9f",
+      "protocol": "P2",
+      "train_loss": 0.9676855497598624,
+      "walk": 1
+    }
+  ]
+}

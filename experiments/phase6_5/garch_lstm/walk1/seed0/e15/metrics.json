@@ -1,0 +1,69 @@
+{
+  "clipping": {
+    "clipped_row_count": 0,
+    "clipping_mse_delta": 0.0,
+    "nonnegative_mse": 0.000654488184805543,
+    "raw_mse": 0.000654488184805543,
+    "raw_negative_fraction": 0.0
+  },
+  "epoch": 15,
+  "garch": {
+    "count": 27806,
+    "mae": 0.0018040181542112708,
+    "mse": 0.000686441403309875,
+    "pearson": -0.005248066636130865,
+    "prediction_mean": 0.001198305015854515,
+    "prediction_std": 0.005477985092692352,
+    "rmse": 0.026200026780709117,
+    "spearman": 0.1089801128780352,
+    "target_mean": 0.0006615789611895927,
+    "target_std": 0.02558659489657802
+  },
+  "meta_model": {
+    "alpha": 0.0001,
+    "coefficient_scope": "global per fitted epoch budget, not adaptive per-sample weights",
+    "coefficients": {
+      "garch": -2.9874193234829963e-06,
+      "interaction": 7.87129320113441e-06,
+      "lstm": 0.0010972957334410153
+    },
+    "dual_gap": 8.176301125960018e-05,
+    "feature_names": [
+      "garch",
+      "lstm",
+      "interaction"
+    ],
+    "intercept": 0.0006297227066358506,
+    "l1_ratio": 0.5,
+    "max_iter": 10000,
+    "n_iter": 1351,
+    "selection": "cyclic"
+  },
+  "phase": "6.5B",
+  "predictions_sha256": "110e2c903c7a126525893915443dda41cddba74604e0469219b707ee418d4b00",
+  "raw_lstm": {
+    "count": 27806,
+    "mae": 0.0006572992019613894,
+    "mse": 0.0006547665953447995,
+    "pearson": 0.017473901610472097,
+    "prediction_mean": 0.00016122854087558837,
+    "prediction_std": 0.00024142143659516035,
+    "rmse": 0.025588407440573543,
+    "spearman": 0.4670808431451168,
+    "target_mean": 0.0006615789611895927,
+    "target_std": 0.02558659489657802
+  },
+  "stack": {
+    "count": 27806,
+    "mae": 0.0010268190182387716,
+    "mse": 0.000654488184805543,
+    "pearson": 0.017641431801396244,
+    "prediction_mean": 0.0006028366938533829,
+    "prediction_std": 0.00033037417794502436,
+    "rmse": 0.02558296669281229,
+    "spearman": 0.4450879870900237,
+    "target_mean": 0.0006615789611895927,
+    "target_std": 0.02558659489657802
+  },
+  "walk": 1
+}

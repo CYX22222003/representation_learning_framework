@@ -1,0 +1,95 @@
+{
+  "artifact": {
+    "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+    "sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8"
+  },
+  "candle_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/data_new/findata/polymarket/phase5_walk2_top50_train-2026-02-16_cutoff-2026-06-16_eval-end-2026-09-01/candles_1h_clean_ffill1.parquet",
+  "candle_sha256": "023845c48a5e40ea6bee5e7bd1e17abe1dd4c9cf782505d7caee3659d284351d",
+  "canonical_feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+  "canonical_feature_sha256": "a2a050f4278017c1dff535751bc4028570ab2af23214ac85d782b54110c01827",
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "feature_contract": {
+    "available_feature_rows": 63093,
+    "feature_count": 36,
+    "feature_names": [
+      "z_score",
+      "rsi",
+      "boll",
+      "ULTOSC",
+      "pct_change",
+      "zsVol",
+      "PR_MA_Ratio_short",
+      "MA_Ratio_short",
+      "MA_Ratio",
+      "PR_MA_Ratio",
+      "DayOfWeek",
+      "Month",
+      "Hourly",
+      "CDL2CROWS",
+      "CDL3BLACKCROWS",
+      "CDL3WHITESOLDIERS",
+      "CDLABANDONEDBABY",
+      "CDLBELTHOLD",
+      "CDLCOUNTERATTACK",
+      "CDLDARKCLOUDCOVER",
+      "CDLDRAGONFLYDOJI",
+      "CDLENGULFING",
+      "CDLEVENINGDOJISTAR",
+      "CDLEVENINGSTAR",
+      "CDLGRAVESTONEDOJI",
+      "CDLHANGINGMAN",
+      "CDLHARAMICROSS",
+      "CDLINVERTEDHAMMER",
+      "CDLMARUBOZU",
+      "CDLMORNINGDOJISTAR",
+      "CDLMORNINGSTAR",
+      "CDLPIERCING",
+      "CDLRISEFALL3METHODS",
+      "CDLSHOOTINGSTAR",
+      "CDLSPINNINGTOP",
+      "CDLUPSIDEGAP2CROWS"
+    ],
+    "rolling_resets_at_gap_segment": true,
+    "segment_count": 4774,
+    "volume_fit": {
+      "fit_availability_cutoff_exclusive": "2026-06-16T00:00:00+00:00",
+      "fit_row_count": 89121,
+      "fit_start_inclusive": "2026-02-16T00:00:00+00:00",
+      "mean": 7208.7761454790225,
+      "std": 73420.07990320201,
+      "uses_evaluation_rows": false
+    }
+  },
+  "intersection": {
+    "test": {
+      "excluded_rows": 2964,
+      "identity_sha256": "82c2c11565a00147e693ae8a9c843fc76a9725fe774c8c8818477bd14f15204f",
+      "included_rows": 10923,
+      "labels_sha256": "0431d00dca90b5050af2156d4a4e2c2d4b897205711a77470dcecb094cd1f99c",
+      "source_positions_sha256": "ae19297c51050528bd721c3080685d6425948f1984339684b24002290378ebc0",
+      "source_rows": 13887
+    },
+    "train": {
+      "excluded_rows": 8278,
+      "identity_sha256": "0dea69468fea835391162dd70460100c3675dd488555575feda174e271857099",
+      "included_rows": 49243,
+      "labels_sha256": "ebc1b741b00ea7d29d55f0bd4da6b137b642ac367a09b0472932de021ae6ebb7",
+      "source_positions_sha256": "c3418b203498122e52df2a4f5f8aab4a7782e74d0ccc2d477b3041a931ba49fe",
+      "source_rows": 57521
+    }
+  },
+  "intersection_uses_labels": false,
+  "phase": "6.5C",
+  "schema_version": "phase6-5c-ta-store-v1",
+  "target": {
+    "class_names": [
+      "DOWN",
+      "STABLE",
+      "UP"
+    ],
+    "horizon_hours": 2,
+    "tau": 0.001
+  },
+  "walk": 2
+}

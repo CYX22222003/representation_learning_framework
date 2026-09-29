@@ -1,0 +1,356 @@
+{
+  "cpu_smoke_test": {
+    "models": {
+      "h0/P2": {
+        "batch_size": 512,
+        "learning_rate": 0.0001,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "raw_lstm/P2": {
+        "batch_size": 512,
+        "learning_rate": 0.0001,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "raw_mlp/P2": {
+        "batch_size": 512,
+        "learning_rate": 0.0001,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "ta_mlp/P1U": {
+        "batch_size": 64,
+        "learning_rate": 0.001,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "ta_mlp/P2": {
+        "batch_size": 64,
+        "learning_rate": 0.001,
+        "output_shape": [
+          4,
+          3
+        ]
+      }
+    },
+    "p1u_audit": {
+      "candidate": true,
+      "description": "majority-only undersampling",
+      "draw_count": 6,
+      "draw_counts": [
+        2,
+        2,
+        2
+      ],
+      "duplicate_count": 0,
+      "loss": "hard_ce",
+      "original_counts": [
+        2,
+        5,
+        2
+      ],
+      "protocol_id": "P1U",
+      "sampling": "majority_undersampling",
+      "seed": 0,
+      "unique_source_count": 6
+    },
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "h0",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "model": "h0",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/h0/walk1/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "store_sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "raw_mlp",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "model": "raw_mlp",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/raw_mlp/walk1/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "store_sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "raw_lstm",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "model": "raw_lstm",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/raw_lstm/walk1/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "store_sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "logit_adjustment_strength": 1.0,
+        "model": "ta_mlp",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "model": "ta_mlp",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/ta_mlp/walk1/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "store_sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "logit_adjustment_strength": 1.0,
+        "model": "ta_mlp",
+        "protocol": "P1U",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "model": "ta_mlp",
+      "protocol": "P1U",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/ta_mlp/walk1/p1u/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "store_sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "h0",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "model": "h0",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/h0/walk2/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "store_sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "raw_mlp",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "model": "raw_mlp",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/raw_mlp/walk2/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "store_sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "model": "raw_lstm",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "model": "raw_lstm",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/raw_lstm/walk2/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "store_sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "logit_adjustment_strength": 1.0,
+        "model": "ta_mlp",
+        "protocol": "P2",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "model": "ta_mlp",
+      "protocol": "P2",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/ta_mlp/walk2/p2/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "store_sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 64,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "logit_adjustment_strength": 1.0,
+        "model": "ta_mlp",
+        "protocol": "P1U",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "model": "ta_mlp",
+      "protocol": "P1U",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/downstream/ta_mlp/walk2/p1u/seed0",
+      "store_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "store_sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "walk": 2
+    }
+  ],
+  "entry_count": 10,
+  "evaluation_used_to_screen_matrix": false,
+  "p1u_entry_count": 2,
+  "p2_entry_count": 8,
+  "phase": "6.5C",
+  "principal_epoch": 50,
+  "schema_version": "phase6-5c-ta-matrix-v1",
+  "stores": {
+    "walk1": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk1/classification_h2_ta36.npz",
+      "sha256": "3ec0194b1153442fa6e20e4b336ea12621e8b7ad1b8e247c41699afdb14c260b",
+      "validation": {
+        "feature_count": 36,
+        "row_counts": {
+          "test": 25821,
+          "train": 30043
+        },
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "walk2": {
+      "path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_5/ta_mlp/data_preparation/walk2/classification_h2_ta36.npz",
+      "sha256": "d817525fdf19dbbb3d5a8bbf3ecc055e5c76fda142ddd4189df4df78f04fccb8",
+      "validation": {
+        "feature_count": 36,
+        "row_counts": {
+          "test": 10923,
+          "train": 49243
+        },
+        "valid": true,
+        "walk": 2
+      }
+    }
+  }
+}
