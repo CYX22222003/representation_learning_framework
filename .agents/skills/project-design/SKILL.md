@@ -59,8 +59,8 @@ Read these in order:
    For canonical single-branch and leave-one-out attribution, read
    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 10. For price-focused raw/representation residual fusion, supervised raw
-    LSTM/BiLSTM towers, canonical decoder-capacity sensitivity, or grouped
-    post-hoc attribution, read
+    LSTM/BiLSTM towers, the source-faithful xLSTM-Mixer candidate, canonical
+    decoder-capacity sensitivity, or grouped post-hoc attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 
 ## Response Contract
@@ -99,8 +99,11 @@ Present the parts relevant to the request:
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
   improve movement ranking overall. Phase 7A remains unimplemented. Phase 6.6 freezes price-only
-  matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
-  decoders. The simple head remains the primary representation
+  matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
+  xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's
+  two richer static canonical decoders. xLSTM-Mixer extracts `close[t+8]` from
+  an eight-step five-channel forecast and is a contextual complete-system
+  baseline because it receives additional target supervision. The simple head remains the primary representation
   probe; the branch-gated decoder is a complete-system sensitivity. Grouped
   SHAP remains later
   descriptive analysis rather than model selection. Fixed-first-walk

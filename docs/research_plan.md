@@ -143,8 +143,12 @@ the addition beats its same-width duplicate control, but Raw LSTM and
 persistence remain stronger error references and movement ranking weakens.
 The simple head remains the primary representation
 probe. Phase 6.6 subsequently tests a matched supervised fusion of canonical
-`H0` with raw-sequence LSTM/BiLSTM towers and two richer static canonical
-decoders, also on eight-hour future price only. Grouped SHAP-style attribution
+`H0` with raw-sequence LSTM/BiLSTM towers, a source-faithful NeurIPS 2025
+xLSTM-Mixer full-path forecasting candidate, and two richer static canonical
+decoders, also on eight-hour future price only. xLSTM-Mixer predicts all five
+OHLCV channels for the next eight hours and contributes only its eighth-step
+close to the primary task comparison; its additional supervision is disclosed
+as a complete-system baseline. Grouped SHAP-style attribution
 is deferred until the Phase 6.6
 models and predictions are frozen and cannot select the model matrix. Phase
 7A then tests the canonical five branches through
@@ -307,6 +311,14 @@ clearest representation advantage, while volatility remains metric- and walk-
 dependent; the new work therefore prioritises the task on which the Raw LSTM,
 persistence, and reversal references leave the framework's edge least
 convincing.
+
+Phase 6.6B is placed before Phase 6.6C execution. A metadata-only audit first
+checks whether every established future-price row has a complete observed
+next-eight-bar OHLCV path. If not, a common feature-availability intersection
+and matched H0-D0/Raw-LSTM reruns are frozen before training. The source
+implementation, sLSTM architecture, loss domain, normalization, and hardware
+fallback decision are also frozen before evaluation; no evaluation result may
+select the recipe.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

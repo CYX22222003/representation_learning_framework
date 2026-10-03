@@ -22,8 +22,9 @@
 > strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
 > focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
-> Price-focused Raw-OHLCV/`H0` residual fusion and canonical decoder-capacity
-> sensitivity are frozen separately in
+> Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
+> xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
+> are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > with grouped SHAP deferred to a later analysis amendment.
 > Canonical single-branch and leave-one-out attribution is frozen in
@@ -185,9 +186,13 @@ imputation-exposure reporting but is not an additional model channel.
   eight future-price trajectories are complete and replay-valid. Contrastive
   residual variants reduce price error against H0 in both walks, while BYOL
   does not improve consistently and movement ranking remains weaker. Phase 6.6 plans a matched
-  frozen-H0/raw-sequence residual fusion system and two richer static canonical
-  heads—residual projection and branch-aware gated projection—on future price
-  only. The completed simple head remains the primary representation probe.
+  frozen-H0/raw-sequence residual fusion system, a source-faithful xLSTM-Mixer
+  full-path benchmark, and two richer static canonical heads—residual
+  projection and branch-aware gated projection—on future price only. The
+  xLSTM-Mixer candidate predicts all five OHLCV channels for the next eight
+  hours and extracts the eighth-step close; its additional target supervision
+  makes it a contextual complete-system comparison. The completed simple head
+  remains the primary representation probe.
   Phase 7A plans canonical single/leave-one-out attribution. Lifecycle conditioning,
   stage-specific experts, temporal decoder variants, fixed-first-walk
   transfer, and additional seeds remain outside these plans.
@@ -217,7 +222,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the planned source-faithful xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
@@ -258,6 +263,16 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   separately tests deeper residual-CNN SSL encoders with the simple future-
   price probe. Grouped SHAP is post-hoc description only and cannot select
   either matrix.
+
+- **Recent multivariate forecasting benchmark:** Phase 6.6B evaluates the
+  NeurIPS 2025 xLSTM-Mixer as a source-faithful complete system. It maps the
+  same 64-hour five-channel context to the full next-eight-hour OHLCV path and
+  extracts `close[t+8]` for the existing price metrics. A metadata-only path-
+  availability audit freezes the common row contract first; any required H0
+  and Raw LSTM comparator reruns use that same intersection. Its five-channel,
+  eight-horizon supervision is reported explicitly and is not treated as a
+  target-matched decoder or representation contrast. This candidate is
+  resolved before Phase 6.6C execution.
 
 - **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 

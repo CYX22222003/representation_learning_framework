@@ -68,8 +68,8 @@ Read these in order:
    probes, CKA, resources, subgroups, and report are also complete and replay-
    valid. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
-   for the frozen, unimplemented price-focused raw/residual-fusion and
-   decoder-capacity scope,
+   for the frozen, unimplemented price-focused raw/residual-fusion,
+   source-faithful xLSTM-Mixer candidate, and decoder-capacity scope,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
    for the frozen, unimplemented representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
@@ -138,8 +138,10 @@ Report:
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
    single/leave-one-out ablations have not started. Phase
-  6.6 price-focused raw/representation fusion and two richer canonical static
-  decoder studies are a frozen plan only; grouped SHAP is deferred to a later
+  6.6 price-focused raw/representation fusion, source-faithful xLSTM-Mixer
+  full-path candidate, and two richer canonical static decoder studies are a
+  frozen plan only; Phase 6.6B must be resolved before Phase 6.6C execution,
+  and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat
   legacy GARCH--LSTM artifacts or existing branch-selection utilities as

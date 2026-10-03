@@ -92,6 +92,14 @@ Compare residual raw-sequence fusion primarily against the matched `F-H0`
 projection control, not only against the simpler `H0-D0` head. Treat raw-only
 `F-RL` as the second required comparison when discussing complementary
 information. The active fusion and decoder matrices are future-price-only.
+Treat Phase 6.6B xLSTM-Mixer as a source-faithful external complete-system
+baseline: it predicts the observed next-eight-bar OHLCV path and contributes
+only its eighth-step close to the established price evaluation. Freeze a
+metadata-only full-path availability audit before training. If this requires a
+reduced common intersection, retrain H0-D0 and Raw LSTM on identical training
+and evaluation identities. Always disclose xLSTM-Mixer's additional channel
+and intermediate-horizon supervision; do not interpret its comparison as a
+target-matched causal test of sLSTM versus LSTM or representation quality.
 For Phase 6.6C decoder capacity, retain the simple D0 head as the
 representation probe, compare residual projection D1-RP with D0, and interpret
 branch-aware gated D2-BG as a complete-system fusion sensitivity.

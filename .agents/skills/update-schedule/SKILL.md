@@ -84,11 +84,12 @@ manifests, generated stores where applicable, checkpoints, predictions, and
 replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
 checkpoints, feature stores, downstream runs/predictions, CKA, resources,
 subgroups, and its complete report; treat its frozen price-only seed-0 scope
-as executed. Phase 6.6A/C's price-focused fusion/decoder matrices and the
+as executed. Phase 6.6A/B/C's price-focused fusion/recent-baseline/decoder
+scope and the
 canonical branch-ablation matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
-planning evidence only until its fusion/decoder-capacity source,
+planning evidence only until its fusion/xLSTM-Mixer/decoder-capacity source,
 manifests, checkpoints, predictions, and replay reports exist; grouped
 attribution is a later analysis and not model-completion evidence.
 
