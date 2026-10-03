@@ -134,8 +134,10 @@ Read these in order:
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
     in full. External encoders train separately on each walk's target-free
     population and freeze before common-head probing on identical task rows.
-    The source/licence/extraction/hardware manifest and complete roster must be
-    frozen before evaluation; Phase 6.6 is not a prerequisite.
+    The source/licence/extraction/hardware manifest, SaURL/SISSEL fallback,
+    and optional TimeDART admission decision must be frozen before evaluation;
+    TimeDART is not a completion requirement, and Phase 6.6 is not a
+    prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
     or later grouped attribution, read

@@ -104,11 +104,12 @@ The dated Phase 6.7 contract now adopts the following order:
 1. Complete a focused prior-art table covering objective, input assumptions,
    frozen or fine-tuned evaluation, supported downstream tasks, code
    availability, and adaptation risk.
-2. Freeze the three-model TimeDART/LWA/SaURL-TS roster, with SISSEL as the
-   pre-approved journal fallback, using the same walk-specific training history,
-   task rows, targets, train-only preprocessing, lightweight downstream head,
-   epoch rule, and metrics. Any unavoidable source-specific advantage must be
-   disclosed.
+2. Freeze the required LWA/SaURL-TS roster, with SISSEL as the pre-approved
+   journal fallback, under the same walk-specific training histories, task
+   rows, targets, train-only preprocessing, lightweight downstream heads,
+   epoch rule, and metrics. Retain TimeDART as a resource-gated extension
+   whose admission is decided before any core evaluation metric is read. Any
+   unavoidable source-specific advantage must be disclosed.
 3. Implement and run the selected external representation baselines before
    expanding the project's architecture further.
 4. Execute the already planned Phase 7A single-branch and leave-one-out matrix,

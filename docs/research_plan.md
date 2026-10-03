@@ -151,9 +151,10 @@ the addition beats its same-width duplicate control, but Raw LSTM and
 persistence remain stronger error references and movement ranking weakens.
 The simple head remains the primary representation probe. Phase 6.7 is the
 immediate next priority and directly compares canonical `H0` with recent
-target-free representations: TimeDART-Frozen, LWA-Frozen, and
-SaURL-TS-Frozen, with SISSEL-Frozen as the only pre-approved feasibility
-fallback. Each method is pretrained separately for both walks, frozen, and
+target-free representations: LWA-Frozen and SaURL-TS-Frozen, with
+SISSEL-Frozen as the only pre-approved feasibility fallback for SaURL.
+TimeDART-Frozen is a resource-gated stretch candidate rather than a phase exit
+condition. Each required method is pretrained separately for both walks, frozen, and
 evaluated with the same simple heads on movement classification, future price,
 and future realised variance. Phase 7A then tests the canonical five branches
 through single-branch and leave-one-branch-out probes. Phase 6.6 is deferred
@@ -219,9 +220,9 @@ Three categories of comparison models are used:
 
 **External representation baselines:**
 
-- **TimeDART-Frozen** *(ICML 2025)* — autoregressive generative/self-supervised encoder adapted to the walk-specific target-free population, frozen before common probing.
 - **Learning Without Augmenting-Frozen** *(NeurIPS 2025)* — multi-domain time/Fourier/time-frequency representation evaluated through its frozen source-style extraction path and the common probes.
 - **SaURL-TS-Frozen** *(Pattern Recognition 2026)* — adaptive time/frequency bootstrap representation. `SISSEL-Frozen` is the only pre-approved substitute if the source/licence/hardware feasibility gate rejects SaURL-TS before evaluation.
+- **TimeDART-Frozen** *(ICML 2025, optional)* — autoregressive generative/self-supervised encoder retained as a resource-gated extension. Admission must be frozen before the required baselines' evaluation metrics are read; it is not required for Phase 6.7 completion.
 
 These Phase 6.7 methods use the exact existing task/walk rows and simple-head
 contracts. They are project `-Frozen` adaptations unless every source detail
@@ -327,13 +328,15 @@ is not consistently better and no movement-ranking or trading claim follows;
 classification and volatility extensions remain deferred.
 
 Phase 6.7 first tests the central transfer claim against the closest recent
-prior work. TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen (or the frozen
-SISSEL reserve) use the same two target-free walk populations, then freeze one
+prior work. LWA-Frozen and SaURL-TS-Frozen (or the frozen SISSEL reserve) use
+the same two target-free walk populations, then freeze one
 embedding per row and train the established lightweight heads on the exact
 classification, future-price, and future-realised-variance identities. The
-primary matrix contains 18 new downstream trajectories and six immutable `H0`
-references. Source, licence, extraction, and hardware feasibility are frozen
-before training, and no evaluation metric may select the roster or recipe.
+primary matrix contains 12 new downstream trajectories and six immutable `H0`
+references. TimeDART may add six trajectories through a resource-only gate
+frozen before the core evaluation is read. Source, licence, extraction, and
+hardware feasibility are frozen before training, and no evaluation metric may
+select the roster or recipe.
 
 After Phase 6.7, Phase 7A provides internal branch evidence through the
 precommitted canonical single-branch and leave-one-out matrix. Together these

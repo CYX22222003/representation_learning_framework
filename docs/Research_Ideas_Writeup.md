@@ -46,8 +46,9 @@ universal framework superiority.
 > the
 > [Phase 6.7 recent frozen-representation baseline plan](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md),
 > which is now the immediate priority and compares canonical `H0` with
-> TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen (or the pre-approved
-> SISSEL-Frozen fallback) under the same three-task, two-walk probing contract,
+> LWA-Frozen and SaURL-TS-Frozen (or the pre-approved SISSEL-Frozen fallback)
+> under the same three-task, two-walk probing contract. TimeDART-Frozen is a
+> resource-gated stretch candidate rather than a completion requirement,
 > the
 > [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > which retains a source-faithful xLSTM-Mixer candidate before decoder
@@ -406,9 +407,10 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      h2/tau=0.001 movement labels, with a causal common TA-eligible row
      intersection, matched P2 H0/raw comparator reruns, and a training-only
      paper-derived undersampling sensitivity
-   - Phase 6.7 first compares canonical H0 with TimeDART-Frozen, LWA-Frozen,
-     and SaURL-TS-Frozen or SISSEL-Frozen under identical task rows and simple
-     probes across classification, future price, and future realised variance.
+   - Phase 6.7 first compares canonical H0 with LWA-Frozen and SaURL-TS-Frozen
+     or SISSEL-Frozen under identical task rows and simple probes across
+     classification, future price, and future realised variance. TimeDART is
+     an optional resource-gated extension.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

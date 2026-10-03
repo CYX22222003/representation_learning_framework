@@ -88,15 +88,18 @@ For Phase 6.5D, compare price-only residual-CNN substitutions with `H0` and
 their additions with both `H0` and the completed same-family duplicate-CNN
 control. Classification and volatility are deferred. For Phase 6.7, follow
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
-Treat TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen (or the pre-approved
-SISSEL-Frozen fallback) as direct external representation baselines: pretrain
-separately on each walk's target-free encoder population, freeze epoch-50
+Treat LWA-Frozen and SaURL-TS-Frozen (or the pre-approved SISSEL-Frozen
+fallback) as the required direct external representation baselines. Pretrain
+each separately on each walk's target-free encoder population, freeze epoch-50
 embeddings, and use the established lightweight heads on identical task rows.
-Compare all methods primarily with immutable `H0`; preserve native widths but
-report head parameters and resource costs. Do not let evaluation metrics
-select the roster, extraction point, adaptation, or checkpoint. Existing raw,
-handcrafted, hybrid, and xLSTM-Mixer results are contextual complete-system
-comparisons, not substitutes for this matrix.
+TimeDART-Frozen is a predeclared resource-gated stretch candidate, not a phase
+exit condition; decide its admission before reading core downstream metrics
+and, if admitted, run its complete two-walk/three-task matrix. Compare all
+methods primarily with immutable `H0`; preserve native widths but report head
+parameters and resource costs. Do not let evaluation metrics select the core
+roster, optional admission, extraction point, adaptation, or checkpoint.
+Existing raw, handcrafted, hybrid, and xLSTM-Mixer results are contextual
+complete-system comparisons, not substitutes for this matrix.
 
 Phase 6.6 is deferred. If it is reactivated, follow
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.

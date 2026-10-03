@@ -121,13 +121,16 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > H0 overall. The immediate next phase is now
 > `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 > Phase 6.7 freezes a source/licence/hardware gate followed by a direct frozen-
-> representation comparison between canonical `H0`, TimeDART-Frozen,
-> LWA-Frozen, and SaURL-TS-Frozen; SISSEL-Frozen is the only pre-approved
-> fallback. The three admitted external methods train separately in both
+> representation comparison between canonical `H0`, LWA-Frozen, and
+> SaURL-TS-Frozen; SISSEL-Frozen is the only pre-approved fallback for SaURL.
+> TimeDART-Frozen is a resource-gated stretch candidate and is not a phase exit
+> condition. The two required external methods train separately in both
 > walks and use the same simple heads on movement classification, eight-hour
 > future price, and eight-hour future realised variance. The planned new scope
-> is six encoder trajectories, six frozen feature stores, and 18 downstream
-> trajectories; implementation and execution have not started. Phase 6.6 is
+> is four encoder trajectories, four frozen feature stores, and 12 downstream
+> trajectories, compared with six immutable `H0` references. An admitted
+> TimeDART stretch adds two encoders, two stores, and six downstream runs;
+> implementation and execution have not started. Phase 6.6 is
 > deferred behind this comparison and the subsequent Phase 7A branch
 > analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025

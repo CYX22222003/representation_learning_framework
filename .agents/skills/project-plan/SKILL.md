@@ -141,11 +141,14 @@ Report:
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
    single/leave-one-out ablations have not started. Phase 6.7 is the approved
-  immediate next phase but has not started. Its frozen roster is TimeDART-
-  Frozen, LWA-Frozen, and SaURL-TS-Frozen, with SISSEL-Frozen as the sole pre-
-  approved fallback. Its planned scope is six walk-specific encoders, six
-  feature stores, and 18 common-head downstream trajectories across the three
-  current tasks, with six immutable `H0` references. Phase 6.6 price-focused
+  immediate next phase but has not started. Its required frozen roster is
+  LWA-Frozen and SaURL-TS-Frozen, with SISSEL-Frozen as the sole pre-approved
+  fallback. Its core scope is four walk-specific encoders, four feature stores,
+  and 12 common-head downstream trajectories across the three current tasks,
+  with six immutable `H0` references. TimeDART-Frozen is a resource-gated
+  stretch candidate that adds two encoders, two stores, and six downstream
+  trajectories if admitted before core evaluation; it is not required for
+  phase completion. Phase 6.6 price-focused
   raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,
   and two richer canonical static decoder studies are frozen but deferred; if
   reactivated, Phase 6.6B must be resolved before Phase 6.6C execution,

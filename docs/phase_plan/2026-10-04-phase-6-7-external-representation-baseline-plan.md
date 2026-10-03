@@ -1,7 +1,8 @@
 # Phase 6.7 Recent Frozen-Representation Baseline Plan
 
 **Date:** 2026-10-04  
-**Status:** Approved next-phase planning contract. Feasibility review,
+**Status:** Approved next-phase planning contract, scope amended 2026-10-04.
+Feasibility review,
 implementation, training, feature extraction, downstream evaluation, and
 reporting have not started.  
 **Predecessors:**
@@ -59,24 +60,43 @@ the two accepted Polymarket walks.
 
 ## 3. Frozen candidate roster
 
-The intended primary roster is:
+The required core roster is:
 
 | ID | Method | Source type | Project role |
 |---|---|---|---|
-| `TD-F` | TimeDART-Frozen | ICML 2025 | Autoregressive generative/self-supervised representation baseline |
 | `LWA-F` | Learning Without Augmenting-Frozen | NeurIPS 2025 | Frozen multi-domain time/Fourier/time-frequency representation baseline |
 | `SAURL-F` | SaURL-TS-Frozen | Pattern Recognition 2026 | Adaptive time/frequency bootstrap representation baseline |
 
-This roster intentionally contains two recent top-conference methods and one
-recent top-journal method. The journal entry is included because it is closer
-to the project's reusable-representation contract than a finance-specific
-method whose pretraining uses future labels or unavailable inputs.
+This core intentionally combines one recent top-conference method and one
+recent top-journal method. Both expose reusable target-free representations
+and lightweight source evaluations, while testing materially different
+learning assumptions: fixed frame projections with latent mappings versus
+learned adaptive transformations with multi-domain bootstrap learning. The
+existing raw, recurrent, handcrafted, and hybrid task-specific models remain
+contextual comparators.
+
+This is a targeted recent representation-learning comparison, not an
+exhaustive SOTA survey. Two direct baselines are sufficient for the approved
+FYP scope because they span different publication venues and materially
+different SSL assumptions, and because the project already retains matched
+task-specific and non-learned contextual baselines. The final report must use
+that bounded wording rather than claim comprehensive coverage of recent
+methods.
 
 `SISSEL-Frozen` is the only pre-approved reserve. It replaces `SAURL-F` only
 if the pre-evaluation feasibility gate finds that SaURL-TS cannot be
 implemented faithfully within the available source, licence, hardware, or
-time budget. TimeDART or LWA may not be silently replaced; rejecting either
-requires a dated amendment before downstream evaluation.
+time budget. LWA may not be silently replaced; rejecting it requires a dated
+amendment before downstream evaluation.
+
+`TimeDART-Frozen` is a predeclared stretch candidate, not a Phase 6.7 exit
+condition. It is admitted only if its source/hardware feasibility and the
+remaining compute budget are frozen before any core downstream evaluation
+metric is read. If admitted, its complete two-walk, three-task matrix must be
+run and reported. If it is not admitted at that gate, the two-method core
+remains the complete primary comparison. Adding TimeDART after reading core
+results requires a later dated extension and cannot retroactively select or
+change the Phase 6.7 conclusions.
 
 GCFin and MCSIP are not admitted to the primary matrix. Their future-label or
 extra-input assumptions do not provide a clean target-free, OHLCV-only test of
@@ -101,13 +121,16 @@ every candidate:
 
 The intended extraction points, subject to official-code verification, are:
 
-- `TD-F`: pooled causal encoder patch states with the diffusion decoder
-  removed after pretraining;
 - `LWA-F`: the source-defined frozen time representation and learned
-  cross-domain mappings, with auxiliary training-only components removed as
-  specified by the source evaluation path; and
+  time-to-Fourier and time-to-Gabor representation mappings, concatenated as
+  the source-defined 384-dimensional inference representation, with auxiliary
+  encoders and projectors removed as specified by the source evaluation path;
+  and
 - `SAURL-F`: the source-defined attention-combined time, frequency, and
   cross-domain representation, excluding pretraining projectors/predictors.
+
+If the stretch candidate is admitted, `TD-F` uses pooled causal encoder patch
+states with the diffusion decoder removed after pretraining.
 
 The feasibility audit may inspect training rows, shapes, metadata, source
 code, runtime, and resource use. It may not inspect downstream evaluation
@@ -149,11 +172,15 @@ checkpoint selection is allowed.
 
 ## 6. Stage B: matched encoder pretraining
 
-For the admitted three-model roster:
+For the required two-model core:
 
 ```text
-3 methods x 2 walks = 6 new encoder trajectories
+2 methods x 2 walks = 4 new encoder trajectories
 ```
+
+For SaURL-TS, one encoder trajectory includes its alternating SaDA and SaSSL
+updates; SaDA is not counted as a separate downstream model. An admitted
+TimeDART stretch adds two encoder trajectories.
 
 The primary characterisation uses seed `0` and one uninterrupted 50-epoch
 trajectory per method/walk, with checkpoints at epochs 5, 15, and 50. Epoch 50
@@ -180,8 +207,10 @@ Freeze each epoch-50 encoder and extract one row embedding for every existing
 downstream identity. This produces:
 
 ```text
-3 methods x 2 walks = 6 new representation stores
+2 methods x 2 walks = 4 new representation stores
 ```
+
+An admitted TimeDART stretch adds two representation stores.
 
 Each store records the source checkpoint hash, ordered row identity, output
 width, finiteness, and extraction hash. The encoder receives no downstream
@@ -206,12 +235,14 @@ reported; no method-specific supervised bottleneck is added.
 The new downstream matrix is:
 
 ```text
-3 representations x 3 tasks x 2 walks = 18 new downstream trajectories
-18 trajectories x 3 snapshots = 54 evaluated snapshots
+2 representations x 3 tasks x 2 walks = 12 new downstream trajectories
+12 trajectories x 3 snapshots = 36 evaluated snapshots
 ```
 
 Six immutable epoch-50 `H0` task/walk trajectories are the direct references,
-giving a 24-trajectory representation-comparison table. Existing raw-input,
+giving an 18-trajectory core representation-comparison table. An admitted
+TimeDART stretch adds six downstream trajectories and 18 snapshots, producing
+the former 24-trajectory expanded table. Existing raw-input,
 handcrafted, hybrid, and non-learned results remain contextual references and
 are not counted as new Phase 6.7 runs.
 
@@ -274,7 +305,7 @@ New outputs belong under:
 experiments/phase6_7/
   feasibility/
   manifests/
-  encoder_pretraining/{timedart_frozen,lwa_frozen,saurl_frozen_or_sissel_frozen}/
+  encoder_pretraining/{lwa_frozen,saurl_frozen_or_sissel_frozen,timedart_frozen_optional}/
   features/walk{1,2}/
   downstream/{classification_h2,absolute_price_h8,realised_variance}/
   reports/frozen_representation_seed0/
@@ -295,17 +326,22 @@ artifact failure is discovered.
 1. Replay the two accepted walk bundles, target-free encoder populations, six
    task/walk label populations, and six immutable `H0` references.
 2. Complete the source/licence/API/hardware feasibility manifest without
-   reading evaluation metrics.
-3. Freeze the admitted roster, fallback decision, extraction points,
+   reading evaluation metrics, including the SaURL/SISSEL fallback decision
+   and the resource-only TimeDART admission decision.
+3. Freeze the core roster, any admitted stretch candidate, extraction points,
    architecture settings, budgets, paths, and expected matrix.
 4. Implement source-faithful adapters and pass CPU/CUDA shape,
    forward/backward, determinism, provenance-failure, and small-batch tests.
-5. Train and replay all six admitted encoder trajectories.
-6. Extract and replay all six frozen representation stores.
-7. Freeze the 24-trajectory comparison manifest containing 18 new runs and six
-   immutable `H0` references.
-8. Execute all 18 downstream trajectories and all 54 snapshots without
-   evaluation-driven truncation.
+5. Train and replay all four core encoder trajectories, plus both TimeDART
+   trajectories only if the stretch candidate was admitted at Gate 2.
+6. Extract and replay all four core frozen representation stores, plus both
+   optional TimeDART stores if admitted.
+7. Freeze the 18-trajectory core comparison manifest containing 12 new runs
+   and six immutable `H0` references; an admitted TimeDART stretch expands it
+   to 24 trajectories.
+8. Execute all 12 core downstream trajectories and all 36 core snapshots
+   without evaluation-driven truncation. If TimeDART was admitted, also run
+   its six downstream trajectories and 18 snapshots.
 9. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
 10. Generate the complete per-walk, pooled, resource, and adaptation report.
@@ -314,11 +350,14 @@ artifact failure is discovered.
 
 Phase 6.7 is complete only when:
 
-- the final roster contains TimeDART-Frozen, LWA-Frozen, and either
-  SaURL-TS-Frozen or the pre-approved SISSEL-Frozen fallback;
-- all six encoder trajectories and six representation stores pass replay;
-- all 18 new downstream trajectories and six immutable `H0` references pass
+- the core roster contains LWA-Frozen and either SaURL-TS-Frozen or the pre-
+  approved SISSEL-Frozen fallback;
+- all four core encoder trajectories and four core representation stores pass
+  replay;
+- all 12 new core downstream trajectories and six immutable `H0` references pass
   standalone prediction and metric replay;
+- if TimeDART-Frozen was admitted before evaluation, its two encoders, two
+  stores, and six downstream trajectories also pass replay and reporting;
 - every task/walk comparison uses identical ordered rows and the established
   task contract;
 - the full snapshot, resource, and adaptation tables are preserved, including

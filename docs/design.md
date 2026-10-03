@@ -25,9 +25,10 @@
 > The immediate next phase is the matched recent frozen-representation
 > comparison in
 > [`phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md).
-> It freezes TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen (with
-> SISSEL-Frozen as the only pre-approved fallback) across the same three tasks
-> and two walks as canonical `H0`. Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
+> It freezes LWA-Frozen and SaURL-TS-Frozen (with SISSEL-Frozen as the only
+> pre-approved fallback) across the same three tasks and two walks as
+> canonical `H0`. TimeDART-Frozen is a resource-gated stretch candidate, not a
+> phase exit condition. Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
@@ -228,7 +229,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Phase 6.7 roster: TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen or the pre-approved SISSEL-Frozen fallback. |
+| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen or the pre-approved SISSEL-Frozen fallback. TimeDART-Frozen is a resource-gated stretch candidate. |
 | **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
@@ -264,8 +265,8 @@ optimisation freedom and remain contextual complete-system comparisons.
   admitted external encoder separately on the two target-free walk
   populations, freezes epoch-50 embeddings, and uses the established simple
   heads on the exact movement-classification, future-price, and future-RV
-  rows. The primary matrix has 18 new trajectories and six immutable `H0`
-  references. Native widths, parameters, time, memory, source deviations, and
+  rows. The core matrix has 12 new trajectories and six immutable `H0`
+  references. An admitted TimeDART stretch adds six trajectories. Native widths, parameters, time, memory, source deviations, and
   negative results are reported. No evaluation metric selects the roster,
   extraction point, or checkpoint.
 
