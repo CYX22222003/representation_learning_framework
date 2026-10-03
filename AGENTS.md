@@ -90,7 +90,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
 > `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`, with
-> the subsequent price-focused raw-fusion/decoder-capacity work frozen
+> the subsequent price-focused recent-baseline/raw-fusion/decoder-capacity work frozen
 > separately in
 > `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 > Phase 6.5A freezes one seed-0 two-layer, 128-wide LSTM capacity candidate
@@ -119,8 +119,14 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > walks. BYOL does not improve error consistently; Raw LSTM and persistence
 > remain stronger error references, and movement Rank IC does not improve over
 > H0 overall. Phase 6.6 freezes a matched eight-run price-only
-> raw-OHLCV/`H0` residual-fusion matrix and a four-run price-only Phase 6.6C
-> canonical decoder-capacity matrix. The decoder study
+> raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
+> xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
+> four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
+> predicts the complete next-eight-hour OHLCV path and is evaluated by
+> extracting `close[t+8]`; its full-path supervision makes it a contextual
+> complete-system baseline rather than a target-matched architecture control.
+> Its availability and source/hardware feasibility must be frozen before the
+> decoder study proceeds. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
 > representation probe. All Phase 6.6 studies remain unimplemented.

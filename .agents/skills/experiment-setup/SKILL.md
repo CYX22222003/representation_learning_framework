@@ -131,12 +131,15 @@ Read these in order:
     full. Phase 7B alpha research remains deferred and has no approved
     execution contract.
 16. For price-focused raw-OHLCV plus frozen-representation residual fusion,
-    supervised LSTM/BiLSTM towers, canonical decoder-capacity work, or later grouped
-    attribution, read
+    the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
+    or later grouped attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
     in full. `F-H0` is the required matched-capacity fusion control and `F-RL`
     is required for a complementarity claim;
     bidirectionality is restricted to the observed historical context; and
+    xLSTM-Mixer full-path eligibility is frozen from metadata before training,
+    with matched H0-D0/Raw-LSTM reruns if a common intersection is required;
+    its extra multivariate/multihorizon supervision must be disclosed; and
     SHAP-style attribution cannot select models or checkpoints.
 
 ## Response Contract

@@ -44,8 +44,9 @@ universal framework superiority.
 > covering LSTM depth, strict GARCH--LSTM, current-task TA-MLP classification,
 > and a price-focused residual-CNN encoder study,
 > the
-> [Phase 6.6 price-focused fusion and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
-> which defers grouped SHAP until after its frozen model comparisons,
+> [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
+> which inserts a source-faithful xLSTM-Mixer candidate before decoder
+> execution and defers grouped SHAP until after its frozen model comparisons,
 > and the
 > [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed and replay-valid. Price-focused Phase 6.5D finds
@@ -337,7 +338,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the planned source-faithful xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
@@ -367,7 +368,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in
      reconstructed-price space)
-   - External benchmarks: Stacked LSTM; additional TBD from literature review
+   - External benchmarks: Stacked LSTM; Phase 6.6B source-faithful xLSTM-Mixer,
+     trained on the complete next-eight-hour OHLCV path and evaluated by its
+     extracted eighth-step close; additional candidates remain TBD
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
    - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM
      across both walks for h2 raw-change regression and h8 future-price
@@ -402,6 +405,11 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
      LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
      residual CNNs under both SSL families with the same price-first boundary.
+   - Phase 6.6B places the recent xLSTM-Mixer baseline before Phase 6.6C. A
+     metadata-only full-path availability audit freezes either the existing
+     price rows or a common intersection with matched H0-D0/Raw-LSTM reruns.
+     Its extra channel and intermediate-horizon supervision makes it a
+     contextual complete-system comparison, not a decoder ablation.
      Grouped SHAP
      is reserved for post-model analysis and does not select a configuration.
 
