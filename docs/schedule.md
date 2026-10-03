@@ -1,9 +1,13 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-04
 
-> **Current phase:** Phase 6 is complete for its frozen seed-0 scope; Phase 6.5
-> is active, while Phase 6.6 and Phase 7A are documented follow-up plans.
+> **Current phase:** Phase 6 and Phase 6.5 are complete for their frozen seed-0
+> scopes. Phase 6.7 is now the approved next phase; it freezes a matched
+> comparison between canonical `H0` and recent external frozen
+> representations. Phase 6.7 implementation and execution have not started.
+> Phase 6.6 is deferred, while Phase 7A remains the subsequent documented
+> branch-analysis plan.
 > Phase 5 seed-0 execution is
 > complete. The Phase 6
 > temporal-encoder seed-0 task and all 26 active current-round volatility
@@ -27,12 +31,20 @@
 > expansion remains a reporting follow-up.
 > Phase 7A remains unimplemented. Phase 6.5D's four residual-CNN encoders, two
 > feature stores, eight future-price paths, CKA, resources, subgroups, and
-> complete report are executed and replay-valid. Phase 6.6
-> precommits an eight-run price-only raw-OHLCV/`H0` residual-fusion matrix,
-> adds a source-faithful xLSTM-Mixer full-path candidate before decoder
-> execution, and retains a four-run price-only canonical decoder-capacity
-> study. All Phase 6.6 studies remain unimplemented. Grouped SHAP is
-> explicitly deferred to a later post-model analysis amendment.
+> complete report are executed and replay-valid. Phase 6.7 precommits
+> TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen, with SISSEL-Frozen as the
+> only pre-approved journal fallback. After a source/licence/hardware freeze,
+> the admitted methods will be pretrained separately in both walks and probed
+> with the same simple heads on movement classification, future price, and
+> future realised variance. The planned scope is six encoder trajectories,
+> six frozen feature stores, and 18 new downstream trajectories compared with
+> six immutable `H0` references. Phase 6.6 still contains an eight-run
+> price-only raw-OHLCV/`H0` residual-fusion matrix, the source-faithful
+> xLSTM-Mixer full-path candidate, and a four-run price-only canonical
+> decoder-capacity study, but the whole phase is deferred and all of its work
+> remains unimplemented. xLSTM-Mixer is a later contextual complete-system
+> baseline, not direct representation evidence. Grouped SHAP is explicitly
+> deferred to a later post-model analysis amendment.
 > Phase 7B alpha research is intentionally deferred pending further literature
 > review and has no approved execution contract. Phase 4 data
 > exploration and selection concluded
@@ -152,7 +164,10 @@
 | Adapted GARCH--LSTM stacking volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs; replay verification and plots complete |
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
 | TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
-| Additional benchmarks from literature review (TBD) | ⬜ TBD |
+| TimeDART-Frozen representation baseline | 📝 Approved in Phase 6.7; source feasibility, implementation, and execution have not started |
+| LWA-Frozen representation baseline | 📝 Approved in Phase 6.7; source feasibility, implementation, and execution have not started |
+| SaURL-TS-Frozen representation baseline | 📝 Approved in Phase 6.7; source feasibility, implementation, and execution have not started. SISSEL-Frozen is the only pre-approved fallback. |
+| Additional benchmarks from literature review | ⏸️ Deferred until the Phase 6.7 roster is resolved and reported |
 
 **Internal baselines** (designed within this project)
 | Task | Status |
@@ -180,9 +195,10 @@
 | Phase 6.5B strict H=8 adapted GARCH--LSTM | ✅ Both walk-specific stacks and all five chronological OOF folds are trained and replay-valid at 5/15/50. The final OOF populations are 25,174/44,874 rows. Epoch-50 stack MSE is only marginally lower than Raw LSTM in both walks, while MAE and Spearman are worse; no broad hybrid win is supported. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5C strict adapted TA-MLP classification | ✅ Both causal TA stores and all ten H0/Raw-MLP/Raw-LSTM/TA-MLP P2 plus TA-P1U trajectories are replay-valid at 5/15/50. TA-P2 leads Walk 1 macro-F1 (`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus `0.4632`); P1U is not consistently better. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
-| Phase 6.6A raw-representation residual fusion | 📝 Plan frozen; implementation/execution not started. A matched `F-H0`, raw-LSTM, residual H0+LSTM, and residual H0+BiLSTM matrix runs on eight-hour future-price prediction in both walks (8 trajectories). |
-| Phase 6.6B recent xLSTM-Mixer baseline | 📝 Candidate approved; feasibility/implementation/execution not started. The source-faithful model predicts the complete next-eight-hour OHLCV path and extracts `close[t+8]`. A metadata-only full-path availability audit and source/hardware freeze must precede training, and the candidate must be resolved before Phase 6.6C. Its extra horizon/channel supervision is disclosed as a complete-system comparison. |
-| Phase 6.6C canonical decoder capacity | 📝 Plan frozen; implementation/execution not started. It compares the immutable simple `D0` probe with one residual projection head and one branch-aware gated projection head on canonical H0 for eight-hour future-price prediction in both walks (4 new trajectories). |
+| Phase 6.7 recent frozen-representation baselines | 📝 Approved next phase; implementation/execution not started. After the source feasibility freeze, three admitted methods run as six walk-specific target-free encoder trajectories, six frozen feature stores, and 18 common-head downstream trajectories across all three tasks and both walks. Six immutable `H0` references complete the comparison table. |
+| Phase 6.6A raw-representation residual fusion | ⏸️ Deferred behind Phase 6.7 and Phase 7A; implementation/execution not started. Its frozen matrix remains eight price-only trajectories. |
+| Phase 6.6B recent xLSTM-Mixer baseline | ⏸️ Deferred as a later task-specific complete-system comparison; feasibility/implementation/execution not started. It does not satisfy the direct representation-baseline requirement. |
+| Phase 6.6C canonical decoder capacity | ⏸️ Deferred with the rest of Phase 6.6; implementation/execution not started. The frozen matrix remains four price-only trajectories. |
 | Post-model grouped attribution | 📝 Deferred until the Phase 6.6 model matrix is frozen and evaluated. A later amendment must predeclare SHAP/background sampling and representation, OHLCV-channel, and lag groups; attribution is not a model-selection rule. |
 | Trend classification benchmark (accuracy, macro-F1) | ⚠️ Artifacts are preserved, but their raw/frozen inputs inherit the upstream defect |
 | Phase 2 decoder refinement | ⏸️ Paused; 14 of 30 trajectories are preserved, but no remaining run should execute before the upstream rebuild |
@@ -267,10 +283,13 @@ contract-macro and subgroup tables remain a reporting follow-up. Phase 6.5D's
 four encoders, two price feature stores, eight downstream trajectories, CKA,
 resource/subgroup tables, and complete report are replay-valid. Its narrow
 Contrastive price-error gain does not displace Raw LSTM or persistence and
-does not improve movement ranking overall. The subsequent Phase 6.6
-plan freezes price-focused raw/representation residual fusion, inserts a
-source-faithful xLSTM-Mixer full-path benchmark gate, and retains canonical
-decoder-capacity studies while deferring grouped SHAP to a later
+does not improve movement ranking overall. The immediate Phase 6.7 plan now
+freezes the direct recent representation comparison: TimeDART-Frozen,
+LWA-Frozen, and SaURL-TS-Frozen (or pre-approved SISSEL-Frozen fallback) use
+walk-specific target-free pretraining and the common simple probe on all three
+tasks. Phase 6.6 price-focused raw/representation residual fusion,
+xLSTM-Mixer, and decoder-capacity studies are deferred until after Phase 6.7
+and the subsequent Phase 7A branch analysis. Grouped SHAP remains a later
 analysis amendment. Pooled all-temporal volatility reporting, reversal
 confirmation, and additional seeds remain deferred follow-ups.
 

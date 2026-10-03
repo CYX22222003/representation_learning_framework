@@ -111,6 +111,10 @@ For price-focused raw-OHLCV/representation residual fusion, bidirectional
 historical raw towers, the source-faithful xLSTM-Mixer candidate, canonical
 decoder-capacity sensitivity, or grouped post-model attribution, include
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
+For recent external frozen-representation baselines, their feasibility gate,
+candidate fallback, common-probe matrix, phase ordering, or claim boundary,
+include
+`docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 For canonical single-branch or leave-one-branch-out attribution, or the
 Phase 7B deferral boundary, include
 `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.

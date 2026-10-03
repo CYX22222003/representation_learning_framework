@@ -118,7 +118,18 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > addition also beats its same-width duplicate control on those errors in both
 > walks. BYOL does not improve error consistently; Raw LSTM and persistence
 > remain stronger error references, and movement Rank IC does not improve over
-> H0 overall. Phase 6.6 freezes a matched eight-run price-only
+> H0 overall. The immediate next phase is now
+> `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+> Phase 6.7 freezes a source/licence/hardware gate followed by a direct frozen-
+> representation comparison between canonical `H0`, TimeDART-Frozen,
+> LWA-Frozen, and SaURL-TS-Frozen; SISSEL-Frozen is the only pre-approved
+> fallback. The three admitted external methods train separately in both
+> walks and use the same simple heads on movement classification, eight-hour
+> future price, and eight-hour future realised variance. The planned new scope
+> is six encoder trajectories, six frozen feature stores, and 18 downstream
+> trajectories; implementation and execution have not started. Phase 6.6 is
+> deferred behind this comparison and the subsequent Phase 7A branch
+> analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
 > xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
@@ -129,7 +140,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > decoder study proceeds. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. All Phase 6.6 studies remain unimplemented.
+> representation probe. All Phase 6.6 studies remain unimplemented, and
+> xLSTM-Mixer is a later contextual task-specific baseline rather than direct
+> representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
 > requires a separate sampling/estimator amendment. Phase 7A
 > freezes canonical five-branch

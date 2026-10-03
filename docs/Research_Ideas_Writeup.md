@@ -36,7 +36,7 @@ universal framework superiority.
 > These documents supersede older statements that moved every deferred
 > architecture axis into Phase 6.
 >
-> **Next-scope reading note (amended 2026-09-29):** The completed Phase 6 outcome is
+> **Next-scope reading note (amended 2026-10-04):** The completed Phase 6 outcome is
 > interpreted in
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > The approved follow-ups are the
@@ -44,16 +44,23 @@ universal framework superiority.
 > covering LSTM depth, strict GARCH--LSTM, current-task TA-MLP classification,
 > and a price-focused residual-CNN encoder study,
 > the
+> [Phase 6.7 recent frozen-representation baseline plan](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md),
+> which is now the immediate priority and compares canonical `H0` with
+> TimeDART-Frozen, LWA-Frozen, and SaURL-TS-Frozen (or the pre-approved
+> SISSEL-Frozen fallback) under the same three-task, two-walk probing contract,
+> the
 > [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
-> which inserts a source-faithful xLSTM-Mixer candidate before decoder
-> execution and defers grouped SHAP until after its frozen model comparisons,
+> which retains a source-faithful xLSTM-Mixer candidate before decoder
+> execution if that deferred phase is reactivated and defers grouped SHAP
+> until after its frozen model comparisons,
 > and the
 > [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed and replay-valid. Price-focused Phase 6.5D finds
 > a repeatable Contrastive residual-CNN price-error improvement over H0 and its
 > same-width control, but not over Raw LSTM or persistence, and not in movement
 > ranking; BYOL does not improve error consistently across walks.
-> Phase 6.6 and Phase 7A remain unexecuted plans.
+> Phase 6.7 is approved but unimplemented. Phase 6.6 is deferred, and Phase 7A
+> remains the subsequent unexecuted branch-analysis plan.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -399,17 +406,22 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      h2/tau=0.001 movement labels, with a causal common TA-eligible row
      intersection, matched P2 H0/raw comparator reruns, and a training-only
      paper-derived undersampling sensitivity
-   - Phase 6.6C retains the simple probe as the representation-quality
+   - Phase 6.7 first compares canonical H0 with TimeDART-Frozen, LWA-Frozen,
+     and SaURL-TS-Frozen or SISSEL-Frozen under identical task rows and simple
+     probes across classification, future price, and future realised variance.
+   - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks
-   - Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
+   - The deferred Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
      LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
      residual CNNs under both SSL families with the same price-first boundary.
-   - Phase 6.6B places the recent xLSTM-Mixer baseline before Phase 6.6C. A
+   - Within the deferred Phase 6.6 programme, Phase 6.6B places the recent
+     xLSTM-Mixer baseline before Phase 6.6C. A
      metadata-only full-path availability audit freezes either the existing
      price rows or a common intersection with matched H0-D0/Raw-LSTM reruns.
      Its extra channel and intermediate-horizon supervision makes it a
-     contextual complete-system comparison, not a decoder ablation.
+     contextual complete-system comparison, not a decoder ablation or a
+     frozen-representation baseline.
      Grouped SHAP
      is reserved for post-model analysis and does not select a configuration.
 
