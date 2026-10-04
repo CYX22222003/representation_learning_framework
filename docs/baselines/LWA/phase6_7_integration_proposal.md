@@ -2,9 +2,10 @@
 
 **Method ID:** `lwa_frozen`
 **Reporting label:** `LWA-Frozen (paper-guided independent implementation)`
-**Current gate:** architecture and runtime admission passed. Both full caches
-and the complete Walk 1 two-stage trajectory exist; deployment of the
-severity-aware replay amendment and resume into Walk 2 are next.
+**Current gate:** complete. Architecture/runtime admission, both full caches,
+both two-stage trajectories, both 384-wide stores, and all six downstream
+trajectories pass their frozen contracts. The integrated H0/SaURL/LWA report
+is the remaining Phase 6.7 core reporting task.
 
 ## 1. Decision rule
 
@@ -237,7 +238,7 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
   pass locally and remotely; all 25 local tests include pipeline and
   severity-aware replay contracts).
 - [x] Fixed batch-128 correctness/resource smoke passes on the selected container.
-- [ ] Both walk trajectories replay.
-- [ ] Both master stores replay.
-- [ ] Six downstream trajectories replay.
+- [x] Both walk trajectories replay.
+- [x] Both master stores replay.
+- [x] Six downstream trajectories replay.
 - [ ] Full H0/SaURL/LWA core report generated.

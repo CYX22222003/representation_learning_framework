@@ -1,6 +1,6 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-10-04
+**Last updated:** 2026-10-05
 
 > **Current phase:** Phase 6 and Phase 6.5 are complete for their frozen seed-0
 > scopes. Phase 6.7 is now the approved next phase; it freezes a matched
@@ -12,19 +12,21 @@
 > gate and both 50-epoch SaURL pretraining trajectories are complete and
 > replay-valid at epochs 5/15/50. Same-device CUDA replay is bit-exact; CPU/
 > CUDA replay uses the documented scale-aware tolerance. Near-zero learned
-> masks and large embedding norms remain reportable diagnostics. The LWA
+> masks and large embedding norms remain reportable diagnostics. Both SaURL
+> feature stores and all six staged downstream trajectories are complete and
+> replay-valid at 5/15/50; the interim result is generally weaker than H0.
+> The LWA
 > paper/source audit and independent-adaptation dossier are complete under
 > `docs/baselines/LWA/`; they freeze the no-source-reuse boundary, native
 > 384-dimensional extraction, length-64 adaptation, explicit PyWavelets/
 > chunked-float32 CWT path, and authoritative physical batch 128. All twelve
 > owner decisions are approved. The Lumid container, CUDA runtime, and pinned
-> `PyWavelets==1.8.0` CWT path are verified. The independent Stage 1 LWA model
-> and focused tests are implemented; all 17 pass in both the local and
-> provisioned remote runtimes, including CWT. Owner review, Stage 2
-> cache/pretraining orchestration, fixed-batch runtime smoke, and the final
-> core manifest/reporting remain pending. Both
-> SaURL feature stores and all six staged downstream trajectories are complete
-> and replay-valid at 5/15/50; the interim result is generally weaker than H0.
+> `PyWavelets==1.8.0` CWT path are verified. The independent LWA model and all
+> 25 focused/pipeline tests pass. Both full caches, both 50+50 trajectories,
+> both 384-wide master stores, and all six downstream trajectories are
+> complete and valid at 5/15/50. LWA is not consistently stronger than H0:
+> Walk 1 classification and both price MAEs are weaker, with only isolated
+> metric-specific gains. The integrated H0/SaURL/LWA core report remains.
 > Staged SaURL-only downstream execution is approved before LWA implementation;
 > those results may not change the later mandatory LWA contract. SISSEL and
 > TimeDART are peer optional post-core extensions considered only after mentor
@@ -189,7 +191,7 @@
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
 | TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
 | TimeDART-Frozen representation baseline | ⏸️ Optional post-core Phase 6.7 extension; mentor review after the required LWA/SaURL comparison will decide whether it is needed. Its complete method contract must be frozen before implementation or execution. |
-| LWA-Frozen representation baseline | 🟡 Required Phase 6.7 core; paper/source audit, eight-document dossier, twelve owner decisions, Lumid/CUDA runtime, and pinned `PyWavelets==1.8.0` dependency are complete. The independent Stage 1 model and focused tests are implemented but not run as an experiment: all 17 pass locally and remotely, including CWT. Owner review, Stage 2 cache/pretraining orchestration, fixed-batch smoke, and all training/downstream execution remain pending. |
+| LWA-Frozen representation baseline | ✅ Required Phase 6.7 method execution complete: paper/source audit, twelve owner decisions, Lumid/CUDA admission, both full transform caches, both 50+50 two-stage trajectories, two 384-wide master stores, six downstream trajectories, and all 18 snapshots are valid. LWA is generally weaker than immutable H0, with isolated price/volatility RMSE or correlation improvements. Integrated core reporting remains. |
 | SaURL-TS-Frozen representation baseline | ✅ Required Phase 6.7 core method; staged scope complete: CUDA/resource admission, both 50-epoch encoders, two 128-dimensional master stores, six downstream trajectories, and all 18 snapshots are replay-valid. The epoch-50 result is generally weaker than H0, with isolated metric-specific improvements. Near-zero learned masks and large embedding norms remain disclosed diagnostics. |
 | SISSEL-Frozen representation baseline | ⏸️ Optional post-core Phase 6.7 extension at the same decision stage as TimeDART; the paper and public source have been read for feasibility, but no implementation contract or code has been created. Mentor review after the required LWA/SaURL comparison will decide whether it is needed. |
 | Additional benchmarks from literature review | ⏸️ Deferred until the Phase 6.7 roster is resolved and reported |
@@ -220,7 +222,7 @@
 | Phase 6.5B strict H=8 adapted GARCH--LSTM | ✅ Both walk-specific stacks and all five chronological OOF folds are trained and replay-valid at 5/15/50. The final OOF populations are 25,174/44,874 rows. Epoch-50 stack MSE is only marginally lower than Raw LSTM in both walks, while MAE and Spearman are worse; no broad hybrid win is supported. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5C strict adapted TA-MLP classification | ✅ Both causal TA stores and all ten H0/Raw-MLP/Raw-LSTM/TA-MLP P2 plus TA-P1U trajectories are replay-valid at 5/15/50. TA-P2 leads Walk 1 macro-F1 (`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus `0.4632`); P1U is not consistently better. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
-| Phase 6.7 recent frozen-representation baselines | 🔄 The staged SaURL scope is complete and replay-valid: two encoders, two master stores, six downstream trajectories, and 18 snapshots. SaURL is generally weaker than H0 across the principal task metrics. LWA's dossier, owner decisions, Lumid/PyWavelets runtime audit, Stage 1 model, and focused CPU tests are complete; owner review, Stage 2 orchestration, model-specific admission, and execution follow independently of those SaURL results. The required LWA/SaURL core has four walk-specific target-free encoder trajectories, four frozen feature stores, and 12 common-head downstream trajectories across all three tasks and both walks. Six immutable `H0` references complete the core table. SISSEL and TimeDART are peer optional post-core extensions considered after mentor review. |
+| Phase 6.7 recent frozen-representation baselines | 🔄 Required method execution is complete: SaURL and LWA contribute four walk-specific target-free encoders, four native-width master stores, 12 common-head downstream trajectories, and 36 valid 5/15/50 snapshots. Both methods are generally weaker than immutable H0 across the principal metrics, with isolated metric-specific gains. The integrated six-H0/two-method core report remains; SISSEL and TimeDART are peer optional post-core extensions considered after mentor review. |
 | Phase 6.6A raw-representation residual fusion | ⏸️ Deferred behind Phase 6.7 and Phase 7A; implementation/execution not started. Its frozen matrix remains eight price-only trajectories. |
 | Phase 6.6B recent xLSTM-Mixer baseline | ⏸️ Deferred as a later task-specific complete-system comparison; feasibility/implementation/execution not started. It does not satisfy the direct representation-baseline requirement. |
 | Phase 6.6C canonical decoder capacity | ⏸️ Deferred with the rest of Phase 6.6; implementation/execution not started. The frozen matrix remains four price-only trajectories. |
@@ -308,11 +310,10 @@ contract-macro and subgroup tables remain a reporting follow-up. Phase 6.5D's
 four encoders, two price feature stores, eight downstream trajectories, CKA,
 resource/subgroup tables, and complete report are replay-valid. Its narrow
 Contrastive price-error gain does not displace Raw LSTM or persistence and
-does not improve movement ranking overall. The immediate Phase 6.7 plan now
-freezes the direct recent representation comparison: mandatory LWA-Frozen and
-SaURL-TS-Frozen use
-walk-specific target-free pretraining and the common simple probe on all three
-tasks. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions
+does not improve movement ranking overall. Phase 6.7 required-method execution
+is now complete: mandatory LWA-Frozen and SaURL-TS-Frozen used walk-specific
+target-free pretraining and the common simple probe on all three tasks. The
+integrated core report remains. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions
 considered after mentor review. Phase 6.6 price-focused raw/representation residual fusion,
 xLSTM-Mixer, and decoder-capacity studies are deferred until after Phase 6.7
 and the subsequent Phase 7A branch analysis. Grouped SHAP remains a later

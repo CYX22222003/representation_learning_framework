@@ -85,12 +85,10 @@ manifests, generated stores where applicable, checkpoints, predictions, and
 replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
 checkpoints, feature stores, downstream runs/predictions, CKA, resources,
 subgroups, and its complete report; treat its frozen price-only seed-0 scope
-as executed. Phase 6.7 is the approved immediate next phase. The LWA
-paper/source audit dossier and substantive Stage 1 model/tests support an
-"implemented, not run" status only; the core remains incomplete until its
-runtime feasibility manifest, pretraining/orchestration adapters, four core
-encoder trajectories, four core feature stores, 12 core downstream
-trajectories, and replay report exist. SISSEL and TimeDART are peer optional
+as executed. Phase 6.7 required method execution is complete. Both SaURL and
+LWA have their two walk-specific encoders, two native-width stores, and six
+downstream trajectories with replay evidence; the integrated H0/SaURL/LWA
+core report remains. SISSEL and TimeDART are peer optional
 post-core extensions; each adds two encoders, two feature stores, and six
 downstream trajectories only if admitted after mentor review. Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the

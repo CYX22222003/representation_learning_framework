@@ -81,11 +81,11 @@ downstream execution in Stage 1.
 
 ## Stage 2 — implement view-cache preparation and two-stage pretraining
 
-**Implementation status:** complete and admitted for execution. The
+**Implementation and execution status:** complete. The
 implementation lives in `src/training/phase6_7_lwa.py` with
 audit/bootstrap/replay entry points under `scripts_v6/`. Both full walk caches
-exist, and Walk 1 completed all 50 joint plus 50 mapper epochs with the frozen
-5/15/50 artifacts. Walk 2 remains pending resume.
+and both 50-joint plus 50-mapper trajectories exist with the frozen 5/15/50
+artifacts and replay records.
 The runtime audit does not require the Zotero PDF to be copied into Lumid: it
 uses the versioned source-manifest identity when the recorded WSL-only paper
 path is unavailable, while still verifying any available or explicitly passed
@@ -147,9 +147,9 @@ contracts.
 
 ## Stage 3 — implement two LWA master stores
 
-**Implementation status:** complete and execution-approved. The extractor and
-store replay contract live in `src/features/phase6_7_lwa_features.py`; no real
-master store has been extracted because Walk 2 pretraining is still pending.
+**Implementation and execution status:** complete. The extractor and store
+replay contract live in `src/features/phase6_7_lwa_features.py`; both real
+384-dimensional master stores have been extracted and validated.
 
 For each walk:
 
@@ -176,11 +176,11 @@ the existing Phase 6.7 master-store pattern.
 
 ## Stage 4 — integrate common native-width probes
 
-**Implementation status:** complete and execution-approved. The common probe
+**Implementation and execution status:** complete. The common probe
 accepts both the immutable 128-wide SaURL method and the new 384-wide LWA
 method, and the dedicated LWA bootstrap remains manifest-only without
-`--execute`. No LWA downstream head has been trained because feature
-extraction is still pending.
+`--execute`. All six LWA downstream trajectories and their 18 epoch-5/15/50
+snapshots have been trained and validated.
 
 Reuse the already implemented generic Phase 6.7 downstream behavior, extending
 method dispatch and manifests to `lwa_frozen` while preserving SaURL runs.
@@ -214,6 +214,9 @@ not rerun or copied into Lumid merely to train LWA.
 
 ## Stage 5 — feasibility and execution sequence
 
+**Execution status:** steps 1--9 completed on Lumid on 2026-10-05. Step 10,
+the integrated core report, remains.
+
 Only after Stages 1--4 are reviewed:
 
 1. run dependency, disk, CPU tensor, and small real training-only smoke tests;
@@ -232,6 +235,10 @@ Only after Stages 1--4 are reviewed:
 No optional baseline decision occurs inside this sequence.
 
 ## Stage 6 — complete core reporting
+
+**Status:** pending. The method-local LWA summary is complete under
+`experiments/phase6_7/reports/lwa_staged_seed0/`; the integrated comparison is
+still required.
 
 Generate the full H0/SaURL/LWA report with:
 

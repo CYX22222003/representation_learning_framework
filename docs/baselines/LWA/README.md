@@ -5,8 +5,8 @@
 **Dossier status:** paper/source audit and all twelve owner decisions complete
 **Implementation status:** model, cache/pretraining, frozen-feature,
 downstream, replay, and launcher infrastructure implemented
-**Experiment status:** both caches and the complete Walk 1 50+50 trajectory
-exist; Walk 2 and all feature/downstream execution remain pending resume
+**Experiment status:** both caches, both 50+50 trajectories, both 384-wide
+master stores, and all six downstream trajectories are complete and valid
 
 This directory freezes the evidence and proposed adaptation for:
 
@@ -59,14 +59,22 @@ spaces, then concatenate the three 128-dimensional vectors into a
   independent model omits audited upstream layers that are instantiated but
   unused by LWA outputs.
 
-Both full FFT/CWT caches and the complete Walk 1 joint/mapper trajectory were
-created on Lumid on 2026-10-05. Its 5/15/50 checkpoints and histories are
-retained. The first launcher stopped before Walk 2 because the original strict
+Both full FFT/CWT caches and both joint/mapper trajectories were created on
+Lumid on 2026-10-05. Their 5/15/50 checkpoints and histories are retained.
+The first launcher stopped before Walk 2 because the original strict
 elementwise CPU replay check rejected a Wavelet probe whose maximum absolute
 difference was `9.39e-5`, relative L2 was `3.02e-5`, and cosine similarity was
 effectively one. Replay now records such scale-small cross-device drift as a
 warning under the frozen relative-L2/cosine bounds; material, non-finite,
 structural, provenance, and artifact-integrity failures remain fatal.
+
+Both 384-dimensional master stores and all six common-head downstream runs
+then completed. Every 5/15/50 downstream snapshot is valid. At epoch 50, LWA
+does not consistently outperform immutable H0: Walk 1 classification and both
+price MAEs are weaker, while isolated Walk 2 price/volatility RMSE and
+correlation improvements are insufficient for a broad superiority claim. The
+method-local result is retained under
+`experiments/phase6_7/reports/lwa_staged_seed0/`.
 
 ## Documents
 
@@ -80,8 +88,10 @@ structural, provenance, and artifact-integrity failures remain fatal.
   three common tasks.
 - `implementation_plan.md` — staged code and experiment plan; no execution is
   authorized by the document itself.
-- `source_manifest.json` — machine-readable paper, source, licence, hardware,
-  and gate record.
+- `source_manifest.json` — immutable pre-execution paper, source, licence,
+  hardware, and gate record. Its historical pending flags are intentionally
+  retained because experiment admission artifacts hash this file; completed
+  runtime status is recorded by the feasibility and experiment manifests.
 
 ## Primary sources
 
