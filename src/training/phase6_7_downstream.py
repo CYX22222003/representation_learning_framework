@@ -35,6 +35,7 @@ from training.phase6_volatility import historical_persistence, volatility_metric
 
 SNAPSHOT_EPOCHS = (5, 15, 50)
 SCHEMA_VERSION = "phase6-7-external-downstream-v1"
+METHOD_DIMS = {METHOD: OUTPUT_DIM, "lwa_frozen": 384}
 
 
 @dataclass(frozen=True)
@@ -58,14 +59,14 @@ class Phase67DownstreamConfig:
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "snapshot_epochs", tuple(self.snapshot_epochs))
-        if self.task not in TASKS or self.method != METHOD:
+        if self.task not in TASKS or self.method not in METHOD_DIMS:
             raise ValueError("invalid Phase 6.7 downstream task/method")
         if self.walk not in (1, 2):
             raise ValueError("walk must be 1 or 2")
         if self.input_dim <= 0:
             raise ValueError("input_dim must be positive")
-        if self.input_dim != OUTPUT_DIM:
-            raise ValueError("SaURL-Frozen requires its native 128-wide representation")
+        if self.input_dim != METHOD_DIMS[self.method]:
+            raise ValueError("external method requires its declared native representation width")
         if self.epochs != 50 or self.snapshot_epochs != SNAPSHOT_EPOCHS:
             raise ValueError("Phase 6.7 downstream requires 50 epochs and 5/15/50 snapshots")
         if self.seed != 0 or self.batch_size != 512 or self.learning_rate != 1e-4:
@@ -135,7 +136,19 @@ def _config_from_payload(payload: Mapping[str, Any], device: str) -> Phase67Down
 def _load_task_data(
     dataset_path: Path, feature_path: Path, config: Phase67DownstreamConfig
 ) -> dict[str, Any]:
-    validation = validate_external_feature_store(feature_path, replay=False)
+    if config.method == METHOD:
+        validation = validate_external_feature_store(feature_path, replay=False)
+        train_raw, test_raw = load_external_task_features(feature_path, config.task)
+    else:
+        from features.phase6_7_lwa_features import (
+            load_lwa_task_features,
+            validate_lwa_feature_store,
+        )
+
+        validation = validate_lwa_feature_store(feature_path, replay=False)
+        train_raw, test_raw = load_lwa_task_features(
+            feature_path, config.task, validate=False
+        )
     if validation["walk"] != config.walk or validation["method"] != config.method:
         raise ValueError("external downstream feature method/walk mismatch")
     feature_manifest = json.loads(
@@ -148,7 +161,6 @@ def _load_task_data(
         raise ValueError("external downstream dataset path differs from feature source")
     if task_record["dataset_sha256"] != sha256_file(dataset_path):
         raise ValueError("external downstream dataset hash differs from feature source")
-    train_raw, test_raw = load_external_task_features(feature_path, config.task)
     if train_raw.shape[1] != config.input_dim or test_raw.shape[1] != config.input_dim:
         raise ValueError("external downstream native feature width mismatch")
     scaler = fit_external_standardizer(train_raw)
@@ -213,11 +225,15 @@ def build_external_head(config: Phase67DownstreamConfig) -> nn.Module:
     return VolatilityRegressor(config.input_dim, hidden_dim=config.hidden_dim)
 
 
-def smoke_test_external_downstream() -> dict[str, Any]:
+def smoke_test_external_downstream(method: str = METHOD) -> dict[str, Any]:
+    if method not in METHOD_DIMS:
+        raise ValueError(f"unknown external downstream method: {method}")
     set_seed(0)
     results = {}
     for task in TASKS:
-        config = Phase67DownstreamConfig(task, METHOD, walk=1, device="cpu")
+        config = Phase67DownstreamConfig(
+            task, method, walk=1, input_dim=METHOD_DIMS[method], device="cpu"
+        )
         model = build_external_head(config)
         output = model(torch.randn(4, config.input_dim))
         if task == "classification_h2":
@@ -232,7 +248,7 @@ def smoke_test_external_downstream() -> dict[str, Any]:
         if not torch.isfinite(loss):
             raise FloatingPointError("external downstream smoke produced non-finite loss")
         results[task] = {"output_shape": list(output.shape), "loss_finite": True}
-    return {"valid": True, "method": METHOD, "heads": results}
+    return {"valid": True, "method": method, "heads": results}
 
 
 @torch.no_grad()

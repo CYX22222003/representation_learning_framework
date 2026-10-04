@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from data_processing.phase5_walks import Phase5WalkSpec
+from data_processing.phase5_walks import Phase5WalkSpec, sha256_file
 from data_processing.phase6_volatility import (
     audit_volatility_walk,
     combine_walk_audits,
@@ -17,7 +17,9 @@ from data_processing.phase6_volatility import (
 )
 from data_processing.phase6_volatility_labels import (
     build_volatility_label_bundle,
+    validate_volatility_label_bundle_files,
     validate_volatility_label_arrays,
+    write_volatility_label_bundle,
 )
 
 
@@ -173,6 +175,33 @@ class FutureRealisedVarianceTests(unittest.TestCase):
 
 
 class VolatilityLabelBundleTests(unittest.TestCase):
+    def test_copied_bundle_can_skip_raw_source_file_reverification(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source_path = root / "source.bin"
+            source_path.write_bytes(b"source")
+            provenance = {
+                "fixture": {
+                    "path": str(source_path),
+                    "sha256": sha256_file(source_path),
+                }
+            }
+            bundle = build_volatility_label_bundle(
+                _candles(),
+                _metadata(),
+                _spec(),
+                supported_contracts={"contract-a"},
+                source_provenance=provenance,
+            )
+            path = root / "volatility.npz"
+            write_volatility_label_bundle(path, bundle)
+            source_path.write_bytes(b"changed")
+            with self.assertRaisesRegex(ValueError, "source hash mismatch"):
+                validate_volatility_label_bundle_files(path)
+            copied = validate_volatility_label_bundle_files(path, replay_source=False)
+            self.assertTrue(copied["valid"])
+            self.assertFalse(copied["source_files_reverified"])
+
     def test_h8_bundle_stores_replayable_paths_and_shared_rows(self) -> None:
         bundle = build_volatility_label_bundle(
             _candles(),

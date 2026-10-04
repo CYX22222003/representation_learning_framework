@@ -132,7 +132,7 @@
     "paper_guided_reimplementation_admitted": true,
     "admitted_for_implementation": true,
     "admitted_for_training": false,
-    "training_gate": "Pending owner review of the implemented Stage 1 adapter, remote transform/cache replay verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
+    "training_gate": "Pending owner review of the implemented Stage 1-4 infrastructure, full transform-cache replay, and one fixed-batch-128 forward/backward correctness/resource smoke.",
     "reporting_label": "LWA-Frozen (paper-guided independent implementation)",
     "design_resolution": "Questions 1-12 approved by the project owner on 2026-10-04; PyWavelets and chunked float32 CWT caching selected; physical batch 128 is authoritative for both walks.",
     "reasons": [
@@ -148,10 +148,15 @@
     "evaluation_metrics_read_for_decision": false,
     "implementation_started": true,
     "stage1_model_implemented": true,
+    "stage2_to4_experiment_infrastructure_implemented": true,
+    "full_walk_cache_built": false,
+    "pretraining_started": false,
+    "downstream_started": false,
     "stage1_local_cpu_tests": {
-      "passed": 16,
-      "skipped": 1,
-      "skip_reason": "Direct CWT runtime test requires PyWavelets, which is provisioned in the admitted remote runtime but absent from the local venv."
+      "passed": 17,
+      "skipped": 0,
+      "cwt_runtime_test_passed": true,
+      "pywavelets_metadata_runtime_match": true
     },
     "stage1_remote_cpu_tests": {
       "passed": 17,

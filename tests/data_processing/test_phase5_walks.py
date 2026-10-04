@@ -232,6 +232,9 @@ class Phase5WalkPreparationTests(unittest.TestCase):
             source_path.write_bytes(b"changed")
             with self.assertRaisesRegex(ValueError, "source hash mismatch"):
                 validate_phase5_bundle_files(npz_path)
+            copied = validate_phase5_bundle_files(npz_path, replay_source=False)
+            self.assertTrue(copied["valid"])
+            self.assertFalse(copied["source_files_reverified"])
 
 
 if __name__ == "__main__":

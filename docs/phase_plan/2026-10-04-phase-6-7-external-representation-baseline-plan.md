@@ -20,11 +20,14 @@ resource estimate. All twelve LWA adaptation decisions were approved on
 2026-10-04: PyWavelets with chunked float32 CWT caching is required and
 physical batch 128 is authoritative for both walks. The Lumid container,
 CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
-independent LWA Stage 1 model package and focused tests are implemented: 16
-local CPU tests pass with one dependency skip, and all 17 pass in the admitted
-PyWavelets-equipped remote runtime. No LWA experiment has started; owner
-review, Stage 2 orchestration/cache code, fixed-batch smoke, full shared core
-manifest, and final reporting remain pending. Both SaURL master stores and all
+independent LWA model package and Stage 2--4 cache/pretraining, frozen-feature,
+and native-width downstream launch/replay infrastructure are implemented. The
+original 17 model tests pass in both local and admitted remote runtimes, and
+21 local LWA tests now pass including the synthetic atomic-cache and pipeline
+contracts. No full cache, LWA pretraining, feature extraction, or downstream
+experiment has started; owner review, fixed-batch smoke, execution, the full
+shared core manifest, and final reporting remain pending.
+Both SaURL master stores and all
 six staged downstream trajectories are complete and replay-valid at 5/15/50.
 The epoch-50 result is generally weaker than immutable H0, with isolated
 metric-specific improvements that do not support consistent superiority. The

@@ -213,9 +213,13 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
 - [x] Static storage/parameter feasibility estimated.
 - [x] Owner decisions 1--12 approved.
 - [x] Independent model implementation complete (pending owner review).
-- [ ] Full transform-cache replay passes (the dependency and direct CWT test
-  pass remotely; Stage 2 cache replay is not implemented).
-- [x] CPU forward/backward/determinism tests pass (all 17 pass remotely).
+- [x] Cache/pretraining, frozen-feature, and downstream launch/replay code is
+  implemented (pending owner review; no real experiment has run).
+- [ ] Full transform-cache replay passes (the dependency, direct CWT test, and
+  a small synthetic atomic-cache replay pass; full walk caches are not built).
+- [x] CPU forward/backward/determinism tests pass (the original 17 model tests
+  pass locally and remotely; 21 local LWA tests now pass including pipeline
+  contracts).
 - [ ] Fixed batch-128 correctness/resource smoke passes on the selected container.
 - [ ] Both walk trajectories replay.
 - [ ] Both master stores replay.

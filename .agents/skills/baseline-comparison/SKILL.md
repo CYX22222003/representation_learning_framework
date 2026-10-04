@@ -89,8 +89,8 @@ their additions with both `H0` and the completed same-family duplicate-CNN
 control. Classification and volatility are deferred. For Phase 6.7, follow
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 For LWA specifically, also read the complete `docs/baselines/LWA/` dossier;
-its paper/source audit and twelve owner decisions are complete, while model
-implementation and execution remain pending.
+its paper/source audit and twelve owner decisions are complete, and its model
+plus Stage 2--4 experiment infrastructure are implemented but unexecuted.
 Treat LWA-Frozen and SaURL-TS-Frozen as the required direct external
 representation baselines. Pretrain
 each separately on each walk's target-free encoder population, freeze epoch-50
