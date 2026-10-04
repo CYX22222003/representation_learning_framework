@@ -86,8 +86,9 @@ replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
 checkpoints, feature stores, downstream runs/predictions, CKA, resources,
 subgroups, and its complete report; treat its frozen price-only seed-0 scope
 as executed. Phase 6.7 is the approved immediate next phase. The LWA
-paper/source audit dossier is documentation evidence only; the core remains
-incomplete until its runtime feasibility manifest, source adapters, four core
+paper/source audit dossier and substantive Stage 1 model/tests support an
+"implemented, not run" status only; the core remains incomplete until its
+runtime feasibility manifest, pretraining/orchestration adapters, four core
 encoder trajectories, four core feature stores, 12 core downstream
 trajectories, and replay report exist. SISSEL and TimeDART are peer optional
 post-core extensions; each adds two encoders, two feature stores, and six

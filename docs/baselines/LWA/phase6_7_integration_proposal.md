@@ -2,8 +2,9 @@
 
 **Method ID:** `lwa_frozen`
 **Reporting label:** `LWA-Frozen (paper-guided independent implementation)`
-**Current gate:** architecture decisions approved; implementation has not
-started and training remains unauthorized
+**Current gate:** architecture decisions approved; Stage 1 model and focused
+CPU tests are implemented pending owner review, and training remains
+unauthorized
 
 ## 1. Decision rule
 
@@ -211,9 +212,10 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
 - [x] Length-64 tensor adaptation derived.
 - [x] Static storage/parameter feasibility estimated.
 - [x] Owner decisions 1--12 approved.
-- [ ] Independent model implementation complete.
+- [x] Independent model implementation complete (pending owner review).
 - [ ] Required dependency and transform replay pass.
-- [ ] CPU forward/backward/determinism tests pass.
+- [x] CPU forward/backward/determinism tests pass (16 local passes; direct CWT
+  test awaits the PyWavelets-equipped remote runtime).
 - [ ] Fixed batch-128 correctness/resource smoke passes on the selected container.
 - [ ] Both walk trajectories replay.
 - [ ] Both master stores replay.

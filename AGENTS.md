@@ -148,9 +148,12 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > and official source are audited under `docs/baselines/LWA/`; the independent
 > adaptation's twelve owner decisions are approved, including PyWavelets,
 > chunked float32 CWT caching, and physical batch 128. The Lumid container,
-> CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. LWA model
-> implementation, model-specific tests, fixed-batch smoke, execution, and the
-> final shared core manifest/reporting remain pending.
+> CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
+> independent LWA Stage 1 model and focused CPU tests are implemented under
+> `src/baselines/lwa/`; 16 local tests pass and the direct CWT test awaits the
+> provisioned remote runtime. Owner review, Stage 2 cache/pretraining code,
+> fixed-batch smoke, execution, and the final shared core manifest/reporting
+> remain pending.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
 > contract. Any later SISSEL/TimeDART study is a separately frozen post-core
@@ -762,7 +765,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
-| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored `saurl_ts/` adapter; LWA remains documentation-only |
+| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored `saurl_ts/` and Stage 1 `lwa/` adapters; LWA training/orchestration remains unimplemented |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |

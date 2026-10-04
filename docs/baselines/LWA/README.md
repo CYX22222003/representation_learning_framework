@@ -3,8 +3,9 @@
 **Project label:** `LWA-Frozen` (`LWA-F`)
 **Phase:** 6.7 mandatory core external representation baseline
 **Dossier status:** paper/source audit and all twelve owner decisions complete;
-model implementation is the next stage when explicitly requested
-**Implementation status:** not started
+Stage 1 model implementation complete and awaiting owner review
+**Implementation status:** model and focused CPU tests implemented; no training
+or orchestration code
 **Experiment status:** not started
 
 This directory freezes the evidence and proposed adaptation for:
@@ -48,10 +49,17 @@ spaces, then concatenate the three 128-dimensional vectors into a
 - The professor-provided Lumid container is the admitted execution platform.
   Its isolated Python 3.12 environment, CUDA-enabled PyTorch 2.12.1, 24 GiB
   RTX PRO 4000 Blackwell GPU, persistent project path, and CWT runtime have
-  been audited. Model-specific tests and the fixed-batch-128 smoke remain.
+  been audited. The independent Stage 1 package is implemented under
+  `src/baselines/lwa/`; 16 local CPU tests pass and the one direct CWT runtime
+  test is skipped only because PyWavelets is absent from the local venv. The
+  pinned remote CWT implementation test and fixed-batch-128 smoke remain.
+- Exact implemented counts are 898,022 parameters in Stage A, 898 trainable
+  parameters in Stage B, and 206,978 retained parameters at inference. The
+  independent model omits audited upstream layers that are instantiated but
+  unused by LWA outputs.
 
-No training, feature extraction, downstream evaluation, or LWA model code was
-created as part of this dossier.
+No training, cache construction, feature extraction, or downstream evaluation
+has run. Stage 2 remains blocked on owner review of the Stage 1 model.
 
 ## Documents
 

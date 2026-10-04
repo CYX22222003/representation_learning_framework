@@ -105,6 +105,9 @@
     ],
     "estimated_joint_parameters": 907177,
     "estimated_retained_parameters_with_paper_mappers": 207237,
+    "implemented_joint_parameters": 898022,
+    "implemented_retained_parameters": 206978,
+    "implemented_mapper_stage_trainable_parameters": 898,
     "walk1_uncompressed_cwt_gib": 2.236,
     "walk2_uncompressed_cwt_gib": 3.346,
     "physical_batch_size": 128,
@@ -129,7 +132,7 @@
     "paper_guided_reimplementation_admitted": true,
     "admitted_for_implementation": true,
     "admitted_for_training": false,
-    "training_gate": "Pending independent adapter tests, full cache replay verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
+    "training_gate": "Pending owner review of the implemented Stage 1 adapter, remote transform/cache replay verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
     "reporting_label": "LWA-Frozen (paper-guided independent implementation)",
     "design_resolution": "Questions 1-12 approved by the project owner on 2026-10-04; PyWavelets and chunked float32 CWT caching selected; physical batch 128 is authoritative for both walks.",
     "reasons": [
@@ -143,7 +146,13 @@
     ],
     "failure_policy": "Record LWA feasibility or training failure; do not substitute another method implicitly.",
     "evaluation_metrics_read_for_decision": false,
-    "implementation_started": false,
+    "implementation_started": true,
+    "stage1_model_implemented": true,
+    "stage1_local_cpu_tests": {
+      "passed": 16,
+      "skipped": 1,
+      "skip_reason": "Direct CWT runtime test requires PyWavelets, which is provisioned in the admitted remote runtime but absent from the local venv."
+    },
     "training_started": false
   }
 }

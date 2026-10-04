@@ -175,9 +175,9 @@ and verifies `PyWavelets==1.8.0`; the independent adapter does not require
 The owner resolved all conflicts in `upstream_clarification_request.md` on
 2026-10-04, including explicit PyWavelets use, chunked float32 CWT caching,
 and authoritative physical batch size 128. The professor-container runtime
-and exact CWT dependency are now verified. Training remains gated on the
-independent implementation, its focused tests/cache replay, and the
-fixed-batch forward/backward smoke.
+and exact CWT dependency are verified. The independent Stage 1 model and
+focused CPU tests are now implemented. Training remains gated on owner review,
+remote transform/cache replay, and the fixed-batch forward/backward smoke.
 
 The method is technically feasible for 64-by-5 OHLCV:
 
@@ -190,8 +190,15 @@ The method is technically feasible for 64-by-5 OHLCV:
 A source-shaped static parameter estimate for the 64-by-5 adaptation is about
 0.91 million parameters during joint pretraining. With the paper's
 64-hidden-channel mappings, the retained time encoder plus two inference
-mappers is about 0.207 million parameters. Exact counts must be generated from
+mappers is about 0.207 million parameters. Exact counts were generated from
 the independently implemented model before the training gate.
+
+The completed independent model has 898,022 Stage-A parameters and 206,978
+retained inference parameters; Stage B trains only 898 new mapper parameters.
+The Stage-A count is 9,155 below the earlier source-shaped estimate because the
+adapter deliberately omits audited source parameters that never participate in
+LWA output: an unused Fourier linear layer, disabled/unused normalization
+parameters, and the time backbone's unused three-class head.
 
 Uncompressed training-only caches are estimated at:
 

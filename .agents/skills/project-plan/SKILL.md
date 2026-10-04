@@ -146,8 +146,10 @@ Report:
   immediate next phase. Its required frozen roster is LWA-Frozen and
   SaURL-TS-Frozen; the staged SaURL scope is complete, and LWA's paper/source
   audit, independent-adaptation dossier, owner decisions, and Lumid/PyWavelets
-  runtime audit are complete while implementation, model-specific admission,
-  and execution remain pending. Its core scope is four walk-specific encoders, four feature stores,
+  runtime audit are complete. Its Stage 1 model and focused CPU tests are
+  implemented but unexecuted; owner review, remote transform/cache replay,
+  model-specific admission, and execution remain pending. Its core scope is
+  four walk-specific encoders, four feature stores,
   and 12 common-head downstream trajectories across the three current tasks,
   with six immutable `H0` references. SISSEL-Frozen and TimeDART-Frozen are
   peer optional post-core extensions; each adds two encoders, two stores, and

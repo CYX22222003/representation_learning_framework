@@ -1,7 +1,7 @@
 # Learning Without Augmenting Phase 6.7 implementation plan
 
-**Status:** architecture and experiment decisions approved; Stage 1 model
-implementation may begin when explicitly requested
+**Status:** architecture and experiment decisions approved; Stage 1 model and
+focused CPU tests implemented on 2026-10-04 and awaiting owner review
 **Execution authority:** none; bootstrap commands must remain manifest-only by
 default
 **Method:** independently authored `LWA-Frozen`
@@ -24,6 +24,11 @@ current stage.
 **Review output:** documentation only.
 
 ## Stage 1 — implement only the model and relevant utilities
+
+**Implementation status:** complete pending the manual review gate. The package
+exists at `src/baselines/lwa/`; 16 local CPU tests pass and the direct
+PyWavelets CWT test is deferred to the already provisioned remote runtime.
+Stages 2--6 remain unimplemented and no experiment has run.
 
 Create an independent package:
 
