@@ -68,8 +68,11 @@ Read these in order:
    probes, CKA, resources, subgroups, and report are also complete and replay-
    valid. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
-   for the frozen, unimplemented price-focused raw/residual-fusion,
-   source-faithful xLSTM-Mixer candidate, and decoder-capacity scope,
+   for the frozen, deferred price-focused raw/residual-fusion,
+   source-faithful xLSTM-Mixer candidate, and decoder-capacity scope; read
+   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
+   for the approved immediate next phase comparing `H0` with recent frozen
+   representations across all three tasks and both walks,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
    for the frozen, unimplemented representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
@@ -127,7 +130,7 @@ Report:
   Phase 6.5B.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
-- For Phase 6.5, Phase 6.6, and Phase 7A, distinguish frozen plans from
+- For Phase 6.5, Phase 6.7, Phase 6.6, and Phase 7A, distinguish frozen plans from
   executed evidence. Phase 6.5A is complete for its frozen seed-0 scope: four
   deep-LSTM encoders, six feature stores, 24 downstream trajectories, 72
   snapshots, and two CKA diagnostics replay; the report is generated. The
@@ -137,10 +140,18 @@ Report:
    expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
-   single/leave-one-out ablations have not started. Phase
-  6.6 price-focused raw/representation fusion, source-faithful xLSTM-Mixer
-  full-path candidate, and two richer canonical static decoder studies are a
-  frozen plan only; Phase 6.6B must be resolved before Phase 6.6C execution,
+   single/leave-one-out ablations have not started. Phase 6.7 is the approved
+  immediate next phase. Its required frozen roster is LWA-Frozen and
+  SaURL-TS-Frozen; the staged SaURL scope is complete while LWA remains
+  pending. Its core scope is four walk-specific encoders, four feature stores,
+  and 12 common-head downstream trajectories across the three current tasks,
+  with six immutable `H0` references. SISSEL-Frozen and TimeDART-Frozen are
+  peer optional post-core extensions; each adds two encoders, two stores, and
+  six downstream trajectories if admitted after mentor review, and neither is
+  required for phase completion. Phase 6.6 price-focused
+  raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,
+  and two richer canonical static decoder studies are frozen but deferred; if
+  reactivated, Phase 6.6B must be resolved before Phase 6.6C execution,
   and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat

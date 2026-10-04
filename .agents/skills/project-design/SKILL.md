@@ -62,6 +62,9 @@ Read these in order:
     LSTM/BiLSTM towers, the source-faithful xLSTM-Mixer candidate, canonical
     decoder-capacity sensitivity, or grouped post-hoc attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
+11. For the immediate recent frozen-representation comparison, candidate
+    roster, extraction boundary, or common-probe design, read
+    `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 
 ## Response Contract
 
@@ -98,7 +101,13 @@ Present the parts relevant to the request:
   residual-CNN SSL encoders, two feature stores, eight future-price probes,
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
-  improve movement ranking overall. Phase 7A remains unimplemented. Phase 6.6 freezes price-only
+  improve movement ranking overall. Phase 6.7 is the approved immediate next
+  phase: the required SaURL-Frozen scope is complete and LWA-Frozen remains
+  pending; both are pretrained per walk, frozen, and probed on all three
+  current tasks. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
+  extensions considered after mentor review and are not required for phase
+  completion. Phase 7A follows
+  and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's
   two richer static canonical decoders. xLSTM-Mixer extracts `close[t+8]` from

@@ -1,0 +1,70 @@
+{
+  "schema_version": "phase6-7-saurl-source-audit-v1",
+  "audit_date": "2026-10-04",
+  "phase": "6.7",
+  "paper": {
+    "title": "SaURL-TS: A self-adaptive framework for unsupervised time series representation learning",
+    "authors": [
+      "Yusen Liu",
+      "Zhichen Lai",
+      "Hua Lu",
+      "Xu Cheng",
+      "Tianqing Zhu",
+      "Xiufeng Liu",
+      "Huan Huo"
+    ],
+    "venue": "Pattern Recognition",
+    "volume": 175,
+    "article": "113129",
+    "year": 2026,
+    "doi": "10.1016/j.patcog.2026.113129",
+    "license": "CC BY 4.0",
+    "local_source_windows": "E:\\zotero\\storage\\C97C7YDS\\Liu et al. - 2026 - SaURL-TS A self-adaptive framework for unsupervised time series representation learning.pdf",
+    "local_source_wsl": "/mnt/e/zotero/storage/C97C7YDS/Liu et al. - 2026 - SaURL-TS A self-adaptive framework for unsupervised time series representation learning.pdf",
+    "sha256": "de0649c0ce8e3696fb89ff58a4f22a8f3c757d2b86bc6604a2c2386d83ade06e"
+  },
+  "code": {
+    "repository": "https://github.com/YusenL/SAURL-TS",
+    "commit": "96f39fe16646e866b6e6b9131e5216ac021c8950",
+    "commit_date": "2024-10-16T20:03:13+11:00",
+    "branches": ["main"],
+    "tags": [],
+    "commit_count": 6,
+    "license_file_found": false,
+    "license_declaration_found": false,
+    "paper_matching_release_found": false,
+    "static_checkout_clean": true
+  },
+  "paper_reported_environment": {
+    "python": "3.8.18",
+    "pytorch": "1.12.1",
+    "gpu": "2 x NVIDIA A40",
+    "batch_size": 32,
+    "representation_width": 128,
+    "sassl_learning_rate": 0.0001,
+    "sada_learning_rate": 0.01,
+    "dropout": 0.1
+  },
+  "gate": {
+    "decision": "admit_independent_paper_guided_reimplementation",
+    "public_source_code_reuse_admitted": false,
+    "paper_guided_reimplementation_admitted": true,
+    "admitted_for_implementation": true,
+    "admitted_for_training": false,
+    "training_gate": "Pending independent adapter CPU/CUDA correctness, replay, and resource smoke tests.",
+    "reporting_label": "SaURL-TS-Frozen (paper-guided reimplementation)",
+    "reasons": [
+      "No software licence was found.",
+      "The only public branch predates the revised and accepted paper.",
+      "The published RwAM implementation is absent.",
+      "The frozen extraction and save/load paths contain unresolved references.",
+      "The public code has a hard-coded forecasting covariate slice incompatible with 5-channel OHLCV.",
+      "Paper and code disagree on representation width and optimizer settings.",
+      "These findings prohibit direct source reuse but are disclosed reconstruction evidence rather than blockers to an independently authored implementation."
+    ],
+    "design_resolution": "Questions 4-11 approved by the project owner on 2026-10-04.",
+    "failure_policy": "Reject SaURL if the independent adapter fails its pre-evaluation implementation or resource gate; do not substitute another method implicitly.",
+    "evaluation_metrics_read_for_decision": false,
+    "training_started": false
+  }
+}

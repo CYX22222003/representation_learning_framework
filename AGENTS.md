@@ -118,7 +118,40 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > addition also beats its same-width duplicate control on those errors in both
 > walks. BYOL does not improve error consistently; Raw LSTM and persistence
 > remain stronger error references, and movement Rank IC does not improve over
-> H0 overall. Phase 6.6 freezes a matched eight-run price-only
+> H0 overall. The immediate next phase is now
+> `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+> Phase 6.7 freezes a source/licence/hardware gate followed by a direct frozen-
+> representation comparison between canonical `H0`, LWA-Frozen, and
+> SaURL-TS-Frozen. Both external methods are mandatory. SISSEL-Frozen and
+> TimeDART-Frozen are peer optional post-core extensions and are not phase exit
+> conditions. Their admission is reconsidered after mentor review of the
+> completed required comparison. The two required external methods train separately in both
+> walks and use the same simple heads on movement classification, eight-hour
+> future price, and eight-hour future realised variance. The planned new scope
+> is four encoder trajectories, four frozen feature stores, and 12 downstream
+> trajectories, compared with six immutable `H0` references. Each admitted
+> optional extension adds two encoders, two stores, and six downstream runs;
+> the independently authored SaURL-TS model plus its audit, alternating
+> pretraining, frozen-feature, replay, and native-width common-probe
+> infrastructure are now implemented under `src/`, `scripts_v6/`, and
+> `tests/baselines/saurl_ts/`. Its mask follows the paper's deterministic
+> sigmoid threshold rather than the older repository's stochastic sampler.
+> The SaURL CUDA/resource gate and both 50-epoch walk-specific pretraining
+> trajectories are complete; every 5/15/50 checkpoint passes standalone CPU
+> replay. Same-device CUDA probes are bit-exact, while the accepted CPU/CUDA
+> criterion is relative L2 at most `5e-4` and cosine at least `0.999999`.
+> Near-zero learned masks and large embedding norms are retained diagnostics,
+> not retuned away. Both 128-dimensional master stores and all six staged
+> SaURL downstream trajectories are now complete and replay-valid at 5/15/50.
+> SaURL is generally weaker than immutable `H0`, with isolated metric-specific
+> improvements that do not support consistent superiority. LWA implementation
+> and the final shared core manifest/reporting remain pending.
+> Staged execution of the six SaURL downstream trajectories is approved before
+> LWA implementation; SaURL metrics may not alter the later mandatory LWA
+> contract. Any later SISSEL/TimeDART study is a separately frozen post-core
+> exploratory extension. Phase 6.6 is
+> deferred behind this comparison and the subsequent Phase 7A branch
+> analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
 > xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
@@ -129,7 +162,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > decoder study proceeds. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. All Phase 6.6 studies remain unimplemented.
+> representation probe. All Phase 6.6 studies remain unimplemented, and
+> xLSTM-Mixer is a later contextual task-specific baseline rather than direct
+> representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
 > requires a separate sampling/estimator amendment. Phase 7A
 > freezes canonical five-branch
@@ -332,6 +367,22 @@ canonical plan. See
 .venv/bin/python3 scripts_v5/validate_phase6_5_residual_cnn_downstream.py
 .venv/bin/python3 scripts_v5/analyze_phase6_5_residual_cnn_cka.py --device cuda
 .venv/bin/python3 scripts_v5/report_phase6_5_residual_cnn.py
+
+# Phase 6.7 SaURL infrastructure. Audit and freeze the explicit CUDA/resource
+# gate before --execute. No command below has been run as a Phase 6.7
+# experiment yet; LWA and final reporting remain pending.
+.venv/bin/python3 scripts_v6/audit_phase6_7_sources.py --device cpu
+.venv/bin/python3 scripts_v6/audit_phase6_7_sources.py \
+  --device cuda --admit-training \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_external_encoders.py --device cpu
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_external_encoders.py --device cuda --execute
+.venv/bin/python3 scripts_v6/validate_phase6_7_external_encoders.py
+.venv/bin/python3 scripts_v6/prepare_phase6_7_external_features.py --device cuda
+.venv/bin/python3 scripts_v6/validate_phase6_7_external_features.py --device cuda
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_downstream.py --device cpu
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v6/validate_phase6_7_downstream.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
@@ -699,10 +750,10 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; and temporal-variant master stores with exact duplicate controls and 445/573-dimensional named configurations |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the unexecuted Phase 6.7 SaURL three-task master-store/replay path |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, and completed walk-specific temporal SSL/three-task variant infrastructure with train-only scaling and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the unexecuted Phase 6.7 SaURL alternating pretrainer/native-width probes with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
@@ -711,6 +762,8 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
 | `scripts_v4/` | Thin Phase 6 entry points for the completed volatility and temporal-encoder lifecycles: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
+| `scripts_v5/` | Thin Phase 6.5 entry points for the completed LSTM-capacity, GARCH--LSTM, TA-MLP, and residual-CNN lifecycles |
+| `scripts_v6/` | Thin Phase 6.7 entry points for the implemented but unexecuted SaURL feasibility gate, pretraining, frozen-feature extraction/replay, and native-width downstream probes |
 
 ### Key data contracts
 

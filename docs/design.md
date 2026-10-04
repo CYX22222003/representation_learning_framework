@@ -18,22 +18,38 @@
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 >
-> **Next-scope authority (amended 2026-09-29):** Phase 6.5 LSTM capacity,
+> **Next-scope authority (amended 2026-10-04):** Phase 6.5 LSTM capacity,
 > strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
 > focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
-> Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
+> The immediate next phase is the matched recent frozen-representation
+> comparison in
+> [`phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md).
+> It freezes mandatory LWA-Frozen and SaURL-TS-Frozen across the same three
+> tasks and two walks as canonical `H0`. SISSEL-Frozen and TimeDART-Frozen are
+> peer optional post-core extensions considered after mentor review, not phase
+> exit conditions. Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
-> with grouped SHAP deferred to a later analysis amendment.
+> with grouped SHAP deferred to a later analysis amendment. The whole Phase
+> 6.6 programme is now deferred behind Phase 6.7 and Phase 7A.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
 > residual-CNN encoders, two feature stores, eight price trajectories, CKA,
-> resources, subgroup tables, and complete report are replay-valid. Phase 6.6
-> and Phase 7A remain plans rather
-> than executed evidence. Phase 7B alpha research remains
+> resources, subgroup tables, and complete report are replay-valid. Phase 6.7
+> now has a tested SaURL-TS model plus its gated pretraining, frozen-feature,
+> replay, and common-probe infrastructure. Its CUDA/resource gate and both
+> walk-specific 50-epoch pretraining trajectories are complete and replay-
+> valid. Both master stores and all six staged SaURL probes are also complete
+> and replay-valid; SaURL is generally weaker than H0, with only isolated
+> metric-specific improvements. LWA and final Phase 6.7 reporting are still
+> unimplemented. Staged execution of all six SaURL probes was approved before
+> LWA, provided their metrics do not alter the later mandatory LWA contract.
+> Optional SISSEL/TimeDART studies require separately frozen post-core
+> extension contracts. Phase 6.6 and Phase 7A likewise remain plans rather than
+> executed experimental evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -185,15 +201,15 @@ imputation-exposure reporting but is not an additional model channel.
   Phase 6.5D's deeper residual-CNN candidates under both SSL families and all
   eight future-price trajectories are complete and replay-valid. Contrastive
   residual variants reduce price error against H0 in both walks, while BYOL
-  does not improve consistently and movement ranking remains weaker. Phase 6.6 plans a matched
-  frozen-H0/raw-sequence residual fusion system, a source-faithful xLSTM-Mixer
-  full-path benchmark, and two richer static canonical heads—residual
-  projection and branch-aware gated projection—on future price only. The
-  xLSTM-Mixer candidate predicts all five OHLCV channels for the next eight
-  hours and extracts the eighth-step close; its additional target supervision
+  does not improve consistently and movement ranking remains weaker. Phase
+  6.7 next compares canonical H0 with three recent target-free frozen
+  representations under the same simple heads and three tasks. Phase 7A then
+  runs canonical single/leave-one-out attribution. The deferred Phase 6.6
+  retains a matched frozen-H0/raw-sequence residual fusion system, a source-
+  faithful xLSTM-Mixer full-path benchmark, and two richer static canonical
+  heads on future price only. xLSTM-Mixer's additional full-path supervision
   makes it a contextual complete-system comparison. The completed simple head
-  remains the primary representation probe.
-  Phase 7A plans canonical single/leave-one-out attribution. Lifecycle conditioning,
+  remains the primary representation probe. Lifecycle conditioning,
   stage-specific experts, temporal decoder variants, fixed-first-walk
   transfer, and additional seeds remain outside these plans.
 
@@ -222,12 +238,18 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the planned source-faithful xLSTM-Mixer future-price candidate. |
+| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions considered after mentor review. |
+| **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
 
-**Evaluation paradigm (probing):** The framework uses frozen representation extractors. After pretraining, the named branch features remain fixed while a lightweight task head, and the aggregator when it is learnable, are trained for each task. Keeping the task head simple is intentional — if the representations are powerful, the decoder should not need to be complex. Any benchmark comparison is against an end-to-end trained model, which has more optimisation freedom; matching or beating it with frozen representations + a simple head is the primary claim.
+**Evaluation paradigm (probing):** The framework and Phase 6.7 external
+representation methods use frozen extractors. After pretraining, the features
+remain fixed while the same lightweight task-head family is trained for each
+task. Keeping the head simple is intentional: the primary comparison concerns
+representation quality. Task-specific end-to-end benchmarks have more
+optimisation freedom and remain contextual complete-system comparisons.
 
 - **Benchmark Retraining:** Each benchmark model is retrained on the same event
   prediction market data using the same sliding-window identities and global
@@ -248,14 +270,25 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   natural evaluation distribution remains untouched. Legacy BUY/HOLD/SELL
   metrics are not current-task evidence.
 
-- **Decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
+- **Recent frozen-representation comparison:** Phase 6.7 pretrains each
+  admitted external encoder separately on the two target-free walk
+  populations, freezes epoch-50 embeddings, and uses the established simple
+  heads on the exact movement-classification, future-price, and future-RV
+  rows. The core matrix has 12 new trajectories and six immutable `H0`
+  references. Each admitted SISSEL or TimeDART extension adds six
+  trajectories. Native widths, parameters, time, memory, source deviations,
+  and negative results are reported. Mentor review of the core may commission
+  an optional exploratory extension, but no evaluation metric selects that
+  method's extraction point, recipe, checkpoint, or matrix truncation.
+
+- **Deferred decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
   features, future-price rows, scaler, target, loss, and output transform fixed.
   It compares the immutable simple probe with a residual projection head and
   a branch-aware gated projection head across both walks. The gated row is a
   complete-system sensitivity because it changes both supervised capacity and
   fusion.
 
-- **Raw/representation fusion sensitivity:** Phase 6.6A projects frozen H0 to
+- **Deferred raw/representation fusion sensitivity:** Phase 6.6A projects frozen H0 to
   width 128 and optionally adds a learned residual correction from an LSTM or
   historical-context-only BiLSTM over the matching 64-by-5 OHLCV sequence.
   `F-H0` is the matched supervised-capacity control, while `F-RL` is required
@@ -264,7 +297,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   price probe. Grouped SHAP is post-hoc description only and cannot select
   either matrix.
 
-- **Recent multivariate forecasting benchmark:** Phase 6.6B evaluates the
+- **Deferred recent multivariate forecasting benchmark:** Phase 6.6B evaluates the
   NeurIPS 2025 xLSTM-Mixer as a source-faithful complete system. It maps the
   same 64-hour five-channel context to the full next-eight-hour OHLCV path and
   extracts `close[t+8]` for the existing price metrics. A metadata-only path-
@@ -272,7 +305,8 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
   and Raw LSTM comparator reruns use that same intersection. Its five-channel,
   eight-horizon supervision is reported explicitly and is not treated as a
   target-matched decoder or representation contrast. This candidate is
-  resolved before Phase 6.6C execution.
+  resolved before Phase 6.6C execution if the deferred Phase 6.6 programme is
+  reactivated; it is not a Phase 6.7 or Phase 7A gate.
 
 - **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 

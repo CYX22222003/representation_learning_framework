@@ -55,6 +55,7 @@ data_new/
 saved_models/
 superpowers/
 progress_summary/
+baseline_summaries/
 
 # Phase-2 horizontal encoder artifacts retained locally (large/recoverable)
 experiments/framework/phase2/encoder_refinement_horizontal/features/**/*.npz
@@ -86,3 +87,7 @@ experiments/phase6_5/residual_cnn/features/**/*.npz
 # Phase 6.5 TA feature/intersection stores are reproducible from the frozen
 # Phase 5 walk bundles; retain their manifests and hashes.
 experiments/phase6_5/ta_mlp/data_preparation/**/*.npz
+
+# Phase 6.7 external-representation master stores are reproducible from the
+# local epoch-50 checkpoints; retain their manifests and hashes.
+experiments/phase6_7/features/**/*.npz

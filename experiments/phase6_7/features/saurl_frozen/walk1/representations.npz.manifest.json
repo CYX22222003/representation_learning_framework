@@ -1,0 +1,193 @@
+{
+  "checkpoint_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/encoder_pretraining/saurl_frozen/walk1/seed0/e50/checkpoint.pth",
+  "checkpoint_scaler_state_hash": "c00f3c1bf8b2d3ae1915c245d134156d2cf825d6188357f611516089547e54e5",
+  "checkpoint_sha256": "518f5f2a7e78ad46fee5ba3b3659c3f09b584022932e8d5ec91a6e42c4da1d5c",
+  "cpu_device_probe": {
+    "close": true,
+    "cpu_hash": "087f797ad72ef886b000de8204edbc593747b17ed0dee5424ad93ae9174f5683",
+    "device_hash": "d40c0d65334ca7e570681adcee8bb281bbd454c5b9ee3d01228e377bb9e526d1",
+    "extraction_device": "cuda",
+    "maximum_absolute_difference": 0.160003662109375,
+    "rows": 8
+  },
+  "encoder_dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "encoder_run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/encoder_pretraining/saurl_frozen/walk1/seed0",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "git_commit": "206fe62d508a307fddc4e5634c6b646cccc669fd",
+    "numpy": "2.2.6",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "torch": "2.12.1+cu126"
+  },
+  "feature_store_sha256": "141cd6a6036258ba8f1b53045034d56aa1da041410d00dbff19d4272443ae30f",
+  "input_scaler_file_sha256": "a4c8f30f8a10fb6543702c4244a1f95d1923f183ee98eaa2df5f9391b8003c40",
+  "manual_attention_sum_probe": {
+    "device": "cuda",
+    "matches_saved_features": true,
+    "maximum_absolute_difference": 0.141937255859375,
+    "rows": 8
+  },
+  "method": "saurl_frozen",
+  "output_dim": 128,
+  "phase": "6.7",
+  "projectors_predictors_targets_sada_used_for_features": false,
+  "schema_version": "phase6-7-external-master-features-v1",
+  "sequence_array_contract": "train_sequences/test_sequences",
+  "source_checkpoint_validation": {
+    "encoder_train_identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+    "method": "saurl_frozen",
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "target_independent": true,
+    "valid": true,
+    "walk": 1
+  },
+  "targets_loaded_during_extraction": false,
+  "task_order": [
+    "classification_h2",
+    "absolute_price_h8",
+    "realised_variance"
+  ],
+  "task_provenance": {
+    "absolute_price_h8": {
+      "dataset_manifest_sha256": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.741821946001437,
+          "feature_hash": "9e9fe426868ca5d4144cfa0172b5e818f7489f8b2f5c8b521cd6828c63f0c9cf",
+          "identity_hash": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+          "rows": 29834,
+          "sequence_hash": "5fddb6bcec6571cc501a7eda7ce4c1c82c2f62827f4dc1d9a4367b18194d9954"
+        },
+        "train": {
+          "extraction_seconds": 0.9153553869982716,
+          "feature_hash": "f181cd7bff5c5b9d5c2a4899e0f0f2f9ae8be319bb470adabb940c615e8e8e5e",
+          "identity_hash": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de",
+          "rows": 36773,
+          "sequence_hash": "9a585087e35875a5bc97c821b0f87fd34aa767d63874fcc9a2944aff603bb64d"
+        }
+      },
+      "validation": {
+        "identity_hashes": {
+          "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+          "test": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+          "train": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de"
+        },
+        "label_hashes": {
+          "test": "67a45ea7deb834de6a4e6ae3f11ff7605fcdab76d2a7e1631e9915b109794563",
+          "train": "858f1daf8a59e3bec1607dc3d4a59ea326c42e0ff05284a38b991be33e358ea0"
+        },
+        "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "npz_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "npz_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "row_counts": {
+          "encoder_train": 39070,
+          "test": 29834,
+          "train": 36773
+        },
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "classification_h2": {
+      "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.7846831239985477,
+          "feature_hash": "04f798d97242ca3e073aab068911366085a2bb4f57b160e3c086d31f67f60ceb",
+          "identity_hash": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+          "rows": 30340,
+          "sequence_hash": "97aac654dacc3bbe3d805a4a3ffcaace898cc8cd9765bfb466c0ed29d25bc6d7"
+        },
+        "train": {
+          "extraction_seconds": 1.7051599660007923,
+          "feature_hash": "dc9806459a3dbccfe6d68872e320d5a9fea9e33fe5ad3475a293c82ab745ec81",
+          "identity_hash": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+          "rows": 37864,
+          "sequence_hash": "43f3d443f95d75aba5a5f22c8b7ad5b5bab0fe83fa316ee964c9e5c20c1ba59b"
+        }
+      },
+      "validation": {
+        "identity_hashes": {
+          "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+          "test": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+          "train": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295"
+        },
+        "label_hashes": {
+          "test": "e33308477c05ba736cc9d2a5d3b78265f1f801d6fff4c2b1a3379b1c9b1c3f97",
+          "train": "98b833fa67f27f85b6c4a8cbff52bcb6a0e067dfc9f90a3538911c15086260f5"
+        },
+        "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "npz_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "npz_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+        "row_counts": {
+          "encoder_train": 39070,
+          "test": 30340,
+          "train": 37864
+        },
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "realised_variance": {
+      "dataset_manifest_sha256": "caee0746caa7f8971cf0df1876e530d1ab99d087351f38ede66736bbd0b95c4d",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.7069671329991252,
+          "feature_hash": "e9fe3ce3dba0b9a2cd3c0e30220ef0fa387c26574b42cf700457e588d348c227",
+          "identity_hash": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+          "rows": 27806,
+          "sequence_hash": "5b7095d62be3d46cec96605a38a5236669865110d590ac9360806d141bee50d9"
+        },
+        "train": {
+          "extraction_seconds": 0.7875832459976664,
+          "feature_hash": "cb3a9467c37e61ceadeb82c1218549f2eedcf11e589fc4a77014ed9ba4d1cf53",
+          "identity_hash": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866",
+          "rows": 32470,
+          "sequence_hash": "6117d6ff594fc18bd24f8e3a8d3eb43f248bf0f87ed909bc09be9ca244d75c82"
+        }
+      },
+      "validation": {
+        "comparators": [
+          "zero_reference",
+          "training_median_reference",
+          "historical_persistence_reference",
+          "canonical_framework",
+          "raw_ohlcv_mlp",
+          "raw_lstm"
+        ],
+        "identity_hashes": {
+          "test": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+          "train": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866"
+        },
+        "manifest_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "npz_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "npz_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "target_hashes": {
+          "test": "9235089c681e9d9ca815bffe764295f9ccc6206532f102a9ab17d80e651eab82",
+          "train": "a10dcc9911c44a8f2549dce705a1b2c8e2a6a1c002d4258d23c0ba6076f8e9b5"
+        },
+        "valid": true,
+        "walk": 1
+      }
+    }
+  },
+  "walk": 1
+}

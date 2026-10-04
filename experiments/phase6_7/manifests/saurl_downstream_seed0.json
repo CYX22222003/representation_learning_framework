@@ -1,0 +1,478 @@
+{
+  "cpu_smoke_test": {
+    "heads": {
+      "absolute_price_h8": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ]
+      },
+      "classification_h2": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "realised_variance": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ]
+      }
+    },
+    "method": "saurl_frozen",
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk1/representations.npz",
+      "feature_sha256": "141cd6a6036258ba8f1b53045034d56aa1da041410d00dbff19d4272443ae30f",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/classification_h2/saurl_frozen/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+      "feature_sha256": "27eadd3de0b964ccecb8f116bd81192a61773ce6e454ee646568054599a407d0",
+      "feature_validation": {
+        "accuracy": 0.6479564930784443,
+        "balanced_accuracy": 0.4657866666239963,
+        "epoch50_checkpoint_sha256": "4b6793686743921e9e8806b348501e6b20f6ac4a69c49ca6705af1bed962199e",
+        "epoch50_predictions_sha256": "0ed838e2ec43accca2732f19e8bef593a8fe86c5a27009b4ed9fe621ec6635c5",
+        "macro_f1": 0.45346888003872116,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification",
+        "valid": true,
+        "walk": 1
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk2/representations.npz",
+      "feature_sha256": "7ccb044b28f7d79810e338394ddeb67a2cf5a3eecd29fc61c7d5d45f88c8a57c",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/classification_h2/saurl_frozen/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+      "feature_sha256": "b7148b3f058b650e7ab4132b19354346b33fa92404afce7980233b143755b86d",
+      "feature_validation": {
+        "accuracy": 0.6126593216677468,
+        "balanced_accuracy": 0.489162295222096,
+        "epoch50_checkpoint_sha256": "1d4e946662df31a4377a7ad32b2e0176ee53b62f2aa7c0f64ecbd1838fe3512b",
+        "epoch50_predictions_sha256": "4ea6c23615952e44328d220d3bfe46d151563ce4bbfd648472cda44312e28356",
+        "macro_f1": 0.4532019160834555,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification",
+        "valid": true,
+        "walk": 2
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk1/representations.npz",
+      "feature_sha256": "141cd6a6036258ba8f1b53045034d56aa1da041410d00dbff19d4272443ae30f",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/absolute_price_h8/saurl_frozen/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+      "feature_sha256": "6f1bc5363730786116cc1fdf83aa56e8f1828b027103d53d404dd8a29ea89fbc",
+      "feature_validation": {
+        "implied_delta_pearson": 0.20942127529438623,
+        "implied_delta_spearman": 0.14736288403565576,
+        "persistence_mae": 0.002978262119998612,
+        "price_mae": 0.007985398598636713,
+        "price_pearson": 0.9961979262671284,
+        "price_rmse": 0.018905833759139713,
+        "price_spearman": 0.9510777411037014,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk2/representations.npz",
+      "feature_sha256": "7ccb044b28f7d79810e338394ddeb67a2cf5a3eecd29fc61c7d5d45f88c8a57c",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/absolute_price_h8/saurl_frozen/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+      "feature_sha256": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7",
+      "feature_validation": {
+        "implied_delta_pearson": -0.003540950107438228,
+        "implied_delta_spearman": 0.09998808300945466,
+        "persistence_mae": 0.004426176023450418,
+        "price_mae": 0.010053534990641927,
+        "price_pearson": 0.9875407318627403,
+        "price_rmse": 0.030072602821234272,
+        "price_spearman": 0.9823206576063069,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk1/representations.npz",
+      "feature_sha256": "141cd6a6036258ba8f1b53045034d56aa1da041410d00dbff19d4272443ae30f",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/realised_variance/saurl_frozen/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+      "feature_sha256": "16ee6a293b93f3a413ce2e1b76b70e356ae085d202f6eaaa8cdc3c7c34dc8b7d",
+      "feature_validation": {
+        "cpu_prediction_replay": true,
+        "model": "framework_h0",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "test_identity_hash": "bbb1ba96c14c61a64239ece84801a37dd811b3668824944d5f29153f7928bf88",
+        "valid": true,
+        "walk": 1
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 128,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/features/saurl_frozen/walk2/representations.npz",
+      "feature_sha256": "7ccb044b28f7d79810e338394ddeb67a2cf5a3eecd29fc61c7d5d45f88c8a57c",
+      "feature_validation": {
+        "method": "saurl_frozen",
+        "output_dim": 128,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "saurl_frozen",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/downstream/realised_variance/saurl_frozen/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    },
+    {
+      "config": null,
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "immutable_replayed_reference",
+      "feature_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+      "feature_sha256": "48cf8e76ecbdadd0972865ec483fdecd7772a1d1c79455aa56a0333991c528c0",
+      "feature_validation": {
+        "cpu_prediction_replay": true,
+        "model": "framework_h0",
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "test_identity_hash": "5c48abb7725f22948ee2389ffad9eb62d01370ef2c86a5736da0f00bef25b98c",
+        "valid": true,
+        "walk": 2
+      },
+      "method": "H0",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "entry_count": 12,
+  "evaluation_used_to_screen_matrix": false,
+  "full_core_manifest_pending_lwa": true,
+  "immutable_reference_count": 6,
+  "implemented_scope": "SaURL-Frozen plus immutable H0 references",
+  "new_trajectory_count": 6,
+  "phase": "6.7",
+  "saurl_execution_permitted_before_lwa": true,
+  "saurl_results_may_influence_lwa_implementation": false,
+  "schema_version": "phase6-7-saurl-downstream-matrix-v1",
+  "seed": 0,
+  "staged_execution_decision_date": "2026-10-04"
+}
