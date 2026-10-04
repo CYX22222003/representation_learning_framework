@@ -39,8 +39,6 @@ extraction boundary, including the Stage 1 amendment that uses the paper's
 deterministic mask rather than the repository's stochastic sampler. It will
 be reported as **SaURL-TS-Frozen (paper-guided
 reimplementation)**, never as the official authors' implementation.
-`SISSEL-Frozen` remains the pre-approved fallback only if the independent
-adapter fails its pre-evaluation implementation or resource gate.
 
 ## Documents
 

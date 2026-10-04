@@ -122,14 +122,15 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 > Phase 6.7 freezes a source/licence/hardware gate followed by a direct frozen-
 > representation comparison between canonical `H0`, LWA-Frozen, and
-> SaURL-TS-Frozen; SISSEL-Frozen is the only pre-approved fallback for SaURL.
-> TimeDART-Frozen is a resource-gated stretch candidate and is not a phase exit
-> condition. The two required external methods train separately in both
+> SaURL-TS-Frozen. Both external methods are mandatory. SISSEL-Frozen and
+> TimeDART-Frozen are peer optional post-core extensions and are not phase exit
+> conditions. Their admission is reconsidered after mentor review of the
+> completed required comparison. The two required external methods train separately in both
 > walks and use the same simple heads on movement classification, eight-hour
 > future price, and eight-hour future realised variance. The planned new scope
 > is four encoder trajectories, four frozen feature stores, and 12 downstream
-> trajectories, compared with six immutable `H0` references. An admitted
-> TimeDART stretch adds two encoders, two stores, and six downstream runs;
+> trajectories, compared with six immutable `H0` references. Each admitted
+> optional extension adds two encoders, two stores, and six downstream runs;
 > the independently authored SaURL-TS model plus its audit, alternating
 > pretraining, frozen-feature, replay, and native-width common-probe
 > infrastructure are now implemented under `src/`, `scripts_v6/`, and
@@ -146,8 +147,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > improvements that do not support consistent superiority. LWA implementation
 > and the final shared core manifest/reporting remain pending.
 > Staged execution of the six SaURL downstream trajectories is approved before
-> LWA implementation; SaURL metrics may not alter the later LWA or optional
-> TimeDART contract. Phase 6.6 is
+> LWA implementation; SaURL metrics may not alter the later mandatory LWA
+> contract. Any later SISSEL/TimeDART study is a separately frozen post-core
+> exploratory extension. Phase 6.6 is
 > deferred behind this comparison and the subsequent Phase 7A branch
 > analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025

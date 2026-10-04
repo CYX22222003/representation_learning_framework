@@ -92,8 +92,7 @@ copying, modification, vendoring, or execution as the Phase 6.7 baseline. This
 verdict applies to direct source reuse. A later 2026-10-04 project-owner
 decision admits a separately documented, independently authored paper-guided
 reimplementation, with this snapshot retained only as attributed behavioural
-evidence. `SISSEL-Frozen` remains the pre-evaluation implementation/resource
-fallback.
+evidence.
 
 ## 5. What would unblock direct reuse of the upstream implementation
 

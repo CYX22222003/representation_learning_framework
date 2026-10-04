@@ -228,5 +228,4 @@ SaURL-TS is scientifically well chosen because it is a recent journal method wit
 The unlicensed repository remains inadmissible for direct code reuse. The
 project owner approved an independently authored, paper-guided implementation
 on 2026-10-04 with the public code used only as attributed behavioural
-evidence. `SISSEL-Frozen` remains the reserve if that adapter fails its
-pre-evaluation correctness or resource gate.
+evidence.

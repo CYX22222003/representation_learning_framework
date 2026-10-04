@@ -53,7 +53,6 @@
     "admitted_for_training": false,
     "training_gate": "Pending independent adapter CPU/CUDA correctness, replay, and resource smoke tests.",
     "reporting_label": "SaURL-TS-Frozen (paper-guided reimplementation)",
-    "fallback": "SISSEL-Frozen",
     "reasons": [
       "No software licence was found.",
       "The only public branch predates the revised and accepted paper.",
@@ -64,7 +63,7 @@
       "These findings prohibit direct source reuse but are disclosed reconstruction evidence rather than blockers to an independently authored implementation."
     ],
     "design_resolution": "Questions 4-11 approved by the project owner on 2026-10-04.",
-    "fallback_condition": "Activate only if the independent adapter fails its pre-evaluation implementation or resource gate.",
+    "failure_policy": "Reject SaURL if the independent adapter fails its pre-evaluation implementation or resource gate; do not substitute another method implicitly.",
     "evaluation_metrics_read_for_decision": false,
     "training_started": false
   }

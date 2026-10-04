@@ -6,8 +6,7 @@ replay-valid at epochs 5/15/50; both master stores and all six staged probes
 complete and replay-valid  \
 **Baseline ID:** `SAURL-F` / SaURL-TS-Frozen  \
 **Scientific role:** direct external frozen-representation baseline  \
-**Primary comparator:** immutable canonical `H0`  \
-**Fallback:** `SISSEL-Frozen`, exactly as pre-approved by the Phase 6.7 plan
+**Primary comparator:** immutable canonical `H0`
 
 ## 1. Decision rule
 
@@ -17,14 +16,13 @@ not copy, adapt, import, or vendor its unlicensed source. Report the candidate
 as **SaURL-TS-Frozen (paper-guided reimplementation)** rather than an official
 reproduction.
 
-Activate `SISSEL-Frozen` only if the independent adapter fails its frozen CPU/
-CUDA correctness or resource gate before downstream evaluation. Do not use
-evaluation results to trigger the fallback.
+If the independent adapter fails CPU/CUDA correctness or resource feasibility,
+stop SaURL and record the failed gate rather than substituting another method.
 
 The project owner approved staged execution on 2026-10-04: after its own
 feasibility, pretraining, and feature gates pass, SaURL may run all six
 task/walk probes before LWA is implemented. Those results may not change the
-later LWA or optional TimeDART contract, and the final core report must retain
+later mandatory LWA contract, and the final core report must retain
 the immutable SaURL trajectories.
 
 ## 2. Comparison contract
@@ -273,7 +271,7 @@ The allowed conclusion is local: under identical rows and probes, SaURL-F was st
 - A walk's input scaler and all SaDA statistics are fitted only on its target-free encoder rows.
 - Walk 2 cannot update or reinterpret Walk 1.
 - Task target maturity is applied only by the existing task bundles, after encoder pretraining.
-- Evaluation rows cannot select the source revision, RwAM definition, learning rates, checkpoint, fallback, or retry.
+- Evaluation rows cannot select the source revision, RwAM definition, learning rates, checkpoint, method identity, or retry.
 - If any established row yields a non-finite embedding, the run fails; the row set is not reduced.
 - Projectors, predictors, EMA targets, and downstream labels never enter the frozen feature vector.
 - Failed/collapsed trajectories and every checkpoint remain reportable evidence.
@@ -303,7 +301,7 @@ Reusable method code belongs under `src/baselines/saurl_ts/`. Shared Phase 6.7 t
 | Frequency reconstruction is implemented incorrectly | assert magnitude-only transformation, unchanged phase, explicit `n=64`, real finite output, and identity round-trip tolerance |
 | SaDA destabilizes short OHLCV windows | report collapse/non-finite behavior; no evaluation-driven retuning |
 | Learned views violate OHLC identities | views are transient; record diagnostics, but do not add financial constraints without an amendment |
-| Batch size 32 is expensive | measure in the pre-evaluation resource smoke test; resource failure activates the documented fallback |
+| Batch size 32 is expensive | measure in the pre-evaluation resource smoke test; resource failure rejects the SaURL candidate |
 | Native 128 width gives a smaller head than H0 445 | retain native widths and report probe parameters as required by the plan |
 
 ## 11. Admission checklist
@@ -317,4 +315,4 @@ Reusable method code belongs under `src/baselines/saurl_ts/`. Shared Phase 6.7 t
 - [x] CPU synthetic `[4,64,5]` forward/backward/extract test passes.
 - [ ] CUDA small real training-only batch test passes within the frozen resource budget.
 - [x] Candidate manifest is frozen before downstream metrics.
-- [x] SaURL passed the gate, so `SISSEL-Frozen` was not activated.
+- [x] SaURL passed its correctness and resource gate and completed.

@@ -7,6 +7,12 @@ Phase 6.6, preserves Phase 7A as the subsequent branch-analysis phase, and
 freezes the recent external representation comparison as the immediate next
 experimental priority.
 
+> **Later roster amendment (2026-10-04):** This document preserves the original
+> candidate discussion below. The execution authority now makes both LWA and
+> SaURL-TS mandatory. Independently, SISSEL and TimeDART are peer optional
+> post-core extensions considered after the complete required comparison is
+> reviewed with mentors.
+
 ## Purpose
 
 This note records the main feedback received from the PhD mentor and project
@@ -87,8 +93,9 @@ architecture:
 - [Learning Without Augmenting: Unsupervised Time Series Representation Learning via Frame Projections](https://openreview.net/forum?id=LwPjJHVWSn), NeurIPS 2025, is especially relevant because it learns across time, Fourier, and time-frequency views and evaluates frozen representations. Its published tasks differ from the present financial tasks, so feasibility and adaptation boundaries must be stated explicitly.
 - SaURL-TS, published in *Pattern Recognition* in 2026, is the selected recent
   journal complement because its adaptive time/frequency representation can be
-  frozen and tested through the common probes. SISSEL is the pre-approved
-  journal fallback if the SaURL-TS source or compute contract is infeasible.
+  frozen and tested through the common probes.
+- SISSEL, published in *Information Fusion* in 2026, is a separate optional
+  scale-independent representation candidate for possible post-core review.
 
 TimeMixer++ remains useful to review as a recent complete-system forecasting
 comparison, but it should not be presented as the main frozen-representation
@@ -104,12 +111,12 @@ The dated Phase 6.7 contract now adopts the following order:
 1. Complete a focused prior-art table covering objective, input assumptions,
    frozen or fine-tuned evaluation, supported downstream tasks, code
    availability, and adaptation risk.
-2. Freeze the required LWA/SaURL-TS roster, with SISSEL as the pre-approved
-   journal fallback, under the same walk-specific training histories, task
-   rows, targets, train-only preprocessing, lightweight downstream heads,
-   epoch rule, and metrics. Retain TimeDART as a resource-gated extension
-   whose admission is decided before any core evaluation metric is read. Any
-   unavoidable source-specific advantage must be disclosed.
+2. Freeze the required LWA/SaURL-TS roster under the same walk-specific
+   training histories, task rows, targets, train-only preprocessing,
+   lightweight downstream heads,
+   epoch rule, and metrics. Consider SISSEL and TimeDART independently as
+   optional post-core extensions after mentor review. Any unavoidable
+   source-specific advantage must be disclosed.
 3. Implement and run the selected external representation baselines before
    expanding the project's architecture further.
 4. Execute the already planned Phase 7A single-branch and leave-one-out matrix,

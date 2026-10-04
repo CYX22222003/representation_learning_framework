@@ -25,6 +25,16 @@ SaURL's six downstream trajectories may run from their frozen SaURL-only
 manifest before LWA is implemented. LWA remains a required core method, and
 SaURL metrics may not select or change its source, architecture, extraction
 point, hyperparameters, rows, budget, or retry policy.
+LWA-Frozen and SaURL-TS-Frozen are both mandatory core methods. Independently,
+SISSEL-Frozen and TimeDART-Frozen are peer optional extensions:
+the project owner will review the completed core comparison with mentors before
+deciding whether either extension is necessary. Because that optional decision
+may follow inspection of core results, any admitted extension is explicitly
+post-core exploratory evidence and cannot retroactively select, replace, or
+change the required core methods or their conclusions. Each optional method's
+source, adaptation, extraction, resource, and complete matrix contract must
+still be frozen before that method is implemented or evaluated.
+
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
 `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`, and
@@ -103,21 +113,18 @@ task-specific and non-learned contextual baselines. The final report must use
 that bounded wording rather than claim comprehensive coverage of recent
 methods.
 
-`SISSEL-Frozen` is the only pre-approved reserve. It replaces `SAURL-F` only
-if the pre-evaluation feasibility gate finds that the approved independent
-paper-guided SaURL-TS adapter cannot pass its correctness, replay, hardware, or
-time budget. The unlicensed public repository is audit evidence only and no
-source is copied into the adapter. LWA may not be silently replaced; rejecting
-it requires a dated amendment before downstream evaluation.
-
-`TimeDART-Frozen` is a predeclared stretch candidate, not a Phase 6.7 exit
-condition. Under staged execution, its later admission or rejection must use
-source/hardware feasibility and the remaining compute budget only; SaURL
-downstream metrics may not inform that decision. If admitted, its complete
-two-walk, three-task matrix must be run and reported. If it is not admitted,
-the two-method LWA/SaURL core remains the complete primary comparison. Adding
-TimeDART for a result-driven reason requires a later dated extension and
-cannot retroactively select or change the Phase 6.7 conclusions.
+`SISSEL-Frozen` and `TimeDART-Frozen` are peer optional extensions, not Phase
+6.7 exit conditions and not substitutes for either required method. Their
+admission will be considered only after the complete LWA/SaURL core result is
+reviewed with the project mentors. This makes either optional study an
+explicitly post-core exploratory extension rather than confirmatory evidence
+selected independently of the core results. If either is admitted, its source,
+licence, architecture, extraction point, hardware limit, training budget, and
+complete two-walk/three-task inventory must be frozen before implementation or
+execution, and its complete matrix must be preserved and reported. Optional
+results may extend the discussion but cannot retroactively replace a core
+method, modify a core trajectory, or redefine the primary Phase 6.7
+conclusion.
 
 GCFin and MCSIP are not admitted to the primary matrix. Their future-label or
 extra-input assumptions do not provide a clean target-free, OHLCV-only test of
@@ -153,8 +160,12 @@ reconstruction contract, are:
   frequency, and cross-domain representation, excluding pretraining
   projectors/predictors.
 
-If the stretch candidate is admitted, `TD-F` uses pooled causal encoder patch
-states with the diffusion decoder removed after pretraining.
+If the optional extensions are admitted, their intended extraction boundaries
+must be frozen by separate method-specific dossiers. `TD-F` is expected to use
+pooled causal encoder patch states with the diffusion decoder removed after
+pretraining. `SISSEL-F` requires its own independent paper/source clarification
+process before its common frozen representation is selected; the current
+paper/code audit is feasibility evidence, not an implementation contract.
 
 The feasibility audit may inspect training rows, shapes, metadata, source
 code, runtime, and resource use. It may not inspect downstream evaluation
@@ -206,8 +217,8 @@ For the required two-model core:
 ```
 
 For SaURL-TS, one encoder trajectory includes its alternating SaDA and SaSSL
-updates; SaDA is not counted as a separate downstream model. An admitted
-TimeDART stretch adds two encoder trajectories.
+updates; SaDA is not counted as a separate downstream model. Each admitted
+optional method adds two encoder trajectories; admitting both adds four.
 
 The primary characterisation uses seed `0` and one uninterrupted 50-epoch
 trajectory per method/walk, with checkpoints at epochs 5, 15, and 50. Epoch 50
@@ -263,7 +274,8 @@ downstream identity. This produces:
 2 methods x 2 walks = 4 new representation stores
 ```
 
-An admitted TimeDART stretch adds two representation stores.
+Each admitted optional method adds two representation stores; admitting both
+adds four.
 
 Each store records the source checkpoint hash, ordered row identity, output
 width, finiteness, and extraction hash. The encoder receives no downstream
@@ -293,9 +305,9 @@ The new downstream matrix is:
 ```
 
 Six immutable epoch-50 `H0` task/walk trajectories are the direct references,
-giving an 18-trajectory core representation-comparison table. An admitted
-TimeDART stretch adds six downstream trajectories and 18 snapshots, producing
-the former 24-trajectory expanded table. Existing raw-input,
+giving an 18-trajectory core representation-comparison table. Each admitted
+optional method adds six downstream trajectories and 18 snapshots; admitting
+both produces a 30-trajectory expanded table. Existing raw-input,
 handcrafted, hybrid, and non-learned results remain contextual references and
 are not counted as new Phase 6.7 runs.
 
@@ -358,7 +370,7 @@ New outputs belong under:
 experiments/phase6_7/
   feasibility/
   manifests/
-  encoder_pretraining/{lwa_frozen,saurl_frozen_or_sissel_frozen,timedart_frozen_optional}/
+  encoder_pretraining/{lwa_frozen,saurl_frozen,sissel_frozen_optional,timedart_frozen_optional}/
   features/walk{1,2}/
   downstream/{classification_h2,absolute_price_h8,realised_variance}/
   reports/frozen_representation_seed0/
@@ -379,8 +391,8 @@ artifact failure is discovered.
 1. Replay the two accepted walk bundles, target-free encoder populations, six
    task/walk label populations, and six immutable `H0` references.
 2. Complete the provenance/no-upstream-code-reuse/API/hardware feasibility
-   manifest without
-   reading evaluation metrics, including the SaURL/SISSEL fallback decision.
+   manifest for the mandatory LWA/SaURL core without using downstream metrics
+   to change either method.
 3. Freeze the core roster and SaURL extraction point, architecture settings,
    budget, paths, and six-run staged matrix.
 4. Implement the explicitly documented independent SaURL adapter and pass CPU/CUDA shape,
@@ -390,30 +402,34 @@ artifact failure is discovered.
 7. Freeze the 12-entry staged SaURL manifest containing six SaURL runs and six
    immutable `H0` references. SaURL execution may proceed at this point.
 8. Implement, train, extract, and independently freeze LWA without using
-   SaURL downstream metrics to change its contract. Make any optional
-   TimeDART resource decision on source/hardware evidence only.
+   SaURL downstream metrics to change its contract.
 9. Assemble the 18-trajectory core manifest by incorporating the immutable
-   SaURL runs, six LWA runs, and six `H0` references; an admitted TimeDART
-   stretch expands it to 24 trajectories. Execute every remaining LWA and
-   admitted TimeDART trajectory without
-   evaluation-driven truncation. Preserve all 5/15/50 SaURL snapshots already
-   produced by the staged run.
+   SaURL runs, six LWA runs, and six `H0` references. Execute every remaining
+   LWA trajectory without evaluation-driven truncation. Preserve all 5/15/50
+   SaURL snapshots already produced by the staged run.
 10. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
 11. Generate the complete per-walk, pooled, resource, and adaptation report.
+12. After the required core is complete, review it with the project mentors and
+   decide whether SISSEL-Frozen, TimeDART-Frozen, both, or neither should be
+   admitted as post-core exploratory extensions. For each admitted method,
+   first freeze a separate paper/source/adaptation dossier and full matrix,
+   then execute and replay all two-walk/three-task trajectories without using
+   intermediate optional results to truncate the matrix.
 
 ## 12. Exit conditions and handoff
 
 Phase 6.7 is complete only when:
 
-- the core roster contains LWA-Frozen and either SaURL-TS-Frozen or the pre-
-  approved SISSEL-Frozen fallback;
+- the core roster contains both LWA-Frozen and SaURL-TS-Frozen;
 - all four core encoder trajectories and four core representation stores pass
   replay;
 - all 12 new core downstream trajectories and six immutable `H0` references pass
   standalone prediction and metric replay;
-- if TimeDART-Frozen was admitted before evaluation, its two encoders, two
-  stores, and six downstream trajectories also pass replay and reporting;
+- SISSEL-Frozen and TimeDART-Frozen remain optional post-core extensions and
+  do not block core completion; if either is later admitted, its two encoders,
+  two stores, and six downstream trajectories must pass replay and reporting
+  before claims about that extension are made;
 - every task/walk comparison uses identical ordered rows and the established
   task contract;
 - the full snapshot, resource, and adaptation tables are preserved, including

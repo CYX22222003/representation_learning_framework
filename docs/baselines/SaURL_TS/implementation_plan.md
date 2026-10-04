@@ -23,13 +23,12 @@ independently of SaURL results.
 3. Freeze the approved Questions 4--11 reconstruction and reporting label
    `SaURL-TS-Frozen (paper-guided reimplementation)`.
 4. Run CPU/CUDA shape, gradient-isolation, replay, and resource smoke tests
-   before any downstream evaluation metric is read.
-5. Activate `SISSEL-Frozen` only if this independent adapter fails that
-   pre-evaluation implementation/resource gate.
+   before any downstream evaluation metric is read. If the adapter fails, stop
+   SaURL and record the failure rather than silently changing the method.
 
 **Exit:** a signed-off feasibility manifest with the upstream no-reuse boundary,
 the complete independent architecture contract, and a passing smoke/resource
-gate. Otherwise stop SaURL implementation and follow the SISSEL path.
+gate. Otherwise stop SaURL implementation and record the failed gate.
 
 ## Stage 1 — implement the method adapter
 
@@ -323,9 +322,8 @@ Before execution, `experiments/phase6_7/manifests/downstream_seed0.json` must en
 
 - six immutable H0 references;
 - six LWA-F trajectories;
-- six SaURL-F trajectories, or six SISSEL-F trajectories if fallback was frozen;
-- every dataset, feature store, run root, hash, width, task, walk, seed, and budget; and
-- TimeDART admission/rejection from the independent resource gate.
+- six mandatory SaURL-F trajectories; and
+- every dataset, feature store, run root, hash, width, task, walk, seed, and budget.
 
 Manifest creation and CPU smoke tests occur without `--execute`. Training begins only with explicit execution.
 
@@ -390,4 +388,4 @@ Exact filenames may be adjusted during implementation, but the behavior should r
 - two 128-dimensional master stores have exact task identities and hashes;
 - six downstream trajectories and 18 snapshots replay independently;
 - all resource and source-adaptation disclosures are present; and
-- no evaluation result influenced the model, fallback, checkpoint, row set, or retry policy.
+- no evaluation result influenced the model, checkpoint, row set, or retry policy.

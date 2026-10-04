@@ -102,10 +102,11 @@ Present the parts relevant to the request:
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
   improve movement ranking overall. Phase 6.7 is the approved immediate next
-  phase but remains unimplemented: required LWA-Frozen and SaURL-TS-Frozen (or
-  the pre-approved SISSEL-Frozen fallback) are pretrained per walk, frozen,
-  and probed on all three current tasks. TimeDART-Frozen is a resource-gated
-  stretch candidate and is not required for phase completion. Phase 7A follows
+  phase: the required SaURL-Frozen scope is complete and LWA-Frozen remains
+  pending; both are pretrained per walk, frozen, and probed on all three
+  current tasks. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
+  extensions considered after mentor review and are not required for phase
+  completion. Phase 7A follows
   and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's

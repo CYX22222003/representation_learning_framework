@@ -88,9 +88,9 @@ subgroups, and its complete report; treat its frozen price-only seed-0 scope
 as executed. Phase 6.7 is the approved immediate next phase but remains
 planning evidence until its feasibility manifest, source adapters, four core
 encoder trajectories, four core feature stores, 12 core downstream
-trajectories, and replay report exist. TimeDART is an optional resource-gated
-extension that adds two encoders, two feature stores, and six downstream
-trajectories only if admitted before core evaluation. Phase 6.6A/B/C's
+trajectories, and replay report exist. SISSEL and TimeDART are peer optional
+post-core extensions; each adds two encoders, two feature stores, and six
+downstream trajectories only if admitted after mentor review. Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the
 canonical branch-ablation matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha

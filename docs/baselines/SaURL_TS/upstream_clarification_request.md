@@ -29,7 +29,7 @@ When a response is received, record:
 - source archive/commit hash;
 - answers to questions 3–10;
 - any files supplied and their SHA-256 hashes; and
-- the resulting Phase 6.7 decision: admit SaURL, use SISSEL fallback, or propose a separately named reconstruction amendment.
+- the resulting Phase 6.7 decision: admit or reject SaURL, or propose a separately named reconstruction amendment.
 
 ## Internal clarification exchange — 2026-10-04
 
