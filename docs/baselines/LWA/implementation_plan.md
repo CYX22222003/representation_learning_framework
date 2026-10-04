@@ -2,9 +2,12 @@
 
 **Status:** architecture and experiment decisions approved; Stages 1--4 model,
 cache/pretraining, frozen-feature, and downstream launch infrastructure
-implemented on 2026-10-04 and awaiting owner review; no experiment executed
-**Execution authority:** none; bootstrap commands must remain manifest-only by
-default
+implemented. Both full caches and the complete Walk 1 joint/mapper trajectory
+were produced on Lumid on 2026-10-05. The original strict CPU replay check
+stopped the launcher before Walk 2 despite only scale-small CUDA/CPU drift; the
+severity-aware replay amendment is implemented pending deployment and resume.
+**Execution authority:** owner-approved for the frozen Lumid launcher;
+bootstrap commands remain manifest-only by default and require `--execute`
 **Method:** independently authored `LWA-Frozen`
 
 The work is staged to support the same manual review process used for SaURL.
@@ -16,8 +19,9 @@ current stage.
 1. Preserve the approved responses in
    `upstream_clarification_request.md`.
 2. Keep every dossier document synchronized with those approved values.
-3. Keep `source_manifest.json` at `admitted_for_implementation: true` while
-   training remains separately gated.
+3. Preserve `source_manifest.json` as the hashed implementation-provenance
+   snapshot; runtime training admission is recorded separately in the Lumid
+   feasibility manifest.
 4. Record the no-source-code-reuse boundary in model file headers and the
    feasibility manifest.
 5. Do not read SaURL downstream metrics to revise LWA.
@@ -26,10 +30,11 @@ current stage.
 
 ## Stage 1 — implement only the model and relevant utilities
 
-**Implementation status:** complete pending the manual review gate. The package
-exists at `src/baselines/lwa/`; all 17 focused CPU tests pass in both the local
-and admitted remote PyWavelets-equipped runtimes. Stages 2--6 remain
-unimplemented and no experiment has run.
+**Implementation status:** complete and owner-reviewed. The package exists at
+`src/baselines/lwa/`; all 17 focused CPU tests pass in both the local and
+admitted remote PyWavelets-equipped runtimes. Later infrastructure is also
+implemented, and execution has advanced through both caches and the complete
+Walk 1 two-stage trajectory.
 
 Create an independent package:
 
@@ -76,10 +81,11 @@ downstream execution in Stage 1.
 
 ## Stage 2 — implement view-cache preparation and two-stage pretraining
 
-**Implementation status:** complete pending manual review. The implementation
-lives in `src/training/phase6_7_lwa.py` with audit/bootstrap/replay entry points
-under `scripts_v6/`. Only a small synthetic atomic-cache test has run; neither
-full walk cache nor a training trajectory has been created.
+**Implementation and execution status:** complete. The
+implementation lives in `src/training/phase6_7_lwa.py` with
+audit/bootstrap/replay entry points under `scripts_v6/`. Both full walk caches
+and both 50-joint plus 50-mapper trajectories exist with the frozen 5/15/50
+artifacts and replay records.
 The runtime audit does not require the Zotero PDF to be copied into Lumid: it
 uses the versioned source-manifest identity when the recorded WSL-only paper
 path is unavailable, while still verifying any available or explicitly passed
@@ -110,6 +116,17 @@ Required behavior:
 9. Resume only from complete state with matching configuration/data/cache
    hashes.
 
+Post-training fixed-probe replay records strict elementwise results and
+scale-aware CPU/CUDA diagnostics for every domain, stage, and snapshot in
+`replay_validation.json`. Strict misses inside relative L2 `<=5e-4` and cosine
+`>=0.999999` are warnings and do not prevent the next walk from running.
+Missing/corrupt artifacts, provenance or shape mismatch, non-finite values,
+and drift outside those bounds remain fatal.
+Rerunning the resource smoke may change measured loss and elapsed-time fields,
+so a resumed run records a feasibility-file hash change in
+`admission_revalidation.json` after rechecking all stable admission semantics.
+Source/cache/dependency/batch/limit/admission changes still stop execution.
+
 The two stage histories must be separate. A mapper epoch is not relabelled as
 an encoder epoch.
 
@@ -124,14 +141,15 @@ scripts_v6/bootstrap_phase6_7_lwa.py
 
 SaURL's existing completed manifest and checkpoint semantics remain immutable.
 
-**Manual review gate:** data/cache provenance, optimizer order, checkpoint and
-resume state. No experiment runs before owner approval.
+**Manual review gate:** passed before the Lumid launch; data/cache provenance,
+optimizer order, checkpoint state, and resume behavior remain replayed
+contracts.
 
 ## Stage 3 — implement two LWA master stores
 
-**Implementation status:** complete pending manual review. The extractor and
-store replay contract live in `src/features/phase6_7_lwa_features.py`; no real
-master store has been extracted.
+**Implementation and execution status:** complete. The extractor and store
+replay contract live in `src/features/phase6_7_lwa_features.py`; both real
+384-dimensional master stores have been extracted and validated.
 
 For each walk:
 
@@ -158,10 +176,11 @@ the existing Phase 6.7 master-store pattern.
 
 ## Stage 4 — integrate common native-width probes
 
-**Implementation status:** complete pending manual review. The common probe
+**Implementation and execution status:** complete. The common probe
 accepts both the immutable 128-wide SaURL method and the new 384-wide LWA
 method, and the dedicated LWA bootstrap remains manifest-only without
-`--execute`. No LWA downstream head has been trained.
+`--execute`. All six LWA downstream trajectories and their 18 epoch-5/15/50
+snapshots have been trained and validated.
 
 Reuse the already implemented generic Phase 6.7 downstream behavior, extending
 method dispatch and manifests to `lwa_frozen` while preserving SaURL runs.
@@ -186,7 +205,17 @@ The script is manifest/smoke-only without `--execute`.
 
 **Manual review gate:** six-run matrix and immutable SaURL/H0 references.
 
+The Lumid execution manifest contains only the six new LWA trajectories.
+Training and replay of those heads require the established task datasets and
+LWA master stores, but do not consume H0 feature stores, scalers, checkpoints,
+or predictions. The already completed immutable H0 and SaURL results are
+joined when the full core comparison manifest/report is assembled; they are
+not rerun or copied into Lumid merely to train LWA.
+
 ## Stage 5 — feasibility and execution sequence
+
+**Execution status:** steps 1--9 completed on Lumid on 2026-10-05. Step 10,
+the integrated core report, remains.
 
 Only after Stages 1--4 are reviewed:
 
@@ -197,13 +226,19 @@ Only after Stages 1--4 are reviewed:
 4. train and replay Walk 1;
 5. train and replay Walk 2;
 6. extract and replay both LWA master stores;
-7. assemble the 18-trajectory core manifest with immutable H0 and SaURL runs;
-8. execute all six LWA downstream trajectories; and
-9. replay every 5/15/50 head snapshot.
+7. freeze the six-entry LWA-only downstream execution manifest;
+8. execute all six LWA downstream trajectories;
+9. replay every 5/15/50 LWA head snapshot; and
+10. assemble the 18-trajectory core comparison manifest/report by joining the
+    already completed immutable H0 and SaURL results with LWA results.
 
 No optional baseline decision occurs inside this sequence.
 
 ## Stage 6 — complete core reporting
+
+**Status:** pending. The method-local LWA summary is complete under
+`experiments/phase6_7/reports/lwa_staged_seed0/`; the integrated comparison is
+still required.
 
 Generate the full H0/SaURL/LWA report with:
 
@@ -222,7 +257,16 @@ Negative LWA results remain in the main core table.
 
 ## Proposed command contract
 
-Names are provisional until code review:
+The reviewed end-to-end manual launcher is:
+
+```bash
+bash scripts_v6/run_phase6_7_lwa_experiment.sh
+```
+
+It writes a timestamped persistent log beneath
+`experiments/phase6_7/logs/`, stops at the first failed gate, and safely
+reuses or validates completed cache/run artifacts. It executes the following
+individual command contract in order:
 
 ```bash
 # Dependency/source/CPU inspection. Never trains a trajectory.

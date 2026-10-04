@@ -144,13 +144,11 @@ Report:
    resources, subgroups, and report are complete and replay-valid. Canonical
    single/leave-one-out ablations have not started. Phase 6.7 is the approved
   immediate next phase. Its required frozen roster is LWA-Frozen and
-  SaURL-TS-Frozen; the staged SaURL scope is complete, and LWA's paper/source
-  audit, independent-adaptation dossier, owner decisions, and Lumid/PyWavelets
-  runtime audit are complete. Its model and Stage 2--4 cache/pretraining,
-  frozen-feature, and downstream infrastructure plus focused CPU tests are
-  implemented but unexecuted; owner review, full transform/cache replay,
-  model-specific admission, and execution remain pending. Its core scope is
-  four walk-specific encoders, four feature stores,
+  SaURL-TS-Frozen; both required method lifecycles are complete. LWA's
+  paper/source audit, independent-adaptation dossier, owner decisions,
+  Lumid/PyWavelets admission, both caches, both two-stage trajectories, both
+  384-wide stores, and six downstream runs are valid. The integrated core
+  report remains. Its core scope is four walk-specific encoders, four feature stores,
   and 12 common-head downstream trajectories across the three current tasks,
   with six immutable `H0` references. SISSEL-Frozen and TimeDART-Frozen are
   peer optional post-core extensions; each adds two encoders, two stores, and

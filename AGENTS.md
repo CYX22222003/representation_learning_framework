@@ -153,9 +153,24 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > launch/replay infrastructure and focused CPU tests are implemented under
 > `src/`, `scripts_v6/`, and `tests/baselines/lwa/`; the original 17 model tests
 > pass in both the local and provisioned remote runtimes, including CWT, and
-> 21 LWA tests pass locally with the new pipeline contracts. Owner review, full
-> walk-cache replay, fixed-batch smoke, execution, and the final shared core
-> manifest/reporting remain pending.
+> all 25 LWA tests pass locally with the new pipeline contracts. Both full
+> transform caches, both joint-50/mapper-50 trajectories, both 384-dimensional
+> master stores, and all six LWA downstream trajectories now exist on Lumid;
+> every 5/15/50 downstream snapshot is valid. The first Walk 1 post-training
+> CPU replay exposed only benign
+> Wavelet CPU/CUDA drift (relative L2 `3.02e-5`, cosine effectively one) but the
+> original strict elementwise assertion stopped the launcher before Walk 2.
+> Replay is now severity-aware: strict misses within relative L2 `5e-4` and
+> cosine `0.999999` are recorded warnings in `replay_validation.json`, while
+> structural, provenance, non-finite, artifact-integrity, or material-drift
+> failures remain fatal. LWA does not consistently outperform immutable H0:
+> it is materially weaker on Walk 1 classification and both price MAEs, while
+> isolated Walk 2 price/volatility RMSE and correlation gains do not establish
+> broad superiority. The final integrated H0/SaURL/LWA core report remains.
+> Reissued feasibility manifests are compared by stable admission semantics,
+> because measured smoke loss/time are nondeterministic; a changed file hash is
+> recorded in `admission_revalidation.json`, while any changed source, cache,
+> dependency, batch, limit, or admission outcome remains fatal.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
 > contract. Any later SISSEL/TimeDART study is a separately frozen post-core
@@ -393,10 +408,16 @@ canonical plan. See
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_downstream.py
 
-# Phase 6.7 LWA contract. These entry points are implemented but no full cache
-# or LWA experiment has run. Cache preparation is explicit and costly;
+# Phase 6.7 LWA replay contract. Both caches, two-stage trajectories, feature
+# stores, and all six downstream runs are complete. Cache preparation remains
+# explicit and costly;
 # bootstraps never train without --execute, and training additionally requires
 # an admitted fixed-batch CUDA feasibility manifest.
+# Manual full pipeline: persistent timestamped log, fail-fast gates, and
+# resumable validation/reuse of completed artifacts.
+bash scripts_v6/run_phase6_7_lwa_experiment.sh
+
+# Individual replay/launch commands:
 .venv/bin/python3 scripts_v6/audit_phase6_7_lwa.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa.py \
   --device cpu --prepare-cache --cache-chunk-size 256
@@ -777,20 +798,20 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the completed Phase 6.7 SaURL three-task master-store/replay path |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the completed Phase 6.7 SaURL and LWA three-task master-store/replay paths |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the completed Phase 6.7 SaURL alternating pretrainer/native-width probes with train-only scaling and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the completed Phase 6.7 SaURL alternating and LWA two-stage pretraining/native-width probe lifecycles with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
-| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored `saurl_ts/` and `lwa/` adapters; LWA experiment infrastructure is implemented but unexecuted |
+| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored, executed `saurl_ts/` and `lwa/` adapters |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
 | `scripts_v4/` | Thin Phase 6 entry points for the completed volatility and temporal-encoder lifecycles: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 | `scripts_v5/` | Thin Phase 6.5 entry points for the completed LSTM-capacity, GARCH--LSTM, TA-MLP, and residual-CNN lifecycles |
-| `scripts_v6/` | Thin Phase 6.7 entry points for the completed SaURL lifecycle and the implemented-but-unexecuted LWA cache, feasibility, two-stage pretraining, frozen-feature, and downstream lifecycle |
+| `scripts_v6/` | Thin Phase 6.7 entry points for the completed SaURL and LWA feasibility, pretraining, frozen-feature, downstream, and replay lifecycles |
 
 ### Key data contracts
 

@@ -1,7 +1,8 @@
 # Phase 6.7 Recent Frozen-Representation Baseline Plan
 
 **Date:** 2026-10-04  
-**Status:** Approved next-phase planning contract, scope amended 2026-10-04.
+**Status:** Required SaURL/LWA execution complete; integrated core reporting
+pending, updated 2026-10-05.
 The independently authored SaURL-TS model adapter, SaURL-specific Stage 0--4
 infrastructure, and focused CPU unit tests are implemented. Its mask contract
 uses the paper's deterministic sigmoid threshold, with no repository-derived
@@ -23,10 +24,25 @@ CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
 independent LWA model package and Stage 2--4 cache/pretraining, frozen-feature,
 and native-width downstream launch/replay infrastructure are implemented. The
 original 17 model tests pass in both local and admitted remote runtimes, and
-21 local LWA tests now pass including the synthetic atomic-cache and pipeline
-contracts. No full cache, LWA pretraining, feature extraction, or downstream
-experiment has started; owner review, fixed-batch smoke, execution, the full
-shared core manifest, and final reporting remain pending.
+all 25 local LWA tests pass including the synthetic atomic-cache and
+pipeline contracts. Both full transform caches and both walk-specific
+joint-50/mapper-50 trajectories now exist on Lumid. The original strict
+elementwise CPU replay check stopped the launcher before Walk 2 on benign
+Wavelet CPU/CUDA drift: maximum absolute difference `9.39e-5`, relative L2
+`3.02e-5`, and cosine effectively one. LWA replay now records strict misses
+inside the already accepted relative-L2 `5e-4`/cosine `0.999999` cross-device
+bounds as warnings in `replay_validation.json`; missing/corrupt artifacts,
+provenance/shape mismatch, non-finite output, or material drift remains fatal.
+Both 384-dimensional LWA master stores and all six downstream trajectories
+are complete and valid at epochs 5/15/50. LWA does not consistently
+outperform immutable H0: it is materially weaker on Walk 1 classification and
+both price MAEs, while isolated Walk 2 price/volatility RMSE and correlation
+gains do not establish broad superiority. The full shared core manifest and
+integrated H0/SaURL/LWA reporting remain pending.
+On resume, a rerun of the CUDA smoke may regenerate nondeterministic loss and
+timing fields. The renewed manifest is therefore revalidated by stable source,
+dependency, cache, physical-batch, resource-limit, and admission semantics;
+hash-only drift is recorded, while a changed gate condition remains fatal.
 Both SaURL master stores and all
 six staged downstream trajectories are complete and replay-valid at 5/15/50.
 The epoch-50 result is generally weaker than immutable H0, with isolated
@@ -190,6 +206,13 @@ first downstream execution. Staged SaURL execution is permitted from
 `saurl_downstream_seed0.json`; the later full core manifest must incorporate
 those immutable SaURL runs alongside LWA rather than modifying or rerunning
 them in response to their metrics.
+
+The LWA Lumid execution manifest is likewise limited to its six new
+task/walk trajectories. LWA head training and replay do not require H0
+feature/checkpoint artifacts to be copied into the remote sandbox. The six
+already completed immutable H0 references remain part of the final core
+comparison and are joined and replayed when assembling/reporting that core
+matrix; they are not rerun as part of LWA execution.
 
 ## 5. Shared data and leakage contract
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -29,6 +30,122 @@ class _FastCWT:
 
 
 class LWAPipelineTests(unittest.TestCase):
+    def test_admission_revalidation_warns_on_reissued_hash_but_keeps_gates_fatal(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source_manifest.json"
+            source.write_text("{}\n", encoding="utf-8")
+            admission = root / "feasibility_manifest.json"
+            payload = {
+                "schema_version": pipeline.ADMISSION_SCHEMA_VERSION,
+                "phase": "6.7",
+                "method": pipeline.METHOD,
+                "admitted_for_training": True,
+                "independent_implementation_only": True,
+                "evaluation_values_loaded": False,
+                "within_memory_limit": True,
+                "within_time_limit": True,
+                "missing_cache_walks": [],
+                "pywavelets_version": pipeline._pywavelets_version(),
+                "source_manifest_path": str(source),
+                "source_manifest_sha256": pipeline.sha256_file(source),
+                "cache_validations": [
+                    {
+                        "walk": walk,
+                        "valid": True,
+                        "method": pipeline.METHOD,
+                        "pywavelets_version": pipeline._pywavelets_version(),
+                    }
+                    for walk in (1, 2)
+                ],
+                "resource_limits": {
+                    "max_peak_memory_gib": 23.0,
+                    "max_smoke_seconds": 600.0,
+                },
+                "fixed_batch_resource_smokes": [
+                    {
+                        "walk": walk,
+                        "valid": True,
+                        "physical_batch_size": 128,
+                        "loss": 1.0,
+                        "elapsed_seconds": 1.0,
+                        "peak_cuda_memory_bytes": 1024,
+                    }
+                    for walk in (1, 2)
+                ],
+            }
+            pipeline.write_json(admission, payload)
+            validation = pipeline._validate_admission_manifest(
+                admission, expected_sha256="0" * 64
+            )
+            self.assertTrue(validation["valid"])
+            self.assertFalse(validation["exact_hash_match"])
+            self.assertIsNotNone(validation["warning"])
+
+            payload["within_time_limit"] = False
+            pipeline.write_json(admission, payload)
+            with self.assertRaisesRegex(ValueError, "admission contract mismatch"):
+                pipeline._validate_admission_manifest(admission)
+
+    def test_replay_validation_record_preserves_warning_and_thresholds(self) -> None:
+        diagnostics = [
+            {
+                "representation": "wavelet",
+                "stage": "joint",
+                "epoch": 5,
+                "severity": "warning",
+                "reason": "accepted_cross_device_drift",
+            }
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            path = pipeline._write_replay_validation(
+                Path(directory), walk=1, diagnostics=diagnostics, valid=True
+            )
+            payload = json.loads(path.read_text(encoding="utf-8"))
+
+        self.assertTrue(payload["valid"])
+        self.assertEqual(payload["warning_count"], 1)
+        self.assertEqual(payload["critical_count"], 0)
+        self.assertEqual(
+            payload["thresholds"]["cross_device_relative_l2_max"],
+            pipeline.CROSS_DEVICE_RELATIVE_L2_TOLERANCE,
+        )
+
+    def test_probe_replay_records_small_cross_device_drift_as_warning(self) -> None:
+        expected = {
+            name: torch.linspace(-1000.0, 1000.0, 512)
+            for name in ("time", "fourier", "wavelet")
+        }
+        replayed = {name: value.clone() for name, value in expected.items()}
+        replayed["wavelet"] = expected["wavelet"] * (1.0 + 2e-4)
+
+        diagnostics = pipeline._probe_replay_diagnostics(expected, replayed)
+
+        self.assertEqual([row["severity"] for row in diagnostics], ["pass", "pass", "warning"])
+        self.assertEqual(diagnostics[-1]["reason"], "accepted_cross_device_drift")
+        self.assertLessEqual(
+            diagnostics[-1]["relative_l2"],
+            pipeline.CROSS_DEVICE_RELATIVE_L2_TOLERANCE,
+        )
+
+    def test_probe_replay_keeps_material_or_structural_mismatch_critical(self) -> None:
+        expected = {
+            name: torch.linspace(-10.0, 10.0, 512)
+            for name in ("time", "fourier", "wavelet")
+        }
+        replayed = {name: value.clone() for name, value in expected.items()}
+        replayed["fourier"] = replayed["fourier"][:-1]
+        replayed["wavelet"] = expected["wavelet"] * 1.01
+
+        diagnostics = pipeline._probe_replay_diagnostics(expected, replayed)
+
+        self.assertEqual(diagnostics[1]["severity"], "critical")
+        self.assertEqual(diagnostics[1]["reason"], "shape_mismatch")
+        self.assertEqual(diagnostics[2]["severity"], "critical")
+        self.assertEqual(diagnostics[2]["reason"], "material_numerical_mismatch")
+
     def test_scaler_uses_train_population_and_constant_fallback(self) -> None:
         values = np.zeros((3, 64, 5), dtype=np.float32)
         values[..., 0] = 7.0

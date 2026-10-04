@@ -1,0 +1,363 @@
+{
+  "comparison_policy": "Join already completed immutable H0 and SaURL results during core reporting; do not rerun or copy H0 artifacts to train LWA probes.",
+  "comparison_reference_count": 6,
+  "comparison_references": [
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "execution_mode": "immutable_reference_joined_during_core_reporting",
+      "method": "H0",
+      "runtime_dependency": false,
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "cpu_smoke_test": {
+    "heads": {
+      "absolute_price_h8": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ]
+      },
+      "classification_h2": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          3
+        ]
+      },
+      "realised_variance": {
+        "loss_finite": true,
+        "output_shape": [
+          4,
+          1
+        ]
+      }
+    },
+    "method": "lwa_frozen",
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk1/representations.npz",
+      "feature_sha256": "3e5667e8345314c8bb7273f5207ba93f6b2fd8bc011d47be34b85746caf5d144",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/classification_h2/lwa_frozen/walk1/seed0",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "classification_h2",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk2/representations.npz",
+      "feature_sha256": "7f389a7a441d2f6f73f6ebb024d6db77734b8964feb22a0f69d8cdfe705589ea",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/classification_h2/lwa_frozen/walk2/seed0",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk1/representations.npz",
+      "feature_sha256": "3e5667e8345314c8bb7273f5207ba93f6b2fd8bc011d47be34b85746caf5d144",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/absolute_price_h8/lwa_frozen/walk1/seed0",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "absolute_price_h8",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk2/representations.npz",
+      "feature_sha256": "7f389a7a441d2f6f73f6ebb024d6db77734b8964feb22a0f69d8cdfe705589ea",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/absolute_price_h8/lwa_frozen/walk2/seed0",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk1/representations.npz",
+      "feature_sha256": "3e5667e8345314c8bb7273f5207ba93f6b2fd8bc011d47be34b85746caf5d144",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 1
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/realised_variance/lwa_frozen/walk1/seed0",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 512,
+        "device": "cpu",
+        "epochs": 50,
+        "hidden_dim": 128,
+        "input_dim": 384,
+        "learning_rate": 0.0001,
+        "logit_adjustment_strength": 1.0,
+        "method": "lwa_frozen",
+        "seed": 0,
+        "smooth_l1_beta": 1.0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "task": "realised_variance",
+        "volatility_gradient_clip_norm": 5.0,
+        "volatility_target_multiplier": 10000.0,
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "execution_mode": "phase6_7_training_required",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/features/lwa_frozen/walk2/representations.npz",
+      "feature_sha256": "7f389a7a441d2f6f73f6ebb024d6db77734b8964feb22a0f69d8cdfe705589ea",
+      "feature_validation": {
+        "method": "lwa_frozen",
+        "output_dim": 384,
+        "replayed": false,
+        "target_independent": true,
+        "tasks": [
+          "classification_h2",
+          "absolute_price_h8",
+          "realised_variance"
+        ],
+        "valid": true,
+        "walk": 2
+      },
+      "method": "lwa_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/downstream/realised_variance/lwa_frozen/walk2/seed0",
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "entry_count": 6,
+  "evaluation_used_to_screen_matrix": false,
+  "full_core_manifest_pending": true,
+  "h0_artifacts_required_for_execution": false,
+  "implemented_scope": "LWA-Frozen downstream execution only",
+  "new_trajectory_count": 6,
+  "phase": "6.7",
+  "schema_version": "phase6-7-lwa-downstream-matrix-v2",
+  "seed": 0
+}

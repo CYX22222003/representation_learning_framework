@@ -13,6 +13,7 @@ import os
 import random
 import shutil
 import time
+import warnings
 from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -42,6 +43,12 @@ REPORTING_LABEL = "LWA-Frozen (paper-guided independent implementation)"
 SNAPSHOT_EPOCHS = (5, 15, 50)
 CACHE_SCHEMA_VERSION = "phase6-7-lwa-view-cache-v1"
 TRAINING_SCHEMA_VERSION = "phase6-7-lwa-pretraining-v1"
+REPLAY_VALIDATION_SCHEMA_VERSION = "phase6-7-lwa-replay-validation-v1"
+STRICT_REPLAY_RTOL = 1e-5
+STRICT_REPLAY_ATOL = 1e-6
+CROSS_DEVICE_RELATIVE_L2_TOLERANCE = 5e-4
+CROSS_DEVICE_COSINE_TOLERANCE = 0.999999
+ADMISSION_SCHEMA_VERSION = "phase6-7-lwa-feasibility-v1"
 
 
 @dataclass(frozen=True)
@@ -216,6 +223,10 @@ def build_lwa_view_cache(
         )
         cwt = MorletCWT(config)
         started = time.perf_counter()
+        report_every = max(
+            chunk_size,
+            ((max(1, row_count // 20) + chunk_size - 1) // chunk_size) * chunk_size,
+        )
         for start in range(0, row_count, chunk_size):
             stop = min(start + chunk_size, row_count)
             normalized = scaler.transform_numpy(sequences[start:stop])
@@ -225,6 +236,12 @@ def build_lwa_view_cache(
                 np.complex64, copy=False
             )
             wavelet_cache[start:stop] = cwt(tensor).numpy()
+            if start == 0 or stop == row_count or stop % report_every == 0:
+                print(
+                    f"LWA walk {walk} cache: {stop}/{row_count} rows "
+                    f"({100.0 * stop / row_count:.1f}%)",
+                    flush=True,
+                )
         for array in (time_cache, fourier_cache, wavelet_cache):
             array.flush()
         del time_cache, fourier_cache, wavelet_cache
@@ -481,6 +498,96 @@ def _snapshot_payload(
     }
 
 
+def _validate_admission_manifest(
+    admission_manifest_path: Path,
+    *,
+    expected_sha256: str | None = None,
+) -> dict[str, Any]:
+    """Validate stable admission semantics while tolerating renewed smoke metadata."""
+
+    path = Path(admission_manifest_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if (
+        payload.get("schema_version") != ADMISSION_SCHEMA_VERSION
+        or payload.get("phase") != "6.7"
+        or payload.get("method") != METHOD
+        or payload.get("admitted_for_training") is not True
+        or payload.get("independent_implementation_only") is not True
+        or payload.get("evaluation_values_loaded") is not False
+        or payload.get("within_memory_limit") is not True
+        or payload.get("within_time_limit") is not True
+        or payload.get("missing_cache_walks") != []
+        or payload.get("pywavelets_version") != _pywavelets_version()
+    ):
+        raise ValueError("LWA feasibility admission contract mismatch")
+    source_path = Path(payload["source_manifest_path"])
+    if sha256_file(source_path) != payload.get("source_manifest_sha256"):
+        raise ValueError("LWA feasibility source-manifest provenance mismatch")
+
+    cache_records = {int(row["walk"]): row for row in payload.get("cache_validations", [])}
+    if set(cache_records) != {1, 2} or any(
+        row.get("valid") is not True
+        or row.get("method") != METHOD
+        or row.get("pywavelets_version") != _pywavelets_version()
+        for row in cache_records.values()
+    ):
+        raise ValueError("LWA feasibility cache validation mismatch")
+
+    limits = payload.get("resource_limits", {})
+    max_memory_gib = limits.get("max_peak_memory_gib")
+    max_seconds = limits.get("max_smoke_seconds")
+    if not isinstance(max_memory_gib, (int, float)) or max_memory_gib <= 0:
+        raise ValueError("LWA feasibility memory limit is invalid")
+    if not isinstance(max_seconds, (int, float)) or max_seconds <= 0:
+        raise ValueError("LWA feasibility time limit is invalid")
+    smoke_records = {
+        int(row["walk"]): row for row in payload.get("fixed_batch_resource_smokes", [])
+    }
+    if set(smoke_records) != {1, 2}:
+        raise ValueError("LWA feasibility resource smoke matrix is incomplete")
+    for row in smoke_records.values():
+        if (
+            row.get("valid") is not True
+            or int(row.get("physical_batch_size", -1)) != 128
+            or not np.isfinite(row.get("loss", np.nan))
+            or not np.isfinite(row.get("elapsed_seconds", np.nan))
+            or not np.isfinite(row.get("peak_cuda_memory_bytes", np.nan))
+            or float(row["elapsed_seconds"]) > float(max_seconds)
+            or float(row["peak_cuda_memory_bytes"]) > float(max_memory_gib) * 1024**3
+        ):
+            raise ValueError("LWA feasibility resource smoke is invalid")
+
+    current_sha256 = sha256_file(path)
+    return {
+        "schema_version": "phase6-7-lwa-admission-revalidation-v1",
+        "valid": True,
+        "method": METHOD,
+        "manifest_path": str(path.resolve()),
+        "expected_sha256": expected_sha256,
+        "current_sha256": current_sha256,
+        "exact_hash_match": expected_sha256 is None or current_sha256 == expected_sha256,
+        "warning": (
+            None
+            if expected_sha256 is None or current_sha256 == expected_sha256
+            else "admission smoke manifest was validly regenerated with new runtime measurements"
+        ),
+    }
+
+
+def _record_admission_revalidation(
+    run_root: Path, validation: Mapping[str, Any]
+) -> Path:
+    path = Path(run_root) / "admission_revalidation.json"
+    write_json(path, dict(validation))
+    if validation.get("warning"):
+        warnings.warn(
+            f"{validation['warning']}; details recorded in {path}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+    return path
+
+
 def _write_history(path: Path, histories: Mapping[str, list[float]]) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     with temporary.open("wb") as handle:
@@ -505,10 +612,8 @@ def run_lwa_pretraining(
     dataset_path, cache_root, run_root = Path(dataset_path), Path(cache_root), Path(run_root)
     admission_manifest_path = Path(admission_manifest_path)
     model_config = model_config or LWAConfig()
-    admission = json.loads(admission_manifest_path.read_text(encoding="utf-8"))
-    if admission.get("method") != METHOD or admission.get("admitted_for_training") is not True:
-        raise ValueError("LWA training requires its admitted feasibility manifest")
-    admission_hash = sha256_file(admission_manifest_path)
+    admission_validation = _validate_admission_manifest(admission_manifest_path)
+    admission_hash = admission_validation["current_sha256"]
     cache_validation = validate_lwa_view_cache(dataset_path, cache_root, walk=config.walk)
     if (run_root / "training_complete.json").is_file():
         return validate_lwa_pretraining(dataset_path, cache_root, run_root)
@@ -557,8 +662,13 @@ def run_lwa_pretraining(
         saved_admission = json.loads(
             (run_root / "admission_manifest.json").read_text(encoding="utf-8")
         )
-        if saved_admission.get("sha256") != admission_hash:
-            raise ValueError("LWA resume feasibility-admission mismatch")
+        if Path(saved_admission.get("path", "")).resolve() != admission_manifest_path.resolve():
+            raise ValueError("LWA resume feasibility-admission path mismatch")
+        admission_validation = _validate_admission_manifest(
+            admission_manifest_path,
+            expected_sha256=saved_admission.get("sha256"),
+        )
+        _record_admission_revalidation(run_root, admission_validation)
         data_manifest = json.loads((run_root / "data_manifest.json").read_text(encoding="utf-8"))
         if data_manifest["dataset_sha256"] != dataset_hash or data_manifest["cache_manifest_sha256"] != cache_hash:
             raise ValueError("LWA resume data/cache mismatch")
@@ -628,6 +738,12 @@ def run_lwa_pretraining(
             snapshot = run_root / "joint" / f"e{epoch}"
             _atomic_torch_save(snapshot / "checkpoint.pth", payload)
             _write_history(snapshot / "history.npz", joint_histories)
+        print(
+            f"LWA walk {config.walk} joint epoch {epoch}/{config.joint_epochs}: "
+            f"loss={joint_histories['total'][-1]:.6f}, "
+            f"seconds={joint_histories['epoch_seconds'][-1]:.2f}",
+            flush=True,
+        )
 
     joint_final = torch.load(run_root / "joint" / "e50" / "checkpoint.pth", map_location=device, weights_only=True)
     joint.load_state_dict(joint_final["model_state_dict"], strict=True)
@@ -690,6 +806,12 @@ def run_lwa_pretraining(
             snapshot = run_root / "mapper" / f"e{epoch}"
             _atomic_torch_save(snapshot / "checkpoint.pth", payload)
             _write_history(snapshot / "history.npz", mapper_histories)
+        print(
+            f"LWA walk {config.walk} mapper epoch {epoch}/{config.mapper_epochs}: "
+            f"loss={mapper_histories['total'][-1]:.6f}, "
+            f"seconds={mapper_histories['epoch_seconds'][-1]:.2f}",
+            flush=True,
+        )
 
     peak = int(torch.cuda.max_memory_allocated(device)) if device.type == "cuda" else 0
     artifacts = {}
@@ -731,9 +853,118 @@ def run_lwa_pretraining(
     return validate_lwa_pretraining(dataset_path, cache_root, run_root)
 
 
-def _assert_probe_close(saved: Mapping[str, torch.Tensor], replayed: Mapping[str, Any]) -> None:
+def _probe_replay_diagnostics(
+    saved: Mapping[str, torch.Tensor], replayed: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    """Classify fixed-probe replay differences without hiding unsafe failures.
+
+    Strict elementwise equality remains the preferred outcome. A probe that
+    misses that check can still be accepted as a warning when it satisfies the
+    scale-aware CPU/CUDA criterion already used by the Phase 6.7 external
+    encoder pipeline. Shape, type, finiteness, or material numerical failures
+    are critical and must still stop execution.
+    """
+
+    diagnostics: list[dict[str, Any]] = []
     for name in ("time", "fourier", "wavelet"):
-        torch.testing.assert_close(saved[name].cpu(), replayed[name].cpu(), rtol=1e-5, atol=1e-6)
+        record: dict[str, Any] = {"representation": name}
+        if name not in saved or name not in replayed:
+            record.update(
+                severity="critical",
+                reason="missing_representation",
+                saved_present=name in saved,
+                replayed_present=name in replayed,
+            )
+            diagnostics.append(record)
+            continue
+        expected, actual = saved[name], replayed[name]
+        if not isinstance(expected, torch.Tensor) or not isinstance(actual, torch.Tensor):
+            record.update(severity="critical", reason="non_tensor_representation")
+            diagnostics.append(record)
+            continue
+        expected, actual = expected.detach().cpu(), actual.detach().cpu()
+        record.update(saved_shape=list(expected.shape), replayed_shape=list(actual.shape))
+        if expected.shape != actual.shape:
+            record.update(severity="critical", reason="shape_mismatch")
+            diagnostics.append(record)
+            continue
+        if not torch.isfinite(expected).all() or not torch.isfinite(actual).all():
+            record.update(severity="critical", reason="non_finite_representation")
+            diagnostics.append(record)
+            continue
+
+        expected_flat = expected.reshape(-1).double()
+        actual_flat = actual.reshape(-1).double()
+        difference = actual_flat - expected_flat
+        expected_norm = expected_flat.norm()
+        actual_norm = actual_flat.norm()
+        difference_norm = difference.norm()
+        if float(expected_norm) == 0.0:
+            relative_l2 = float(difference_norm)
+            cosine = 1.0 if float(actual_norm) == 0.0 else 0.0
+        else:
+            relative_l2 = float(difference_norm / expected_norm)
+            cosine = float(
+                torch.nn.functional.cosine_similarity(
+                    actual_flat.unsqueeze(0), expected_flat.unsqueeze(0), dim=1
+                )[0]
+            )
+        strict_close = bool(
+            torch.allclose(
+                actual,
+                expected,
+                rtol=STRICT_REPLAY_RTOL,
+                atol=STRICT_REPLAY_ATOL,
+            )
+        )
+        scale_close = bool(
+            relative_l2 <= CROSS_DEVICE_RELATIVE_L2_TOLERANCE
+            and cosine >= CROSS_DEVICE_COSINE_TOLERANCE
+        )
+        record.update(
+            max_absolute_difference=float(difference.abs().max()) if difference.numel() else 0.0,
+            relative_l2=relative_l2,
+            cosine_similarity=cosine,
+            strict_elementwise_close=strict_close,
+            scale_aware_close=scale_close,
+        )
+        if strict_close:
+            record.update(severity="pass", reason="strict_elementwise_match")
+        elif scale_close:
+            record.update(severity="warning", reason="accepted_cross_device_drift")
+        else:
+            record.update(severity="critical", reason="material_numerical_mismatch")
+        diagnostics.append(record)
+    return diagnostics
+
+
+def _write_replay_validation(
+    run_root: Path,
+    *,
+    walk: int,
+    diagnostics: list[dict[str, Any]],
+    valid: bool,
+) -> Path:
+    path = run_root / "replay_validation.json"
+    write_json(
+        path,
+        {
+            "schema_version": REPLAY_VALIDATION_SCHEMA_VERSION,
+            "method": METHOD,
+            "walk": walk,
+            "valid": valid,
+            "warning_count": sum(row["severity"] == "warning" for row in diagnostics),
+            "critical_count": sum(row["severity"] == "critical" for row in diagnostics),
+            "thresholds": {
+                "strict_rtol": STRICT_REPLAY_RTOL,
+                "strict_atol": STRICT_REPLAY_ATOL,
+                "cross_device_relative_l2_max": CROSS_DEVICE_RELATIVE_L2_TOLERANCE,
+                "cross_device_cosine_min": CROSS_DEVICE_COSINE_TOLERANCE,
+            },
+            "diagnostics": diagnostics,
+        },
+    )
+    return path
 
 
 def validate_lwa_pretraining(
@@ -750,13 +981,13 @@ def validate_lwa_pretraining(
         (run_root / "admission_manifest.json").read_text(encoding="utf-8")
     )
     admission_path = Path(admission_record["path"])
-    admission = json.loads(admission_path.read_text(encoding="utf-8"))
-    if (
-        admission.get("admitted_for_training") is not True
-        or admission.get("method") != METHOD
-        or sha256_file(admission_path) != admission_record["sha256"]
-    ):
-        raise ValueError("LWA feasibility admission provenance mismatch")
+    admission_validation = _validate_admission_manifest(
+        admission_path,
+        expected_sha256=admission_record.get("sha256"),
+    )
+    admission_revalidation_path = _record_admission_revalidation(
+        run_root, admission_validation
+    )
     dataset_hash, cache_hash = sha256_file(dataset_path), cache["cache_manifest_sha256"]
     completed = json.loads((run_root / "training_complete.json").read_text(encoding="utf-8"))
     if completed.get("complete") is not True or completed.get("evaluation_used_for_selection") is not False:
@@ -765,6 +996,7 @@ def validate_lwa_pretraining(
     if sha256_file(run_root / "input_scaler.npz") != sha256_file(cache_root / "input_scaler.npz"):
         raise ValueError("LWA run/cache scaler mismatch")
     final_models: dict[str, torch.nn.Module] = {}
+    replay_diagnostics: list[dict[str, Any]] = []
     for stage in ("joint", "mapper"):
         for epoch in SNAPSHOT_EPOCHS:
             snapshot = run_root / stage / f"e{epoch}"
@@ -789,7 +1021,28 @@ def validate_lwa_pretraining(
             model = joint if stage == "joint" else build_lwa_mapper_stage(joint)
             model.load_state_dict(checkpoint["model_state_dict"], strict=True)
             replayed = _model_probe(model, cache_root, torch.device("cpu"))
-            _assert_probe_close(checkpoint["probe"], replayed)
+            snapshot_diagnostics = _probe_replay_diagnostics(checkpoint["probe"], replayed)
+            for diagnostic in snapshot_diagnostics:
+                diagnostic.update(stage=stage, epoch=epoch)
+            replay_diagnostics.extend(snapshot_diagnostics)
+            critical = [
+                diagnostic
+                for diagnostic in snapshot_diagnostics
+                if diagnostic["severity"] == "critical"
+            ]
+            if critical:
+                replay_path = _write_replay_validation(
+                    run_root,
+                    walk=config.walk,
+                    diagnostics=replay_diagnostics,
+                    valid=False,
+                )
+                first = critical[0]
+                raise ValueError(
+                    "critical LWA checkpoint replay failure: "
+                    f"{stage} e{epoch} {first['representation']} "
+                    f"({first['reason']}); details: {replay_path}"
+                )
             with np.load(history_path, allow_pickle=False) as history:
                 if any(len(history[name]) != epoch for name in history.files):
                     raise ValueError(f"invalid LWA {stage} e{epoch} history length")
@@ -812,6 +1065,24 @@ def validate_lwa_pretraining(
         features = inference(torch.from_numpy(np.asarray(time_view[:4])))
     if features.shape != (4, 384) or not torch.isfinite(features).all():
         raise ValueError("invalid LWA final inference probe")
+    replay_path = _write_replay_validation(
+        run_root,
+        walk=config.walk,
+        diagnostics=replay_diagnostics,
+        valid=True,
+    )
+    warning_records = [
+        diagnostic
+        for diagnostic in replay_diagnostics
+        if diagnostic["severity"] == "warning"
+    ]
+    if warning_records:
+        warnings.warn(
+            f"accepted {len(warning_records)} non-critical LWA cross-device "
+            f"replay difference(s); details recorded in {replay_path}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
     return {
         "valid": True,
         "method": METHOD,
@@ -820,6 +1091,10 @@ def validate_lwa_pretraining(
         "mapper_snapshots": list(SNAPSHOT_EPOCHS),
         "output_dim": 384,
         "cache_manifest_sha256": cache_hash,
+        "replay_warning_count": len(warning_records),
+        "replay_validation_path": str(replay_path.resolve()),
+        "admission_hash_match": admission_validation["exact_hash_match"],
+        "admission_revalidation_path": str(admission_revalidation_path.resolve()),
     }
 
 

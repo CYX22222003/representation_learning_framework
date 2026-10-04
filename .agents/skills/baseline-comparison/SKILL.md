@@ -90,7 +90,9 @@ control. Classification and volatility are deferred. For Phase 6.7, follow
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 For LWA specifically, also read the complete `docs/baselines/LWA/` dossier;
 its paper/source audit and twelve owner decisions are complete, and its model
-plus Stage 2--4 experiment infrastructure are implemented but unexecuted.
+plus Stage 2--4 experiment lifecycle is complete: both caches, both two-stage
+walk trajectories, both 384-wide stores, and all six downstream runs are
+valid. The integrated H0/SaURL/LWA core report remains.
 Treat LWA-Frozen and SaURL-TS-Frozen as the required direct external
 representation baselines. Pretrain
 each separately on each walk's target-free encoder population, freeze epoch-50
