@@ -1,0 +1,73 @@
+{
+  "admitted_for_training": true,
+  "cache_validations": [
+    {
+      "cache_manifest_sha256": "570dbe5233b1ae26bca0e90a8d9feb82f599544f8cb83ad8f2fc73dd26f23254",
+      "dropped_rows_per_epoch": 30,
+      "method": "lwa_frozen",
+      "physical_batches": 305,
+      "pywavelets_version": "1.8.0",
+      "rows": 39070,
+      "valid": true,
+      "walk": 1
+    },
+    {
+      "cache_manifest_sha256": "390fb3ca1a2de97d5c929c479032d2a52283ddb3a971512abcb123503bbf4631",
+      "dropped_rows_per_epoch": 105,
+      "method": "lwa_frozen",
+      "physical_batches": 456,
+      "pywavelets_version": "1.8.0",
+      "rows": 58473,
+      "valid": true,
+      "walk": 2
+    }
+  ],
+  "evaluation_values_loaded": false,
+  "fixed_batch_resource_smokes": [
+    {
+      "elapsed_seconds": 2.067238598014228,
+      "loss": 240.27279663085938,
+      "peak_cuda_memory_bytes": 407688192,
+      "physical_batch_size": 128,
+      "valid": true,
+      "walk": 1
+    },
+    {
+      "elapsed_seconds": 0.025978842051699758,
+      "loss": 239.48135375976562,
+      "peak_cuda_memory_bytes": 407688192,
+      "physical_batch_size": 128,
+      "valid": true,
+      "walk": 2
+    }
+  ],
+  "independent_implementation_only": true,
+  "method": "lwa_frozen",
+  "missing_cache_walks": [],
+  "paper_file_reverified": false,
+  "paper_identity_authority": "versioned source manifest",
+  "paper_runtime_path": "/mnt/e/zotero/storage/JNPX6KNG/Demirel and Holz - 2025 - Learning Without Augmenting Unsupervised Time Series Representation Learning via Frame Projections.pdf",
+  "paper_sha256": "3594c7eb09fd354062bc0ef6db911548712099ac4556ee086fc501dd96abc8a6",
+  "phase": "6.7",
+  "pywavelets_version": "1.8.0",
+  "reporting_label": "LWA-Frozen (paper-guided independent implementation)",
+  "resource_limits": {
+    "max_peak_memory_gib": 23.0,
+    "max_smoke_seconds": 600.0
+  },
+  "schema_version": "phase6-7-lwa-feasibility-v1",
+  "source_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/docs/baselines/LWA/source_manifest.json",
+  "source_manifest_sha256": "805c00ee8579ac261fdefe6fa43a8fd6590cbe61d9aaaadfd4a8bf13276d24f4",
+  "synthetic_cpu_smoke": {
+    "inference_shape": [
+      2,
+      384
+    ],
+    "joint_loss_finite": true,
+    "mapper_loss_finite": true,
+    "method": "lwa_frozen",
+    "valid": true
+  },
+  "within_memory_limit": true,
+  "within_time_limit": true
+}

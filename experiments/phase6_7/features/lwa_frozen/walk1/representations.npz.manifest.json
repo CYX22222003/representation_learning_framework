@@ -1,0 +1,198 @@
+{
+  "cache_manifest_sha256": "570dbe5233b1ae26bca0e90a8d9feb82f599544f8cb83ad8f2fc73dd26f23254",
+  "cache_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/view_cache/lwa_frozen/walk1",
+  "efficient_inference_path_only": true,
+  "encoder_dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "encoder_run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/lwa_frozen/walk1/seed0",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "13.2",
+    "device": "cuda",
+    "device_name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+    "git_commit": "fb1ffcf577dc1ac6e34516c6e5c7ba37e67aef77",
+    "numpy": "2.2.6",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "torch": "2.12.1+cu132"
+  },
+  "feature_store_sha256": "3e5667e8345314c8bb7273f5207ba93f6b2fd8bc011d47be34b85746caf5d144",
+  "input_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/lwa_frozen/walk1/seed0/input_scaler.npz",
+  "input_scaler_sha256": "a6a087a4e32638af444d35c7097f3fe1bb82349b5f3b02b481012c17c8c903eb",
+  "mapper_checkpoint_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/lwa_frozen/walk1/seed0/mapper/e50/checkpoint.pth",
+  "mapper_checkpoint_sha256": "278dc54126b0bcdc21d93db759f7875033815e42be3bc4bfd47a9b7f5887c98e",
+  "method": "lwa_frozen",
+  "output_dim": 384,
+  "phase": "6.7",
+  "schema_version": "phase6-7-lwa-master-features-v1",
+  "slice_order": [
+    "time[0:128]",
+    "mapped_fourier[128:256]",
+    "mapped_wavelet[256:384]"
+  ],
+  "source_checkpoint_validation": {
+    "admission_hash_match": false,
+    "admission_revalidation_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/lwa_frozen/walk1/seed0/admission_revalidation.json",
+    "cache_manifest_sha256": "570dbe5233b1ae26bca0e90a8d9feb82f599544f8cb83ad8f2fc73dd26f23254",
+    "joint_snapshots": [
+      5,
+      15,
+      50
+    ],
+    "mapper_snapshots": [
+      5,
+      15,
+      50
+    ],
+    "method": "lwa_frozen",
+    "output_dim": 384,
+    "replay_validation_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/lwa_frozen/walk1/seed0/replay_validation.json",
+    "replay_warning_count": 6,
+    "valid": true,
+    "walk": 1
+  },
+  "targets_loaded_during_extraction": false,
+  "task_order": [
+    "classification_h2",
+    "absolute_price_h8",
+    "realised_variance"
+  ],
+  "task_provenance": {
+    "absolute_price_h8": {
+      "dataset_manifest_sha256": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.3037717071129009,
+          "feature_hash": "d8ecdd34a9b21b9ec292d5a7e241e7a1efb8190d9229281b8a94dccf06a4a693",
+          "identity_hash": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+          "rows": 29834,
+          "sequence_hash": "5fddb6bcec6571cc501a7eda7ce4c1c82c2f62827f4dc1d9a4367b18194d9954"
+        },
+        "train": {
+          "extraction_seconds": 0.3850662889890373,
+          "feature_hash": "661d6524f15524d0d24e1bc81ca686c899a6d948bf6eb827d506608a67e5ea34",
+          "identity_hash": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de",
+          "rows": 36773,
+          "sequence_hash": "9a585087e35875a5bc97c821b0f87fd34aa767d63874fcc9a2944aff603bb64d"
+        }
+      },
+      "validation": {
+        "identity_hashes": {
+          "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+          "test": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+          "train": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de"
+        },
+        "label_hashes": {
+          "test": "67a45ea7deb834de6a4e6ae3f11ff7605fcdab76d2a7e1631e9915b109794563",
+          "train": "858f1daf8a59e3bec1607dc3d4a59ea326c42e0ff05284a38b991be33e358ea0"
+        },
+        "manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "npz_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "npz_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "row_counts": {
+          "encoder_train": 39070,
+          "test": 29834,
+          "train": 36773
+        },
+        "source_files_reverified": false,
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "classification_h2": {
+      "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.29419099201913923,
+          "feature_hash": "2e868231bdadcba48a743cd1ff8f76dbb3275c26378943d776877774214344de",
+          "identity_hash": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+          "rows": 30340,
+          "sequence_hash": "97aac654dacc3bbe3d805a4a3ffcaace898cc8cd9765bfb466c0ed29d25bc6d7"
+        },
+        "train": {
+          "extraction_seconds": 0.8699431309942156,
+          "feature_hash": "f70949bb9885c908b49e8c51d21d35ea840eac653c223d9cba0804284a9b7f3f",
+          "identity_hash": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+          "rows": 37864,
+          "sequence_hash": "43f3d443f95d75aba5a5f22c8b7ad5b5bab0fe83fa316ee964c9e5c20c1ba59b"
+        }
+      },
+      "validation": {
+        "identity_hashes": {
+          "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+          "test": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+          "train": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295"
+        },
+        "label_hashes": {
+          "test": "e33308477c05ba736cc9d2a5d3b78265f1f801d6fff4c2b1a3379b1c9b1c3f97",
+          "train": "98b833fa67f27f85b6c4a8cbff52bcb6a0e067dfc9f90a3538911c15086260f5"
+        },
+        "manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "npz_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "npz_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+        "row_counts": {
+          "encoder_train": 39070,
+          "test": 30340,
+          "train": 37864
+        },
+        "source_files_reverified": false,
+        "valid": true,
+        "walk": 1
+      }
+    },
+    "realised_variance": {
+      "dataset_manifest_sha256": "caee0746caa7f8971cf0df1876e530d1ab99d087351f38ede66736bbd0b95c4d",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.24966103199403733,
+          "feature_hash": "ea3e348b73ecd6ac826e2f66f767a57e8305405f73f7cc328f73478c548b2727",
+          "identity_hash": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+          "rows": 27806,
+          "sequence_hash": "5b7095d62be3d46cec96605a38a5236669865110d590ac9360806d141bee50d9"
+        },
+        "train": {
+          "extraction_seconds": 0.2877739549148828,
+          "feature_hash": "6d8584c318605d737b3e3f1ae35550f1d0eefac6f354a64697055a56117c47ac",
+          "identity_hash": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866",
+          "rows": 32470,
+          "sequence_hash": "6117d6ff594fc18bd24f8e3a8d3eb43f248bf0f87ed909bc09be9ca244d75c82"
+        }
+      },
+      "validation": {
+        "comparators": [
+          "zero_reference",
+          "training_median_reference",
+          "historical_persistence_reference",
+          "canonical_framework",
+          "raw_ohlcv_mlp",
+          "raw_lstm"
+        ],
+        "identity_hashes": {
+          "test": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+          "train": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866"
+        },
+        "manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "npz_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "npz_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+        "row_counts": {
+          "test": 27806,
+          "train": 32470
+        },
+        "source_files_reverified": false,
+        "target_hashes": {
+          "test": "9235089c681e9d9ca815bffe764295f9ccc6206532f102a9ab17d80e651eab82",
+          "train": "a10dcc9911c44a8f2549dce705a1b2c8e2a6a1c002d4258d23c0ba6076f8e9b5"
+        },
+        "valid": true,
+        "walk": 1
+      }
+    }
+  },
+  "transformed_domain_encoders_used_for_features": false,
+  "walk": 1
+}
