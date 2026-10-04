@@ -150,8 +150,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > chunked float32 CWT caching, and physical batch 128. The Lumid container,
 > CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
 > independent LWA Stage 1 model and focused CPU tests are implemented under
-> `src/baselines/lwa/`; 16 local tests pass and the direct CWT test awaits the
-> provisioned remote runtime. Owner review, Stage 2 cache/pretraining code,
+> `src/baselines/lwa/`; 16 local tests pass with one dependency skip, and all
+> 17 pass in the provisioned remote runtime including CWT. Owner review, Stage
+> 2 cache/pretraining code,
 > fixed-batch smoke, execution, and the final shared core manifest/reporting
 > remain pending.
 > Staged execution of the six SaURL downstream trajectories is approved before

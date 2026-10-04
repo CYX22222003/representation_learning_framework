@@ -19,8 +19,9 @@
 > chunked-float32 CWT path, and authoritative physical batch 128. All twelve
 > owner decisions are approved. The Lumid container, CUDA runtime, and pinned
 > `PyWavelets==1.8.0` CWT path are verified. The independent Stage 1 LWA model
-> and focused tests are implemented; 16 local CPU tests pass and the direct
-> CWT test awaits the provisioned remote runtime. Owner review, Stage 2
+> and focused tests are implemented; 16 local CPU tests pass with one
+> dependency skip, and all 17 pass in the provisioned remote runtime. Owner
+> review, Stage 2
 > cache/pretraining orchestration, fixed-batch runtime smoke, and the final
 > core manifest/reporting remain pending. Both
 > SaURL feature stores and all six staged downstream trajectories are complete
@@ -189,7 +190,7 @@
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
 | TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
 | TimeDART-Frozen representation baseline | ⏸️ Optional post-core Phase 6.7 extension; mentor review after the required LWA/SaURL comparison will decide whether it is needed. Its complete method contract must be frozen before implementation or execution. |
-| LWA-Frozen representation baseline | 🟡 Required Phase 6.7 core; paper/source audit, eight-document dossier, twelve owner decisions, Lumid/CUDA runtime, and pinned `PyWavelets==1.8.0` dependency are complete. The independent Stage 1 model and focused tests are implemented but not run as an experiment: 16 local CPU tests pass and one direct CWT test awaits the remote runtime. Owner review, Stage 2 cache/pretraining orchestration, fixed-batch smoke, and all training/downstream execution remain pending. |
+| LWA-Frozen representation baseline | 🟡 Required Phase 6.7 core; paper/source audit, eight-document dossier, twelve owner decisions, Lumid/CUDA runtime, and pinned `PyWavelets==1.8.0` dependency are complete. The independent Stage 1 model and focused tests are implemented but not run as an experiment: 16 local CPU tests pass with one dependency skip, and all 17 pass remotely including CWT. Owner review, Stage 2 cache/pretraining orchestration, fixed-batch smoke, and all training/downstream execution remain pending. |
 | SaURL-TS-Frozen representation baseline | ✅ Required Phase 6.7 core method; staged scope complete: CUDA/resource admission, both 50-epoch encoders, two 128-dimensional master stores, six downstream trajectories, and all 18 snapshots are replay-valid. The epoch-50 result is generally weaker than H0, with isolated metric-specific improvements. Near-zero learned masks and large embedding norms remain disclosed diagnostics. |
 | SISSEL-Frozen representation baseline | ⏸️ Optional post-core Phase 6.7 extension at the same decision stage as TimeDART; the paper and public source have been read for feasibility, but no implementation contract or code has been created. Mentor review after the required LWA/SaURL comparison will decide whether it is needed. |
 | Additional benchmarks from literature review | ⏸️ Deferred until the Phase 6.7 roster is resolved and reported |

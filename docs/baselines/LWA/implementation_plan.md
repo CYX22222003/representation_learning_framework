@@ -26,9 +26,9 @@ current stage.
 ## Stage 1 — implement only the model and relevant utilities
 
 **Implementation status:** complete pending the manual review gate. The package
-exists at `src/baselines/lwa/`; 16 local CPU tests pass and the direct
-PyWavelets CWT test is deferred to the already provisioned remote runtime.
-Stages 2--6 remain unimplemented and no experiment has run.
+exists at `src/baselines/lwa/`; 16 local CPU tests pass with one dependency
+skip, and all 17 pass in the PyWavelets-equipped remote runtime. Stages 2--6
+remain unimplemented and no experiment has run.
 
 Create an independent package:
 

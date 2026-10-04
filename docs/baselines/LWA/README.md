@@ -50,9 +50,10 @@ spaces, then concatenate the three 128-dimensional vectors into a
   Its isolated Python 3.12 environment, CUDA-enabled PyTorch 2.12.1, 24 GiB
   RTX PRO 4000 Blackwell GPU, persistent project path, and CWT runtime have
   been audited. The independent Stage 1 package is implemented under
-  `src/baselines/lwa/`; 16 local CPU tests pass and the one direct CWT runtime
-  test is skipped only because PyWavelets is absent from the local venv. The
-  pinned remote CWT implementation test and fixed-batch-128 smoke remain.
+  `src/baselines/lwa/`; 16 local CPU tests pass with the direct CWT test
+  skipped because PyWavelets is absent locally. All 17 tests pass in the
+  admitted remote runtime, including the pinned PyWavelets CWT path. Cache
+  replay and the fixed-batch-128 smoke remain.
 - Exact implemented counts are 898,022 parameters in Stage A, 898 trainable
   parameters in Stage B, and 206,978 retained parameters at inference. The
   independent model omits audited upstream layers that are instantiated but

@@ -21,7 +21,7 @@ resource estimate. All twelve LWA adaptation decisions were approved on
 physical batch 128 is authoritative for both walks. The Lumid container,
 CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
 independent LWA Stage 1 model package and focused tests are implemented: 16
-local CPU tests pass, while the one direct CWT runtime test awaits the
+local CPU tests pass with one dependency skip, and all 17 pass in the admitted
 PyWavelets-equipped remote runtime. No LWA experiment has started; owner
 review, Stage 2 orchestration/cache code, fixed-batch smoke, full shared core
 manifest, and final reporting remain pending. Both SaURL master stores and all

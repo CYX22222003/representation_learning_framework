@@ -213,9 +213,9 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
 - [x] Static storage/parameter feasibility estimated.
 - [x] Owner decisions 1--12 approved.
 - [x] Independent model implementation complete (pending owner review).
-- [ ] Required dependency and transform replay pass.
-- [x] CPU forward/backward/determinism tests pass (16 local passes; direct CWT
-  test awaits the PyWavelets-equipped remote runtime).
+- [ ] Full transform-cache replay passes (the dependency and direct CWT test
+  pass remotely; Stage 2 cache replay is not implemented).
+- [x] CPU forward/backward/determinism tests pass (all 17 pass remotely).
 - [ ] Fixed batch-128 correctness/resource smoke passes on the selected container.
 - [ ] Both walk trajectories replay.
 - [ ] Both master stores replay.
