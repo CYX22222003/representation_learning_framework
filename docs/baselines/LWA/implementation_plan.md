@@ -2,9 +2,12 @@
 
 **Status:** architecture and experiment decisions approved; Stages 1--4 model,
 cache/pretraining, frozen-feature, and downstream launch infrastructure
-implemented on 2026-10-04 and awaiting owner review; no experiment executed
-**Execution authority:** none; bootstrap commands must remain manifest-only by
-default
+implemented. Both full caches and the complete Walk 1 joint/mapper trajectory
+were produced on Lumid on 2026-10-05. The original strict CPU replay check
+stopped the launcher before Walk 2 despite only scale-small CUDA/CPU drift; the
+severity-aware replay amendment is implemented pending deployment and resume.
+**Execution authority:** owner-approved for the frozen Lumid launcher;
+bootstrap commands remain manifest-only by default and require `--execute`
 **Method:** independently authored `LWA-Frozen`
 
 The work is staged to support the same manual review process used for SaURL.
@@ -16,8 +19,9 @@ current stage.
 1. Preserve the approved responses in
    `upstream_clarification_request.md`.
 2. Keep every dossier document synchronized with those approved values.
-3. Keep `source_manifest.json` at `admitted_for_implementation: true` while
-   training remains separately gated.
+3. Preserve `source_manifest.json` as the hashed implementation-provenance
+   snapshot; runtime training admission is recorded separately in the Lumid
+   feasibility manifest.
 4. Record the no-source-code-reuse boundary in model file headers and the
    feasibility manifest.
 5. Do not read SaURL downstream metrics to revise LWA.
@@ -26,10 +30,11 @@ current stage.
 
 ## Stage 1 — implement only the model and relevant utilities
 
-**Implementation status:** complete pending the manual review gate. The package
-exists at `src/baselines/lwa/`; all 17 focused CPU tests pass in both the local
-and admitted remote PyWavelets-equipped runtimes. Stages 2--6 remain
-unimplemented and no experiment has run.
+**Implementation status:** complete and owner-reviewed. The package exists at
+`src/baselines/lwa/`; all 17 focused CPU tests pass in both the local and
+admitted remote PyWavelets-equipped runtimes. Later infrastructure is also
+implemented, and execution has advanced through both caches and the complete
+Walk 1 two-stage trajectory.
 
 Create an independent package:
 
@@ -76,10 +81,11 @@ downstream execution in Stage 1.
 
 ## Stage 2 — implement view-cache preparation and two-stage pretraining
 
-**Implementation status:** complete pending manual review. The implementation
-lives in `src/training/phase6_7_lwa.py` with audit/bootstrap/replay entry points
-under `scripts_v6/`. Only a small synthetic atomic-cache test has run; neither
-full walk cache nor a training trajectory has been created.
+**Implementation status:** complete and admitted for execution. The
+implementation lives in `src/training/phase6_7_lwa.py` with
+audit/bootstrap/replay entry points under `scripts_v6/`. Both full walk caches
+exist, and Walk 1 completed all 50 joint plus 50 mapper epochs with the frozen
+5/15/50 artifacts. Walk 2 remains pending resume.
 The runtime audit does not require the Zotero PDF to be copied into Lumid: it
 uses the versioned source-manifest identity when the recorded WSL-only paper
 path is unavailable, while still verifying any available or explicitly passed
@@ -110,6 +116,13 @@ Required behavior:
 9. Resume only from complete state with matching configuration/data/cache
    hashes.
 
+Post-training fixed-probe replay records strict elementwise results and
+scale-aware CPU/CUDA diagnostics for every domain, stage, and snapshot in
+`replay_validation.json`. Strict misses inside relative L2 `<=5e-4` and cosine
+`>=0.999999` are warnings and do not prevent the next walk from running.
+Missing/corrupt artifacts, provenance or shape mismatch, non-finite values,
+and drift outside those bounds remain fatal.
+
 The two stage histories must be separate. A mapper epoch is not relabelled as
 an encoder epoch.
 
@@ -124,14 +137,15 @@ scripts_v6/bootstrap_phase6_7_lwa.py
 
 SaURL's existing completed manifest and checkpoint semantics remain immutable.
 
-**Manual review gate:** data/cache provenance, optimizer order, checkpoint and
-resume state. No experiment runs before owner approval.
+**Manual review gate:** passed before the Lumid launch; data/cache provenance,
+optimizer order, checkpoint state, and resume behavior remain replayed
+contracts.
 
 ## Stage 3 — implement two LWA master stores
 
-**Implementation status:** complete pending manual review. The extractor and
+**Implementation status:** complete and execution-approved. The extractor and
 store replay contract live in `src/features/phase6_7_lwa_features.py`; no real
-master store has been extracted.
+master store has been extracted because Walk 2 pretraining is still pending.
 
 For each walk:
 
@@ -158,10 +172,11 @@ the existing Phase 6.7 master-store pattern.
 
 ## Stage 4 — integrate common native-width probes
 
-**Implementation status:** complete pending manual review. The common probe
+**Implementation status:** complete and execution-approved. The common probe
 accepts both the immutable 128-wide SaURL method and the new 384-wide LWA
 method, and the dedicated LWA bootstrap remains manifest-only without
-`--execute`. No LWA downstream head has been trained.
+`--execute`. No LWA downstream head has been trained because feature
+extraction is still pending.
 
 Reuse the already implemented generic Phase 6.7 downstream behavior, extending
 method dispatch and manifests to `lwa_frozen` while preserving SaURL runs.

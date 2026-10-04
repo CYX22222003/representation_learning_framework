@@ -2,11 +2,11 @@
 
 **Project label:** `LWA-Frozen` (`LWA-F`)
 **Phase:** 6.7 mandatory core external representation baseline
-**Dossier status:** paper/source audit and all twelve owner decisions complete;
-Stage 1 model implementation complete and awaiting owner review
-**Implementation status:** model and focused CPU tests implemented; no training
-or orchestration code
-**Experiment status:** not started
+**Dossier status:** paper/source audit and all twelve owner decisions complete
+**Implementation status:** model, cache/pretraining, frozen-feature,
+downstream, replay, and launcher infrastructure implemented
+**Experiment status:** both caches and the complete Walk 1 50+50 trajectory
+exist; Walk 2 and all feature/downstream execution remain pending resume
 
 This directory freezes the evidence and proposed adaptation for:
 
@@ -52,15 +52,21 @@ spaces, then concatenate the three 128-dimensional vectors into a
   been audited. The independent Stage 1 package is implemented under
   `src/baselines/lwa/`; `PyWavelets==1.8.0` is installed locally and remotely,
   package metadata matches runtime versions, and all 17 focused tests pass in
-  both environments, including the CWT path. Cache replay and the fixed-
-  batch-128 smoke remain.
+  both environments, including the CWT path. Both full caches replay and the
+  fixed-batch-128 admission smoke passed on Lumid.
 - Exact implemented counts are 898,022 parameters in Stage A, 898 trainable
   parameters in Stage B, and 206,978 retained parameters at inference. The
   independent model omits audited upstream layers that are instantiated but
   unused by LWA outputs.
 
-No training, cache construction, feature extraction, or downstream evaluation
-has run. Stage 2 remains blocked on owner review of the Stage 1 model.
+Both full FFT/CWT caches and the complete Walk 1 joint/mapper trajectory were
+created on Lumid on 2026-10-05. Its 5/15/50 checkpoints and histories are
+retained. The first launcher stopped before Walk 2 because the original strict
+elementwise CPU replay check rejected a Wavelet probe whose maximum absolute
+difference was `9.39e-5`, relative L2 was `3.02e-5`, and cosine similarity was
+effectively one. Replay now records such scale-small cross-device drift as a
+warning under the frozen relative-L2/cosine bounds; material, non-finite,
+structural, provenance, and artifact-integrity failures remain fatal.
 
 ## Documents
 

@@ -153,9 +153,16 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > launch/replay infrastructure and focused CPU tests are implemented under
 > `src/`, `scripts_v6/`, and `tests/baselines/lwa/`; the original 17 model tests
 > pass in both the local and provisioned remote runtimes, including CWT, and
-> 21 LWA tests pass locally with the new pipeline contracts. Owner review, full
-> walk-cache replay, fixed-batch smoke, execution, and the final shared core
-> manifest/reporting remain pending.
+> all 24 LWA tests pass locally with the new pipeline contracts. Both
+> full transform caches and the complete Walk 1 joint-50/mapper-50 trajectory
+> now exist on Lumid. Its first post-training CPU replay exposed only benign
+> Wavelet CPU/CUDA drift (relative L2 `3.02e-5`, cosine effectively one) but the
+> original strict elementwise assertion stopped the launcher before Walk 2.
+> Replay is now severity-aware: strict misses within relative L2 `5e-4` and
+> cosine `0.999999` are recorded warnings in `replay_validation.json`, while
+> structural, provenance, non-finite, artifact-integrity, or material-drift
+> failures remain fatal. Deployment/resume from the retained Walk 1 artifacts,
+> Walk 2, feature/downstream execution, and final shared reporting remain.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
 > contract. Any later SISSEL/TimeDART study is a separately frozen post-core

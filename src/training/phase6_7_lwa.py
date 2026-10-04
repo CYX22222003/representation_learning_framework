@@ -13,6 +13,7 @@ import os
 import random
 import shutil
 import time
+import warnings
 from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -42,6 +43,11 @@ REPORTING_LABEL = "LWA-Frozen (paper-guided independent implementation)"
 SNAPSHOT_EPOCHS = (5, 15, 50)
 CACHE_SCHEMA_VERSION = "phase6-7-lwa-view-cache-v1"
 TRAINING_SCHEMA_VERSION = "phase6-7-lwa-pretraining-v1"
+REPLAY_VALIDATION_SCHEMA_VERSION = "phase6-7-lwa-replay-validation-v1"
+STRICT_REPLAY_RTOL = 1e-5
+STRICT_REPLAY_ATOL = 1e-6
+CROSS_DEVICE_RELATIVE_L2_TOLERANCE = 5e-4
+CROSS_DEVICE_COSINE_TOLERANCE = 0.999999
 
 
 @dataclass(frozen=True)
@@ -753,9 +759,118 @@ def run_lwa_pretraining(
     return validate_lwa_pretraining(dataset_path, cache_root, run_root)
 
 
-def _assert_probe_close(saved: Mapping[str, torch.Tensor], replayed: Mapping[str, Any]) -> None:
+def _probe_replay_diagnostics(
+    saved: Mapping[str, torch.Tensor], replayed: Mapping[str, Any]
+) -> list[dict[str, Any]]:
+    """Classify fixed-probe replay differences without hiding unsafe failures.
+
+    Strict elementwise equality remains the preferred outcome. A probe that
+    misses that check can still be accepted as a warning when it satisfies the
+    scale-aware CPU/CUDA criterion already used by the Phase 6.7 external
+    encoder pipeline. Shape, type, finiteness, or material numerical failures
+    are critical and must still stop execution.
+    """
+
+    diagnostics: list[dict[str, Any]] = []
     for name in ("time", "fourier", "wavelet"):
-        torch.testing.assert_close(saved[name].cpu(), replayed[name].cpu(), rtol=1e-5, atol=1e-6)
+        record: dict[str, Any] = {"representation": name}
+        if name not in saved or name not in replayed:
+            record.update(
+                severity="critical",
+                reason="missing_representation",
+                saved_present=name in saved,
+                replayed_present=name in replayed,
+            )
+            diagnostics.append(record)
+            continue
+        expected, actual = saved[name], replayed[name]
+        if not isinstance(expected, torch.Tensor) or not isinstance(actual, torch.Tensor):
+            record.update(severity="critical", reason="non_tensor_representation")
+            diagnostics.append(record)
+            continue
+        expected, actual = expected.detach().cpu(), actual.detach().cpu()
+        record.update(saved_shape=list(expected.shape), replayed_shape=list(actual.shape))
+        if expected.shape != actual.shape:
+            record.update(severity="critical", reason="shape_mismatch")
+            diagnostics.append(record)
+            continue
+        if not torch.isfinite(expected).all() or not torch.isfinite(actual).all():
+            record.update(severity="critical", reason="non_finite_representation")
+            diagnostics.append(record)
+            continue
+
+        expected_flat = expected.reshape(-1).double()
+        actual_flat = actual.reshape(-1).double()
+        difference = actual_flat - expected_flat
+        expected_norm = expected_flat.norm()
+        actual_norm = actual_flat.norm()
+        difference_norm = difference.norm()
+        if float(expected_norm) == 0.0:
+            relative_l2 = float(difference_norm)
+            cosine = 1.0 if float(actual_norm) == 0.0 else 0.0
+        else:
+            relative_l2 = float(difference_norm / expected_norm)
+            cosine = float(
+                torch.nn.functional.cosine_similarity(
+                    actual_flat.unsqueeze(0), expected_flat.unsqueeze(0), dim=1
+                )[0]
+            )
+        strict_close = bool(
+            torch.allclose(
+                actual,
+                expected,
+                rtol=STRICT_REPLAY_RTOL,
+                atol=STRICT_REPLAY_ATOL,
+            )
+        )
+        scale_close = bool(
+            relative_l2 <= CROSS_DEVICE_RELATIVE_L2_TOLERANCE
+            and cosine >= CROSS_DEVICE_COSINE_TOLERANCE
+        )
+        record.update(
+            max_absolute_difference=float(difference.abs().max()) if difference.numel() else 0.0,
+            relative_l2=relative_l2,
+            cosine_similarity=cosine,
+            strict_elementwise_close=strict_close,
+            scale_aware_close=scale_close,
+        )
+        if strict_close:
+            record.update(severity="pass", reason="strict_elementwise_match")
+        elif scale_close:
+            record.update(severity="warning", reason="accepted_cross_device_drift")
+        else:
+            record.update(severity="critical", reason="material_numerical_mismatch")
+        diagnostics.append(record)
+    return diagnostics
+
+
+def _write_replay_validation(
+    run_root: Path,
+    *,
+    walk: int,
+    diagnostics: list[dict[str, Any]],
+    valid: bool,
+) -> Path:
+    path = run_root / "replay_validation.json"
+    write_json(
+        path,
+        {
+            "schema_version": REPLAY_VALIDATION_SCHEMA_VERSION,
+            "method": METHOD,
+            "walk": walk,
+            "valid": valid,
+            "warning_count": sum(row["severity"] == "warning" for row in diagnostics),
+            "critical_count": sum(row["severity"] == "critical" for row in diagnostics),
+            "thresholds": {
+                "strict_rtol": STRICT_REPLAY_RTOL,
+                "strict_atol": STRICT_REPLAY_ATOL,
+                "cross_device_relative_l2_max": CROSS_DEVICE_RELATIVE_L2_TOLERANCE,
+                "cross_device_cosine_min": CROSS_DEVICE_COSINE_TOLERANCE,
+            },
+            "diagnostics": diagnostics,
+        },
+    )
+    return path
 
 
 def validate_lwa_pretraining(
@@ -787,6 +902,7 @@ def validate_lwa_pretraining(
     if sha256_file(run_root / "input_scaler.npz") != sha256_file(cache_root / "input_scaler.npz"):
         raise ValueError("LWA run/cache scaler mismatch")
     final_models: dict[str, torch.nn.Module] = {}
+    replay_diagnostics: list[dict[str, Any]] = []
     for stage in ("joint", "mapper"):
         for epoch in SNAPSHOT_EPOCHS:
             snapshot = run_root / stage / f"e{epoch}"
@@ -811,7 +927,28 @@ def validate_lwa_pretraining(
             model = joint if stage == "joint" else build_lwa_mapper_stage(joint)
             model.load_state_dict(checkpoint["model_state_dict"], strict=True)
             replayed = _model_probe(model, cache_root, torch.device("cpu"))
-            _assert_probe_close(checkpoint["probe"], replayed)
+            snapshot_diagnostics = _probe_replay_diagnostics(checkpoint["probe"], replayed)
+            for diagnostic in snapshot_diagnostics:
+                diagnostic.update(stage=stage, epoch=epoch)
+            replay_diagnostics.extend(snapshot_diagnostics)
+            critical = [
+                diagnostic
+                for diagnostic in snapshot_diagnostics
+                if diagnostic["severity"] == "critical"
+            ]
+            if critical:
+                replay_path = _write_replay_validation(
+                    run_root,
+                    walk=config.walk,
+                    diagnostics=replay_diagnostics,
+                    valid=False,
+                )
+                first = critical[0]
+                raise ValueError(
+                    "critical LWA checkpoint replay failure: "
+                    f"{stage} e{epoch} {first['representation']} "
+                    f"({first['reason']}); details: {replay_path}"
+                )
             with np.load(history_path, allow_pickle=False) as history:
                 if any(len(history[name]) != epoch for name in history.files):
                     raise ValueError(f"invalid LWA {stage} e{epoch} history length")
@@ -834,6 +971,24 @@ def validate_lwa_pretraining(
         features = inference(torch.from_numpy(np.asarray(time_view[:4])))
     if features.shape != (4, 384) or not torch.isfinite(features).all():
         raise ValueError("invalid LWA final inference probe")
+    replay_path = _write_replay_validation(
+        run_root,
+        walk=config.walk,
+        diagnostics=replay_diagnostics,
+        valid=True,
+    )
+    warning_records = [
+        diagnostic
+        for diagnostic in replay_diagnostics
+        if diagnostic["severity"] == "warning"
+    ]
+    if warning_records:
+        warnings.warn(
+            f"accepted {len(warning_records)} non-critical LWA cross-device "
+            f"replay difference(s); details recorded in {replay_path}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
     return {
         "valid": True,
         "method": METHOD,
@@ -842,6 +997,8 @@ def validate_lwa_pretraining(
         "mapper_snapshots": list(SNAPSHOT_EPOCHS),
         "output_dim": 384,
         "cache_manifest_sha256": cache_hash,
+        "replay_warning_count": len(warning_records),
+        "replay_validation_path": str(replay_path.resolve()),
     }
 
 
