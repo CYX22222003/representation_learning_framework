@@ -122,6 +122,10 @@ scale-aware CPU/CUDA diagnostics for every domain, stage, and snapshot in
 `>=0.999999` are warnings and do not prevent the next walk from running.
 Missing/corrupt artifacts, provenance or shape mismatch, non-finite values,
 and drift outside those bounds remain fatal.
+Rerunning the resource smoke may change measured loss and elapsed-time fields,
+so a resumed run records a feasibility-file hash change in
+`admission_revalidation.json` after rechecking all stable admission semantics.
+Source/cache/dependency/batch/limit/admission changes still stop execution.
 
 The two stage histories must be separate. A mapper epoch is not relabelled as
 an encoder epoch.

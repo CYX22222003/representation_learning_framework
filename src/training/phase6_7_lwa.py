@@ -48,6 +48,7 @@ STRICT_REPLAY_RTOL = 1e-5
 STRICT_REPLAY_ATOL = 1e-6
 CROSS_DEVICE_RELATIVE_L2_TOLERANCE = 5e-4
 CROSS_DEVICE_COSINE_TOLERANCE = 0.999999
+ADMISSION_SCHEMA_VERSION = "phase6-7-lwa-feasibility-v1"
 
 
 @dataclass(frozen=True)
@@ -497,6 +498,96 @@ def _snapshot_payload(
     }
 
 
+def _validate_admission_manifest(
+    admission_manifest_path: Path,
+    *,
+    expected_sha256: str | None = None,
+) -> dict[str, Any]:
+    """Validate stable admission semantics while tolerating renewed smoke metadata."""
+
+    path = Path(admission_manifest_path)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if (
+        payload.get("schema_version") != ADMISSION_SCHEMA_VERSION
+        or payload.get("phase") != "6.7"
+        or payload.get("method") != METHOD
+        or payload.get("admitted_for_training") is not True
+        or payload.get("independent_implementation_only") is not True
+        or payload.get("evaluation_values_loaded") is not False
+        or payload.get("within_memory_limit") is not True
+        or payload.get("within_time_limit") is not True
+        or payload.get("missing_cache_walks") != []
+        or payload.get("pywavelets_version") != _pywavelets_version()
+    ):
+        raise ValueError("LWA feasibility admission contract mismatch")
+    source_path = Path(payload["source_manifest_path"])
+    if sha256_file(source_path) != payload.get("source_manifest_sha256"):
+        raise ValueError("LWA feasibility source-manifest provenance mismatch")
+
+    cache_records = {int(row["walk"]): row for row in payload.get("cache_validations", [])}
+    if set(cache_records) != {1, 2} or any(
+        row.get("valid") is not True
+        or row.get("method") != METHOD
+        or row.get("pywavelets_version") != _pywavelets_version()
+        for row in cache_records.values()
+    ):
+        raise ValueError("LWA feasibility cache validation mismatch")
+
+    limits = payload.get("resource_limits", {})
+    max_memory_gib = limits.get("max_peak_memory_gib")
+    max_seconds = limits.get("max_smoke_seconds")
+    if not isinstance(max_memory_gib, (int, float)) or max_memory_gib <= 0:
+        raise ValueError("LWA feasibility memory limit is invalid")
+    if not isinstance(max_seconds, (int, float)) or max_seconds <= 0:
+        raise ValueError("LWA feasibility time limit is invalid")
+    smoke_records = {
+        int(row["walk"]): row for row in payload.get("fixed_batch_resource_smokes", [])
+    }
+    if set(smoke_records) != {1, 2}:
+        raise ValueError("LWA feasibility resource smoke matrix is incomplete")
+    for row in smoke_records.values():
+        if (
+            row.get("valid") is not True
+            or int(row.get("physical_batch_size", -1)) != 128
+            or not np.isfinite(row.get("loss", np.nan))
+            or not np.isfinite(row.get("elapsed_seconds", np.nan))
+            or not np.isfinite(row.get("peak_cuda_memory_bytes", np.nan))
+            or float(row["elapsed_seconds"]) > float(max_seconds)
+            or float(row["peak_cuda_memory_bytes"]) > float(max_memory_gib) * 1024**3
+        ):
+            raise ValueError("LWA feasibility resource smoke is invalid")
+
+    current_sha256 = sha256_file(path)
+    return {
+        "schema_version": "phase6-7-lwa-admission-revalidation-v1",
+        "valid": True,
+        "method": METHOD,
+        "manifest_path": str(path.resolve()),
+        "expected_sha256": expected_sha256,
+        "current_sha256": current_sha256,
+        "exact_hash_match": expected_sha256 is None or current_sha256 == expected_sha256,
+        "warning": (
+            None
+            if expected_sha256 is None or current_sha256 == expected_sha256
+            else "admission smoke manifest was validly regenerated with new runtime measurements"
+        ),
+    }
+
+
+def _record_admission_revalidation(
+    run_root: Path, validation: Mapping[str, Any]
+) -> Path:
+    path = Path(run_root) / "admission_revalidation.json"
+    write_json(path, dict(validation))
+    if validation.get("warning"):
+        warnings.warn(
+            f"{validation['warning']}; details recorded in {path}",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+    return path
+
+
 def _write_history(path: Path, histories: Mapping[str, list[float]]) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     with temporary.open("wb") as handle:
@@ -521,10 +612,8 @@ def run_lwa_pretraining(
     dataset_path, cache_root, run_root = Path(dataset_path), Path(cache_root), Path(run_root)
     admission_manifest_path = Path(admission_manifest_path)
     model_config = model_config or LWAConfig()
-    admission = json.loads(admission_manifest_path.read_text(encoding="utf-8"))
-    if admission.get("method") != METHOD or admission.get("admitted_for_training") is not True:
-        raise ValueError("LWA training requires its admitted feasibility manifest")
-    admission_hash = sha256_file(admission_manifest_path)
+    admission_validation = _validate_admission_manifest(admission_manifest_path)
+    admission_hash = admission_validation["current_sha256"]
     cache_validation = validate_lwa_view_cache(dataset_path, cache_root, walk=config.walk)
     if (run_root / "training_complete.json").is_file():
         return validate_lwa_pretraining(dataset_path, cache_root, run_root)
@@ -573,8 +662,13 @@ def run_lwa_pretraining(
         saved_admission = json.loads(
             (run_root / "admission_manifest.json").read_text(encoding="utf-8")
         )
-        if saved_admission.get("sha256") != admission_hash:
-            raise ValueError("LWA resume feasibility-admission mismatch")
+        if Path(saved_admission.get("path", "")).resolve() != admission_manifest_path.resolve():
+            raise ValueError("LWA resume feasibility-admission path mismatch")
+        admission_validation = _validate_admission_manifest(
+            admission_manifest_path,
+            expected_sha256=saved_admission.get("sha256"),
+        )
+        _record_admission_revalidation(run_root, admission_validation)
         data_manifest = json.loads((run_root / "data_manifest.json").read_text(encoding="utf-8"))
         if data_manifest["dataset_sha256"] != dataset_hash or data_manifest["cache_manifest_sha256"] != cache_hash:
             raise ValueError("LWA resume data/cache mismatch")
@@ -887,13 +981,13 @@ def validate_lwa_pretraining(
         (run_root / "admission_manifest.json").read_text(encoding="utf-8")
     )
     admission_path = Path(admission_record["path"])
-    admission = json.loads(admission_path.read_text(encoding="utf-8"))
-    if (
-        admission.get("admitted_for_training") is not True
-        or admission.get("method") != METHOD
-        or sha256_file(admission_path) != admission_record["sha256"]
-    ):
-        raise ValueError("LWA feasibility admission provenance mismatch")
+    admission_validation = _validate_admission_manifest(
+        admission_path,
+        expected_sha256=admission_record.get("sha256"),
+    )
+    admission_revalidation_path = _record_admission_revalidation(
+        run_root, admission_validation
+    )
     dataset_hash, cache_hash = sha256_file(dataset_path), cache["cache_manifest_sha256"]
     completed = json.loads((run_root / "training_complete.json").read_text(encoding="utf-8"))
     if completed.get("complete") is not True or completed.get("evaluation_used_for_selection") is not False:
@@ -999,6 +1093,8 @@ def validate_lwa_pretraining(
         "cache_manifest_sha256": cache_hash,
         "replay_warning_count": len(warning_records),
         "replay_validation_path": str(replay_path.resolve()),
+        "admission_hash_match": admission_validation["exact_hash_match"],
+        "admission_revalidation_path": str(admission_revalidation_path.resolve()),
     }
 
 

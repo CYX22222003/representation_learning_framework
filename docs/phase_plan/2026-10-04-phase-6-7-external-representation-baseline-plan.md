@@ -23,7 +23,7 @@ CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. The
 independent LWA model package and Stage 2--4 cache/pretraining, frozen-feature,
 and native-width downstream launch/replay infrastructure are implemented. The
 original 17 model tests pass in both local and admitted remote runtimes, and
-all 24 local LWA tests pass including the synthetic atomic-cache and
+all 25 local LWA tests pass including the synthetic atomic-cache and
 pipeline contracts. Both full transform caches and the complete Walk 1
 joint-50/mapper-50 trajectory now exist on Lumid. The original strict
 elementwise CPU replay check stopped the launcher before Walk 2 on benign
@@ -34,6 +34,10 @@ bounds as warnings in `replay_validation.json`; missing/corrupt artifacts,
 provenance/shape mismatch, non-finite output, or material drift remains fatal.
 Deployment/resume, Walk 2, feature/downstream execution, the full shared core
 manifest, and final reporting remain pending.
+On resume, a rerun of the CUDA smoke may regenerate nondeterministic loss and
+timing fields. The renewed manifest is therefore revalidated by stable source,
+dependency, cache, physical-batch, resource-limit, and admission semantics;
+hash-only drift is recorded, while a changed gate condition remains fatal.
 Both SaURL master stores and all
 six staged downstream trajectories are complete and replay-valid at 5/15/50.
 The epoch-50 result is generally weaker than immutable H0, with isolated

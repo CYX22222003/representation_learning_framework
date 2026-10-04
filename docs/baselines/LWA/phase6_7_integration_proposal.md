@@ -227,7 +227,7 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
   implemented and approved for execution.
 - [x] Both full transform caches build and replay.
 - [x] CPU forward/backward/determinism tests pass (the original 17 model tests
-  pass locally and remotely; all 24 local tests include pipeline and
+  pass locally and remotely; all 25 local tests include pipeline and
   severity-aware replay contracts).
 - [x] Fixed batch-128 correctness/resource smoke passes on the selected container.
 - [ ] Both walk trajectories replay.

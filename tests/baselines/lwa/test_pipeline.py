@@ -30,6 +30,65 @@ class _FastCWT:
 
 
 class LWAPipelineTests(unittest.TestCase):
+    def test_admission_revalidation_warns_on_reissued_hash_but_keeps_gates_fatal(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source_manifest.json"
+            source.write_text("{}\n", encoding="utf-8")
+            admission = root / "feasibility_manifest.json"
+            payload = {
+                "schema_version": pipeline.ADMISSION_SCHEMA_VERSION,
+                "phase": "6.7",
+                "method": pipeline.METHOD,
+                "admitted_for_training": True,
+                "independent_implementation_only": True,
+                "evaluation_values_loaded": False,
+                "within_memory_limit": True,
+                "within_time_limit": True,
+                "missing_cache_walks": [],
+                "pywavelets_version": pipeline._pywavelets_version(),
+                "source_manifest_path": str(source),
+                "source_manifest_sha256": pipeline.sha256_file(source),
+                "cache_validations": [
+                    {
+                        "walk": walk,
+                        "valid": True,
+                        "method": pipeline.METHOD,
+                        "pywavelets_version": pipeline._pywavelets_version(),
+                    }
+                    for walk in (1, 2)
+                ],
+                "resource_limits": {
+                    "max_peak_memory_gib": 23.0,
+                    "max_smoke_seconds": 600.0,
+                },
+                "fixed_batch_resource_smokes": [
+                    {
+                        "walk": walk,
+                        "valid": True,
+                        "physical_batch_size": 128,
+                        "loss": 1.0,
+                        "elapsed_seconds": 1.0,
+                        "peak_cuda_memory_bytes": 1024,
+                    }
+                    for walk in (1, 2)
+                ],
+            }
+            pipeline.write_json(admission, payload)
+            validation = pipeline._validate_admission_manifest(
+                admission, expected_sha256="0" * 64
+            )
+            self.assertTrue(validation["valid"])
+            self.assertFalse(validation["exact_hash_match"])
+            self.assertIsNotNone(validation["warning"])
+
+            payload["within_time_limit"] = False
+            pipeline.write_json(admission, payload)
+            with self.assertRaisesRegex(ValueError, "admission contract mismatch"):
+                pipeline._validate_admission_manifest(admission)
+
     def test_replay_validation_record_preserves_warning_and_thresholds(self) -> None:
         diagnostics = [
             {
