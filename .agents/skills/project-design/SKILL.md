@@ -65,6 +65,8 @@ Read these in order:
 11. For the immediate recent frozen-representation comparison, candidate
     roster, extraction boundary, or common-probe design, read
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+    For LWA architecture, views, losses, mapping stages, or extraction, also
+    read the complete `docs/baselines/LWA/` dossier.
 
 ## Response Contract
 
@@ -102,9 +104,14 @@ Present the parts relevant to the request:
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
   improve movement ranking overall. Phase 6.7 is the approved immediate next
-  phase: the required SaURL-Frozen scope is complete and LWA-Frozen remains
-  pending; both are pretrained per walk, frozen, and probed on all three
-  current tasks. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
+  phase: the required SaURL-Frozen scope is complete; LWA-Frozen's paper/source
+  audit, independent-adaptation dossier, and twelve owner decisions are
+  complete, and the Lumid/CUDA plus pinned-PyWavelets runtime audit passes,
+  while its Stage 1 model and focused CPU tests are implemented pending owner
+  review; remote transform/cache replay, model-specific admission, and
+  execution remain pending. Both core
+  methods use per-walk pretraining, freezing, and all three current tasks.
+  SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
   extensions considered after mentor review and are not required for phase
   completion. Phase 7A follows
   and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
