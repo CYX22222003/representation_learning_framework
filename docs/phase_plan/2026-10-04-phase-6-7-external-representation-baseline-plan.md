@@ -13,8 +13,14 @@ replay. Same-device CUDA replay is bit-exact. The accepted cross-device
 criterion is relative L2 at most `5e-4` and cosine at least `0.999999`, frozen
 after diagnosing scale-amplified Conv1d/max-pooling drift without reading any
 downstream metric. Near-zero learned masks and large embedding norms are
-retained as reportable diagnostics. The LWA adapter, full shared core
-manifest, and final reporting remain pending. Both SaURL master stores and all
+retained as reportable diagnostics. The LWA v2 paper and official commit have
+now been audited in `docs/baselines/LWA/`, including the no-software-licence
+boundary, 384-dimensional extraction path, length-64 adaptation, and static
+resource estimate. All twelve LWA adaptation decisions were approved on
+2026-10-04: PyWavelets with chunked float32 CWT caching is required and
+physical batch 128 is authoritative for both walks. No LWA model code or
+experiment has started; the adapter, professor-container/runtime gate, full
+shared core manifest, and final reporting remain pending. Both SaURL master stores and all
 six staged downstream trajectories are complete and replay-valid at 5/15/50.
 The epoch-50 result is generally weaker than immutable H0, with isolated
 metric-specific improvements that do not support consistent superiority. The

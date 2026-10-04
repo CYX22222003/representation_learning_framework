@@ -115,6 +115,9 @@ For recent external frozen-representation baselines, their feasibility gate,
 candidate fallback, common-probe matrix, phase ordering, or claim boundary,
 include
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+For LWA paper/source interpretation, architecture, loss, two-stage budget,
+licence boundary, or implementation status, also include the complete
+`docs/baselines/LWA/` dossier.
 For canonical single-branch or leave-one-branch-out attribution, or the
 Phase 7B deferral boundary, include
 `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.

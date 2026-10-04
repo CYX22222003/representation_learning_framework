@@ -1,0 +1,134 @@
+{
+  "schema_version": "phase6-7-lwa-source-audit-v1",
+  "audit_date": "2026-10-04",
+  "phase": "6.7",
+  "paper": {
+    "title": "Learning Without Augmenting: Unsupervised Time Series Representation Learning via Frame Projections",
+    "authors": [
+      "Berken Utku Demirel",
+      "Christian Holz"
+    ],
+    "venue": "NeurIPS",
+    "year": 2025,
+    "arxiv": "2510.22655",
+    "version": "v2",
+    "version_date": "2026-01-15",
+    "paper_license": "CC BY-NC-ND 4.0",
+    "local_source_windows": "E:\\zotero\\storage\\JNPX6KNG\\Demirel and Holz - 2025 - Learning Without Augmenting Unsupervised Time Series Representation Learning via Frame Projections.pdf",
+    "local_source_wsl": "/mnt/e/zotero/storage/JNPX6KNG/Demirel and Holz - 2025 - Learning Without Augmenting Unsupervised Time Series Representation Learning via Frame Projections.pdf",
+    "sha256": "3594c7eb09fd354062bc0ef6db911548712099ac4556ee086fc501dd96abc8a6"
+  },
+  "code": {
+    "repository": "https://github.com/eth-siplab/Learning-with-FrameProjections",
+    "commit": "4461e916a107e7a64003286e72c866c62c647ba3",
+    "commit_date": "2026-01-24T12:26:59+01:00",
+    "branches": [
+      "main"
+    ],
+    "tags": [],
+    "commit_count": 20,
+    "license_file_found": false,
+    "license_declaration_found": false,
+    "paper_matching_release_found": false,
+    "static_checkout_clean": true,
+    "post_publication_data_leak_fix": {
+      "commit": "a3e09f7fa5c29f2233c2dd4f929c7021e7bd56d6",
+      "date": "2026-01-16",
+      "scope": "HHAR train/test subject overlap"
+    }
+  },
+  "paper_reported_environment": {
+    "gpu": "NVIDIA GeForce RTX 4090 24GB",
+    "total_reported_compute": "approximately 680 GPU hours including ablations",
+    "batch_size": 1024,
+    "joint_epochs": 256,
+    "optimizer": "Adam",
+    "learning_rate": 0.003,
+    "linear_probe_learning_rate": 0.03,
+    "scheduler": "cosine decay",
+    "representation_width_per_domain": 128,
+    "inference_representation_width": 384,
+    "runs": 3
+  },
+  "project_environment": {
+    "intended_execution_platform": "professor-provided managed container; platform skill and runtime contract pending",
+    "local_environment_role": "fallback diagnostics only",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_memory_mib": 8188,
+    "pytorch": "2.12.1+cu126",
+    "pywavelets_available_at_audit": false,
+    "einops_available_at_audit": false,
+    "input_shape": [
+      64,
+      5
+    ],
+    "walk1_encoder_rows": 39070,
+    "walk2_encoder_rows": 58473
+  },
+  "approved_dependencies": {
+    "pywavelets_required": true,
+    "pywavelets_version_policy": "freeze the installed compatible version in the runtime environment manifest",
+    "cwt_storage": "chunked float32 disk-backed cache",
+    "einops_required": false
+  },
+  "static_adaptation": {
+    "time_encoder_width": 128,
+    "fourier_encoder_width": 128,
+    "wavelet_encoder_width": 128,
+    "inference_width": 384,
+    "fourier_positive_frequency_bins": 33,
+    "fourier_post_residual_length": 9,
+    "wavelet_scales": 48,
+    "wavelet_scale_range": [
+      1,
+      128
+    ],
+    "wavelet_post_encoder_shape": [
+      128,
+      6,
+      8
+    ],
+    "estimated_joint_parameters": 907177,
+    "estimated_retained_parameters_with_paper_mappers": 207237,
+    "walk1_uncompressed_cwt_gib": 2.236,
+    "walk2_uncompressed_cwt_gib": 3.346,
+    "physical_batch_size": 128,
+    "drop_last": true,
+    "walk1_rows_dropped_per_epoch": 30,
+    "walk2_rows_dropped_per_epoch": 105,
+    "gradient_accumulation": false,
+    "automatic_batch_fallback": false,
+    "joint_epochs": 50,
+    "mapper_epochs": 50,
+    "inference_mapper_hidden_width": 64,
+    "joint_mapping_loss_reduction": "mean per-sample L1 sum",
+    "inference_concatenation_order": [
+      "time",
+      "mapped_fourier",
+      "mapped_wavelet"
+    ]
+  },
+  "gate": {
+    "decision": "admit_independent_paper_guided_reimplementation",
+    "public_source_code_reuse_admitted": false,
+    "paper_guided_reimplementation_admitted": true,
+    "admitted_for_implementation": true,
+    "admitted_for_training": false,
+    "training_gate": "Pending independent adapter tests, professor-container runtime audit, PyWavelets environment/cache verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
+    "reporting_label": "LWA-Frozen (paper-guided independent implementation)",
+    "design_resolution": "Questions 1-12 approved by the project owner on 2026-10-04; PyWavelets and chunked float32 CWT caching selected; physical batch 128 is authoritative for both walks.",
+    "reasons": [
+      "No software licence was found in the official repository.",
+      "Fourier and wavelet encoders do not directly support sequence length 64.",
+      "Paper and source disagree on inference-mapper hidden width.",
+      "Paper and source disagree on joint mapping-loss scaling.",
+      "The source uses two full epoch loops while the project contract requires an explicit fixed-budget interpretation.",
+      "The source selects a minimum training-loss encoder checkpoint rather than the project's fixed final checkpoint.",
+      "Paper batch size 1024 was run on 24GB while the project device has 8GB."
+    ],
+    "failure_policy": "Record LWA feasibility or training failure; do not substitute another method implicitly.",
+    "evaluation_metrics_read_for_decision": false,
+    "implementation_started": false,
+    "training_started": false
+  }
+}

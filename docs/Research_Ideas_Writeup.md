@@ -65,7 +65,10 @@ universal framework superiority.
 > implemented and CPU-tested. Its CUDA/resource gate and both walk-specific
 > 50-epoch pretraining trajectories are complete and replay-valid. Both master
 > stores and all six staged SaURL probes are also complete; the principal
-> result is generally weaker than H0. The LWA adapter and shared full-core
+> result is generally weaker than H0. The LWA paper/source audit and
+> independent-adaptation dossier are complete under `docs/baselines/LWA/`;
+> all twelve adaptation decisions are approved, while its adapter,
+> professor-container/runtime admission, and shared full-core
 > manifest/reporting remain pending. Staged execution of the six SaURL probes was approved before
 > LWA, but their results may not change the later mandatory LWA contract.
 > SISSEL/TimeDART admission is reconsidered only after mentor review of the

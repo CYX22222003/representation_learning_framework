@@ -44,8 +44,11 @@
 > walk-specific 50-epoch pretraining trajectories are complete and replay-
 > valid. Both master stores and all six staged SaURL probes are also complete
 > and replay-valid; SaURL is generally weaker than H0, with only isolated
-> metric-specific improvements. LWA and final Phase 6.7 reporting are still
-> unimplemented. Staged execution of all six SaURL probes was approved before
+> metric-specific improvements. LWA's paper/source audit and eight-document
+> independent-adaptation dossier are complete under `docs/baselines/LWA/`,
+> and all twelve adaptation decisions are approved. Its model,
+> professor-container/runtime admission, execution, and
+> final Phase 6.7 reporting remain unimplemented. Staged execution of all six SaURL probes was approved before
 > LWA, provided their metrics do not alter the later mandatory LWA contract.
 > Optional SISSEL/TimeDART studies require separately frozen post-core
 > extension contracts. Phase 6.6 and Phase 7A likewise remain plans rather than

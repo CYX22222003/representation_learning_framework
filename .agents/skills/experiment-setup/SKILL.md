@@ -134,6 +134,10 @@ Read these in order:
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
     in full. External encoders train separately on each walk's target-free
     population and freeze before common-head probing on identical task rows.
+    Before any LWA implementation or execution, also read every document in
+    `docs/baselines/LWA/`; its source audit and twelve owner decisions are
+    complete, while the professor-container and fixed-batch runtime gates
+    remain unresolved.
     The source/licence/extraction/hardware manifests for mandatory LWA and
     SaURL must be frozen independently of their evaluation. SISSEL and
     TimeDART are peer optional post-core extensions considered after mentor

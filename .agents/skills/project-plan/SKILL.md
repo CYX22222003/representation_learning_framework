@@ -73,6 +73,8 @@ Read these in order:
    `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
    for the approved immediate next phase comparing `H0` with recent frozen
    representations across all three tasks and both walks,
+   and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
+   approved owner decisions, and staged implementation gate,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
    for the frozen, unimplemented representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
@@ -142,7 +144,9 @@ Report:
    resources, subgroups, and report are complete and replay-valid. Canonical
    single/leave-one-out ablations have not started. Phase 6.7 is the approved
   immediate next phase. Its required frozen roster is LWA-Frozen and
-  SaURL-TS-Frozen; the staged SaURL scope is complete while LWA remains
+  SaURL-TS-Frozen; the staged SaURL scope is complete, and LWA's paper/source
+  audit, independent-adaptation dossier, and owner decisions are complete while
+  implementation, professor-container/runtime admission, and execution remain
   pending. Its core scope is four walk-specific encoders, four feature stores,
   and 12 common-head downstream trajectories across the three current tasks,
   with six immutable `H0` references. SISSEL-Frozen and TimeDART-Frozen are
