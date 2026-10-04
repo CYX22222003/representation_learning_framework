@@ -1,10 +1,16 @@
 # SaURL-TS Phase 6.7 implementation plan
 
 This is an execution-ready plan, not authorization to start training. The
-Stage 1 model-only adapter and focused CPU tests are implemented; the formal
-Stage 0 feasibility manifest and CUDA/resource gate must still pass before
-training. All bootstrap commands should be manifest-only unless `--execute`
-is explicitly supplied.
+Stage 1 model adapter and SaURL-specific Stage 0--4 audit, pretraining,
+feature-store, replay, and downstream code are implemented and pass focused
+CPU tests. The formal Stage 0 CUDA/resource gate has not been executed or
+signed off, and no encoder, feature, or downstream experiment has run. The
+LWA adapter, full shared core manifest, and reporting stage remain pending.
+All bootstrap commands are manifest-only unless `--execute` is explicitly
+supplied.
+Staged SaURL-only downstream execution was approved by the project owner on
+2026-10-04. The later LWA implementation remains required and must be frozen
+independently of SaURL results.
 
 ## Stage 0 — freeze provenance and independent-implementation boundary
 
@@ -321,6 +327,12 @@ Before execution, `experiments/phase6_7/manifests/downstream_seed0.json` must en
 
 Manifest creation and CPU smoke tests occur without `--execute`. Training begins only with explicit execution.
 
+The implemented SaURL-only bootstrap freezes
+`saurl_downstream_seed0.json` and permits `--execute` for those six SaURL
+trajectories. The later complete `downstream_seed0.json` must incorporate
+these immutable runs with LWA and the six `H0` references. SaURL metrics may
+not motivate a change to the later LWA implementation or a SaURL rerun.
+
 ## Stage 6 — report without selection
 
 Add:
@@ -339,8 +351,14 @@ Do not add or remove a model, change the extraction point, or rerun with new hyp
 Exact filenames may be adjusted during implementation, but the behavior should remain:
 
 ```bash
-# Read-only/source/resource gate; never trains the core models.
-.venv/bin/python3 scripts_v6/audit_phase6_7_sources.py
+# Source/CPU smoke manifest; never launches an encoder trajectory.
+.venv/bin/python3 scripts_v6/audit_phase6_7_sources.py --device cpu
+
+# Explicit CUDA/resource admission. The reviewer supplies the frozen limits;
+# they are not inferred or tuned from evaluation results.
+.venv/bin/python3 scripts_v6/audit_phase6_7_sources.py \
+  --device cuda --admit-training \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
 
 # Manifest and CPU smoke only by default.
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_external_encoders.py --device cpu

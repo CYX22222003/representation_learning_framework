@@ -175,9 +175,12 @@ are fitted on training history only and then frozen. For Phase 6.6C, the
 richer heads may not refit an encoder or change task rows, scalers, labels,
 losses, output transforms, references, or checkpoint budgets.
 
-For Phase 6.7, the candidate roster, official source, extraction point,
-pretraining recipe, and hardware decision are frozen before downstream
-evaluation. Every admitted method must return a finite embedding for every
+For Phase 6.7, each candidate's official source, extraction point,
+pretraining recipe, hardware decision, and complete task/walk inventory are
+frozen before that candidate's downstream execution. The owner-approved
+staged order permits SaURL probes before LWA implementation, but SaURL metrics
+may not select or change the later LWA contract or optional TimeDART resource
+decision. Every admitted method must return a finite embedding for every
 established task row; a model-specific failure may not silently reduce the
 comparison population. Phase 6.6 is deferred behind Phase 6.7 and Phase 7A.
 

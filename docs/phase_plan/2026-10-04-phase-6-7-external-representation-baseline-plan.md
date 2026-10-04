@@ -2,12 +2,20 @@
 
 **Date:** 2026-10-04  
 **Status:** Approved next-phase planning contract, scope amended 2026-10-04.
-The independently authored SaURL-TS Stage 1 model adapter and focused CPU unit
-tests are implemented. Its mask contract was amended during review to use the
-paper's deterministic sigmoid threshold, with no repository-derived mask
-noise. The formal feasibility manifest, CUDA/resource gate, shared runner,
-LWA adapter, training, feature extraction, downstream evaluation, and
-reporting have not started.  
+The independently authored SaURL-TS model adapter, SaURL-specific Stage 0--4
+infrastructure, and focused CPU unit tests are implemented. Its mask contract
+uses the paper's deterministic sigmoid threshold, with no repository-derived
+mask noise. The feasibility audit entry point, gated alternating pretrainer,
+two-store extractor/replay path, and native-width common probes now live under
+`src/` and `scripts_v6/`; none has been executed as a Phase 6.7 experiment.
+The formal CUDA/resource admission, LWA adapter, full shared core manifest,
+encoder training, feature extraction, downstream evaluation, and reporting
+remain pending.
+The project owner subsequently approved staged execution on 2026-10-04:
+SaURL's six downstream trajectories may run from their frozen SaURL-only
+manifest before LWA is implemented. LWA remains a required core method, and
+SaURL metrics may not select or change its source, architecture, extraction
+point, hyperparameters, rows, budget, or retry policy.
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
 `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`, and
@@ -94,13 +102,13 @@ source is copied into the adapter. LWA may not be silently replaced; rejecting
 it requires a dated amendment before downstream evaluation.
 
 `TimeDART-Frozen` is a predeclared stretch candidate, not a Phase 6.7 exit
-condition. It is admitted only if its source/hardware feasibility and the
-remaining compute budget are frozen before any core downstream evaluation
-metric is read. If admitted, its complete two-walk, three-task matrix must be
-run and reported. If it is not admitted at that gate, the two-method core
-remains the complete primary comparison. Adding TimeDART after reading core
-results requires a later dated extension and cannot retroactively select or
-change the Phase 6.7 conclusions.
+condition. Under staged execution, its later admission or rejection must use
+source/hardware feasibility and the remaining compute budget only; SaURL
+downstream metrics may not inform that decision. If admitted, its complete
+two-walk, three-task matrix must be run and reported. If it is not admitted,
+the two-method LWA/SaURL core remains the complete primary comparison. Adding
+TimeDART for a result-driven reason requires a later dated extension and
+cannot retroactively select or change the Phase 6.7 conclusions.
 
 GCFin and MCSIP are not admitted to the primary matrix. Their future-label or
 extra-input assumptions do not provide a clean target-free, OHLCV-only test of
@@ -144,8 +152,11 @@ code, runtime, and resource use. It may not inspect downstream evaluation
 metrics or use evaluation targets to choose a model, extraction point, width,
 or hyperparameter.
 
-The complete admitted roster and all model/task/walk artifact paths must be
-written to a manifest before the first downstream evaluation is read.
+Each method's complete task/walk inventory must be frozen before that method's
+first downstream execution. Staged SaURL execution is permitted from
+`saurl_downstream_seed0.json`; the later full core manifest must incorporate
+those immutable SaURL runs alongside LWA rather than modifying or rerunning
+them in response to their metrics.
 
 ## 5. Shared data and leakage contract
 
@@ -360,26 +371,27 @@ artifact failure is discovered.
    task/walk label populations, and six immutable `H0` references.
 2. Complete the provenance/no-upstream-code-reuse/API/hardware feasibility
    manifest without
-   reading evaluation metrics, including the SaURL/SISSEL fallback decision
-   and the resource-only TimeDART admission decision.
-3. Freeze the core roster, any admitted stretch candidate, extraction points,
-   architecture settings, budgets, paths, and expected matrix.
-4. Implement source-faithful or explicitly documented independent adapters
-   and pass CPU/CUDA shape,
+   reading evaluation metrics, including the SaURL/SISSEL fallback decision.
+3. Freeze the core roster and SaURL extraction point, architecture settings,
+   budget, paths, and six-run staged matrix.
+4. Implement the explicitly documented independent SaURL adapter and pass CPU/CUDA shape,
    forward/backward, determinism, provenance-failure, and small-batch tests.
-5. Train and replay all four core encoder trajectories, plus both TimeDART
-   trajectories only if the stretch candidate was admitted at Gate 2.
-6. Extract and replay all four core frozen representation stores, plus both
-   optional TimeDART stores if admitted.
-7. Freeze the 18-trajectory core comparison manifest containing 12 new runs
-   and six immutable `H0` references; an admitted TimeDART stretch expands it
-   to 24 trajectories.
-8. Execute all 12 core downstream trajectories and all 36 core snapshots
-   without evaluation-driven truncation. If TimeDART was admitted, also run
-   its six downstream trajectories and 18 snapshots.
-9. Replay checkpoints, predictions, metrics, scalers, row identities, and
+5. Train and replay both SaURL encoder trajectories.
+6. Extract and replay both SaURL frozen representation stores.
+7. Freeze the 12-entry staged SaURL manifest containing six SaURL runs and six
+   immutable `H0` references. SaURL execution may proceed at this point.
+8. Implement, train, extract, and independently freeze LWA without using
+   SaURL downstream metrics to change its contract. Make any optional
+   TimeDART resource decision on source/hardware evidence only.
+9. Assemble the 18-trajectory core manifest by incorporating the immutable
+   SaURL runs, six LWA runs, and six `H0` references; an admitted TimeDART
+   stretch expands it to 24 trajectories. Execute every remaining LWA and
+   admitted TimeDART trajectory without
+   evaluation-driven truncation. Preserve all 5/15/50 SaURL snapshots already
+   produced by the staged run.
+10. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
-10. Generate the complete per-walk, pooled, resource, and adaptation report.
+11. Generate the complete per-walk, pooled, resource, and adaptation report.
 
 ## 12. Exit conditions and handoff
 

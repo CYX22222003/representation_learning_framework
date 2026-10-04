@@ -1,6 +1,7 @@
 # Proposal: integrate SaURL-TS into Phase 6.7
 
-**Status:** architecture approved for independent implementation; execution not started  \
+**Status:** SaURL model and Stage 0--4 pipeline implemented and CPU-tested;
+formal CUDA/resource admission and all experiment execution remain pending  \
 **Baseline ID:** `SAURL-F` / SaURL-TS-Frozen  \
 **Scientific role:** direct external frozen-representation baseline  \
 **Primary comparator:** immutable canonical `H0`  \
@@ -17,6 +18,12 @@ reproduction.
 Activate `SISSEL-Frozen` only if the independent adapter fails its frozen CPU/
 CUDA correctness or resource gate before downstream evaluation. Do not use
 evaluation results to trigger the fallback.
+
+The project owner approved staged execution on 2026-10-04: after its own
+feasibility, pretraining, and feature gates pass, SaURL may run all six
+task/walk probes before LWA is implemented. Those results may not change the
+later LWA or optional TimeDART contract, and the final core report must retain
+the immutable SaURL trajectories.
 
 ## 2. Comparison contract
 
@@ -305,7 +312,7 @@ Reusable method code belongs under `src/baselines/saurl_ts/`. Shared Phase 6.7 t
 - [x] Frequency view path selected: magnitude-only transformation, original-phase preservation, inverse-FFT reconstruction before `E_F`.
 - [x] Cross-domain input pair selected.
 - [x] Exact SaDA/SaSSL alternating update schedule selected.
-- [ ] CPU synthetic `[4,64,5]` forward/backward/extract test passes.
+- [x] CPU synthetic `[4,64,5]` forward/backward/extract test passes.
 - [ ] CUDA small real training-only batch test passes within the frozen resource budget.
 - [ ] Candidate manifest is frozen before downstream metrics.
 - [ ] If any required item fails by the deadline, `SISSEL-Frozen` is activated and recorded.

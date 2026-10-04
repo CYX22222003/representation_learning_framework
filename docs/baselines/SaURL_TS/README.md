@@ -2,15 +2,19 @@
 
 **Prepared:** 2026-10-04  \
 **Phase:** 6.7 recent frozen-representation comparison  \
-**Current decision:** independent paper-guided Stage 1 model adapter
+**Current decision:** independent paper-guided model plus SaURL-specific
+audit, pretraining, frozen-feature, replay, and common-probe infrastructure
 implemented and CPU-tested; the unlicensed public source snapshot is audit
 evidence only and must not be copied, modified, vendored, or treated as the
-specification. Training remains gated.
+specification. The formal CUDA/resource admission has not run, so training
+remains gated.
 
 This directory records the paper reading, architecture reconstruction,
 official-code audit, Phase 6.7 adaptation proposal, and implementation gates
-for `SaURL-TS-Frozen` (`SAURL-F`). The model-only adapter is implemented under
-`src/baselines/saurl_ts/`; no model training or evaluation has been performed.
+for `SaURL-TS-Frozen` (`SAURL-F`). The model is under
+`src/baselines/saurl_ts/`; Stage 0--4 orchestration is under `src/training/`,
+`src/features/`, and `scripts_v6/`. No Phase 6.7 model training, feature
+extraction, or downstream evaluation has been performed.
 
 ## Bottom line
 
