@@ -8,9 +8,13 @@
 > representations. The SaURL-TS model and its audit, gated pretraining,
 > frozen-feature, replay, and native-width probe infrastructure are
 > implemented and pass focused CPU tests; its paper-specified deterministic
-> mask replaces the older repository's stochastic sampler. The formal CUDA/
-> resource admission, LWA implementation, full core manifest/reporting, and
-> all Phase 6.7 experiment execution remain pending.
+> mask replaces the older repository's stochastic sampler. The CUDA/resource
+> gate and both 50-epoch SaURL pretraining trajectories are complete and
+> replay-valid at epochs 5/15/50. Same-device CUDA replay is bit-exact; CPU/
+> CUDA replay uses the documented scale-aware tolerance. Near-zero learned
+> masks and large embedding norms remain reportable diagnostics. LWA
+> implementation, full core manifest/reporting, feature extraction, and
+> downstream execution remain pending.
 > Staged SaURL-only downstream execution is approved before LWA implementation;
 > later LWA and optional TimeDART decisions may not use SaURL metrics.
 > Phase 6.6 is deferred, while Phase 7A remains the subsequent documented
@@ -175,7 +179,7 @@
 | TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
 | TimeDART-Frozen representation baseline | ⏸️ Predeclared resource-gated Phase 6.7 stretch candidate; not required for phase completion. Admission must be frozen before core evaluation metrics are read. |
 | LWA-Frozen representation baseline | 📝 Required Phase 6.7 core; source feasibility, implementation, and execution have not started |
-| SaURL-TS-Frozen representation baseline | 🔄 Required Phase 6.7 core; independent model plus audit, alternating pretraining, two-store extraction/replay, and six native-width probe paths are implemented. All 32 focused CPU tests pass. Formal CUDA/resource admission and every experiment execution remain pending. SISSEL-Frozen is the only pre-approved fallback. |
+| SaURL-TS-Frozen representation baseline | 🔄 Required Phase 6.7 core; CUDA/resource admission and both walk-specific 50-epoch pretraining trajectories are complete and replay-valid at 5/15/50. All 34 focused CPU tests pass. Near-zero learned masks and large embedding norms are preserved diagnostics. Feature extraction and six downstream trajectories remain pending. SISSEL-Frozen remains the pre-approved fallback but was not activated. |
 | Additional benchmarks from literature review | ⏸️ Deferred until the Phase 6.7 roster is resolved and reported |
 
 **Internal baselines** (designed within this project)
@@ -204,7 +208,7 @@
 | Phase 6.5B strict H=8 adapted GARCH--LSTM | ✅ Both walk-specific stacks and all five chronological OOF folds are trained and replay-valid at 5/15/50. The final OOF populations are 25,174/44,874 rows. Epoch-50 stack MSE is only marginally lower than Raw LSTM in both walks, while MAE and Spearman are worse; no broad hybrid win is supported. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5C strict adapted TA-MLP classification | ✅ Both causal TA stores and all ten H0/Raw-MLP/Raw-LSTM/TA-MLP P2 plus TA-P1U trajectories are replay-valid at 5/15/50. TA-P2 leads Walk 1 macro-F1 (`0.4810` versus H0 `0.4477`) but trails H0 in Walk 2 (`0.4564` versus `0.4632`); P1U is not consistently better. Contract-macro/subgroup report expansion remains. |
 | Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
-| Phase 6.7 recent frozen-representation baselines | 🔄 SaURL-TS Stage 0--4 code is implemented and CPU-tested, including the gated runner, feature stores, replay, and probes. Staged execution of the six SaURL probes is approved before LWA, but formal CUDA/resource admission and every Phase 6.7 experiment remain pending. LWA and the final core manifest/reporting follow independently of SaURL results. The required LWA/SaURL core has four walk-specific target-free encoder trajectories, four frozen feature stores, and 12 common-head downstream trajectories across all three tasks and both walks. Six immutable `H0` references complete the core table. TimeDART is an optional resource-gated extension. |
+| Phase 6.7 recent frozen-representation baselines | 🔄 Both SaURL-TS walk-specific 50-epoch pretraining trajectories and all six 5/15/50 checkpoints are complete and replay-valid. Staged feature extraction and six SaURL probes are next. LWA and the final core manifest/reporting follow independently of SaURL results. The required LWA/SaURL core has four walk-specific target-free encoder trajectories, four frozen feature stores, and 12 common-head downstream trajectories across all three tasks and both walks. Six immutable `H0` references complete the core table. TimeDART is an optional resource-gated extension. |
 | Phase 6.6A raw-representation residual fusion | ⏸️ Deferred behind Phase 6.7 and Phase 7A; implementation/execution not started. Its frozen matrix remains eight price-only trajectories. |
 | Phase 6.6B recent xLSTM-Mixer baseline | ⏸️ Deferred as a later task-specific complete-system comparison; feasibility/implementation/execution not started. It does not satisfy the direct representation-baseline requirement. |
 | Phase 6.6C canonical decoder capacity | ⏸️ Deferred with the rest of Phase 6.6; implementation/execution not started. The frozen matrix remains four price-only trajectories. |

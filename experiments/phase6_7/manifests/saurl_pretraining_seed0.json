@@ -1,0 +1,134 @@
+{
+  "admitted_for_training": true,
+  "cpu_smoke_test": {
+    "method": "saurl_frozen",
+    "output_shape": [
+      4,
+      128
+    ],
+    "total_parameter_count": 1242292,
+    "trainable_representation_parameter_count": 668938,
+    "valid": true
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1
+      },
+      "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "encoder_train_identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+      "method": "saurl_frozen",
+      "model_config": {
+        "attention_regions": 8,
+        "augmentation_hidden_dim": 16,
+        "batch_size": 32,
+        "dilations": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "diversity_weight": 1.25,
+        "dropout": 0.1,
+        "ema_tau": 0.99,
+        "encoder_hidden_dim": 64,
+        "input_dim": 5,
+        "kernel_size": 3,
+        "mask_threshold": 0.5,
+        "predictor_hidden_dim": 128,
+        "projection_dim": 128,
+        "projector_hidden_dim": 128,
+        "ratio_step": 2,
+        "representation_dim": 128,
+        "sada_alpha": 0.1,
+        "sada_beta": 0.01,
+        "sada_gamma": 0.5,
+        "sada_learning_rate": 0.01,
+        "sassl_learning_rate": 0.0001,
+        "sequence_length": 64,
+        "weight_decay": 0.0
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/encoder_pretraining/saurl_frozen/walk1/seed0",
+      "walk": 1
+    },
+    {
+      "config": {
+        "collapse_std_threshold": 0.001,
+        "device": "cpu",
+        "epochs": 50,
+        "method": "saurl_frozen",
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2
+      },
+      "dataset_manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "encoder_train_identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+      "method": "saurl_frozen",
+      "model_config": {
+        "attention_regions": 8,
+        "augmentation_hidden_dim": 16,
+        "batch_size": 32,
+        "dilations": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32
+        ],
+        "diversity_weight": 1.25,
+        "dropout": 0.1,
+        "ema_tau": 0.99,
+        "encoder_hidden_dim": 64,
+        "input_dim": 5,
+        "kernel_size": 3,
+        "mask_threshold": 0.5,
+        "predictor_hidden_dim": 128,
+        "projection_dim": 128,
+        "projector_hidden_dim": 128,
+        "ratio_step": 2,
+        "representation_dim": 128,
+        "sada_alpha": 0.1,
+        "sada_beta": 0.01,
+        "sada_gamma": 0.5,
+        "sada_learning_rate": 0.01,
+        "sassl_learning_rate": 0.0001,
+        "sequence_length": 64,
+        "weight_decay": 0.0
+      },
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/encoder_pretraining/saurl_frozen/walk2/seed0",
+      "walk": 2
+    }
+  ],
+  "entry_count": 2,
+  "evaluation_values_loaded": false,
+  "feasibility_manifest": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_7/feasibility/saurl_ts/feasibility_manifest.json",
+  "feasibility_manifest_sha256": "57da8eab55045583514afc55a5ab24f74a7583f65afa00d9ad05dc425e68cead",
+  "implemented_methods": [
+    "saurl_frozen"
+  ],
+  "phase": "6.7",
+  "schema_version": "phase6-7-external-pretraining-matrix-v1",
+  "scope": "SaURL-only implementation stage; registry is extensible for LWA"
+}

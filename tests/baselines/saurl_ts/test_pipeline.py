@@ -17,6 +17,7 @@ from training.phase6_7_downstream import (
 )
 from training.phase6_7_external_encoders import (
     Phase67ExternalEncoderConfig,
+    cross_device_tensors_close,
     no_drop_batch_indices,
 )
 import training.phase6_7_external_encoders as encoder_runner
@@ -146,6 +147,18 @@ class ExactResumeTests(unittest.TestCase):
         )
         for name, value in replay.state_dict().items():
             self.assertTrue(torch.equal(value, expected[name]), name)
+
+
+class CrossDeviceToleranceTests(unittest.TestCase):
+    def test_accepts_small_scale_relative_drift(self) -> None:
+        expected = torch.linspace(-1000.0, 1000.0, 1024)
+        replayed = expected * (1.0 + 2e-4)
+        self.assertTrue(cross_device_tensors_close(replayed, expected))
+
+    def test_rejects_material_relative_drift(self) -> None:
+        expected = torch.linspace(-1000.0, 1000.0, 1024)
+        replayed = expected * 1.01
+        self.assertFalse(cross_device_tensors_close(replayed, expected))
 
 
 if __name__ == "__main__":

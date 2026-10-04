@@ -62,9 +62,10 @@ universal framework superiority.
 > ranking; BYOL does not improve error consistently across walks.
 > Phase 6.7 is approved and its SaURL-TS model, gated pretraining,
 > frozen-feature, replay, and native-width probe infrastructure are
-> implemented and CPU-tested. Its formal CUDA/resource admission, LWA
-> adapter, shared full-core manifest/reporting, and all experiment execution
-> remain pending. Staged execution of the six SaURL probes is approved before
+> implemented and CPU-tested. Its CUDA/resource gate and both walk-specific
+> 50-epoch pretraining trajectories are complete and replay-valid. The LWA
+> adapter, shared full-core manifest/reporting, feature extraction, and
+> downstream execution remain pending. Staged execution of the six SaURL probes is approved before
 > LWA, but their results may not change the later LWA or optional TimeDART
 > contract. Phase 6.6 is deferred, and Phase 7A
 > remains the subsequent unexecuted branch-analysis plan.

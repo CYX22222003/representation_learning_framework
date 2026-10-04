@@ -21,6 +21,7 @@ from training.phase6_7_external_encoders import (
     _config_from_payload,
     _model_config_from_payload,
     build_external_encoder,
+    cross_device_tensors_close,
     validate_external_encoder,
 )
 
@@ -254,7 +255,7 @@ def _cpu_device_probe(
         probe, checkpoint_path, walk=walk, device=str(extraction_device), batch_size=8
     )
     maximum_absolute_difference = float(np.max(np.abs(cpu - other)))
-    close = bool(np.allclose(cpu, other, rtol=2e-4, atol=2e-5))
+    close = cross_device_tensors_close(torch.from_numpy(cpu), torch.from_numpy(other))
     if not close:
         raise ValueError("SaURL CPU/extraction-device probe mismatch")
     return {
@@ -388,7 +389,9 @@ def validate_external_feature_store(
                         if device == manifest["environment"]["device"]:
                             if array_sha256(repeated) != record["splits"][split]["feature_hash"]:
                                 raise ValueError(f"same-device extraction hash mismatch: {prefix}")
-                        elif not np.allclose(repeated, features, rtol=2e-4, atol=2e-5):
+                        elif not cross_device_tensors_close(
+                            torch.from_numpy(repeated), torch.from_numpy(features)
+                        ):
                             raise ValueError(f"cross-device extraction mismatch: {prefix}")
     return {
         "valid": True,

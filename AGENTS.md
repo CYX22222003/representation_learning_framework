@@ -135,9 +135,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > infrastructure are now implemented under `src/`, `scripts_v6/`, and
 > `tests/baselines/saurl_ts/`. Its mask follows the paper's deterministic
 > sigmoid threshold rather than the older repository's stochastic sampler.
-> The formal CUDA/resource admission, LWA implementation, full shared core
-> manifest/reporting, training, feature extraction, and downstream execution
-> have not started.
+> The SaURL CUDA/resource gate and both 50-epoch walk-specific pretraining
+> trajectories are complete; every 5/15/50 checkpoint passes standalone CPU
+> replay. Same-device CUDA probes are bit-exact, while the accepted CPU/CUDA
+> criterion is relative L2 at most `5e-4` and cosine at least `0.999999`.
+> Near-zero learned masks and large embedding norms are retained diagnostics,
+> not retuned away. LWA implementation, the full shared core manifest/
+> reporting, feature extraction, and downstream execution have not started.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later LWA or optional
 > TimeDART contract. Phase 6.6 is

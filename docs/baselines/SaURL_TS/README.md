@@ -6,15 +6,16 @@
 audit, pretraining, frozen-feature, replay, and common-probe infrastructure
 implemented and CPU-tested; the unlicensed public source snapshot is audit
 evidence only and must not be copied, modified, vendored, or treated as the
-specification. The formal CUDA/resource admission has not run, so training
-remains gated.
+specification. The CUDA/resource admission and both walk-specific 50-epoch
+pretraining trajectories are complete and replay-valid at 5/15/50.
 
 This directory records the paper reading, architecture reconstruction,
 official-code audit, Phase 6.7 adaptation proposal, and implementation gates
 for `SaURL-TS-Frozen` (`SAURL-F`). The model is under
 `src/baselines/saurl_ts/`; Stage 0--4 orchestration is under `src/training/`,
-`src/features/`, and `scripts_v6/`. No Phase 6.7 model training, feature
-extraction, or downstream evaluation has been performed.
+`src/features/`, and `scripts_v6/`. Feature extraction and downstream
+evaluation have not been performed. Near-zero masks and large embedding norms
+from pretraining remain disclosed diagnostics rather than tuning triggers.
 
 ## Bottom line
 

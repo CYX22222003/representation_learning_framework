@@ -1,7 +1,8 @@
 # Proposal: integrate SaURL-TS into Phase 6.7
 
 **Status:** SaURL model and Stage 0--4 pipeline implemented and CPU-tested;
-formal CUDA/resource admission and all experiment execution remain pending  \
+CUDA/resource gate and both 50-epoch pretraining trajectories complete and
+replay-valid at epochs 5/15/50  \
 **Baseline ID:** `SAURL-F` / SaURL-TS-Frozen  \
 **Scientific role:** direct external frozen-representation baseline  \
 **Primary comparator:** immutable canonical `H0`  \

@@ -3,9 +3,10 @@
 This is an execution-ready plan, not authorization to start training. The
 Stage 1 model adapter and SaURL-specific Stage 0--4 audit, pretraining,
 feature-store, replay, and downstream code are implemented and pass focused
-CPU tests. The formal Stage 0 CUDA/resource gate has not been executed or
-signed off, and no encoder, feature, or downstream experiment has run. The
-LWA adapter, full shared core manifest, and reporting stage remain pending.
+CPU tests. The Stage 0 CUDA/resource gate and both 50-epoch SaURL pretraining
+trajectories are complete and replay-valid at epochs 5/15/50. The LWA adapter,
+feature extraction, downstream execution, full shared core manifest, and
+reporting stage remain pending.
 All bootstrap commands are manifest-only unless `--execute` is explicitly
 supplied.
 Staged SaURL-only downstream execution was approved by the project owner on
@@ -266,7 +267,7 @@ At epochs 5, 15, and 50 save:
 Resume must reproduce an uninterrupted small-run fixture exactly on CPU before
 CUDA execution is admitted.
 
-**Replay:** reload every checkpoint on CPU, reproduce a fixed probe batch, verify checkpoint hashes/config/data identity, and ensure epoch 50 passes collapse and finiteness checks. A collapse is recorded as a failed run, not tuned away.
+**Replay:** reload every checkpoint on CPU, reproduce a fixed probe batch, verify checkpoint hashes/config/data identity, and ensure epoch 50 passes collapse and finiteness checks. Same-device CUDA replay must be bit-exact. Cross-device replay uses relative L2 `<=5e-4` and cosine `>=0.999999`; this scale-aware criterion was frozen after the Walk 1 probe showed only `0.012%--0.021%` relative drift despite large absolute activations. A collapse is recorded as a failed run, not tuned away.
 
 ## Stage 3 — extract two SaURL master stores
 

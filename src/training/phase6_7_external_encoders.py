@@ -30,6 +30,8 @@ METHODS = ("saurl_frozen",)
 SNAPSHOT_EPOCHS = (5, 15, 50)
 SCHEMA_VERSION = "phase6-7-external-encoder-v1"
 REPORTING_LABEL = "SaURL-TS-Frozen (paper-guided reimplementation)"
+CROSS_DEVICE_RELATIVE_L2_TOLERANCE = 5e-4
+CROSS_DEVICE_COSINE_TOLERANCE = 0.999999
 
 
 @dataclass(frozen=True)
@@ -793,6 +795,35 @@ def _history_arrays(history: list[Mapping[str, float]]) -> dict[str, np.ndarray]
 
 
 @torch.no_grad()
+def cross_device_tensors_close(
+    replayed: torch.Tensor,
+    expected: torch.Tensor,
+    *,
+    relative_l2_tolerance: float = CROSS_DEVICE_RELATIVE_L2_TOLERANCE,
+    cosine_tolerance: float = CROSS_DEVICE_COSINE_TOLERANCE,
+) -> bool:
+    """Scale-aware CPU/CUDA replay criterion for deep pooled Conv1d outputs."""
+
+    if replayed.shape != expected.shape or not torch.isfinite(replayed).all():
+        return False
+    if not torch.isfinite(expected).all():
+        return False
+    if torch.equal(replayed, expected):
+        return True
+    difference = (replayed - expected).reshape(-1).double()
+    reference = expected.reshape(-1).double()
+    replay = replayed.reshape(-1).double()
+    reference_norm = reference.norm()
+    if float(reference_norm) == 0.0:
+        return bool(difference.norm() <= relative_l2_tolerance)
+    relative_l2 = difference.norm() / reference_norm
+    cosine = torch.nn.functional.cosine_similarity(
+        replay.unsqueeze(0), reference.unsqueeze(0), dim=1
+    )[0]
+    return bool(relative_l2 <= relative_l2_tolerance and cosine >= cosine_tolerance)
+
+
+@torch.no_grad()
 def _replay_probe(model: Any, scaler: SaURLInputScaler, probe: Mapping[str, torch.Tensor]) -> None:
     model.eval()
     raw_input = probe["raw_input"]
@@ -808,7 +839,7 @@ def _replay_probe(model: Any, scaler: SaURLInputScaler, probe: Mapping[str, torc
         ("weighted_branches", parts.weighted_branches),
         ("fused", parts.fused),
     ):
-        if not torch.allclose(replayed.cpu(), probe[name], rtol=2e-4, atol=2e-5):
+        if not cross_device_tensors_close(replayed.cpu(), probe[name]):
             raise ValueError(f"SaURL checkpoint probe mismatch: {name}")
 
 

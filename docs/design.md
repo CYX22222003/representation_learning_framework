@@ -40,9 +40,10 @@
 > residual-CNN encoders, two feature stores, eight price trajectories, CKA,
 > resources, subgroup tables, and complete report are replay-valid. Phase 6.7
 > now has a tested SaURL-TS model plus its gated pretraining, frozen-feature,
-> replay, and common-probe infrastructure. Its formal CUDA/resource gate and
-> every experiment remain unexecuted; LWA and Phase 6.7 reporting are still
-> unimplemented. Staged execution of all six SaURL probes is approved before
+> replay, and common-probe infrastructure. Its CUDA/resource gate and both
+> walk-specific 50-epoch pretraining trajectories are complete and replay-
+> valid; feature extraction and probes remain pending. LWA and Phase 6.7
+> reporting are still unimplemented. Staged execution of all six SaURL probes is approved before
 > LWA, provided their metrics do not alter the later LWA or optional TimeDART
 > contract. Phase 6.6 and Phase 7A likewise remain plans rather than
 > executed experimental evidence. Phase 7B alpha research remains

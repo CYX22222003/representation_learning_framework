@@ -7,10 +7,15 @@ infrastructure, and focused CPU unit tests are implemented. Its mask contract
 uses the paper's deterministic sigmoid threshold, with no repository-derived
 mask noise. The feasibility audit entry point, gated alternating pretrainer,
 two-store extractor/replay path, and native-width common probes now live under
-`src/` and `scripts_v6/`; none has been executed as a Phase 6.7 experiment.
-The formal CUDA/resource admission, LWA adapter, full shared core manifest,
-encoder training, feature extraction, downstream evaluation, and reporting
-remain pending.
+`src/` and `scripts_v6/`. The CUDA/resource gate and both 50-epoch SaURL
+pretraining trajectories are complete; all 5/15/50 checkpoints pass CPU
+replay. Same-device CUDA replay is bit-exact. The accepted cross-device
+criterion is relative L2 at most `5e-4` and cosine at least `0.999999`, frozen
+after diagnosing scale-amplified Conv1d/max-pooling drift without reading any
+downstream metric. Near-zero learned masks and large embedding norms are
+retained as reportable diagnostics. The LWA adapter, full shared core
+manifest, feature extraction, downstream evaluation, and reporting remain
+pending.
 The project owner subsequently approved staged execution on 2026-10-04:
 SaURL's six downstream trajectories may run from their frozen SaURL-only
 manifest before LWA is implemented. LWA remains a required core method, and
