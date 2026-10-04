@@ -51,12 +51,26 @@
     "runs": 3
   },
   "project_environment": {
-    "intended_execution_platform": "professor-provided managed container; platform skill and runtime contract pending",
+    "intended_execution_platform": "professor-provided Lumid home sandbox",
+    "runtime_audit_date": "2026-10-04",
+    "sandbox_name": "sbx-personai-korolev-tes-dev",
+    "persistent_project_root": "/home/personai-korolev-tes/representation_learning_framework",
+    "python": "3.12.3",
+    "gpu": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+    "gpu_memory_mib": 24467,
+    "pytorch": "2.12.1+cu132",
+    "cuda_compute_capability": "12.0",
+    "cuda_kernel_smoke_passed": true,
+    "pywavelets": "1.8.0",
+    "pywavelets_metadata_runtime_match": true,
+    "approved_cwt_smoke_passed": true,
+    "available_disk_gib_at_audit": 160,
+    "available_ram_gib_at_audit": 25,
     "local_environment_role": "fallback diagnostics only",
-    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
-    "gpu_memory_mib": 8188,
-    "pytorch": "2.12.1+cu126",
-    "pywavelets_available_at_audit": false,
+    "local_fallback_gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "local_fallback_gpu_memory_mib": 8188,
+    "local_fallback_pytorch": "2.12.1+cu126",
+    "pywavelets_available_at_audit": true,
     "einops_available_at_audit": false,
     "input_shape": [
       64,
@@ -67,7 +81,8 @@
   },
   "approved_dependencies": {
     "pywavelets_required": true,
-    "pywavelets_version_policy": "freeze the installed compatible version in the runtime environment manifest",
+    "pywavelets_version": "1.8.0",
+    "pywavelets_version_policy": "exactly pinned in requirements-container.txt and recorded in this runtime manifest",
     "cwt_storage": "chunked float32 disk-backed cache",
     "einops_required": false
   },
@@ -114,7 +129,7 @@
     "paper_guided_reimplementation_admitted": true,
     "admitted_for_implementation": true,
     "admitted_for_training": false,
-    "training_gate": "Pending independent adapter tests, professor-container runtime audit, PyWavelets environment/cache verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
+    "training_gate": "Pending independent adapter tests, full cache replay verification, and one fixed-batch-128 forward/backward correctness/resource smoke.",
     "reporting_label": "LWA-Frozen (paper-guided independent implementation)",
     "design_resolution": "Questions 1-12 approved by the project owner on 2026-10-04; PyWavelets and chunked float32 CWT caching selected; physical batch 128 is authoritative for both walks.",
     "reasons": [
@@ -124,7 +139,7 @@
       "Paper and source disagree on joint mapping-loss scaling.",
       "The source uses two full epoch loops while the project contract requires an explicit fixed-budget interpretation.",
       "The source selects a minimum training-loss encoder checkpoint rather than the project's fixed final checkpoint.",
-      "Paper batch size 1024 was run on 24GB while the project device has 8GB."
+      "The paper used batch size 1024; the admitted 24GB container retains the owner-frozen physical batch size 128 without a sweep or automatic fallback."
     ],
     "failure_policy": "Record LWA feasibility or training failure; do not substitute another method implicitly.",
     "evaluation_metrics_read_for_decision": false,

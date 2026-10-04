@@ -196,7 +196,7 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
 | Paper/source mapper conflict | owner freezes one interpretation before code |
 | Fixed batch 128 fails on selected container | stop the gate and request an explicit amendment; do not fall back automatically |
 | CWT cache consumes about 5.6 GiB total | free-space check, atomic cache build, hashes, optional safe chunking |
-| PyWavelets missing | install it as an explicit dependency and freeze its version in the runtime manifest |
+| PyWavelets runtime drift | use the verified `PyWavelets==1.8.0` pin and record it in every runtime/cache manifest |
 | Two-stage budget doubles passes | disclose 50+50 and time both stages separately |
 | Mapping/contrastive scale instability | finite/gradient diagnostics; record failure rather than tune from evaluation |
 | BatchNorm/dropout replay drift | evaluation-mode fixed probes and same-/cross-device tolerances frozen before training |

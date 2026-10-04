@@ -106,8 +106,9 @@ Present the parts relevant to the request:
   improve movement ranking overall. Phase 6.7 is the approved immediate next
   phase: the required SaURL-Frozen scope is complete; LWA-Frozen's paper/source
   audit, independent-adaptation dossier, and twelve owner decisions are
-  complete, while implementation, professor-container/runtime admission, and
-  execution remain pending. Both core
+  complete, and the Lumid/CUDA plus pinned-PyWavelets runtime audit passes,
+  while implementation, model-specific admission, and execution remain
+  pending. Both core
   methods use per-walk pretraining, freezing, and all three current tasks.
   SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
   extensions considered after mentor review and are not required for phase

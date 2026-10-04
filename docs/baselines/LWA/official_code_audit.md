@@ -157,25 +157,27 @@ contract.
 
 ### 3.12 Resource and dependency mismatch
 
-The paper used RTX 4090 GPUs with 24 GB. The available project device is an RTX
-4060 Laptop GPU with 8,188 MiB. Batch 1024 is unlikely to fit with a
-five-channel `[48,64]` CWT tensor and 2D activations. Physical batch size
-cannot be silently tuned after reading downstream metrics; a hardware-only
-gate must freeze it first.
+The paper used RTX 4090 GPUs with 24 GB. At the static source-audit stage, the
+fallback local device was an RTX 4060 Laptop GPU with 8,188 MiB. The admitted
+Lumid runtime subsequently provided a 24 GiB RTX PRO 4000 Blackwell GPU.
+Physical batch size still cannot be silently tuned after reading downstream
+metrics; the owner-frozen value remains 128 and requires its model-specific
+forward/backward smoke.
 
-The official requirements are unpinned. The project environment currently
-lacks `PyWavelets` and `einops`. An independent adapter does not need `einops`,
-but source-faithful CWT generation needs an approved `PyWavelets` dependency or
-a separately justified implementation.
+The official requirements are unpinned. The environment available during the
+static audit lacked `PyWavelets` and `einops`. The admitted container now pins
+and verifies `PyWavelets==1.8.0`; the independent adapter does not require
+`einops`.
 
 ## 4. Static feasibility verdict
 
 **Decision:** admit an independent paper-guided LWA-Frozen implementation.
 The owner resolved all conflicts in `upstream_clarification_request.md` on
 2026-10-04, including explicit PyWavelets use, chunked float32 CWT caching,
-and authoritative physical batch size 128. Training remains gated on the
-independent implementation, professor-container audit, and fixed-batch
-forward/backward smoke.
+and authoritative physical batch size 128. The professor-container runtime
+and exact CWT dependency are now verified. Training remains gated on the
+independent implementation, its focused tests/cache replay, and the
+fixed-batch forward/backward smoke.
 
 The method is technically feasible for 64-by-5 OHLCV:
 

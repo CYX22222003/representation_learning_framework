@@ -136,8 +136,8 @@ Read these in order:
     population and freeze before common-head probing on identical task rows.
     Before any LWA implementation or execution, also read every document in
     `docs/baselines/LWA/`; its source audit and twelve owner decisions are
-    complete, while the professor-container and fixed-batch runtime gates
-    remain unresolved.
+    complete. The Lumid/CUDA and pinned-PyWavelets runtime audit passes, while
+    the model-specific tests and fixed-batch runtime gate remain unresolved.
     The source/licence/extraction/hardware manifests for mandatory LWA and
     SaURL must be frozen independently of their evaluation. SISSEL and
     TimeDART are peer optional post-core extensions considered after mentor

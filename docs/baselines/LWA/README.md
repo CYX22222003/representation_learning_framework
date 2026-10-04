@@ -41,12 +41,14 @@ spaces, then concatenate the three 128-dimensional vectors into a
 - The paper used batch size 1024. The owner-approved project adaptation fixes
   physical batch size 128 for both walks, with no batch-size sweep, gradient
   accumulation substitute, or automatic fallback.
-- `PyWavelets` is an approved explicit dependency for complex Morlet CWT.
-  Training views will use chunked float32 disk-backed caches. Nothing was
-  installed during this audit.
-- The professor-provided container is the intended execution platform, but its
-  runtime, persistence, and hardware contract remains unaudited until the
-  project owner supplies the platform skill.
+- `PyWavelets==1.8.0` is the frozen explicit dependency for complex Morlet
+  CWT. Its metadata/runtime version and the approved `cmor1-1`, 48-by-64 CWT
+  shape were verified in the professor-provided container. Training views will
+  use chunked float32 disk-backed caches.
+- The professor-provided Lumid container is the admitted execution platform.
+  Its isolated Python 3.12 environment, CUDA-enabled PyTorch 2.12.1, 24 GiB
+  RTX PRO 4000 Blackwell GPU, persistent project path, and CWT runtime have
+  been audited. Model-specific tests and the fixed-batch-128 smoke remain.
 
 No training, feature extraction, downstream evaluation, or LWA model code was
 created as part of this dossier.

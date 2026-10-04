@@ -147,9 +147,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > improvements that do not support consistent superiority. The LWA v2 paper
 > and official source are audited under `docs/baselines/LWA/`; the independent
 > adaptation's twelve owner decisions are approved, including PyWavelets,
-> chunked float32 CWT caching, and physical batch 128. LWA model
-> implementation, professor-container/runtime admission, execution, and the final shared core
-> manifest/reporting remain pending.
+> chunked float32 CWT caching, and physical batch 128. The Lumid container,
+> CUDA runtime, and pinned `PyWavelets==1.8.0` CWT path are verified. LWA model
+> implementation, model-specific tests, fixed-batch smoke, execution, and the
+> final shared core manifest/reporting remain pending.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
 > contract. Any later SISSEL/TimeDART study is a separately frozen post-core
