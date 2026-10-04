@@ -397,6 +397,11 @@ canonical plan. See
 # or LWA experiment has run. Cache preparation is explicit and costly;
 # bootstraps never train without --execute, and training additionally requires
 # an admitted fixed-batch CUDA feasibility manifest.
+# Manual full pipeline: persistent timestamped log, fail-fast gates, and
+# resumable validation/reuse of completed artifacts.
+bash scripts_v6/run_phase6_7_lwa_experiment.sh
+
+# Individual replay/launch commands:
 .venv/bin/python3 scripts_v6/audit_phase6_7_lwa.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa.py \
   --device cpu --prepare-cache --cache-chunk-size 256

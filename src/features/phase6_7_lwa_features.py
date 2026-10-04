@@ -140,6 +140,11 @@ def build_lwa_feature_store(
         split_records = {}
         for split in ("train", "test"):
             sequences = task_inputs[f"{split}_sequences"]
+            print(
+                f"LWA walk {walk} feature extraction: {task}/{split} "
+                f"({len(sequences)} rows)",
+                flush=True,
+            )
             started = time.perf_counter()
             features = extract_lwa_embeddings(
                 sequences, encoder_run_root, walk=walk, device=device, batch_size=batch_size
@@ -157,6 +162,11 @@ def build_lwa_feature_store(
                 "sequence_hash": array_sha256(sequences),
                 "extraction_seconds": time.perf_counter() - started,
             }
+            print(
+                f"LWA walk {walk} feature extraction complete: {task}/{split} "
+                f"in {split_records[split]['extraction_seconds']:.2f}s",
+                flush=True,
+            )
         provenance[task] = {
             "dataset_path": str(dataset_path.resolve()),
             "dataset_sha256": sha256_file(dataset_path),

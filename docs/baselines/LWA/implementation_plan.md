@@ -222,7 +222,16 @@ Negative LWA results remain in the main core table.
 
 ## Proposed command contract
 
-Names are provisional until code review:
+The reviewed end-to-end manual launcher is:
+
+```bash
+bash scripts_v6/run_phase6_7_lwa_experiment.sh
+```
+
+It writes a timestamped persistent log beneath
+`experiments/phase6_7/logs/`, stops at the first failed gate, and safely
+reuses or validates completed cache/run artifacts. It executes the following
+individual command contract in order:
 
 ```bash
 # Dependency/source/CPU inspection. Never trains a trajectory.

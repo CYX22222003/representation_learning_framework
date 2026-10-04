@@ -216,6 +216,10 @@ def build_lwa_view_cache(
         )
         cwt = MorletCWT(config)
         started = time.perf_counter()
+        report_every = max(
+            chunk_size,
+            ((max(1, row_count // 20) + chunk_size - 1) // chunk_size) * chunk_size,
+        )
         for start in range(0, row_count, chunk_size):
             stop = min(start + chunk_size, row_count)
             normalized = scaler.transform_numpy(sequences[start:stop])
@@ -225,6 +229,12 @@ def build_lwa_view_cache(
                 np.complex64, copy=False
             )
             wavelet_cache[start:stop] = cwt(tensor).numpy()
+            if start == 0 or stop == row_count or stop % report_every == 0:
+                print(
+                    f"LWA walk {walk} cache: {stop}/{row_count} rows "
+                    f"({100.0 * stop / row_count:.1f}%)",
+                    flush=True,
+                )
         for array in (time_cache, fourier_cache, wavelet_cache):
             array.flush()
         del time_cache, fourier_cache, wavelet_cache
@@ -628,6 +638,12 @@ def run_lwa_pretraining(
             snapshot = run_root / "joint" / f"e{epoch}"
             _atomic_torch_save(snapshot / "checkpoint.pth", payload)
             _write_history(snapshot / "history.npz", joint_histories)
+        print(
+            f"LWA walk {config.walk} joint epoch {epoch}/{config.joint_epochs}: "
+            f"loss={joint_histories['total'][-1]:.6f}, "
+            f"seconds={joint_histories['epoch_seconds'][-1]:.2f}",
+            flush=True,
+        )
 
     joint_final = torch.load(run_root / "joint" / "e50" / "checkpoint.pth", map_location=device, weights_only=True)
     joint.load_state_dict(joint_final["model_state_dict"], strict=True)
@@ -690,6 +706,12 @@ def run_lwa_pretraining(
             snapshot = run_root / "mapper" / f"e{epoch}"
             _atomic_torch_save(snapshot / "checkpoint.pth", payload)
             _write_history(snapshot / "history.npz", mapper_histories)
+        print(
+            f"LWA walk {config.walk} mapper epoch {epoch}/{config.mapper_epochs}: "
+            f"loss={mapper_histories['total'][-1]:.6f}, "
+            f"seconds={mapper_histories['epoch_seconds'][-1]:.2f}",
+            flush=True,
+        )
 
     peak = int(torch.cuda.max_memory_allocated(device)) if device.type == "cuda" else 0
     artifacts = {}
