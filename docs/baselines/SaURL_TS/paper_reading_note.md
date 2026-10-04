@@ -216,7 +216,9 @@ decisions do not retroactively make the details paper-stated facts.
 - Is the final representation always the 128-dimensional weighted sum shown in Equation 17?
 - How are `L_A`, `L_D`, and `L_L` scheduled or combined during optimization?
 - Are the augmentation heads shared between the two views or independent?
-- Was stochastic hard-mask sampling used, or only the deterministic threshold described in the paper?
+- The paper specifies the deterministic hard threshold; it does not specify
+  the stochastic mask sampler found in the older public repository. Phase 6.7
+  therefore does not adopt that repository-only behavior.
 - Which checkpoint and source revision produced Tables 4–13?
 
 ## 13. Relevance to Phase 6.7

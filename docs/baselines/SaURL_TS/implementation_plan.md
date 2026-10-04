@@ -1,6 +1,10 @@
 # SaURL-TS Phase 6.7 implementation plan
 
-This is an execution-ready plan, not authorization to start training. Stage 0 must pass first. All bootstrap commands should be manifest-only unless `--execute` is explicitly supplied.
+This is an execution-ready plan, not authorization to start training. The
+Stage 1 model-only adapter and focused CPU tests are implemented; the formal
+Stage 0 feasibility manifest and CUDA/resource gate must still pass before
+training. All bootstrap commands should be manifest-only unless `--execute`
+is explicitly supplied.
 
 ## Stage 0 — freeze provenance and independent-implementation boundary
 
@@ -47,7 +51,7 @@ Required public interface:
 
 ```python
 model = build_saurl(config)
-views_and_parts = model.make_views(batch, stochastic=True)
+views_and_parts = model.make_views(batch)
 sada_losses = model.sada_losses(views_and_parts)
 sassl_outputs = model.sassl_forward(views_and_parts.detached_views())
 embedding = model.encode(batch)  # [B, 128]
@@ -69,8 +73,10 @@ weighted summation.
 Temporal and frequency SaDA are separate. Within each, a shared width-16,
 depth-1 embedding/factor network emits a one-position mask broadcast across
 five channels. The two views use separate informative/irrelevant transform
-heads and independent straight-through hard-mask samples at threshold `0.5`
-and temperature `1.0`.
+heads and share the paper-specified deterministic hard mask at threshold
+`0.5`. A straight-through estimator preserves the binary forward mask while
+providing gradients through the threshold; no logistic/Gumbel mask noise is
+used.
 
 ### Exact module definitions
 
@@ -102,11 +108,10 @@ Each domain-specific augmentation encoder uses
 `Conv1d(5,16,1)` followed by one dilation-1 version of the residual block above
 at width 16. A shared `Linear(16,1)` emits factor logits. Four separate
 `Linear(16,1)` heads emit sigmoid informative/irrelevant scales for views 1
-and 2. At every position and view, sample logistic noise from
-`u ~ Uniform(1e-6,1-1e-6)`, form
-`m=Sigmoid((logit+log(u)-log(1-u))/1.0)`, and use
-`h=1[m>=0.5]-stopgrad(m)+m`. Temporal masks are `[B,64,1]`; spectral masks are
-`[B,33,1]`; both broadcast across five channels.
+and 2. At every position form `m=Sigmoid(logit)`,
+`b=1[m>0.5]`, and `h=b-stopgrad(m)+m`. The same domain mask is used for both
+view-specific transform-head pairs. Temporal masks are `[B,64,1]`; spectral
+masks are `[B,33,1]`; both broadcast across five channels.
 
 The input scaler is coordinatewise over the five channels using every
 timestamp of the applicable walk's `encoder_train_sequences`. Replace a
@@ -146,7 +151,8 @@ branch-specific projector; the target side uses the current shared RwAM under
   numerical tolerance;
 - the frequency encoder receives real `[B,64,5]` tensors in training and
   inference, never complex or `[B,33,5]` magnitude tensors;
-- hard-mask straight-through gradients and independent view samples;
+- deterministic paper-threshold masks, straight-through gradients, identical
+  masks across the two domain views, and distinct view-head outputs;
 - five-kernel MMD symmetry, zero-on-identical tolerance, finite bandwidth for
   repeated/constant samples, and the expected sign of diversity objectives;
 - temporal mask total variation is zero for a constant mask;
@@ -186,7 +192,8 @@ The SaURL config is immutable after manifest freeze. The runner must:
 - checkpoint at 5, 15, and 50;
 - record all component/optimizer/scaler states needed for exact resume;
 - record Python, NumPy, Torch CPU/CUDA, and data-loader generator RNG states so
-  an interrupted trajectory resumes at the exact next stochastic mask/batch;
+  an interrupted trajectory resumes at the exact next shuffled batch and
+  dropout state;
 - record loss components, mask rates, branch embedding std/norm, time, memory, and parameter count; and
 - refuse overwrite or source/config/hash drift.
 
@@ -205,7 +212,7 @@ for epoch in range(start_epoch, 50):
             set_trainable(sada_modules, True)
             set_trainable(sassl_online_and_rwam, False)
             zero_grad(opt_sada_time, opt_sada_freq)
-            sada_views_and_parts = model.make_views(x, stochastic=True)
+            sada_views_and_parts = model.make_views(x)
             sada_losses = model.sada_losses(sada_views_and_parts)
             assert_finite(sada_views_and_parts, sada_losses)
             sada_losses.total.backward()
@@ -216,7 +223,7 @@ for epoch in range(start_epoch, 50):
         set_trainable(sada_modules, False)
         set_trainable(sassl_online_and_rwam, True)
         with torch.no_grad():
-            views = model.make_views(x, stochastic=True).detached_views()
+            views = model.make_views(x).detached_views()
 
         opt_sassl.zero_grad(set_to_none=True)
         sassl = model.sassl_forward(views)
@@ -231,8 +238,9 @@ for epoch in range(start_epoch, 50):
 ```
 
 `make_views` is called again after a SaDA optimizer step; pre-update views must
-not be reused for SaSSL. Stochastic sampling is controlled by an explicit
-argument rather than module `.train()` state. The primary trajectory uses
+not be reused for SaSSL. Mask construction is the deterministic paper
+threshold conditional on the current factor logits and has no stochastic-mask
+argument. The primary trajectory uses
 float32 without AMP and fails on non-finite losses or gradients rather than
 silently skipping an update. No gradient clipping or unplanned optimizer
 scheduler is introduced.

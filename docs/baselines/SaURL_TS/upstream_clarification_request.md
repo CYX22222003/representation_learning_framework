@@ -230,19 +230,19 @@ phi = angle(C)               # real phase [B,33,5]
 
 For domain `d in {t,f}`, its domain-specific SaDA first computes one shared
 embedding `e_d: [B,L,16]` and factor logits `a_d: [B,L,1]`. For view
-`k in {1,2}`, draw an independent `u_d^k ~ Uniform(1e-6,1-1e-6)` and use the
-straight-through logistic mask below. Each view has its own informative and
-irrelevant linear transform heads, both applied to `e_d`:
+`k in {1,2}`, use the same deterministic paper-threshold mask. Each view has
+its own informative and irrelevant linear transform heads, both applied to
+`e_d`. The straight-through form below changes only the backward gradient;
+its forward value is exactly the binary paper mask:
 
 ```text
 embedding                   e_d = AugEncoder_d(S_d)
 factor logits               a_d = Linear_d(e_d)
-logistic noise              eps_d^k = log(u_d^k) - log(1-u_d^k)
-soft mask                   m_d^k = sigmoid((a_d + eps_d^k) / 1.0)
-hard mask                   b_d^k = 1[m_d^k >= 0.5]
-ST hard mask                h_d^k = b_d^k - stopgrad(m_d^k) + m_d^k
-informative source          I_d^k = h_d^k * S_d
-irrelevant source           N_d^k = (1 - h_d^k) * S_d
+soft mask                   m_d = sigmoid(a_d)
+hard mask                   b_d = 1[m_d > 0.5]
+ST hard mask                h_d = b_d - stopgrad(m_d) + m_d
+informative source          I_d^k = h_d * S_d
+irrelevant source           N_d^k = (1 - h_d) * S_d
 informative scale           s_info_d^k = sigmoid(Linear_info_d^k(e_d))
 irrelevant scale            s_irr_d^k = sigmoid(Linear_irr_d^k(e_d))
 transformed informative     Ibar_d^k = s_info_d^k * I_d^k
@@ -250,9 +250,10 @@ transformed irrelevant      Nbar_d^k = s_irr_d^k * N_d^k
 complete domain view        U_d^k = Ibar_d^k + Nbar_d^k
 ```
 
-The factorizer is shared between the two views of one domain, but the mask
-noise and transformation heads are separate. The temporal encoder view is
-`V_t^k = U_t^k`. The frequency encoder view preserves the original phase:
+The factorizer and deterministic mask are shared between the two views of one
+domain, while the transformation heads are separate. The temporal encoder
+view is `V_t^k = U_t^k`. The frequency encoder view preserves the original
+phase:
 
 ```text
 V_f^k = irfft(U_f^k * (cos(phi) + i sin(phi)), n=64, dim=time)
@@ -268,10 +269,10 @@ choice: the paper specifies an RKHS/MMD objective but not its kernel estimator.
 For each view:
 
 ```text
-L_k(d,k) = mean(h_d^k)
+L_k(d,k) = mean(h_d)
 L_t(d,k) = MMD(S_d, Ibar_d^k)
 L_d(d,k) = -MMD(N_d^k, Nbar_d^k)
-L_r(t,k) = mean(abs(h_t^k[:,1:] - h_t^k[:,:-1]))
+L_r(t,k) = mean(abs(h_t[:,1:] - h_t[:,:-1]))
 
 L_A(t,k) = L_k + alpha*L_t + beta*L_r + gamma*L_d
 L_A(f,k) = L_k + alpha*L_t              + gamma*L_d
@@ -354,7 +355,7 @@ For epoch = 1,...,50:
     if global_step mod 2 == 0:
       enable gradients only for temporal/frequency SaDA
       zero both SaDA optimizers with set_to_none=True
-      generate both domain-view pairs with independent ST mask samples
+      generate both domain-view pairs with the shared deterministic mask
       compute L_SaDA in the input/magnitude domains
       fail immediately on a non-finite view or loss
       backpropagate L_SaDA
@@ -363,8 +364,8 @@ For epoch = 1,...,50:
 
     # Phase B: SaSSL update on every minibatch
     freeze SaDA parameters
-    regenerate V_t^1, V_t^2, V_f^1, V_f^2 using the current SaDA
-      with stochastic masks but under no_grad; detach all four views
+    regenerate V_t^1, V_t^2, V_f^1, V_f^2 using the current SaDA under
+      no_grad; use the paper-threshold masks and detach all four views
     enable gradients for online encoders, projectors, predictors, and RwAM
     keep target encoders/projectors frozen and in eval mode
     zero the SaSSL optimizer with set_to_none=True
@@ -407,20 +408,24 @@ The project owner's expectation is mostly correct, with one distinction:
 the two views should use separate transformation heads, but the evidence does
 not support duplicating the entire factorisation network.
 
-**Paper evidence:** the transformation is repeated to produce the second
-view. **Repository evidence:** temporal SaDA and frequency SaDA are completely
-separate networks; within each domain, the embedding/factorisation machinery
-is shared, while the two views have separate transformation heads and receive
-independent stochastic mask samples.
+**Paper evidence:** the transformation is repeated to produce the second view,
+and the factor mask is specified as a deterministic threshold of sigmoid
+logits. **Repository evidence:** temporal SaDA and frequency SaDA are
+completely separate networks; within each domain, the embedding/factorisation
+machinery is shared, while the two views have separate transformation heads.
+The repository additionally samples stochastic masks, but that behavior is
+not specified by the paper and is not adopted.
 
 **Selected project interpretation:** temporal and frequency SaDA are separate.
 Within each domain, use one shared width-16, depth-1 embedding/factor network;
 a factor head emits one logit per temporal or frequency position; and the two
 views have separate informative and irrelevant transformation-head pairs.
-Sample independent stochastic straight-through hard masks for the two views at
-threshold `0.5` and temperature `1.0`. Use mask shapes `[B,64,1]` for time and
+Apply `sigmoid` and the paper's deterministic threshold `0.5` once per domain,
+then share that binary mask across both views. Use a straight-through gradient
+estimator without adding mask noise. Mask shapes are `[B,64,1]` for time and
 `[B,33,1]` for RFFT magnitude, broadcasting across five channels. This follows
-the paper's `1 x T` mask rather than the public code's per-channel behaviour.
+the paper's `1 x T` mask rather than the public code's stochastic per-channel
+behaviour.
 The width-16 augmentation encoder is one residual block with dilation 1; the
 factor and four transformation heads are independent `Linear(16,1)` layers
 apart from the factor head being shared by both views.
@@ -451,7 +456,7 @@ all reported paper hyperparameters.
 | SaDA learning rate | `1e-2` |
 | SaDA update cadence | Every two batches |
 | SaDA embedding | width 16, depth 1 |
-| Mask | shared factor head, independent view samples, threshold 0.5, temperature 1.0 |
+| Mask | shared factor head and deterministic mask across views, sigmoid threshold 0.5, straight-through backward estimator, no mask noise |
 | Optimizer | Adam, zero weight decay |
 | Training budget | 50 epochs, retaining epochs 5/15/50 |
 | Paper loss weights | `alpha=0.1`, `beta=0.01`, `gamma=0.5`, `lambda=1.25` |
@@ -505,3 +510,10 @@ clarification, accepted the explicit settings for Questions 9--10, and
 accepted the paper-aligned unweighted loss resolution for Question 11.
 Sections 4--11 are therefore frozen for implementation before any downstream
 evaluation metric is read.
+
+During Stage 1 review on 2026-10-04, the project owner verified that the paper
+does not specify the public repository's stochastic mask sampler and directed
+the implementation to follow the paper. Question 9 is therefore amended:
+each domain uses the deterministic `1[sigmoid(logit)>0.5]` mask shared across
+its two transform-head paths. The straight-through expression is retained
+only as the backward estimator; no logistic/Gumbel mask noise is used.

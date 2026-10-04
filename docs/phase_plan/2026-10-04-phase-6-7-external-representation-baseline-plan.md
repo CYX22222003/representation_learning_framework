@@ -2,8 +2,11 @@
 
 **Date:** 2026-10-04  
 **Status:** Approved next-phase planning contract, scope amended 2026-10-04.
-Feasibility review,
-implementation, training, feature extraction, downstream evaluation, and
+The independently authored SaURL-TS Stage 1 model adapter and focused CPU unit
+tests are implemented. Its mask contract was amended during review to use the
+paper's deterministic sigmoid threshold, with no repository-derived mask
+noise. The formal feasibility manifest, CUDA/resource gate, shared runner,
+LWA adapter, training, feature extraction, downstream evaluation, and
 reporting have not started.  
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
@@ -212,8 +215,10 @@ maximum branch pooling; an eight-region RwAM with shared
 `Conv1d(3,1,1) -> ReLU -> Conv1d(1,3,1)` average/max paths; temporal and
 reconstructed-frequency views as the cross-domain BYOL pair; separate
 temporal/frequency SaDA modules with a shared factorizer but view-specific
-transform heads; independent straight-through masks; six hidden-64 dilated
-residual blocks; 128-wide representations/projectors/predictors; EMA `0.99`;
+transform heads; a shared deterministic paper-threshold mask per domain with
+a straight-through gradient estimator and no logistic/Gumbel mask noise; six
+hidden-64 dilated residual blocks; 128-wide representations/projectors/
+predictors; EMA `0.99`;
 and parameter-isolated alternating updates in which SaDA updates first every
 two minibatches and SaSSL updates every minibatch. This is an independently
 authored reconstruction, not an official reproduction.

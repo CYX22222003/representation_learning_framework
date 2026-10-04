@@ -130,7 +130,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > is four encoder trajectories, four frozen feature stores, and 12 downstream
 > trajectories, compared with six immutable `H0` references. An admitted
 > TimeDART stretch adds two encoders, two stores, and six downstream runs;
-> implementation and execution have not started. Phase 6.6 is
+> the independently authored SaURL-TS model adapter and its focused unit tests
+> are now implemented under `src/baselines/saurl_ts/` and
+> `tests/baselines/saurl_ts/`. Its mask follows the paper's deterministic
+> sigmoid threshold rather than the older repository's stochastic sampler.
+> The formal feasibility manifest, CUDA/resource gate, shared runner, LWA
+> implementation, training, feature extraction, and downstream execution have
+> not started. Phase 6.6 is
 > deferred behind this comparison and the subsequent Phase 7A branch
 > analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025

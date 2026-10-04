@@ -38,9 +38,9 @@
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
 > residual-CNN encoders, two feature stores, eight price trajectories, CKA,
-> resources, subgroup tables, and complete report are replay-valid. Phase 6.7,
-> Phase 6.6, and Phase 7A remain plans rather
-> than executed evidence. Phase 7B alpha research remains
+> resources, subgroup tables, and complete report are replay-valid. Phase 6.7
+> now has a tested model-only SaURL-TS adapter, but it, Phase 6.6, and Phase 7A
+> remain plans rather than executed experimental evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design

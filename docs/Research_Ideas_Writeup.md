@@ -60,7 +60,9 @@ universal framework superiority.
 > a repeatable Contrastive residual-CNN price-error improvement over H0 and its
 > same-width control, but not over Raw LSTM or persistence, and not in movement
 > ranking; BYOL does not improve error consistently across walks.
-> Phase 6.7 is approved but unimplemented. Phase 6.6 is deferred, and Phase 7A
+> Phase 6.7 is approved and its SaURL-TS Stage 1 model adapter is implemented,
+> but its formal feasibility gate, shared infrastructure, LWA adapter, and all
+> experiment execution remain pending. Phase 6.6 is deferred, and Phase 7A
 > remains the subsequent unexecuted branch-analysis plan.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.

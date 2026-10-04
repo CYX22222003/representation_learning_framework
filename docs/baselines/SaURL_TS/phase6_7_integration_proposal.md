@@ -76,7 +76,7 @@ The adaptation should preserve the paper wherever the project contract permits:
 | Sequence pooling | global maximum over encoder timestamps | selected source-grounded row extraction |
 | RwAM | eight 16-coordinate regions; avg/max regional pooling; shared `Conv1d(3,1,1) -> ReLU -> Conv1d(1,3,1)`; sigmoid; weighted sum | explicit reconstruction of underspecified paper block |
 | SaDA view heads | separate temporal/frequency modules; shared width-16 depth-1 factorizer within a domain; two independent transform-head pairs | paper/code-informed view separation |
-| Hard mask | one value per position broadcast over channels; independent straight-through samples; threshold `0.5`, temperature `1.0` | follows paper `1 x T` mask |
+| Hard mask | one deterministic `1[sigmoid(logit)>0.5]` value per position, broadcast over channels and shared by both views; straight-through gradient estimator; no mask noise | follows the paper's `1 x T` threshold mask rather than the repository's stochastic sampler |
 | Cross pair | temporal and reconstructed-frequency views of the same sample | selected interpretation of paper/code ambiguity |
 | Update schedule | SaDA first every two minibatches; SaSSL every minibatch; parameter-isolated alternating updates | repository-evidenced interpretation of Algorithm 1 |
 | BYOL projector/predictor | `128 -> 128 -> 128` with GELU | reuses project-native normalized symmetric prediction contract |
@@ -103,9 +103,11 @@ batch normalization.
 Each augmentation factorizer maps five channels to width 16 and uses one
 dilation-1 residual block. One shared `Linear(16,1)` supplies factor logits;
 four view-specific `Linear(16,1)` heads supply sigmoid informative/irrelevant
-scales. Independent logistic-noise straight-through masks are sampled for the
-two views at temperature 1.0 and threshold 0.5. This exact realization is a
-project-selected interpretation of the paper/code evidence.
+scales. One deterministic sigmoid mask is thresholded at 0.5 and shared by
+the two view-specific transform-head pairs. The binary forward value uses a
+straight-through gradient estimator, but no logistic/Gumbel mask noise is
+sampled. This follows the paper's stated mask equation; the stochastic sampler
+observed in the older public repository is deliberately not adopted.
 
 ### 4.1 Frozen loss realization
 
@@ -193,15 +195,17 @@ and the module/test/checkpoint mapping is in
 The final report must distinguish:
 
 - **paper-stated:** three dilated-CNN domains, magnitude-domain augmentation,
-  RwAM-weighted 128-wide sum, SaDA coefficients, batch 32, dropout 0.1, and
-  SaDA/SaSSL learning rates;
+  RwAM-weighted 128-wide sum, deterministic `1[sigmoid(logit)>0.5]` mask,
+  SaDA coefficients, batch 32, dropout 0.1, and SaDA/SaSSL learning rates;
 - **repository-evidenced:** original-phase inverse-FFT reconstruction,
-  separate transform heads, hard stochastic masks, alternating cadence,
-  cross temporal/frequency pairing, and EMA 0.99; and
+  separate transform heads, alternating cadence, cross temporal/frequency
+  pairing, and EMA 0.99; its hard stochastic mask sampler is audited but not
+  adopted; and
 - **project-selected:** six-block dilation schedule, global max pooling, exact
   eight-region RwAM, input-domain five-kernel MMD estimator, normalized
-  symmetric BYOL realization, view-1 cross pair, 50-epoch Phase 6.7 budget,
-  and project-native checkpoint/replay boundary.
+  symmetric BYOL realization, deterministic straight-through gradient
+  estimator for the paper's binary mask, view-1 cross pair, 50-epoch Phase 6.7
+  budget, and project-native checkpoint/replay boundary.
 
 ## 5. Representation-store design
 

@@ -2,11 +2,15 @@
 
 **Prepared:** 2026-10-04  \
 **Phase:** 6.7 recent frozen-representation comparison  \
-**Current decision:** approved for independent paper-guided implementation;
-the unlicensed public source snapshot is audit evidence only and must not be
-copied, modified, vendored, or treated as the specification.
+**Current decision:** independent paper-guided Stage 1 model adapter
+implemented and CPU-tested; the unlicensed public source snapshot is audit
+evidence only and must not be copied, modified, vendored, or treated as the
+specification. Training remains gated.
 
-This directory records the paper reading, architecture reconstruction, official-code audit, Phase 6.7 adaptation proposal, and implementation gates for `SaURL-TS-Frozen` (`SAURL-F`). No model training or evaluation was performed while preparing these documents.
+This directory records the paper reading, architecture reconstruction,
+official-code audit, Phase 6.7 adaptation proposal, and implementation gates
+for `SaURL-TS-Frozen` (`SAURL-F`). The model-only adapter is implemented under
+`src/baselines/saurl_ts/`; no model training or evaluation has been performed.
 
 ## Bottom line
 
@@ -24,7 +28,9 @@ The available repository does not satisfy a direct source-reuse gate:
 The project owner therefore approved a documented independent reconstruction
 on 2026-10-04. Questions 4--11 in the clarification record now define the
 architecture, views, RwAM, alternating update schedule, hyperparameters, and
-extraction boundary. It will be reported as **SaURL-TS-Frozen (paper-guided
+extraction boundary, including the Stage 1 amendment that uses the paper's
+deterministic mask rather than the repository's stochastic sampler. It will
+be reported as **SaURL-TS-Frozen (paper-guided
 reimplementation)**, never as the official authors' implementation.
 `SISSEL-Frozen` remains the pre-approved fallback only if the independent
 adapter fails its pre-evaluation implementation or resource gate.
