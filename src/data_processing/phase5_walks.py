@@ -948,8 +948,13 @@ def validate_phase5_arrays(arrays: Mapping[str, np.ndarray], manifest: Mapping[s
     }
 
 
-def validate_phase5_bundle_files(npz_path: Path, manifest_path: Path | None = None) -> dict[str, Any]:
-    """Load a saved bundle and verify its hashes, source lineage, and arrays."""
+def validate_phase5_bundle_files(
+    npz_path: Path,
+    manifest_path: Path | None = None,
+    *,
+    replay_source: bool = True,
+) -> dict[str, Any]:
+    """Verify a saved bundle, optionally re-hashing its raw source files."""
 
     npz_path = Path(npz_path)
     manifest_path = Path(manifest_path or f"{npz_path}.manifest.json")
@@ -962,14 +967,15 @@ def validate_phase5_bundle_files(npz_path: Path, manifest_path: Path | None = No
     actual_npz = sha256_file(npz_path)
     if expected_npz != actual_npz:
         raise ValueError("Phase 5 NPZ file hash mismatch")
-    for name, record in manifest.get("source_provenance", {}).items():
-        if not isinstance(record, dict) or "path" not in record or "sha256" not in record:
-            continue
-        source_path = Path(record["path"])
-        if not source_path.is_file():
-            raise FileNotFoundError(f"missing Phase 5 source {name}: {source_path}")
-        if sha256_file(source_path) != record["sha256"]:
-            raise ValueError(f"Phase 5 source hash mismatch: {name}")
+    if replay_source:
+        for name, record in manifest.get("source_provenance", {}).items():
+            if not isinstance(record, dict) or "path" not in record or "sha256" not in record:
+                continue
+            source_path = Path(record["path"])
+            if not source_path.is_file():
+                raise FileNotFoundError(f"missing Phase 5 source {name}: {source_path}")
+            if sha256_file(source_path) != record["sha256"]:
+                raise ValueError(f"Phase 5 source hash mismatch: {name}")
     with np.load(npz_path, allow_pickle=False) as stored:
         arrays = {name: np.asarray(stored[name]) for name in stored.files}
     result = validate_phase5_arrays(arrays, manifest)
@@ -978,6 +984,7 @@ def validate_phase5_bundle_files(npz_path: Path, manifest_path: Path | None = No
             "npz_path": str(npz_path.resolve()),
             "manifest_path": str(manifest_path.resolve()),
             "npz_sha256": actual_npz,
+            "source_files_reverified": replay_source,
         }
     )
     return result

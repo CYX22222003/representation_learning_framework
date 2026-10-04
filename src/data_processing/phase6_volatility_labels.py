@@ -639,14 +639,15 @@ def validate_volatility_label_bundle_files(
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if sha256_file(npz_path) != manifest.get("artifact", {}).get("sha256"):
         raise ValueError("Phase 6 volatility NPZ hash mismatch")
-    for name, record in manifest.get("source_provenance", {}).items():
-        if not isinstance(record, dict) or "path" not in record or "sha256" not in record:
-            continue
-        source_path = Path(record["path"])
-        if not source_path.is_file():
-            raise FileNotFoundError(f"missing Phase 6 source {name}: {source_path}")
-        if sha256_file(source_path) != record["sha256"]:
-            raise ValueError(f"Phase 6 source hash mismatch: {name}")
+    if replay_source:
+        for name, record in manifest.get("source_provenance", {}).items():
+            if not isinstance(record, dict) or "path" not in record or "sha256" not in record:
+                continue
+            source_path = Path(record["path"])
+            if not source_path.is_file():
+                raise FileNotFoundError(f"missing Phase 6 source {name}: {source_path}")
+            if sha256_file(source_path) != record["sha256"]:
+                raise ValueError(f"Phase 6 source hash mismatch: {name}")
     with np.load(npz_path, allow_pickle=False) as stored:
         arrays = {name: np.asarray(stored[name]) for name in stored.files}
     result = validate_volatility_label_arrays(arrays, manifest)
@@ -663,6 +664,7 @@ def validate_volatility_label_bundle_files(
             "npz_path": str(npz_path.resolve()),
             "manifest_path": str(manifest_path.resolve()),
             "npz_sha256": sha256_file(npz_path),
+            "source_files_reverified": replay_source,
         }
     )
     return result

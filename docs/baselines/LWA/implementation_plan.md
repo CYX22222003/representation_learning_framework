@@ -84,6 +84,10 @@ The runtime audit does not require the Zotero PDF to be copied into Lumid: it
 uses the versioned source-manifest identity when the recorded WSL-only paper
 path is unavailable, while still verifying any available or explicitly passed
 paper file against the frozen SHA-256.
+Likewise, Lumid replays each copied canonical NPZ's artifact hash, complete
+array/label/identity contract, and companion manifest without requiring the
+original WSL-only raw parquet paths. Full raw-source replay remains the default
+validator mode and is retained in the data-preparation environment.
 
 Extend the existing Phase 6.7 encoder infrastructure without changing
 completed SaURL artifacts.

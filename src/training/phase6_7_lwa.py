@@ -136,7 +136,7 @@ class Phase67LWATrainingConfig:
 
 
 def _load_encoder_population(dataset_path: Path, walk: int) -> tuple[np.ndarray, dict[str, Any]]:
-    validation = validate_phase5_bundle_files(dataset_path)
+    validation = validate_phase5_bundle_files(dataset_path, replay_source=False)
     if int(validation["walk"]) != walk:
         raise ValueError("LWA encoder dataset walk mismatch")
     manifest_path = Path(f"{dataset_path}.manifest.json")

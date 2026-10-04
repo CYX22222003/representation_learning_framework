@@ -41,7 +41,7 @@ def _atomic_savez(path: Path, arrays: Mapping[str, np.ndarray]) -> None:
 def _task_validation(task: str, dataset_path: Path) -> dict[str, Any]:
     if task == "realised_variance":
         return validate_volatility_label_bundle_files(dataset_path, replay_source=False)
-    return validate_phase5_bundle_files(dataset_path)
+    return validate_phase5_bundle_files(dataset_path, replay_source=False)
 
 
 def _load_inference_encoder(

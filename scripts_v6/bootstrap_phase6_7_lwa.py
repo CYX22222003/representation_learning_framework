@@ -60,7 +60,7 @@ def main() -> int:
         entries = []
         for walk in (1, 2):
             dataset = dataset_path(walk)
-            validation = validate_phase5_bundle_files(dataset)
+            validation = validate_phase5_bundle_files(dataset, replay_source=False)
             cache = cache_path(walk)
             cache_validation = None
             if args.prepare_cache:
