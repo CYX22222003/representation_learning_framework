@@ -42,8 +42,10 @@
 > now has a tested SaURL-TS model plus its gated pretraining, frozen-feature,
 > replay, and common-probe infrastructure. Its CUDA/resource gate and both
 > walk-specific 50-epoch pretraining trajectories are complete and replay-
-> valid; feature extraction and probes remain pending. LWA and Phase 6.7
-> reporting are still unimplemented. Staged execution of all six SaURL probes is approved before
+> valid. Both master stores and all six staged SaURL probes are also complete
+> and replay-valid; SaURL is generally weaker than H0, with only isolated
+> metric-specific improvements. LWA and final Phase 6.7 reporting are still
+> unimplemented. Staged execution of all six SaURL probes was approved before
 > LWA, provided their metrics do not alter the later LWA or optional TimeDART
 > contract. Phase 6.6 and Phase 7A likewise remain plans rather than
 > executed experimental evidence. Phase 7B alpha research remains

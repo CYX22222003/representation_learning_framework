@@ -13,9 +13,11 @@ This directory records the paper reading, architecture reconstruction,
 official-code audit, Phase 6.7 adaptation proposal, and implementation gates
 for `SaURL-TS-Frozen` (`SAURL-F`). The model is under
 `src/baselines/saurl_ts/`; Stage 0--4 orchestration is under `src/training/`,
-`src/features/`, and `scripts_v6/`. Feature extraction and downstream
-evaluation have not been performed. Near-zero masks and large embedding norms
-from pretraining remain disclosed diagnostics rather than tuning triggers.
+`src/features/`, and `scripts_v6/`. Both 128-dimensional master stores and all
+six staged downstream trajectories are complete and replay-valid at 5/15/50.
+The principal result is generally weaker than H0. Near-zero masks and large
+embedding norms from pretraining remain disclosed diagnostics rather than
+tuning triggers.
 
 ## Bottom line
 

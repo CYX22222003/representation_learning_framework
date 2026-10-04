@@ -140,8 +140,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > replay. Same-device CUDA probes are bit-exact, while the accepted CPU/CUDA
 > criterion is relative L2 at most `5e-4` and cosine at least `0.999999`.
 > Near-zero learned masks and large embedding norms are retained diagnostics,
-> not retuned away. LWA implementation, the full shared core manifest/
-> reporting, feature extraction, and downstream execution have not started.
+> not retuned away. Both 128-dimensional master stores and all six staged
+> SaURL downstream trajectories are now complete and replay-valid at 5/15/50.
+> SaURL is generally weaker than immutable `H0`, with isolated metric-specific
+> improvements that do not support consistent superiority. LWA implementation
+> and the final shared core manifest/reporting remain pending.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later LWA or optional
 > TimeDART contract. Phase 6.6 is

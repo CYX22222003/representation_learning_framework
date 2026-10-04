@@ -2,7 +2,8 @@
 
 **Status:** SaURL model and Stage 0--4 pipeline implemented and CPU-tested;
 CUDA/resource gate and both 50-epoch pretraining trajectories complete and
-replay-valid at epochs 5/15/50  \
+replay-valid at epochs 5/15/50; both master stores and all six staged probes
+complete and replay-valid  \
 **Baseline ID:** `SAURL-F` / SaURL-TS-Frozen  \
 **Scientific role:** direct external frozen-representation baseline  \
 **Primary comparator:** immutable canonical `H0`  \
@@ -315,5 +316,5 @@ Reusable method code belongs under `src/baselines/saurl_ts/`. Shared Phase 6.7 t
 - [x] Exact SaDA/SaSSL alternating update schedule selected.
 - [x] CPU synthetic `[4,64,5]` forward/backward/extract test passes.
 - [ ] CUDA small real training-only batch test passes within the frozen resource budget.
-- [ ] Candidate manifest is frozen before downstream metrics.
-- [ ] If any required item fails by the deadline, `SISSEL-Frozen` is activated and recorded.
+- [x] Candidate manifest is frozen before downstream metrics.
+- [x] SaURL passed the gate, so `SISSEL-Frozen` was not activated.

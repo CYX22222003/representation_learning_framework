@@ -287,7 +287,7 @@ def _manual_sum_probe(
     manual = parts.weighted_branches.sum(dim=1)
     expected = torch.from_numpy(np.asarray(saved_features[:8])).to(manual)
     maximum_absolute_difference = float((manual - expected).abs().max().cpu())
-    if not torch.allclose(manual, expected, rtol=2e-5, atol=2e-6):
+    if not cross_device_tensors_close(manual, expected):
         raise ValueError("saved SaURL features differ from the manual RwAM weighted sum")
     return {
         "rows": len(raw),

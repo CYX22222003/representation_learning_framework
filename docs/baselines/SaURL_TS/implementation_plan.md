@@ -4,9 +4,10 @@ This is an execution-ready plan, not authorization to start training. The
 Stage 1 model adapter and SaURL-specific Stage 0--4 audit, pretraining,
 feature-store, replay, and downstream code are implemented and pass focused
 CPU tests. The Stage 0 CUDA/resource gate and both 50-epoch SaURL pretraining
-trajectories are complete and replay-valid at epochs 5/15/50. The LWA adapter,
-feature extraction, downstream execution, full shared core manifest, and
-reporting stage remain pending.
+trajectories are complete and replay-valid at epochs 5/15/50. Both master
+stores and all six SaURL downstream trajectories are also complete and replay-
+valid. The LWA adapter, full shared core manifest, and final reporting stage
+remain pending.
 All bootstrap commands are manifest-only unless `--execute` is explicitly
 supplied.
 Staged SaURL-only downstream execution was approved by the project owner on

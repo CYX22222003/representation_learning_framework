@@ -14,8 +14,12 @@ criterion is relative L2 at most `5e-4` and cosine at least `0.999999`, frozen
 after diagnosing scale-amplified Conv1d/max-pooling drift without reading any
 downstream metric. Near-zero learned masks and large embedding norms are
 retained as reportable diagnostics. The LWA adapter, full shared core
-manifest, feature extraction, downstream evaluation, and reporting remain
-pending.
+manifest, and final reporting remain pending. Both SaURL master stores and all
+six staged downstream trajectories are complete and replay-valid at 5/15/50.
+The epoch-50 result is generally weaker than immutable H0, with isolated
+metric-specific improvements that do not support consistent superiority. The
+interim staged result is recorded under
+`experiments/phase6_7/reports/saurl_staged_seed0/`.
 The project owner subsequently approved staged execution on 2026-10-04:
 SaURL's six downstream trajectories may run from their frozen SaURL-only
 manifest before LWA is implemented. LWA remains a required core method, and
