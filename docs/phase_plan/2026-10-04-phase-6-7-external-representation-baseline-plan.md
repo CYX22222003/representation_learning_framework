@@ -202,6 +202,13 @@ first downstream execution. Staged SaURL execution is permitted from
 those immutable SaURL runs alongside LWA rather than modifying or rerunning
 them in response to their metrics.
 
+The LWA Lumid execution manifest is likewise limited to its six new
+task/walk trajectories. LWA head training and replay do not require H0
+feature/checkpoint artifacts to be copied into the remote sandbox. The six
+already completed immutable H0 references remain part of the final core
+comparison and are joined and replayed when assembling/reporting that core
+matrix; they are not rerun as part of LWA execution.
+
 ## 5. Shared data and leakage contract
 
 Reuse the accepted Phase 5/6 one-hour global-calendar walks:

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Replay six LWA probes and the matching immutable H0 references."""
+"""Replay six LWA probes, optionally including immutable H0 references."""
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -25,6 +26,13 @@ def task_dataset(task: str, walk: int) -> Path:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--include-h0-references",
+        action="store_true",
+        help="also replay immutable H0 artifacts when they are available",
+    )
+    args = parser.parse_args()
     try:
         results = []
         phase = ROOT / "experiments" / "phase6_7"
@@ -34,8 +42,19 @@ def main() -> int:
                 feature = phase / "features" / METHOD / f"walk{walk}" / "representations.npz"
                 run = phase / "downstream" / task / METHOD / f"walk{walk}" / "seed0"
                 results.append(validate_external_downstream(dataset, feature, run))
-                results.append({**validate_h0_reference(ROOT, task, walk), "task": task, "walk": walk, "method": "H0", "immutable_reference": True})
-        print(json.dumps({"valid": True, "runs": results}, indent=2, sort_keys=True))
+                if args.include_h0_references:
+                    results.append({**validate_h0_reference(ROOT, task, walk), "task": task, "walk": walk, "method": "H0", "immutable_reference": True})
+        print(
+            json.dumps(
+                {
+                    "valid": True,
+                    "h0_validation_included": args.include_h0_references,
+                    "runs": results,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
         return 0
     except Exception as exc:
         print(f"Phase 6.7 LWA downstream validation failed: {exc}", file=sys.stderr)

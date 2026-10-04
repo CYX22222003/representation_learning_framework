@@ -150,6 +150,13 @@ LWA adds exactly six trajectories:
 6 trajectories x epochs {5,15,50} = 18 snapshots
 ```
 
+These six trajectories form a self-contained execution manifest. Their
+training and replay use the task datasets and LWA master stores; H0 feature
+stores, scalers, checkpoints, and predictions are not runtime inputs. The
+already completed immutable H0 and SaURL results are joined later for the full
+core comparison and are not rerun or transferred to Lumid solely for LWA
+downstream execution.
+
 Tasks:
 
 - two-hour `DOWN/STABLE/UP` classification at `tau=0.001`;

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze LWA/H0 probes; train the six LWA heads only with --execute."""
+"""Freeze and optionally train the six LWA downstream probes."""
 
 from __future__ import annotations
 
@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from data_processing.phase5_walks import sha256_file  # noqa: E402
-from evaluation.phase6_encoder_variant_reporting import validate_h0_reference  # noqa: E402
 from features.phase6_7_lwa_features import METHOD, OUTPUT_DIM, TASKS, validate_lwa_feature_store  # noqa: E402
 from training.phase5_encoder import write_json  # noqa: E402
 from training.phase6_7_downstream import (  # noqa: E402
@@ -35,25 +34,6 @@ def task_dataset(task: str, walk: int) -> Path:
     if task == "absolute_price_h8":
         return ROOT / "experiments" / "phase5" / "downstream_addons" / "shared" / "h8" / "data" / f"walk{walk}" / "market_1h_seq64_h8.npz"
     return ROOT / "experiments" / "phase6" / "volatility_prediction" / "data_preparation" / f"walk{walk}" / "volatility_1h_seq64_h8.npz"
-
-
-def h0_paths(task: str, walk: int) -> tuple[Path, Path]:
-    if task == "classification_h2":
-        return (
-            ROOT / "experiments" / "phase5" / "features" / f"walk{walk}" / "five_branch_epoch50.npz",
-            ROOT / "experiments" / "phase5" / "downstream" / f"walk{walk}" / "classification" / "seed0",
-        )
-    if task == "absolute_price_h8":
-        base = ROOT / "experiments" / "phase5" / "downstream_addons"
-        return (
-            base / "shared" / "h8" / "features" / f"walk{walk}" / "five_branch_epoch50.npz",
-            base / "tasks" / "absolute_price_h8" / f"walk{walk}" / "seed0",
-        )
-    base = ROOT / "experiments" / "phase6" / "volatility_prediction"
-    return (
-        base / "features" / f"walk{walk}" / "five_branch_epoch50_h8.npz",
-        base / "runs" / "framework_h0" / f"walk{walk}" / "seed0",
-    )
 
 
 def _comparison(payload: dict[str, object]) -> dict[str, object]:
@@ -93,38 +73,36 @@ def main() -> int:
                         "config": Phase67DownstreamConfig(task, METHOD, walk, input_dim=OUTPUT_DIM, device=args.device).to_dict(),
                     }
                 )
-                h0_feature, h0_run = h0_paths(task, walk)
-                entries.append(
-                    {
-                        "task": task,
-                        "walk": walk,
-                        "method": "H0",
-                        "execution_mode": "immutable_replayed_reference",
-                        "dataset_path": str(dataset.resolve()),
-                        "dataset_sha256": sha256_file(dataset),
-                        "feature_path": str(h0_feature.resolve()),
-                        "feature_sha256": sha256_file(h0_feature),
-                        "feature_validation": validate_h0_reference(ROOT, task, walk),
-                        "run_root": str(h0_run.resolve()),
-                        "config": None,
-                    }
-                )
+        comparison_references = [
+            {
+                "task": task,
+                "walk": walk,
+                "method": "H0",
+                "execution_mode": "immutable_reference_joined_during_core_reporting",
+                "runtime_dependency": False,
+            }
+            for task in TASKS
+            for walk in (1, 2)
+        ]
         frozen = {
-            "schema_version": "phase6-7-lwa-downstream-matrix-v1",
+            "schema_version": "phase6-7-lwa-downstream-matrix-v2",
             "phase": "6.7",
             "seed": 0,
             "entry_count": len(entries),
             "new_trajectory_count": 6,
-            "immutable_reference_count": 6,
-            "implemented_scope": "LWA-Frozen plus immutable H0 references",
+            "comparison_reference_count": len(comparison_references),
+            "comparison_references": comparison_references,
+            "implemented_scope": "LWA-Frozen downstream execution only",
+            "h0_artifacts_required_for_execution": False,
+            "comparison_policy": "Join already completed immutable H0 and SaURL results during core reporting; do not rerun or copy H0 artifacts to train LWA probes.",
             "full_core_manifest_pending": True,
             "entries": entries,
             "cpu_smoke_test": smoke_test_external_downstream(METHOD),
             "default_action_trains_models": False,
             "evaluation_used_to_screen_matrix": False,
         }
-        if len(entries) != 12:
-            raise ValueError("LWA/H0 downstream manifest must contain 12 entries")
+        if len(entries) != 6:
+            raise ValueError("LWA downstream manifest must contain six entries")
         if MANIFEST.exists():
             if _comparison(json.loads(MANIFEST.read_text(encoding="utf-8"))) != _comparison(frozen):
                 raise ValueError("existing LWA downstream manifest differs from freeze")
@@ -133,8 +111,6 @@ def main() -> int:
         results = []
         if args.execute:
             for entry in entries:
-                if entry["method"] == "H0":
-                    continue
                 payload = dict(entry["config"])
                 payload["snapshot_epochs"] = tuple(payload["snapshot_epochs"])
                 payload["device"] = args.device

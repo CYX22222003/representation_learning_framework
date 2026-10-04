@@ -149,7 +149,7 @@ stage "Replay both LWA master stores" \
   --device cuda \
   --batch-size "${FEATURE_BATCH_SIZE}"
 
-stage "Freeze the six-run LWA downstream matrix" \
+stage "Freeze the six-run LWA-only downstream execution matrix" \
   "${PYTHON}" scripts_v6/bootstrap_phase6_7_lwa_downstream.py \
   --device cpu
 
@@ -158,7 +158,7 @@ stage "Train or validate all six LWA downstream trajectories" \
   --device cuda \
   --execute
 
-stage "Replay all LWA downstream checkpoints and predictions" \
+stage "Replay all LWA downstream checkpoints and predictions (H0 is joined later for reporting)" \
   "${PYTHON}" scripts_v6/validate_phase6_7_lwa_downstream.py
 
 echo

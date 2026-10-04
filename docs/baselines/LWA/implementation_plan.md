@@ -205,6 +205,13 @@ The script is manifest/smoke-only without `--execute`.
 
 **Manual review gate:** six-run matrix and immutable SaURL/H0 references.
 
+The Lumid execution manifest contains only the six new LWA trajectories.
+Training and replay of those heads require the established task datasets and
+LWA master stores, but do not consume H0 feature stores, scalers, checkpoints,
+or predictions. The already completed immutable H0 and SaURL results are
+joined when the full core comparison manifest/report is assembled; they are
+not rerun or copied into Lumid merely to train LWA.
+
 ## Stage 5 — feasibility and execution sequence
 
 Only after Stages 1--4 are reviewed:
@@ -216,9 +223,11 @@ Only after Stages 1--4 are reviewed:
 4. train and replay Walk 1;
 5. train and replay Walk 2;
 6. extract and replay both LWA master stores;
-7. assemble the 18-trajectory core manifest with immutable H0 and SaURL runs;
-8. execute all six LWA downstream trajectories; and
-9. replay every 5/15/50 head snapshot.
+7. freeze the six-entry LWA-only downstream execution manifest;
+8. execute all six LWA downstream trajectories;
+9. replay every 5/15/50 LWA head snapshot; and
+10. assemble the 18-trajectory core comparison manifest/report by joining the
+    already completed immutable H0 and SaURL results with LWA results.
 
 No optional baseline decision occurs inside this sequence.
 
