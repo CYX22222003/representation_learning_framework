@@ -84,10 +84,11 @@ that bounded wording rather than claim comprehensive coverage of recent
 methods.
 
 `SISSEL-Frozen` is the only pre-approved reserve. It replaces `SAURL-F` only
-if the pre-evaluation feasibility gate finds that SaURL-TS cannot be
-implemented faithfully within the available source, licence, hardware, or
-time budget. LWA may not be silently replaced; rejecting it requires a dated
-amendment before downstream evaluation.
+if the pre-evaluation feasibility gate finds that the approved independent
+paper-guided SaURL-TS adapter cannot pass its correctness, replay, hardware, or
+time budget. The unlicensed public repository is audit evidence only and no
+source is copied into the adapter. LWA may not be silently replaced; rejecting
+it requires a dated amendment before downstream evaluation.
 
 `TimeDART-Frozen` is a predeclared stretch candidate, not a Phase 6.7 exit
 condition. It is admitted only if its source/hardware feasibility and the
@@ -113,21 +114,24 @@ every candidate:
   this project's use;
 - exact inference representation, pooling rule, output width, and components
   discarded after pretraining;
-- source-derived architecture and optimizer settings;
+- source-derived architecture and optimizer settings, or a frozen documented
+  reconstruction when direct source reuse is prohibited;
 - expected parameter count, GPU-memory demand, and a CPU/CUDA smoke-test
   result on synthetic and small real training-only batches;
 - any deviation required by the 64-by-5 OHLCV input; and
 - the final decision to admit, reserve-replace, or reject the candidate.
 
-The intended extraction points, subject to official-code verification, are:
+The intended extraction points, subject to the candidate-specific source or
+reconstruction contract, are:
 
 - `LWA-F`: the source-defined frozen time representation and learned
   time-to-Fourier and time-to-Gabor representation mappings, concatenated as
   the source-defined 384-dimensional inference representation, with auxiliary
   encoders and projectors removed as specified by the source evaluation path;
   and
-- `SAURL-F`: the source-defined attention-combined time, frequency, and
-  cross-domain representation, excluding pretraining projectors/predictors.
+- `SAURL-F`: the approved reconstruction's 128-dimensional RwAM-combined time,
+  frequency, and cross-domain representation, excluding pretraining
+  projectors/predictors.
 
 If the stretch candidate is admitted, `TD-F` uses pooled causal encoder patch
 states with the diffusion decoder removed after pretraining.
@@ -195,6 +199,30 @@ The project does not tune source hyperparameters on a new validation or
 evaluation split. Any unavoidable adaptation is named explicitly, so the
 result is reported as a project `-Frozen` adaptation rather than an exact
 paper reproduction.
+
+For the paper-guided SaURL-TS adaptation, Questions 4--11 were approved by the
+project owner on 2026-10-04. The frequency-view path is selected
+before implementation and evaluation: apply `rfft` over the 64-step time
+axis, transform magnitude only with frequency SaDA, preserve the original
+phase, recombine magnitude and phase, and apply `irfft(..., n=64)` before the
+real `[B,64,5]` view enters `E_F`. At frozen inference, pass the normalized
+real input directly to `E_F`; an unchanged FFT/inverse-FFT round trip is
+mathematically redundant. The selected adapter additionally uses global
+maximum branch pooling; an eight-region RwAM with shared
+`Conv1d(3,1,1) -> ReLU -> Conv1d(1,3,1)` average/max paths; temporal and
+reconstructed-frequency views as the cross-domain BYOL pair; separate
+temporal/frequency SaDA modules with a shared factorizer but view-specific
+transform heads; independent straight-through masks; six hidden-64 dilated
+residual blocks; 128-wide representations/projectors/predictors; EMA `0.99`;
+and parameter-isolated alternating updates in which SaDA updates first every
+two minibatches and SaSSL updates every minibatch. This is an independently
+authored reconstruction, not an official reproduction.
+The normative input-domain five-kernel MMD, view bundles, gradient boundaries,
+optimizer order, no-drop batching, checkpoint state, and extraction pseudocode
+are frozen in
+`docs/baselines/SaURL_TS/upstream_clarification_request.md`; implementation and
+comparison details are frozen in the sibling implementation and integration
+documents.
 
 Every trajectory stores configuration, source version, data and row hashes,
 random seed, checkpoints, loss history, parameter count, elapsed time, peak
@@ -325,12 +353,14 @@ artifact failure is discovered.
 
 1. Replay the two accepted walk bundles, target-free encoder populations, six
    task/walk label populations, and six immutable `H0` references.
-2. Complete the source/licence/API/hardware feasibility manifest without
+2. Complete the provenance/no-upstream-code-reuse/API/hardware feasibility
+   manifest without
    reading evaluation metrics, including the SaURL/SISSEL fallback decision
    and the resource-only TimeDART admission decision.
 3. Freeze the core roster, any admitted stretch candidate, extraction points,
    architecture settings, budgets, paths, and expected matrix.
-4. Implement source-faithful adapters and pass CPU/CUDA shape,
+4. Implement source-faithful or explicitly documented independent adapters
+   and pass CPU/CUDA shape,
    forward/backward, determinism, provenance-failure, and small-batch tests.
 5. Train and replay all four core encoder trajectories, plus both TimeDART
    trajectories only if the stretch candidate was admitted at Gate 2.
