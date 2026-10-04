@@ -37,6 +37,11 @@ def cache_path(walk: int) -> Path:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument(
+        "--paper-path",
+        type=Path,
+        help="optional local copy of the audited paper for hash re-verification",
+    )
     parser.add_argument("--admit-training", action="store_true")
     parser.add_argument("--max-peak-memory-gib", type=float)
     parser.add_argument("--max-smoke-seconds", type=float)
@@ -46,9 +51,14 @@ def main() -> int:
         gate = source["gate"]
         if gate.get("public_source_code_reuse_admitted") is not False or gate.get("paper_guided_reimplementation_admitted") is not True:
             raise ValueError("LWA source/reimplementation gate differs from the approved contract")
-        paper = Path(source["paper"]["local_source_wsl"])
-        if not paper.is_file() or sha256_file(paper) != source["paper"]["sha256"]:
-            raise ValueError("LWA paper identity/hash mismatch")
+        paper = args.paper_path or Path(source["paper"]["local_source_wsl"])
+        paper_reverified = False
+        if paper.is_file():
+            if sha256_file(paper) != source["paper"]["sha256"]:
+                raise ValueError("LWA paper identity/hash mismatch")
+            paper_reverified = True
+        elif args.paper_path is not None:
+            raise FileNotFoundError(f"explicit LWA paper path does not exist: {paper}")
         import pywt
 
         if pywt.__version__ != source["approved_dependencies"]["pywavelets_version"]:
@@ -82,6 +92,11 @@ def main() -> int:
             "source_manifest_path": str(SOURCE.resolve()),
             "source_manifest_sha256": sha256_file(SOURCE),
             "paper_sha256": source["paper"]["sha256"],
+            "paper_runtime_path": str(paper),
+            "paper_file_reverified": paper_reverified,
+            "paper_identity_authority": (
+                "runtime file hash" if paper_reverified else "versioned source manifest"
+            ),
             "independent_implementation_only": True,
             "pywavelets_version": pywt.__version__,
             "cache_validations": caches,

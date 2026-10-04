@@ -80,6 +80,10 @@ downstream execution in Stage 1.
 lives in `src/training/phase6_7_lwa.py` with audit/bootstrap/replay entry points
 under `scripts_v6/`. Only a small synthetic atomic-cache test has run; neither
 full walk cache nor a training trajectory has been created.
+The runtime audit does not require the Zotero PDF to be copied into Lumid: it
+uses the versioned source-manifest identity when the recorded WSL-only paper
+path is unavailable, while still verifying any available or explicitly passed
+paper file against the frozen SHA-256.
 
 Extend the existing Phase 6.7 encoder infrastructure without changing
 completed SaURL artifacts.
