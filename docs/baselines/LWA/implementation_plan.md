@@ -1,7 +1,8 @@
 # Learning Without Augmenting Phase 6.7 implementation plan
 
-**Status:** architecture and experiment decisions approved; Stage 1 model and
-focused CPU tests implemented on 2026-10-04 and awaiting owner review
+**Status:** architecture and experiment decisions approved; Stages 1--4 model,
+cache/pretraining, frozen-feature, and downstream launch infrastructure
+implemented on 2026-10-04 and awaiting owner review; no experiment executed
 **Execution authority:** none; bootstrap commands must remain manifest-only by
 default
 **Method:** independently authored `LWA-Frozen`
@@ -75,6 +76,11 @@ downstream execution in Stage 1.
 
 ## Stage 2 — implement view-cache preparation and two-stage pretraining
 
+**Implementation status:** complete pending manual review. The implementation
+lives in `src/training/phase6_7_lwa.py` with audit/bootstrap/replay entry points
+under `scripts_v6/`. Only a small synthetic atomic-cache test has run; neither
+full walk cache nor a training trajectory has been created.
+
 Extend the existing Phase 6.7 encoder infrastructure without changing
 completed SaURL artifacts.
 
@@ -115,6 +121,10 @@ resume state. No experiment runs before owner approval.
 
 ## Stage 3 — implement two LWA master stores
 
+**Implementation status:** complete pending manual review. The extractor and
+store replay contract live in `src/features/phase6_7_lwa_features.py`; no real
+master store has been extracted.
+
 For each walk:
 
 1. load the joint epoch-50 plus mapper epoch-50 checkpoint pair;
@@ -139,6 +149,11 @@ the existing Phase 6.7 master-store pattern.
 **Manual review gate:** extraction boundary and row alignment.
 
 ## Stage 4 — integrate common native-width probes
+
+**Implementation status:** complete pending manual review. The common probe
+accepts both the immutable 128-wide SaURL method and the new 384-wide LWA
+method, and the dedicated LWA bootstrap remains manifest-only without
+`--execute`. No LWA downstream head has been trained.
 
 Reuse the already implemented generic Phase 6.7 downstream behavior, extending
 method dispatch and manifests to `lwa_frozen` while preserving SaURL runs.
@@ -202,21 +217,34 @@ Negative LWA results remain in the main core table.
 Names are provisional until code review:
 
 ```bash
-# Read-only/source/cache/CPU feasibility. Never trains a trajectory.
+# Dependency/source/CPU inspection. Never trains a trajectory.
 .venv/bin/python3 scripts_v6/audit_phase6_7_lwa.py --device cpu
 
-# Manifest and CPU smoke only.
-.venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa.py --device cpu
+# Explicitly build/validate the two expensive disk-backed view caches. This
+# still does not train a trajectory. The frozen manifest is written only once
+# both caches exist and replay.
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa.py \
+  --device cpu --prepare-cache --cache-chunk-size 256
+
+# Run the fixed physical-batch-128 CUDA resource smoke and admit training.
+.venv/bin/python3 scripts_v6/audit_phase6_7_lwa.py \
+  --device cuda --admit-training \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
 
 # Explicit training only after review and CUDA/resource admission.
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa.py --device cuda --execute
 
+# Standalone two-stage checkpoint replay.
+.venv/bin/python3 scripts_v6/validate_phase6_7_lwa.py
+
 # Frozen efficient-path feature extraction.
 .venv/bin/python3 scripts_v6/prepare_phase6_7_lwa_features.py --device cuda
+.venv/bin/python3 scripts_v6/validate_phase6_7_lwa_features.py --device cuda
 
 # Manifest/smoke, then explicit six-run execution.
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v6/validate_phase6_7_lwa_downstream.py
 ```
 
 Dedicated validation/audit entry points are intentionally omitted from this

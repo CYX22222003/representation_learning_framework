@@ -91,3 +91,8 @@ experiments/phase6_5/ta_mlp/data_preparation/**/*.npz
 # Phase 6.7 external-representation master stores are reproducible from the
 # local epoch-50 checkpoints; retain their manifests and hashes.
 experiments/phase6_7/features/**/*.npz
+# LWA frame-view arrays are multi-gigabyte reproducible caches. Keep their
+# small scaler and JSON manifest visible, but never stage arrays or an
+# interrupted atomic-build directory.
+experiments/phase6_7/view_cache/**/*.npy
+experiments/phase6_7/view_cache/**/.*/

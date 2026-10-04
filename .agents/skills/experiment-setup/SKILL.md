@@ -137,8 +137,9 @@ Read these in order:
     Before any LWA implementation or execution, also read every document in
     `docs/baselines/LWA/`; its source audit and twelve owner decisions are
     complete. The Lumid/CUDA and pinned-PyWavelets runtime audit passes, while
-    its Stage 1 model and focused local CPU tests are implemented. Owner review,
-    remote transform/cache replay, and the fixed-batch runtime gate remain.
+    its model and Stage 2--4 cache/pretraining, frozen-feature, and downstream
+    infrastructure plus focused local CPU tests are implemented. Owner review,
+    full transform/cache replay, and the fixed-batch runtime gate remain.
     The source/licence/extraction/hardware manifests for mandatory LWA and
     SaURL must be frozen independently of their evaluation. SISSEL and
     TimeDART are peer optional post-core extensions considered after mentor

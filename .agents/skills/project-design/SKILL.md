@@ -107,8 +107,9 @@ Present the parts relevant to the request:
   phase: the required SaURL-Frozen scope is complete; LWA-Frozen's paper/source
   audit, independent-adaptation dossier, and twelve owner decisions are
   complete, and the Lumid/CUDA plus pinned-PyWavelets runtime audit passes,
-  while its Stage 1 model and focused CPU tests are implemented pending owner
-  review; remote transform/cache replay, model-specific admission, and
+  while its model and Stage 2--4 cache/pretraining, frozen-feature, and
+  downstream infrastructure plus focused CPU tests are implemented pending
+  owner review; full transform/cache replay, model-specific admission, and
   execution remain pending. Both core
   methods use per-walk pretraining, freezing, and all three current tasks.
   SISSEL-Frozen and TimeDART-Frozen are peer optional post-core

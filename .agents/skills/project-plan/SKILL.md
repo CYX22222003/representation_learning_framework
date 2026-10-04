@@ -146,8 +146,9 @@ Report:
   immediate next phase. Its required frozen roster is LWA-Frozen and
   SaURL-TS-Frozen; the staged SaURL scope is complete, and LWA's paper/source
   audit, independent-adaptation dossier, owner decisions, and Lumid/PyWavelets
-  runtime audit are complete. Its Stage 1 model and focused CPU tests are
-  implemented but unexecuted; owner review, remote transform/cache replay,
+  runtime audit are complete. Its model and Stage 2--4 cache/pretraining,
+  frozen-feature, and downstream infrastructure plus focused CPU tests are
+  implemented but unexecuted; owner review, full transform/cache replay,
   model-specific admission, and execution remain pending. Its core scope is
   four walk-specific encoders, four feature stores,
   and 12 common-head downstream trajectories across the three current tasks,
