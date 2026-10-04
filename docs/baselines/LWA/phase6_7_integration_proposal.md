@@ -215,7 +215,8 @@ Small manifests, configurations, summaries, and replay evidence are tracked.
 - [x] Independent model implementation complete (pending owner review).
 - [ ] Full transform-cache replay passes (the dependency and direct CWT test
   pass remotely; Stage 2 cache replay is not implemented).
-- [x] CPU forward/backward/determinism tests pass (all 17 pass remotely).
+- [x] CPU forward/backward/determinism tests pass (all 17 pass locally and
+  remotely, including CWT).
 - [ ] Fixed batch-128 correctness/resource smoke passes on the selected container.
 - [ ] Both walk trajectories replay.
 - [ ] Both master stores replay.
