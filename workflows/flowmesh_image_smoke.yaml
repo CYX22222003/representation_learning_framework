@@ -1,0 +1,67 @@
+apiVersion: flowmesh/v1
+kind: Task
+
+metadata:
+  name: fyp-flowmesh-image-smoke
+  annotations:
+    description: >-
+      Pull the FYP runtime image from Harbor and verify its Python environment
+      and packaged repository without requesting a GPU or external network.
+
+spec:
+  taskType: python
+  image: harbor.lum.id/cyx-fyp/representation-learning-framework:flowmesh-v0.1.1
+  entrypoint: main
+  emits:
+    - environment_ready
+  timeoutSeconds: 300
+  network: none
+  resources:
+    hardware:
+      cpu: 2
+      memory: 4Gi
+  pythonOutput:
+    maxBytes: 1048576
+  code: |
+    def main():
+        import platform
+        import sys
+        from pathlib import Path
+
+        import numpy
+        import pandas
+        import pyarrow
+        import pywt
+        import scipy
+        import talib
+        import torch
+
+        required_paths = [
+            Path("/app/src"),
+            Path("/app/scripts_v6"),
+            Path("/app/docs"),
+        ]
+        missing_paths = [str(path) for path in required_paths if not path.exists()]
+        if missing_paths:
+            raise RuntimeError(f"Packaged repository paths are missing: {missing_paths}")
+
+        return {
+            "output": {
+                "status": "ok",
+                "python": sys.version.split()[0],
+                "platform": platform.platform(),
+                "torch": torch.__version__,
+                "torch_cuda_runtime": torch.version.cuda,
+                "cuda_available": torch.cuda.is_available(),
+                "numpy": numpy.__version__,
+                "pandas": pandas.__version__,
+                "pyarrow": pyarrow.__version__,
+                "pywavelets": pywt.__version__,
+                "scipy": scipy.__version__,
+                "talib": talib.__version__,
+                "repository_root": "/app",
+            },
+            "metrics": {
+                "environment_ready": 1.0,
+            },
+        }
