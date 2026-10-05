@@ -1,0 +1,230 @@
+{
+  "schema_version": "phase6-7-timedart-source-audit-v1",
+  "audit_date": "2026-10-05",
+  "phase": "6.7-optional-post-core",
+  "paper": {
+    "title": "TimeDART: A Diffusion Autoregressive Transformer for Self-Supervised Time Series Representation",
+    "authors": [
+      "Daoyu Wang",
+      "Mingyue Cheng",
+      "Zhiding Liu",
+      "Qi Liu"
+    ],
+    "venue": "ICML",
+    "proceedings": "PMLR 267",
+    "year": 2025,
+    "arxiv": "2410.05711",
+    "local_source_windows": "E:\\zotero\\storage\\Z9X88Y5S\\Wang et al. - 2025 - TimeDART A Diffusion Autoregressive Transformer for Self-Supervised Time Series Representation.pdf",
+    "local_source_wsl": "/mnt/e/zotero/storage/Z9X88Y5S/Wang et al. - 2025 - TimeDART A Diffusion Autoregressive Transformer for Self-Supervised Time Series Representation.pdf",
+    "sha256": "329130273ffbcf506e85195d616fba8c6fbdb7869feb9e2fa6d5d769f921bb8f",
+    "pages": 25
+  },
+  "code": {
+    "user_supplied_repository": "https://github.com/ustc-time-series/TimeDART",
+    "paper_repository": "https://github.com/Melmaphother/TimeDART",
+    "audited_origin": "https://github.com/ustc-time-series/TimeDART.git",
+    "commit": "e658a648cf6b04612ca643d10a634b45e136194c",
+    "commit_date": "2025-12-17T15:55:21+08:00",
+    "branches": [
+      "main"
+    ],
+    "tags": [],
+    "commit_count": 36,
+    "license_file_found": false,
+    "license_declaration_found": false,
+    "paper_matching_release_found": false,
+    "static_checkout_clean": true,
+    "original_model_last_change": {
+      "commit": "fe63995d9c8dd06ab235d8c618f55c8a86fe01b8",
+      "date": "2025-04-18T13:08:13+08:00"
+    },
+    "later_v2_code_present": true
+  },
+  "paper_reported_environment": {
+    "gpu": "single NVIDIA RTX 4090 24GB",
+    "pretraining_epochs": 50,
+    "optimizer": "Adam",
+    "learning_rate_candidates": [
+      0.001,
+      0.0005,
+      0.0001
+    ],
+    "representation_width_candidates": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "noise_steps_default": 1000,
+    "noise_scheduler": "cosine",
+    "encoder_layers_default": 2,
+    "decoder_layers_default": 1
+  },
+  "project_data": {
+    "input_shape": [
+      64,
+      5
+    ],
+    "channel_order": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "walk1_encoder_rows": 39070,
+    "walk2_encoder_rows": 58473,
+    "walk1_finite": true,
+    "walk2_finite": true
+  },
+  "source_smoke": {
+    "device": "cpu",
+    "batch_shape": [
+      2,
+      64,
+      5
+    ],
+    "configuration": {
+      "patch_len": 2,
+      "stride": 2,
+      "d_model": 32,
+      "d_ff": 64,
+      "n_heads": 8,
+      "encoder_layers": 2,
+      "decoder_layers": 1,
+      "noise_steps": 1000,
+      "mask_ratio": 1.0
+    },
+    "output_shape": [
+      2,
+      64,
+      5
+    ],
+    "encoder_state_shape": [
+      10,
+      32,
+      32
+    ],
+    "finite_forward": true,
+    "finite_backward": true,
+    "source_pretraining_parameters": 104160,
+    "source_retained_embedding_encoder_parameters": 25632
+  },
+  "proposed_adaptation": {
+    "status": "owner_approved",
+    "variant": "original_timedart",
+    "independent_implementation": true,
+    "direct_source_reuse": false,
+    "additional_walk_input_scaler": false,
+    "input_normalization": "existing Phase 5 volume scaling plus TimeDART per-instance/channel normalization",
+    "channel_handling": "shared channel-independent encoder",
+    "patch_len": 2,
+    "stride": 2,
+    "patch_count": 32,
+    "d_model": 32,
+    "d_ff": 64,
+    "n_heads": 8,
+    "encoder_layers": 2,
+    "decoder_layers": 1,
+    "reconstruction_projector": "approved paper-aligned per-patch Linear(32,2)",
+    "noise_steps": 1000,
+    "noise_scheduler": "cosine",
+    "explicit_timestep_conditioning": false,
+    "decoder_mask": "self-only",
+    "physical_batch_size": 16,
+    "drop_last": true,
+    "walk1_rows_dropped_per_epoch": 14,
+    "walk2_rows_dropped_per_epoch": 9,
+    "epochs": 50,
+    "snapshot_epochs": [
+      5,
+      15,
+      50
+    ],
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "scheduler": "ExponentialLR(gamma=0.95)",
+    "seed": 0,
+    "extraction_attention_mask": "none, matching official forecasting downstream inference; approved",
+    "extraction_pool": "max over patches independently per channel; approved",
+    "extraction_order": [
+      "pooled_open",
+      "pooled_high",
+      "pooled_low",
+      "pooled_close",
+      "pooled_volume",
+      "window_means_open_high_low_close_volume",
+      "window_stds_open_high_low_close_volume"
+    ],
+    "output_width": 170,
+    "output_width_status": "owner_approved",
+    "learned_state_width": 160,
+    "instance_statistics_width": 10
+  },
+  "sandbox_environment": {
+    "audit_date": "2026-10-05",
+    "sandbox_name": "sbx-personai-korolev-tes-dev",
+    "observed_hostname": "sbx-personai-korolev-tes-dev",
+    "persistent_repository": "/home/personai-korolev-tes/representation_learning_framework",
+    "audited_model_commit": "3655b70fa3677398f1abcedb3deb475d73de3485",
+    "branch": "phase6.7-timedart-experiments",
+    "python": "3.12.3",
+    "pytorch": "2.12.1+cu132",
+    "cuda": "13.2",
+    "gpu": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+    "gpu_memory_mib": 24467,
+    "requirements_container_exact_matches": 30,
+    "pip_check_passed": true,
+    "focused_cpu_tests_passed": 15,
+    "real_cuda_batch_size": 16,
+    "real_cuda_smoke_passed": true,
+    "real_cuda_peak_memory_mib": 90.05,
+    "required_data_files_hash_matched": 6,
+    "additional_dependencies_installed": [],
+    "github_ssh": {
+      "identity_path": "/home/personai-korolev-tes/.ssh/id_ed25519",
+      "known_hosts_path": "/home/personai-korolev-tes/.ssh/known_hosts",
+      "authentication_verified": true,
+      "repository_local_core_ssh_command": true,
+      "origin": "git@github.com:CYX22222003/representation_learning_framework.git"
+    },
+    "training_launched": false
+  },
+  "gate": {
+    "decision": "admit_independent_model_implementation",
+    "public_source_code_reuse_admitted": false,
+    "paper_guided_reimplementation_admitted": true,
+    "admitted_for_implementation": true,
+    "admitted_for_training": false,
+    "owner_decisions_required": 11,
+    "owner_decisions_resolved": 11,
+    "owner_decisions_pending": [],
+    "informational_clarifications_resolved": [7],
+    "replay_policy": {
+      "strict_cross_device_miss_within_scale_aware_bounds": "warning_and_continue",
+      "relative_l2_max": 0.0005,
+      "cosine_min": 0.999999,
+      "standalone_validation_failure": "warning_and_continue",
+      "functional_stage_cannot_produce_required_output": "fatal_stage_error"
+    },
+    "evaluation_metrics_read_for_decision": false,
+    "implementation_started": true,
+    "stage1_model_implemented": true,
+    "stage1_cpu_tests_passed": 10,
+    "pipeline_cpu_tests_passed": 5,
+    "stage1_real_training_row_smoke_passed": true,
+    "implemented_pretraining_parameters": 30242,
+    "implemented_retained_encoder_parameters": 17248,
+    "full_window_instance_normalization_pretext_caveat": "causal mask blocks direct later patch embeddings but row mean/std use the complete historical input window",
+    "minimal_data_inventory_implemented": true,
+    "training_infrastructure_implemented": true,
+    "feature_store_infrastructure_implemented": true,
+    "downstream_integration_implemented": true,
+    "durable_one_run_launcher_implemented": true,
+    "training_started": false,
+    "reporting_label_if_approved": "TimeDART (frozen encoder; independent implementation)",
+    "failure_policy": "Record feasibility or training failure; do not change the completed H0/SaURL/LWA core or silently retune the optional candidate."
+  }
+}

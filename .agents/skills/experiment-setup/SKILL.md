@@ -142,10 +142,13 @@ Read these in order:
     reporting remains.
     The source/licence/extraction/hardware manifests for mandatory LWA and
     SaURL must be frozen independently of their evaluation. SISSEL and
-    TimeDART are peer optional post-core extensions considered after mentor
-    review; each admitted method needs a separately frozen contract before its
-    implementation or evaluation. Neither is a completion requirement, and
-    Phase 6.6 is not a prerequisite.
+    TimeDART are peer optional post-core extensions, neither a completion
+    requirement. TimeDART's method-specific decisions are approved and its
+    independently authored model plus TimeDART-only data, training, feature,
+    common-probe, advisory-validation, and one-run infrastructure are
+    implemented; 15 focused CPU tests pass. No TimeDART trajectory, feature
+    store, or downstream result exists.
+    SISSEL remains uncommissioned. Phase 6.6 is not a prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
     or later grouped attribution, read

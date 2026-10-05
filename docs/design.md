@@ -26,9 +26,10 @@
 > comparison in
 > [`phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md).
 > It freezes mandatory LWA-Frozen and SaURL-TS-Frozen across the same three
-> tasks and two walks as canonical `H0`. SISSEL-Frozen and TimeDART-Frozen are
-> peer optional post-core extensions considered after mentor review, not phase
-> exit conditions. Price-focused Raw-OHLCV/`H0` residual fusion, a source-faithful recent
+> tasks and two walks as canonical `H0`. TimeDART-Frozen is a commissioned but
+> decision-gated post-core extension; SISSEL-Frozen remains uncommissioned
+> optional scope. Neither is a phase exit condition. Price-focused
+> Raw-OHLCV/`H0` residual fusion, a source-faithful recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
@@ -46,13 +47,17 @@
 > and replay-valid; SaURL is generally weaker than H0, with only isolated
 > metric-specific improvements. LWA's paper/source audit and eight-document
 > independent-adaptation dossier are complete under `docs/baselines/LWA/`,
-> and all twelve adaptation decisions are approved. Its Lumid/CUDA runtime and
-> pinned `PyWavelets==1.8.0` CWT path are verified. Its model, model-specific
-> admission, execution, and
-> final Phase 6.7 reporting remain unimplemented. Staged execution of all six SaURL probes was approved before
-> LWA, provided their metrics do not alter the later mandatory LWA contract.
-> Optional SISSEL/TimeDART studies require separately frozen post-core
-> extension contracts. Phase 6.6 and Phase 7A likewise remain plans rather than
+> and all twelve adaptation decisions are approved. Its Lumid/CUDA runtime,
+> pinned `PyWavelets==1.8.0` CWT path, model, both caches, both 50+50
+> trajectories, both 384-wide stores, and all six downstream runs are complete
+> and replay-valid. The integrated H0/SaURL/LWA core report remains.
+> TimeDART optional-extension preparation is documented under
+> `docs/baselines/TimeDART/`: its source/design audit, all eleven owner
+> decisions, independent model, and ten focused CPU tests are complete.
+> Further experiment infrastructure awaits owner evaluation; no TimeDART
+> trajectory or downstream result exists. SISSEL remains
+> uncommissioned optional scope. Phase 6.6
+> and Phase 7A likewise remain plans rather than
 > executed experimental evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
@@ -242,7 +247,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions considered after mentor review. |
+| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. TimeDART-Frozen is a commissioned but decision-gated post-core extension; SISSEL-Frozen remains uncommissioned optional scope. |
 | **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |

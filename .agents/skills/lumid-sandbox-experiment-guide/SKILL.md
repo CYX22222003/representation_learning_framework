@@ -1,6 +1,6 @@
 ---
 name: lumid-sandbox-experiment-guide
-description: Prepare, synchronize, launch, resume, validate, and monitor durable machine-learning experiments on Lumid sandboxes. Use when moving project code or data to Lumid, verifying its Python/CUDA environment, designing persistent logs and checkpoints, classifying validation failures, launching detached jobs, diagnosing apparently idle or stopped runs, or arranging bounded or long-running monitoring.
+description: Prepare, synchronize, launch, resume, validate, and monitor durable machine-learning experiments on Lumid sandboxes. Use when moving project code or data to Lumid, verifying its Python/CUDA environment, troubleshooting WSL/VPN connectivity to Lumid, designing persistent logs and checkpoints, classifying validation failures, launching detached jobs, diagnosing apparently idle or stopped runs, or arranging bounded or long-running monitoring.
 ---
 
 # Lumid Sandbox Experiment Guide
@@ -35,6 +35,48 @@ Read these sources before issuing experiment commands:
 
 Read `references/command-templates.md` when concrete SSH, Git, transfer,
 launch, monitoring, or verification commands are needed.
+
+## Gate 0: WSL and VPN Connectivity
+
+The native hostel network does not support direct SSH access to the Lumid
+sandbox, so the Windows VPN is required for the Lumid connection. Native WSL2
+networking may not automatically route through that VPN. Before investigating
+Lumid SSH configuration or Codex authentication, compare HTTPS connectivity
+from WSL and Windows:
+
+```bash
+curl -4 -I --connect-timeout 10 https://chatgpt.com
+curl.exe -4 -I --connect-timeout 10 https://chatgpt.com
+```
+
+If Linux `curl` times out while `curl.exe` returns an HTTP response, the
+Windows/VPN path works but WSL networking does not. This can break Lumid SSH,
+cause `workspace routing discovery timed out`, and make `codex doctor` report
+unreachable provider endpoints or WebSocket/HTTP timeouts. Do not respond by
+reinstalling software or changing SSH or Codex configuration while native WSL
+connectivity is still broken.
+
+This machine uses `wsl-vpnkit` for WSL-through-VPN routing. In PowerShell,
+inspect its state and start it when stopped:
+
+```powershell
+wsl -l -v
+wsl -d wsl-vpnkit --cd /app wsl-vpnkit
+```
+
+Keep `wsl-vpnkit` running while WSL uses the VPN. Then retest from WSL:
+
+```bash
+curl -4 -I --connect-timeout 10 https://chatgpt.com
+nc -vz lum.id 31223
+```
+
+Any HTTP response, including a Cloudflare `403`, confirms working HTTPS
+connectivity; a timeout does not. When connectivity suddenly fails, debug in
+this order: confirm the Windows VPN, compare Linux `curl` with Windows
+`curl.exe`, check `wsl-vpnkit` with `wsl -l -v`, start it if needed, retest
+native WSL HTTPS, retest `lum.id:31223`, and only then investigate SSH or
+Codex configuration.
 
 ## Establish an Execution Record
 
@@ -128,6 +170,26 @@ acceptable, but it must still be inventoried and validated.
 ## Gate 3: Code and Implementation Synchronization
 
 Use the remote Git repository as the source of truth for tracked code:
+
+For this project, the sandbox GitHub identity is persistent at
+`/home/personai-korolev-tes/.ssh/id_ed25519`. The sandbox may report
+`$HOME=/root`, so Git must not rely on the default identity or host-key paths.
+Keep `known_hosts` beside the persistent key and configure the persistent
+clone with:
+
+```bash
+cd /home/personai-korolev-tes/representation_learning_framework
+git remote set-url origin \
+  git@github.com:CYX22222003/representation_learning_framework.git
+git config core.sshCommand \
+  'ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts -o StrictHostKeyChecking=yes'
+```
+
+Before the first Git mutation in a recreated sandbox, confirm permissions,
+fingerprint the public key, run `ssh -T` with the explicit identity and
+persistent host file, and verify `git ls-remote origin`. GitHub's successful
+`ssh -T` response normally exits with status `1`. Never display or transfer
+the private key.
 
 1. On the local machine, inspect the branch and worktree.
 2. Test the intended changes.

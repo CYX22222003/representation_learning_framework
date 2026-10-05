@@ -118,6 +118,13 @@ include
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.
+For TimeDART paper/source interpretation, licence boundary, patching,
+diffusion objective, extraction boundary, owner decisions, experiment
+infrastructure, or optional
+extension status, also include the complete `docs/baselines/TimeDART/`
+dossier. All eleven owner decisions and its 170-dimensional extraction are
+approved. The independent model and complete experiment pipeline are
+implemented and tested; full execution awaits owner verification.
 For canonical single-branch or leave-one-branch-out attribution, or the
 Phase 7B deferral boundary, include
 `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.

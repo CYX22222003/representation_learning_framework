@@ -35,7 +35,7 @@ from training.phase6_volatility import historical_persistence, volatility_metric
 
 SNAPSHOT_EPOCHS = (5, 15, 50)
 SCHEMA_VERSION = "phase6-7-external-downstream-v1"
-METHOD_DIMS = {METHOD: OUTPUT_DIM, "lwa_frozen": 384}
+METHOD_DIMS = {METHOD: OUTPUT_DIM, "lwa_frozen": 384, "timedart_frozen": 170}
 
 
 @dataclass(frozen=True)
@@ -139,7 +139,7 @@ def _load_task_data(
     if config.method == METHOD:
         validation = validate_external_feature_store(feature_path, replay=False)
         train_raw, test_raw = load_external_task_features(feature_path, config.task)
-    else:
+    elif config.method == "lwa_frozen":
         from features.phase6_7_lwa_features import (
             load_lwa_task_features,
             validate_lwa_feature_store,
@@ -149,6 +149,18 @@ def _load_task_data(
         train_raw, test_raw = load_lwa_task_features(
             feature_path, config.task, validate=False
         )
+    elif config.method == "timedart_frozen":
+        from features.phase6_7_timedart_features import (
+            load_timedart_task_features,
+            validate_timedart_feature_store,
+        )
+
+        validation = validate_timedart_feature_store(feature_path, replay=False)
+        train_raw, test_raw = load_timedart_task_features(
+            feature_path, config.task, validate=False
+        )
+    else:  # pragma: no cover - guarded by Phase67DownstreamConfig
+        raise ValueError(f"unknown external method: {config.method}")
     if validation["walk"] != config.walk or validation["method"] != config.method:
         raise ValueError("external downstream feature method/walk mismatch")
     feature_manifest = json.loads(
