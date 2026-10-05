@@ -67,6 +67,12 @@ Read these in order:
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
     For LWA architecture, views, losses, mapping stages, or extraction, also
     read the complete `docs/baselines/LWA/` dossier.
+    For TimeDART architecture, causal patching, diffusion denoising,
+    extraction, or optional-extension planning, also read the complete
+    `docs/baselines/TimeDART/` dossier. All eleven decisions and the
+    170-dimensional extraction are approved; the independent model and ten
+    focused CPU tests are complete. Further infrastructure awaits owner
+    evaluation.
 
 ## Response Contract
 
@@ -104,17 +110,17 @@ Present the parts relevant to the request:
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
   improve movement ranking overall. Phase 6.7 is the approved immediate next
-  phase: the required SaURL-Frozen scope is complete; LWA-Frozen's paper/source
-  audit, independent-adaptation dossier, and twelve owner decisions are
-  complete, and the Lumid/CUDA plus pinned-PyWavelets runtime audit passes,
-  while its model and Stage 2--4 cache/pretraining, frozen-feature, and
-  downstream infrastructure plus focused CPU tests are implemented pending
-  owner review; full transform/cache replay, model-specific admission, and
-  execution remain pending. Both core
+  phase: the required SaURL-Frozen scope is complete. LWA-Frozen's paper/source
+  audit, twelve owner decisions, model/infrastructure, both transform caches,
+  both 50+50 trajectories, both 384-wide stores, and all six downstream runs
+  are complete and replay-valid. The integrated H0/SaURL/LWA report remains.
+  Both core
   methods use per-walk pretraining, freezing, and all three current tasks.
   SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
-  extensions considered after mentor review and are not required for phase
-  completion. Phase 7A follows
+  extensions and are not required for phase completion. TimeDART preparation
+  is now active: its paper/source audit, approved contract, independent model,
+  and focused tests are complete. Experiment infrastructure awaits owner
+  evaluation; no model trajectory or downstream run exists. Phase 7A follows
   and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's

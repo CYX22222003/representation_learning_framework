@@ -109,6 +109,14 @@ roster, optional admission, extraction point, adaptation, or checkpoint.
 Existing raw, handcrafted, hybrid, and xLSTM-Mixer results are contextual
 complete-system comparisons, not substitutes for this matrix.
 
+TimeDART preparation was commissioned on 2026-10-05. Before answering or
+acting on TimeDART architecture, training, extraction, feasibility, or
+comparison questions, read the complete `docs/baselines/TimeDART/` dossier.
+Its paper/source audit, owner-approved 170-dimensional extraction, all eleven
+decisions, independent model, and ten focused CPU tests are complete.
+The owner will evaluate the model before further training, feature, or
+downstream infrastructure. No TimeDART trajectory or result exists.
+
 Phase 6.6 is deferred. If it is reactivated, follow
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 Compare residual raw-sequence fusion primarily against the matched `F-H0`

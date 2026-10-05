@@ -67,13 +67,16 @@ universal framework superiority.
 > stores and all six staged SaURL probes are also complete; the principal
 > result is generally weaker than H0. The LWA paper/source audit and
 > independent-adaptation dossier are complete under `docs/baselines/LWA/`;
-> all twelve adaptation decisions are approved. Its Lumid/CUDA runtime and
-> pinned `PyWavelets==1.8.0` CWT path are verified, while its adapter,
-> model-specific admission, and shared full-core
-> manifest/reporting remain pending. Staged execution of the six SaURL probes was approved before
-> LWA, but their results may not change the later mandatory LWA contract.
-> SISSEL/TimeDART admission is reconsidered only after mentor review of the
-> complete required comparison and is treated as post-core exploratory scope.
+> all twelve adaptation decisions, both caches, both two-stage trajectories,
+> both 384-wide stores, and all six downstream runs are complete and valid.
+> The integrated H0/SaURL/LWA report remains pending. TimeDART remains a
+> post-core exploratory extension, but its preparation was commissioned on
+> 2026-10-05. Its paper/source/licence audit, approved 170-wide extraction,
+> full comparison contract, and implementation plan are now under
+> `docs/baselines/TimeDART/`. All eleven decisions, the independent model,
+> and ten focused CPU tests are complete. Experiment infrastructure awaits
+> owner evaluation; no TimeDART trajectory or result exists. SISSEL
+> remains uncommissioned optional scope.
 > Phase 6.6 is deferred, and Phase 7A
 > remains the subsequent unexecuted branch-analysis plan.
 > Phase 7B alpha research remains intentionally unspecified pending further
@@ -424,8 +427,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Phase 6.7 first compares canonical H0 with mandatory LWA-Frozen and
      SaURL-TS-Frozen under identical task rows and simple probes across
      classification, future price, and future realised variance. SISSEL and
-     TimeDART are peer optional post-core extensions considered after mentor
-     review of the completed required comparison.
+     TimeDART are peer optional post-core extensions. TimeDART preparation is
+     commissioned but blocked on its owner decision record; SISSEL remains
+     uncommissioned pending mentor review.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

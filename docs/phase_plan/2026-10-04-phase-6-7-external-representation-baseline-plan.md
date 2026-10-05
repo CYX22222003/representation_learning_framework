@@ -55,14 +55,31 @@ manifest before LWA is implemented. LWA remains a required core method, and
 SaURL metrics may not select or change its source, architecture, extraction
 point, hyperparameters, rows, budget, or retry policy.
 LWA-Frozen and SaURL-TS-Frozen are both mandatory core methods. Independently,
-SISSEL-Frozen and TimeDART-Frozen are peer optional extensions:
-the project owner will review the completed core comparison with mentors before
-deciding whether either extension is necessary. Because that optional decision
-may follow inspection of core results, any admitted extension is explicitly
-post-core exploratory evidence and cannot retroactively select, replace, or
-change the required core methods or their conclusions. Each optional method's
-source, adaptation, extraction, resource, and complete matrix contract must
-still be frozen before that method is implemented or evaluated.
+SISSEL-Frozen and TimeDART-Frozen are peer optional extensions. The owner has
+commissioned TimeDART preparation after the required method execution; its
+model implementation remains gated on the method-specific decision record.
+SISSEL remains uncommissioned pending mentor review. Any admitted extension
+is post-core exploratory evidence and cannot retroactively select, replace,
+or change the required core methods or their conclusions. Its source,
+adaptation, extraction, resource, and complete matrix contract must be frozen
+before implementation or evaluation.
+
+On 2026-10-05 the project owner commissioned the TimeDART preparation stage.
+The ICML paper, official source at commit
+`e658a648cf6b04612ca643d10a634b45e136194c`, licence boundary, executable
+`[B,64,5]` behavior, candidate extraction boundary, comparison contract, and
+staged implementation plan are now audited under `docs/baselines/TimeDART/`.
+The owner approved all eleven substantive TimeDART decisions on 2026-10-05;
+Question 7 was an informational clarification. The approved extraction has
+160 channelwise pooled encoder coordinates plus the five means and five
+standard deviations that source forecasting uses outside its encoder, giving
+170 coordinates. The independently authored model and ten focused CPU tests
+are complete under `src/baselines/timedart/` and `tests/baselines/timedart/`.
+A small accepted Walk 1 encoder-row forward/backward smoke passes. The owner
+instructed that work stop after model implementation for evaluation: no
+TimeDART training launcher, trajectory, feature store, downstream integration,
+or report exists. This remains a post-core exploratory extension and cannot
+alter the completed H0/SaURL/LWA core.
 
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
@@ -143,17 +160,17 @@ that bounded wording rather than claim comprehensive coverage of recent
 methods.
 
 `SISSEL-Frozen` and `TimeDART-Frozen` are peer optional extensions, not Phase
-6.7 exit conditions and not substitutes for either required method. Their
-admission will be considered only after the complete LWA/SaURL core result is
-reviewed with the project mentors. This makes either optional study an
-explicitly post-core exploratory extension rather than confirmatory evidence
-selected independently of the core results. If either is admitted, its source,
-licence, architecture, extraction point, hardware limit, training budget, and
-complete two-walk/three-task inventory must be frozen before implementation or
-execution, and its complete matrix must be preserved and reported. Optional
-results may extend the discussion but cannot retroactively replace a core
-method, modify a core trajectory, or redefine the primary Phase 6.7
-conclusion.
+6.7 exit conditions and not substitutes for either required method. The owner
+commissioned TimeDART's post-core preparation after the required LWA/SaURL
+execution; its implementation remains gated on the separate decision record.
+SISSEL remains uncommissioned pending mentor review. Either optional study is
+explicitly post-core exploratory evidence rather than part of the
+confirmatory core. Before implementation or execution, its source, licence,
+architecture, extraction point, hardware limit, training budget, and complete
+two-walk/three-task inventory must be frozen; its complete matrix must be
+preserved and reported. Optional results may extend the discussion but cannot
+retroactively replace a core method, modify a core trajectory, or redefine the
+primary Phase 6.7 conclusion.
 
 GCFin and MCSIP are not admitted to the primary matrix. Their future-label or
 extra-input assumptions do not provide a clean target-free, OHLCV-only test of
@@ -190,9 +207,13 @@ reconstruction contract, are:
   projectors/predictors.
 
 If the optional extensions are admitted, their intended extraction boundaries
-must be frozen by separate method-specific dossiers. `TD-F` is expected to use
-pooled causal encoder patch states with the diffusion decoder removed after
-pretraining. `SISSEL-F` requires its own independent paper/source clarification
+must be frozen by separate method-specific dossiers. `TD-F` was initially
+expected to use pooled causal encoder patch states with the diffusion decoder
+removed after pretraining. The audited source instead removes the causal mask
+during downstream transfer; the owner-approved TimeDART dossier uses that
+path with per-channel pooling and source-used instance statistics. This
+method-specific extraction replaces the initial expectation.
+`SISSEL-F` requires its own independent paper/source clarification
 process before its common frozen representation is selected; the current
 paper/code audit is feasibility evidence, not an implementation contract.
 
@@ -446,12 +467,12 @@ artifact failure is discovered.
 10. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
 11. Generate the complete per-walk, pooled, resource, and adaptation report.
-12. After the required core is complete, review it with the project mentors and
-   decide whether SISSEL-Frozen, TimeDART-Frozen, both, or neither should be
-   admitted as post-core exploratory extensions. For each admitted method,
-   first freeze a separate paper/source/adaptation dossier and full matrix,
-   then execute and replay all two-walk/three-task trajectories without using
-   intermediate optional results to truncate the matrix.
+12. TimeDART's eleven substantive decisions and model-only implementation are
+   complete. The owner will evaluate the model before authorizing any further
+   experiment infrastructure. If that work later resumes, execute and replay
+   the complete post-core two-walk/three-task extension. Mentor review still
+   decides whether SISSEL should be commissioned separately. No intermediate
+   optional result may truncate either admitted matrix.
 
 ## 12. Exit conditions and handoff
 
