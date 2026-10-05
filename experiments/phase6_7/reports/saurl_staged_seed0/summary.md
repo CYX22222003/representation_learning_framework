@@ -8,8 +8,10 @@
 
 **Scope:** two walks, three tasks, native 128-dimensional representation
 
-This is an interim method-local result. It does not complete Phase 6.7: LWA
-remains required, and these metrics may not change its later implementation.
+This is the retained method-local SaURL result. LWA and the optional TimeDART
+extension subsequently completed without these metrics changing their frozen
+contracts. The final cross-method interpretation is in
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
 
 ## Artifact completeness
 

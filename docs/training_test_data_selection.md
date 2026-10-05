@@ -145,7 +145,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase-6.5 GARCH--LSTM stacking volatility benchmark | five-fold chronological expanding OOF base predictions on each walk's strict H=8 training rows; contract/fold rows without two causal prices at the fold start are recorded as discarded warm-up rows; GARCH fit/scaling/caps and meta scaling/ElasticNet use permitted training information only | the identical locked Phase-6 H=8 evaluation rows using replayed Raw LSTM predictions and train-fitted GARCH/meta parameters; an unseen evaluation condition uses the median guarded H=8 forecast across contract-local training-only GARCH states; a complementary hybrid comparator, not a replacement for Raw LSTM |
 | Phase-6.5C strict adapted TA-MLP matrix | exact h2/tau=0.001 training labels restricted only by a frozen causal TA-feature-availability intersection; H0, Raw MLP, Raw LSTM, and TA-MLP use the identical P2 training rows, while TA-P1U undersamples only the training majority class | the identical natural-distribution TA-eligible evaluation identities for every strict comparator; no evaluation resampling, TA fitting, or label-derived row filtering |
 | Phase-6.5D residual-CNN encoders and probes | each walk's unchanged target-free encoder rows under the frozen Contrastive/BYOL recipes; epoch-50 residual-CNN embeddings are then frozen and price-training-only scalers/heads fit on exact `absolute_price_h8` rows | exact future-price evaluation identities, with substitutions compared to H0 and additions compared to both H0 and the completed duplicate-CNN controls; classification and volatility are deferred |
-| Phase-6.7 external frozen representations | required LWA and SaURL methods train separately on the unchanged target-free encoder population for each walk; all candidate-specific normalization/view statistics are fitted on permitted walk-training rows only; epoch-50 embeddings are frozen before any task head is fit; SISSEL and TimeDART are optional post-core extensions considered after mentor review | exact existing movement-classification, future-price, and future-RV task/walk identities through the established lightweight heads; compare 12 required new trajectories with six immutable H0 references and report native widths/resources; each admitted optional extension adds six runs under a separately frozen contract |
+| Phase-6.7 external frozen representations | completed required LWA/SaURL and optional TimeDART methods trained separately on the unchanged target-free encoder population for each walk; all candidate-specific normalization/view statistics were fitted on permitted walk-training rows only; epoch-50 embeddings were frozen before any task head was fit; SISSEL remains optional and uncommissioned | exact existing movement-classification, future-price, and future-RV task/walk identities through the established lightweight heads; 12 required plus six optional TimeDART trajectories are complete beside six immutable H0 references, with native widths/resources preserved |
 | Phase-6.6A raw-representation fusion | exact future-price training identities; the `H0` projection scaler is fit on training rows only, while raw LSTM/BiLSTM towers consume the matching saved walk-scaled 64-by-5 contexts; all supervised parameters use seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation identities through frozen training scalers; `F-H0` is the matched-capacity control, `F-RL` is the raw-only complementarity reference, and no SHAP value selects a model |
 | Phase-6.6B xLSTM-Mixer candidate | same 64-by-5 decision-time contexts plus a split-local observed next-eight-bar OHLCV auxiliary target; a metadata-only availability audit freezes either the existing price rows or a common full-path intersection before fitting; all transforms and model parameters are walk-training-only | extract only eighth-step close on the frozen common evaluation identities; if a reduced intersection is required, retrain `H0-D0` and Raw LSTM on the identical train/evaluation identities; disclose that the source-faithful model receives extra multivariate and intermediate-horizon supervision |
 | Phase-6.6C canonical decoder-capacity sensitivity | immutable canonical H0 features on exact `absolute_price_h8` training rows, with the existing train-only scaler, target, MSE loss, and sigmoid output; seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation rows for D0, residual-projection D1-RP, and branch-aware gated D2-BG; D0 remains the primary representation probe |
@@ -161,8 +161,8 @@ Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
 split. Phase 5 instead rebuilds these allocations per global calendar walk.
 Every primary walk uses a separately trained encoder and downstream head from
 the same causally permitted history, then freezes both before its next-interval
-evaluation. The completed Phase 6 and Phase 6.5 contracts and the planned
-Phase 6.7/6.6/7A contracts retain
+evaluation. The completed Phase 6, Phase 6.5, and Phase 6.7 contracts and the
+planned Phase 6.6/7A contracts retain
 walk-specific fitting and do not include a fixed-first-walk transfer ablation.
 There is no per-component validation split.
 
@@ -178,12 +178,13 @@ losses, output transforms, references, or checkpoint budgets.
 For Phase 6.7, each candidate's official source, extraction point,
 pretraining recipe, hardware decision, and complete task/walk inventory are
 frozen before that candidate's downstream execution. The owner-approved
-staged order permits SaURL probes before LWA implementation, but SaURL metrics
-may not select or change the later mandatory LWA contract. SISSEL and TimeDART
-may be considered only after mentor review of the complete required core and
-must be labelled post-core exploratory extensions. Every admitted method must return a finite embedding for every
+staged order permitted SaURL probes before LWA implementation, but SaURL metrics
+did not select or change the later mandatory LWA contract. TimeDART was later
+admitted under a separately frozen complete matrix and remains labelled a
+post-core exploratory extension. SISSEL remains optional and uncommissioned.
+Every admitted method must return a finite embedding for every
 established task row; a model-specific failure may not silently reduce the
-comparison population. Phase 6.6 is deferred behind Phase 6.7 and Phase 7A.
+comparison population. Phase 6.6 is deferred behind Phase 7A after Phase 6.7 closure.
 
 For Phase 6.6A, the bidirectional raw tower may traverse both directions only
 inside the already observed historical context; no target-interval candle may

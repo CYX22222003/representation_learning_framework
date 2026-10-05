@@ -118,19 +118,17 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > addition also beats its same-width duplicate control on those errors in both
 > walks. BYOL does not improve error consistently; Raw LSTM and persistence
 > remain stronger error references, and movement Rank IC does not improve over
-> H0 overall. The immediate next phase is now
+> H0 overall. Phase 6.7 is now closed under
 > `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
-> Phase 6.7 freezes a source/licence/hardware gate followed by a direct frozen-
-> representation comparison between canonical `H0`, LWA-Frozen, and
-> SaURL-TS-Frozen. Both external methods are mandatory. SISSEL-Frozen and
-> TimeDART-Frozen are peer optional post-core extensions and are not phase exit
-> conditions. Their admission is reconsidered after mentor review of the
-> completed required comparison. The two required external methods train separately in both
-> walks and use the same simple heads on movement classification, eight-hour
-> future price, and eight-hour future realised variance. The planned new scope
-> is four encoder trajectories, four frozen feature stores, and 12 downstream
-> trajectories, compared with six immutable `H0` references. Each admitted
-> optional extension adds two encoders, two stores, and six downstream runs;
+> It applied a source/licence/hardware gate and direct frozen-representation
+> comparison between canonical `H0`, mandatory LWA-Frozen and SaURL-TS-Frozen,
+> and the commissioned optional TimeDART-Frozen extension. SISSEL-Frozen
+> remains optional and uncommissioned. The three executed external methods
+> trained separately in both walks and used the same simple heads on movement
+> classification, eight-hour future price, and eight-hour future realised
+> variance. Phase 7A canonical branch analysis is the current approved handoff
+> and remains unimplemented. The independently authored SaURL-TS model plus
+> its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
 > pretraining, frozen-feature, replay, and native-width common-probe
 > infrastructure are now implemented under `src/`, `scripts_v6/`, and
@@ -166,22 +164,31 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > failures remain fatal. LWA does not consistently outperform immutable H0:
 > it is materially weaker on Walk 1 classification and both price MAEs, while
 > isolated Walk 2 price/volatility RMSE and correlation gains do not establish
-> broad superiority. The final integrated H0/SaURL/LWA core report remains.
+> broad superiority. The owner closed Phase 6.7 on 2026-10-05 using the
+> replay-valid method artifacts. The integrated epoch-50 comparison, including
+> TimeDART and the best internal encoder-variant envelope, is recorded under
+> `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
 > Reissued feasibility manifests are compared by stable admission semantics,
 > because measured smoke loss/time are nondeterministic; a changed file hash is
 > recorded in `admission_revalidation.json`, while any changed source, cache,
 > dependency, batch, limit, or admission outcome remains fatal.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
-> contract. TimeDART is now the separately frozen post-core exploratory
+> contract. TimeDART is the separately frozen post-core exploratory
 > extension: its independent model, minimal six-file data inventory,
 > resumable pretraining, 170-wide feature extraction, native-width common
 > probes, advisory validators, and one-run launcher are implemented under
 > `src/`, `scripts_v6/`, and `tests/baselines/timedart/`; 15 focused tests
-> pass, but no TimeDART trajectory or downstream run has executed. SISSEL
-> remains uncommissioned. Phase 6.6 is
-> deferred behind this comparison and the subsequent Phase 7A branch
-> analysis. Phase 6.6 retains a matched eight-run price-only
+> pass. Both 50-epoch encoder trajectories, both 170-wide stores, all six
+> downstream trajectories, and all 18 snapshots are complete and replay-
+> valid. It has a modest lead over the best internal encoder variants on
+> classification and realised-variance MAE in both walks, but is substantially
+> weaker on future-price error. Volatility RMSE is effectively tied and mixed
+> across walks. This is task-specific evidence,
+> not universal superiority. SISSEL remains an optional uncommissioned
+> extension and does not block the closed phase. Phase 7A is now the current
+> unimplemented handoff. Phase 6.6 is deferred behind that branch analysis
+> and retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
 > xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
@@ -437,9 +444,9 @@ bash scripts_v6/run_phase6_7_lwa_experiment.sh
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_lwa_downstream.py
 
-# Phase 6.7 TimeDART implementation contract. No TimeDART trajectory has run.
-# The one-run launcher performs minimal data inventory, CUDA admission,
-# resumable encoder training, feature extraction, and six common probes.
+# Phase 6.7 TimeDART replay contract. Both encoder trajectories, feature
+# stores, and all six common probes are complete; the one-run launcher safely
+# validates and reuses completed artifacts.
 # Standalone validators record warnings and do not block later stages.
 bash scripts_v6/run_phase6_7_timedart_experiment.sh
 
@@ -824,20 +831,20 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 |---|---|
 | `src/data_acquisition/` | Read-only external-source clients and raw acquisition utilities. FinData authentication remains runtime-only; this module does not split data, fit preprocessing, construct labels, or train models. |
 | `src/data_processing/` | Preprocessing, sequence construction, `SequenceDataset`, `.npz` I/O, the Phase 5 global-calendar walk builder, and Phase 6 future-realised-variance audit/label contracts with exact-path source replay |
-| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the completed Phase 6.7 SaURL and LWA three-task master-store/replay paths |
+| `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the completed Phase 6.7 SaURL, LWA, and TimeDART three-task master-store/replay paths |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the completed Phase 6.7 SaURL alternating and LWA two-stage pretraining/native-width probe lifecycles with train-only scaling and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the completed Phase 6.7 SaURL alternating, LWA two-stage, and TimeDART denoising/native-width probe lifecycles with train-only scaling and CPU replay |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
-| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored, executed `saurl_ts/` and `lwa/` adapters |
+| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored, executed `saurl_ts/`, `lwa/`, and `timedart/` adapters |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
 | `scripts_v4/` | Thin Phase 6 entry points for the completed volatility and temporal-encoder lifecycles: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 | `scripts_v5/` | Thin Phase 6.5 entry points for the completed LSTM-capacity, GARCH--LSTM, TA-MLP, and residual-CNN lifecycles |
-| `scripts_v6/` | Thin Phase 6.7 entry points for the completed SaURL and LWA feasibility, pretraining, frozen-feature, downstream, and replay lifecycles |
+| `scripts_v6/` | Thin Phase 6.7 entry points for the completed SaURL, LWA, and TimeDART feasibility, pretraining, frozen-feature, downstream, and replay lifecycles |
 
 ### Key data contracts
 

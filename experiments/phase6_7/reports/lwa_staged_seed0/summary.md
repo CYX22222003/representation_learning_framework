@@ -8,9 +8,10 @@
 
 **Scope:** two walks, three tasks, native 384-dimensional representation
 
-This is the method-local LWA result. The required SaURL matrix is also
-complete, but the integrated H0/SaURL/LWA core report remains a separate
-Phase 6.7 reporting task.
+This is the retained method-local LWA result. The required SaURL matrix and
+optional TimeDART extension are also complete. The final cross-method
+interpretation is in
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
 
 ## Artifact completeness
 

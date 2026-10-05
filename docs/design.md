@@ -18,23 +18,22 @@
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 >
-> **Next-scope authority (amended 2026-10-04):** Phase 6.5 LSTM capacity,
+> **Next-scope authority (amended 2026-10-05):** Phase 6.5 LSTM capacity,
 > strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
 > focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
-> The immediate next phase is the matched recent frozen-representation
-> comparison in
+> The matched recent frozen-representation comparison is closed in
 > [`phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md).
 > It freezes mandatory LWA-Frozen and SaURL-TS-Frozen across the same three
-> tasks and two walks as canonical `H0`. TimeDART-Frozen is a commissioned but
-> decision-gated post-core extension; SISSEL-Frozen remains uncommissioned
-> optional scope. Neither is a phase exit condition. Price-focused
+> tasks and two walks as canonical `H0`; the commissioned TimeDART-Frozen
+> extension is also complete. SISSEL-Frozen remains uncommissioned optional
+> scope and was not a phase exit condition. Price-focused
 > Raw-OHLCV/`H0` residual fusion, a source-faithful recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > with grouped SHAP deferred to a later analysis amendment. The whole Phase
-> 6.6 programme is now deferred behind Phase 6.7 and Phase 7A.
+> 6.6 programme remains deferred behind Phase 7A.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
@@ -50,15 +49,15 @@
 > and all twelve adaptation decisions are approved. Its Lumid/CUDA runtime,
 > pinned `PyWavelets==1.8.0` CWT path, model, both caches, both 50+50
 > trajectories, both 384-wide stores, and all six downstream runs are complete
-> and replay-valid. The integrated H0/SaURL/LWA core report remains.
-> TimeDART optional-extension preparation is documented under
+> and replay-valid. The integrated Phase 6.7 epoch-50 comparison is under
+> `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
+> TimeDART execution is documented under
 > `docs/baselines/TimeDART/`: its source/design audit, all eleven owner
-> decisions, independent model, and ten focused CPU tests are complete.
-> Further experiment infrastructure awaits owner evaluation; no TimeDART
-> trajectory or downstream result exists. SISSEL remains
-> uncommissioned optional scope. Phase 6.6
-> and Phase 7A likewise remain plans rather than
-> executed experimental evidence. Phase 7B alpha research remains
+> decisions, independent model, focused CPU tests, two encoder trajectories,
+> two 170-wide stores, six downstream trajectories, and 18 snapshots are
+> complete and replay-valid. SISSEL remains uncommissioned optional scope.
+> Phase 7A is the current unimplemented handoff; Phase 6.6 likewise remains a
+> plan rather than executed experimental evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -211,8 +210,8 @@ imputation-exposure reporting but is not an additional model channel.
   eight future-price trajectories are complete and replay-valid. Contrastive
   residual variants reduce price error against H0 in both walks, while BYOL
   does not improve consistently and movement ranking remains weaker. Phase
-  6.7 next compares canonical H0 with three recent target-free frozen
-  representations under the same simple heads and three tasks. Phase 7A then
+  6.7 completed the canonical H0 comparison with three recent target-free
+  frozen representations under the same simple heads and three tasks. Phase 7A now
   runs canonical single/leave-one-out attribution. The deferred Phase 6.6
   retains a matched frozen-H0/raw-sequence residual fusion system, a source-
   faithful xLSTM-Mixer full-path benchmark, and two richer static canonical
@@ -247,7 +246,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. TimeDART-Frozen is a commissioned but decision-gated post-core extension; SISSEL-Frozen remains uncommissioned optional scope. |
+| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Completed required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. Completed optional extension: TimeDART-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
 | **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
@@ -279,16 +278,16 @@ optimisation freedom and remain contextual complete-system comparisons.
   natural evaluation distribution remains untouched. Legacy BUY/HOLD/SELL
   metrics are not current-task evidence.
 
-- **Recent frozen-representation comparison:** Phase 6.7 pretrains each
+- **Recent frozen-representation comparison:** Phase 6.7 pretrained each
   admitted external encoder separately on the two target-free walk
   populations, freezes epoch-50 embeddings, and uses the established simple
   heads on the exact movement-classification, future-price, and future-RV
   rows. The core matrix has 12 new trajectories and six immutable `H0`
-  references. Each admitted SISSEL or TimeDART extension adds six
-  trajectories. Native widths, parameters, time, memory, source deviations,
-  and negative results are reported. Mentor review of the core may commission
-  an optional exploratory extension, but no evaluation metric selects that
-  method's extraction point, recipe, checkpoint, or matrix truncation.
+  references. The admitted TimeDART extension added six trajectories; SISSEL
+  remains optional and uncommissioned. Native widths, parameters, time,
+  memory, source deviations, and negative results are preserved. No evaluation
+  metric selected an optional method's extraction point, recipe, checkpoint,
+  or matrix truncation.
 
 - **Deferred decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
   features, future-price rows, scaler, target, loss, and output transform fixed.

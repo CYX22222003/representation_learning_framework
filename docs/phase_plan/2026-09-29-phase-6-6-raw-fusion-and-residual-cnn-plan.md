@@ -2,9 +2,8 @@
 
 **Date:** 2026-09-29
 **Status:** Approved planning contract, amended 2026-10-04; implementation and
-execution have not started. The whole phase is deferred behind the active
-Phase 6.7 recent frozen-representation baseline comparison and the subsequent
-Phase 7A branch analysis. If Phase 6.6 is reactivated, the internal contract
+execution have not started. Phase 6.7 closed on 2026-10-05; this whole phase
+remains deferred behind the current Phase 7A branch analysis. If Phase 6.6 is reactivated, the internal contract
 below remains in force unless another dated amendment changes it. The former
 Phase 6.6B residual-CNN study now
 belongs to price-focused Phase 6.5D; the vacated Phase 6.6B identifier is
@@ -53,7 +52,8 @@ the decoder design previously frozen here, but its active matrix is narrowed
 to future price. Phase 6.6 also does not change the Phase 7A canonical branch-
 ablation matrix.
 
-The dated Phase 6.7 plan supersedes Phase 6.6 as the immediate next priority.
+The dated Phase 6.7 plan previously superseded Phase 6.6 and is now closed;
+Phase 7A is the current handoff.
 xLSTM-Mixer remains a later price-specific complete-system baseline; it does
 not satisfy the direct reusable-representation comparison and is not a Phase
 6.7 or Phase 7A execution gate. The requirement in Sec. 4.1 to resolve Phase

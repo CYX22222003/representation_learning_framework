@@ -1,7 +1,7 @@
 # TimeDART Phase 6.7 implementation plan
 
-**Status:** Stages 0--5 implemented; stopped for owner verification before execution
-**Execution authority:** no trajectory training authorized by this document  
+**Status:** Stages 0--5 executed and replay-valid; Phase 6.7 closed on 2026-10-05
+**Execution authority:** the owner authorized and completed the frozen matrix
 **Method:** independently authored TimeDART with frozen-encoder probe contract
 
 The work follows the manual review gates used for SaURL and LWA.
@@ -91,14 +91,14 @@ was verified on 2026-10-05 without launching training:
 - the two encoder bundles plus four task-specific downstream bundles match
   local sizes and SHA-256 hashes.
 
-This establishes environment readiness only. Every experiment trajectory
-remains unexecuted.
+This initially established environment readiness only. The subsequently
+authorized experiment completed every trajectory below.
 
 ## Stage 2 — implement gated walk-specific pretraining
 
-**Status:** implemented and CPU-smoked; not executed. The pretrainer is
-epoch-resumable, saves complete state every epoch, retains 5/15/50 snapshots,
-and requires a matching CUDA admission manifest for `--execute`.
+**Status:** complete. Both 50-epoch trajectories and their 5/15/50 snapshots
+are replay-valid. The pretrainer remains epoch-resumable and requires a
+matching CUDA admission manifest for `--execute`.
 
 Create `src/training/phase6_7_timedart.py` and scripts:
 
@@ -134,8 +134,8 @@ state, resume behavior, and resource admission.
 
 ## Stage 3 — implement two master feature stores
 
-**Status:** implemented and covered by focused synthetic extraction tests;
-not executed on the full task populations.
+**Status:** complete. Both full 170-dimensional task master stores are valid,
+in addition to the focused synthetic extraction tests.
 
 Create:
 
@@ -159,7 +159,8 @@ For each walk:
 
 ## Stage 4 — extend native-width common probes
 
-**Status:** implemented and CPU-smoked; no downstream trajectory has run.
+**Status:** complete. All six downstream trajectories and 18 retained
+snapshots are recorded and valid.
 
 Update `src/training/phase6_7_downstream.py` carefully:
 
@@ -185,8 +186,8 @@ artifacts.
 
 ## Stage 5 — implement a durable launcher
 
-**Status:** implemented at
-`scripts_v6/run_phase6_7_timedart_experiment.sh`; not launched.
+**Status:** implemented and successfully completed at
+`scripts_v6/run_phase6_7_timedart_experiment.sh`.
 
 Create `scripts_v6/run_phase6_7_timedart_experiment.sh` only after Stages 1--4
 are reviewed. It should write persistent timestamped logs, stop at the first
@@ -218,6 +219,12 @@ bash scripts_v6/run_phase6_7_timedart_experiment.sh
 
 ## Stage 6 — report the complete extension
 
+**Closure disposition:** the complete metrics, predictions, identities,
+resources, and replay evidence are retained in the method artifacts. The
+cross-method epoch-50 interpretation is consolidated at
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; a
+separate TimeDART-only report is unnecessary.
+
 Report:
 
 - every per-walk and pooled task metric at 5/15/50;
@@ -241,5 +248,7 @@ Negative or collapsed results remain in the report.
 - both walk trajectories and all 5/15/50 checkpoints replay;
 - both stores replay exact task identities and the approved native width;
 - all six downstream trajectories and 18 snapshots replay; and
-- the complete TimeDART extension report is generated without changing the
-  completed core comparison.
+- the phase closure record preserves the bounded interpretation without
+  changing the completed core comparison; the integrated epoch-50 report is
+  generated under
+  `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.

@@ -241,8 +241,8 @@ decoder conditioned on causal clean-history states.
 - Which dataset recipe is the best predeclared analogue for hourly prediction
   markets?
 
-These questions are converted into recommendations in
-`upstream_clarification_request.md` and remain unresolved until owner approval.
+These questions were converted into recommendations and resolved by the owner
+in `upstream_clarification_request.md` before implementation and execution.
 
 ## 13. Relevance to Phase 6.7
 

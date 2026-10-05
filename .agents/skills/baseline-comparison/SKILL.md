@@ -92,15 +92,15 @@ For LWA specifically, also read the complete `docs/baselines/LWA/` dossier;
 its paper/source audit and twelve owner decisions are complete, and its model
 plus Stage 2--4 experiment lifecycle is complete: both caches, both two-stage
 walk trajectories, both 384-wide stores, and all six downstream runs are
-valid. The integrated H0/SaURL/LWA core report remains.
+valid. Phase 6.7 is closed; its integrated epoch-50 comparison is recorded at
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
 Treat LWA-Frozen and SaURL-TS-Frozen as the required direct external
 representation baselines. Pretrain
 each separately on each walk's target-free encoder population, freeze epoch-50
 embeddings, and use the established lightweight heads on identical task rows.
 SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions, not
-phase exit conditions. Consider them only after mentor review of the completed
-required comparison; if admitted, freeze that method's complete contract
-before implementation and run its full two-walk/three-task matrix. Because
+phase exit conditions. TimeDART was admitted only after its complete contract
+was frozen and its full two-walk/three-task matrix is now replay-valid. Because
 their admission may follow core-result review, label them exploratory and do
 not use them to retroactively replace or redefine the core. Compare all
 methods primarily with immutable `H0`; preserve native widths but report head
@@ -113,9 +113,17 @@ TimeDART preparation was commissioned on 2026-10-05. Before answering or
 acting on TimeDART architecture, training, extraction, feasibility, or
 comparison questions, read the complete `docs/baselines/TimeDART/` dossier.
 Its paper/source audit, owner-approved 170-dimensional extraction, all eleven
-decisions, independent model, and ten focused CPU tests are complete.
-The owner will evaluate the model before further training, feature, or
-downstream infrastructure. No TimeDART trajectory or result exists.
+decisions, independent model, focused CPU tests, two encoder trajectories, two
+stores, six downstream trajectories, and 18 snapshots are complete and replay-
+valid. SISSEL remains optional and uncommissioned.
+
+When summarizing the completed Phase 6.7 results, distinguish the immutable
+`H0` direct comparison from the descriptive best-internal-variant envelope.
+The envelope is metric-wise and is not one selected model. The strongest
+framework result is future-price error; TimeDART has only a modest lead on
+classification and realised-variance MAE. For volatility headlines, use MAE
+and RMSE: do not use Spearman to claim a regression win, and disclose that
+RMSE is effectively tied and mixed across walks.
 
 Phase 6.6 is deferred. If it is reactivated, follow
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.

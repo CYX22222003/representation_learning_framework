@@ -192,12 +192,27 @@
     },
     "training_launched": false
   },
+  "experiment_execution": {
+    "closure_date": "2026-10-05",
+    "phase_status": "complete_frozen_seed0_scope",
+    "cuda_admission_passed": true,
+    "encoder_trajectories_complete": 2,
+    "encoder_replay_valid": 2,
+    "feature_stores_complete": 2,
+    "feature_stores_valid": 2,
+    "downstream_trajectories_complete": 6,
+    "downstream_snapshots_retained": 18,
+    "dedicated_generated_report": false,
+    "integrated_comparison_report": "experiments/phase6_7/reports/frozen_representation_seed0/summary.md",
+    "report_disposition": "integrated_epoch50_comparison_generated; separate TimeDART-only report not required",
+    "sissel_status": "optional_uncommissioned"
+  },
   "gate": {
-    "decision": "admit_independent_model_implementation",
+    "decision": "admitted_and_completed",
     "public_source_code_reuse_admitted": false,
     "paper_guided_reimplementation_admitted": true,
     "admitted_for_implementation": true,
-    "admitted_for_training": false,
+    "admitted_for_training": true,
     "owner_decisions_required": 11,
     "owner_decisions_resolved": 11,
     "owner_decisions_pending": [],
@@ -223,7 +238,10 @@
     "feature_store_infrastructure_implemented": true,
     "downstream_integration_implemented": true,
     "durable_one_run_launcher_implemented": true,
-    "training_started": false,
+    "training_started": true,
+    "training_completed": true,
+    "feature_extraction_completed": true,
+    "downstream_evaluation_completed": true,
     "reporting_label_if_approved": "TimeDART (frozen encoder; independent implementation)",
     "failure_policy": "Record feasibility or training failure; do not change the completed H0/SaURL/LWA core or silently retune the optional candidate."
   }
