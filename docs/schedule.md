@@ -33,8 +33,11 @@
 > TimeDART preparation on 2026-10-05: its paper/source/licence audit,
 > owner-approved 170-wide extraction, comparison contract, and implementation
 > plan live under `docs/baselines/TimeDART/`. The independent model and ten
-> focused CPU tests are complete; the owner requested a pause after the model
-> for evaluation. No TimeDART training or downstream evaluation has run.
+> focused CPU tests are complete. Its new Lumid sandbox is synchronized and
+> environment-ready with persistent GitHub SSH, exact container dependencies,
+> matching data hashes, and a finite real batch-16 CUDA smoke. Training,
+> feature-store, and downstream infrastructure remain unimplemented; no
+> TimeDART trajectory or downstream evaluation has run.
 > Phase 6.6 is deferred, while Phase 7A remains the subsequent documented
 > branch-analysis plan.
 > Phase 5 seed-0 execution is
@@ -194,7 +197,7 @@
 | Adapted GARCH--LSTM stacking volatility benchmark | ✅ Trained on shared 4h realised-volatility label bundle at 15/50/100 epochs; replay verification and plots complete |
 | GINN benchmark (AR→GARCH→LSTM, volatility) | ✅ Trained on 4h data at 15 epochs; further sweep deferred because of documented GARCH-target failure |
 | TA-MLP benchmark (FreqTrade, trend classification) | ✅ Historical natural-sampling adaptation remains contextual on legacy four-hour BUY/HOLD/SELL data. The strict current-data h2/tau=0.001 Phase 6.5C study is now complete for both walks: causal stores, matched P2 comparators, TA-only P1U sensitivity, all ten trajectories, and 5/15/50 replay are valid. TA-P2 leads Walk 1 macro-F1 but not Walk 2. |
-| TimeDART-Frozen representation baseline | 🔄 Optional post-core Phase 6.7 extension. Paper/source/licence audit, all eleven owner decisions, 170-wide extraction contract, independent model, ten focused CPU tests, and a finite real-row forward/backward smoke are complete. The owner will evaluate the model before training and feature/downstream infrastructure proceeds; no trajectory or result exists. |
+| TimeDART-Frozen representation baseline | 🔄 Optional post-core Phase 6.7 extension. Paper/source/licence audit, all eleven owner decisions, 170-wide extraction contract, independent model, ten focused CPU tests, synchronized Lumid sandbox, persistent GitHub SSH, exact dependency/data checks, and a finite batch-16 CUDA smoke are complete. Training, feature-store, and downstream infrastructure remain unimplemented; no trajectory or result exists. |
 | LWA-Frozen representation baseline | ✅ Required Phase 6.7 method execution complete: paper/source audit, twelve owner decisions, Lumid/CUDA admission, both full transform caches, both 50+50 two-stage trajectories, two 384-wide master stores, six downstream trajectories, and all 18 snapshots are valid. LWA is generally weaker than immutable H0, with isolated price/volatility RMSE or correlation improvements. Integrated core reporting remains. |
 | SaURL-TS-Frozen representation baseline | ✅ Required Phase 6.7 core method; staged scope complete: CUDA/resource admission, both 50-epoch encoders, two 128-dimensional master stores, six downstream trajectories, and all 18 snapshots are replay-valid. The epoch-50 result is generally weaker than H0, with isolated metric-specific improvements. Near-zero learned masks and large embedding norms remain disclosed diagnostics. |
 | SISSEL-Frozen representation baseline | ⏸️ Uncommissioned optional post-core Phase 6.7 extension. The paper and public source have been read for feasibility, but no implementation contract or code has been created; mentor review will decide whether it is needed. |

@@ -78,8 +78,11 @@ are complete under `src/baselines/timedart/` and `tests/baselines/timedart/`.
 A small accepted Walk 1 encoder-row forward/backward smoke passes. The owner
 instructed that work stop after model implementation for evaluation: no
 TimeDART training launcher, trajectory, feature store, downstream integration,
-or report exists. This remains a post-core exploratory extension and cannot
-alter the completed H0/SaURL/LWA core.
+or report exists. The next Lumid sandbox is nevertheless synchronized and
+environment-ready: persistent GitHub SSH, all container dependencies, all six
+input bundles, focused CPU tests, and a bounded real CUDA batch-16 smoke have
+been verified. This remains a post-core exploratory extension and cannot alter
+the completed H0/SaURL/LWA core.
 
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,

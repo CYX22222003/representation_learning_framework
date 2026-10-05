@@ -74,6 +74,29 @@ Do not implement training orchestration or feature stores in Stage 1.
 **Manual review gate:** ready for owner evaluation. Work stops here per the
 owner's 2026-10-05 instruction; Stages 2--6 remain unimplemented.
 
+### Lumid readiness record
+
+The owner subsequently provisioned the next sandbox environment. Readiness
+was verified on 2026-10-05 without launching training:
+
+- sandbox/hostname `sbx-personai-korolev-tes-dev`;
+- persistent repository
+  `/home/personai-korolev-tes/representation_learning_framework`;
+- persistent GitHub key `/home/personai-korolev-tes/.ssh/id_ed25519`, with
+  repository-local `core.sshCommand` and persistent `known_hosts`;
+- Python 3.12.3 and PyTorch `2.12.1+cu132` with CUDA 13.2;
+- NVIDIA RTX PRO 4000 Blackwell SFF, 24,467 MiB;
+- all 30 `requirements-container.txt` pins match and `pip check` passes;
+- all ten focused CPU tests pass in the sandbox;
+- a real Walk 1 batch-16 CUDA forward/backward smoke returns finite loss,
+  gradients, and `[16,170]` features at about 90 MiB peak allocation; and
+- the two encoder bundles plus four task-specific downstream bundles match
+  local sizes and SHA-256 hashes.
+
+This establishes environment readiness only. Stage 2 training infrastructure
+and every experiment trajectory remain unimplemented/unexecuted pending the
+owner's next instruction.
+
 ## Stage 2 — implement gated walk-specific pretraining
 
 Create `src/training/phase6_7_timedart.py` and scripts:

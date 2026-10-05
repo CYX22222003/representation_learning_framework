@@ -61,6 +61,13 @@ This directory records the evidence and proposed project adaptation for:
   window mean/std, even though direct attention remains causal. This limits
   a literal strict-autoregression claim for the pretext task; the complete
   input window is historical at downstream decision time.
+- The persistent Lumid environment is ready for the next implementation
+  stage: the TimeDART branch and six required data files match local hashes;
+  all 30 container requirements match exactly; Python 3.12.3, CUDA-enabled
+  PyTorch 2.12.1, and the 24 GiB RTX PRO 4000 Blackwell pass the focused tests
+  and a real batch-16 CUDA forward/backward smoke. GitHub SSH uses the
+  persistent identity under `/home/personai-korolev-tes/.ssh/`. No training
+  trajectory was launched during this readiness audit.
 
 ## Documents
 

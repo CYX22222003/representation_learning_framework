@@ -43,6 +43,15 @@ Run inside the confirmed sandbox:
 
 ```bash
 cd /home/<user>/<repository>
+ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 \
+  -o IdentitiesOnly=yes \
+  -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts \
+  -o StrictHostKeyChecking=yes \
+  -T git@github.com
+git remote set-url origin \
+  git@github.com:CYX22222003/representation_learning_framework.git
+git config core.sshCommand \
+  'ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts -o StrictHostKeyChecking=yes'
 git branch --show-current
 git status --short
 git rev-parse HEAD
@@ -50,6 +59,11 @@ git fetch origin <branch>
 git pull --ff-only origin <branch>
 git rev-parse HEAD
 ```
+
+Treat GitHub's authenticated `ssh -T` message with exit status `1` as a
+successful connectivity probe. Never print or transfer the private key. For a
+different Lumid user or repository, replace all project-specific paths and the
+GitHub repository URL explicitly.
 
 The final SHA must match the local and origin SHA. Stop if tracked sandbox
 changes would be overwritten or require a merge.

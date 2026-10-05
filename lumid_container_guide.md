@@ -101,6 +101,51 @@ ssh-keygen -lf $HOME\.ssh\id_ed25519.pub
 
 Windows and WSL usually have different SSH keypairs. Register whichever keys will actually be used.
 
+### Persistent GitHub identity inside the project sandbox
+
+The current project sandbox may run commands with `$HOME=/root` even though
+the persistent user volume is `/home/personai-korolev-tes`. A key placed in
+`/root/.ssh` or a default `known_hosts` created there can disappear when the
+sandbox is recreated. Keep the project GitHub identity and host record under
+the persistent volume:
+
+```text
+/home/personai-korolev-tes/.ssh/id_ed25519
+/home/personai-korolev-tes/.ssh/id_ed25519.pub
+/home/personai-korolev-tes/.ssh/known_hosts
+```
+
+Expected permissions are `700` on `.ssh`, `600` on the private key and
+`known_hosts`, and `644` on the public key. Never print, copy, commit, or
+transfer the private key through experiment tooling.
+
+Verify GitHub authentication explicitly:
+
+```bash
+ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 \
+  -o IdentitiesOnly=yes \
+  -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts \
+  -o StrictHostKeyChecking=accept-new \
+  -T git@github.com
+```
+
+GitHub prints a successful-authentication message and normally exits with
+status `1` because it does not provide shell access. After the first verified
+connection, configure the persistent repository rather than relying on the
+container's default SSH search path:
+
+```bash
+cd /home/personai-korolev-tes/representation_learning_framework
+git remote set-url origin \
+  git@github.com:CYX22222003/representation_learning_framework.git
+git config core.sshCommand \
+  'ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts -o StrictHostKeyChecking=yes'
+git ls-remote origin HEAD
+```
+
+This repository-local configuration is stored beneath the persistent clone.
+Revalidate it after every sandbox recreation before the first fetch or pull.
+
 ## 4. Diagnose SSH in layers
 
 Use:

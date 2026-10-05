@@ -171,6 +171,26 @@ acceptable, but it must still be inventoried and validated.
 
 Use the remote Git repository as the source of truth for tracked code:
 
+For this project, the sandbox GitHub identity is persistent at
+`/home/personai-korolev-tes/.ssh/id_ed25519`. The sandbox may report
+`$HOME=/root`, so Git must not rely on the default identity or host-key paths.
+Keep `known_hosts` beside the persistent key and configure the persistent
+clone with:
+
+```bash
+cd /home/personai-korolev-tes/representation_learning_framework
+git remote set-url origin \
+  git@github.com:CYX22222003/representation_learning_framework.git
+git config core.sshCommand \
+  'ssh -i /home/personai-korolev-tes/.ssh/id_ed25519 -o IdentitiesOnly=yes -o UserKnownHostsFile=/home/personai-korolev-tes/.ssh/known_hosts -o StrictHostKeyChecking=yes'
+```
+
+Before the first Git mutation in a recreated sandbox, confirm permissions,
+fingerprint the public key, run `ssh -T` with the explicit identity and
+persistent host file, and verify `git ls-remote origin`. GitHub's successful
+`ssh -T` response normally exits with status `1`. Never display or transfer
+the private key.
+
 1. On the local machine, inspect the branch and worktree.
 2. Test the intended changes.
 3. Commit them and push the exact branch to `origin`.
