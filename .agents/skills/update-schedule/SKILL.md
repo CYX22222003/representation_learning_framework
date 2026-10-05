@@ -89,9 +89,10 @@ as executed. Phase 6.7 required method execution is complete. Both SaURL and
 LWA have their two walk-specific encoders, two native-width stores, and six
 downstream trajectories with replay evidence; the integrated H0/SaURL/LWA
 core report remains. SISSEL and TimeDART are peer optional post-core
-extensions. TimeDART's independently authored model and ten focused CPU
-tests are complete, but the owner has paused work after the model for
-evaluation; no TimeDART trajectory, feature store, or downstream run exists.
+extensions. TimeDART's independently authored model, full experiment
+pipeline, and 15 focused CPU tests are complete; execution is paused for
+owner verification, and no TimeDART trajectory, feature store, or downstream
+run exists.
 SISSEL remains uncommissioned. Each optional method eventually adds two
 encoders, two feature stores, and six downstream trajectories. Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the

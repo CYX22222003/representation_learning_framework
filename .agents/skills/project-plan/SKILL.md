@@ -76,7 +76,7 @@ Read these in order:
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
-   170-wide extraction and model-only implementation status,
+   170-wide extraction and current implementation/execution status,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
    for the frozen, unimplemented representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
@@ -154,8 +154,8 @@ Report:
   and 12 common-head downstream trajectories across the three current tasks,
   with six immutable `H0` references. SISSEL-Frozen and TimeDART-Frozen are
   peer optional post-core extensions, neither required for phase completion.
-  TimeDART's model and focused CPU tests are implemented, but experiment
-  infrastructure and all training/evaluation runs await owner review. SISSEL
+  TimeDART's model, focused tests, and full experiment pipeline are implemented,
+  but all training/evaluation runs await owner verification. SISSEL
   remains uncommissioned. Each admitted optional method eventually adds two
   encoders, two stores, and six downstream trajectories. Phase 6.6 price-focused
   raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,

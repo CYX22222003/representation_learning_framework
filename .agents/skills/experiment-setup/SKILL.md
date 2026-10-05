@@ -144,9 +144,10 @@ Read these in order:
     SaURL must be frozen independently of their evaluation. SISSEL and
     TimeDART are peer optional post-core extensions, neither a completion
     requirement. TimeDART's method-specific decisions are approved and its
-    independently authored model plus ten focused CPU tests are complete;
-    the owner has paused work after model implementation for evaluation.
-    No TimeDART trajectory, feature store, or downstream result exists.
+    independently authored model plus TimeDART-only data, training, feature,
+    common-probe, advisory-validation, and one-run infrastructure are
+    implemented; 15 focused CPU tests pass. No TimeDART trajectory, feature
+    store, or downstream result exists.
     SISSEL remains uncommissioned. Phase 6.6 is not a prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,

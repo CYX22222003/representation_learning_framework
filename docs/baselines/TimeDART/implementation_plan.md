@@ -1,6 +1,6 @@
 # TimeDART Phase 6.7 implementation plan
 
-**Status:** Stages 0 and 1 complete; stopped for owner evaluation before Stage 2  
+**Status:** Stages 0--5 implemented; stopped for owner verification before execution
 **Execution authority:** no trajectory training authorized by this document  
 **Method:** independently authored TimeDART with frozen-encoder probe contract
 
@@ -69,10 +69,8 @@ Focused tests under `tests/baselines/timedart/` must cover:
 - unmasked versus causal extraction behavior as approved; and
 - deterministic eval-mode save/load replay.
 
-Do not implement training orchestration or feature stores in Stage 1.
-
-**Manual review gate:** ready for owner evaluation. Work stops here per the
-owner's 2026-10-05 instruction; Stages 2--6 remain unimplemented.
+The owner reviewed and accepted Stage 1, then authorized implementation of
+the experiment scripts on 2026-10-05.
 
 ### Lumid readiness record
 
@@ -93,11 +91,14 @@ was verified on 2026-10-05 without launching training:
 - the two encoder bundles plus four task-specific downstream bundles match
   local sizes and SHA-256 hashes.
 
-This establishes environment readiness only. Stage 2 training infrastructure
-and every experiment trajectory remain unimplemented/unexecuted pending the
-owner's next instruction.
+This establishes environment readiness only. Every experiment trajectory
+remains unexecuted.
 
 ## Stage 2 — implement gated walk-specific pretraining
+
+**Status:** implemented and CPU-smoked; not executed. The pretrainer is
+epoch-resumable, saves complete state every epoch, retains 5/15/50 snapshots,
+and requires a matching CUDA admission manifest for `--execute`.
 
 Create `src/training/phase6_7_timedart.py` and scripts:
 
@@ -120,11 +121,10 @@ Required behavior:
 7. record dropped remainders, losses, time, memory, parameter counts, gradient
    health, RNG/sampler, configuration, data, and source hashes;
 8. resume only from a complete matching state; and
-9. replay every snapshot independently on CPU and the training device;
-   log strict elementwise cross-device misses as warnings when relative L2 is
-   at most `5e-4` and cosine is at least `0.999999`, while keeping corrupted
-   artifacts, identity/provenance mismatches, non-finite output, and material
-   drift fatal so the Lumid launcher stops on invalid state.
+9. replay every snapshot independently on CPU; log strict elementwise misses
+   inside relative L2 `5e-4` and cosine `0.999999` as warnings. Standalone
+   validation is advisory and never blocks the following launcher stage;
+   failures that make an output impossible remain functional stage errors.
 
 The bootstrap must never train without `--execute`. It must not create a
 validation set or select a checkpoint from loss.
@@ -133,6 +133,9 @@ validation set or select a checkpoint from loss.
 state, resume behavior, and resource admission.
 
 ## Stage 3 — implement two master feature stores
+
+**Status:** implemented and covered by focused synthetic extraction tests;
+not executed on the full task populations.
 
 Create:
 
@@ -155,6 +158,8 @@ For each walk:
 **Manual review gate:** extraction boundary and row alignment.
 
 ## Stage 4 — extend native-width common probes
+
+**Status:** implemented and CPU-smoked; no downstream trajectory has run.
 
 Update `src/training/phase6_7_downstream.py` carefully:
 
@@ -180,6 +185,9 @@ artifacts.
 
 ## Stage 5 — implement a durable launcher
 
+**Status:** implemented at
+`scripts_v6/run_phase6_7_timedart_experiment.sh`; not launched.
+
 Create `scripts_v6/run_phase6_7_timedart_experiment.sh` only after Stages 1--4
 are reviewed. It should write persistent timestamped logs, stop at the first
 failed gate, and safely validate/reuse completed artifacts.
@@ -187,6 +195,7 @@ failed gate, and safely validate/reuse completed artifacts.
 Proposed command order:
 
 ```bash
+.venv/bin/python3 scripts_v6/prepare_phase6_7_timedart_data.py
 .venv/bin/python3 scripts_v6/audit_phase6_7_timedart.py --device cpu
 .venv/bin/python3 scripts_v6/audit_phase6_7_timedart.py \
   --device cuda --admit-training \
@@ -195,10 +204,16 @@ Proposed command order:
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_timedart.py
 .venv/bin/python3 scripts_v6/prepare_phase6_7_timedart_features.py --device cuda
-.venv/bin/python3 scripts_v6/validate_phase6_7_timedart_features.py --device cuda
+.venv/bin/python3 scripts_v6/validate_phase6_7_timedart_features.py --device cuda --replay
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_timedart_downstream.py
+```
+
+The full sequence is also available through:
+
+```bash
+bash scripts_v6/run_phase6_7_timedart_experiment.sh
 ```
 
 ## Stage 6 — report the complete extension

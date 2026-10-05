@@ -5,9 +5,9 @@
 **Phase:** 6.7 optional post-core external representation extension
 **Dossier status:** paper/source audit and all eleven owner decisions complete;
 Question 7 was an informational clarification
-**Implementation status:** independently authored model and focused CPU tests
-complete; experiment infrastructure intentionally not started pending owner
-evaluation
+**Implementation status:** model plus TimeDART-only data inventory,
+pretraining/resume, frozen-feature, native-width downstream, advisory replay,
+and one-run launcher infrastructure complete; 15 focused CPU tests pass
 **Experiment status:** no TimeDART training, feature extraction, or downstream
 evaluation has run
 
@@ -53,9 +53,20 @@ This directory records the evidence and proposed project adaptation for:
 - The official trainer uses validation loss, best-checkpoint selection, and
   downstream early stopping. Those procedures are incompatible with the
   project's train/test-only fixed-budget contract and will not be reused.
-- The independent model lives under `src/baselines/timedart/`. Ten focused
-  CPU tests and a small real training-row forward/backward check pass. No
-  trajectory, feature store, or downstream head has been run.
+- The independent model lives under `src/baselines/timedart/`. Its experiment
+  path lives under `src/data_processing/phase6_7_timedart_data.py`,
+  `src/training/phase6_7_timedart.py`,
+  `src/features/phase6_7_timedart_features.py`, and `scripts_v6/`. Fifteen
+  focused CPU tests pass. No trajectory, feature store, or downstream head
+  has been run.
+- Data preparation inventories the exact six existing Phase 5/6 bundles
+  without copying them. Encoder training opens only target-free sequences and
+  identities; feature extraction opens only task contexts and identities;
+  downstream labels are loaded only by the corresponding common probe.
+- Replay validators are advisory entry points: they emit structured warnings
+  and return successfully. Functional stage failures such as absent inputs,
+  unreadable checkpoints, non-finite training, or inability to create a
+  required output still stop that stage.
 - Full-window instance normalization happens before the causal pretraining
   mask. It lets later values affect earlier normalized patches through the
   window mean/std, even though direct attention remains causal. This limits
@@ -80,7 +91,7 @@ This directory records the evidence and proposed project adaptation for:
 - `phase6_7_integration_proposal.md` — fair two-walk/three-task comparison
   contract.
 - `implementation_plan.md` — staged implementation, testing, execution, and
-  replay plan; it grants no training authority.
+  replay plan and current implementation status.
 - `source_manifest.json` — machine-readable paper/source/gate record.
 
 ## Primary sources

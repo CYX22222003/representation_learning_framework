@@ -70,9 +70,9 @@ Read these in order:
     For TimeDART architecture, causal patching, diffusion denoising,
     extraction, or optional-extension planning, also read the complete
     `docs/baselines/TimeDART/` dossier. All eleven decisions and the
-    170-dimensional extraction are approved; the independent model and ten
-    focused CPU tests are complete. Further infrastructure awaits owner
-    evaluation.
+    170-dimensional extraction are approved; the independent model, complete
+    experiment pipeline, and 15 focused CPU tests are implemented. No
+    TimeDART experiment trajectory has run.
 
 ## Response Contract
 
@@ -119,8 +119,9 @@ Present the parts relevant to the request:
   SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
   extensions and are not required for phase completion. TimeDART preparation
   is now active: its paper/source audit, approved contract, independent model,
-  and focused tests are complete. Experiment infrastructure awaits owner
-  evaluation; no model trajectory or downstream run exists. Phase 7A follows
+  minimal data inventory, resumable pretraining, feature extraction,
+  common-probe, advisory-validation, and one-run infrastructure are complete.
+  No model trajectory or downstream run exists. Phase 7A follows
   and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's

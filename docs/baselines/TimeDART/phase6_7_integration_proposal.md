@@ -2,9 +2,9 @@
 
 **Method ID:** `timedart_frozen`  
 **Reporting label:** `TimeDART (frozen encoder; independent implementation)`  
-**Current gate:** all method decisions resolved; the independent model and
-focused CPU tests are complete. The owner will evaluate them before further
-experiment infrastructure.
+**Current gate:** all method decisions, the independent model, and the full
+experiment pipeline are implemented. The owner will verify the scripts before
+experiment execution.
 
 ## 1. Role and claim boundary
 
@@ -141,8 +141,9 @@ evidence remain versioned where existing project policy permits.
 - [x] All eleven owner decisions recorded.
 - [x] Question 7 terminology clarified; no new mechanism introduced.
 - [x] Questions 3 and 9 resolved before implementation.
-- [x] Independent model implementation complete; awaiting owner review.
-- [x] Ten focused CPU tests and a real-row smoke pass.
+- [x] Independent model and full experiment pipeline implementation complete;
+  awaiting owner verification before execution.
+- [x] Fifteen focused CPU tests and a real-row smoke pass.
 - [ ] CUDA/resource gate passes on the selected runtime.
 - [ ] Two encoder trajectories replay.
 - [ ] Two feature stores replay.

@@ -73,12 +73,14 @@ The owner approved all eleven substantive TimeDART decisions on 2026-10-05;
 Question 7 was an informational clarification. The approved extraction has
 160 channelwise pooled encoder coordinates plus the five means and five
 standard deviations that source forecasting uses outside its encoder, giving
-170 coordinates. The independently authored model and ten focused CPU tests
-are complete under `src/baselines/timedart/` and `tests/baselines/timedart/`.
-A small accepted Walk 1 encoder-row forward/backward smoke passes. The owner
-instructed that work stop after model implementation for evaluation: no
-TimeDART training launcher, trajectory, feature store, downstream integration,
-or report exists. The next Lumid sandbox is nevertheless synchronized and
+170 coordinates. The independently authored model and 15 focused CPU
+model/pipeline tests are complete under `src/baselines/timedart/` and
+`tests/baselines/timedart/`. A small accepted Walk 1 encoder-row
+forward/backward smoke passes. After model review, the owner authorized the
+TimeDART-only data inventory, resumable pretraining, 170-wide extraction,
+native-width common-probe, advisory-validation, and durable one-run launcher
+infrastructure. These now live under `src/` and `scripts_v6/`; no TimeDART
+trajectory, feature store, downstream run, or report exists. The next Lumid sandbox is synchronized and
 environment-ready: persistent GitHub SSH, all container dependencies, all six
 input bundles, focused CPU tests, and a bounded real CUDA batch-16 smoke have
 been verified. This remains a post-core exploratory extension and cannot alter
@@ -470,10 +472,10 @@ artifact failure is discovered.
 10. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
 11. Generate the complete per-walk, pooled, resource, and adaptation report.
-12. TimeDART's eleven substantive decisions and model-only implementation are
-   complete. The owner will evaluate the model before authorizing any further
-   experiment infrastructure. If that work later resumes, execute and replay
-   the complete post-core two-walk/three-task extension. Mentor review still
+12. TimeDART's eleven substantive decisions, independent model, and complete
+   experiment pipeline are implemented. The owner will verify the scripts
+   before authorizing execution of the complete post-core two-walk/three-task
+   extension. Mentor review still
    decides whether SISSEL should be commissioned separately. No intermediate
    optional result may truncate either admitted matrix.
 

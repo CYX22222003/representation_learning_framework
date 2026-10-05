@@ -1,13 +1,15 @@
 # TimeDART architecture and data flow
 
-**Status:** owner-approved architecture; independent model and focused tests
-complete  
+**Status:** owner-approved architecture; independent model, experiment
+pipeline, and focused tests complete
 **Target input:** 64 hourly OHLCV observations  
 **Frozen feature width:** 170 (160 pooled states plus 10 instance statistics)
 
 This document describes the owner-approved Phase 6.7 adaptation. The model
-is implemented under `src/baselines/timedart/`; experiment infrastructure
-is held for owner evaluation.
+is implemented under `src/baselines/timedart/`; experiment infrastructure is
+implemented under `src/data_processing/`, `src/training/`, `src/features/`,
+and `scripts_v6/`, while all full experiment trajectories remain unexecuted
+pending owner verification.
 
 ## What comes from the paper, source, and project
 

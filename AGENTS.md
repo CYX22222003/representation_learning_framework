@@ -173,8 +173,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > dependency, batch, limit, or admission outcome remains fatal.
 > Staged execution of the six SaURL downstream trajectories is approved before
 > LWA implementation; SaURL metrics may not alter the later mandatory LWA
-> contract. Any later SISSEL/TimeDART study is a separately frozen post-core
-> exploratory extension. Phase 6.6 is
+> contract. TimeDART is now the separately frozen post-core exploratory
+> extension: its independent model, minimal six-file data inventory,
+> resumable pretraining, 170-wide feature extraction, native-width common
+> probes, advisory validators, and one-run launcher are implemented under
+> `src/`, `scripts_v6/`, and `tests/baselines/timedart/`; 15 focused tests
+> pass, but no TimeDART trajectory or downstream run has executed. SISSEL
+> remains uncommissioned. Phase 6.6 is
 > deferred behind this comparison and the subsequent Phase 7A branch
 > analysis. Phase 6.6 retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
@@ -431,6 +436,27 @@ bash scripts_v6/run_phase6_7_lwa_experiment.sh
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_lwa_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_lwa_downstream.py
+
+# Phase 6.7 TimeDART implementation contract. No TimeDART trajectory has run.
+# The one-run launcher performs minimal data inventory, CUDA admission,
+# resumable encoder training, feature extraction, and six common probes.
+# Standalone validators record warnings and do not block later stages.
+bash scripts_v6/run_phase6_7_timedart_experiment.sh
+
+# Individual manifest/replay/launch commands:
+.venv/bin/python3 scripts_v6/prepare_phase6_7_timedart_data.py
+.venv/bin/python3 scripts_v6/audit_phase6_7_timedart.py --device cpu
+.venv/bin/python3 scripts_v6/audit_phase6_7_timedart.py \
+  --device cuda --admit-training \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart.py --device cpu
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart.py --device cuda --execute
+.venv/bin/python3 scripts_v6/validate_phase6_7_timedart.py
+.venv/bin/python3 scripts_v6/prepare_phase6_7_timedart_features.py --device cuda
+.venv/bin/python3 scripts_v6/validate_phase6_7_timedart_features.py --device cuda --replay
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cpu
+.venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cuda --execute
+.venv/bin/python3 scripts_v6/validate_phase6_7_timedart_downstream.py
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature
