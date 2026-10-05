@@ -206,9 +206,8 @@ reproduction or an authorization to reuse source code.
 
 ## 5. Feasibility verdict
 
-**Decision:** technically feasible; independently authored model implementation
-and focused CPU checks complete. The owner is evaluating this model before
-experiment infrastructure proceeds.
+**Decision:** technically feasible; independently authored model implementation,
+focused CPU checks, and the admitted experiment lifecycle are complete.
 
 Recommended admission is an independently authored TimeDART model evaluated
 with a frozen encoder. The internal artifact ID remains `timedart_frozen`:
@@ -225,8 +224,9 @@ with a frozen encoder. The internal artifact ID remains `timedart_frozen`:
 - the full two-walk/three-task optional extension matrix.
 
 The owner resolved all eleven decisions on 2026-10-05; Question 7 was a
-terminology clarification. The independent model and ten focused CPU tests
-are complete, with a finite real-row forward/backward smoke. The model has
-30,242 pretraining parameters and retains 17,248 encoder parameters. No
-downstream metric has been inspected to form these decisions, and no
-TimeDART training trajectory has been launched.
+terminology clarification. The independent model and focused CPU tests are
+complete, with a finite real-row forward/backward smoke. The model has 30,242
+pretraining parameters and retains 17,248 encoder parameters. No downstream
+metric was inspected to form these decisions. After the contract was frozen,
+both TimeDART training trajectories and the full six-run evaluation matrix
+were executed and replayed.

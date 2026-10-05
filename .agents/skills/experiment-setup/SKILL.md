@@ -130,7 +130,7 @@ Read these in order:
     `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
     full. Phase 7B alpha research remains deferred and has no approved
     execution contract.
-16. For the immediate recent frozen-representation comparison, read
+16. For the completed recent frozen-representation comparison, read
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
     in full. External encoders train separately on each walk's target-free
     population and freeze before common-head probing on identical task rows.
@@ -138,17 +138,19 @@ Read these in order:
     `docs/baselines/LWA/`; its source audit and twelve owner decisions are
     complete. The Lumid/CUDA and pinned-PyWavelets runtime audit passes. Both
     transform caches, both two-stage walk trajectories, both 384-wide stores,
-    and all six downstream runs are complete and valid; integrated core
-    reporting remains.
+    and all six downstream runs are complete and valid. The integrated
+    epoch-50 comparison is under
+    `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
     The source/licence/extraction/hardware manifests for mandatory LWA and
     SaURL must be frozen independently of their evaluation. SISSEL and
     TimeDART are peer optional post-core extensions, neither a completion
     requirement. TimeDART's method-specific decisions are approved and its
     independently authored model plus TimeDART-only data, training, feature,
     common-probe, advisory-validation, and one-run infrastructure are
-    implemented; 15 focused CPU tests pass. No TimeDART trajectory, feature
-    store, or downstream result exists.
-    SISSEL remains uncommissioned. Phase 6.6 is not a prerequisite.
+    implemented; 15 focused CPU tests pass. Both TimeDART encoder
+    trajectories, both 170-wide stores, all six downstream trajectories, and
+    18 snapshots are complete and replay-valid. SISSEL remains optional and
+    uncommissioned. Phase 7A is the current handoff; Phase 6.6 is not a prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
     or later grouped attribution, read
@@ -160,7 +162,7 @@ Read these in order:
     with matched H0-D0/Raw-LSTM reruns if a common intersection is required;
     its extra multivariate/multihorizon supervision must be disclosed; and
     SHAP-style attribution cannot select models or checkpoints. This phase is
-    deferred behind Phase 6.7 and Phase 7A.
+    deferred behind Phase 7A after Phase 6.7 closure.
 
 ## Response Contract
 

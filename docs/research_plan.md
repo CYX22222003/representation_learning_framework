@@ -15,12 +15,13 @@ Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
 research stages below remain broad workstreams rather than experiment-phase
 specifications.
 
-**Next-phase transition (2026-10-04):** Phase 6.7 is the immediate approved
-follow-up. It compares canonical `H0` with recent target-free frozen
-representations under the same three tasks, two walks, and lightweight heads.
-Phase 6.6 price-specific fusion, xLSTM-Mixer, and decoder-capacity work is
-deferred; Phase 7A canonical branch analysis follows Phase 6.7. The
-authoritative contract is
+**Current transition (2026-10-05):** Phase 6.7 is closed after comparing
+canonical `H0` with required LWA/SaURL and optional TimeDART under the same
+three tasks, two walks, and lightweight heads. SISSEL remains optional and
+uncommissioned. Phase 7A canonical branch analysis is the current approved
+handoff and remains unimplemented. Phase 6.6 price-specific fusion,
+xLSTM-Mixer, and decoder-capacity work remains deferred. The Phase 6.7
+closure contract is
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
 
 ---
@@ -149,14 +150,12 @@ subgroups, and the complete report are replay-valid. The Contrastive
 substitution and addition improve price MAE/RMSE over H0 in both walks, and
 the addition beats its same-width duplicate control, but Raw LSTM and
 persistence remain stronger error references and movement ranking weakens.
-The simple head remains the primary representation probe. Phase 6.7 is the
-immediate next priority and directly compares canonical `H0` with recent
-target-free representations: mandatory LWA-Frozen and SaURL-TS-Frozen.
-SISSEL-Frozen and TimeDART-Frozen are peer optional post-core extensions rather
-than phase exit conditions. Their admission is reconsidered after mentor
-review of the completed required comparison. Each required method is pretrained separately for both walks, frozen, and
+The simple head remains the primary representation probe. Phase 6.7 is now
+complete: mandatory LWA-Frozen and SaURL-TS-Frozen and commissioned optional
+TimeDART-Frozen were pretrained separately for both walks, frozen, and
 evaluated with the same simple heads on movement classification, future price,
-and future realised variance. Phase 7A then tests the canonical five branches
+and future realised variance. SISSEL-Frozen remains optional and
+uncommissioned. Phase 7A now tests the canonical five branches
 through single-branch and leave-one-branch-out probes. Phase 6.6 is deferred
 until those two evidence gaps are addressed; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers, a source-
@@ -222,8 +221,8 @@ Three categories of comparison models are used:
 
 - **Learning Without Augmenting-Frozen** *(NeurIPS 2025)* — multi-domain time/Fourier/time-frequency representation evaluated through its frozen source-style extraction path and the common probes.
 - **SaURL-TS-Frozen** *(Pattern Recognition 2026)* — mandatory adaptive time/frequency bootstrap representation.
-- **SISSEL-Frozen** *(Information Fusion 2026, optional)* — scale-independent multi-autoencoder representation retained as a possible post-core exploratory extension.
-- **TimeDART-Frozen** *(ICML 2025, optional)* — autoregressive generative/self-supervised encoder retained as a possible post-core exploratory extension.
+- **SISSEL-Frozen** *(Information Fusion 2026, optional)* — scale-independent multi-autoencoder representation retained as uncommissioned possible future scope.
+- **TimeDART-Frozen** *(ICML 2025, optional)* — completed autoregressive denoising representation extension with two encoders, two 170-wide stores, and six common-probe trajectories.
 
 These Phase 6.7 methods use the exact existing task/walk rows and simple-head
 contracts. They are project `-Frozen` adaptations unless every source detail
@@ -240,7 +239,7 @@ is reproduced; their native embedding widths and compute costs are reported.
   source-faithful future-price complete-system benchmark. Its complete
   next-eight-bar, five-channel supervision prevents it from serving as a
   direct frozen-representation comparison.
-- **Additional benchmarks (TBD)** — deferred until the Phase 6.7 roster and report are complete.
+- **Additional benchmarks (TBD)** — deferred; any new baseline requires a separately approved scope after Phase 6.7 closure.
 
 **Internal baselines:**
 
@@ -328,19 +327,16 @@ The Contrastive result supports a narrow price-level improvement, while BYOL
 is not consistently better and no movement-ranking or trading claim follows;
 classification and volatility extensions remain deferred.
 
-Phase 6.7 first tests the central transfer claim against the closest recent
-prior work. Mandatory LWA-Frozen and SaURL-TS-Frozen use
+Phase 6.7 tested the central transfer claim against the closest recent prior
+work. Mandatory LWA-Frozen and SaURL-TS-Frozen used
 the same two target-free walk populations, then freeze one
 embedding per row and train the established lightweight heads on the exact
 classification, future-price, and future-realised-variance identities. The
 primary matrix contains 12 new downstream trajectories and six immutable `H0`
-references. After the required comparison is complete, mentor review may admit
-SISSEL, TimeDART, both, or neither as post-core exploratory extensions; each
-admitted method adds six trajectories. For every method, source, licence,
-extraction, and hardware feasibility are frozen before its training. Core
-results may motivate the mentor decision to commission an optional extension,
-but neither core nor optional evaluation metrics may select that extension's
-recipe or truncate its frozen matrix.
+references. The separately commissioned TimeDART extension added six complete
+trajectories after its source, licence, extraction, and hardware feasibility
+were frozen. SISSEL remains optional and uncommissioned. No core or optional
+evaluation metric selected an extension recipe or truncated its frozen matrix.
 
 After Phase 6.7, Phase 7A provides internal branch evidence through the
 precommitted canonical single-branch and leave-one-out matrix. Together these

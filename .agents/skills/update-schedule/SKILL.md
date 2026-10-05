@@ -85,16 +85,15 @@ manifests, generated stores where applicable, checkpoints, predictions, and
 replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
 checkpoints, feature stores, downstream runs/predictions, CKA, resources,
 subgroups, and its complete report; treat its frozen price-only seed-0 scope
-as executed. Phase 6.7 required method execution is complete. Both SaURL and
-LWA have their two walk-specific encoders, two native-width stores, and six
-downstream trajectories with replay evidence; the integrated H0/SaURL/LWA
-core report remains. SISSEL and TimeDART are peer optional post-core
-extensions. TimeDART's independently authored model, full experiment
-pipeline, and 15 focused CPU tests are complete; execution is paused for
-owner verification, and no TimeDART trajectory, feature store, or downstream
-run exists.
-SISSEL remains uncommissioned. Each optional method eventually adds two
-encoders, two feature stores, and six downstream trajectories. Phase 6.6A/B/C's
+as executed. Phase 6.7 is closed for its frozen seed-0 scope. SaURL, LWA, and
+the commissioned optional TimeDART extension each have two walk-specific
+encoders, two native-width stores, and six downstream trajectories with replay
+evidence. The integrated epoch-50 comparison is generated at
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; a
+separate TimeDART-only report is not required. SISSEL remains optional and
+uncommissioned and does not reopen
+the phase. Phase 7A is the current approved handoff and remains unimplemented.
+Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the
 canonical branch-ablation matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha

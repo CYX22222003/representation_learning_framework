@@ -62,7 +62,7 @@ Read these in order:
     LSTM/BiLSTM towers, the source-faithful xLSTM-Mixer candidate, canonical
     decoder-capacity sensitivity, or grouped post-hoc attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
-11. For the immediate recent frozen-representation comparison, candidate
+11. For the completed recent frozen-representation comparison, candidate
     roster, extraction boundary, or common-probe design, read
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
     For LWA architecture, views, losses, mapping stages, or extraction, also
@@ -71,8 +71,8 @@ Read these in order:
     extraction, or optional-extension planning, also read the complete
     `docs/baselines/TimeDART/` dossier. All eleven decisions and the
     170-dimensional extraction are approved; the independent model, complete
-    experiment pipeline, and 15 focused CPU tests are implemented. No
-    TimeDART experiment trajectory has run.
+    experiment pipeline, 15 focused CPU tests, two encoder trajectories, two
+    stores, six downstream trajectories, and 18 snapshots are complete.
 
 ## Response Contract
 
@@ -109,20 +109,20 @@ Present the parts relevant to the request:
   residual-CNN SSL encoders, two feature stores, eight future-price probes,
   CKA, resources, subgroups, and report are complete and replay-valid. Its
   Contrastive variants improve price error over H0 in both walks but do not
-  improve movement ranking overall. Phase 6.7 is the approved immediate next
-  phase: the required SaURL-Frozen scope is complete. LWA-Frozen's paper/source
+  improve movement ranking overall. Phase 6.7 is closed: the required
+  SaURL-Frozen scope is complete. LWA-Frozen's paper/source
   audit, twelve owner decisions, model/infrastructure, both transform caches,
   both 50+50 trajectories, both 384-wide stores, and all six downstream runs
-  are complete and replay-valid. The integrated H0/SaURL/LWA report remains.
+  are complete and replay-valid. The integrated epoch-50 comparison is under
+  `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
   Both core
   methods use per-walk pretraining, freezing, and all three current tasks.
   SISSEL-Frozen and TimeDART-Frozen are peer optional post-core
-  extensions and are not required for phase completion. TimeDART preparation
-  is now active: its paper/source audit, approved contract, independent model,
-  minimal data inventory, resumable pretraining, feature extraction,
-  common-probe, advisory-validation, and one-run infrastructure are complete.
-  No model trajectory or downstream run exists. Phase 7A follows
-  and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
+  extensions and are not required for phase completion. TimeDART's paper/
+  source audit, approved contract, independent model, two encoders, two
+  170-wide stores, six common-probe runs, and 18 snapshots are complete and
+  replay-valid. SISSEL remains optional and uncommissioned. Phase 7A is the
+  current handoff and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's
   two richer static canonical decoders. xLSTM-Mixer extracts `close[t+8]` from

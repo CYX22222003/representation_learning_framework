@@ -45,10 +45,10 @@ universal framework superiority.
 > and a price-focused residual-CNN encoder study,
 > the
 > [Phase 6.7 recent frozen-representation baseline plan](phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md),
-> which is now the immediate priority and compares canonical `H0` with
-> mandatory LWA-Frozen and SaURL-TS-Frozen under the same three-task, two-walk
-> probing contract. SISSEL-Frozen and TimeDART-Frozen are peer optional
-> post-core extensions rather than completion requirements,
+> which is now closed after comparing canonical `H0` with mandatory
+> LWA-Frozen and SaURL-TS-Frozen and commissioned optional TimeDART-Frozen
+> under the same three-task, two-walk probing contract. SISSEL-Frozen remains
+> optional and uncommissioned,
 > the
 > [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > which retains a source-faithful xLSTM-Mixer candidate before decoder
@@ -60,7 +60,7 @@ universal framework superiority.
 > a repeatable Contrastive residual-CNN price-error improvement over H0 and its
 > same-width control, but not over Raw LSTM or persistence, and not in movement
 > ranking; BYOL does not improve error consistently across walks.
-> Phase 6.7 is approved and its SaURL-TS model, gated pretraining,
+> Phase 6.7 is complete. Its SaURL-TS model, gated pretraining,
 > frozen-feature, replay, and native-width probe infrastructure are
 > implemented and CPU-tested. Its CUDA/resource gate and both walk-specific
 > 50-epoch pretraining trajectories are complete and replay-valid. Both master
@@ -69,16 +69,16 @@ universal framework superiority.
 > independent-adaptation dossier are complete under `docs/baselines/LWA/`;
 > all twelve adaptation decisions, both caches, both two-stage trajectories,
 > both 384-wide stores, and all six downstream runs are complete and valid.
-> The integrated H0/SaURL/LWA report remains pending. TimeDART remains a
-> post-core exploratory extension, but its preparation was commissioned on
+> The integrated Phase 6.7 epoch-50 comparison is recorded under
+> `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
+> TimeDART remains a post-core exploratory extension and was commissioned on
 > 2026-10-05. Its paper/source/licence audit, approved 170-wide extraction,
 > full comparison contract, and implementation plan are now under
 > `docs/baselines/TimeDART/`. All eleven decisions, the independent model,
-> and ten focused CPU tests are complete. Experiment infrastructure awaits
-> owner evaluation; no TimeDART trajectory or result exists. SISSEL
-> remains uncommissioned optional scope.
-> Phase 6.6 is deferred, and Phase 7A
-> remains the subsequent unexecuted branch-analysis plan.
+> focused CPU tests, both encoder trajectories, both 170-wide stores, all six
+> downstream trajectories, and 18 snapshots are complete and replay-valid.
+> SISSEL remains uncommissioned optional scope. Phase 6.6 is deferred, and
+> Phase 7A is the current unexecuted branch-analysis handoff.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -424,12 +424,10 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      h2/tau=0.001 movement labels, with a causal common TA-eligible row
      intersection, matched P2 H0/raw comparator reruns, and a training-only
      paper-derived undersampling sensitivity
-   - Phase 6.7 first compares canonical H0 with mandatory LWA-Frozen and
-     SaURL-TS-Frozen under identical task rows and simple probes across
-     classification, future price, and future realised variance. SISSEL and
-     TimeDART are peer optional post-core extensions. TimeDART preparation is
-     commissioned but blocked on its owner decision record; SISSEL remains
-     uncommissioned pending mentor review.
+   - Phase 6.7 completed the canonical H0 comparison with mandatory LWA-Frozen
+     and SaURL-TS-Frozen and optional TimeDART-Frozen under identical task rows
+     and simple probes across classification, future price, and future
+     realised variance. SISSEL remains optional and uncommissioned.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

@@ -8,8 +8,9 @@ Question 7 was an informational clarification
 **Implementation status:** model plus TimeDART-only data inventory,
 pretraining/resume, frozen-feature, native-width downstream, advisory replay,
 and one-run launcher infrastructure complete; 15 focused CPU tests pass
-**Experiment status:** no TimeDART training, feature extraction, or downstream
-evaluation has run
+**Experiment status:** complete for the admitted two-walk/three-task seed-0
+scope: two encoder trajectories, two 170-wide stores, six downstream runs,
+and 18 retained snapshots are replay-valid
 
 This directory records the evidence and proposed project adaptation for:
 
@@ -57,8 +58,9 @@ This directory records the evidence and proposed project adaptation for:
   path lives under `src/data_processing/phase6_7_timedart_data.py`,
   `src/training/phase6_7_timedart.py`,
   `src/features/phase6_7_timedart_features.py`, and `scripts_v6/`. Fifteen
-  focused CPU tests pass. No trajectory, feature store, or downstream head
-  has been run.
+  focused CPU tests pass. The complete admitted experiment matrix has run and
+  its small manifests, metrics, predictions, and replay records are versioned
+  under `experiments/phase6_7/`.
 - Data preparation inventories the exact six existing Phase 5/6 bundles
   without copying them. Encoder training opens only target-free sequences and
   identities; feature extraction opens only task contexts and identities;
@@ -72,13 +74,22 @@ This directory records the evidence and proposed project adaptation for:
   window mean/std, even though direct attention remains causal. This limits
   a literal strict-autoregression claim for the pretext task; the complete
   input window is historical at downstream decision time.
-- The persistent Lumid environment is ready for the next implementation
-  stage: the TimeDART branch and six required data files match local hashes;
+- The persistent Lumid environment executed the complete extension: the
+  TimeDART branch and six required data files matched local hashes;
   all 30 container requirements match exactly; Python 3.12.3, CUDA-enabled
   PyTorch 2.12.1, and the 24 GiB RTX PRO 4000 Blackwell pass the focused tests
   and a real batch-16 CUDA forward/backward smoke. GitHub SSH uses the
   persistent identity under `/home/personai-korolev-tes/.ssh/`. No training
-  trajectory was launched during this readiness audit.
+  trajectory was launched during the initial readiness audit. The later
+  admitted run completed both encoders, both stores, and all six probes.
+- At epoch 50, TimeDART has a modest advantage over the best observed internal
+  encoder variants on classification and realised-variance MAE, but is
+  substantially weaker on future-price error. Volatility RMSE is effectively
+  tied and mixed across walks. This is task-specific frozen-probe evidence,
+  not universal superiority.
+- The integrated comparison is recorded at
+  `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; no
+  separate TimeDART-only result report is needed.
 
 ## Documents
 
@@ -93,6 +104,9 @@ This directory records the evidence and proposed project adaptation for:
 - `implementation_plan.md` — staged implementation, testing, execution, and
   replay plan and current implementation status.
 - `source_manifest.json` — machine-readable paper/source/gate record.
+- `experiments/phase6_7/reports/frozen_representation_seed0/summary.md` —
+  integrated epoch-50 comparison with H0, internal variants, SaURL-TS, and
+  LWA.
 
 ## Primary sources
 

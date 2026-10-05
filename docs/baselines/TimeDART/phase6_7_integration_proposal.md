@@ -2,9 +2,9 @@
 
 **Method ID:** `timedart_frozen`  
 **Reporting label:** `TimeDART (frozen encoder; independent implementation)`  
-**Current gate:** all method decisions, the independent model, and the full
-experiment pipeline are implemented. The owner will verify the scripts before
-experiment execution.
+**Current gate:** completed. All method decisions, the independent model,
+CUDA admission, two encoder trajectories, two feature stores, six downstream
+trajectories, and 18 snapshots are complete and replay-valid.
 
 ## 1. Role and claim boundary
 
@@ -141,11 +141,12 @@ evidence remain versioned where existing project policy permits.
 - [x] All eleven owner decisions recorded.
 - [x] Question 7 terminology clarified; no new mechanism introduced.
 - [x] Questions 3 and 9 resolved before implementation.
-- [x] Independent model and full experiment pipeline implementation complete;
-  awaiting owner verification before execution.
+- [x] Independent model and full experiment pipeline implementation complete.
 - [x] Fifteen focused CPU tests and a real-row smoke pass.
-- [ ] CUDA/resource gate passes on the selected runtime.
-- [ ] Two encoder trajectories replay.
-- [ ] Two feature stores replay.
-- [ ] Six downstream trajectories and 18 snapshots replay.
-- [ ] TimeDART extension report generated.
+- [x] CUDA/resource gate passes on the selected runtime.
+- [x] Two encoder trajectories replay.
+- [x] Two feature stores replay.
+- [x] Six downstream trajectories and 18 snapshots replay.
+- [x] Phase closure records the TimeDART comparison in the integrated
+  epoch-50 report at
+  `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.

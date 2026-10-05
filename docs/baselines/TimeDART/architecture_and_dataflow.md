@@ -8,8 +8,8 @@ pipeline, and focused tests complete
 This document describes the owner-approved Phase 6.7 adaptation. The model
 is implemented under `src/baselines/timedart/`; experiment infrastructure is
 implemented under `src/data_processing/`, `src/training/`, `src/features/`,
-and `scripts_v6/`, while all full experiment trajectories remain unexecuted
-pending owner verification.
+and `scripts_v6/`. Both encoder trajectories, both feature stores, and all six
+downstream trajectories subsequently completed and replayed.
 
 ## What comes from the paper, source, and project
 

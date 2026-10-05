@@ -1,8 +1,13 @@
 # Phase 6.7 Recent Frozen-Representation Baseline Plan
 
 **Date:** 2026-10-04  
-**Status:** Required SaURL/LWA execution complete; integrated core reporting
-pending, updated 2026-10-05.
+**Status:** Complete for the frozen seed-0 scope, closed 2026-10-05. Required
+SaURL/LWA execution and the commissioned optional TimeDART extension are
+complete. The replay-valid method artifacts and method-local summaries are
+consolidated in the integrated epoch-50 comparison at
+`experiments/phase6_7/reports/frozen_representation_seed0/summary.md`. It
+includes TimeDART, so no separate TimeDART-only result file is required.
+SISSEL remains optional and uncommissioned.
 The independently authored SaURL-TS model adapter, SaURL-specific Stage 0--4
 infrastructure, and focused CPU unit tests are implemented. Its mask contract
 uses the paper's deterministic sigmoid threshold, with no repository-derived
@@ -37,8 +42,10 @@ Both 384-dimensional LWA master stores and all six downstream trajectories
 are complete and valid at epochs 5/15/50. LWA does not consistently
 outperform immutable H0: it is materially weaker on Walk 1 classification and
 both price MAEs, while isolated Walk 2 price/volatility RMSE and correlation
-gains do not establish broad superiority. The full shared core manifest and
-integrated H0/SaURL/LWA reporting remain pending.
+gains do not establish broad superiority. The original full shared-core
+report was initially waived as an exit blocker. The later integrated Phase
+6.7 summary now consolidates the immutable manifests, complete metrics, and
+method-local evidence without changing the closed experiment contract.
 On resume, a rerun of the CUDA smoke may regenerate nondeterministic loss and
 timing fields. The renewed manifest is therefore revalidated by stable source,
 dependency, cache, physical-batch, resource-limit, and admission semantics;
@@ -55,10 +62,9 @@ manifest before LWA is implemented. LWA remains a required core method, and
 SaURL metrics may not select or change its source, architecture, extraction
 point, hyperparameters, rows, budget, or retry policy.
 LWA-Frozen and SaURL-TS-Frozen are both mandatory core methods. Independently,
-SISSEL-Frozen and TimeDART-Frozen are peer optional extensions. The owner has
-commissioned TimeDART preparation after the required method execution; its
-model implementation remains gated on the method-specific decision record.
-SISSEL remains uncommissioned pending mentor review. Any admitted extension
+SISSEL-Frozen and TimeDART-Frozen were peer optional extensions. The owner
+commissioned and completed TimeDART after the required method execution.
+SISSEL remains uncommissioned optional future scope. Any later extension
 is post-core exploratory evidence and cannot retroactively select, replace,
 or change the required core methods or their conclusions. Its source,
 adaptation, extraction, resource, and complete matrix contract must be frozen
@@ -79,12 +85,15 @@ model/pipeline tests are complete under `src/baselines/timedart/` and
 forward/backward smoke passes. After model review, the owner authorized the
 TimeDART-only data inventory, resumable pretraining, 170-wide extraction,
 native-width common-probe, advisory-validation, and durable one-run launcher
-infrastructure. These now live under `src/` and `scripts_v6/`; no TimeDART
-trajectory, feature store, downstream run, or report exists. The next Lumid sandbox is synchronized and
-environment-ready: persistent GitHub SSH, all container dependencies, all six
-input bundles, focused CPU tests, and a bounded real CUDA batch-16 smoke have
-been verified. This remains a post-core exploratory extension and cannot alter
-the completed H0/SaURL/LWA core.
+infrastructure. These live under `src/` and `scripts_v6/`. The Lumid CUDA gate,
+both 50-epoch encoder trajectories, both 170-dimensional feature stores, and
+all six downstream trajectories with 18 retained snapshots subsequently
+completed and replayed. At epoch 50, TimeDART leads the best observed internal
+encoder variants by a modest margin on classification and realised-variance
+MAE, while trailing them substantially on future-price error. Volatility RMSE
+is effectively tied and mixed across walks. This is task-specific post-core
+evidence and does not alter the completed H0/SaURL/LWA core or establish
+universal superiority.
 
 **Predecessors:**
 `2026-09-26-phase-6-experiment-observation-and-outcomes.md`,
@@ -104,9 +113,9 @@ recent reusable representations from the closest prior work.
 
 This decision changes experiment order, not completed results:
 
-1. Phase 6.7 is the immediate implementation and execution priority.
-2. Phase 7A canonical single-branch and leave-one-out analysis follows Phase
-   6.7 and remains unimplemented.
+1. Phase 6.7 is closed for its frozen seed-0 scope.
+2. Phase 7A canonical single-branch and leave-one-out analysis is the current
+   handoff and remains unimplemented.
 3. The whole Phase 6.6 price-focused fusion, xLSTM-Mixer, and decoder-capacity
    programme is deferred until the representation-baseline and branch-ablation
    evidence are available.
@@ -166,9 +175,9 @@ methods.
 
 `SISSEL-Frozen` and `TimeDART-Frozen` are peer optional extensions, not Phase
 6.7 exit conditions and not substitutes for either required method. The owner
-commissioned TimeDART's post-core preparation after the required LWA/SaURL
-execution; its implementation remains gated on the separate decision record.
-SISSEL remains uncommissioned pending mentor review. Either optional study is
+commissioned and completed TimeDART's post-core study after the required
+LWA/SaURL execution. SISSEL remains uncommissioned and may be reconsidered
+only through a separate future amendment. Either optional study is
 explicitly post-core exploratory evidence rather than part of the
 confirmatory core. Before implementation or execution, its source, licence,
 architecture, extraction point, hardware limit, training budget, and complete
@@ -471,31 +480,35 @@ artifact failure is discovered.
    SaURL snapshots already produced by the staged run.
 10. Replay checkpoints, predictions, metrics, scalers, row identities, and
    representation hashes.
-11. Generate the complete per-walk, pooled, resource, and adaptation report.
-12. TimeDART's eleven substantive decisions, independent model, and complete
-   experiment pipeline are implemented. The owner will verify the scripts
-   before authorizing execution of the complete post-core two-walk/three-task
-   extension. Mentor review still
-   decides whether SISSEL should be commissioned separately. No intermediate
-   optional result may truncate either admitted matrix.
+11. Preserve the complete per-walk metrics, resource/adaptation evidence, and
+   method-local summaries. The integrated epoch-50 comparison is generated at
+   `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
+12. TimeDART's eleven substantive decisions, independent model, complete
+   experiment pipeline, two encoder trajectories, two feature stores, and six
+   downstream trajectories are complete and replay-valid. SISSEL remains
+   uncommissioned optional future scope; it does not reopen this phase. No
+   intermediate optional result truncated either admitted matrix.
 
 ## 12. Exit conditions and handoff
 
-Phase 6.7 is complete only when:
+Phase 6.7 closed on 2026-10-05 with the following conditions satisfied or
+explicitly dispositioned:
 
 - the core roster contains both LWA-Frozen and SaURL-TS-Frozen;
 - all four core encoder trajectories and four core representation stores pass
   replay;
 - all 12 new core downstream trajectories and six immutable `H0` references pass
   standalone prediction and metric replay;
-- SISSEL-Frozen and TimeDART-Frozen remain optional post-core extensions and
-  do not block core completion; if either is later admitted, its two encoders,
-  two stores, and six downstream trajectories must pass replay and reporting
-  before claims about that extension are made;
+- TimeDART-Frozen remained optional but its admitted two encoders, two stores,
+  six downstream trajectories, and 18 snapshots completed and replayed;
+- SISSEL-Frozen remains optional and uncommissioned and does not block or
+  reopen the completed phase;
 - every task/walk comparison uses identical ordered rows and the established
   task contract;
-- the full snapshot, resource, and adaptation tables are preserved, including
-  failed or negative outcomes; and
+- full snapshot metrics, resource fields, adaptation records, and negative
+  outcomes are preserved in the method artifacts and consolidated in the
+  integrated epoch-50 report; a separate TimeDART-only report is redundant;
+  and
 - the report maintains the seed-0, two-walk, native-width, source-adaptation,
   and non-trading claim boundaries.
 
