@@ -1,0 +1,35 @@
+apiVersion: flowmesh/v1
+kind: Task
+
+metadata:
+  name: fyp-baseline-comparison-audit
+  annotations:
+    description: >-
+      Assemble the epoch-50 H0, internal encoder-envelope, SaURL-TS, LWA, and
+      TimeDART evidence under the matched two-walk downstream protocol.
+
+spec:
+  taskType: python
+  image: harbor.lum.id/cyx-fyp/representation-learning-framework:flowmesh-v0.2.0
+  entrypoint: main
+  emits:
+    - baseline_external_artifact_coverage
+    - baseline_task_walk_coverage
+    - baseline_primary_metric_finite_fraction
+    - baseline_comparison_ready
+  timeoutSeconds: 300
+  network: none
+  resources:
+    hardware:
+      cpu: 1
+      memory: 2Gi
+  pythonOutput:
+    maxBytes: 1048576
+  code: |
+    def main():
+        from platform_integration.flowmesh_artifact_inspection import (
+            inspect_baseline_comparison,
+        )
+
+        return inspect_baseline_comparison()
+

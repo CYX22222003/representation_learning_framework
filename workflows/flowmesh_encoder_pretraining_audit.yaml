@@ -1,0 +1,34 @@
+apiVersion: flowmesh/v1
+kind: Task
+
+metadata:
+  name: fyp-encoder-pretraining-audit
+  annotations:
+    description: >-
+      Inspect the packaged Phase-5 encoder-pretraining summary, verify run
+      coverage and collapse flags, and persist a machine-readable audit.
+
+spec:
+  taskType: python
+  image: harbor.lum.id/cyx-fyp/representation-learning-framework:flowmesh-v0.2.0
+  entrypoint: main
+  emits:
+    - encoder_pretraining_coverage
+    - encoder_pretraining_valid_fraction
+    - encoder_pretraining_collapse_free_fraction
+  timeoutSeconds: 300
+  network: none
+  resources:
+    hardware:
+      cpu: 1
+      memory: 2Gi
+  pythonOutput:
+    maxBytes: 1048576
+  code: |
+    def main():
+        from platform_integration.flowmesh_artifact_inspection import (
+            inspect_encoder_pretraining,
+        )
+
+        return inspect_encoder_pretraining()
+
