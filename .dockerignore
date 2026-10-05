@@ -1,0 +1,42 @@
+.git
+.gitignore
+.agents
+.aws
+.codex
+.env
+.env.*
+.ruff_cache
+.venv
+.vscode
+__pycache__
+**/__pycache__
+*.py[cod]
+*.log
+
+# Local and generated research artifacts are intentionally excluded from the
+# base runtime image. Add only a bounded, documented demonstration bundle later.
+checkpoints
+checkpoints_old
+data
+data_new
+# Experiment outputs stay excluded except for the small, read-only evidence
+# bundle used by the FlowMesh audit workflows. Directory-only exceptions let
+# Docker traverse to the explicitly allowed files without admitting checkpoints,
+# predictions, feature stores, or raw data.
+experiments/**
+!experiments/**/
+!experiments/phase5/reports/encoder_pretraining_seed0/summary.json
+!experiments/phase6/encoder_variants/reports/complete_seed0/**
+!experiments/phase6_5/lstm_capacity/reports/complete_seed0/epoch50_by_walk.csv
+!experiments/phase6_5/residual_cnn/reports/complete_seed0/epoch50_by_walk.csv
+!experiments/phase6_7/downstream/**/e50/metrics.json
+!experiments/phase6_7/reports/frozen_representation_seed0/summary.md
+experiments_old
+progress_summary
+baseline_summaries
+
+# Packaging and editor noise.
+build
+dist
+*.egg-info
+.DS_Store
