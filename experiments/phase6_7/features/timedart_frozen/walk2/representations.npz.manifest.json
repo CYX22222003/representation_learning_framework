@@ -1,0 +1,241 @@
+{
+  "batching_invariant_probe": true,
+  "checkpoint_completed_epoch": 50,
+  "checkpoint_encoder_state_only_at_extraction": true,
+  "checkpoint_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/timedart_frozen/walk2/seed0/e50/encoder.pth",
+  "checkpoint_sha256": "28469ee9aea7d691ee4cfda5b6a6c174ffb57344821e4b6b4db5e93f99adc7e9",
+  "coordinate_slices": {
+    "close_pooled": [
+      96,
+      128
+    ],
+    "high_pooled": [
+      32,
+      64
+    ],
+    "low_pooled": [
+      64,
+      96
+    ],
+    "open_pooled": [
+      0,
+      32
+    ],
+    "volume_pooled": [
+      128,
+      160
+    ],
+    "window_means_ohlcv": [
+      160,
+      165
+    ],
+    "window_stds_ohlcv": [
+      165,
+      170
+    ]
+  },
+  "cpu_device_probe": {
+    "accepted": true,
+    "cosine": 0.9999999999997774,
+    "relative_l2": 6.674456400334986e-07,
+    "strict": false
+  },
+  "decoder_diffusion_projector_constructed_or_executed": false,
+  "encoder_dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+  "encoder_dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+  "encoder_run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/timedart_frozen/walk2/seed0",
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "13.2",
+    "device": "cuda",
+    "device_name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+    "git_commit": "54909ecee555ba5cb14aae5162e79d6aed7c3d19",
+    "numpy": "2.2.6",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "torch": "2.12.1+cu132"
+  },
+  "feature_store_sha256": "4b45f0525cb2dd4d8bc4371053c9493d391226fa3c6f2fa11bbf5182bdb483fa",
+  "method": "timedart_frozen",
+  "output_dim": 170,
+  "phase": "6.7",
+  "schema_version": "phase6-7-timedart-master-features-v1",
+  "source_checkpoint_validation": {
+    "method": "timedart_frozen",
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "status": "warning",
+    "target_independent": true,
+    "valid": true,
+    "walk": 2,
+    "warnings": [
+      {
+        "accepted": true,
+        "cosine": 0.9999999999999918,
+        "epoch": 5,
+        "relative_l2": 1.2902461389090569e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "reconstruction"
+      },
+      {
+        "accepted": true,
+        "cosine": 0.999999999999861,
+        "epoch": 5,
+        "relative_l2": 5.28077843879344e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "features"
+      },
+      {
+        "accepted": true,
+        "cosine": 0.999999999999988,
+        "epoch": 15,
+        "relative_l2": 1.515469441034991e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "reconstruction"
+      },
+      {
+        "accepted": true,
+        "cosine": 0.9999999999999016,
+        "epoch": 15,
+        "relative_l2": 4.4396037865042443e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "features"
+      },
+      {
+        "accepted": true,
+        "cosine": 0.9999999999999885,
+        "epoch": 50,
+        "relative_l2": 1.5426147793763775e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "reconstruction"
+      },
+      {
+        "accepted": true,
+        "cosine": 0.9999999999998714,
+        "epoch": 50,
+        "relative_l2": 5.072068578187665e-07,
+        "severity": "warning",
+        "strict": false,
+        "tensor": "features"
+      }
+    ]
+  },
+  "targets_loaded_during_extraction": false,
+  "task_order": [
+    "classification_h2",
+    "absolute_price_h8",
+    "realised_variance"
+  ],
+  "task_provenance": {
+    "absolute_price_h8": {
+      "arrays_loaded": [
+        "test_condition_ids",
+        "test_decision_availability_ns",
+        "test_decision_date_ns",
+        "test_sequences",
+        "test_window_start_ns",
+        "train_condition_ids",
+        "train_decision_availability_ns",
+        "train_decision_date_ns",
+        "train_sequences",
+        "train_window_start_ns"
+      ],
+      "dataset_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.192404021974653,
+          "feature_hash": "770badaf4eafca9569b0e6f08b45372d233340a06224985c0bdb1ad71287e93f",
+          "identity_hash": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+          "rows": 13506,
+          "sequence_hash": "78142196a48cdfecae6eb92fbd0191515f10635c1b84278945df6effe747e44c"
+        },
+        "train": {
+          "extraction_seconds": 0.8324203549418598,
+          "feature_hash": "ebf202dd54d9d4d3f77fcb4200db29bc8195a64c0edb19cef07e9982843f846c",
+          "identity_hash": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e",
+          "rows": 56652,
+          "sequence_hash": "d2a3f2ceb3a7e0657afca1ed33116ae4b701cace1407ca8ff8261cf0214c4175"
+        }
+      },
+      "targets_loaded_during_extraction": false
+    },
+    "classification_h2": {
+      "arrays_loaded": [
+        "test_condition_ids",
+        "test_decision_availability_ns",
+        "test_decision_date_ns",
+        "test_sequences",
+        "test_window_start_ns",
+        "train_condition_ids",
+        "train_decision_availability_ns",
+        "train_decision_date_ns",
+        "train_sequences",
+        "train_window_start_ns"
+      ],
+      "dataset_manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.19866907596588135,
+          "feature_hash": "1c593a2177de072b401ee4a4202a7d1460f0023efb72194ca36a23656a142c6b",
+          "identity_hash": "1e125e600176d53b62a0066d9b1cce2455476ffb8fa68ed95192edf8bdbf0e51",
+          "rows": 13887,
+          "sequence_hash": "84869364cdb2245505b704e572f4cb6999b9cb76138a79fef1c6cc2880872620"
+        },
+        "train": {
+          "extraction_seconds": 0.8715173609089106,
+          "feature_hash": "6dda8ac7f00a0909d65c94e2d0581d191ddd9f9d768f22e2e7b059e2a51d4090",
+          "identity_hash": "f5663e57e37354397c0077dff0eef8d12d99c56f002e67014258589b3ca01521",
+          "rows": 57521,
+          "sequence_hash": "84cf94c2c05fed90df0bc09ab99bda3ee74e5b33815807d8d0a48ec0c4cba0a5"
+        }
+      },
+      "targets_loaded_during_extraction": false
+    },
+    "realised_variance": {
+      "arrays_loaded": [
+        "test_condition_ids",
+        "test_decision_availability_ns",
+        "test_decision_date_ns",
+        "test_sequences",
+        "test_window_start_ns",
+        "train_condition_ids",
+        "train_decision_availability_ns",
+        "train_decision_date_ns",
+        "train_sequences",
+        "train_window_start_ns"
+      ],
+      "dataset_manifest_sha256": "c37187197f23f2966e51f0b7686efec96ca6b428abfc782dca8d5d1399b20b8b",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+      "splits": {
+        "test": {
+          "extraction_seconds": 0.17291251407004893,
+          "feature_hash": "c1b6a05b97b34091f76ae473e6193a3fbd9534a8d2eae3918dd7a3d45b072427",
+          "identity_hash": "ec8a0ace01b2e30f90fe66bf1074f7d8efc58ff3f1ac0d350c796055b1512090",
+          "rows": 12115,
+          "sequence_hash": "2579ba840c90289c8f13ee9331c7fd0dfad9885f7783ad71332d4370bdcb69c7"
+        },
+        "train": {
+          "extraction_seconds": 0.8059814639855176,
+          "feature_hash": "04b4d2c32e20cebc534feafb19413d4dc9c7b73e137a48e5af495bb746929333",
+          "identity_hash": "b36053b19da5ca6275658379e3bba7ae1f8f89efe31c025a12112a6179dc3175",
+          "rows": 53112,
+          "sequence_hash": "a822cf9753805dfe549b5f591ed905a6d1da58b5998d0ea2736ce8a4a1b14312"
+        }
+      },
+      "targets_loaded_during_extraction": false
+    }
+  },
+  "walk": 2
+}

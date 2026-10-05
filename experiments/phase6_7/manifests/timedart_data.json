@@ -1,0 +1,234 @@
+{
+  "method": "timedart_frozen",
+  "only_relevant_arrays_loaded": true,
+  "phase": "6.7",
+  "schema_version": "phase6-7-timedart-data-v1",
+  "source_bundles_copied": false,
+  "unique_source_file_count": 6,
+  "walks": {
+    "walk1": {
+      "encoder": {
+        "arrays_loaded": [
+          "encoder_train_sequences",
+          "encoder_train_condition_ids",
+          "encoder_train_window_start_ns",
+          "encoder_train_decision_date_ns",
+          "encoder_train_decision_availability_ns"
+        ],
+        "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+        "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+        "evaluation_rows_loaded": false,
+        "identity_hash": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+        "rows": 39070,
+        "sequence_hash": "471a6b310ca539f123e61d87c95f28034ee60b62313567e354b605d2cfc65b09",
+        "targets_loaded": false,
+        "walk": 1
+      },
+      "encoder_dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "tasks": {
+        "absolute_price_h8": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+          "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+              "rows": 29834,
+              "sequence_hash": "5fddb6bcec6571cc501a7eda7ce4c1c82c2f62827f4dc1d9a4367b18194d9954"
+            },
+            "train": {
+              "identity_hash": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de",
+              "rows": 36773,
+              "sequence_hash": "9a585087e35875a5bc97c821b0f87fd34aa767d63874fcc9a2944aff603bb64d"
+            }
+          },
+          "targets_loaded": false
+        },
+        "classification_h2": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+          "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+              "rows": 30340,
+              "sequence_hash": "97aac654dacc3bbe3d805a4a3ffcaace898cc8cd9765bfb466c0ed29d25bc6d7"
+            },
+            "train": {
+              "identity_hash": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+              "rows": 37864,
+              "sequence_hash": "43f3d443f95d75aba5a5f22c8b7ad5b5bab0fe83fa316ee964c9e5c20c1ba59b"
+            }
+          },
+          "targets_loaded": false
+        },
+        "realised_variance": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "caee0746caa7f8971cf0df1876e530d1ab99d087351f38ede66736bbd0b95c4d",
+          "dataset_sha256": "61d32612bb29d142fc535c424b22f114f3edd86d0096beefe9e8826e5e5254eb",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "f21b6ed25b3618dc7d878e75df2774a80b2ad0cbb15e8419ffd88f7ea9df76c8",
+              "rows": 27806,
+              "sequence_hash": "5b7095d62be3d46cec96605a38a5236669865110d590ac9360806d141bee50d9"
+            },
+            "train": {
+              "identity_hash": "cda5b8e96673feba94da7bfc7902dd615e83d416c8344dbec6c5ae8854d6c866",
+              "rows": 32470,
+              "sequence_hash": "6117d6ff594fc18bd24f8e3a8d3eb43f248bf0f87ed909bc09be9ca244d75c82"
+            }
+          },
+          "targets_loaded": false
+        }
+      }
+    },
+    "walk2": {
+      "encoder": {
+        "arrays_loaded": [
+          "encoder_train_sequences",
+          "encoder_train_condition_ids",
+          "encoder_train_window_start_ns",
+          "encoder_train_decision_date_ns",
+          "encoder_train_decision_availability_ns"
+        ],
+        "dataset_manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+        "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+        "evaluation_rows_loaded": false,
+        "identity_hash": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "rows": 58473,
+        "sequence_hash": "cdf9b0fd71e664ff8b31f07dcf104acf3fa1c56813bd78ee23c060f41d5fbe9f",
+        "targets_loaded": false,
+        "walk": 2
+      },
+      "encoder_dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "tasks": {
+        "absolute_price_h8": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+          "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+              "rows": 13506,
+              "sequence_hash": "78142196a48cdfecae6eb92fbd0191515f10635c1b84278945df6effe747e44c"
+            },
+            "train": {
+              "identity_hash": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e",
+              "rows": 56652,
+              "sequence_hash": "d2a3f2ceb3a7e0657afca1ed33116ae4b701cace1407ca8ff8261cf0214c4175"
+            }
+          },
+          "targets_loaded": false
+        },
+        "classification_h2": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "7734f595dc7a00005586ca6c22769d53f94f2744fad3ce1b7d3ae1354abdb1a7",
+          "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "1e125e600176d53b62a0066d9b1cce2455476ffb8fa68ed95192edf8bdbf0e51",
+              "rows": 13887,
+              "sequence_hash": "84869364cdb2245505b704e572f4cb6999b9cb76138a79fef1c6cc2880872620"
+            },
+            "train": {
+              "identity_hash": "f5663e57e37354397c0077dff0eef8d12d99c56f002e67014258589b3ca01521",
+              "rows": 57521,
+              "sequence_hash": "84cf94c2c05fed90df0bc09ab99bda3ee74e5b33815807d8d0a48ec0c4cba0a5"
+            }
+          },
+          "targets_loaded": false
+        },
+        "realised_variance": {
+          "arrays_loaded": [
+            "test_condition_ids",
+            "test_decision_availability_ns",
+            "test_decision_date_ns",
+            "test_sequences",
+            "test_window_start_ns",
+            "train_condition_ids",
+            "train_decision_availability_ns",
+            "train_decision_date_ns",
+            "train_sequences",
+            "train_window_start_ns"
+          ],
+          "dataset_manifest_sha256": "c37187197f23f2966e51f0b7686efec96ca6b428abfc782dca8d5d1399b20b8b",
+          "dataset_sha256": "f2acc9b21fdfcadc2c7c96aabadbf14e7cfb681f657f4abe75ac0a78231e9e63",
+          "path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+          "splits": {
+            "test": {
+              "identity_hash": "ec8a0ace01b2e30f90fe66bf1074f7d8efc58ff3f1ac0d350c796055b1512090",
+              "rows": 12115,
+              "sequence_hash": "2579ba840c90289c8f13ee9331c7fd0dfad9885f7783ad71332d4370bdcb69c7"
+            },
+            "train": {
+              "identity_hash": "b36053b19da5ca6275658379e3bba7ae1f8f89efe31c025a12112a6179dc3175",
+              "rows": 53112,
+              "sequence_hash": "a822cf9753805dfe549b5f591ed905a6d1da58b5998d0ea2736ce8a4a1b14312"
+            }
+          },
+          "targets_loaded": false
+        }
+      }
+    }
+  }
+}

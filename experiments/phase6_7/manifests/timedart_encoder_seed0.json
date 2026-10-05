@@ -1,0 +1,68 @@
+{
+  "cpu_smoke_test": {
+    "feature_shape": [
+      2,
+      170
+    ],
+    "loss_finite": true,
+    "reconstruction_shape": [
+      2,
+      64,
+      5
+    ]
+  },
+  "default_action_trains_models": false,
+  "entries": [
+    {
+      "config": {
+        "batch_size": 16,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "scheduler_gamma": 0.95,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "method": "timedart_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/timedart_frozen/walk1/seed0",
+      "walk": 1
+    },
+    {
+      "config": {
+        "batch_size": 16,
+        "device": "cpu",
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "scheduler_gamma": 0.95,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "method": "timedart_frozen",
+      "run_root": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6_7/encoder_pretraining/timedart_frozen/walk2/seed0",
+      "walk": 2
+    }
+  ],
+  "entry_count": 2,
+  "method": "timedart_frozen",
+  "phase": "6.7",
+  "principal_epoch": 50,
+  "schema_version": "phase6-7-timedart-encoder-matrix-v1",
+  "seed": 0,
+  "targets_or_evaluation_loaded": false
+}
