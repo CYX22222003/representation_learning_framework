@@ -1,0 +1,65 @@
+{
+  "admitted": true,
+  "device": "cuda",
+  "max_peak_memory_gib": 23.0,
+  "max_smoke_seconds": 600.0,
+  "method": "timedart_frozen",
+  "physical_batch_size": 16,
+  "schema_version": "phase6-7-timedart-cuda-admission-v1",
+  "walks": [
+    {
+      "batch_size": 16,
+      "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+      "elapsed_seconds": 0.5285281999967992,
+      "environment": {
+        "cuda_available": true,
+        "cuda_version": "13.2",
+        "device": "cuda",
+        "device_name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+        "git_commit": "54909ecee555ba5cb14aae5162e79d6aed7c3d19",
+        "numpy": "2.2.6",
+        "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+        "torch": "2.12.1+cu132"
+      },
+      "feature_shape": [
+        16,
+        170
+      ],
+      "features_finite": true,
+      "gradients_finite": true,
+      "loss": 0.005954415071755648,
+      "loss_finite": true,
+      "peak_cuda_memory_bytes": 94423552,
+      "pretraining_parameters": 30242,
+      "retained_encoder_parameters": 17248,
+      "walk": 1
+    },
+    {
+      "batch_size": 16,
+      "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+      "elapsed_seconds": 0.008049061987549067,
+      "environment": {
+        "cuda_available": true,
+        "cuda_version": "13.2",
+        "device": "cuda",
+        "device_name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+        "git_commit": "54909ecee555ba5cb14aae5162e79d6aed7c3d19",
+        "numpy": "2.2.6",
+        "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+        "torch": "2.12.1+cu132"
+      },
+      "feature_shape": [
+        16,
+        170
+      ],
+      "features_finite": true,
+      "gradients_finite": true,
+      "loss": 19.23866844177246,
+      "loss_finite": true,
+      "peak_cuda_memory_bytes": 94423552,
+      "pretraining_parameters": 30242,
+      "retained_encoder_parameters": 17248,
+      "walk": 2
+    }
+  ]
+}
