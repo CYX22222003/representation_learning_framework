@@ -18,7 +18,7 @@
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 >
-> **Next-scope authority (amended 2026-10-05):** Phase 6.5 LSTM capacity,
+> **Next-scope authority (amended 2026-10-06):** Phase 6.5 LSTM capacity,
 > strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
 > focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
@@ -27,13 +27,18 @@
 > It freezes mandatory LWA-Frozen and SaURL-TS-Frozen across the same three
 > tasks and two walks as canonical `H0`; the commissioned TimeDART-Frozen
 > extension is also complete. SISSEL-Frozen remains uncommissioned optional
-> scope and was not a phase exit condition. Price-focused
+> scope and was not a phase exit condition. The current Phase 6.8 extension is
+> frozen in
+> [`phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`](phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md).
+> It adds Di-COT-Frozen and Monotone-VI-Frozen under the same target-free,
+> two-walk, three-task common-probe design. Its roster/comparison contract is
+> frozen, but implementation and execution have not started. Price-focused
 > Raw-OHLCV/`H0` residual fusion, a source-faithful recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > with grouped SHAP deferred to a later analysis amendment. The whole Phase
-> 6.6 programme remains deferred behind Phase 7A.
+> 6.6 programme remains deferred until after Phase 6.8 and Phase 7A.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
@@ -56,8 +61,9 @@
 > decisions, independent model, focused CPU tests, two encoder trajectories,
 > two 170-wide stores, six downstream trajectories, and 18 snapshots are
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
-> Phase 7A is the current unimplemented handoff; Phase 6.6 likewise remains a
-> plan rather than executed experimental evidence. Phase 7B alpha research remains
+> Phase 6.8 is the current planned handoff, with Phase 7A next and still
+> unimplemented; Phase 6.6 likewise remains a plan rather than executed
+> experimental evidence. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -211,8 +217,10 @@ imputation-exposure reporting but is not an additional model channel.
   residual variants reduce price error against H0 in both walks, while BYOL
   does not improve consistently and movement ranking remains weaker. Phase
   6.7 completed the canonical H0 comparison with three recent target-free
-  frozen representations under the same simple heads and three tasks. Phase 7A now
-  runs canonical single/leave-one-out attribution. The deferred Phase 6.6
+  frozen representations under the same simple heads and three tasks. Phase
+  6.8 next adds Di-COT-Frozen and Monotone-VI-Frozen through that same probing
+  boundary, after method-specific source/licence/adaptation gates. Phase 7A
+  then runs canonical single/leave-one-out attribution. The deferred Phase 6.6
   retains a matched frozen-H0/raw-sequence residual fusion system, a source-
   faithful xLSTM-Mixer full-path benchmark, and two richer static canonical
   heads on future price only. xLSTM-Mixer's additional full-path supervision
@@ -246,14 +254,14 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Completed required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. Completed optional extension: TimeDART-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
+| **External representation baseline** | Target-free prior-work representation frozen before the shared lightweight probes. Completed Phase 6.7: required LWA-Frozen and SaURL-TS-Frozen plus optional TimeDART-Frozen. Planned Phase 6.8: Di-COT-Frozen and Monotone-VI-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
 | **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
 
-**Evaluation paradigm (probing):** The framework and Phase 6.7 external
-representation methods use frozen extractors. After pretraining, the features
+**Evaluation paradigm (probing):** The framework and Phase 6.7/6.8 external
+representation methods use frozen extractors or fitted representations. After fitting, the features
 remain fixed while the same lightweight task-head family is trained for each
 task. Keeping the head simple is intentional: the primary comparison concerns
 representation quality. Task-specific end-to-end benchmarks have more
@@ -288,6 +296,15 @@ optimisation freedom and remain contextual complete-system comparisons.
   memory, source deviations, and negative results are preserved. No evaluation
   metric selected an optional method's extraction point, recipe, checkpoint,
   or matrix truncation.
+
+- **Recent conference extension:** Phase 6.8 keeps Phase 6.7 closed and adds
+  Di-COT-Frozen (ICML 2026) plus Monotone-VI-Frozen (ICLR 2025). Both fit
+  separately on each unchanged target-free walk population, return one native-
+  width embedding for every established row, and use the exact common probes.
+  The planned inventory is four representation fits, four stores, 12 probes,
+  and 36 downstream snapshots beside six immutable `H0` references. Di-COT is
+  the direct recent empirical representation baseline; Monotone-VI is a
+  complementary theoretical comparator, not a presumed empirical SOTA winner.
 
 - **Deferred decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
   features, future-price rows, scaler, target, loss, and output transform fixed.

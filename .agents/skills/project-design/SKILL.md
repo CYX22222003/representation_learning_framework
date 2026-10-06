@@ -73,6 +73,10 @@ Read these in order:
     170-dimensional extraction are approved; the independent model, complete
     experiment pipeline, 15 focused CPU tests, two encoder trajectories, two
     stores, six downstream trajectories, and 18 snapshots are complete.
+12. For the planned Di-COT-Frozen and Monotone-VI-Frozen extension, read
+    `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+    Its common-probe contract is frozen, but no implementation or execution
+    exists.
 
 ## Response Contract
 
@@ -121,8 +125,10 @@ Present the parts relevant to the request:
   extensions and are not required for phase completion. TimeDART's paper/
   source audit, approved contract, independent model, two encoders, two
   170-wide stores, six common-probe runs, and 18 snapshots are complete and
-  replay-valid. SISSEL remains optional and uncommissioned. Phase 7A is the
-  current handoff and remains unimplemented. Phase 6.6 is deferred; it freezes price-only
+  replay-valid. SISSEL remains optional and uncommissioned. Phase 6.8 is the
+  current planned handoff and adds Di-COT-Frozen and Monotone-VI-Frozen under
+  the same frozen probes; Phase 7A follows and remains unimplemented. Phase
+  6.6 is deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's
   two richer static canonical decoders. xLSTM-Mixer extracts `close[t+8]` from

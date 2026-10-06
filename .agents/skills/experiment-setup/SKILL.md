@@ -150,7 +150,13 @@ Read these in order:
     implemented; 15 focused CPU tests pass. Both TimeDART encoder
     trajectories, both 170-wide stores, all six downstream trajectories, and
     18 snapshots are complete and replay-valid. SISSEL remains optional and
-    uncommissioned. Phase 7A is the current handoff; Phase 6.6 is not a prerequisite.
+    uncommissioned. For the current planned extension, read
+    `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+    in full. Di-COT-Frozen and Monotone-VI-Frozen must fit separately per walk
+    on the unchanged target-free population and cover every existing task row;
+    their source/licence/adaptation and fixed fitting budgets are frozen before
+    implementation without evaluation-driven selection. Phase 7A follows
+    Phase 6.8; Phase 6.6 is not a prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
     or later grouped attribution, read
@@ -162,7 +168,7 @@ Read these in order:
     with matched H0-D0/Raw-LSTM reruns if a common intersection is required;
     its extra multivariate/multihorizon supervision must be disclosed; and
     SHAP-style attribution cannot select models or checkpoints. This phase is
-    deferred behind Phase 7A after Phase 6.7 closure.
+    deferred until after Phase 6.8 and Phase 7A.
 
 ## Response Contract
 

@@ -36,7 +36,7 @@ universal framework superiority.
 > These documents supersede older statements that moved every deferred
 > architecture axis into Phase 6.
 >
-> **Next-scope reading note (amended 2026-10-04):** The completed Phase 6 outcome is
+> **Next-scope reading note (amended 2026-10-06):** The completed Phase 6 outcome is
 > interpreted in
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > The approved follow-ups are the
@@ -49,6 +49,10 @@ universal framework superiority.
 > LWA-Frozen and SaURL-TS-Frozen and commissioned optional TimeDART-Frozen
 > under the same three-task, two-walk probing contract. SISSEL-Frozen remains
 > optional and uncommissioned,
+> the
+> [Phase 6.8 recent conference representation baseline extension](phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md),
+> which freezes Di-COT-Frozen and Monotone-VI-Frozen as two additional
+> recent-conference representation comparators before Phase 7A,
 > the
 > [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > which retains a source-faithful xLSTM-Mixer candidate before decoder
@@ -77,8 +81,10 @@ universal framework superiority.
 > `docs/baselines/TimeDART/`. All eleven decisions, the independent model,
 > focused CPU tests, both encoder trajectories, both 170-wide stores, all six
 > downstream trajectories, and 18 snapshots are complete and replay-valid.
-> SISSEL remains uncommissioned optional scope. Phase 6.6 is deferred, and
-> Phase 7A is the current unexecuted branch-analysis handoff.
+> SISSEL remains uncommissioned optional scope. Phase 6.8 is the current
+> planned handoff; its roster/common-probe contract is frozen, but no
+> implementation or execution exists. Phase 7A moves behind Phase 6.8, and
+> Phase 6.6 remains deferred.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -428,6 +434,12 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      and SaURL-TS-Frozen and optional TimeDART-Frozen under identical task rows
      and simple probes across classification, future price, and future
      realised variance. SISSEL remains optional and uncommissioned.
+   - Phase 6.8 plans Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR
+     2025) as two additional recent conference representation comparators.
+     Both use the same target-free walk populations, exact task rows, and
+     simple probes after source/licence/adaptation and resource gates. Di-COT
+     is the direct recent empirical baseline; Monotone-VI is a complementary
+     theoretical comparator rather than an assumed empirical SOTA winner.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

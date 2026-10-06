@@ -115,6 +115,10 @@ For recent external frozen-representation baselines, their feasibility gate,
 candidate fallback, common-probe matrix, phase ordering, or claim boundary,
 include
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+For the Di-COT-Frozen/Monotone-VI-Frozen recent-conference extension, its
+source/licence/adaptation gate, exact-row common probes, phase ordering, or
+claim boundary, include
+`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.

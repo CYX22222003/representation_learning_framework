@@ -15,14 +15,16 @@ Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
 research stages below remain broad workstreams rather than experiment-phase
 specifications.
 
-**Current transition (2026-10-05):** Phase 6.7 is closed after comparing
+**Current transition (2026-10-06):** Phase 6.7 is closed after comparing
 canonical `H0` with required LWA/SaURL and optional TimeDART under the same
 three tasks, two walks, and lightweight heads. SISSEL remains optional and
-uncommissioned. Phase 7A canonical branch analysis is the current approved
-handoff and remains unimplemented. Phase 6.6 price-specific fusion,
-xLSTM-Mixer, and decoder-capacity work remains deferred. The Phase 6.7
-closure contract is
-`docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+uncommissioned. Phase 6.8 is the current approved handoff and adds
+Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR 2025) under the same
+frozen-representation protocol. Its roster/comparison contract is frozen, but
+implementation and execution have not started. Phase 7A remains frozen behind
+Phase 6.8, while Phase 6.6 price-specific fusion, xLSTM-Mixer, and decoder-
+capacity work remains deferred. The new contract is
+`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
 
 ---
 
@@ -155,9 +157,13 @@ complete: mandatory LWA-Frozen and SaURL-TS-Frozen and commissioned optional
 TimeDART-Frozen were pretrained separately for both walks, frozen, and
 evaluated with the same simple heads on movement classification, future price,
 and future realised variance. SISSEL-Frozen remains optional and
-uncommissioned. Phase 7A now tests the canonical five branches
-through single-branch and leave-one-branch-out probes. Phase 6.6 is deferred
-until those two evidence gaps are addressed; it retains a matched supervised
+uncommissioned. Phase 6.8 next adds Di-COT-Frozen and Monotone-VI-Frozen as
+recent conference representation comparators under the same two-walk,
+three-task common probes. Di-COT is the direct recent empirical representation
+baseline; Monotone-VI is a complementary theoretically grounded comparator,
+not an assumed empirical SOTA winner. Phase 7A then tests the canonical five
+branches through single-branch and leave-one-branch-out probes. Phase 6.6 is
+deferred until those evidence gaps are addressed; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers, a source-
 faithful NeurIPS 2025 xLSTM-Mixer full-path forecasting candidate, and two
 richer static canonical decoders on eight-hour future price. xLSTM-Mixer's
@@ -171,6 +177,7 @@ variants, and additional seeds remain outside these active follow-ups. See
 The follow-up contracts are
 `phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
 `phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md` and
+`phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md` and
 `phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md` and
 `phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 Representation drift alone is not evidence that a different architecture is
@@ -223,10 +230,17 @@ Three categories of comparison models are used:
 - **SaURL-TS-Frozen** *(Pattern Recognition 2026)* — mandatory adaptive time/frequency bootstrap representation.
 - **SISSEL-Frozen** *(Information Fusion 2026, optional)* — scale-independent multi-autoencoder representation retained as uncommissioned possible future scope.
 - **TimeDART-Frozen** *(ICML 2025, optional)* — completed autoregressive denoising representation extension with two encoders, two 170-wide stores, and six common-probe trajectories.
+- **Di-COT-Frozen** *(ICML 2026, Phase 6.8 planned)* — direct recent
+  augmentation-free temporal representation baseline, to be fitted separately
+  per walk and evaluated through the unchanged common probes.
+- **Monotone-VI-Frozen** *(ICLR 2025, Phase 6.8 planned)* — complementary
+  theoretically grounded sequence representation comparator, subject to its
+  source/licence/adaptation and row-embedding feasibility gate.
 
-These Phase 6.7 methods use the exact existing task/walk rows and simple-head
-contracts. They are project `-Frozen` adaptations unless every source detail
-is reproduced; their native embedding widths and compute costs are reported.
+The Phase 6.7 and planned Phase 6.8 methods use the exact existing task/walk
+rows and simple-head contracts. They are project `-Frozen` adaptations unless
+every source detail is reproduced; their native embedding widths and compute
+costs are reported.
 
 **Task-specific external benchmarks:**
 
@@ -239,7 +253,8 @@ is reproduced; their native embedding widths and compute costs are reported.
   source-faithful future-price complete-system benchmark. Its complete
   next-eight-bar, five-channel supervision prevents it from serving as a
   direct frozen-representation comparison.
-- **Additional benchmarks (TBD)** — deferred; any new baseline requires a separately approved scope after Phase 6.7 closure.
+- **Additional benchmarks (TBD)** — deferred beyond the approved Phase 6.8
+  roster; any further baseline requires a separate amendment.
 
 **Internal baselines:**
 
@@ -338,10 +353,19 @@ trajectories after its source, licence, extraction, and hardware feasibility
 were frozen. SISSEL remains optional and uncommissioned. No core or optional
 evaluation metric selected an extension recipe or truncated its frozen matrix.
 
-After Phase 6.7, Phase 7A provides internal branch evidence through the
+Phase 6.8 extends the external representation evidence with Di-COT-Frozen and
+Monotone-VI-Frozen. It reuses the exact target-free walk populations, native-
+width frozen stores, identical task rows, and lightweight probes. The planned
+matrix contains four representation fits, four stores, 12 new downstream
+trajectories, 36 retained probe snapshots, and six immutable `H0` references.
+Its source/licence/adaptation and compute dossiers must be frozen before
+implementation, and neither source is selected or tuned from Polymarket
+evaluation results.
+
+After Phase 6.8, Phase 7A provides internal branch evidence through the
 precommitted canonical single-branch and leave-one-out matrix. Together these
-phases address external prior-art validity and internal branch contribution
-before further architecture expansion.
+phases address expanded external prior-art validity and internal branch
+contribution before further architecture expansion.
 
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`

@@ -126,8 +126,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > remains optional and uncommissioned. The three executed external methods
 > trained separately in both walks and used the same simple heads on movement
 > classification, eight-hour future price, and eight-hour future realised
-> variance. Phase 7A canonical branch analysis is the current approved handoff
-> and remains unimplemented. The independently authored SaURL-TS model plus
+> variance. Phase 6.8 is now the current approved handoff under
+> `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+> It freezes Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR 2025) as
+> two additional recent conference representation comparators under the same
+> two-walk, three-task common-probe protocol. The roster/comparison contract is
+> frozen, but implementation and execution have not started. Phase 7A remains
+> frozen and unimplemented behind Phase 6.8. The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
 > pretraining, frozen-feature, replay, and native-width common-probe
@@ -186,8 +191,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > weaker on future-price error. Volatility RMSE is effectively tied and mixed
 > across walks. This is task-specific evidence,
 > not universal superiority. SISSEL remains an optional uncommissioned
-> extension and does not block the closed phase. Phase 7A is now the current
-> unimplemented handoff. Phase 6.6 is deferred behind that branch analysis
+> extension and does not block the closed phase. Phase 6.8 now precedes the
+> unimplemented Phase 7A handoff. Phase 6.6 is deferred behind both studies
 > and retains a matched eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
 > xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a

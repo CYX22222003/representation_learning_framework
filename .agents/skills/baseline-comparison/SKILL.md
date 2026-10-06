@@ -109,6 +109,17 @@ roster, optional admission, extraction point, adaptation, or checkpoint.
 Existing raw, handcrafted, hybrid, and xLSTM-Mixer results are contextual
 complete-system comparisons, not substitutes for this matrix.
 
+For Phase 6.8, follow
+`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+Treat Di-COT-Frozen as the direct recent empirical representation baseline and
+Monotone-VI-Frozen as a complementary theoretically grounded representation
+comparator, not an assumed empirical SOTA winner. Both are mandatory planned
+entries and must use separate per-walk target-free fitting, native-width
+frozen stores, exact task identities, and the common probes. The planned
+inventory is four representation fits, four stores, 12 downstream
+trajectories, and 36 probe snapshots beside six immutable `H0` references.
+Do not report any of this inventory as implemented or executed yet.
+
 TimeDART preparation was commissioned on 2026-10-05. Before answering or
 acting on TimeDART architecture, training, extraction, feasibility, or
 comparison questions, read the complete `docs/baselines/TimeDART/` dossier.
@@ -206,5 +217,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
 - Phase 6.7 recent frozen-representation baseline contract:
   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
+- Phase 6.8 recent conference representation baseline contract:
+  `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
 - Phase 7A canonical representation ablation contract:
   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
