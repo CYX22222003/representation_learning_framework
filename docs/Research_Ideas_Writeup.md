@@ -437,9 +437,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - Phase 6.8 plans Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR
      2025) as two additional recent conference representation comparators.
      Both use the same target-free walk populations, exact task rows, and
-     simple probes after source/licence/adaptation and resource gates. Di-COT
-     is the direct recent empirical baseline; Monotone-VI is a complementary
-     theoretical comparator rather than an assumed empirical SOTA winner.
+     simple probes after source/licence/adaptation and resource gates. Both
+     are treated as recent representation-learning baselines rather than
+     assumed empirical SOTA winners.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

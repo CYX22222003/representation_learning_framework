@@ -24,10 +24,9 @@ research-track requirement for recent strong baselines:
 The project contribution is representation learning, so both methods are
 evaluated as frozen representations through the established common probes.
 This phase does not turn into a search for the best task-specific forecasting
-architecture. Di-COT is the direct recent empirical representation baseline.
-Monotone-VI is a complementary recent, theoretically grounded non-neural
-representation comparator; its inclusion must not be described as proof that
-it is an empirical state-of-the-art method.
+architecture. Di-COT-Frozen and Monotone-VI-Frozen are both recent
+representation-learning baselines. Their inclusion must not be described as
+proof of empirical state-of-the-art performance.
 
 Phase order is now:
 
@@ -57,8 +56,8 @@ of either source paper, profitable alpha, or universal superiority.
 
 | ID | Publication | Role in this project |
 |---|---|---|
-| `DICOT-F` | Di-COT, ICML 2026 | Primary recent neural/self-supervised representation baseline |
-| `MVI-F` | Monotone-VI sequence embedding, ICLR 2025 | Complementary recent non-neural/model-based representation baseline |
+| `DICOT-F` | Di-COT, ICML 2026 | Recent representation-learning baseline |
+| `MVI-F` | Monotone-VI sequence embedding, ICLR 2025 | Recent representation-learning baseline |
 
 Both methods are mandatory Phase 6.8 entries. Existing `H0`, LWA-Frozen,
 SaURL-TS-Frozen, and TimeDART-Frozen results remain immutable comparison

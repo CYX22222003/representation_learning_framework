@@ -159,9 +159,8 @@ evaluated with the same simple heads on movement classification, future price,
 and future realised variance. SISSEL-Frozen remains optional and
 uncommissioned. Phase 6.8 next adds Di-COT-Frozen and Monotone-VI-Frozen as
 recent conference representation comparators under the same two-walk,
-three-task common probes. Di-COT is the direct recent empirical representation
-baseline; Monotone-VI is a complementary theoretically grounded comparator,
-not an assumed empirical SOTA winner. Phase 7A then tests the canonical five
+three-task common probes. Both are recent representation-learning baselines;
+their inclusion does not assume empirical SOTA performance. Phase 7A then tests the canonical five
 branches through single-branch and leave-one-branch-out probes. Phase 6.6 is
 deferred until those evidence gaps are addressed; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers, a source-
@@ -233,8 +232,8 @@ Three categories of comparison models are used:
 - **Di-COT-Frozen** *(ICML 2026, Phase 6.8 planned)* — direct recent
   augmentation-free temporal representation baseline, to be fitted separately
   per walk and evaluated through the unchanged common probes.
-- **Monotone-VI-Frozen** *(ICLR 2025, Phase 6.8 planned)* — complementary
-  theoretically grounded sequence representation comparator, subject to its
+- **Monotone-VI-Frozen** *(ICLR 2025, Phase 6.8 planned)* — recent sequence
+  representation-learning baseline, subject to its
   source/licence/adaptation and row-embedding feasibility gate.
 
 The Phase 6.7 and planned Phase 6.8 methods use the exact existing task/walk

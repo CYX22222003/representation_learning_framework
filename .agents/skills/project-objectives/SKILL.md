@@ -51,10 +51,9 @@ Present the relevant parts of:
 - The Phase 6 encoder distinction between fixed-width backbone substitution
   and heterogeneous feature complementarity, including duplicated-CNN width
   controls and evaluation on classification, future price, and volatility.
-- The Phase 6.8 distinction between Di-COT as a direct recent empirical
-  representation baseline and Monotone-VI as a complementary recent
-  theoretical comparator; do not convert this bounded roster into a universal
-  SOTA claim.
+- The Phase 6.8 positioning of Di-COT and Monotone-VI as recent
+  representation-learning baselines; do not convert this bounded roster into
+  a universal SOTA claim.
 - The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

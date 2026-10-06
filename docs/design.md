@@ -302,9 +302,9 @@ optimisation freedom and remain contextual complete-system comparisons.
   separately on each unchanged target-free walk population, return one native-
   width embedding for every established row, and use the exact common probes.
   The planned inventory is four representation fits, four stores, 12 probes,
-  and 36 downstream snapshots beside six immutable `H0` references. Di-COT is
-  the direct recent empirical representation baseline; Monotone-VI is a
-  complementary theoretical comparator, not a presumed empirical SOTA winner.
+  and 36 downstream snapshots beside six immutable `H0` references. Di-COT
+  and Monotone-VI are both treated as recent representation-learning
+  baselines; neither is presumed to be an empirical SOTA winner.
 
 - **Deferred decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
   features, future-price rows, scaler, target, loss, and output transform fixed.

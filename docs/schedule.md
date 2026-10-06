@@ -188,7 +188,7 @@
 | SaURL-TS-Frozen representation baseline | ✅ Required Phase 6.7 core method; staged scope complete: CUDA/resource admission, both 50-epoch encoders, two 128-dimensional master stores, six downstream trajectories, and all 18 snapshots are replay-valid. The epoch-50 result is generally weaker than H0, with isolated metric-specific improvements. Near-zero learned masks and large embedding norms remain disclosed diagnostics. |
 | SISSEL-Frozen representation baseline | ⏸️ Optional and uncommissioned. Its feasibility reading is retained, but it is not a Phase 6.7 completion condition or current scheduled task; any future admission requires a separate amendment. |
 | Di-COT-Frozen representation baseline | 📝 Planned in Phase 6.8; ICML 2026 direct recent representation baseline. Source/licence/adaptation audit, implementation, two walk-specific fits, feature stores, and six common probes have not started. |
-| Monotone-VI-Frozen representation baseline | 📝 Planned in Phase 6.8; ICLR 2025 complementary theoretically grounded representation comparator. Source/licence/adaptation audit, implementation, two walk-specific fits, feature stores, and six common probes have not started. |
+| Monotone-VI-Frozen representation baseline | 📝 Planned in Phase 6.8; ICLR 2025 representation-learning baseline. Source/licence/adaptation audit, implementation, two walk-specific fits, feature stores, and six common probes have not started. |
 | Additional benchmarks from literature review | ⏸️ Deferred beyond the approved Phase 6.8 roster; any further baseline requires a separate amendment. |
 
 **Internal baselines** (designed within this project)

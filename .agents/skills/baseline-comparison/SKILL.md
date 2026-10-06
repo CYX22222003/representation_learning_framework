@@ -111,9 +111,8 @@ complete-system comparisons, not substitutes for this matrix.
 
 For Phase 6.8, follow
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
-Treat Di-COT-Frozen as the direct recent empirical representation baseline and
-Monotone-VI-Frozen as a complementary theoretically grounded representation
-comparator, not an assumed empirical SOTA winner. Both are mandatory planned
+Treat Di-COT-Frozen and Monotone-VI-Frozen as recent representation-learning
+baselines, not assumed empirical SOTA winners. Both are mandatory planned
 entries and must use separate per-walk target-free fitting, native-width
 frozen stores, exact task identities, and the common probes. The planned
 inventory is four representation fits, four stores, 12 downstream
