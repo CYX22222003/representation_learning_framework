@@ -169,10 +169,15 @@ Read these in order:
     non-executable.
 18. For the current task-specific competitiveness demonstration, read
     `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
-    in full. Monotone-VI must be fitted on walk-training sequences only and
-    embed evaluation rows inductively; joint train/evaluation embedding is
-    prohibited. Its mandatory classification row uses the common simple
-    probe. Phase 6.9 solely owns the xLSTM-Mixer endpoint and artifact
+    in full. Also read
+    `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+    Independently authored supervised SGN-C replaces the unimplemented
+    Monotone-VI classification leg; its optional Phase 6.8 role is unchanged.
+    Keep all original h2/tau=0.001 rows, native SGN head, training-only
+    grouping/period initialization, logit-adjusted task loss, and a disclosed
+    separately frozen grouping regularizer. Approve the source/settings/
+    licence audit and implementation specification before coding. No SGN
+    implementation or execution exists yet. Phase 6.9 solely owns the xLSTM-Mixer endpoint and artifact
     contract; the former Phase 6.6B listing is superseded. The
     volatility leg reuses the completed Phase 6.5B GARCH--LSTM artifacts
     without retraining.
@@ -191,7 +196,7 @@ Read these in order:
     lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint walks and
     all six snapshots pass independent replay, and matched reporting is complete
     under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
-    Monotone-VI classification remains open; do not close Phase 6.9.
+    SGN classification remains open; do not close Phase 6.9.
     `--execute` alone authorizes full trajectories. The released `FULL` source
     reverses latent features rather than variate tokens.
 

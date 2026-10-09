@@ -55,7 +55,11 @@ universal framework superiority.
 > optional recent-conference representation comparators,
 > the
 > [Phase 6.9 task-specific competitiveness plan](phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md),
-> which assigns Monotone-VI to classification, xLSTM-Mixer to future price,
+> whose
+> [SGN classification amendment](phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md)
+> replaces the unimplemented Monotone-VI classification leg with independently
+> authored SGN-C, while retaining Monotone-VI-Frozen in optional Phase 6.8.
+> It assigns xLSTM-Mixer to future price,
 > and the completed strict GARCH--LSTM stack to volatility,
 > the
 > [Phase 6.6 price-focused fusion and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
@@ -97,7 +101,8 @@ universal framework superiority.
 > both fresh 50-epoch XM-C8 walks, six-snapshot independent replay, and matched
 > reporting are complete under `experiments/phase6_9/xlstm_mixer_endpoint/`.
 > XM-C8 beats H0/Raw LSTM price errors in both walks, not persistence
-> consistently; Monotone-VI classification remains open. Phase 6.8
+> consistently; SGN classification remains open, with source/settings/licence
+> audit and implementation specification pending. Phase 6.8
 > remains optional and unimplemented. Phase 7A remains frozen and
 > unimplemented. Phase 6.6 remains deferred and is no longer an active
 > xLSTM-Mixer authority.
@@ -394,7 +399,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Phase 6.9 uses classification-oriented Monotone-VI, source-aligned xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Tests whether the framework is competitive with task-specific alternatives. Phase 6.9 plans independently authored supervised SGN-C for classification, uses source-aligned xLSTM-Mixer for future price, and reuses the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. These are complete-system comparisons, not representation-isolating controls. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
@@ -447,7 +452,9 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 3. **Trend Classification**
    - Metrics: Accuracy, macro-F1, balanced accuracy, per-class precision/recall/F1, confusion matrix, predicted-class counts, and one-vs-rest ROC-AUC/PR-AUC; NLL and multiclass Brier score are compact score-quality diagnostics rather than a calibration research track
    - Phase 2 uses split-safe hard `DOWN/STABLE/UP` movement labels while saving three-class scores. Candidate imbalance treatments are majority undersampling, balanced oversampling, and train-prior logit-adjusted cross-entropy; untreated natural cross-entropy is reference-only.
-   - External benchmarks: TA-MLP; additional TBD from literature review
+   - External benchmarks: TA-MLP; planned independently authored SGN-C
+     classification-specific complete-system adaptation in Phase 6.9, on all
+     original h2/tau=0.001 rows; implementation specification remains pending
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
    - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM on
      the identical h2 classification rows; all seed-0 trajectories executed
@@ -466,11 +473,15 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      simple probes after source/licence/adaptation and resource gates. Both
      are treated as recent representation-learning baselines rather than
      assumed empirical SOTA winners.
-   - Phase 6.9 adapts Monotone-VI only for classification under an inductive
-     train-only fitting gate and the established common probe. It pairs this
+   - Phase 6.9 plans an independently authored supervised SGN classification
+     adaptation with its native head on all original h2/tau=0.001 rows.
+     Source/settings/licence audit and implementation specification precede
+     coding; grouping and period statistics are training-only. It pairs this
      with xLSTM-Mixer for price and the completed strict GARCH--LSTM stack for
      volatility to test task-level competitiveness without forcing every
      baseline onto all three tasks.
+     The former Monotone-VI classification leg is superseded; its optional
+     Phase 6.8 frozen-representation role remains unchanged.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks

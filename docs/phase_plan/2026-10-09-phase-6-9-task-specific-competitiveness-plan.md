@@ -1,6 +1,13 @@
 # Phase 6.9 Task-Specific Competitiveness Demonstration
 
 **Date:** 2026-10-09
+**Active classification amendment:**
+`2026-10-09-phase-6-9-sgn-classification-amendment.md` replaces the
+unimplemented Monotone-VI classification leg with an independently authored
+SGN adaptation (`SGN-C`). Comparator role and exact-row evaluation are
+approved; implementation specification and execution remain pending.
+Monotone-VI-Frozen remains unchanged in optional Phase 6.8.
+
 **Active price amendment:**
 `2026-10-09-phase-6-9-xlstm-endpoint-amendment.md` supersedes the former
 full-path price contract. The primary method is now **XM-C8**, direct
@@ -61,7 +68,7 @@ compared with a recent or domain-aligned method chosen for that task:
 
 | Task | Phase 6.9 comparator | Comparison role |
 |---|---|---|
-| Two-hour movement classification | Monotone-VI classification adaptation (ICLR 2025) | Recent classification-oriented representation baseline |
+| Two-hour movement classification | SGN-C classification adaptation (NeurIPS 2025) | Supervised classification-specific complete-system baseline |
 | Eight-hour future price | xLSTM-Mixer XM-C8 endpoint adaptation (NeurIPS 2025) | Endpoint-matched complete-system baseline |
 | Eight-hour future realised variance | Adapted GARCH--LSTM stack | Finance-oriented volatility complete-system baseline |
 
@@ -120,65 +127,59 @@ price row and its sole endpoint target. Additional future-path availability
 is not an active eligibility rule; the earlier XM-MV8 intersection is
 historical only.
 
-## 4. Classification: Monotone-VI adaptation
+## 4. Classification: independent SGN adaptation
 
 ### 4.1 Role
 
-*Nonlinear Sequence Data Embedding by Monotone Variational Inequality* is an
-unsupervised sequence-representation method whose principal real-time-series
-experiments evaluate classification and clustering. Phase 6.9 therefore uses
-it as a classification baseline. It is not described as a finance-specific
-classifier, an end-to-end forecasting model, or evidence for the price and
-volatility tasks.
+The owner-approved
+`2026-10-09-phase-6-9-sgn-classification-amendment.md` selects SGN, an
+explicit supervised multivariate time-series classifier, instead of the
+previously planned Monotone-VI representation-plus-probe comparison.
+Write the SGN model and lifecycle independently, using the paper and pinned
+official source/settings as references. This is a project adaptation, not a
+claim of exact paper reproduction or finance-specific source validation.
 
 The mandatory primary row is:
 
 ```text
-MVI-C-D0: train-only Monotone-VI representation -> established simple
-          classification probe
+SGN-C: historical raw OHLCV -> supervised SGN backbone -> native 3-class head
 ```
 
-It is compared directly with immutable `H0-D0` on the exact two-hour
-`DOWN/STABLE/UP`, `tau=0.001` rows for each walk. This keeps the supervised
-probe fixed and attributes the primary difference to the representations.
+Compare with immutable `H0-D0` and Raw LSTM on every original two-hour
+`DOWN/STABLE/UP`, `tau=0.001` row for both walks. This is a complete-system
+competitiveness comparison, not a shared-head representation control.
+The optional Phase 6.8 Monotone-VI-Frozen plan remains unchanged.
 
-### 4.2 Inductive admission gate
+### 4.2 Source/adaptation and causal initialization gate
 
-Monotone-VI learns shared low-rank structure across a collection of
-sequences. Before implementation, its paper and source dossier must establish
-an inductive evaluation procedure:
+Before implementation, approve a separate SGN specification and complete
+its pinned paper/source/settings/licence audit. Preserve the defining
+grouping, multi-scale mixing, shifted-window, merging, and native-head
+mechanisms, with explicit decisions for paper/source discrepancies.
 
-1. fit every shared basis, operator, normalizer, solver choice, and other
-   learned state using the permitted walk-training population only;
-2. freeze that state before any evaluation sequence is embedded; and
-3. embed each evaluation sequence without jointly refitting on training plus
-   evaluation sequences.
+1. Derive similarity/BDC, K-means, any fitted FFT/period statistics, and
+   preprocessing from the corresponding classification training population only.
+2. Freeze the data-derived initialization and full training recipe before
+   evaluation; never reuse upstream sensor matrices or test-derived metadata.
+3. Train independent supervised weights per walk and predict every unchanged
+   evaluation row without any shared-state refitting on evaluation data.
 
-If no defensible inductive extension exists, Monotone-VI is not admitted to
-the headline Phase 6.9 comparison. A separately labelled transductive
-sensitivity may be proposed only through a dated amendment and cannot be
-reported beside `H0` as a strict held-out result.
+Resolve group count/embedding semantics, period selection, 64-step-safe
+depth/merging, temperature state, regularizer, optimizer/batch, and replay
+behavior in the implementation discussion. This plan does not silently
+approve numerical architecture or optimizer choices, copying unlicensed
+source, or dropping inconvenient rows.
 
-The dossier also freezes input mapping, finite-difference handling, lookback,
-link function, regularization, solver iterations/tolerance, representation
-width, seed semantics, and failure policy without reading Polymarket
-evaluation metrics.
+### 4.3 Fixed lifecycle and supervision boundary
 
-### 4.3 Optional source-style classifier sensitivity
-
-The source paper evaluates embeddings using KNN and RBF-SVM classifiers. A
-source-style sensitivity may be added only if its classifier and
-hyperparameters are fixed before evaluation without introducing the project's
-prohibited best-on-test selection. If commissioned, the identical classifier
-recipe must also be applied to `H0`:
-
-```text
-MVI-C-SRC versus H0-SRC
-```
-
-This sensitivity is reported separately from `MVI-C-D0 versus H0-D0`. It may
-not be used to attribute an improvement to the representation when the
-classifier or tuning budget differs.
+Use two fresh seed-0 50-epoch supervised trajectories, retain 5/15/50, and
+keep epoch 50 primary. Use the existing training-prior logit-adjusted task
+loss; SGN's additional grouping regularizer must be separately frozen and
+disclosed. No validation early stopping or best-on-test selection is allowed.
+The paper's dataset-specific configurations are references, not automatic
+overrides of this lifecycle. The former MVI common-probe and source-KNN/SVM
+sensitivities are superseded, not completed. No frozen-SGN probe or extra
+task/ablation matrix is commissioned.
 
 ## 5. Future price: xLSTM-Mixer
 
@@ -291,20 +292,18 @@ retained rather than reframed as a broad win.
 The new mandatory execution inventory is bounded:
 
 ```text
-Monotone-VI: 2 walk-specific train-only fits
-Monotone-VI: 2 complete classification representation stores
-MVI-C-D0:    2 classification probe trajectories, snapshots at 5/15/50
+SGN-C:       2 fresh walk-specific supervised classification trajectories
+             with snapshots at 5/15/50; no representation-store stage
 XM-C8:       2 fresh endpoint-only price trajectories
 GARCH-LSTM:  0 new trajectories; reuse 2 completed Phase 6.5B stacks
 ```
 
 Original H0-D0 and Raw LSTM results are reused after exact-source/identity
 verification; former intersection reruns are superseded, not completed.
-If the optional source-style
-classification sensitivity is commissioned, both `MVI-C-SRC` and `H0-SRC`
-are added together.
+The former Monotone-VI fits, stores, and source-classifier sensitivity are
+superseded in Phase 6.9, not commissioned alongside SGN.
 
-This is not a homogeneous model-by-task matrix. Monotone-VI is not forced onto
+This is not a homogeneous model-by-task matrix. SGN is not forced onto
 price or volatility, xLSTM-Mixer is not forced onto classification or
 volatility, and GARCH--LSTM is not forced onto classification or price.
 
@@ -334,18 +333,20 @@ architecture causality, or multi-seed robustness.
 
 ## 9. Code, artifacts, and ordered gates
 
-New Monotone-VI code and Phase 6.9 integration artifacts belong under:
+Proposed SGN code and Phase 6.9 integration locations, subject to the separate
+implementation specification, are:
 
 ```text
-src/baselines/monotone_vi/
+docs/baselines/SGN/
+src/baselines/sgn/
 scripts_v8/
-tests/baselines/monotone_vi/
+tests/baselines/sgn/
 experiments/phase6_9/
-  feasibility/monotone_vi/
-  manifests/
-  representation_fitting/monotone_vi_classification/
-  features/classification/walk{1,2}/
-  downstream/classification_h2/walk{1,2}/mvi_c_d0/seed0/
+  sgn_classification/
+    feasibility/
+    manifests/
+    downstream/classification_h2/walk{1,2}/sgn_c/seed0/
+    reports/seed0/
   xlstm_mixer/
     feasibility/
     data/absolute_price_h8_multivariate/
@@ -367,12 +368,13 @@ Ordered gates are:
 
 1. Replay the two walk bundles, the three exact task populations, canonical
    `H0`, Raw LSTM references, and completed GARCH--LSTM artifacts.
-2. Complete the Monotone-VI paper/source/licence/adaptation dossier and prove
-   inductive train-only fitting before coding or evaluation.
-3. Freeze the two Monotone-VI fits, two stores, two common-probe runs, and any
-   optional matched source-classifier sensitivity.
-4. Implement, CPU-test, resource-audit, fit, extract, probe, and replay the
-   complete Monotone-VI classification scope.
+2. Complete the SGN paper/source/settings/licence audit and discuss/approve
+   the independent implementation specification before model coding.
+3. Implement and CPU-test the model/lifecycle; verify all original
+   classification rows and controls, freeze the two-run manifest, and admit
+   the declared GPU recipe with bounded resource checks.
+4. Only after explicit execution approval, train both SGN-C walks and
+   independently replay all six classification snapshots and matched reports.
 5. Audit every original h8 price row and the existing H0-D0/Raw-LSTM controls;
    freeze the XM-C8 endpoint recipe and fresh selected-backend CUDA admission.
 6. Train fresh XM-C8 once per walk, preserve scalar endpoint predictions,
@@ -389,10 +391,12 @@ execution flag for fitting or training.
 
 Phase 6.9 is complete only when:
 
-- the Monotone-VI dossier establishes an inductive train-only procedure and
-  both fitted representations cover every frozen classification row;
-- both `MVI-C-D0` trajectories and all 5/15/50 snapshots pass representation,
-  scaler, identity, prediction, and metric replay;
+- the SGN paper/source/settings/licence audit and independently authored
+  implementation specification are approved and causal initialization covers
+  every original classification row without changing the task;
+- both `SGN-C` trajectories, all 5/15/50 snapshots, and original classification
+  controls pass checkpoint/state, preprocessing, identity, prediction, and
+  metric replay, with a matched classification report;
 - the Phase 6.9 source/hardware/endpoint gate is frozen and both `XM-C8`
   walk trajectories plus verified original controls pass same-runtime checkpoint,
   identity, prediction, and metric replay;
@@ -402,6 +406,7 @@ Phase 6.9 is complete only when:
 - the final report preserves the two-walk, seed-0, non-trading,
   non-universal claim boundary.
 
-Failure of Monotone-VI's inductive admission gate is a documented method
-rejection, not permission to fit on evaluation sequences. A replacement
-classification baseline would require a dated amendment.
+SGN remains unimplemented and unexecuted; classification is still open.
+This document and its SGN amendment authorize the planning direction, not an
+immediate model implementation or training launch. Any further comparator
+replacement or expanded matrix requires a separate owner decision.

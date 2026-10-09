@@ -19,7 +19,7 @@ specifications.
 canonical `H0` with required LWA/SaURL and optional TimeDART under the same
 three tasks, two walks, and lightweight heads. SISSEL remains optional and
 uncommissioned. Phase 6.9 is the current approved planning handoff and adds a
-task-specific competitiveness demonstration: Monotone-VI for classification,
+task-specific competitiveness demonstration: independently authored SGN-C for classification,
 xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
 future realised variance. Phase 6.8 remains a frozen optional representation
 extension; it is unimplemented and does not block Phase 6.9. Phase 7A remains
@@ -36,6 +36,11 @@ preserving selected-backend resource admission and source replay. The later
 full-path supervision/intersection reruns with XM-C8: direct close[t+8h],
 endpoint MSE, original price rows, and verified original control reuse.
 Historical XM-MV8 results remain separate. Current execution evidence belongs in `docs/schedule.md`.
+The classification replacement is governed by
+`docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+SGN-C replaces the unimplemented Phase 6.9 Monotone-VI adaptation, not the
+optional Phase 6.8 representation roster. A separate source/settings/licence
+audit and implementation specification must be approved before model coding.
 
 ---
 
@@ -172,7 +177,7 @@ uncommissioned. Optional Phase 6.8 adds Di-COT-Frozen and Monotone-VI-Frozen as
 recent conference representation comparators under the same two-walk,
 three-task common probes. Both are recent representation-learning baselines;
 their inclusion does not assume empirical SOTA performance. Phase 6.9 instead
-tests task-level competitiveness using classification-only Monotone-VI,
+tests task-level competitiveness using classification-only supervised SGN-C,
 xLSTM-Mixer for price, and the completed GARCH--LSTM stack for volatility.
 Phase 7A separately tests the canonical five branches through single-branch
 and leave-one-branch-out probes. Phase 6.6 is otherwise deferred; it retains a matched supervised
@@ -269,11 +274,14 @@ costs are reported.
   audit and owner decisions are complete; training obeys the data/runtime
   gates in `docs/baselines/xLSTM-Mixer/`, including the owner-directed local
   vanilla-GPU execution amendment.
-- **Monotone-VI classification adaptation** *(ICLR 2025, Phase 6.9 planned)* —
-  classification-oriented representation baseline using the common simple
-  probe on exact h2/tau=0.001 rows. Admission requires an inductive procedure
-  fitted only on walk-training sequences; joint train/evaluation embedding is
-  prohibited.
+- **SGN classification adaptation** *(NeurIPS 2025, Phase 6.9 planned)* —
+  independently authored supervised model, using the paper and official
+  model/settings as references, with its native three-class head on every
+  original h2/tau=0.001 row. Grouping/period initialization and fitted state
+  use only walk-training data. Source/settings/licence audit and a separate
+  implementation specification precede model coding. This replaces the former
+  Monotone-VI classification-only common-probe scope and tests complete-system
+  competitiveness, not reusable representation quality.
 - **Additional benchmarks (TBD)** — deferred beyond the approved Phase 6.9
   roster; any further baseline requires a separate amendment.
 
@@ -384,7 +392,7 @@ implementation, and neither source is selected or tuned from Polymarket
 evaluation results.
 
 Phase 6.9 adds a separate task-specific competitiveness demonstration. It
-does not force one comparator across unrelated tasks: Monotone-VI is adapted
+does not force one comparator across unrelated tasks: SGN is independently adapted
 for movement classification, xLSTM-Mixer is used for future price, and the
 completed strict GARCH--LSTM stack is reused for future realised variance.
 The `H0` representation remains the common system evaluated on all three

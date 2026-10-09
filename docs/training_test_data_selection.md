@@ -147,7 +147,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase-6.5D residual-CNN encoders and probes | each walk's unchanged target-free encoder rows under the frozen Contrastive/BYOL recipes; epoch-50 residual-CNN embeddings are then frozen and price-training-only scalers/heads fit on exact `absolute_price_h8` rows | exact future-price evaluation identities, with substitutions compared to H0 and additions compared to both H0 and the completed duplicate-CNN controls; classification and volatility are deferred |
 | Phase-6.7 external frozen representations | completed required LWA/SaURL and optional TimeDART methods trained separately on the unchanged target-free encoder population for each walk; all candidate-specific normalization/view statistics were fitted on permitted walk-training rows only; epoch-50 embeddings were frozen before any task head was fit; SISSEL remains optional and uncommissioned | exact existing movement-classification, future-price, and future-RV task/walk identities through the established lightweight heads; 12 required plus six optional TimeDART trajectories are complete beside six immutable H0 references, with native widths/resources preserved |
 | Phase-6.8 recent conference representations | planned Di-COT and Monotone-VI representations fitted separately on each unchanged target-free encoder population; every method-specific scaler, partition statistic, basis, solver setting, and extraction rule is frozen from permitted walk-training data before downstream fitting | exact existing movement-classification, future-price, and future-RV task/walk identities through the established lightweight heads; 12 planned trajectories beside six immutable H0 references, with no method-specific row deletion |
-| Phase-6.9 task-specific competitiveness demonstration | Monotone-VI shared state is fitted on walk-training sequences only and must support inductive evaluation embedding; Phase 6.9 owns xLSTM-Mixer training and its fully observed path contract; volatility reuses the completed Phase-6.5B chronological-OOF stack without retraining | exact classification rows for `MVI-C-D0`; the frozen reduced common-intersection future-price rows for `XM-MV8`, matched H0-D0, and matched Raw LSTM; exact strict H=8 rows for H0, Raw LSTM, and GARCH--LSTM. The three task tables remain separate and are not averaged. |
+| Phase-6.9 task-specific competitiveness demonstration | planned independently authored supervised SGN-C uses every original h2/tau=0.001 training row; grouping/BDC/K-means, period statistics, and preprocessing are walk-training-only. Source/settings/licence audit and a separate implementation specification precede coding. XM-C8 uses the original h8 price rows and sole endpoint MSE; volatility reuses the completed Phase-6.5B chronological-OOF stack without retraining | every original classification row for SGN-C versus audited H0-D0/Raw-LSTM controls; every original h8 price row for XM-C8 and verified original controls; exact strict H=8 volatility rows. Native SGN head and grouping regularizer are disclosed complete-system differences. Historical MVI-C-D0 and XM-MV8 intersection scopes are superseded. The three task tables remain separate and are not averaged. |
 | Phase-6.6A raw-representation fusion | exact future-price training identities; the `H0` projection scaler is fit on training rows only, while raw LSTM/BiLSTM towers consume the matching saved walk-scaled 64-by-5 contexts; all supervised parameters use seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation identities through frozen training scalers; `F-H0` is the matched-capacity control, `F-RL` is the raw-only complementarity reference, and no SHAP value selects a model |
 | Historical Phase-6.6B xLSTM-Mixer listing | superseded by the Phase 6.9 row above; no training or artifacts are authorized here | no evaluation; this row is planning history only |
 | Phase-6.6C canonical decoder-capacity sensitivity | immutable canonical H0 features on exact `absolute_price_h8` training rows, with the existing train-only scaler, target, MSE loss, and sigmoid output; seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation rows for D0, residual-projection D1-RP, and branch-aware gated D2-BG; D0 remains the primary representation probe |
@@ -192,27 +192,29 @@ and fixed fitting budgets must be frozen before implementation; no Polymarket
 evaluation metric may select those decisions. Phase 6.8 is optional and does
 not block Phase 6.9. Phase 7A remains separately planned.
 
-For Phase 6.9 classification, Monotone-VI may not learn a joint low-rank
-embedding over training and evaluation sequences. Every shared basis,
-operator, scaler, solver choice, and other fitted state comes from the
-permitted walk-training population and is frozen before inductive evaluation
-embedding. If this cannot be implemented from the paper/source, the method is
-rejected from the strict headline comparison rather than made transductive.
-The mandatory `MVI-C-D0` row uses the established simple classification probe;
-any paper-style KNN/SVM sensitivity requires an identical matched `H0` head
-recipe fixed before evaluation.
+For Phase 6.9 classification, follow
+`phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+SGN-C replaces the unimplemented Monotone-VI common-probe leg with a supervised
+classification-specific adaptation and native head. Every similarity/BDC,
+K-means, fitted period, scaler, and learned state uses permitted walk-training
+information only. Preserve all original h2/tau=0.001 identities and the natural
+evaluation distribution, use the existing train-prior logit-adjusted task
+loss, and disclose the separately frozen grouping regularizer. No sensor
+matrix, evaluation-derived class metadata, shared train/evaluation fitting,
+early stopping, or evaluation-driven architecture choice is permitted.
+The separate implementation specification must be approved before coding;
+SGN remains unimplemented and unexecuted. Optional Phase 6.8 Monotone-VI-Frozen
+remains unchanged.
 
 For Phase 6.6A, the bidirectional raw tower may traverse both directions only
 inside the already observed historical context; no target-interval candle may
-enter either direction. For Phase 6.9 xLSTM-Mixer, all eight auxiliary future bars must
-remain inside the same contract, split, and accepted continuous segment;
-imputed target candles are excluded, and availability rather than target value
-determines any common intersection. Source/hardware feasibility and the full
-xLSTM-Mixer recipe must be frozen before evaluation. The completed paper/source audit under
-`docs/baselines/xLSTM-Mixer/` is not data or runtime admission: its owner
-complete owner decision record, full-path target artifact, and CUDA gate remain
-prerequisites. Phase 6.9 is the sole active authority; the Phase 6.6B listing
-is historical. For Phase 6.5D, residual-CNN pretraining remains
+enter either direction. For Phase 6.9 xLSTM-Mixer, the endpoint amendment
+governs XM-C8: sole close[t+8h], MSE, and every original price row with
+verified original-control reuse. The old eight-bar auxiliary path and
+intersection rules apply only to historical XM-MV8 evidence. The completed
+XM-C8 data/runtime/training/replay records remain unchanged by the SGN
+classification amendment. Phase 6.9 is the sole active authority; the Phase
+6.6B listing is historical. For Phase 6.5D, residual-CNN pretraining remains
 target-free and its downstream matrix is price-only. Grouped SHAP or gradient attribution is a later descriptive
 analysis and may not change the frozen model matrix or checkpoint choice.
 

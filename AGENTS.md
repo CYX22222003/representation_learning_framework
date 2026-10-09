@@ -134,7 +134,12 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > frozen, but implementation and execution have not started. Phase 6.9 is now
 > the current approved planning handoff under
 > `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
-> It assigns classification to an inductive Monotone-VI adaptation, price to
+> Its classification replacement is approved under
+> `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`:
+> independently authored SGN-C replaces the unimplemented Monotone-VI
+> classification adaptation. Source/settings/licence audit and implementation
+> specification are next; no SGN code or training is authorized yet.
+> Monotone-VI-Frozen remains in optional Phase 6.8. It assigns price to
 > a Phase 6.9-owned source-aligned xLSTM-Mixer adaptation, and
 > volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
 > is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
@@ -158,7 +163,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > complete 50 epochs and all six snapshots pass independent replay. The matched
 > report is `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md`:
 > XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks, but persistence
-> wins MAE in both walks and RMSE in Walk 2. Monotone-VI remains open.
+> wins MAE in both walks and RMSE in Walk 2. SGN classification remains open.
 > Both historical observed-path bundles pass source replay. The owner-
 > directed local WSL amendment uses `.venv-xlstm-mixer/` and vanilla sLSTM
 > on CUDA tensors; Lumid/nvcc are not prerequisites. Resource admission,

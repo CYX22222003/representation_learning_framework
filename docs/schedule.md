@@ -2,6 +2,16 @@
 
 **Last updated:** 2026-10-09
 
+> **Latest classification-plan revision:** The owner approved
+> `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+> Independently authored SGN-C replaces the unimplemented Phase 6.9
+> Monotone-VI classification leg; optional Phase 6.8 Monotone-VI-Frozen remains
+> unchanged. The task remains all original 64-by-5 h2/tau=0.001 rows, two walks,
+> seed 0, 50 epochs, and 5/15/50 snapshots with epoch 50 primary. SGN is a
+> supervised complete-system comparator with its native head. Next: discuss
+> the implementation specification and source/settings/licence audit. No SGN
+> implementation, runtime admission, or training has started.
+
 > **Latest price-contract correction:** The owner approved
 > `phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md` after full-path
 > result review. Primary XM-C8 directly predicts close[t+8h] with endpoint
@@ -22,7 +32,7 @@
 > **Current phase:** Phase 6, Phase 6.5, and Phase 6.7 are complete for their
 > frozen seed-0 scopes. Phase 6.9 is now the current approved execution phase.
 > It adds a bounded task-specific competitiveness demonstration:
-> classification-only Monotone-VI, Phase 6.9-owned xLSTM-Mixer future-price
+> classification-only SGN-C, Phase 6.9-owned xLSTM-Mixer future-price
 > forecasting, and the completed strict H=8
 > GARCH--LSTM volatility stack. Phase 6.8 remains frozen but optional and
 > unimplemented; its three-task Di-COT-Frozen/Monotone-VI-Frozen extension is
@@ -60,8 +70,9 @@
 > only in Walk 1. No matched learned-control comparison is complete.
 > The local selected-backend GPU admission and complete manifest-only pipeline
 > pass at batch 512 plus a one-row remainder; maximum allocation is about 282 MiB.
-> Its remaining scientific gates include the Monotone-VI inductive/source/
-> licence/adaptation gate; endpoint-only XM-C8 execution is now complete. The
+> Its remaining scientific gates include the SGN source/settings/licence audit,
+> approved implementation specification, and classification execution;
+> endpoint-only XM-C8 execution is now complete. The
 > xLSTM-Mixer paper and official-source audit is now complete under
 > `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
 > one learned initial token. The owner-directed local WSL amendment replaces
@@ -69,7 +80,7 @@
 > The former H0-D0/Raw-LSTM intersection reruns are superseded by XM-C8's
 > original-row contract; original controls are audited for reuse. Fresh
 > XM-C8 training, six-snapshot replay, and matched reporting are complete;
-> the Monotone-VI classification leg remains open. The
+> the SGN classification leg remains open. The
 > remainder of Phase 6.6 remains deferred.
 > Phase 5 seed-0 execution is
 > complete. The Phase 6
@@ -231,6 +242,7 @@
 | SISSEL-Frozen representation baseline | ⏸️ Optional and uncommissioned. Its feasibility reading is retained, but it is not a Phase 6.7 completion condition or current scheduled task; any future admission requires a separate amendment. |
 | Di-COT-Frozen representation baseline | 📝 Planned in Phase 6.8; ICML 2026 direct recent representation baseline. Source/licence/adaptation audit, implementation, two walk-specific fits, feature stores, and six common probes have not started. |
 | Monotone-VI-Frozen representation baseline | 📝 Planned in Phase 6.8; ICLR 2025 representation-learning baseline. Source/licence/adaptation audit, implementation, two walk-specific fits, feature stores, and six common probes have not started. |
+| SGN-C task-specific classification baseline | 📝 Replacement scope approved in Phase 6.9; independently authored supervised SGN with native head, all original h2/tau=0.001 rows. Source/settings/licence audit and implementation specification are next; implementation, GPU admission, training, and replay have not started. |
 | Additional benchmarks from literature review | ⏸️ Deferred beyond the approved Phase 6.8 roster; any further baseline requires a separate amendment. |
 
 **Internal baselines** (designed within this project)
@@ -261,7 +273,7 @@
 | Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
 | Phase 6.7 recent frozen-representation baselines | ✅ Closed for the frozen seed-0 scope: SaURL, LWA, and optional TimeDART contribute six walk-specific target-free encoders, six native-width stores, 18 common-head downstream trajectories, and 54 retained snapshots. The integrated comparison is complete under `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; SISSEL stays optional and uncommissioned. |
 | Phase 6.8 recent conference representation baselines | ⏸️ Optional frozen plan; roster and comparison contract exist, but implementation/execution have not started. Planned scope remains Di-COT-Frozen and Monotone-VI-Frozen, four walk-specific fits, four native-width stores, 12 common-probe trajectories, and 36 downstream snapshots. It is not a Phase 6.9 prerequisite. |
-| Phase 6.9 task-specific competitiveness demonstration | 🔄 Price leg complete: fresh endpoint-only XM-C8 uses one close[t+8h], MSE, every original price row. Both seed-0 walks complete 50 epochs; all six snapshots pass independent replay and matched reporting. XM-C8 beats H0/Raw LSTM on MAE/RMSE in both walks, but persistence wins MAE in both walks and RMSE in Walk 2. Completed XM-MV8 artifacts remain historical contextual evidence; intersection reruns are superseded. Monotone-VI classification remains open; volatility reuses Phase 6.5B stacks. |
+| Phase 6.9 task-specific competitiveness demonstration | 🔄 Price leg complete: fresh endpoint-only XM-C8 uses one close[t+8h], MSE, every original price row. Both seed-0 walks complete 50 epochs; all six snapshots pass independent replay and matched reporting. XM-C8 beats H0/Raw LSTM on MAE/RMSE in both walks, but persistence wins MAE in both walks and RMSE in Walk 2. Completed XM-MV8 artifacts remain historical contextual evidence; intersection reruns are superseded. SGN-C replaces the unimplemented Monotone-VI classification leg; SGN specification/audit, implementation, and execution remain pending. Volatility reuses Phase 6.5B stacks. |
 | Phase 6.6A raw-representation residual fusion | ⏸️ Deferred independently; implementation/execution not started. Its frozen matrix remains eight price-only trajectories. |
 | Historical Phase 6.6B xLSTM-Mixer listing | 🗃️ Superseded by Phase 6.9; it is non-executable and owns no artifacts. It does not satisfy the direct representation-baseline requirement. |
 | Phase 6.6C canonical decoder capacity | ⏸️ Deferred; implementation/execution not started. The frozen matrix remains four price-only trajectories and can be reconsidered independently if Phase 6.6 resumes. |
@@ -363,7 +375,7 @@ classification and volatility MAE. The report is under
 `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`.
 SISSEL remains optional and uncommissioned. Phase 6.6 price-focused
 raw/representation residual fusion and decoder-capacity studies remain
-deferred. Phase 6.9 is the current planned handoff: Monotone-VI is adapted
+deferred. Phase 6.9 is the current planned handoff: SGN is independently adapted
 only for classification, xLSTM-Mixer supplies the price-specific comparison
 under the Phase 6.9 technical contract, and the completed strict
 GARCH--LSTM supplies the volatility comparison. Phase 6.8 remains an optional
@@ -615,7 +627,7 @@ From here, both sides grow in parallel. Add one method at a time; re-run evaluat
 - [x] Train GINN benchmark on the unified 4h split at 15 epochs; document the GARCH-target failure and defer further GINN sweeps while selecting a more suitable volatility benchmark
 - [x] Train TA-MLP natural-sampling adaptation *(legacy v1 triclass sweep, see `src/baselines/ta_mlp_baseline/experiments_old/2026-06-22-v1/`)*; strict current-task alignment and the training-only P1U sensitivity are complete separately in Phase 6.5C
 - [ ] Implement and evaluate the Phase 6.9 task-specific demonstration:
-  classification-only Monotone-VI, Phase 6.9 xLSTM-Mixer for price, and the
+  classification-only SGN-C, Phase 6.9 xLSTM-Mixer for price, and the
   existing strict GARCH--LSTM volatility evidence. Phase 6.8 remains optional.
 
 **Expand internal baselines** (order by complexity)

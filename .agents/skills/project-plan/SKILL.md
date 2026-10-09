@@ -77,6 +77,9 @@ Read these in order:
    for the optional planned Di-COT-Frozen/Monotone-VI-Frozen extension,
    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
    for the current classification/price/volatility task-specific handoff,
+   `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`
+   for the approved independent-SGN classification replacement and pending
+   source/settings/licence audit and implementation-specification discussion,
    `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
    audit, all fourteen resolved owner decisions, admitted local runtime/data,
    replay-valid historical XM-MV8 runs, and
@@ -176,7 +179,10 @@ Report:
   under the same two-walk, three-task common probes, but source/licence/
   adaptation dossiers, implementation, fitting, stores, and 12 downstream
   trajectories have not started. Phase 6.9 is the current approved planning
-  handoff: classification-only Monotone-VI remains unimplemented, while the
+  handoff: classification-only SGN-C replaces the unimplemented Monotone-VI
+  common-probe leg. SGN source/settings/licence audit and implementation
+  specification are next; no SGN code, admission, or training exists. The
+  optional Phase 6.8 Monotone-VI-Frozen roster is unchanged, while the
   Phase 6.9 xLSTM-Mixer model and guarded runtime/training/replay infrastructure
   and observed-path builder/local vanilla-GPU runner are complete; both data
   bundles pass source replay. Selected-runtime admission passed; both real-data
@@ -187,7 +193,7 @@ Report:
   row, and audited original-control reuse. Intersection reruns are superseded.
   Endpoint model/lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint
   walks, six-snapshot independent replay, and matched comparison are complete
-  under `experiments/phase6_9/xlstm_mixer_endpoint/`. Monotone-VI remains open;
+  under `experiments/phase6_9/xlstm_mixer_endpoint/`. SGN classification remains open;
   this completes the price leg, not all Phase 6.9.
   Lumid is not required by the owner-directed local amendment. Its volatility leg reuses the
   completed strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused

@@ -79,7 +79,14 @@ Read these in order:
     exists.
 13. For the current task-specific competitiveness demonstration, read
     `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
-    It assigns Monotone-VI to classification, Phase 6.9-owned xLSTM-Mixer to
+    Also read
+    `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+    It replaces the unimplemented Monotone-VI classification leg with
+    independently authored supervised SGN-C and its native head on all
+    original h2/tau=0.001 rows. Source/settings/licence audit and separate
+    implementation specification precede coding; grouping/period initialization
+    is training-only. SGN is not implemented or executed. Optional Phase 6.8
+    Monotone-VI-Frozen is unchanged. It assigns Phase 6.9-owned xLSTM-Mixer to
     price, and the completed strict GARCH--LSTM stack
     to volatility. For xLSTM-Mixer architecture, exact source tensors,
     paper/source discrepancies, and the proposed `[64,5] -> [8,5]` mapping,
@@ -97,7 +104,7 @@ Read these in order:
     both fresh endpoint walks and all six snapshots are independently
     replay-valid, with matched reporting under
     `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
-    Monotone-VI classification remains open.
+    SGN classification remains open.
 
 ## Response Contract
 

@@ -40,7 +40,11 @@
 > with grouped SHAP deferred to a later analysis amendment. Phase 6.9 is the
 > current planned handoff in
 > [`phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`](phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md).
-> It uses classification-only Monotone-VI, a Phase 6.9-owned xLSTM-Mixer
+> The owner-approved
+> `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md` replaces
+> the unimplemented Monotone-VI classification leg with independently authored
+> SGN-C; implementation specification and source/settings/licence audit remain
+> pending. Monotone-VI-Frozen remains in optional Phase 6.8. It uses a Phase 6.9-owned xLSTM-Mixer
 > contract for price, and the completed strict GARCH--LSTM stack for
 > volatility. The Phase 6.6 raw-fusion and decoder-capacity studies remain
 > deferred; their former xLSTM-Mixer listing is superseded.
@@ -278,7 +282,7 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 | Term | Definition |
 |---|---|
 | **External representation baseline** | Target-free prior-work representation frozen before the shared lightweight probes. Completed Phase 6.7: required LWA-Frozen and SaURL-TS-Frozen plus optional TimeDART-Frozen. Optional planned Phase 6.8: Di-COT-Frozen and Monotone-VI-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
-| **Task-specific external benchmark** | End-to-end or paper-inspired comparator selected for one downstream task. Phase 6.9 uses a classification-oriented Monotone-VI adaptation, xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility. Other context includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
+| **Task-specific external benchmark** | End-to-end or paper-inspired comparator selected for one downstream task. Phase 6.9 plans independently authored SGN-C for classification, uses xLSTM-Mixer for future price, and reuses the completed adapted GARCH--LSTM stack for volatility. SGN-C is a supervised complete system, not a target-free common-probe baseline. Other context includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
@@ -331,8 +335,11 @@ optimisation freedom and remain contextual complete-system comparisons.
 
 - **Task-specific competitiveness demonstration:** Phase 6.9 compares the
   same canonical `H0` system separately with a source-aligned comparator for
-  each task. Monotone-VI is classification-only and must pass an inductive
-  train-only embedding gate before it uses the common simple classifier probe.
+  each task. SGN-C is a classification-only supervised adaptation with its
+  native head on every original h2/tau=0.001 row. Its paper/source/settings/
+  licence audit and separate implementation specification must precede coding;
+  grouping/period initialization and all fitted state are training-only.
+  The former Monotone-VI common-probe leg is superseded, not completed.
   xLSTM-Mixer supplies the future-price complete-system comparison under the
   Phase 6.9 XM-C8 endpoint-only amendment. The replay-valid strict GARCH--LSTM
   stack supplies the volatility comparison without retraining. These rows
@@ -379,7 +386,7 @@ optimisation freedom and remain contextual complete-system comparisons.
   XM-C8 implementation and 18 new CPU tests pass; both fresh 50-epoch walks,
   six-snapshot independent replay, and endpoint-matched comparison are complete.
   XM-C8 beats H0/Raw LSTM errors in both walks, not persistence consistently.
-  Intersection reruns are superseded; Monotone-VI remains open.
+  Intersection reruns are superseded; SGN classification remains open.
 
 - **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 
