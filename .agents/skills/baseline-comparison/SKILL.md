@@ -124,11 +124,11 @@ For Phase 6.9, follow
 Keep its three task comparisons separate. For classification, require an
 inductive train-only Monotone-VI fit and compare `MVI-C-D0` with `H0-D0` on
 exact h2/tau=0.001 rows; any source-style KNN/SVM sensitivity needs the same
-fixed classifier recipe on H0. For price, inherit the complete Phase 6.6B
-xLSTM-Mixer contract, including the metadata-only full-path audit, matched
-intersection controls, and disclosure of extra multivariate/multihorizon
-supervision. The Phase 6.9 and Phase 6.6B xLSTM listings refer to one
-execution and one canonical artifact set. For volatility, reuse rather than
+fixed classifier recipe on H0. For price, follow the Phase 6.9-owned
+xLSTM-Mixer contract, including the frozen fully observed-path intersection,
+matched H0-D0/Raw-LSTM controls, and disclosure of extra multivariate/
+multihorizon supervision. The former Phase 6.6B listing is historical and
+non-executable. For volatility, reuse rather than
 retrain the replay-valid strict Phase 6.5B GARCH--LSTM stacks and retain their
 mixed result interpretation. Do not average model ranks across tasks or call
 the heterogeneous roster one direct representation matrix.
@@ -136,7 +136,8 @@ the heterogeneous roster one direct representation matrix.
 Before answering or acting on xLSTM-Mixer architecture, source faithfulness,
 licence/dependency handling, implementation, runtime admission, or comparison,
 also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its paper/source
-audit is complete, but owner decisions and data/CUDA gates are pending; no
+audit is complete, with decisions 1--4 and 6--14 resolved; the token-count,
+frozen target artifact, and Lumid CUDA gates remain pending, and no
 implementation or experiment exists. In particular, the released `FULL` path
 flips latent features rather than the variate-token axis.
 
@@ -162,14 +163,6 @@ Compare residual raw-sequence fusion primarily against the matched `F-H0`
 projection control, not only against the simpler `H0-D0` head. Treat raw-only
 `F-RL` as the second required comparison when discussing complementary
 information. The active fusion and decoder matrices are future-price-only.
-Treat Phase 6.6B xLSTM-Mixer as a source-faithful external complete-system
-baseline: it predicts the observed next-eight-bar OHLCV path and contributes
-only its eighth-step close to the established price evaluation. Freeze a
-metadata-only full-path availability audit before training. If this requires a
-reduced common intersection, retrain H0-D0 and Raw LSTM on identical training
-and evaluation identities. Always disclose xLSTM-Mixer's additional channel
-and intermediate-horizon supervision; do not interpret its comparison as a
-target-matched causal test of sLSTM versus LSTM or representation quality.
 For Phase 6.6C decoder capacity, retain the simple D0 head as the
 representation probe, compare residual projection D1-RP with D0, and interpret
 branch-aware gated D2-BG as a complete-system fusion sensitivity.

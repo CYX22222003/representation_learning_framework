@@ -2,14 +2,13 @@
 
 **Date:** 2026-10-09
 **Status:** Approved planning contract; xLSTM-Mixer paper/source audit complete,
-but implementation and new execution have not started. Its owner decisions,
-dependency/licence disposition, full-path data audit, and CUDA admission are
-still required. The completed Phase 6.5B volatility artifacts are reused
-rather than retrained.
+with decisions 1--4 and 6--14 resolved. Its initial-token decision,
+common-intersection target artifact, implementation, and Lumid Sandbox CUDA
+admission remain required. The completed Phase 6.5B volatility artifacts are
+reused rather than retrained.
 
-**Primary references:**
-`2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
-`2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
+**Primary reference:**
+`2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 
 **Optional parallel plan:**
 `2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
@@ -37,7 +36,8 @@ representation evidence already produced by Phase 6.7.
 
 Phase 6.8 remains a frozen but optional, unimplemented representation-baseline
 extension. It is not cancelled, rewritten, or a prerequisite for Phase 6.9.
-Phase 7A and the non-xLSTM portions of Phase 6.6 remain separately planned.
+Phase 7A and Phase 6.6's deferred raw-fusion/decoder work remain separately
+planned. Phase 6.6 is no longer an active xLSTM-Mixer authority.
 
 ## 2. Research questions
 
@@ -145,42 +145,67 @@ classifier or tuning budget differs.
 
 ## 5. Future price: xLSTM-Mixer
 
-### 5.1 Intentional overlap with Phase 6.6B
+### 5.1 Phase 6.9 ownership
 
-xLSTM-Mixer is intentionally named in both Phase 6.6B and Phase 6.9. This is
-planning overlap, not two independent experiments:
+Phase 6.9 is the sole technical, source-alignment, full-path-availability,
+architecture, training, artifact, and reporting authority for xLSTM-Mixer.
+The prior Phase 6.6B listing is retained only as a superseded historical
+reference. It cannot launch or own a second run if Phase 6.6 later resumes.
 
-- Phase 6.6B remains the authoritative technical, source-faithfulness,
-  full-path-availability, architecture, training, and artifact contract;
-- Phase 6.9 changes its priority and uses the resulting model in the
-  three-task competitiveness demonstration; and
-- the model is trained once per walk. If Phase 6.6 later resumes, it must
-  reuse the exact Phase 6.9/6.6B manifests, checkpoints, predictions, and
-  hashes rather than present a duplicate run as independent evidence.
-
-Canonical model artifacts remain under the Phase 6.6B root
-`experiments/phase6_6/recent_forecasting_baseline/`; Phase 6.9 stores only its
-cross-task report and references those artifacts by hash.
+Canonical model artifacts live under
+`experiments/phase6_9/xlstm_mixer/`.
 
 ### 5.2 Inherited experiment contract
 
-Use the exact Phase 6.6B `XM-MV8` contract:
+Use the Phase 6.9 `XM-MV8` contract:
 
 - input: the same 64-hour five-channel OHLCV context;
 - supervision: the complete observed next-eight-bar, five-channel path;
-- model: source-faithful xLSTM-Mixer with sLSTM blocks;
+- model: source-aligned xLSTM-Mixer with sLSTM blocks;
 - project endpoint: extract only `close[t+8]` for the established future-price
   comparison; and
-- fairness: freeze full-path availability from metadata before training and,
-  if necessary, rerun `H0-D0` and Raw LSTM on the same common intersection.
+- fairness: freeze full-path availability from metadata before training and
+  rerun `H0-D0` and Raw LSTM on the same common intersection.
 
-“Source-faithful” remains gated rather than assumed. The official source
+For paper/source discrepancies, the pinned official implementation is the
+behavioral authority. The primary model uses the released latent-feature-axis
+reversal and non-affine RevIN. The official source
 reverses latent feature coordinates rather than variate-token order, disables
 RevIN affine parameters, and tunes zero to four initial tokens. The final
 paper/repository revision and runtime/package details also do not align
-exactly. Phase 6.9 inherits the decisions recorded in
+exactly. Phase 6.9 owns the decisions recorded in
 `docs/baselines/xLSTM-Mixer/upstream_clarification_request.md`; it may not
 silently preserve the older provisional diagram.
+
+The approved project adaptation uses the compact `D=128`, one-block,
+eight-head full model, kernel 0, dropout 0.1, packing 1, and the NLinear
+backbone. The exact initial-token count remains the only open owner choice;
+one learned token is recommended. Training uses the project lifecycle:
+float32, seed 0, Adam at `1e-4`, no weight decay, 50 epochs, snapshots
+5/15/50, and epoch 50 primary. Physical batch 512 is attempted first and may
+be reduced only by a pre-training Lumid resource decision shared by both
+walks. The method-specific unweighted full-path L1 objective is retained.
+
+No second xLSTM-specific channel scaler is fitted. OHLC stays in `[0,1]`, and
+the accepted Phase 5 walk-training-only volume transform is reused for context
+and future-target volume. The experiment runs in the persistent Lumid Sandbox;
+the Docker/devcontainer environment is a development/workflow reference.
+
+The read-only identity check confirms that a common intersection is required:
+
+| Walk | Split | Existing price rows | Fully observed common rows |
+|---:|---|---:|---:|
+| 1 | train | 36,773 | 32,470 |
+| 1 | evaluation | 29,834 | 27,786 |
+| 2 | train | 56,652 | 53,112 |
+| 2 | evaluation | 13,506 | 12,115 |
+
+The data builder must freeze and assert these identities while materializing
+`[8,5]` targets. This bounded metadata join replaces a broader exploratory
+availability study, but it cannot be skipped. There is no validation split or
+cross-backend CPU/CUDA numerical-parity gate. Lightweight same-CUDA-backend
+checkpoint reload, fixed-probe, prediction, identity, and metric replay remain
+required artifact-integrity checks.
 
 Every table must disclose that `XM-MV8` receives additional channel and
 intermediate-horizon supervision. Its result is a complete-system comparison,
@@ -213,12 +238,12 @@ The new mandatory execution inventory is bounded:
 Monotone-VI: 2 walk-specific train-only fits
 Monotone-VI: 2 complete classification representation stores
 MVI-C-D0:    2 classification probe trajectories, snapshots at 5/15/50
-XM-MV8:      2 source-faithful price trajectories
+XM-MV8:      2 source-aligned price trajectories
 GARCH-LSTM:  0 new trajectories; reuse 2 completed Phase 6.5B stacks
 ```
 
-If the xLSTM full-path audit reduces the eligible population, the predeclared
-matched `H0-D0` and Raw-LSTM reruns are added. If the optional source-style
+The observed-path identity check already establishes a reduced population, so
+the predeclared matched `H0-D0` and Raw-LSTM reruns are mandatory. If the optional source-style
 classification sensitivity is commissioned, both `MVI-C-SRC` and `H0-SRC`
 are added together.
 
@@ -264,11 +289,17 @@ experiments/phase6_9/
   representation_fitting/monotone_vi_classification/
   features/classification/walk{1,2}/
   downstream/classification_h2/walk{1,2}/mvi_c_d0/seed0/
+  xlstm_mixer/
+    feasibility/
+    data/absolute_price_h8_multivariate/
+    downstream/absolute_price_h8/walk{1,2}/xm_mv8/seed0/
+    matched_controls/absolute_price_h8/
+    diagnostics/resources/
   reports/task_specific_competitiveness_seed0/
 ```
 
-xLSTM-Mixer implementation and model artifacts use the existing Phase 6.6B
-paths. GARCH--LSTM remains immutable under `experiments/phase6_5/`.
+xLSTM-Mixer implementation and model artifacts use the Phase 6.9 paths below.
+GARCH--LSTM remains immutable under `experiments/phase6_5/`.
 
 Ordered gates are:
 
@@ -280,10 +311,10 @@ Ordered gates are:
    optional matched source-classifier sensitivity.
 4. Implement, CPU-test, resource-audit, fit, extract, probe, and replay the
    complete Monotone-VI classification scope.
-5. Resolve the audited xLSTM-Mixer paper/source/licence/runtime decisions,
-   then execute the Phase 6.6B metadata-only future-path audit and freeze the
-   exact recipe and any required common intersection.
-6. Train and replay `XM-MV8` once per walk plus any required matched controls,
+5. Confirm the remaining xLSTM-Mixer initial-token decision, build the
+   deterministic fully observed future-path intersection and targets, and
+   freeze the exact recipe and Lumid Sandbox runtime admission.
+6. Train and replay `XM-MV8` once per walk plus the required matched controls,
    preserving complete path predictions.
 7. Revalidate, but do not retrain, the two Phase 6.5B GARCH--LSTM stacks and
    join their exact-row results with `H0` and Raw LSTM.
@@ -301,8 +332,9 @@ Phase 6.9 is complete only when:
   both fitted representations cover every frozen classification row;
 - both `MVI-C-D0` trajectories and all 5/15/50 snapshots pass representation,
   scaler, identity, prediction, and metric replay;
-- the Phase 6.6B source/hardware/full-path gate is frozen and both `XM-MV8`
-  walk trajectories plus any required matched controls pass full replay;
+- the Phase 6.9 source/hardware/full-path gate is frozen and both `XM-MV8`
+  walk trajectories plus the matched controls pass same-runtime checkpoint,
+  identity, prediction, and metric replay;
 - the completed GARCH--LSTM artifacts are revalidated and joined without
   changing their prior result interpretation;
 - every comparison discloses its supervision and comparison level; and

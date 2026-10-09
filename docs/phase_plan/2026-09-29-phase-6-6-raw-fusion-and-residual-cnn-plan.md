@@ -1,41 +1,35 @@
 # Phase 6.6 Price-Focused Baseline, Fusion, and Decoder-Capacity Plan
 
 **Date:** 2026-09-29
-**Status:** Approved planning contract, amended 2026-10-09; implementation and
-execution have not started. The xLSTM-Mixer paper/source audit is complete
-under `docs/baselines/xLSTM-Mixer/`, but its owner decisions, dependency/
-licence disposition, full-path availability audit, and CUDA admission remain
-open. Phase 6.7 closed on 2026-10-05; this whole phase
-remains deferred until after Phase 6.8 and Phase 7A. If Phase 6.6 is reactivated, the internal contract
-below remains in force unless another dated amendment changes it. The former
-Phase 6.6B residual-CNN study now
-belongs to price-focused Phase 6.5D; the vacated Phase 6.6B identifier is
-reassigned here to a source-faithful xLSTM-Mixer external-baseline candidate.
-Phase 6.6A/B/C are restricted to eight-hour future-price prediction in this
-first round. The existing filename is retained so repository links remain
-stable.
+**Status:** Superseded for xLSTM-Mixer on 2026-10-09; Phase 6.9 is now its sole
+technical and artifact authority. Phase 6.6 retains only its deferred raw-
+fusion and decoder-capacity planning, whose implementation and execution have
+not started. The old Phase 6.6B xLSTM-Mixer listing and Section 4 are retained
+only so repository links and planning history remain stable; they are not an
+execution contract. Phase 6.6A/C remain restricted to eight-hour future-price
+prediction.
 **Predecessors:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 and `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 
 ## 1. Purpose and boundary
 
-Phase 6.6 contains three price-focused studies:
+Phase 6.6 contains two active-but-deferred price-focused studies and one
+historical listing:
 
 - **Phase 6.6A -- raw-representation residual fusion:** combine the canonical
   frozen `H0` vector with a supervised LSTM or bidirectional-LSTM encoding of
   the exact raw 64-hour OHLCV context;
-- **Phase 6.6B -- recent forecasting baseline:** assess a source-faithful
-  xLSTM-Mixer candidate that predicts the complete next-eight-hour OHLCV path
-  and extracts the eighth-step close for the established price task; and
+- **Historical Phase 6.6B listing:** xLSTM-Mixer has moved completely to Phase
+  6.9 and is not executable under this plan; and
 - **Phase 6.6C -- decoder capacity:** test two richer static decoders on the
   immutable canonical `H0` branches while keeping future-price rows and
   targets fixed.
 
 The studies answer different questions. Phase 6.6A asks whether frozen
 representations and exact raw temporal ordering are complementary in one
-supervised price model. Phase 6.6B asks how a recent NeurIPS 2025 multivariate
-forecasting system performs on this domain under its native full-path
-objective. Phase 6.6C asks whether useful price information is already present
+supervised price model. Phase 6.9 now asks how a recent NeurIPS 2025
+multivariate forecasting system performs on this domain under its native
+full-path objective. Phase 6.6C asks whether useful price information is already present
 in `H0` but underused by the simple probe. Phase 6.6C changes only the
 supervised mapping and, in one named row, the fusion rule over immutable
 canonical branches. The three studies remain separate systems and their
@@ -57,11 +51,11 @@ ablation matrix.
 
 The dated Phase 6.7 plan previously superseded Phase 6.6 and is now closed.
 Phase 6.8 is the current handoff, followed by Phase 7A.
-xLSTM-Mixer remains a later price-specific complete-system baseline; it does
+xLSTM-Mixer remains a Phase 6.9 price-specific complete-system baseline; it does
 not satisfy the direct reusable-representation comparison and is not a Phase
-6.7, Phase 6.8, or Phase 7A execution gate. The requirement in Sec. 4.1 to resolve Phase
-6.6B before Phase 6.6C applies only after the deferred Phase 6.6 programme is
-reactivated.
+6.7, Phase 6.8, or Phase 7A execution gate. Section 4 is historical and
+imposes no Phase 6.6 execution gate. Phase 6.6C may be reconsidered
+independently if the deferred Phase 6.6 programme is reactivated.
 
 ## 2. Shared data and evaluation contract
 
@@ -73,7 +67,7 @@ Reuse the accepted Phase 5/6 one-hour global-calendar walks:
 | 2 | `[2026-02-16, 2026-06-16)` | `[2026-06-16, 2026-09-01)` |
 
 Every fitted parameter remains walk-specific. Walk 2 history may not update,
-select, or reinterpret a Walk 1 model. All three studies reuse:
+select, or reinterpret a Walk 1 model. Both active studies reuse:
 
 - the exact saved 64-by-5 walk-scaled OHLCV contexts;
 - the exact canonical epoch-50 `H0` branch arrays;
@@ -81,18 +75,14 @@ select, or reinterpret a Walk 1 model. All three studies reuse:
 - the existing price-level and implied-movement diagnostics and references.
 
 No cohort, context window, activity filter, final price target, reference, or
-primary evaluation identity may be rebuilt for this phase. Phase 6.6B may
-derive an auxiliary next-eight-bar OHLCV target bundle from the already
-accepted cleaned walk sources because its source-paper objective requires the
-full future path. That bundle is governed by Sec. 4 and may not change the
-scientific endpoint `close[t+8]`.
+primary evaluation identity may be rebuilt for this phase. xLSTM-Mixer data
+preparation belongs exclusively to Phase 6.9.
 
 Feature and model fitting uses training rows only. The test-only policy
 remains: no validation split, early stopping, restart selection, or
 evaluation-driven architecture choice. Seed `0`, one 50-epoch trajectory,
 5/15/50 snapshots, and predeclared epoch 50 remain the initial
-characterisation contract unless the Phase 6.6B source-reproduction freeze
-predeclares a different source-mandated budget before any evaluation is read.
+characterisation contract.
 Classification and realised-variance extensions are deferred and may not be
 added after reading the price results without a separate amendment.
 
@@ -208,7 +198,12 @@ Fit the H0 coordinate scaler only on eligible price-training rows.
 The raw tower consumes the exact saved walk-scaled sequences used by the
 matched task rows and does not fit a second full-frame normalization.
 
-## 4. Phase 6.6B -- source-faithful xLSTM-Mixer baseline candidate
+## 4. Historical Phase 6.6B xLSTM-Mixer text — superseded
+
+> **Non-executable historical reference:** Phase 6.9 and
+> `docs/baselines/xLSTM-Mixer/` now own the method, data, runtime,
+> implementation, artifacts, and reporting. Nothing in this section may
+> launch a Phase 6.6 xLSTM-Mixer run or override current Phase 6.9 decisions.
 
 ### 4.1 Research question and role
 
@@ -223,10 +218,8 @@ it is recent, reproducible, and directly designed for multivariate time-series
 forecasting. Its performance need not exceed Raw LSTM for the comparison to be
 informative.
 
-Phase 6.6B must be resolved and, if admitted by the pre-evaluation feasibility
-gate below, executed and reported before Phase 6.6C decoder training begins.
-This ordering prevents the recent-baseline requirement from being displaced by
-additional framework decoder capacity.
+This historical ordering no longer blocks Phase 6.6C. Phase 6.9 independently
+governs whether and when xLSTM-Mixer is implemented and executed.
 
 ### 4.2 Source-faithful architecture and task mapping
 
@@ -448,9 +441,9 @@ better.
 ## 6. Training, reporting, and claim boundary
 
 Phase 6.6A trains its towers and task mapping end to end on supervised
-price-training rows. Phase 6.6B trains an end-to-end external forecasting
-system under the separately frozen source-faithful recipe in Sec. 4. Phase
-6.6C trains only its static decoder on the unchanged frozen H0 features. Phase
+price-training rows. Phase 6.9, not this plan, owns the end-to-end
+xLSTM-Mixer system described historically in Section 4. Phase 6.6C trains only
+its static decoder on the unchanged frozen H0 features. Phase
 6.6A/C retain price-training-only scaling, batch size `512`, Adam learning rate
 `1e-4`, weight decay `0`, and the completed price metrics and references.
 
@@ -466,17 +459,14 @@ The studies may support only narrow conclusions:
 - a fused model does or does not improve on the raw-only `F-RL` system;
 - bidirectional historical processing changes performance relative to the
   unidirectional fused model;
-- the source-faithful xLSTM-Mixer complete system is stronger or weaker on the
-  extracted `close[t+8]` metric for a named walk and frozen row population;
 - a richer static decoder exposes or does not expose additional price signal
   relative to the immutable simple `D0` probe; and
 - any effect is seed-0, two-walk characterisation.
 
 They cannot establish causal feature importance, optimal fusion, an optimal
-decoder, universal bidirectional or xLSTM superiority, cross-task superiority,
-robust multi-seed superiority, or a profitable strategy. In particular,
-`XM-MV8`'s additional multivariate and intermediate-horizon supervision must
-be disclosed beside every comparison with a scalar-endpoint model.
+decoder, universal bidirectional superiority, cross-task superiority, robust
+multi-seed superiority, or a profitable strategy. Phase 6.9 separately owns
+all xLSTM-Mixer claims and disclosures.
 
 ## 7. Later attribution-analysis boundary
 
@@ -510,12 +500,6 @@ experiments/phase6_6/
       walk{1,2}/{f_h0,f_rl,f_h0_rl,f_h0_rbl}/seed0/
     diagnostics/resources/
     reports/
-  recent_forecasting_baseline/
-    data/absolute_price_h8_multivariate/
-    downstream/absolute_price_h8/walk{1,2}/xm_mv8/seed0/
-    matched_controls/  # populated only if the availability audit requires it
-    diagnostics/resources/
-    reports/
   decoder_capacity/
     downstream/absolute_price_h8/walk{1,2}/{d1_rp,d2_bg}/seed0/
     diagnostics/resources/
@@ -536,23 +520,15 @@ Ordered gates are:
 3. Freeze the eight-entry fusion manifest before any fused-model evaluation.
 4. Train, replay, and report the complete fusion matrix without selecting a
    walk winner.
-5. Audit complete observed future-path availability and freeze either the
-   unchanged price identities or the metadata-defined common intersection.
-6. Pin and verify the source-faithful xLSTM-Mixer implementation; freeze its
-   architecture, training recipe, auxiliary target bundle, row identities,
-   and any required matched-control reruns before evaluation.
-7. Train, replay, and report `XM-MV8` for both walks and any predeclared matched
-   controls. Preserve the complete path predictions and report only the
-   extracted eighth-step close as the primary task output.
-8. Only after the Phase 6.6B disposition and results are frozen, implement
+5. Implement
    `D1-RP` and `D2-BG` without altering the completed `D0` model or
    any frozen Phase 6 feature store; add forward/backward, output-transform,
    occupied-path, and parameter-count tests.
-9. Freeze the four-entry decoder-capacity manifest after CPU smoke tests verify
+6. Freeze the four-entry decoder-capacity manifest after CPU smoke tests verify
     exact price rows, targets, train-only scalers, loss, and references.
-10. Train, replay, and report the complete Phase 6.6C matrix with resource
+7. Train, replay, and report the complete Phase 6.6C matrix with resource
     tables and the predeclared `D1-RP - D0` and `D2-BG` comparisons.
-11. Only afterward, write and approve the separate grouped-attribution
+8. Only afterward, write and approve the separate grouped-attribution
     amendment before computing SHAP-style results.
 
 ## 9. Completion conditions
@@ -564,11 +540,6 @@ Phase 6.6 is complete only when:
 - `F-H0` is used as the primary matched-capacity fusion control;
 - fusion is also reported against `F-RL` so complementarity is not inferred
   only from improvement over representation-only input;
-- the Phase 6.6B future-path availability audit, source/hardware feasibility
-  decision, frozen training contract, and row contract are recorded before any
-  Phase 6.6C execution; if `XM-MV8` is admitted, both walk trajectories and any
-  required common-intersection comparator reruns pass prediction, target,
-  identity, metric, and full-path replay;
 - all four Phase 6.6C trajectories pass replay on unchanged future-price rows,
   and decoder-capacity, fusion, and resource comparisons are reported without
   selecting an evaluation winner; and

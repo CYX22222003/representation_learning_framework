@@ -2,56 +2,60 @@
 
 **Status:** paper/source audit complete; implementation not started
 
-**Authority:** Phase 6.6B for model/artifacts; Phase 6.9 for cross-task report
+**Authority:** Phase 6.9 for model, artifacts, execution, and cross-task report
 
 ## Stage 0 — resolve the source contract
 
-**Current status:** pending owner decisions.
+**Current status:** decisions 1--4 and 6--14 approved; initial-token decision
+5 remains pending.
 
 Complete all decisions in `upstream_clarification_request.md`, then update:
 
 - `source_manifest.json`;
-- Phase 6.6B's architecture and training-freeze text;
+- Phase 6.9's architecture and training-freeze text;
 - the relevant project skills/document pointers; and
 - one immutable implementation configuration.
 
-No model code or runtime installation should begin while view semantics,
-RevIN, initial-token count, dependency/licence handling, or optimizer settings
-remain open.
+View semantics, RevIN, dependency/licence handling, project training settings,
+and artifact ownership are resolved. No model code or runtime installation
+should begin until the initial-token count is confirmed.
 
 ## Stage 1 — audit and build the full-path data contract
 
 Create reusable logic under:
 
 ```text
-src/data_processing/phase6_6_xlstm_mixer.py
+src/data_processing/phase6_9_xlstm_mixer.py
 ```
 
 and proposed scripts under a new phase-generation directory:
 
 ```text
-scripts_v8/audit_phase6_6_xlstm_mixer_data.py
-scripts_v8/prepare_phase6_6_xlstm_mixer_data.py
-scripts_v8/validate_phase6_6_xlstm_mixer_data.py
+scripts_v8/prepare_phase6_9_xlstm_mixer_data.py
+scripts_v8/validate_phase6_9_xlstm_mixer_data.py
 ```
 
 Required order:
 
 1. inventory immutable existing price identities and accepted source hashes;
-2. inspect only future timestamps, contract/segment identity,
-   observed/imputed flags, and finiteness;
-3. freeze all rows or a common full-path intersection;
+2. reuse the strict Phase 6 observed-path identity logic to inspect future
+   timestamps, contract/segment identity, observed/imputed flags, and
+   finiteness;
+3. freeze the already demonstrated common full-path intersection;
 4. build split-local `[8,5]` targets without crossing train/evaluation
    boundaries;
-5. fit each five-channel scaler from permitted walk-training candles only;
-6. save targets, scaler, ordered identities, and source/procedure hashes; and
+5. reuse the existing walk-training-only volume transform for target volume;
+6. save targets, volume-transform provenance, ordered identities, and
+   source/procedure hashes; and
 7. independently replay every row against accepted source data.
 
-Preparation may write data artifacts but may not train a model. The audit must
-not print or aggregate target values.
+Preparation may write data artifacts but may not train a model. It must not
+print or aggregate target values. This is a bounded metadata join and target
+construction step, not a new horizon-selection experiment.
 
 **Manual review gate:** row/contract attrition, segment continuity, target
-observation policy, scaler population, and exact H0/Raw-LSTM matching need.
+observation policy, upstream volume-transform provenance, and exact
+H0/Raw-LSTM matching need.
 
 ## Stage 2 — implement the minimal model adapter
 
@@ -64,9 +68,9 @@ tests/baselines/xlstm_mixer/
 
 The adapter should include only:
 
-- non-affine or owner-approved RevIN;
+- approved non-affine RevIN;
 - shared NLinear and up/down projections;
-- owner-approved learned token handling;
+- owner-confirmed learned token handling;
 - the pinned sLSTM stack/backend boundary;
 - the exact approved reverse-view operation; and
 - configuration/state-dict serialization.
@@ -87,7 +91,7 @@ normalization math, initialization, and parameter sharing.
 Create an audit entry point:
 
 ```text
-scripts_v8/audit_phase6_6_xlstm_mixer_runtime.py
+scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py
 ```
 
 It must record:
@@ -96,10 +100,10 @@ It must record:
   capability;
 - exact `xlstm`, `einops`, and other relevant package versions/hashes;
 - xLSTM dependency licence and selected backend;
-- CPU vanilla forward/backward shape and fixed-probe output;
+- a bounded vanilla-backend CPU shape/backward test where available;
 - CUDA extension build log and fixed-probe forward/backward output;
-- CPU/CUDA state-dict compatibility and numerical drift;
-- physical batch-128 peak allocation and step time, or an owner-reviewed
+- same-CUDA-backend checkpoint save/load and fixed-probe replay;
+- physical batch-512 peak allocation and step time, or an owner-reviewed
   smaller fixed batch proposed before training; and
 - full environment and code hashes.
 
@@ -109,17 +113,21 @@ written to the manifest. Repeating an audit may update nondeterministic
 timing/memory evidence but may not silently change code, dependencies, batch,
 backend, or thresholds.
 
+The experiment runtime is the persistent Lumid Sandbox. Project Docker and
+devcontainer definitions are development/workflow references and do not
+replace this admission record.
+
 **Manual review gate:** licence disposition, successful kernel build,
-numerical compatibility, and memory headroom.
+same-backend replay, and memory headroom.
 
 ## Stage 4 — implement gated walk-specific training
 
 Create:
 
 ```text
-src/training/phase6_6_xlstm_mixer.py
-scripts_v8/bootstrap_phase6_6_xlstm_mixer.py
-scripts_v8/validate_phase6_6_xlstm_mixer.py
+src/training/phase6_9_xlstm_mixer.py
+scripts_v8/bootstrap_phase6_9_xlstm_mixer.py
+scripts_v8/validate_phase6_9_xlstm_mixer.py
 ```
 
 The bootstrap is manifest/smoke-only by default. It trains only with an
@@ -127,7 +135,8 @@ explicit `--execute` flag and a matching data/runtime admission manifest.
 
 Required behavior:
 
-1. replay data, scaler, source, code, dependency, and configuration hashes;
+1. replay data, upstream volume-transform, source, code, dependency, and
+   configuration hashes;
 2. train one independent seed-0 trajectory per walk;
 3. use the complete standardized `[8,5]` L1 objective;
 4. save complete epochs 5/15/50 atomically;
@@ -140,7 +149,7 @@ Required behavior:
 Canonical artifact root:
 
 ```text
-experiments/phase6_6/recent_forecasting_baseline/
+experiments/phase6_9/xlstm_mixer/
 ```
 
 **Manual review gate:** complete checkpoint state, fixed epoch semantics,
@@ -148,8 +157,7 @@ training-only transforms, and cross-walk isolation.
 
 ## Stage 5 — execute any required matched controls
 
-If Stage 1 retained every price row, reuse immutable comparator artifacts after
-identity/hash replay. If Stage 1 reduced the row set, extend the established
+Stage 1 necessarily reduces the price row set. Extend the established
 downstream/Raw-LSTM launchers with explicit `XM-H0-D0` and `XM-RL` methods on
 the frozen intersection.
 
@@ -164,23 +172,24 @@ comparators.
 
 Standalone validation must reconstruct, without training:
 
-- checkpoint model and optimizer/scheduler/scaler state;
+- checkpoint model and optimizer state;
 - fixed-probe model outputs;
 - complete evaluation `[N,8,5]` predictions;
-- inverse channel scaling;
+- accepted-unit output reconstruction after RevIN;
 - extracted `close[t+8]` values;
 - identity order and target alignment;
 - all price and implied-movement metrics; and
 - invalid output diagnostics.
 
-Structural, provenance, identity, non-finite, missing-artifact, or material
-numerical failures are fatal. Any allowed cross-device numerical warning must
-use thresholds frozen in Stage 3 and remain visible in replay records.
+Structural, provenance, identity, non-finite, missing-artifact, or same-runtime
+replay failures are fatal. Cross-backend CPU/CUDA numerical equivalence is not
+a completion gate.
 
 ## Stage 7 — integrate the Phase 6.9 report
 
-Create one task-separated Phase 6.9 report under a later frozen reporting
-path. The price section references Phase 6.6B artifact hashes and includes:
+Create one task-separated Phase 6.9 report under the frozen Phase 6.9
+reporting path. The price section references the canonical xLSTM-Mixer
+artifact hashes and includes:
 
 - both walks and pooled views where already valid;
 - epoch 5/15/50 trajectories with epoch 50 primary;
@@ -191,24 +200,23 @@ path. The price section references Phase 6.6B artifact hashes and includes:
 - extra supervision and every paper/source/project deviation; and
 - seed-0, two-walk, non-trading, non-universal claim boundaries.
 
-Do not present the Phase 6.6B and Phase 6.9 labels as two replications.
+Do not present the superseded Phase 6.6B listing as a replication.
 
 ## Proposed launcher order
 
 Only after Stage 0 approval:
 
 ```bash
-.venv/bin/python3 scripts_v8/audit_phase6_6_xlstm_mixer_data.py
-.venv/bin/python3 scripts_v8/prepare_phase6_6_xlstm_mixer_data.py
-.venv/bin/python3 scripts_v8/validate_phase6_6_xlstm_mixer_data.py
-.venv/bin/python3 scripts_v8/audit_phase6_6_xlstm_mixer_runtime.py --device cpu
-.venv/bin/python3 scripts_v8/audit_phase6_6_xlstm_mixer_runtime.py \
+.venv/bin/python3 scripts_v8/prepare_phase6_9_xlstm_mixer_data.py
+.venv/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer_data.py
+.venv/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py --device cpu
+.venv/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py \
   --device cuda --admit-training \
   --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
-.venv/bin/python3 scripts_v8/bootstrap_phase6_6_xlstm_mixer.py --device cpu
-.venv/bin/python3 scripts_v8/bootstrap_phase6_6_xlstm_mixer.py \
+.venv/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py --device cpu
+.venv/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py \
   --device cuda --execute
-.venv/bin/python3 scripts_v8/validate_phase6_6_xlstm_mixer.py
+.venv/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer.py
 ```
 
 These commands are planned interfaces, not currently implemented entry
@@ -217,11 +225,11 @@ points.
 ## Definition of done
 
 - all owner decisions are approved and synchronized;
-- data/full-path/scaler replay passes for both walks;
+- data/full-path/upstream-volume-transform replay passes for both walks;
 - licence/dependency and CUDA admission pass;
 - focused model tests pass;
 - both walk trajectories and all 5/15/50 checkpoints replay;
 - complete full-path predictions and extracted price metrics replay;
 - any required matched H0-D0 and Raw-LSTM controls replay on identical rows;
-- Phase 6.9 references the one canonical artifact set; and
+- Phase 6.9 owns the one canonical artifact set; and
 - the final report preserves extra-supervision and bounded-claim disclosures.

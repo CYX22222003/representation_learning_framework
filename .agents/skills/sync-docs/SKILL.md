@@ -108,7 +108,7 @@ the current-task TA-MLP classification benchmark, or price-focused residual-
 CNN SSL, include
 `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 For price-focused raw-OHLCV/representation residual fusion, bidirectional
-historical raw towers, the source-faithful xLSTM-Mixer candidate, canonical
+historical raw towers, canonical
 decoder-capacity sensitivity, or grouped post-model attribution, include
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 For recent external frozen-representation baselines, their feasibility gate,
@@ -119,17 +119,17 @@ For the Di-COT-Frozen/Monotone-VI-Frozen recent-conference extension, its
 source/licence/adaptation gate, exact-row common probes, phase ordering, or
 claim boundary, include
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
-For the classification-only Monotone-VI adaptation, the Phase 6.6B
-xLSTM-Mixer activation/duplicate-listing boundary, reuse of completed strict
+For the classification-only Monotone-VI adaptation, the Phase 6.9-owned
+xLSTM-Mixer contract, reuse of completed strict
 GARCH--LSTM volatility evidence, or the task-specific competitiveness claim,
 include
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 For xLSTM-Mixer paper/source interpretation, view-reversal semantics, RevIN,
 initial tokens, dependency/licence handling, `[64,5] -> [8,5]` adaptation,
-runtime/data gates, implementation status, or Phase 6.6B/6.9 artifact
+runtime/data gates, implementation status, or Phase 6.9 artifact
 ownership, also include the complete `docs/baselines/xLSTM-Mixer/` dossier.
-Its audit is complete, but owner decisions and implementation/execution remain
-open.
+Its audit is complete and decisions 1--4/6--14 are resolved; token
+confirmation and implementation/execution remain open.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.

@@ -58,9 +58,8 @@ universal framework superiority.
 > which assigns Monotone-VI to classification, xLSTM-Mixer to future price,
 > and the completed strict GARCH--LSTM stack to volatility,
 > the
-> [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
-> which retains a source-faithful xLSTM-Mixer candidate before decoder
-> execution if that deferred phase is reactivated and defers grouped SHAP
+> [Phase 6.6 price-focused fusion and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
+> whose former xLSTM-Mixer listing is superseded by Phase 6.9 and which defers grouped SHAP
 > until after its frozen model comparisons,
 > and the
 > [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
@@ -88,13 +87,13 @@ universal framework superiority.
 > SISSEL remains uncommissioned optional scope. Phase 6.9 is the current
 > planned handoff; it has no new implementation or execution. Phase 6.8
 > remains optional and unimplemented. Phase 7A remains frozen and
-> unimplemented. Phase 6.6 remains deferred except that Phase 6.9 activates
-> its xLSTM-Mixer subsection as one shared experiment, not a duplicate run.
+> unimplemented. Phase 6.6 remains deferred and is no longer an active
+> xLSTM-Mixer authority.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`. It confirms suitability but leaves
-> paper/source reversal semantics, RevIN/token settings, AGPL dependency
-> handling, the full-path row audit, and CUDA admission open before
-> implementation.
+> source behavior, architecture, licence handling, project training settings,
+> and Phase 6.9 artifact ownership resolved. The initial-token choice remains
+> open; the observed-path intersection and Lumid CUDA admission remain gates.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -379,7 +378,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Phase 6.9 uses classification-oriented Monotone-VI, source-faithful xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Phase 6.9 uses classification-oriented Monotone-VI, source-aligned xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
@@ -409,7 +408,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in
      reconstructed-price space)
-   - External benchmarks: Stacked LSTM; Phase 6.6B source-faithful xLSTM-Mixer,
+   - External benchmarks: Stacked LSTM; Phase 6.9 source-aligned xLSTM-Mixer,
      trained on the complete next-eight-hour OHLCV path and evaluated by its
      extracted eighth-step close; additional candidates remain TBD
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
@@ -461,11 +460,10 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
    - The deferred Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
      LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
      residual CNNs under both SSL families with the same price-first boundary.
-   - Phase 6.9 activates the xLSTM-Mixer experiment already specified by
-     Phase 6.6B. The duplicate listing is intentional, but Phase 6.6B remains
-     the technical/artifact authority and the model is executed only once. A
-     metadata-only full-path availability audit freezes either the existing
-     price rows or a common intersection with matched H0-D0/Raw-LSTM reruns.
+   - Phase 6.9 solely owns the xLSTM-Mixer experiment; the former Phase 6.6B
+     listing is historical. A deterministic metadata join freezes the already
+     demonstrated common observed-path intersection with matched H0-D0/Raw-
+     LSTM reruns.
      Its extra channel and intermediate-horizon supervision makes it a
      contextual complete-system comparison, not a decoder ablation or a
      frozen-representation baseline.

@@ -68,8 +68,8 @@ Read these in order:
    probes, CKA, resources, subgroups, and report are also complete and replay-
    valid. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
-   for the frozen, deferred price-focused raw/residual-fusion,
-   source-faithful xLSTM-Mixer candidate, and decoder-capacity scope; read
+   for the frozen, deferred price-focused raw/residual-fusion and
+   decoder-capacity scope; read
   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
    for the closed comparison of `H0` with recent frozen representations across
    all three tasks and both walks,
@@ -78,7 +78,7 @@ Read these in order:
    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
    for the current classification/price/volatility task-specific handoff,
    `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
-   audit and still-open owner, dependency/licence, data, and CUDA gates,
+   audit, resolved decisions 1--4/6--14, and still-open token/data/CUDA gates,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
@@ -173,15 +173,13 @@ Report:
   under the same two-walk, three-task common probes, but source/licence/
   adaptation dossiers, implementation, fitting, stores, and 12 downstream
   trajectories have not started. Phase 6.9 is the current approved planning
-  handoff: classification-only Monotone-VI and Phase 6.6B xLSTM-Mixer have no
+  handoff: classification-only Monotone-VI and Phase 6.9 xLSTM-Mixer have no
   implementation or execution, while its volatility leg reuses the completed
   strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused
-  raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,
-  and two richer canonical static decoder studies are otherwise frozen but
-  deferred. xLSTM-Mixer's duplicate listing in Phase 6.9 activates one shared
-  experiment; Phase 6.6B remains its technical/artifact authority. Phase
-  6.6B must be resolved before Phase 6.6C execution,
-  while its xLSTM-Mixer paper/source audit alone does not count as
+  raw/representation fusion and two richer canonical static decoder studies
+  are otherwise frozen but deferred. Phase 6.9 solely owns xLSTM-Mixer; the
+  Phase 6.6B listing is superseded and no longer gates Phase 6.6C. Its
+  paper/source audit alone does not count as
   implementation or runtime admission,
   and grouped SHAP is deferred to a later
   analysis amendment.

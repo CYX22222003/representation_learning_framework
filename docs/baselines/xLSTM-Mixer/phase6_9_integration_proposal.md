@@ -1,4 +1,4 @@
-# xLSTM-Mixer Phase 6.6B/6.9 integration proposal
+# xLSTM-Mixer Phase 6.9 integration proposal
 
 ## 1. Research role
 
@@ -13,13 +13,13 @@ comparison, decoder ablation, or parameter-matched causal test.
 
 ## 2. Phase ownership
 
-- Phase 6.6B remains the technical, implementation, and artifact authority.
-- Phase 6.9 activates that one experiment as the price row in a task-separated
-  competitiveness report.
+- Phase 6.9 is the sole technical, implementation, artifact, and reporting
+  authority for xLSTM-Mixer.
 - Only one xLSTM-Mixer trajectory per walk is permitted.
-- Phase 6.9 references the Phase 6.6B checkpoint/prediction hashes and does not
-  copy or regenerate them.
-- Phase 6.6A raw fusion and Phase 6.6C decoder capacity remain deferred.
+- Canonical artifacts live under `experiments/phase6_9/xlstm_mixer/`.
+- The old Phase 6.6B listing is a superseded historical reference and cannot
+  launch or own a second run. Phase 6.6A raw fusion and Phase 6.6C decoder
+  capacity remain deferred.
 
 ## 3. Shared inputs and endpoint
 
@@ -31,10 +31,11 @@ For each walk, reuse:
 - the existing H0-D0, Raw LSTM, persistence, and reversal definitions; and
 - existing price-level and implied-movement metrics.
 
-`XM-MV8` additionally requires observed `[N,8,5]` future paths. A metadata-only
-audit freezes either all existing rows or a common intersection before any
-training. It may inspect identities, timestamps, segment continuity,
-observed/imputed flags, and finiteness, but not target values or metrics.
+`XM-MV8` additionally requires observed `[N,8,5]` future paths. A deterministic
+metadata join freezes the common intersection before training. It may inspect
+identities, timestamps, segment continuity, observed/imputed flags, and
+finiteness, but not target values or metrics. The read-only check already
+shows that matched intersection reruns are required.
 
 ## 4. Candidate and strict controls
 
@@ -44,9 +45,7 @@ The primary candidate is:
 |---|---|---|---|
 | `XM-MV8` | all five channels at `t+1,...,t+8` | `close[t+8]` | recent specialized complete-system baseline |
 
-If every existing price row has a complete target path, compare with immutable
-existing H0-D0 and Raw LSTM results on the same identities. If the intersection
-shrinks, create strict matched controls:
+Create strict matched controls on the frozen fully observed intersection:
 
 | ID | Model | Required action |
 |---|---|---|
@@ -66,7 +65,7 @@ input context: [64,5]
 channel order: open, high, low, close, volume
 future target: [8,5]
 headline output: horizon index 7, close index 3
-loss family: source-aligned full-path L1 in a training-standardized domain
+loss family: source-aligned full-path L1 in accepted project units
 walk-specific fits: yes
 seed: 0
 retained epochs: 5, 15, 50
@@ -93,9 +92,12 @@ references, report:
 - prediction validity rates for `[0,1]`, OHLC ordering, and nonnegative volume;
 - trainable/total parameters, epoch time, total time, peak memory, and
   prediction latency; and
-- exact row counts, contracts, source/config/scaler/checkpoint hashes.
+- exact row counts, contracts, source/config/upstream-volume-transform/
+  checkpoint hashes.
 
-The complete `[N,8,5]` predictions remain replay artifacts. Auxiliary-channel
+No second xLSTM-specific channel scaler is fitted: OHLC remains in `[0,1]`
+and the existing walk-training-only volume transform is reused. The complete
+`[N,8,5]` predictions remain replay artifacts. Auxiliary-channel
 errors may be reported as diagnostics but may not be averaged into the
 headline Phase 6.9 comparison.
 
@@ -116,16 +118,18 @@ Do not claim:
 - that `XM-MV8` is a direct representation-quality baseline;
 - that extra full-path supervision is controlled away;
 - profitable trading or fresh-holdout alpha; or
-- independent confirmation from “Phase 6.6” and “Phase 6.9,” because they are
-  two labels for one artifact set.
+- independent confirmation from “Phase 6.6” and “Phase 6.9,” because Phase
+  6.6B no longer owns an active experiment.
 
 ## 8. Admission and failure policy
 
-The method is admitted to implementation only after owner decisions, licence
-handling, and focused CPU tests. It is admitted to training only after the
-full-path audit and persistent-runtime CUDA smoke.
+The method is admitted to implementation after the remaining initial-token
+decision, licence handling, and focused shape tests. It is admitted to
+training only after the common-path artifact and persistent Lumid Sandbox CUDA
+smoke. Same-runtime checkpoint/prediction replay is required; cross-backend
+CPU/CUDA numerical parity is not.
 
 If the pinned sLSTM cannot be built, its licences cannot be accommodated, or
-its CPU/CUDA paths cannot be validated, record xLSTM-Mixer as infeasible under
+its CUDA path cannot pass same-runtime integrity checks, record xLSTM-Mixer as infeasible under
 the available environment. Ordinary LSTM, mLSTM, or a changed forecast target
 cannot inherit the `XM-MV8` label without a dated amendment.

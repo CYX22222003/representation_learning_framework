@@ -1,8 +1,7 @@
 {
-  "schema_version": "phase6-6-6-9-xlstm-mixer-source-audit-v1",
+  "schema_version": "phase6-9-xlstm-mixer-source-audit-v2",
   "audit_date": "2026-10-09",
   "phases": [
-    "6.6B",
     "6.9"
   ],
   "method_id": "XM-MV8",
@@ -105,6 +104,7 @@
     "dependencies_installed_during_audit": false,
     "training_launched_during_audit": false,
     "intended_execution_platform": "persistent Lumid sandbox",
+    "project_container_role": "development and Lumid workflow reference only; not the experiment runtime",
     "runtime_admission_completed": false
   },
   "paper_source_discrepancies": [
@@ -142,8 +142,47 @@
     ],
     "fixed_primary_epoch": 50,
     "validation_or_early_stopping": false,
-    "canonical_artifact_root": "experiments/phase6_6/recent_forecasting_baseline/",
-    "phase6_9_retrains_model": false
+    "learning_rate": 0.0001,
+    "provisional_physical_batch": 512,
+    "loss": "unweighted full-path L1 in accepted project units",
+    "additional_xlstm_channel_scaler": false,
+    "volume_transform": "reuse the existing walk-training-only Phase 5 volume scaler for context and target volume",
+    "replay_scope": "same-CUDA-backend checkpoint, fixed-probe, prediction, identity, and metric replay; no CPU/CUDA numerical parity gate",
+    "canonical_artifact_root": "experiments/phase6_9/xlstm_mixer/",
+    "phase6_6_status": "superseded historical reference for xLSTM-Mixer"
+  },
+  "owner_decisions": {
+    "approved": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "pending": [
+      5
+    ],
+    "primary_reverse_view": "released latent-feature-axis reversal",
+    "revin_affine": false,
+    "full_path_intersection_required": true,
+    "observed_intersection_counts": {
+      "walk1": {
+        "train": 32470,
+        "evaluation": 27786
+      },
+      "walk2": {
+        "train": 53112,
+        "evaluation": 12115
+      }
+    }
   },
   "gate": {
     "paper_audit_complete": true,
@@ -151,10 +190,11 @@
     "implementation_started": false,
     "training_started": false,
     "owner_decisions_complete": false,
-    "license_dependency_decision_complete": false,
+    "only_open_owner_decision": 5,
+    "license_dependency_decision_complete": true,
     "cuda_runtime_admitted": false,
     "full_path_availability_audit_complete": false,
-    "decision": "method_suitable_but_implementation_not_yet_admitted",
+    "decision": "method_suitable; implementation waits for initial-token confirmation; training also waits for Phase 6.9 data/runtime admission",
     "failure_policy": "Record rejection or infeasibility; do not replace sLSTM with ordinary LSTM while retaining the xLSTM-Mixer label.",
     "evaluation_metrics_read_for_decision": false
   }

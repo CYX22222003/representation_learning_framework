@@ -2,11 +2,11 @@
 
 **Project method ID:** `XM-MV8`
 
-**Phases:** Phase 6.6B technical/artifact authority; Phase 6.9 future-price
-comparison
+**Phase:** Phase 6.9 technical, implementation, artifact, and reporting
+authority
 
-**Dossier status:** paper and official-source audit complete; owner decisions
-and CUDA/dependency admission remain pending
+**Dossier status:** paper and official-source audit complete; decisions 1--4
+and 6--14 resolved; initial-token decision plus CUDA admission remain pending
 
 **Implementation status:** not started
 
@@ -31,15 +31,13 @@ This directory records the evidence and proposed project adaptation for:
 - The method performs time mixing with a shared NLinear forecast, embeds each
   variate's preliminary eight-step path, recurrently mixes the variate tokens
   with sLSTM blocks, combines two views, and reverses RevIN.
-- A consequential paper/source ambiguity must be resolved before coding. The
-  released `FULL` path calls `torch.flip(x, [-1])`, reversing latent feature
-  coordinates, not the variate-token axis. The paper also describes the views
-  as different variate orderings. The current Phase 6.6 diagram says reversed
-  variate order and is therefore provisional, not an implementation
-  instruction.
-- The paper writes RevIN with learned affine scale and offset, whereas the
-  source constructs `RevIN(..., affine=False)`. The paper specifies one initial
-  token, while the supplied experiment scripts tune zero to four tokens.
+- The primary adapter follows the released `FULL` path:
+  `torch.flip(x, [-1])` reverses latent feature coordinates, not the
+  variate-token axis. The paper's different variate-order interpretation is
+  disclosed but is not implemented as a second sensitivity.
+- The adapter follows source `RevIN(..., affine=False)`. The paper specifies
+  one initial token while supplied scripts tune zero to four; the token count
+  is the only owner choice still awaiting confirmation.
 - The official repository is MIT-licensed, but its pinned `xlstm==1.0.3`
   dependency is AGPL-3.0. The project should not copy the entire training
   repository. A minimal project-native adapter plus an explicit dependency and
@@ -52,16 +50,20 @@ This directory records the evidence and proposed project adaptation for:
   there is no release tag tying it to the November 2025 arXiv v4/NeurIPS paper.
   The later classification and GIFT-Eval additions in the paper are absent
   from the released xLSTM-Mixer path.
-- The source selects a best validation checkpoint. Phase 6.6/6.9 forbids a
+- The source selects a best validation checkpoint. Phase 6.9 forbids a
   validation split and checkpoint selection, so the project adaptation must
   retain fixed epoch 50 and snapshots 5/15/50.
-- The current project WSL environment has Python 3.10 and PyTorch installed but
-  lacks `xlstm` and `einops`; CUDA was unavailable during this static audit.
-  No package was installed and no training was launched. A separate persistent
-  sandbox CUDA/build smoke remains mandatory.
-- One execution is shared between the two phase labels. Canonical model
-  artifacts remain under `experiments/phase6_6/recent_forecasting_baseline/`;
-  Phase 6.9 only consumes their hashes and task results.
+- The experiment will run in the persistent Lumid Sandbox. The Docker and
+  devcontainer environments are references for development/workflow use, not
+  the experiment runtime. No package was installed and no training was
+  launched during the local static audit; a sandbox CUDA/build smoke remains
+  mandatory.
+- All active implementation and canonical artifacts belong to Phase 6.9 under
+  `experiments/phase6_9/xlstm_mixer/`. Phase 6.6 is a superseded historical
+  reference for this baseline.
+- The existing absolute-price rows do not all have observed intermediate
+  paths. The frozen Phase 6.9 intersection therefore requires matched H0-D0
+  and Raw-LSTM reruns; the decision record contains the observed counts.
 
 ## Documents
 
@@ -71,10 +73,10 @@ This directory records the evidence and proposed project adaptation for:
   packaging/runtime findings, and paper/source discrepancies.
 - `architecture_and_dataflow.md` — exact source tensors and proposed
   `[64,5] -> [8,5]` project mapping.
-- `upstream_clarification_request.md` — unresolved owner decisions required
-  before implementation.
+- `upstream_clarification_request.md` — resolved decision record and the one
+  remaining initial-token confirmation required before implementation.
 - `phase6_9_integration_proposal.md` — fair future-price comparison contract
-  and duplicate-listing boundary with Phase 6.6B.
+  and sole Phase 6.9 artifact boundary.
 - `implementation_plan.md` — staged implementation, resource admission,
   execution, replay, and reporting plan.
 - `source_manifest.json` — machine-readable source, hash, licence, environment,

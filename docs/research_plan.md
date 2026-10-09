@@ -24,12 +24,12 @@ xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
 future realised variance. Phase 6.8 remains a frozen optional representation
 extension; it is unimplemented and does not block Phase 6.9. Phase 7A remains
 frozen and unimplemented. Phase 6.6 raw fusion and decoder capacity remain
-deferred, while its xLSTM-Mixer section stays the technical/artifact authority
-for the single execution also listed in Phase 6.9. The new contract is
+deferred, while Phase 6.9 is the sole xLSTM-Mixer technical/artifact authority. The new contract is
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 The xLSTM-Mixer paper/source audit is complete under
-`docs/baselines/xLSTM-Mixer/`; implementation remains gated by its owner,
-dependency/licence, full-path data, and CUDA decisions.
+`docs/baselines/xLSTM-Mixer/`; implementation remains gated only by the
+initial-token confirmation, while training also requires the common-path data
+artifact and Lumid CUDA admission.
 
 ---
 
@@ -170,8 +170,7 @@ tests task-level competitiveness using classification-only Monotone-VI,
 xLSTM-Mixer for price, and the completed GARCH--LSTM stack for volatility.
 Phase 7A separately tests the canonical five branches through single-branch
 and leave-one-branch-out probes. Phase 6.6 is otherwise deferred; it retains a matched supervised
-fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers, a source-
-faithful NeurIPS 2025 xLSTM-Mixer full-path forecasting candidate, and two
+fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers and two
 richer static canonical decoders on eight-hour future price. xLSTM-Mixer's
 additional full-path supervision makes it a later contextual complete-system
 baseline rather than evidence about reusable representation quality. Grouped
@@ -256,14 +255,14 @@ costs are reported.
 - **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is now complete and replay-valid for both walks. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction. The completed stack gives only marginal MSE gains while worsening MAE and Spearman, so it is not a broad win.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
-- **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 planned)* — retained in Phase 6.6 as a
-  source-faithful future-price complete-system benchmark. Its complete
+- **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 planned)* — a Phase 6.9-owned
+  source-aligned future-price complete-system benchmark. Its complete
   next-eight-bar, five-channel supervision prevents it from serving as a
   direct frozen-representation comparison. Phase 6.9 activates this same
-  planned experiment for its price-specific comparison; Phase 6.6B remains
-  the technical/artifact authority, and only one execution is reported. The
-  paper/source audit is complete, but implementation is not admitted until
-  the discrepancies and runtime/dependency gates in
+  planned experiment for its price-specific comparison; the old Phase 6.6B
+  listing is superseded, and only one execution is reported. The paper/source
+  audit is complete, but implementation awaits the token-count confirmation
+  and training awaits the data/runtime gates in
   `docs/baselines/xLSTM-Mixer/` are resolved.
 - **Monotone-VI classification adaptation** *(ICLR 2025, Phase 6.9 planned)* —
   classification-oriented representation baseline using the common simple
@@ -406,15 +405,12 @@ dependent; the new work therefore prioritises the task on which the Raw LSTM,
 persistence, and reversal references leave the framework's edge least
 convincing.
 
-Within the deferred Phase 6.6 programme, Phase 6.6B remains placed before
-Phase 6.6C execution. It is no longer a gate for Phase 6.7 or Phase 7A. A
-metadata-only audit first
-checks whether every established future-price row has a complete observed
-next-eight-bar OHLCV path. If not, a common feature-availability intersection
-and matched H0-D0/Raw-LSTM reruns are frozen before training. The source
-implementation, sLSTM architecture, loss domain, normalization, and hardware
-fallback decision are also frozen before evaluation; no evaluation result may
-select the recipe.
+Phase 6.6C no longer depends on the historical Phase 6.6B listing. Phase 6.9
+solely owns xLSTM-Mixer: its deterministic metadata join has already shown
+that a reduced fully observed-path intersection and matched H0-D0/Raw-LSTM
+reruns are required. The source implementation, sLSTM architecture, loss
+domain, project input units, and hardware decision remain frozen before
+evaluation; no evaluation result may select the recipe.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

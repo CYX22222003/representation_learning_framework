@@ -159,32 +159,29 @@ Read these in order:
     optional; Phase 7A remains separately frozen, and Phase 6.6 is not a
     prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
-    the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
-    or later grouped attribution, read
+    canonical decoder-capacity work, or later grouped attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
     in full. `F-H0` is the required matched-capacity fusion control and `F-RL`
     is required for a complementarity claim;
     bidirectionality is restricted to the observed historical context; and
-    xLSTM-Mixer full-path eligibility is frozen from metadata before training,
-    with matched H0-D0/Raw-LSTM reruns if a common intersection is required;
-    its extra multivariate/multihorizon supervision must be disclosed; and
     SHAP-style attribution cannot select models or checkpoints. This phase is
-    otherwise deferred; Phase 6.9 activates only its xLSTM-Mixer subsection.
+    deferred; its former xLSTM-Mixer subsection is historical and
+    non-executable.
 18. For the current task-specific competitiveness demonstration, read
     `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
     in full. Monotone-VI must be fitted on walk-training sequences only and
     embed evaluation rows inductively; joint train/evaluation embedding is
     prohibited. Its mandatory classification row uses the common simple
-    probe. xLSTM-Mixer inherits the exact Phase 6.6B full-path and artifact
-    contract and is executed only once despite appearing in both plans. The
+    probe. Phase 6.9 solely owns the xLSTM-Mixer full-path and artifact
+    contract; the former Phase 6.6B listing is superseded. The
     volatility leg reuses the completed Phase 6.5B GARCH--LSTM artifacts
     without retraining.
     Before any xLSTM-Mixer implementation, dependency installation, data
     preparation, or execution, also read the complete
-    `docs/baselines/xLSTM-Mixer/` dossier. Its fourteen owner decisions,
-    AGPL dependency handling, metadata-only full-path audit, and CUDA/runtime
-    admission are mandatory gates; the released `FULL` source reverses latent
-    features rather than variate tokens.
+    `docs/baselines/xLSTM-Mixer/` dossier. Decisions 1--4 and 6--14 are
+    resolved; the token-count confirmation, frozen common-path target artifact,
+    and CUDA/runtime admission are mandatory gates. The released `FULL` source
+    reverses latent features rather than variate tokens.
 
 ## Response Contract
 

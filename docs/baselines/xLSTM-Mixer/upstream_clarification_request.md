@@ -1,6 +1,7 @@
 # xLSTM-Mixer clarification and decision record
 
-**Status:** recommendations prepared; owner decisions pending
+**Status:** decisions 1--4 and 6--14 resolved on 2026-10-09; decision 5
+remains pending owner confirmation
 
 **Purpose:** freeze paper/source/project ambiguities before implementation or
 training
@@ -9,7 +10,7 @@ training
 
 These are internal adaptation decisions. They do not ask the paper authors to
 change the method. Once resolved, the answers must be copied into the source
-manifest, Phase 6.6B architecture text, implementation configuration, and
+manifest, Phase 6.9 architecture text, implementation configuration, and
 experiment manifests before any evaluation result is read.
 
 ## Recommended decision set
@@ -24,7 +25,9 @@ pin official commit `730b0531...` as the behavioral source. Label the project
 model “xLSTM-Mixer (`XM-MV8`; NeurIPS 2025 architecture adapted from the
 pinned official source).” Do not call it an exact reproduction.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved, without claiming strict
+line-by-line reproduction. Cite the paper and pin the official source as the
+behavioral reference for the implemented path.
 
 ### 2. Reuse and licence boundary
 
@@ -39,7 +42,8 @@ project repository's distribution compliant; if that boundary is unacceptable,
 pause and separately scope a clean sLSTM implementation rather than silently
 changing the dependency. This is a project decision, not legal advice.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. Use a minimal project-native
+adapter around the pinned dependency and preserve the applicable notices.
 
 ### 3. Reverse-view semantics
 
@@ -54,7 +58,9 @@ approval and disclose the paper's inconsistent interpretation. A true
 variate-order reversal would be a separately named paper-guided sensitivity,
 not the primary run.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. The primary run follows the
+released feature-axis reversal; the paper/source interpretation discrepancy
+is disclosed and is not turned into a second sensitivity.
 
 ### 4. RevIN affine behavior
 
@@ -65,7 +71,8 @@ not the primary run.
 statistics, `unbiased=False`, and epsilon `1e-5`. This is unambiguous released
 behavior and avoids adding parameters absent from the official forward path.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. Follow the released non-affine
+RevIN behavior.
 
 ### 5. Number of initial tokens
 
@@ -76,7 +83,7 @@ tune zero through four.
 scientific method text and avoids validation-based selection among script
 settings. Initialize it with source `Normal(0,0.01)`.
 
-**Owner decision:** pending.
+**Owner decision:** pending. This is the only unresolved owner choice.
 
 ### 6. Architecture for `T=64,H=8,V=5`
 
@@ -100,7 +107,8 @@ two-view/backcast enabled
 This uses common low-variate ETT script values without a task-result sweep.
 Do not alter the configuration between walks.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. Adapt this compact full model to
+the project's comparison pipeline without changing its xLSTM-Mixer core.
 
 ### 7. Channel order and target path
 
@@ -113,36 +121,38 @@ input and output. Predict all observed bars `t+1,...,t+8`; extract output
 `[:,7,3]`. Do not reorder channels, use separate contracts, permit imputed
 targets, or set `H=1` and relabel it `t+8`.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved.
 
 ### 8. Global scaler and loss domain
 
 **Finding:** source loaders standardize channels on training data before the
 model's RevIN. Raw project volume would otherwise dominate full-path L1.
 
-**Recommendation:** fit one five-coordinate scaler from permitted walk-
-training accepted candles, after the existing upstream volume transform.
-Apply it to every context and target bar in that walk. Train with unweighted
-mean L1 over all 40 standardized outputs, then invert both RevIN and the
-channel scaler for artifacts and diagnostics. Store scaler population,
-parameters, and hashes.
+**Recommendation:** do not introduce a second xLSTM-specific channel scaler.
+Consume the project's accepted units directly: OHLC probabilities remain in
+`[0,1]`, and volume uses the already fitted walk-training-only Phase 5 volume
+transform for both contexts and future targets. Train with unweighted mean L1
+over all 40 outputs in those accepted units. The existing volume-scaler
+identity and hash remain part of the data manifest.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. The owner considers the existing
+price bounds and fixed upstream volume transform sufficient.
 
 ### 9. Training schedule and batch semantics
 
 **Finding:** official runs use 40--60 epochs and dataset-specific schedules.
 The project already precommits epoch 50 and snapshots 5/15/50.
 
-**Recommendation:** use float32, seed 0, Adam `lr=1e-3`,
-`beta=(0.9,0.999)`, no weight decay, gradient clip 1.0, and the released
-warmup/constant/cosine scheduler with warmup 5, constant 2, gamma 0.98, and
-cosine 15. Use a provisional physical batch 128 with `drop_last=False`, subject
-only to the pre-training CUDA resource smoke. No gradient accumulation or
-automatic batch fallback. Any resource-mandated smaller batch must be frozen
-before training and used for both walks.
+**Recommendation:** use the project's fixed comparison lifecycle: float32,
+seed 0, Adam `lr=1e-4`, no weight decay, physical batch 512 with
+`drop_last=False`, 50 epochs, and retained epochs 5/15/50. Preserve the
+method-specific full-path L1 loss and gradient clipping at norm 1.0. A smaller
+physical batch is permitted only if the pre-training Lumid CUDA smoke shows
+that 512 is infeasible; it must then be frozen before training and shared by
+both walks. Do not tune the schedule from evaluation results.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. Project comparison settings take
+precedence over reproducing the paper's dataset-specific search schedule.
 
 ### 10. Checkpoint selection
 
@@ -151,10 +161,11 @@ has no validation split and cannot tune from evaluation results.
 
 **Recommendation:** retain complete epochs 5/15/50, use epoch 50 as the fixed
 primary result, and never restore a best-loss epoch. Save model, optimizer,
-scheduler, scaler, RNG/sampler, configuration, data/source hashes, and fixed
+RNG/sampler, configuration, data/source hashes, and fixed
 replay probes atomically.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. Epoch 50 is primary and 5/15/50
+are reported without best-checkpoint selection.
 
 ### 11. CUDA and CPU replay
 
@@ -163,29 +174,36 @@ also supplies a vanilla backend. The source wrapper does not expose backend
 selection. The current project environment lacks the dependency, and CUDA was
 not available to the static audit.
 
-**Recommendation:** expose backend only as an execution/replay setting, not a
-model hyperparameter. Train with the pinned CUDA backend after a persistent-
-sandbox build and fixed-batch forward/backward admission. Validate state-dict
-compatibility and replay the same fixed probes with the vanilla backend on
-CPU. Freeze exact tolerances from the smoke before training. If the two paths
-are structurally incompatible or drift materially, reject CPU numerical replay
-and require same-backend CUDA replay; do not invent a tolerance afterward.
+**Recommendation:** expose backend only as an execution setting, not a model
+hyperparameter. Train with the pinned CUDA backend on the persistent Lumid
+Sandbox after a fixed-batch forward/backward smoke. Do not require numerical
+equivalence between the CUDA and vanilla CPU backends. Retain only lightweight
+same-runtime integrity checks: reload each retained checkpoint on the same
+CUDA backend, replay one frozen probe, and recompute saved predictions and
+metrics by identity.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved in this reduced form. There is no
+cross-backend replay gate, but checkpoint and artifact replay are retained.
 
 ### 12. Full-path row availability
 
 **Finding:** source forecasting assumes a regular complete grid; the project
 price endpoint alone does not guarantee observed OHLCV at every intermediate
-bar.
+bar. A read-only identity check on 2026-10-09 confirmed this: the strict
+fully observed intersections are 32,470/36,773 training and 27,786/29,834
+evaluation rows in Walk 1, and 53,112/56,652 training and 12,115/13,506
+evaluation rows in Walk 2.
 
-**Recommendation:** run the Phase 6.6B metadata-only audit before model code
-execution. If any established price row is incomplete, freeze one common
-intersection and rerun H0-D0 and Raw LSTM on exactly the intersected training
-and evaluation rows. Record row/contract loss. No model-specific deletion is
-allowed after training.
+**Recommendation:** reuse the existing strict Phase 6 observed-path identity
+logic to freeze the Phase 6.9 common intersection while constructing the
+eight-by-five targets. This is a deterministic metadata join and assertion,
+not a new horizon-selection study. Rerun H0-D0 and Raw LSTM on exactly the
+intersected training and evaluation rows. Record row/contract loss. No
+model-specific deletion is allowed after training.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** the proposed no-audit shortcut is not safe
+because the existing bundles contain intermediate imputed rows. The bounded
+metadata join and matched-control reruns are therefore required.
 
 ### 13. Output constraints
 
@@ -197,22 +215,24 @@ and report invalid-probability/OHLC/volume rates as diagnostics. Do not clip or
 project headline predictions unless a separate pre-evaluation sensitivity is
 commissioned.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved.
 
 ### 14. Phase/artifact ownership
 
-**Finding:** xLSTM-Mixer is deliberately listed in Phase 6.6B and Phase 6.9.
+**Finding:** xLSTM-Mixer was previously listed in Phase 6.6B and Phase 6.9.
 
-**Recommendation:** train exactly one model per walk. Store all source,
-configuration, scaler, checkpoint, and prediction artifacts under
-`experiments/phase6_6/recent_forecasting_baseline/`. The Phase 6.9 report must
-reference those exact hashes and must not launch a second model.
+**Recommendation:** make Phase 6.9 the sole technical, implementation, and
+artifact authority. Train exactly one model per walk and store its source,
+configuration, data, checkpoint, and prediction artifacts under
+`experiments/phase6_9/xlstm_mixer/`. The old Phase 6.6B text is retained only
+as a superseded historical reference and cannot launch a second model.
 
-**Owner decision:** pending.
+**Owner decision (2026-10-09):** approved. All active xLSTM-Mixer work belongs
+to Phase 6.9; Phase 6.6 is outdated for this baseline.
 
 ## Implementation gate
 
-Paper and source reading are complete. Implementation remains gated until all
-fourteen decisions are approved or replaced explicitly. Training has the
-additional full-path data and CUDA/runtime gates. No evaluation metrics may be
-read to settle any open choice.
+Paper and source reading are complete. Implementation remains gated only on
+decision 5 (the initial-token count). Training additionally requires the
+frozen common-row/target artifact and Lumid Sandbox CUDA admission. No
+evaluation metrics may be read to settle the remaining choice.

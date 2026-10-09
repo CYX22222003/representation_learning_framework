@@ -100,17 +100,16 @@ downstream runs, and reports do not exist and must remain planned. Phase 6.9
 is the current approved planning handoff. Its Monotone-VI classification and
 xLSTM-Mixer price implementation/execution do not exist; the latter has only
 a completed paper/source audit under `docs/baselines/xLSTM-Mixer/`, with
-owner, dependency/licence, data, and CUDA gates still open. Its volatility leg
+only the token-count owner decision plus data and CUDA gates still open. Its volatility leg
 reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
-Phase 6.6A/B/C's
-deferred price-focused fusion/recent-baseline/decoder scope and the
+Phase 6.6A/C's
+deferred price-focused fusion/decoder scope and the
 canonical branch-ablation matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
-planning evidence only until its fusion/xLSTM-Mixer/decoder-capacity source,
-manifests, checkpoints, predictions, and replay reports exist. Phase 6.9
-activates the exact Phase 6.6B xLSTM-Mixer contract; the two labels represent
-one future artifact set, not two completed experiments. Grouped
+planning evidence only until its fusion/decoder-capacity source, manifests,
+checkpoints, predictions, and replay reports exist. Phase 6.9 solely owns the
+xLSTM-Mixer contract; the former Phase 6.6B label is historical. Grouped
 attribution is a later analysis and not model-completion evidence.
 
 ## 4. Update Narrowly

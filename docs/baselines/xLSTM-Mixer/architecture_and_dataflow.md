@@ -7,7 +7,7 @@ This document separates three layers of evidence:
 1. the architecture described in the NeurIPS 2025 paper;
 2. the exact `FULL` path in official commit
    `730b0531aa9456e498765028f3c22ca3677de42e`; and
-3. the proposed Phase 6.6B/6.9 adaptation for `[64,5]` OHLCV to `[8,5]`.
+3. the proposed Phase 6.9 adaptation for `[64,5]` OHLCV to `[8,5]`.
 
 No implementation or training is authorized by this document. Choices marked
 “proposed” remain subject to the owner decisions in
@@ -118,9 +118,8 @@ The fixed scientific mapping is:
 
 ```text
 accepted historical context             [B,64,5]
--> walk-training-only channel scaler    [B,64,5]
+  (OHLC in [0,1], existing walk-scaled volume)
 -> released xLSTM-Mixer core            [B,8,5]
--> inverse channel scaler               [B,8,5]
 -> extract [:,7,close_index]             [B]
 -> existing absolute_price_h8 metrics
 ```
@@ -129,7 +128,7 @@ The proposed preliminary architecture, pending owner approval, is:
 
 ```text
 D=128
-M=1 learned initial token
+M=1 learned initial token (recommended; owner confirmation pending)
 1 sLSTM block
 8 heads
 convolution kernel disabled (0)
@@ -146,32 +145,25 @@ the smallest common source architecture family for ETT-like low-variate data,
 and the released default/full pathway. No published script covers the exact
 `T=64,H=8,V=5` regime.
 
-## 4. Channel scaling and loss domain
+## 4. Project input units and loss domain
 
-The official dataset loaders fit a `StandardScaler` on training data before
-the model's per-instance RevIN. The project currently stores unscaled OHLC
-probabilities and walk-training-scaled volume. To prevent volume units from
-dominating the full-path L1 objective, the proposed adapter fits one additional
-five-coordinate standardizer using permitted walk-training candles only:
+The official loaders add a dataset-level `StandardScaler` before RevIN. The
+Phase 6.9 owner decision instead keeps the project's accepted inputs unchanged:
+OHLC probabilities are already in `[0,1]`, and volume already uses the
+walk-training-only Phase 5 volume transform. No second xLSTM-specific
+five-channel scaler is fitted.
 
-```text
-z[c] = (x[c] - train_mean[c]) / train_std[c]
-```
-
-The same frozen transform is applied to contexts and all eight target bars.
-The model's RevIN operates inside this standardized domain. Training loss is
-the unweighted mean absolute error over all `8 x 5` standardized outputs.
-Predictions are transformed back to accepted OHLCV units before the
-eighth-step close is evaluated.
-
-The fitted scaler, source population, statistics, and hashes must be stored in
-every walk manifest. Fitting it jointly across walks or on evaluation candles
-is prohibited.
+The future-path builder applies that same existing volume transform to target
+volume while leaving future OHLC probabilities in their accepted units. The
+model's non-affine RevIN operates internally and is inverted before loss.
+Training uses unweighted mean L1 over all `8 x 5` outputs in these accepted
+units. The upstream volume-scaler identity, parameters, population, and hash
+remain part of each walk's data manifest.
 
 ## 5. Target bundle and identity contract
 
-For each existing `absolute_price_h8` decision row, the metadata-only audit
-checks that the same contract and accepted segment contain observed,
+For each existing `absolute_price_h8` decision row, a deterministic metadata
+join checks that the same contract and accepted segment contain observed,
 non-imputed, finite bars at every `t+1,...,t+8` for all five channels.
 
 The auxiliary bundle stores:
@@ -189,10 +181,20 @@ full target [8,5]
 source hashes
 ```
 
-If any existing price row lacks the full target, the audit freezes a common
-intersection before training. `XM-MV8`, `H0-D0`, and Raw LSTM then receive the
-same intersected train and evaluation identities. No target values or model
-metrics may influence the intersection.
+A read-only identity check already proves that the full-path population is a
+strict subset. The expected intersections are:
+
+| Walk | Split | Existing price rows | Fully observed common rows |
+|---:|---|---:|---:|
+| 1 | train | 36,773 | 32,470 |
+| 1 | evaluation | 29,834 | 27,786 |
+| 2 | train | 56,652 | 53,112 |
+| 2 | evaluation | 13,506 | 12,115 |
+
+The preparation stage must freeze and independently assert those identities
+while constructing complete OHLCV targets. `XM-MV8`, `H0-D0`, and Raw LSTM
+then receive the same intersected train and evaluation rows. No target values
+or model metrics may influence the intersection.
 
 ## 6. Optimization and checkpoint flow
 
@@ -200,8 +202,8 @@ The proposed project-native fixed-budget path is:
 
 ```text
 walk-training rows only
--> shuffled seed-0 minibatches
--> Adam, L1 full-path loss, gradient clipping 1.0
+-> shuffled seed-0 minibatches (project batch 512, if admitted)
+-> Adam at 1e-4, L1 full-path loss, gradient clipping 1.0
 -> snapshots at epochs 5, 15, 50
 -> epoch 50 fixed before evaluation
 -> complete [N_eval,8,5] prediction artifact
@@ -235,9 +237,11 @@ Before full-data execution, focused tests must prove:
 2. shared time/up/output projection parameters across variates;
 3. the selected reversal axis with a hand-constructed tensor;
 4. learned-token insertion and removal without row displacement;
-5. scaler fit on training candles only and exact inverse round trip;
+5. exact reuse of the existing walk-training volume transform for contexts
+   and future targets;
 6. no target bar enters any input context;
 7. output extraction uses horizon index 7 and close index 3;
 8. batch-size invariance in evaluation mode;
 9. checkpoint/config/source hash rejection on mismatch; and
-10. CPU/CUDA replay behavior for the selected xLSTM backend.
+10. same-backend CUDA checkpoint reload and fixed-probe replay in the Lumid
+    Sandbox. Cross-backend CPU/CUDA numerical equivalence is not required.

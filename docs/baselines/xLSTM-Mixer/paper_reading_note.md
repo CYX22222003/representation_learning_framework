@@ -250,12 +250,14 @@ architecture control.
 
 1. Preserve full `5 x 8` forecasting and extract only `close[t+8]` for the
    established price metric.
-2. Freeze an exact five-channel training scaler so volume cannot dominate L1.
+2. Under the approved project adaptation, keep OHLC in `[0,1]` and reuse the
+   existing walk-training-only volume transform; do not fit a second
+   xLSTM-specific scaler.
 3. Do not describe the released second view as reversed variate order unless
    that behavior is explicitly implemented and labelled as a paper-guided
    correction.
-4. One initial token and non-affine RevIN are the most defensible preliminary
-   source-aligned choices, but owner approval is still required.
+4. Non-affine RevIN is approved. One initial token remains the recommended and
+   only still-unconfirmed owner choice.
 5. A minimal project-native adapter is preferable to importing the repository's
    Time-Series-Library and Lightning training stack.
 6. The comparison demonstrates task competitiveness, not reusable
@@ -276,9 +278,10 @@ architecture control.
 - What CUDA/Python/PyTorch combination can build and replay the pinned custom
   kernel in the persistent sandbox?
 
-These questions are converted into recommendations in
-`upstream_clarification_request.md`. Implementation and experiment execution
-remain gated until the owner resolves them.
+These questions are converted into decisions in
+`upstream_clarification_request.md`. Decisions 1--4 and 6--14 are resolved;
+implementation remains gated on the token-count confirmation, and execution
+also requires the Phase 6.9 data and Lumid Sandbox runtime gates.
 
 ## 13. Relevance to Phase 6.9
 
@@ -286,5 +289,6 @@ xLSTM-Mixer is well matched to Phase 6.9's price leg because it is recent,
 top-conference, supervised, and purpose-built for multivariate forecasting.
 It complements the representation comparison by asking whether H0's simple
 frozen probe remains competitive with a specialized complete system. Its
-listing in Phase 6.6B and Phase 6.9 refers to the same two walk-specific runs;
-it must not be trained twice or reported as two independent baselines.
+former listing in Phase 6.6B is superseded. Phase 6.9 now owns the two
+walk-specific runs and all canonical artifacts; the outdated Phase 6.6 text
+must not launch or report a duplicate baseline.

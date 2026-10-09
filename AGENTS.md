@@ -135,13 +135,15 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > the current approved planning handoff under
 > `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 > It assigns classification to an inductive Monotone-VI adaptation, price to
-> the source-faithful xLSTM-Mixer contract inherited from Phase 6.6B, and
+> a Phase 6.9-owned source-aligned xLSTM-Mixer adaptation, and
 > volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
 > is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
 > official source are audited under `docs/baselines/xLSTM-Mixer/`. Static
-> suitability is positive, but fourteen owner decisions, AGPL dependency
-> handling, the metadata-only full-path audit, CUDA admission, implementation,
-> and execution remain open. The released `FULL` code flips latent features,
+> suitability is positive. Decisions 1--4 and 6--14 are resolved; only the
+> initial-token decision remains open before implementation. The fully
+> observed path check proves that matched H0-D0/Raw-LSTM intersection reruns
+> are required, and Lumid Sandbox CUDA admission and execution remain open.
+> The released `FULL` code flips latent features,
 > not the variate-token axis, so the older reversed-variate shorthand is not
 > an implementation contract. Phase 7A remains frozen and unimplemented.
 > The independently authored SaURL-TS model plus
@@ -205,22 +207,19 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > not universal superiority. SISSEL remains an optional uncommissioned
 > extension and does not block the closed phase. Optional Phase 6.8 and the
 > unimplemented Phase 7A remain separate from Phase 6.9. Phase 6.6's raw
-> fusion and decoder studies remain deferred and it retains a matched
+> fusion and decoder studies remain deferred and retain a matched
 > eight-run price-only
-> raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
-> xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
+> raw-OHLCV/`H0` residual-fusion matrix and a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
 > predicts the complete next-eight-hour OHLCV path and is evaluated by
 > extracting `close[t+8]`; its full-path supervision makes it a contextual
 > complete-system baseline rather than a target-matched architecture control.
-> Its availability and source/hardware feasibility must be frozen before the
-> decoder study proceeds. The decoder study
+> Phase 6.9 is its sole technical and artifact authority; the older Phase 6.6B
+> listing is a non-executable historical reference and no longer blocks the
+> decoder study. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. Phase 6.9 activates only the xLSTM-Mixer portion of
-> Phase 6.6. Its appearance in both plans is deliberate: Phase 6.6B remains
-> the technical/artifact authority and only one pair of walk-specific runs may
-> be reported as evidence. All other Phase 6.6 studies remain unimplemented,
+> representation probe. All Phase 6.6 studies remain unimplemented,
 > and xLSTM-Mixer is a contextual task-specific baseline rather than direct
 > representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and

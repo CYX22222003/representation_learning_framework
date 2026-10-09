@@ -151,8 +151,9 @@ The Dockerfile further:
   root; and
 - relies on a bind-mounted checkout at runtime.
 
-The Docker/devcontainer files are useful references but not a reproducible
-project environment contract.
+The Docker/devcontainer files are useful references for development and Lumid
+workflow images but are not the Phase 6.9 experiment runtime. The experiment
+will run in a persistent Lumid Sandbox with its own frozen admission manifest.
 
 ### 3.8 The pinned xLSTM core has a separate copyleft licence
 
@@ -172,7 +173,7 @@ legal advice.
 The Lightning CLI logs validation metrics, saves the best validation-MSE
 checkpoints, and `fit_and_test` tests
 `trainer.checkpoint_callback.best_model_path`. The paper also performs
-Optuna tuning. Phase 6.6/6.9 permits neither validation allocation nor
+Optuna tuning. Phase 6.9 permits neither validation allocation nor
 evaluation-driven choice. Reusing the architecture with a fixed epoch-50
 checkpoint is a disclosed protocol adaptation.
 
@@ -183,9 +184,10 @@ applies per-instance RevIN and reverses it before loss. Therefore the source
 L1 loss is computed after instance denormalization but still in globally
 standardized channel units.
 
-The project must reproduce that scale separation or define an equally explicit
-training-only channel scaler. Training on raw project units would let volume
-dominate the 40-output L1 objective.
+The Phase 6.9 owner decision does not add a second channel scaler: OHLC remains
+in `[0,1]` and the existing walk-training-only volume transform is reused for
+contexts and future targets. This is a disclosed project-protocol adaptation
+rather than an exact copy of the source preprocessing stack.
 
 ### 3.11 Time features are ignored
 
@@ -240,15 +242,14 @@ The architecture is technically compatible with `[B,64,5] -> [B,8,5]`:
 
 Admission still requires:
 
-1. owner resolution of the paper/source decisions;
+1. owner confirmation of the remaining one-token decision;
 2. a documented AGPL dependency/reuse choice;
 3. a persistent-runtime build of `xlstm==1.0.3` or an approved independent
    equivalent;
 4. CPU shape/backward tests using the vanilla path;
 5. a real fixed-batch CUDA forward/backward smoke with memory/time evidence;
-6. proof that CUDA and vanilla state dictionaries replay within a frozen
-   tolerance; and
-7. the metadata-only complete-target-path audit.
+6. same-backend CUDA checkpoint/fixed-probe replay; and
+7. the Phase 6.9 common-intersection target artifact.
 
 Failure of the CUDA or licence gate is a documented rejection of this
 candidate. It is not permission to substitute ordinary LSTM while continuing
@@ -259,6 +260,5 @@ to call the result xLSTM-Mixer.
 Do not import the repository's full Lightning/Time-Series-Library stack. Build
 a minimal project-native adapter with tests and manifests, using the MIT
 xLSTM-Mixer source as an attributed behavioral reference. Resolve separately
-whether the adapter imports the AGPL `xlstm==1.0.3` package or contains a
-clean, paper-guided sLSTM implementation. In either case, preserve source and
-licence notices, record exact hashes, and label every project deviation.
+the adapter around the approved AGPL `xlstm==1.0.3` package, preserve source
+and licence notices, record exact hashes, and label every project deviation.
