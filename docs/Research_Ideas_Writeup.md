@@ -36,7 +36,7 @@ universal framework superiority.
 > These documents supersede older statements that moved every deferred
 > architecture axis into Phase 6.
 >
-> **Next-scope reading note (amended 2026-10-06):** The completed Phase 6 outcome is
+> **Next-scope reading note (amended 2026-10-09):** The completed Phase 6 outcome is
 > interpreted in
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > The approved follow-ups are the
@@ -52,7 +52,11 @@ universal framework superiority.
 > the
 > [Phase 6.8 recent conference representation baseline extension](phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md),
 > which freezes Di-COT-Frozen and Monotone-VI-Frozen as two additional
-> recent-conference representation comparators before Phase 7A,
+> optional recent-conference representation comparators,
+> the
+> [Phase 6.9 task-specific competitiveness plan](phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md),
+> which assigns Monotone-VI to classification, xLSTM-Mixer to future price,
+> and the completed strict GARCH--LSTM stack to volatility,
 > the
 > [Phase 6.6 price-focused baseline, fusion, and decoder-capacity plan](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
 > which retains a source-faithful xLSTM-Mixer candidate before decoder
@@ -81,10 +85,11 @@ universal framework superiority.
 > `docs/baselines/TimeDART/`. All eleven decisions, the independent model,
 > focused CPU tests, both encoder trajectories, both 170-wide stores, all six
 > downstream trajectories, and 18 snapshots are complete and replay-valid.
-> SISSEL remains uncommissioned optional scope. Phase 6.8 is the current
-> planned handoff; its roster/common-probe contract is frozen, but no
-> implementation or execution exists. Phase 7A moves behind Phase 6.8, and
-> Phase 6.6 remains deferred.
+> SISSEL remains uncommissioned optional scope. Phase 6.9 is the current
+> planned handoff; it has no new implementation or execution. Phase 6.8
+> remains optional and unimplemented. Phase 7A remains frozen and
+> unimplemented. Phase 6.6 remains deferred except that Phase 6.9 activates
+> its xLSTM-Mixer subsection as one shared experiment, not a duplicate run.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -369,7 +374,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the planned source-faithful xLSTM-Mixer future-price candidate. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Shows the framework is competitive with task-specific alternatives. Phase 6.9 uses classification-oriented Monotone-VI, source-faithful xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
@@ -434,20 +439,26 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      and SaURL-TS-Frozen and optional TimeDART-Frozen under identical task rows
      and simple probes across classification, future price, and future
      realised variance. SISSEL remains optional and uncommissioned.
-   - Phase 6.8 plans Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR
+   - Optional Phase 6.8 plans Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR
      2025) as two additional recent conference representation comparators.
      Both use the same target-free walk populations, exact task rows, and
      simple probes after source/licence/adaptation and resource gates. Both
      are treated as recent representation-learning baselines rather than
      assumed empirical SOTA winners.
+   - Phase 6.9 adapts Monotone-VI only for classification under an inductive
+     train-only fitting gate and the established common probe. It pairs this
+     with xLSTM-Mixer for price and the completed strict GARCH--LSTM stack for
+     volatility to test task-level competitiveness without forcing every
+     baseline onto all three tasks.
    - The deferred Phase 6.6C retains the simple probe as the representation-quality
      reference and tests a residual projection head plus a branch-aware gated
      projection head on eight-hour future price in both walks
    - The deferred Phase 6.6A tests matched residual fusion of frozen H0 with raw-sequence
      LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
      residual CNNs under both SSL families with the same price-first boundary.
-   - Within the deferred Phase 6.6 programme, Phase 6.6B places the recent
-     xLSTM-Mixer baseline before Phase 6.6C. A
+   - Phase 6.9 activates the xLSTM-Mixer experiment already specified by
+     Phase 6.6B. The duplicate listing is intentional, but Phase 6.6B remains
+     the technical/artifact authority and the model is executed only once. A
      metadata-only full-path availability audit freezes either the existing
      price rows or a common intersection with matched H0-D0/Raw-LSTM reruns.
      Its extra channel and intermediate-horizon supervision makes it a

@@ -74,14 +74,15 @@ Read these in order:
    for the closed comparison of `H0` with recent frozen representations across
    all three tasks and both walks,
    `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
-   for the current planned Di-COT-Frozen/Monotone-VI-Frozen extension,
+   for the optional planned Di-COT-Frozen/Monotone-VI-Frozen extension,
+   `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
+   for the current classification/price/volatility task-specific handoff,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
    170-wide extraction and current implementation/execution status,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
-   for the frozen representation-ablation scope now deferred behind Phase
-   6.8. Phase 7B
+   for the frozen representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
 
 ## Response Contract
@@ -137,7 +138,7 @@ Report:
   Phase 6.5B.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
-- For Phase 6.5, Phase 6.7, Phase 6.8, Phase 6.6, and Phase 7A, distinguish frozen plans from
+- For Phase 6.5, Phase 6.7, Phase 6.8, Phase 6.9, Phase 6.6, and Phase 7A, distinguish frozen plans from
   executed evidence. Phase 6.5A is complete for its frozen seed-0 scope: four
   deep-LSTM encoders, six feature stores, 24 downstream trajectories, 72
   snapshots, and two CKA diagnostics replay; the report is generated. The
@@ -147,7 +148,7 @@ Report:
    expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
-   single/leave-one-out ablations have not started and now follow Phase 6.8.
+   single/leave-one-out ablations have not started.
   Phase 6.7 is closed for its frozen seed-0 scope. Its required
   roster was LWA-Frozen and SaURL-TS-Frozen; both required method lifecycles
   are complete. LWA's
@@ -165,14 +166,19 @@ Report:
   and replay-valid. It has a modest classification and realised-variance MAE
   lead over the best internal encoder variants, but is substantially weaker
   on future-price error; volatility RMSE is effectively tied and mixed.
-  SISSEL remains uncommissioned optional future scope. Phase 6.8 is the
-  current approved handoff: Di-COT-Frozen and Monotone-VI-Frozen are planned
+  SISSEL remains uncommissioned optional future scope. Phase 6.8 is optional:
+  Di-COT-Frozen and Monotone-VI-Frozen are planned
   under the same two-walk, three-task common probes, but source/licence/
   adaptation dossiers, implementation, fitting, stores, and 12 downstream
-  trajectories have not started. Phase 6.6 price-focused
+  trajectories have not started. Phase 6.9 is the current approved planning
+  handoff: classification-only Monotone-VI and Phase 6.6B xLSTM-Mixer have no
+  implementation or execution, while its volatility leg reuses the completed
+  strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused
   raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,
-  and two richer canonical static decoder studies are frozen but deferred; if
-  reactivated, Phase 6.6B must be resolved before Phase 6.6C execution,
+  and two richer canonical static decoder studies are otherwise frozen but
+  deferred. xLSTM-Mixer's duplicate listing in Phase 6.9 activates one shared
+  experiment; Phase 6.6B remains its technical/artifact authority. Phase
+  6.6B must be resolved before Phase 6.6C execution,
   and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat

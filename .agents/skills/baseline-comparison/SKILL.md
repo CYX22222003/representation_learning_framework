@@ -119,6 +119,20 @@ inventory is four representation fits, four stores, 12 downstream
 trajectories, and 36 probe snapshots beside six immutable `H0` references.
 Do not report any of this inventory as implemented or executed yet.
 
+For Phase 6.9, follow
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+Keep its three task comparisons separate. For classification, require an
+inductive train-only Monotone-VI fit and compare `MVI-C-D0` with `H0-D0` on
+exact h2/tau=0.001 rows; any source-style KNN/SVM sensitivity needs the same
+fixed classifier recipe on H0. For price, inherit the complete Phase 6.6B
+xLSTM-Mixer contract, including the metadata-only full-path audit, matched
+intersection controls, and disclosure of extra multivariate/multihorizon
+supervision. The Phase 6.9 and Phase 6.6B xLSTM listings refer to one
+execution and one canonical artifact set. For volatility, reuse rather than
+retrain the replay-valid strict Phase 6.5B GARCH--LSTM stacks and retain their
+mixed result interpretation. Do not average model ranks across tasks or call
+the heterogeneous roster one direct representation matrix.
+
 TimeDART preparation was commissioned on 2026-10-05. Before answering or
 acting on TimeDART architecture, training, extraction, feasibility, or
 comparison questions, read the complete `docs/baselines/TimeDART/` dossier.
@@ -218,5 +232,7 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
 - Phase 6.8 recent conference representation baseline contract:
   `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+- Phase 6.9 task-specific competitiveness contract:
+  `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
 - Phase 7A canonical representation ablation contract:
   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`

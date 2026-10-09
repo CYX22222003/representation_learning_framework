@@ -77,6 +77,11 @@ Read these in order:
     `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
     Its common-probe contract is frozen, but no implementation or execution
     exists.
+13. For the current task-specific competitiveness demonstration, read
+    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+    It assigns Monotone-VI to classification, xLSTM-Mixer to price under the
+    Phase 6.6B technical contract, and the completed strict GARCH--LSTM stack
+    to volatility.
 
 ## Response Contract
 
@@ -125,15 +130,17 @@ Present the parts relevant to the request:
   extensions and are not required for phase completion. TimeDART's paper/
   source audit, approved contract, independent model, two encoders, two
   170-wide stores, six common-probe runs, and 18 snapshots are complete and
-  replay-valid. SISSEL remains optional and uncommissioned. Phase 6.8 is the
-  current planned handoff and adds Di-COT-Frozen and Monotone-VI-Frozen under
-  the same frozen probes; Phase 7A follows and remains unimplemented. Phase
-  6.6 is deferred; it freezes price-only
+  replay-valid. SISSEL remains optional and uncommissioned. Phase 6.8 is an
+  optional unimplemented plan for Di-COT-Frozen and Monotone-VI-Frozen under
+  the same frozen probes. Phase 6.9 is the current planned handoff and tests
+  task-specific competitiveness across classification, price, and volatility.
+  Phase 7A remains unimplemented. Phase 6.6 is otherwise deferred; it freezes price-only
   matched raw/`H0` residual fusion, inserts a Phase 6.6B source-faithful
   xLSTM-Mixer full-path candidate before Phase 6.6C, and retains Phase 6.6C's
   two richer static canonical decoders. xLSTM-Mixer extracts `close[t+8]` from
   an eight-step five-channel forecast and is a contextual complete-system
-  baseline because it receives additional target supervision. The simple head remains the primary representation
+  baseline because it receives additional target supervision. Phase 6.9
+  activates that same xLSTM-Mixer experiment; it is not executed twice. The simple head remains the primary representation
   probe; the branch-gated decoder is a complete-system sensitivity. Grouped
   SHAP remains later
   descriptive analysis rather than model selection. Fixed-first-walk

@@ -126,13 +126,19 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > remains optional and uncommissioned. The three executed external methods
 > trained separately in both walks and used the same simple heads on movement
 > classification, eight-hour future price, and eight-hour future realised
-> variance. Phase 6.8 is now the current approved handoff under
+> variance. Phase 6.8 remains an optional frozen plan under
 > `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
 > It freezes Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR 2025) as
 > two additional recent conference representation comparators under the same
 > two-walk, three-task common-probe protocol. The roster/comparison contract is
-> frozen, but implementation and execution have not started. Phase 7A remains
-> frozen and unimplemented behind Phase 6.8. The independently authored SaURL-TS model plus
+> frozen, but implementation and execution have not started. Phase 6.9 is now
+> the current approved planning handoff under
+> `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+> It assigns classification to an inductive Monotone-VI adaptation, price to
+> the source-faithful xLSTM-Mixer contract inherited from Phase 6.6B, and
+> volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
+> is not a Phase 6.9 prerequisite. Phase 7A remains frozen and unimplemented.
+> The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
 > pretraining, frozen-feature, replay, and native-width common-probe
@@ -191,9 +197,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > weaker on future-price error. Volatility RMSE is effectively tied and mixed
 > across walks. This is task-specific evidence,
 > not universal superiority. SISSEL remains an optional uncommissioned
-> extension and does not block the closed phase. Phase 6.8 now precedes the
-> unimplemented Phase 7A handoff. Phase 6.6 is deferred behind both studies
-> and retains a matched eight-run price-only
+> extension and does not block the closed phase. Optional Phase 6.8 and the
+> unimplemented Phase 7A remain separate from Phase 6.9. Phase 6.6's raw
+> fusion and decoder studies remain deferred and it retains a matched
+> eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
 > xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
@@ -204,8 +211,11 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > decoder study proceeds. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. All Phase 6.6 studies remain unimplemented, and
-> xLSTM-Mixer is a later contextual task-specific baseline rather than direct
+> representation probe. Phase 6.9 activates only the xLSTM-Mixer portion of
+> Phase 6.6. Its appearance in both plans is deliberate: Phase 6.6B remains
+> the technical/artifact authority and only one pair of walk-specific runs may
+> be reported as evidence. All other Phase 6.6 studies remain unimplemented,
+> and xLSTM-Mixer is a contextual task-specific baseline rather than direct
 > representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
 > requires a separate sampling/estimator amendment. Phase 7A

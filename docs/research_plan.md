@@ -15,16 +15,18 @@ Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
 research stages below remain broad workstreams rather than experiment-phase
 specifications.
 
-**Current transition (2026-10-06):** Phase 6.7 is closed after comparing
+**Current transition (2026-10-09):** Phase 6.7 is closed after comparing
 canonical `H0` with required LWA/SaURL and optional TimeDART under the same
 three tasks, two walks, and lightweight heads. SISSEL remains optional and
-uncommissioned. Phase 6.8 is the current approved handoff and adds
-Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR 2025) under the same
-frozen-representation protocol. Its roster/comparison contract is frozen, but
-implementation and execution have not started. Phase 7A remains frozen behind
-Phase 6.8, while Phase 6.6 price-specific fusion, xLSTM-Mixer, and decoder-
-capacity work remains deferred. The new contract is
-`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+uncommissioned. Phase 6.9 is the current approved planning handoff and adds a
+task-specific competitiveness demonstration: Monotone-VI for classification,
+xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
+future realised variance. Phase 6.8 remains a frozen optional representation
+extension; it is unimplemented and does not block Phase 6.9. Phase 7A remains
+frozen and unimplemented. Phase 6.6 raw fusion and decoder capacity remain
+deferred, while its xLSTM-Mixer section stays the technical/artifact authority
+for the single execution also listed in Phase 6.9. The new contract is
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 
 ---
 
@@ -157,12 +159,14 @@ complete: mandatory LWA-Frozen and SaURL-TS-Frozen and commissioned optional
 TimeDART-Frozen were pretrained separately for both walks, frozen, and
 evaluated with the same simple heads on movement classification, future price,
 and future realised variance. SISSEL-Frozen remains optional and
-uncommissioned. Phase 6.8 next adds Di-COT-Frozen and Monotone-VI-Frozen as
+uncommissioned. Optional Phase 6.8 adds Di-COT-Frozen and Monotone-VI-Frozen as
 recent conference representation comparators under the same two-walk,
 three-task common probes. Both are recent representation-learning baselines;
-their inclusion does not assume empirical SOTA performance. Phase 7A then tests the canonical five
-branches through single-branch and leave-one-branch-out probes. Phase 6.6 is
-deferred until those evidence gaps are addressed; it retains a matched supervised
+their inclusion does not assume empirical SOTA performance. Phase 6.9 instead
+tests task-level competitiveness using classification-only Monotone-VI,
+xLSTM-Mixer for price, and the completed GARCH--LSTM stack for volatility.
+Phase 7A separately tests the canonical five branches through single-branch
+and leave-one-branch-out probes. Phase 6.6 is otherwise deferred; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers, a source-
 faithful NeurIPS 2025 xLSTM-Mixer full-path forecasting candidate, and two
 richer static canonical decoders on eight-hour future price. xLSTM-Mixer's
@@ -177,6 +181,7 @@ The follow-up contracts are
 `phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
 `phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md` and
 `phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md` and
+`phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md` and
 `phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md` and
 `phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
 Representation drift alone is not evidence that a different architecture is
@@ -236,7 +241,7 @@ Three categories of comparison models are used:
   representation-learning baseline, subject to its
   source/licence/adaptation and row-embedding feasibility gate.
 
-The Phase 6.7 and planned Phase 6.8 methods use the exact existing task/walk
+The Phase 6.7 and optional planned Phase 6.8 methods use the exact existing task/walk
 rows and simple-head contracts. They are project `-Frozen` adaptations unless
 every source detail is reproduced; their native embedding widths and compute
 costs are reported.
@@ -248,11 +253,18 @@ costs are reported.
 - **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is now complete and replay-valid for both walks. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction. The completed stack gives only marginal MSE gains while worsening MAE and Spearman, so it is not a broad win.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
-- **xLSTM-Mixer** *(NeurIPS 2025, deferred)* — retained in Phase 6.6 as a later
+- **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 planned)* — retained in Phase 6.6 as a
   source-faithful future-price complete-system benchmark. Its complete
   next-eight-bar, five-channel supervision prevents it from serving as a
-  direct frozen-representation comparison.
-- **Additional benchmarks (TBD)** — deferred beyond the approved Phase 6.8
+  direct frozen-representation comparison. Phase 6.9 activates this same
+  planned experiment for its price-specific comparison; Phase 6.6B remains
+  the technical/artifact authority, and only one execution is reported.
+- **Monotone-VI classification adaptation** *(ICLR 2025, Phase 6.9 planned)* —
+  classification-oriented representation baseline using the common simple
+  probe on exact h2/tau=0.001 rows. Admission requires an inductive procedure
+  fitted only on walk-training sequences; joint train/evaluation embedding is
+  prohibited.
+- **Additional benchmarks (TBD)** — deferred beyond the approved Phase 6.9
   roster; any further baseline requires a separate amendment.
 
 **Internal baselines:**
@@ -352,7 +364,7 @@ trajectories after its source, licence, extraction, and hardware feasibility
 were frozen. SISSEL remains optional and uncommissioned. No core or optional
 evaluation metric selected an extension recipe or truncated its frozen matrix.
 
-Phase 6.8 extends the external representation evidence with Di-COT-Frozen and
+Optional Phase 6.8 extends the external representation evidence with Di-COT-Frozen and
 Monotone-VI-Frozen. It reuses the exact target-free walk populations, native-
 width frozen stores, identical task rows, and lightweight probes. The planned
 matrix contains four representation fits, four stores, 12 new downstream
@@ -361,10 +373,18 @@ Its source/licence/adaptation and compute dossiers must be frozen before
 implementation, and neither source is selected or tuned from Polymarket
 evaluation results.
 
-After Phase 6.8, Phase 7A provides internal branch evidence through the
-precommitted canonical single-branch and leave-one-out matrix. Together these
-phases address expanded external prior-art validity and internal branch
-contribution before further architecture expansion.
+Phase 6.9 adds a separate task-specific competitiveness demonstration. It
+does not force one comparator across unrelated tasks: Monotone-VI is adapted
+for movement classification, xLSTM-Mixer is used for future price, and the
+completed strict GARCH--LSTM stack is reused for future realised variance.
+The `H0` representation remains the common system evaluated on all three
+tasks. This separates evidence about reusable representation quality from
+task-level complete-system competitiveness.
+
+Phase 7A separately provides internal branch evidence through the
+precommitted canonical single-branch and leave-one-out matrix. Phase 6.8 is
+not a prerequisite for Phase 6.9, and Phase 7A is not part of Phase 6.9's exit
+conditions.
 
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`

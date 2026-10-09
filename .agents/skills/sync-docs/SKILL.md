@@ -119,6 +119,11 @@ For the Di-COT-Frozen/Monotone-VI-Frozen recent-conference extension, its
 source/licence/adaptation gate, exact-row common probes, phase ordering, or
 claim boundary, include
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+For the classification-only Monotone-VI adaptation, the Phase 6.6B
+xLSTM-Mixer activation/duplicate-listing boundary, reuse of completed strict
+GARCH--LSTM volatility evidence, or the task-specific competitiveness claim,
+include
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.

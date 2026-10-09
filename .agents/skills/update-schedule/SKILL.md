@@ -79,6 +79,7 @@ For Phase 6.5, Phase 6.6, and Phase 7 status, also read
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`,
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`,
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`,
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`,
 and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
 full. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
 LSTM, and current-task TA-MLP classification matrix now have their own
@@ -93,17 +94,21 @@ evidence. The integrated epoch-50 comparison is generated at
 `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; a
 separate TimeDART-only report is not required. SISSEL remains optional and
 uncommissioned and does not reopen
-the phase. Phase 6.8 is the current approved handoff. Its roster and comparison
-contract are frozen, but Di-COT/Monotone-VI source dossiers, implementation,
-fits, stores, downstream runs, and reports do not exist and must remain
-planned. Phase 7A follows Phase 6.8 and remains unimplemented.
+the phase. Phase 6.8 is now optional. Its roster and comparison contract are
+frozen, but Di-COT/Monotone-VI source dossiers, implementation, fits, stores,
+downstream runs, and reports do not exist and must remain planned. Phase 6.9
+is the current approved planning handoff. Its Monotone-VI classification and
+xLSTM-Mixer price implementation/execution do not exist; its volatility leg
+reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
 Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the
 canonical branch-ablation matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
 planning evidence only until its fusion/xLSTM-Mixer/decoder-capacity source,
-manifests, checkpoints, predictions, and replay reports exist; grouped
+manifests, checkpoints, predictions, and replay reports exist. Phase 6.9
+activates the exact Phase 6.6B xLSTM-Mixer contract; the two labels represent
+one future artifact set, not two completed experiments. Grouped
 attribution is a later analysis and not model-completion evidence.
 
 ## 4. Update Narrowly
