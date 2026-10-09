@@ -209,7 +209,10 @@ remain inside the same contract, split, and accepted continuous segment;
 imputed target candles are excluded, and availability rather than target value
 determines any common intersection. Source/hardware feasibility and the full
 xLSTM-Mixer recipe must be frozen before evaluation and before Phase 6.6C
-execution. Phase 6.9 activates this exact Phase 6.6B candidate for its price
+execution. The completed paper/source audit under
+`docs/baselines/xLSTM-Mixer/` is not data or runtime admission: its owner
+decisions, AGPL dependency handling, metadata-only full-path audit, and CUDA
+gate remain prerequisites. Phase 6.9 activates this exact Phase 6.6B candidate for its price
 leg. The two phase labels refer to one execution and one set of canonical
 artifacts, not independent evidence. For Phase 6.5D, residual-CNN pretraining remains
 target-free and its downstream matrix is price-only. Grouped SHAP or gradient attribution is a later descriptive

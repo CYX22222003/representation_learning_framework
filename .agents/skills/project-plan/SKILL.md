@@ -77,6 +77,8 @@ Read these in order:
    for the optional planned Di-COT-Frozen/Monotone-VI-Frozen extension,
    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
    for the current classification/price/volatility task-specific handoff,
+   `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
+   audit and still-open owner, dependency/licence, data, and CUDA gates,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
@@ -179,6 +181,8 @@ Report:
   deferred. xLSTM-Mixer's duplicate listing in Phase 6.9 activates one shared
   experiment; Phase 6.6B remains its technical/artifact authority. Phase
   6.6B must be resolved before Phase 6.6C execution,
+  while its xLSTM-Mixer paper/source audit alone does not count as
+  implementation or runtime admission,
   and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat

@@ -179,6 +179,12 @@ Read these in order:
     contract and is executed only once despite appearing in both plans. The
     volatility leg reuses the completed Phase 6.5B GARCH--LSTM artifacts
     without retraining.
+    Before any xLSTM-Mixer implementation, dependency installation, data
+    preparation, or execution, also read the complete
+    `docs/baselines/xLSTM-Mixer/` dossier. Its fourteen owner decisions,
+    AGPL dependency handling, metadata-only full-path audit, and CUDA/runtime
+    admission are mandatory gates; the released `FULL` source reverses latent
+    features rather than variate tokens.
 
 ## Response Contract
 

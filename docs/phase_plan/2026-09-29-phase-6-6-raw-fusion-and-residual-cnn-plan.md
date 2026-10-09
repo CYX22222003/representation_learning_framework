@@ -1,8 +1,11 @@
 # Phase 6.6 Price-Focused Baseline, Fusion, and Decoder-Capacity Plan
 
 **Date:** 2026-09-29
-**Status:** Approved planning contract, amended 2026-10-06; implementation and
-execution have not started. Phase 6.7 closed on 2026-10-05; this whole phase
+**Status:** Approved planning contract, amended 2026-10-09; implementation and
+execution have not started. The xLSTM-Mixer paper/source audit is complete
+under `docs/baselines/xLSTM-Mixer/`, but its owner decisions, dependency/
+licence disposition, full-path availability audit, and CUDA admission remain
+open. Phase 6.7 closed on 2026-10-05; this whole phase
 remains deferred until after Phase 6.8 and Phase 7A. If Phase 6.6 is reactivated, the internal contract
 below remains in force unless another dated amendment changes it. The former
 Phase 6.6B residual-CNN study now
@@ -246,12 +249,23 @@ Its required data flow is:
 per-variate RevIN
 -> shared NLinear time mixing, 64 -> 8
 -> shared up-projection, 8 -> D
--> learned initial token
+-> owner-approved learned initial token count
 -> shared stack of sLSTM blocks recurrent over variates
--> original and reversed variate-order views
+-> original and owner-approved reverse view
 -> per-variate view projection, 2D -> 8
 -> inverse RevIN
 ```
+
+The completed audit found that “reverse view” is not yet a safe shorthand for
+reversed variate order. The paper mentions reversed latent dimensions but also
+interprets the views as different variate orderings; official `FULL` source
+calls `torch.flip(x, [-1])`, which reverses latent feature coordinates while
+retaining the same variate-token order. The source also disables RevIN affine
+parameters and its scripts vary the initial-token count from zero to four,
+despite the paper describing one token. The exact behaviors must be approved
+in `docs/baselines/xLSTM-Mixer/upstream_clarification_request.md` before this
+diagram becomes an implementation contract. No evaluation result may resolve
+those choices.
 
 Use sLSTM blocks only, matching the paper; do not silently replace them with
 ordinary LSTM or mLSTM blocks. The recurrent axis is the five variates after
@@ -313,6 +327,13 @@ seed `0` for this initial characterisation. If the official sLSTM kernels are
 not supported by the available hardware, record the exact failure and either
 freeze a validated faithful fallback before evaluation or reject the candidate;
 do not substitute an ordinary LSTM after seeing results.
+
+The pinned official wrapper is MIT-licensed, while its exact
+`xlstm==1.0.3` dependency is AGPL-3.0. Licence handling and the reuse boundary
+are part of the pre-implementation gate, not a post-training documentation
+task. The audited source is also not installable through its included
+`setup.py`; a project-native minimal adapter is preferred over importing the
+full Lightning/Time-Series-Library repository.
 
 ### 4.5 Evaluation and claim boundary
 

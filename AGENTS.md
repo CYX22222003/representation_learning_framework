@@ -137,7 +137,13 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > It assigns classification to an inductive Monotone-VI adaptation, price to
 > the source-faithful xLSTM-Mixer contract inherited from Phase 6.6B, and
 > volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
-> is not a Phase 6.9 prerequisite. Phase 7A remains frozen and unimplemented.
+> is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
+> official source are audited under `docs/baselines/xLSTM-Mixer/`. Static
+> suitability is positive, but fourteen owner decisions, AGPL dependency
+> handling, the metadata-only full-path audit, CUDA admission, implementation,
+> and execution remain open. The released `FULL` code flips latent features,
+> not the variate-token axis, so the older reversed-variate shorthand is not
+> an implementation contract. Phase 7A remains frozen and unimplemented.
 > The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating

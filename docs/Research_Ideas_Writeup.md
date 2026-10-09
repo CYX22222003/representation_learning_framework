@@ -90,6 +90,11 @@ universal framework superiority.
 > remains optional and unimplemented. Phase 7A remains frozen and
 > unimplemented. Phase 6.6 remains deferred except that Phase 6.9 activates
 > its xLSTM-Mixer subsection as one shared experiment, not a duplicate run.
+> The xLSTM-Mixer paper/source audit is complete under
+> `docs/baselines/xLSTM-Mixer/`. It confirms suitability but leaves
+> paper/source reversal semantics, RevIN/token settings, AGPL dependency
+> handling, the full-path row audit, and CUDA admission open before
+> implementation.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 

@@ -69,7 +69,9 @@
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
 > Phase 6.9 is the current planned handoff. Optional Phase 6.8 and frozen
 > Phase 7A remain unimplemented; Phase 6.6 likewise remains planning evidence
-> except for the xLSTM-Mixer scope activated through Phase 6.9. Phase 7B alpha research remains
+> except for the xLSTM-Mixer scope activated through Phase 6.9. Its paper and
+> official-source audit is complete under `docs/baselines/xLSTM-Mixer/`, but
+> owner decisions and data/runtime admission remain pending. Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -351,7 +353,12 @@ optimisation freedom and remain contextual complete-system comparisons.
   resolved for the Phase 6.9 price leg before any result is reported. If the
   broader Phase 6.6 programme later resumes, it reuses these exact artifacts
   rather than rerunning the method; xLSTM-Mixer remains outside the direct
-  representation-comparison claim.
+  representation-comparison claim. The completed dossier at
+  `docs/baselines/xLSTM-Mixer/` shows that the released second view flips the
+  latent feature axis rather than variate order and that paper/source RevIN,
+  token-count, release, packaging, and dependency details differ. The phrase
+  “source-faithful” therefore becomes operative only after the recorded owner
+  decisions are resolved; implementation has not started.
 
 - **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 

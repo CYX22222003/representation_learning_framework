@@ -1,9 +1,11 @@
 # Phase 6.9 Task-Specific Competitiveness Demonstration
 
 **Date:** 2026-10-09
-**Status:** Approved planning contract; implementation and new execution have
-not started. The completed Phase 6.5B volatility artifacts are reused rather
-than retrained.
+**Status:** Approved planning contract; xLSTM-Mixer paper/source audit complete,
+but implementation and new execution have not started. Its owner decisions,
+dependency/licence disposition, full-path data audit, and CUDA admission are
+still required. The completed Phase 6.5B volatility artifacts are reused
+rather than retrained.
 
 **Primary references:**
 `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md` and
@@ -11,6 +13,8 @@ than retrained.
 
 **Optional parallel plan:**
 `2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+
+**xLSTM-Mixer audit dossier:** `docs/baselines/xLSTM-Mixer/`
 
 ## 1. Decision and purpose
 
@@ -170,6 +174,14 @@ Use the exact Phase 6.6B `XM-MV8` contract:
 - fairness: freeze full-path availability from metadata before training and,
   if necessary, rerun `H0-D0` and Raw LSTM on the same common intersection.
 
+“Source-faithful” remains gated rather than assumed. The official source
+reverses latent feature coordinates rather than variate-token order, disables
+RevIN affine parameters, and tunes zero to four initial tokens. The final
+paper/repository revision and runtime/package details also do not align
+exactly. Phase 6.9 inherits the decisions recorded in
+`docs/baselines/xLSTM-Mixer/upstream_clarification_request.md`; it may not
+silently preserve the older provisional diagram.
+
 Every table must disclose that `XM-MV8` receives additional channel and
 intermediate-horizon supervision. Its result is a complete-system comparison,
 not a target-matched causal test of representation quality or sLSTM versus
@@ -268,8 +280,9 @@ Ordered gates are:
    optional matched source-classifier sensitivity.
 4. Implement, CPU-test, resource-audit, fit, extract, probe, and replay the
    complete Monotone-VI classification scope.
-5. Execute the Phase 6.6B metadata-only future-path audit and freeze the
-   source-faithful xLSTM-Mixer recipe and any required common intersection.
+5. Resolve the audited xLSTM-Mixer paper/source/licence/runtime decisions,
+   then execute the Phase 6.6B metadata-only future-path audit and freeze the
+   exact recipe and any required common intersection.
 6. Train and replay `XM-MV8` once per walk plus any required matched controls,
    preserving complete path predictions.
 7. Revalidate, but do not retrain, the two Phase 6.5B GARCH--LSTM stacks and

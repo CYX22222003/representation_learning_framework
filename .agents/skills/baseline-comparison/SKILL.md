@@ -133,6 +133,13 @@ retrain the replay-valid strict Phase 6.5B GARCH--LSTM stacks and retain their
 mixed result interpretation. Do not average model ranks across tasks or call
 the heterogeneous roster one direct representation matrix.
 
+Before answering or acting on xLSTM-Mixer architecture, source faithfulness,
+licence/dependency handling, implementation, runtime admission, or comparison,
+also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its paper/source
+audit is complete, but owner decisions and data/CUDA gates are pending; no
+implementation or experiment exists. In particular, the released `FULL` path
+flips latent features rather than the variate-token axis.
+
 TimeDART preparation was commissioned on 2026-10-05. Before answering or
 acting on TimeDART architecture, training, extraction, feasibility, or
 comparison questions, read the complete `docs/baselines/TimeDART/` dossier.

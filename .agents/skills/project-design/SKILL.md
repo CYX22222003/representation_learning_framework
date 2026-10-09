@@ -81,7 +81,10 @@ Read these in order:
     `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
     It assigns Monotone-VI to classification, xLSTM-Mixer to price under the
     Phase 6.6B technical contract, and the completed strict GARCH--LSTM stack
-    to volatility.
+    to volatility. For xLSTM-Mixer architecture, exact source tensors,
+    paper/source discrepancies, and the proposed `[64,5] -> [8,5]` mapping,
+    also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its owner
+    decisions remain pending and implementation has not started.
 
 ## Response Contract
 

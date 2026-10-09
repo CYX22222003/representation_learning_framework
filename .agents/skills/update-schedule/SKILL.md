@@ -98,7 +98,9 @@ the phase. Phase 6.8 is now optional. Its roster and comparison contract are
 frozen, but Di-COT/Monotone-VI source dossiers, implementation, fits, stores,
 downstream runs, and reports do not exist and must remain planned. Phase 6.9
 is the current approved planning handoff. Its Monotone-VI classification and
-xLSTM-Mixer price implementation/execution do not exist; its volatility leg
+xLSTM-Mixer price implementation/execution do not exist; the latter has only
+a completed paper/source audit under `docs/baselines/xLSTM-Mixer/`, with
+owner, dependency/licence, data, and CUDA gates still open. Its volatility leg
 reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
 Phase 6.6A/B/C's
 deferred price-focused fusion/recent-baseline/decoder scope and the

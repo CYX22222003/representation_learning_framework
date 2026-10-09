@@ -1,0 +1,161 @@
+{
+  "schema_version": "phase6-6-6-9-xlstm-mixer-source-audit-v1",
+  "audit_date": "2026-10-09",
+  "phases": [
+    "6.6B",
+    "6.9"
+  ],
+  "method_id": "XM-MV8",
+  "paper": {
+    "title": "xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar Memories",
+    "authors": [
+      "Maurice Kraus",
+      "Felix Divo",
+      "Devendra Singh Dhami",
+      "Kristian Kersting"
+    ],
+    "venue": "NeurIPS",
+    "year": 2025,
+    "arxiv": "2410.16928",
+    "version": "v4",
+    "version_date": "2025-11-20",
+    "proceedings_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/09e38101e74a89129ccd0d0756ed36b3-Abstract-Conference.html",
+    "doi": "10.52202/085713-0228",
+    "local_source_windows": "E:\\zotero\\storage\\GYKJQH4I\\Kraus et al. - 2025 - xLSTM-Mixer Multivariate Time Series Forecasting by Mixing via Scalar Memories.pdf",
+    "local_source_wsl": "/mnt/e/zotero/storage/GYKJQH4I/Kraus et al. - 2025 - xLSTM-Mixer Multivariate Time Series Forecasting by Mixing via Scalar Memories.pdf",
+    "sha256": "dc4d9c7a731489d4932aac993d6d5c04eea741c11b4f989b395a77f909d7151d",
+    "pages": 34,
+    "paper_license": "not stated in the audited local PDF"
+  },
+  "code": {
+    "repository": "https://github.com/mauricekraus/xlstm-mixer",
+    "branch": "main",
+    "commit": "730b0531aa9456e498765028f3c22ca3677de42e",
+    "commit_date": "2025-06-12T17:21:39+02:00",
+    "commit_count": 13,
+    "tags": [],
+    "license": "MIT",
+    "license_sha256": "90caae0c98dff3571943fad7bc55c8f238e15b717153141b51ffedaee72229ad",
+    "citation_version": "1.0.0",
+    "paper_matching_release_found": false,
+    "core_model_last_changed_commit": "9200c4b8ecdb3aa59aa8724a5c754af9beb15240",
+    "core_model_last_changed_date": "2024-10-24",
+    "static_checkout_clean": true,
+    "unit_tests_found": false,
+    "ci_workflow_found": false,
+    "trained_artifacts_found": false,
+    "setup_installable": false,
+    "setup_failure": "missing xlstm_mixer/VERSION; additional requirements path/list defects remain",
+    "key_file_hashes": {
+      "xlstm_mixer/models/xlstm_mixer.py": "d87a41bb96d86baea1be240b8244934426bcbd9fb519b7468a541ebf2c226bbe",
+      "xlstm_mixer/layers/StandardNorm.py": "3f690dc5fc0e395d4f1ffe6396717548d18bd04f4518258308bbe5f392703f5f",
+      "scripts/long_term_forecasting/ett/h2.sh": "0d1900e3c194b23b3578d8948c598cfc285a563ccbc785f8167a9a6e91b56f9f",
+      "requirements.txt": "4090348d0a626e34a994da7ae634c66c8aeaaae5a47012d78113b4f0ed070ae2",
+      "lightning_requirements.txt": "e9f9c29c9795d366d37788248ede54dafcfdf4f5c9b22f86dc6aeba61f1a746e",
+      ".docker/Dockerfile": "9c9e251fd7b3ab7c3683c71097f1100b0e5dd4c115821b5fa8541e62be1a8c3d"
+    }
+  },
+  "pinned_dependency": {
+    "name": "xlstm",
+    "version": "1.0.3",
+    "repository": "https://github.com/NX-AI/xlstm",
+    "tag": "v1.0.3",
+    "tag_commit": "1ff240242795062e56b4e39b43023cce61e8e88c",
+    "license": "AGPL-3.0",
+    "license_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+    "default_slstm_backend": "cuda",
+    "alternative_backend": "vanilla",
+    "reported_cuda_compute_capability_minimum": "8.0"
+  },
+  "paper_reported_environment": {
+    "python": "3.11",
+    "gpu": "single NVIDIA A100 80GB",
+    "precision": "float32",
+    "cuda_compute_capability_minimum": "8.0",
+    "optimizer": "Adam",
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "weight_decay": 0.0,
+    "loss": "L1/MAE",
+    "gradient_clip_norm": 1.0,
+    "maximum_epochs": 60,
+    "seeds": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "source_environment_claims": {
+    "readme_python": "3.11",
+    "readme_pytorch": "2.4",
+    "readme_os": "Ubuntu 22.04",
+    "readme_cuda": "12.1",
+    "docker_pytorch": "2.3.1",
+    "dependencies_other_than_xlstm_exactly_pinned": false,
+    "docker_base_digest_pinned": false,
+    "docker_masks_lightning_install_failure": true
+  },
+  "project_environment_at_static_audit": {
+    "python": "3.10.12",
+    "pytorch": "2.12.1+cu126",
+    "torch_cuda_build": "12.6",
+    "cuda_available_to_audit_process": false,
+    "xlstm_installed": false,
+    "einops_installed": false,
+    "dependencies_installed_during_audit": false,
+    "training_launched_during_audit": false,
+    "intended_execution_platform": "persistent Lumid sandbox",
+    "runtime_admission_completed": false
+  },
+  "paper_source_discrepancies": [
+    "Paper RevIN equation includes learnable affine scale and offset; source sets affine=False.",
+    "Paper specifies one initial token; constructor defaults to zero and scripts tune zero through four.",
+    "Paper interprets view mixing as different variate orderings; released FULL code flips the latent feature axis.",
+    "Final paper contains classification and GIFT-Eval results absent from the audited xLSTM-Mixer implementation.",
+    "No tagged source release binds the final paper revision to an executable code state.",
+    "README and Dockerfile disagree on PyTorch 2.4 versus 2.3.1."
+  ],
+  "proposed_project_contract": {
+    "input_shape": [
+      64,
+      5
+    ],
+    "channel_order": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "output_shape": [
+      8,
+      5
+    ],
+    "headline_output": "close[t+8]",
+    "full_path_training": true,
+    "walk_specific": true,
+    "seed": 0,
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "fixed_primary_epoch": 50,
+    "validation_or_early_stopping": false,
+    "canonical_artifact_root": "experiments/phase6_6/recent_forecasting_baseline/",
+    "phase6_9_retrains_model": false
+  },
+  "gate": {
+    "paper_audit_complete": true,
+    "official_source_audit_complete": true,
+    "implementation_started": false,
+    "training_started": false,
+    "owner_decisions_complete": false,
+    "license_dependency_decision_complete": false,
+    "cuda_runtime_admitted": false,
+    "full_path_availability_audit_complete": false,
+    "decision": "method_suitable_but_implementation_not_yet_admitted",
+    "failure_policy": "Record rejection or infeasibility; do not replace sLSTM with ordinary LSTM while retaining the xLSTM-Mixer label.",
+    "evaluation_metrics_read_for_decision": false
+  }
+}

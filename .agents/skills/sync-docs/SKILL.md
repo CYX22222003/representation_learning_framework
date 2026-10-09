@@ -124,6 +124,12 @@ xLSTM-Mixer activation/duplicate-listing boundary, reuse of completed strict
 GARCH--LSTM volatility evidence, or the task-specific competitiveness claim,
 include
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+For xLSTM-Mixer paper/source interpretation, view-reversal semantics, RevIN,
+initial tokens, dependency/licence handling, `[64,5] -> [8,5]` adaptation,
+runtime/data gates, implementation status, or Phase 6.6B/6.9 artifact
+ownership, also include the complete `docs/baselines/xLSTM-Mixer/` dossier.
+Its audit is complete, but owner decisions and implementation/execution remain
+open.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.
