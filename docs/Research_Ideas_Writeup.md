@@ -88,8 +88,8 @@ universal framework superiority.
 > `docs/baselines/TimeDART/`. All eleven decisions, the independent model,
 > focused CPU tests, both encoder trajectories, both 170-wide stores, all six
 > downstream trajectories, and 18 snapshots are complete and replay-valid.
-> SISSEL remains uncommissioned optional scope. Phase 6.9 is the current
-> planned handoff; its xLSTM-Mixer model, guarded runtime/training/replay
+> SISSEL remains uncommissioned optional scope. Phase 6.9 is closed for its
+> frozen seed-0 scope; its xLSTM-Mixer model, guarded runtime/training/replay
 > lifecycle, observed-path builder, and local vanilla-GPU runner are
 > implemented and tested. Both real-data seed-0 50-epoch walks and all six
 > 5/15/50 snapshots are complete and replay-valid; XM-only diagnostic reporting
@@ -101,8 +101,11 @@ universal framework superiority.
 > both fresh 50-epoch XM-C8 walks, six-snapshot independent replay, and matched
 > reporting are complete under `experiments/phase6_9/xlstm_mixer_endpoint/`.
 > XM-C8 beats H0/Raw LSTM price errors in both walks, not persistence
-> consistently; SGN classification remains open, with source/settings/licence
-> audit and implementation specification pending. Phase 6.8
+> consistently. SGN classification is also complete: both 50-epoch runs and
+> six snapshots replay, but SGN-C trails H0-D0/Raw LSTM/Raw MLP on principal
+> macro-F1 in both walks and its hard grouping collapses. The final
+> task-separated synthesis is complete under
+> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Phase 6.8
 > remains optional and unimplemented. Phase 7A remains frozen and
 > unimplemented. Phase 6.6 remains deferred and is no longer an active
 > xLSTM-Mixer authority.
@@ -399,7 +402,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
 
 | Term | Definition |
 |---|---|
-| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Tests whether the framework is competitive with task-specific alternatives. Phase 6.9 plans independently authored supervised SGN-C for classification, uses source-aligned xLSTM-Mixer for future price, and reuses the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. These are complete-system comparisons, not representation-isolating controls. |
+| **External benchmark** | Model from prior work or a predeclared paper-inspired adaptation (end-to-end or task-specific). Tests whether the framework is competitive with task-specific alternatives. Completed Phase 6.9 uses independently authored supervised SGN-C for classification, source-aligned xLSTM-Mixer for future price, and the completed adapted GARCH--LSTM stack for volatility; existing context also includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. These are complete-system comparisons, not representation-isolating controls. |
 | **Internal baseline** | Model designed within this project. Shows each framework component contributes. Current set: Raw-OHLCV MLP, single-branch ablations. |
 | **Default decoder** | The task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — a simple MLP from `src/tasks/` used by the framework and internal baselines. Intentionally lightweight. |
 | **Refined decoder** | A controlled downstream-capacity model trained on unchanged frozen features. Phase 6.6C freezes static residual-projection and branch-gated-projection candidates; the earlier Phase-2 matrix additionally contains historical recurrent and attention contexts. |
@@ -473,7 +476,7 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      simple probes after source/licence/adaptation and resource gates. Both
      are treated as recent representation-learning baselines rather than
      assumed empirical SOTA winners.
-   - Phase 6.9 plans an independently authored supervised SGN classification
+   - Completed Phase 6.9 uses an independently authored supervised SGN classification
      adaptation with its native head on all original h2/tau=0.001 rows.
      Source/settings/licence audit and implementation specification precede
      coding; grouping and period statistics are training-only. It pairs this

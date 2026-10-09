@@ -83,9 +83,16 @@ Read these in order:
     `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
     It replaces the unimplemented Monotone-VI classification leg with
     independently authored supervised SGN-C and its native head on all
-    original h2/tau=0.001 rows. Source/settings/licence audit and separate
-    implementation specification precede coding; grouping/period initialization
-    is training-only. SGN is not implemented or executed. Optional Phase 6.8
+    original h2/tau=0.001 rows. The static audit and proposed specification are
+    under `docs/baselines/SGN/`; all seven decisions are approved, including
+    `P=16` and depths `[2,2,2,1]`. Grouping/period initialization is
+    training-only. The independent model/lifecycle, 17 focused CPU tests,
+    both initializers, two-run matrix, and real-row CUDA batch-256 admission
+    both initializers, two-run matrix, real-row CUDA batch-256 admission, both
+    50-epoch trajectories, all six snapshots, same-backend replay, and matched
+    reporting are complete. SGN-C trails H0-D0/Raw LSTM/Raw MLP on principal
+    macro-F1 in both walks and its hard grouping collapses.
+    Optional Phase 6.8
     Monotone-VI-Frozen is unchanged. It assigns Phase 6.9-owned xLSTM-Mixer to
     price, and the completed strict GARCH--LSTM stack
     to volatility. For xLSTM-Mixer architecture, exact source tensors,
@@ -104,7 +111,7 @@ Read these in order:
     both fresh endpoint walks and all six snapshots are independently
     replay-valid, with matched reporting under
     `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
-    SGN classification remains open.
+    SGN classification is complete for its frozen seed-0 scope.
 
 ## Response Contract
 
@@ -155,7 +162,7 @@ Present the parts relevant to the request:
   170-wide stores, six common-probe runs, and 18 snapshots are complete and
   replay-valid. SISSEL remains optional and uncommissioned. Phase 6.8 is an
   optional unimplemented plan for Di-COT-Frozen and Monotone-VI-Frozen under
-  the same frozen probes. Phase 6.9 is the current planned handoff and tests
+  the same frozen probes. Phase 6.9 is closed for its frozen seed-0 scope and tests
   task-specific competitiveness across classification, price, and volatility.
   Phase 7A remains unimplemented. Phase 6.6 is otherwise deferred; it freezes price-only
   matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
@@ -163,7 +170,7 @@ Present the parts relevant to the request:
   adaptation with MSE on original price rows. It remains a complete-system
   benchmark, not a frozen-representation control. Historical XM-MV8 received
   additional full-path supervision and is not the primary comparison. Phase 6.9
-  is its only active phase. The simple head remains the primary representation
+  is its sole technical authority. The simple head remains the primary representation
   probe; the branch-gated decoder is a complete-system sensitivity. Grouped
   SHAP remains later
   descriptive analysis rather than model selection. Fixed-first-walk

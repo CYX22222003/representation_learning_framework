@@ -1,0 +1,32 @@
+{
+  "schema_version": "phase6-9-task-specific-synthesis-v1",
+  "status": "complete",
+  "seed": 0,
+  "principal_epoch": 50,
+  "rank_aggregation_across_tasks": false,
+  "classification": {
+    "primary_metric": "macro_f1",
+    "sgn_c": {"walk1": 0.39894116626439735, "walk2": 0.31371565504335663},
+    "h0_d0": {"walk1": 0.45346888003872116, "walk2": 0.4532019160834555},
+    "raw_lstm": {"walk1": 0.42520423400741053, "walk2": 0.4463257207620988},
+    "raw_mlp": {"walk1": 0.4448058182678582, "walk2": 0.43245870139265835},
+    "judgement": "sgn_c_trails_all_three_learned_controls_on_macro_f1_in_both_walks; hard_grouping_collapses"
+  },
+  "future_price": {
+    "primary_metrics": ["mae", "rmse"],
+    "xm_c8": {
+      "walk1": {"mae": 0.003100233, "rmse": 0.011040398},
+      "walk2": {"mae": 0.004759289, "rmse": 0.020759157}
+    },
+    "judgement": "xm_c8_beats_h0_and_raw_lstm_errors_in_both_walks_but_not_persistence_consistently"
+  },
+  "realised_variance": {
+    "primary_metrics": ["mae", "mse"],
+    "garch_lstm": {
+      "walk1": {"mae": 0.000960824, "mse": 0.000654354},
+      "walk2": {"mae": 0.001470010, "mse": 0.000096312}
+    },
+    "judgement": "marginal_mse_gain_but_worse_mae_and_spearman_in_both_walks"
+  },
+  "overall_judgement": "reusable_h0_is_task_competitive_but_specialized_price_model_has_clear_learned_model_advantage; no_universal_winner"
+}

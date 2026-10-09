@@ -5,8 +5,18 @@
 `2026-10-09-phase-6-9-sgn-classification-amendment.md` replaces the
 unimplemented Monotone-VI classification leg with an independently authored
 SGN adaptation (`SGN-C`). Comparator role and exact-row evaluation are
-approved; implementation specification and execution remain pending.
+approved and complete: both 50-epoch trajectories and all six snapshots pass
+same-backend replay, with matched reporting under
+`experiments/phase6_9/sgn_classification/reports/seed0/`.
 Monotone-VI-Frozen remains unchanged in optional Phase 6.8.
+
+The SGN dossier now exists under `docs/baselines/SGN/`. Its paper reading and
+pinned static source/settings/licence audit are complete. The owner approved
+all seven decisions on 2026-10-09. The independent model/lifecycle, 17 CPU
+tests, both train-only initializers, two-run matrix, and real-row CUDA
+batch-256 admission, both 50-epoch trajectories, all six snapshots, same-
+backend replay, and matched reporting are complete. See
+`2026-10-10-phase-6-9-sgn-execution.md`.
 
 **Active price amendment:**
 `2026-10-09-phase-6-9-xlstm-endpoint-amendment.md` supersedes the former
@@ -18,8 +28,8 @@ no longer required. Both fresh XM-C8 walks now complete 50 epochs; all six
 snapshots pass independent replay and the endpoint-matched comparison is
 recorded under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
 XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks. Persistence
-remains better on MAE in both walks and RMSE in Walk 2. Classification remains
-open; this does not close Phase 6.9.
+remains better on MAE in both walks and RMSE in Walk 2. SGN classification is
+also complete.
 
 **Status:** Approved contract; xLSTM-Mixer paper/source audit, all fourteen
 owner decisions, model, data builder, and local vanilla-GPU training launcher
@@ -37,6 +47,12 @@ The real-data local vanilla-GPU admission and manifest-only launch pipeline
 pass, with batch 512 and a one-row remainder under the 6 GiB admission ceiling.
 The completed Phase 6.5B volatility artifacts are reused
 rather than retrained.
+
+**Closure update (2026-10-10):** all three task-specific legs, their replay,
+matched task reports, and the final task-separated synthesis are complete. The
+integrated report is
+`experiments/phase6_9/reports/task_specific_competitiveness_seed0/summary.md`.
+Phase 6.9 is closed for its frozen seed-0 scope.
 
 **Primary reference:**
 `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
@@ -406,7 +422,7 @@ Phase 6.9 is complete only when:
 - the final report preserves the two-walk, seed-0, non-trading,
   non-universal claim boundary.
 
-SGN remains unimplemented and unexecuted; classification is still open.
-This document and its SGN amendment authorize the planning direction, not an
-immediate model implementation or training launch. Any further comparator
-replacement or expanded matrix requires a separate owner decision.
+SGN classification and all three Phase 6.9 technical legs are complete. The
+final task-separated synthesis is generated, so Phase 6.9 is closed for its
+frozen seed-0 scope. Any further comparator replacement or expanded matrix
+requires a separate owner decision.

@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "method": {
+    "paper_name": "SwinGroupNet",
+    "project_name": "SGN-C",
+    "method_id": "sgn_c",
+    "comparison_role": "supervised classification-specific complete-system baseline",
+    "phase": "6.9"
+  },
+  "status": {
+    "as_of": "2026-10-10",
+    "paper_reading": "complete",
+    "static_source_settings_audit": "complete",
+    "licence_audit": "complete_no_repository_level_licence_found",
+    "implementation_specification": "all_seven_owner_decisions_approved",
+    "implementation": "complete_17_focused_cpu_tests_pass",
+    "runtime_admission": "complete_real_rows_batch256",
+    "training": "complete_two_walk_seed0_50_epochs",
+    "evaluation": "complete_all_six_snapshots_same_backend_replay"
+  },
+  "paper": {
+    "title": "SGN: Shifted Window-Based Hierarchical Variable Grouping for Multivariate Time Series Classification",
+    "authors": [
+      "Zenan Ying",
+      "Jinke Wang",
+      "Zhi Zheng",
+      "Tong Xu",
+      "Wei Chen",
+      "Qi Liu",
+      "Huijun Hou"
+    ],
+    "venue": "Advances in Neural Information Processing Systems 38, Main Conference",
+    "year": 2025,
+    "doi": "10.52202/085713-3609",
+    "proceedings_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/9b9aa183c3ab49380e0f306e9f130acf-Abstract-Conference.html",
+    "pdf_url": "https://papers.nips.cc/paper_files/paper/2025/file/9b9aa183c3ab49380e0f306e9f130acf-Paper-Conference.pdf",
+    "local_path_windows": "E:\\zotero\\storage\\STZF8JRL\\Ying et al. - 2025 - SGN Shifted Window-Based Hierarchical Variable Grouping for Multivariate Time Series Classification.pdf",
+    "local_path_wsl": "/mnt/e/zotero/storage/STZF8JRL/Ying et al. - 2025 - SGN Shifted Window-Based Hierarchical Variable Grouping for Multivariate Time Series Classification.pdf",
+    "local_sha256": "b8148c25a156d51e4a34de82ef52d903e71083254633a7fc10473f7aa045924d",
+    "pages": 32
+  },
+  "official_source": {
+    "url": "https://github.com/colison/SGN",
+    "branch": "master",
+    "commit": "c6d1b573dcb8c4255cde59b988f74334ea5da503",
+    "commit_timestamp": "2025-05-16T13:19:49+08:00",
+    "commit_subject": "提交",
+    "release_or_tag": null,
+    "repository_level_licence": null,
+    "reuse_policy": "behavioral_reference_only_independent_project_implementation_required",
+    "file_hashes": {
+      "sgnmodels/SGN.py": "7b954974387201b84ec50d3162f689ff4810280047aeea7132b16eae4a34efd2",
+      "exp/exp_classification.py": "f2d7710a7f807003906d82195a080b8b2d21753c6590347b365c5ba14cddf042",
+      "run.py": "4fd95e162de2480cbd0a2bc1f906879ad9ecece9de695c87f059ef3c8b1e2ae5",
+      "sgn.sh": "72552b28b724d082a859380e9e9da9ad1af287385be2b8ae15efce4ef43c12ce",
+      "requirements.txt": "b55ed6ac777e0c32d5a081492c204c11cdd402933ae2a6f62dcee58907adfc8b"
+    },
+    "similarity_matrix_shapes": {
+      "FLAAP": [6, 6],
+      "PTB_XL": [12, 12],
+      "TDBRAIN": [33, 33],
+      "UCI_HAR": [9, 9]
+    },
+    "critical_release_findings": [
+      "run.py omits parser definitions for num_groups and kernel_size although downstream code requires them",
+      "imports refer to an SGN4MTSC package layout absent from the checkout",
+      "GumbelGroupEmbedding always loads groups_matrix_T.npy",
+      "precomputed similarity matrices have no replayable data provenance",
+      "period is configured and no FFT selection occurs in the forward path",
+      "training reads test metrics every epoch and selects by validation F1",
+      "temperature mutation is not robust complete-state resume behavior"
+    ]
+  },
+  "project_data_contract": {
+    "input_shape": [64, 5],
+    "feature_order": ["open", "high", "low", "close", "volume"],
+    "label_order": ["DOWN", "STABLE", "UP"],
+    "horizon_hours": 2,
+    "tau": 0.001,
+    "walks": {
+      "1": {
+        "train_rows": 37864,
+        "evaluation_rows": 30340,
+        "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+        "train_identity_sha256": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+        "evaluation_identity_sha256": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+        "train_label_sha256": "98b833fa67f27f85b6c4a8cbff52bcb6a0e067dfc9f90a3538911c15086260f5",
+        "evaluation_label_sha256": "e33308477c05ba736cc9d2a5d3b78265f1f801d6fff4c2b1a3379b1c9b1c3f97"
+      },
+      "2": {
+        "train_rows": 57521,
+        "evaluation_rows": 13887,
+        "dataset_sha256": "c9b1cca618e7f1da3d96b850b511afff62b8edfeff3443376cba4590fb49f4d3",
+        "train_identity_sha256": "f5663e57e37354397c0077dff0eef8d12d99c56f002e67014258589b3ca01521",
+        "evaluation_identity_sha256": "1e125e600176d53b62a0066d9b1cce2455476ffb8fa68ed95192edf8bdbf0e51",
+        "train_label_sha256": "a0cbd8fc09b42f68274bba8afa075a674508c09c251a1b775ec709b9a6e72cba",
+        "evaluation_label_sha256": "483a83a206d700f5e679bdcf32c9c1483243980129f0f960d3fc416795498bdd"
+      }
+    }
+  },
+  "training_only_planning_diagnostics": {
+    "status": "read_only_not_a_frozen_experiment_artifact",
+    "uses_labels": false,
+    "uses_evaluation_rows": false,
+    "bdc_probe_rows_per_walk": 1024,
+    "bdc_probe_sampling": "evenly_spaced_over_saved_training_rows",
+    "bdc_probe_normalizations_checked": [
+      "source_like_reshape_standardization",
+      "accepted_stored_values_without_additional_scaling"
+    ],
+    "bdc_probe_index_hashes": {
+      "walk1": "4788c77679c9267c6b4fb1131781a606694659c39cc6b39ef26321c58c2f116b",
+      "walk2": "dc300c9696e8bbfa5cb0078a0d31b387815a9b6dcf5f2da1f2ed0f91f50695f6"
+    },
+    "g2_partition_both_walks": {
+      "group_0": ["volume"],
+      "group_1": ["open", "high", "low", "close"]
+    },
+    "fft_exclusions": ["dc", "full_sequence_period"],
+    "fft_candidate_periods_both_walks": [32, 21, 16, 13, 11]
+  },
+  "implementation_contract": {
+    "approval_status": "all_fields_approved",
+    "groups": 2,
+    "embedding_dim_per_group": 64,
+    "period": 16,
+    "stage_depths": [2, 2, 2, 1],
+    "num_temporal_kernels": 7,
+    "temporal_kernel_sizes": [1, 3, 5, 7, 9, 11, 13],
+    "expansion_ratio": 2,
+    "dropout": 0.1,
+    "grouping_regularizer_beta": 0.1,
+    "temperature_initial": 1.0,
+    "temperature_minimum": 0.1,
+    "temperature_decay_per_optimizer_step": 0.0003,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "physical_batch_size": 256,
+    "gradient_clip_global_norm": 4.0,
+    "precision": "float32",
+    "seed": 0,
+    "epochs": 50,
+    "snapshot_epochs": [5, 15, 50],
+    "primary_epoch": 50,
+    "task_loss": "training-prior logit-adjusted cross-entropy, strength 1.0"
+  },
+  "owner_decisions": {
+    "decision_date": "2026-10-09",
+    "grouping_initializer": "approved",
+    "period_and_hierarchy": "approved",
+    "group_fusion_and_embedding": "approved",
+    "shift_boundary": "approved",
+    "model_and_loss": "approved",
+    "optimizer_and_batch": "approved_subject_to_resource_admission",
+    "independent_implementation_boundary": "approved"
+  },
+  "current_runtime_observation": {
+    "environment": "WSL2",
+    "pytorch": "2.12.1+cu126",
+    "cuda_available_outside_sandbox": true,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_total_memory_bytes": 8585216000,
+    "nvidia_smi_total_memory_mib": 8188,
+    "physical_batch_256_status": "admitted",
+    "implementation_sha256": "7b52bff866a9adceb0b343246d0e665eb6e53e356eee080aceaf93ffb37ed57e",
+    "parameter_count": 275853,
+    "peak_cuda_memory_bytes": 778075136,
+    "admission_seconds": 1.5314331359986681,
+    "uses_real_walk1_contexts": true,
+    "one_row_remainder_passed": true,
+    "same_backend_checkpoint_replay": true
+  },
+  "implemented_initialization_artifacts": {
+    "walk1": {
+      "sample_indices_sha256": "5ad4a912196255b25e2a5a873cfb7ec60a3bc0997a10a704440ec1fd25e439b9",
+      "bdc_sha256": "d11315b29f11ae16c8a92e3a5c3c42ebc33ef01a8a4acf11d8bec78f8d00b21e",
+      "group_labels_ohlcv": [1, 1, 1, 1, 0],
+      "fft_periods": [32, 21, 16, 13, 11]
+    },
+    "walk2": {
+      "sample_indices_sha256": "313bd50b6affcaf4ced53404ee919b246ed29691acfc77a19d8f2cf4fc5a949c",
+      "bdc_sha256": "0fa4fbee80ddd4e4c6caaba71cb78227ff7c3b59cfeba115ebb7060b855e5110",
+      "group_labels_ohlcv": [1, 1, 1, 1, 0],
+      "fft_periods": [32, 21, 16, 13, 11]
+    }
+  },
+  "execution_outcome": {
+    "walk1": {
+      "training_minutes": 43.988991955266464,
+      "epoch50_train_loss": 0.8788700410661349,
+      "accuracy": 0.5859591298615688,
+      "macro_f1": 0.39894116626439735,
+      "balanced_accuracy": 0.4422854269356515,
+      "hard_group_ids_ohlcv": [1, 1, 1, 1, 1]
+    },
+    "walk2": {
+      "training_minutes": 65.43628245608319,
+      "epoch50_train_loss": 0.8326435491394237,
+      "accuracy": 0.4109598905451141,
+      "macro_f1": 0.31371565504335663,
+      "balanced_accuracy": 0.3563735131852068,
+      "hard_group_ids_ohlcv": [1, 1, 1, 1, 1]
+    },
+    "pooled_epoch50": {
+      "accuracy": 0.5310104687182038,
+      "macro_f1": 0.37393125065769633,
+      "balanced_accuracy": 0.41532011131362717
+    },
+    "judgement": "no_consistent_advantage_over_h0_raw_lstm_or_raw_mlp; grouping_collapsed"
+  }
+}

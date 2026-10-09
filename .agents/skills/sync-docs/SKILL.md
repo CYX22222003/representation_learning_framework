@@ -127,9 +127,12 @@ include
 Also include
 `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
 It supersedes only the unimplemented Monotone-VI classification leg, leaving
-optional Phase 6.8 Monotone-VI-Frozen unchanged. Source/settings/licence audit
-and a separate implementation specification precede coding. Do not mark
-SGN implemented, admitted, trained, or replay-valid from this planning change.
+optional Phase 6.8 Monotone-VI-Frozen unchanged. Also include
+`docs/baselines/SGN/`: its static audit and all seven decisions are complete,
+including `P=16` and depths `[2,2,2,1]`. The independent implementation,
+tests, train-only initializers, two-run matrix, CUDA admission, both
+trajectories, six-snapshot replay, and matched reporting are complete. Include
+`docs/phase_plan/2026-10-10-phase-6-9-sgn-execution.md` for result judgement.
 For xLSTM-Mixer paper/source interpretation, view-reversal semantics, RevIN,
 initial tokens, dependency/licence handling, `[64,5] -> [8,5]` adaptation,
 runtime/data gates, implementation status, or Phase 6.9 artifact
@@ -150,7 +153,8 @@ preserved; endpoint model/lifecycle and 18 CPU tests pass. Both fresh XM-C8
 50-epoch walks, six-snapshot independent replay, and matched reporting are
 complete under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
 The report-only native-schema recovery preserves the admitted training
-fingerprint; SGN classification remains open. Never relabel the old checkpoints.
+fingerprint; SGN classification and the final task-separated synthesis are
+complete, and Phase 6.9 is closed. Never relabel the old checkpoints.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.

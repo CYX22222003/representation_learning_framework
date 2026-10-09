@@ -202,9 +202,10 @@ evaluation distribution, use the existing train-prior logit-adjusted task
 loss, and disclose the separately frozen grouping regularizer. No sensor
 matrix, evaluation-derived class metadata, shared train/evaluation fitting,
 early stopping, or evaluation-driven architecture choice is permitted.
-The separate implementation specification must be approved before coding;
-SGN remains unimplemented and unexecuted. Optional Phase 6.8 Monotone-VI-Frozen
-remains unchanged.
+The separate implementation specification is approved. The independent
+model/lifecycle, both train-only initializers, focused tests, two-run matrix,
+CUDA admission, both 50-epoch trajectories, and all six replay-valid snapshots
+are complete. Optional Phase 6.8 Monotone-VI-Frozen remains unchanged.
 
 For Phase 6.6A, the bidirectional raw tower may traverse both directions only
 inside the already observed historical context; no target-interval candle may
@@ -213,7 +214,7 @@ governs XM-C8: sole close[t+8h], MSE, and every original price row with
 verified original-control reuse. The old eight-bar auxiliary path and
 intersection rules apply only to historical XM-MV8 evidence. The completed
 XM-C8 data/runtime/training/replay records remain unchanged by the SGN
-classification amendment. Phase 6.9 is the sole active authority; the Phase
+classification amendment. Phase 6.9 is the sole technical authority; the Phase
 6.6B listing is historical. For Phase 6.5D, residual-CNN pretraining remains
 target-free and its downstream matrix is price-only. Grouped SHAP or gradient attribution is a later descriptive
 analysis and may not change the frozen model matrix or checkpoint choice.

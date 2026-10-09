@@ -39,3 +39,12 @@ baseline matrix: Raw-OHLCV MLP and three-layer raw OHLCV LSTM models for the
 two-hour regression/classification tasks and eight-hour absolute-price task.
 It reuses the validated task rows directly, freezes 5/15/50 snapshots, and
 supports CPU checkpoint/prediction replay. Training has not yet been executed.
+
+# Phase 6.9
+
+`phase6_9_sgn.py` owns the independently authored SGN-C lifecycle: train-only
+BDC/K-means and period initialization, two walk-specific supervised models,
+fixed 50-epoch training with 5/15/50 snapshots, exact resume state,
+logit-adjusted task loss plus grouping regularization, prediction/metric
+replay, and manifest/CUDA admission gates. Entry points live under
+`scripts_v8/`; no real SGN trajectory is launched without `--execute`.
