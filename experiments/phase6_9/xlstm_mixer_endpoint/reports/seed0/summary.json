@@ -1,0 +1,231 @@
+{
+  "all_retained_snapshots": [
+    {
+      "count": 29834,
+      "epoch": 5,
+      "implied_movement_spearman": 0.2620769160476444,
+      "mae": 0.003225242172915369,
+      "method": "XM-C8",
+      "rmse": 0.01134464302687813,
+      "walk": 1
+    },
+    {
+      "count": 29834,
+      "epoch": 15,
+      "implied_movement_spearman": 0.3078337066477645,
+      "mae": 0.003137438366490761,
+      "method": "XM-C8",
+      "rmse": 0.011115576635609995,
+      "walk": 1
+    },
+    {
+      "count": 29834,
+      "epoch": 50,
+      "implied_movement_spearman": 0.32845660315250996,
+      "mae": 0.0031002328175552367,
+      "method": "XM-C8",
+      "rmse": 0.01104039758441238,
+      "walk": 1
+    },
+    {
+      "count": 13506,
+      "epoch": 5,
+      "implied_movement_spearman": 0.1224593799148165,
+      "mae": 0.0049454282207371525,
+      "method": "XM-C8",
+      "rmse": 0.0210921935403658,
+      "walk": 2
+    },
+    {
+      "count": 13506,
+      "epoch": 15,
+      "implied_movement_spearman": 0.1571606890442602,
+      "mae": 0.004807969590143663,
+      "method": "XM-C8",
+      "rmse": 0.020836529387343632,
+      "walk": 2
+    },
+    {
+      "count": 13506,
+      "epoch": 50,
+      "implied_movement_spearman": 0.25922894014834275,
+      "mae": 0.004759288984962747,
+      "method": "XM-C8",
+      "rmse": 0.020759156816726517,
+      "walk": 2
+    }
+  ],
+  "controls": {
+    "1": {
+      "h0_d0": {
+        "checkpoint_sha256": "77d39377d8adad1d3d55604d272db9a5777062335a51109ebea14b769b97d5f4",
+        "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "predictions_sha256": "a70ddf2dfdc733d953db318055b605a9311b322353309a09e371908d01d9977d",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "valid": true
+      },
+      "raw_lstm": {
+        "checkpoint_sha256": "17e29d7d69b0801868b31560090c7ef289d8d9243aaa4cbfa20842714e3c4de0",
+        "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "predictions_sha256": "95cc1e6aa44675044db8786c832c7091700bc1f4d7714e6a0b8a579c0a75fad1",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk1/seed0",
+        "valid": true
+      }
+    },
+    "2": {
+      "h0_d0": {
+        "checkpoint_sha256": "d980ea2ec79d5f70a0c7ff9db78454b7f81199035266bb0af6a846ba7e0c5907",
+        "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+        "predictions_sha256": "19964f8e1249953f28f855a92e11a6a4661c741821350b4a41399cb024e76ea7",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "valid": true
+      },
+      "raw_lstm": {
+        "checkpoint_sha256": "b8491431c09c8fc9ee59a1a479e75c8a8a991a2f33efc11b92654bf0591097bb",
+        "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+        "predictions_sha256": "1992b2ce26f8457a6f009a7e96a48c35534fc37755a0b147431f7288873110a8",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk2/seed0",
+        "valid": true
+      }
+    }
+  },
+  "diagnostics": [
+    {
+      "outside_probability_range_fraction": 0.0,
+      "peak_cuda_memory_bytes": 297923072,
+      "persistence_reference": {
+        "count": 29834,
+        "mae": 0.002978262119998612,
+        "mse": 0.0001409358482286632,
+        "pearson": 0.9983533658044405,
+        "prediction_mean": 0.10799608572678003,
+        "prediction_std": 0.20686604911878367,
+        "rmse": 0.011871640502839663,
+        "sign_agreement": 1.0,
+        "spearman": 0.980600840269178,
+        "target_mean": 0.10780629116030187,
+        "target_std": 0.20681725694876335
+      },
+      "persistence_relative_skill": {
+        "mae": -0.04095364767849308,
+        "mse": 0.13513573477674679,
+        "rmse": 0.07001921244401332
+      },
+      "timestamp_cross_sectional_rank_ic": {
+        "mean": 0.30689694523795313,
+        "minimum_contract_count": 5,
+        "timestamp_count": 1814
+      },
+      "train_seconds": 97.60138610205468,
+      "walk": 1
+    },
+    {
+      "outside_probability_range_fraction": 0.0,
+      "peak_cuda_memory_bytes": 298027520,
+      "persistence_reference": {
+        "count": 13506,
+        "mae": 0.004426176023450418,
+        "mse": 0.0004159716396697227,
+        "pearson": 0.994240075890472,
+        "prediction_mean": 0.12137506526148135,
+        "prediction_std": 0.1888601189870394,
+        "rmse": 0.020395382802725785,
+        "sign_agreement": 1.0,
+        "spearman": 0.992304364168254,
+        "target_mean": 0.12168471735048611,
+        "target_std": 0.19025574343741097
+      },
+      "persistence_relative_skill": {
+        "mae": -0.07525976367579057,
+        "mse": -0.03599031915639017,
+        "rmse": -0.01783609641061079
+      },
+      "timestamp_cross_sectional_rank_ic": {
+        "mean": 0.23050792141201087,
+        "minimum_contract_count": 5,
+        "timestamp_count": 1007
+      },
+      "train_seconds": 128.95410549304506,
+      "walk": 2
+    }
+  ],
+  "endpoint_matched_comparison": true,
+  "principal_epoch": 50,
+  "replay": [
+    {
+      "implementation_sha256": "c73aaec2009988802ec30fd0099f1ce0b97e30879fe519cc8897735c235e29ce",
+      "method_id": "XM-C8",
+      "snapshots": [
+        5,
+        15,
+        50
+      ],
+      "valid": true,
+      "walk": 1
+    },
+    {
+      "implementation_sha256": "c73aaec2009988802ec30fd0099f1ce0b97e30879fe519cc8897735c235e29ce",
+      "method_id": "XM-C8",
+      "snapshots": [
+        5,
+        15,
+        50
+      ],
+      "valid": true,
+      "walk": 2
+    }
+  ],
+  "report_schema_correction": "H0 implied_movement.overall; Raw LSTM/XM-C8 implied_movement",
+  "rows": [
+    {
+      "count": 29834,
+      "implied_movement_spearman": 0.32845660315250996,
+      "mae": 0.0031002328175552367,
+      "method": "XM-C8",
+      "rmse": 0.01104039758441238,
+      "walk": 1
+    },
+    {
+      "count": 29834,
+      "implied_movement_spearman": 0.14736288403565576,
+      "mae": 0.007985398598636713,
+      "method": "h0_d0",
+      "rmse": 0.018905833759139713,
+      "walk": 1
+    },
+    {
+      "count": 29834,
+      "implied_movement_spearman": 0.26387812143874007,
+      "mae": 0.004500579070452956,
+      "method": "raw_lstm",
+      "rmse": 0.012151731246108305,
+      "walk": 1
+    },
+    {
+      "count": 13506,
+      "implied_movement_spearman": 0.25922894014834275,
+      "mae": 0.004759288984962747,
+      "method": "XM-C8",
+      "rmse": 0.020759156816726517,
+      "walk": 2
+    },
+    {
+      "count": 13506,
+      "implied_movement_spearman": 0.09998808300945466,
+      "mae": 0.010053534990641927,
+      "method": "h0_d0",
+      "rmse": 0.030072602821234272,
+      "walk": 2
+    },
+    {
+      "count": 13506,
+      "implied_movement_spearman": 0.14649123042769985,
+      "mae": 0.006541573823002181,
+      "method": "raw_lstm",
+      "rmse": 0.02212991259650131,
+      "walk": 2
+    }
+  ],
+  "seed": 0,
+  "training_implementation_sha256": "c73aaec2009988802ec30fd0099f1ce0b97e30879fe519cc8897735c235e29ce"
+}

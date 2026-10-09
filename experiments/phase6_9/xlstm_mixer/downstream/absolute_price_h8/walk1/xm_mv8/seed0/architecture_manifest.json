@@ -1,0 +1,43 @@
+{
+  "backend": "vanilla",
+  "implementation_sha256": "8b77c09e85cb5adeaacc3972b4aedb4910059e4745858e8ca63ce54a1e7b234a",
+  "method": "xm_mv8",
+  "method_id": "XM-MV8",
+  "model_config": {
+    "backbone": "nlinear",
+    "channel_order": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "context_length": 64,
+    "conv1d_kernel_size": 0,
+    "dropout": 0.1,
+    "embedding_dim": 128,
+    "full_path_loss": "l1_mean",
+    "horizon": 8,
+    "num_blocks": 1,
+    "num_heads": 8,
+    "num_initial_tokens": 1,
+    "num_tokens_per_variate": 1,
+    "num_variates": 5,
+    "packing": 1,
+    "reverse_view": "latent_feature_axis",
+    "revin_affine": false,
+    "revin_epsilon": 1e-05
+  },
+  "parameter_count": 94992,
+  "source_contract": {
+    "official_model_sha256": "d87a41bb96d86baea1be240b8244934426bcbd9fb519b7468a541ebf2c226bbe",
+    "official_repository": "https://github.com/mauricekraus/xlstm-mixer",
+    "official_source_commit": "730b0531aa9456e498765028f3c22ca3677de42e",
+    "official_wrapper_license": "MIT",
+    "xlstm_commit": "1ff240242795062e56b4e39b43023cce61e8e88c",
+    "xlstm_license": "AGPL-3.0",
+    "xlstm_repository": "https://github.com/NX-AI/xlstm",
+    "xlstm_version": "1.0.3"
+  },
+  "source_contract_sha256": "db9e3615075d9c5be520f18adad4b4ca96ba63d4aaef01183d170d83a49f8c82"
+}

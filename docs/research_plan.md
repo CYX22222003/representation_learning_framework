@@ -28,8 +28,14 @@ deferred, while Phase 6.9 is the sole xLSTM-Mixer technical/artifact authority. 
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 The xLSTM-Mixer paper/source audit is complete under
 `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including one
-learned initial token. Training still requires the common-path data artifact
-and Lumid CUDA admission.
+learned initial token. Its model, guarded runtime/training/replay lifecycle,
+and observed-path builder follow the canonical contract. The owner-directed
+local WSL vanilla-GPU amendment removes Lumid as a prerequisite while
+preserving selected-backend resource admission and source replay. The later
+`docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md` replaces
+full-path supervision/intersection reruns with XM-C8: direct close[t+8h],
+endpoint MSE, original price rows, and verified original control reuse.
+Historical XM-MV8 results remain separate. Current execution evidence belongs in `docs/schedule.md`.
 
 ---
 
@@ -171,9 +177,9 @@ xLSTM-Mixer for price, and the completed GARCH--LSTM stack for volatility.
 Phase 7A separately tests the canonical five branches through single-branch
 and leave-one-branch-out probes. Phase 6.6 is otherwise deferred; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers and two
-richer static canonical decoders on eight-hour future price. xLSTM-Mixer's
-additional full-path supervision makes it a later contextual complete-system
-baseline rather than evidence about reusable representation quality. Grouped
+richer static canonical decoders on eight-hour future price. XM-C8 is an
+endpoint-matched xLSTM-Mixer complete-system adaptation; historical XM-MV8
+had additional full-path supervision. Neither isolates reusable representation quality. Grouped
 SHAP-style attribution remains deferred and cannot select the model matrix.
 Fixed-first-walk reuse,
 lifecycle-conditioned models, stage-specific experts, temporal decoder
@@ -256,14 +262,13 @@ costs are reported.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
 - **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 planned)* — a Phase 6.9-owned
-  source-aligned future-price complete-system benchmark. Its complete
-  next-eight-bar, five-channel supervision prevents it from serving as a
-  direct frozen-representation comparison. Phase 6.9 activates this same
-  planned experiment for its price-specific comparison; the old Phase 6.6B
-  listing is superseded, and only one execution is reported. The paper/source
-  audit and owner decisions are complete, while training awaits the
-  data/runtime gates in
-  `docs/baselines/xLSTM-Mixer/` are resolved.
+  endpoint-only future-price complete-system adaptation, XM-C8, with one
+  close[t+8h] target and MSE on original price rows. It is not a direct
+  frozen-representation comparison. The completed full-path XM-MV8 run is
+  separate contextual evidence. The old Phase 6.6B listing is superseded. The paper/source
+  audit and owner decisions are complete; training obeys the data/runtime
+  gates in `docs/baselines/xLSTM-Mixer/`, including the owner-directed local
+  vanilla-GPU execution amendment.
 - **Monotone-VI classification adaptation** *(ICLR 2025, Phase 6.9 planned)* —
   classification-oriented representation baseline using the common simple
   probe on exact h2/tau=0.001 rows. Admission requires an inductive procedure
@@ -406,11 +411,11 @@ persistence, and reversal references leave the framework's edge least
 convincing.
 
 Phase 6.6C no longer depends on the historical Phase 6.6B listing. Phase 6.9
-solely owns xLSTM-Mixer: its deterministic metadata join has already shown
-that a reduced fully observed-path intersection and matched H0-D0/Raw-LSTM
-reruns are required. The source implementation, sLSTM architecture, loss
-domain, project input units, and hardware decision remain frozen before
-evaluation; no evaluation result may select the recipe.
+solely owns xLSTM-Mixer. Its endpoint-only amendment supersedes the former
+observed-path intersection and control reruns. XM-C8 reuses all original
+price identities, endpoint labels, and MSE, with fresh weights and verified
+original controls. Freeze the recipe before endpoint evaluation; no endpoint
+result may select it. Disclose that the correction follows XM-MV8 review.
 
 Phase 2 contains three separate experiment parts whose effects must not be
 mixed in the first comparison: (1) decoder refinement with the Phase-1

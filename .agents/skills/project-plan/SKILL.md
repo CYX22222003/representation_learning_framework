@@ -78,7 +78,10 @@ Read these in order:
    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
    for the current classification/price/volatility task-specific handoff,
    `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
-   audit, all fourteen resolved owner decisions, and still-open data/CUDA gates,
+   audit, all fourteen resolved owner decisions, admitted local runtime/data,
+   replay-valid historical XM-MV8 runs, and
+   `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`
+   for the primary XM-C8 endpoint contract and fresh training/comparison,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
@@ -173,14 +176,25 @@ Report:
   under the same two-walk, three-task common probes, but source/licence/
   adaptation dossiers, implementation, fitting, stores, and 12 downstream
   trajectories have not started. Phase 6.9 is the current approved planning
-  handoff: classification-only Monotone-VI and Phase 6.9 xLSTM-Mixer have no
-  implementation or execution, while its volatility leg reuses the completed
-  strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused
+  handoff: classification-only Monotone-VI remains unimplemented, while the
+  Phase 6.9 xLSTM-Mixer model and guarded runtime/training/replay infrastructure
+  and observed-path builder/local vanilla-GPU runner are complete; both data
+  bundles pass source replay. Selected-runtime admission passed; both real-data
+  seed-0 50-epoch trajectories and all six snapshots are complete and replay-valid.
+  XM-only diagnostic reporting exists under
+  `experiments/phase6_9/xlstm_mixer/reports/seed0/` for historical XM-MV8.
+  The owner now approves XM-C8: one close[t+8h], MSE, every original price
+  row, and audited original-control reuse. Intersection reruns are superseded.
+  Endpoint model/lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint
+  walks, six-snapshot independent replay, and matched comparison are complete
+  under `experiments/phase6_9/xlstm_mixer_endpoint/`. Monotone-VI remains open;
+  this completes the price leg, not all Phase 6.9.
+  Lumid is not required by the owner-directed local amendment. Its volatility leg reuses the
+  completed strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused
   raw/representation fusion and two richer canonical static decoder studies
   are otherwise frozen but deferred. Phase 6.9 solely owns xLSTM-Mixer; the
   Phase 6.6B listing is superseded and no longer gates Phase 6.6C. Its
-  paper/source audit alone does not count as
-  implementation or runtime admission,
+  model adapter does not count as runtime admission or execution,
   and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat

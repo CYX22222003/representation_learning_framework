@@ -1,5 +1,11 @@
 # xLSTM-Mixer paper reading note
 
+> **Project scope update (2026-10-09):** Paper observations below are
+> unchanged. The primary project comparator is now endpoint-only XM-C8,
+> not the historical XM-MV8 full-path mapping. See
+> `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> Describe XM-C8 as an adaptation, not a reproduction of the paper objective.
+
 **Title:** xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via
 Scalar Memories
 
@@ -279,8 +285,11 @@ architecture control.
 
 These questions are converted into decisions in
 `upstream_clarification_request.md`. All fourteen owner decisions are resolved;
-implementation may begin, while execution still requires the Phase 6.9 data
-and Lumid Sandbox runtime gates.
+the Phase 6.9 data and selected-backend CUDA runtime gates have passed under
+the owner-directed local WSL amendment (which supersedes Lumid as a
+prerequisite). Both seed-0 50-epoch trajectories and all six 5/15/50 snapshots
+are now complete and replay-valid; matched controls and comparative reporting
+remain open. This execution evidence does not change the paper/source audit.
 
 ## 13. Relevance to Phase 6.9
 

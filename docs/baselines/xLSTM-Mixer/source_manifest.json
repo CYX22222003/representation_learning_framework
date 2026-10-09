@@ -4,7 +4,41 @@
   "phases": [
     "6.9"
   ],
-  "method_id": "XM-MV8",
+  "method_id": "XM-C8",
+  "active_endpoint_contract": {
+    "authority": "docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md",
+    "historical_method_id": "XM-MV8",
+    "input_shape": [64, 5],
+    "output_shape": [1],
+    "forecast_steps": 1,
+    "forecast_horizon_hours": 8,
+    "target": "close[t+8h]",
+    "loss": "mse_mean_raw_probability",
+    "auxiliary_supervision": false,
+    "future_path_availability_required": false,
+    "original_price_rows_preserved": true,
+    "rows": {"walk1": {"train": 36773, "test": 29834}, "walk2": {"train": 56652, "test": 13506}},
+    "control_policy": "reuse original H0-D0/Raw-LSTM after exact-source/identity/recipe audit; no intersection reruns",
+    "output_transform": "inverse_non_affine_revin_close_unclipped",
+    "artifact_root": "experiments/phase6_9/xlstm_mixer_endpoint/",
+    "model": "src/baselines/xlstm_mixer/endpoint.py",
+    "training": "src/training/phase6_9_xlstm_endpoint.py",
+    "runner": "scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh",
+    "cpu_tests_passed": 18,
+    "original_control_provenance_audit_passed": true,
+    "endpoint_cuda_admission_passed": true,
+    "endpoint_cuda_admission_manifest": "experiments/phase6_9/xlstm_mixer_endpoint/feasibility/cuda_admission.json",
+    "endpoint_manifest_only_pipeline_passed": true,
+    "training_started": true,
+    "training_complete": true,
+    "completed_walks": [1, 2],
+    "retained_epochs": [5, 15, 50],
+    "independent_replay_valid": true,
+    "comparison_report": "experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md",
+    "execution_record": "docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-execution.md",
+    "reporting_schema_recovery": "standalone reporter reads H0 implied_movement.overall; admitted training code and artifacts unchanged",
+    "post_full_path_result_protocol_correction": true
+  },
   "paper": {
     "title": "xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar Memories",
     "authors": [
@@ -115,7 +149,7 @@
     "No tagged source release binds the final paper revision to an executable code state.",
     "README and Dockerfile disagree on PyTorch 2.4 versus 2.3.1."
   ],
-  "proposed_project_contract": {
+  "historical_full_path_contract": {
     "input_shape": [
       64,
       5
@@ -153,7 +187,7 @@
     "canonical_artifact_root": "experiments/phase6_9/xlstm_mixer/",
     "phase6_6_status": "superseded historical reference for xLSTM-Mixer"
   },
-  "owner_decisions": {
+  "historical_full_path_owner_decisions": {
     "approved": [
       1,
       2,
@@ -186,16 +220,71 @@
       }
     }
   },
+  "compatibility_test_expectations": {
+    "python": "3.12.3",
+    "pytorch": "2.12.1+cu132",
+    "cuda": "13.2",
+    "software_version_source": "docs/baselines/TimeDART/source_manifest.json:sandbox_environment",
+    "gpu_information_source": "project owner supplied GPU inventory",
+    "gpu": {
+      "index": 0,
+      "name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+      "uuid": "GPU-eba2dd44-ea94-f656-a4b8-28536cf5dac8",
+      "memory_total_bytes": 25655508992,
+      "memory_free_bytes": null,
+      "gpu_available": null
+    },
+    "first_gpu_probe_backend": "vanilla",
+    "full_training_backend": "vanilla",
+    "execution_amendment": "2026-10-09 owner-directed local WSL execution; vanilla sLSTM on CUDA tensors; Lumid and Docker not required",
+    "local_environment": ".venv-xlstm-mixer/",
+    "local_loader_patch_sha256": "c62be35147ba02a8da1b391e70f215bc4038082b369b31e98171f274225c7555",
+    "local_admission_manifest": "experiments/phase6_9/xlstm_mixer/feasibility/cuda_admission.json"
+  },
   "gate": {
+    "method_id": "XM-MV8",
+    "historical_full_path_only": true,
     "paper_audit_complete": true,
     "official_source_audit_complete": true,
-    "implementation_started": false,
-    "training_started": false,
+    "implementation_started": true,
+    "minimal_model_adapter_complete": true,
+    "focused_cpu_tests_passed": 25,
+    "focused_gpu_lifecycle_tests_passed": 1,
+    "focused_tests_total_passed": 26,
+    "observed_path_data_builder_implemented": true,
+    "observed_path_data_source_replay_passed": true,
+    "local_runner": "historical shell orchestration, now superseded by XM-C8",
+    "manifest_only_local_pipeline_passed": true,
+    "model_adapter_paths": [
+      "src/baselines/xlstm_mixer/",
+      "tests/baselines/xlstm_mixer/"
+    ],
+    "runtime_audit_implemented": true,
+    "synthetic_environment_check_implemented": true,
+    "docker_compatibility_target": "xlstm-compat",
+    "docker_compatibility_target_built": false,
+    "docker_cuda_compatibility_tested": false,
+    "training_lifecycle_implemented": true,
+    "standalone_training_validator_implemented": true,
+    "training_implementation_paths": [
+      "src/training/phase6_9_xlstm_mixer.py",
+      "scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py",
+      "scripts_v8/bootstrap_phase6_9_xlstm_mixer.py",
+      "scripts_v8/validate_phase6_9_xlstm_mixer.py"
+    ],
+    "training_started": true,
+    "training_complete": true,
+    "completed_walks": [1, 2],
+    "completed_snapshot_count": 6,
+    "training_replay_passed": true,
+    "matched_controls_trained": false,
+    "diagnostic_report": "experiments/phase6_9/xlstm_mixer/reports/seed0/summary.md",
+    "execution_record": "experiments/phase6_9/xlstm_mixer/reports/seed0/execution_record.md",
     "owner_decisions_complete": true,
     "license_dependency_decision_complete": true,
-    "cuda_runtime_admitted": false,
-    "full_path_availability_audit_complete": false,
-    "decision": "method suitable and owner decisions complete; implementation may begin; training waits for Phase 6.9 data/runtime admission",
+    "cuda_runtime_admitted": true,
+    "full_path_availability_audit_complete": true,
+    "decision": "both XM-MV8 trajectories and six snapshots are preserved contextual evidence; endpoint amendment supersedes intersection reruns and requires fresh XM-C8 training",
     "failure_policy": "Record rejection or infeasibility; do not replace sLSTM with ordinary LSTM while retaining the xLSTM-Mixer label.",
     "evaluation_metrics_read_for_decision": false
   }

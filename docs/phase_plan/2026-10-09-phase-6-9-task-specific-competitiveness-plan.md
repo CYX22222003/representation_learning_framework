@@ -1,11 +1,35 @@
 # Phase 6.9 Task-Specific Competitiveness Demonstration
 
 **Date:** 2026-10-09
-**Status:** Approved planning contract; xLSTM-Mixer paper/source audit and all
-fourteen owner decisions are complete. Implementation has not started; its
-common-intersection target artifact and Lumid Sandbox CUDA admission remain
-required before training. The completed Phase 6.5B volatility artifacts are
-reused rather than retrained.
+**Active price amendment:**
+`2026-10-09-phase-6-9-xlstm-endpoint-amendment.md` supersedes the former
+full-path price contract. The primary method is now **XM-C8**, direct
+`close[t+8h]` with endpoint-only MSE on every original price row. The
+completed **XM-MV8** runs below are preserved historical/contextual evidence;
+they do not complete XM-C8, and the former intersection-control reruns are
+no longer required. Both fresh XM-C8 walks now complete 50 epochs; all six
+snapshots pass independent replay and the endpoint-matched comparison is
+recorded under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks. Persistence
+remains better on MAE in both walks and RMSE in Walk 2. Classification remains
+open; this does not close Phase 6.9.
+
+**Status:** Approved contract; xLSTM-Mixer paper/source audit, all fourteen
+owner decisions, model, data builder, and local vanilla-GPU training launcher
+are implemented. Both common-path bundles pass source replay. The 26 focused
+tests include real vanilla-GPU interrupted/resumed fixture training and
+same-backend replay. Both real-data seed-0 xLSTM-Mixer trajectories now
+complete 50 epochs, and all six 5/15/50 snapshots pass standalone same-backend
+checkpoint/prediction/metric replay. The XM-only diagnostic report is under
+`experiments/phase6_9/xlstm_mixer/reports/seed0/`; matched H0-D0/Raw-LSTM
+intersection reruns were originally required but are now superseded by the
+endpoint amendment. Fresh XM-C8 training and matched reporting are now complete;
+see `2026-10-09-phase-6-9-xlstm-endpoint-execution.md` for principal results and
+the reporting-only schema recovery without training-fingerprint migration.
+The real-data local vanilla-GPU admission and manifest-only launch pipeline
+pass, with batch 512 and a one-row remainder under the 6 GiB admission ceiling.
+The completed Phase 6.5B volatility artifacts are reused
+rather than retrained.
 
 **Primary reference:**
 `2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
@@ -17,6 +41,19 @@ reused rather than retrained.
 
 ## 1. Decision and purpose
 
+### Historical full-path execution evidence (2026-10-09)
+
+The owner-requested local launch trained both `XM-MV8` walks with the frozen
+seed-0, batch-512, Adam-1e-4, 50-epoch recipe. Epoch 50 remained predeclared;
+all 5/15/50 snapshots are retained. Headline MAE/RMSE are
+`0.003054837/0.010852719` (Walk 1) and `0.004780288/0.021858833` (Walk 2).
+Implied-movement Spearman is `0.352519/0.257461`. Against identical-row
+persistence, MAE worsens in both walks; RMSE improves only in Walk 1. These
+are mixed XM-only diagnostics, not a completed learned-baseline comparison.
+Full eight-hour five-channel supervision and unconstrained OHLC/volume
+diagnostics are disclosed in the run summaries and
+`experiments/phase6_9/xlstm_mixer/reports/seed0/execution_record.md`.
+
 Phase 6.9 adds a bounded task-specific comparison alongside the completed
 recent representation-learning comparison. It asks whether one reusable
 canonical representation remains competitive when each downstream task is
@@ -25,7 +62,7 @@ compared with a recent or domain-aligned method chosen for that task:
 | Task | Phase 6.9 comparator | Comparison role |
 |---|---|---|
 | Two-hour movement classification | Monotone-VI classification adaptation (ICLR 2025) | Recent classification-oriented representation baseline |
-| Eight-hour future price | xLSTM-Mixer (NeurIPS 2025) | Recent multivariate forecasting complete-system baseline |
+| Eight-hour future price | xLSTM-Mixer XM-C8 endpoint adaptation (NeurIPS 2025) | Endpoint-matched complete-system baseline |
 | Eight-hour future realised variance | Adapted GARCH--LSTM stack | Finance-oriented volatility complete-system baseline |
 
 The research contribution remains the unified representation-learning
@@ -78,10 +115,10 @@ select an earlier-walk model. Phase 6.9 retains:
 - the train/test-only rule: no evaluation-driven architecture choice, early
   stopping, restart selection, or best-on-test checkpoint selection.
 
-Model-specific row deletion is prohibited. A source method requiring an
-additional observed target path may use only a metadata-defined common
-intersection frozen before training, with required comparator reruns on the
-same training and evaluation identities.
+Model-specific row deletion is prohibited. XM-C8 reuses every original h8
+price row and its sole endpoint target. Additional future-path availability
+is not an active eligibility rule; the earlier XM-MV8 intersection is
+historical only.
 
 ## 4. Classification: Monotone-VI adaptation
 
@@ -147,25 +184,27 @@ classifier or tuning budget differs.
 
 ### 5.1 Phase 6.9 ownership
 
-Phase 6.9 is the sole technical, source-alignment, full-path-availability,
+Phase 6.9 is the sole technical, source-alignment, endpoint-availability,
 architecture, training, artifact, and reporting authority for xLSTM-Mixer.
 The prior Phase 6.6B listing is retained only as a superseded historical
 reference. It cannot launch or own a second run if Phase 6.6 later resumes.
 
-Canonical model artifacts live under
-`experiments/phase6_9/xlstm_mixer/`.
+Active XM-C8 artifacts live under
+`experiments/phase6_9/xlstm_mixer_endpoint/`. Historical XM-MV8 artifacts
+remain unchanged under `experiments/phase6_9/xlstm_mixer/`.
 
 ### 5.2 Inherited experiment contract
 
-Use the Phase 6.9 `XM-MV8` contract:
+Use the owner-approved **XM-C8** amendment:
 
 - input: the same 64-hour five-channel OHLCV context;
-- supervision: the complete observed next-eight-bar, five-channel path;
-- model: source-aligned xLSTM-Mixer with sLSTM blocks;
-- project endpoint: extract only `close[t+8]` for the established future-price
-  comparison; and
-- fairness: freeze full-path availability from metadata before training and
-  rerun `H0-D0` and Raw LSTM on the same common intersection.
+- supervision/output: one scalar `close[t+8h]`, raw-probability MSE;
+- model: audited xLSTM-Mixer core with a direct endpoint adapter, not the
+  source paper's full-path objective;
+- fairness: every original h8 training/evaluation row, with unchanged
+  identities, ordering, historical contexts, and endpoint targets; and
+- controls: reuse original H0-D0/Raw-LSTM runs only after source, identity,
+  target, recipe, and prediction-integrity checks. No intersection reruns.
 
 For paper/source discrepancies, the pinned official implementation is the
 behavioral authority. The primary model uses the released latent-feature-axis
@@ -183,15 +222,33 @@ backbone with exactly one learned initial token initialized from
 `Normal(0,0.01)`. Training uses the project lifecycle:
 float32, seed 0, Adam at `1e-4`, no weight decay, 50 epochs, snapshots
 5/15/50, and epoch 50 primary. Physical batch 512 is attempted first and may
-be reduced only by a pre-training Lumid resource decision shared by both
-walks. The method-specific unweighted full-path L1 objective is retained.
+be reduced only by a pre-training resource decision shared by both
+walks. XM-C8 uses endpoint-only mean MSE rather than full-path L1. Its shared
+time/up/down projections are `64 -> 1`, `1 -> 128`, and `256 -> 1`.
+Only the mixed close token is decoded and inverse-normalized; other variates
+remain historical inputs, not supervised future outputs. Inverse RevIN is
+unclipped; report out-of-range forecasts. Clip norm 1.0 is retained and
+disclosed alongside the sigmoid/no-clipping controls.
 
 No second xLSTM-specific channel scaler is fitted. OHLC stays in `[0,1]`, and
 the accepted Phase 5 walk-training-only volume transform is reused for context
-and future-target volume. The experiment runs in the persistent Lumid Sandbox;
-the Docker/devcontainer environment is a development/workflow reference.
+only; there are no future volume labels.
 
-The read-only identity check confirms that a common intersection is required:
+**Owner-directed local-runtime amendment (2026-10-09):** Lumid is no longer
+an execution prerequisite. The primary local path uses the isolated
+`.venv-xlstm-mixer/`, Python 3.10.12, PyTorch `2.12.1+cu126`, and pinned
+`xlstm==1.0.3` vanilla sLSTM on CUDA tensors. The disclosed lazy CUDA-loader
+patch only removes import-time toolkit discovery; it does not change sLSTM
+math. This path needs neither nvcc nor Docker. The compiled `cuda` backend
+remains an explicitly selected alternative requiring its own admission.
+Backend, dependency source hash, runtime versions, code/data identities,
+batch-512 and one-row backward/update/replay probes, and resource limits are
+recorded and guarded. Architecture, data, optimizer, seed, budget, supervision,
+comparison requirements, and epoch-50 selection rule were unchanged by the
+runtime amendment. The later endpoint amendment changes target/row/loss
+scope and requires fresh XM-C8 admission and weights.
+
+The earlier read-only check documented the now-historical XM-MV8 intersection:
 
 | Walk | Split | Existing price rows | Fully observed common rows |
 |---:|---|---:|---:|
@@ -200,17 +257,16 @@ The read-only identity check confirms that a common intersection is required:
 | 2 | train | 56,652 | 53,112 |
 | 2 | evaluation | 13,506 | 12,115 |
 
-The data builder must freeze and assert these identities while materializing
-`[8,5]` targets. This bounded metadata join replaces a broader exploratory
-availability study, but it cannot be skipped. There is no validation split or
+XM-C8 instead preserves all **existing price rows** in the third column;
+there is no future-path builder or additional observation filter. There is no validation split or
 cross-backend CPU/CUDA numerical-parity gate. Lightweight same-CUDA-backend
 checkpoint reload, fixed-probe, prediction, identity, and metric replay remain
 required artifact-integrity checks.
 
-Every table must disclose that `XM-MV8` receives additional channel and
-intermediate-horizon supervision. Its result is a complete-system comparison,
-not a target-matched causal test of representation quality or sLSTM versus
-ordinary LSTM.
+Historical XM-MV8 tables must disclose additional channel/intermediate-horizon
+supervision and must not be relabelled as XM-C8. XM-C8 is endpoint- and
+row-matched but still a complete-system comparison, not a causal test of
+representation quality or sLSTM versus ordinary LSTM.
 
 ## 6. Realised variance: completed GARCH--LSTM
 
@@ -238,12 +294,13 @@ The new mandatory execution inventory is bounded:
 Monotone-VI: 2 walk-specific train-only fits
 Monotone-VI: 2 complete classification representation stores
 MVI-C-D0:    2 classification probe trajectories, snapshots at 5/15/50
-XM-MV8:      2 source-aligned price trajectories
+XM-C8:       2 fresh endpoint-only price trajectories
 GARCH-LSTM:  0 new trajectories; reuse 2 completed Phase 6.5B stacks
 ```
 
-The observed-path identity check already establishes a reduced population, so
-the predeclared matched `H0-D0` and Raw-LSTM reruns are mandatory. If the optional source-style
+Original H0-D0 and Raw LSTM results are reused after exact-source/identity
+verification; former intersection reruns are superseded, not completed.
+If the optional source-style
 classification sensitivity is commissioned, both `MVI-C-SRC` and `H0-SRC`
 are added together.
 
@@ -260,7 +317,7 @@ Report each task separately and each walk before any pooled summary:
   and collapse diagnostics;
 - **future price:** MAE and RMSE are primary; also MSE, Pearson/Spearman,
   persistence skill, implied-movement correlation/sign agreement, global and
-  timestamp-level Rank IC, subgroup diagnostics, and full-path replay; and
+  timestamp-level Rank IC, subgroup diagnostics, and endpoint replay; and
 - **realised variance:** MAE and RMSE are primary; also MSE,
   Pearson/Spearman, persistence skill, contract-macro, and tail/subgroup
   diagnostics.
@@ -295,6 +352,11 @@ experiments/phase6_9/
     downstream/absolute_price_h8/walk{1,2}/xm_mv8/seed0/
     matched_controls/absolute_price_h8/
     diagnostics/resources/
+  xlstm_mixer_endpoint/
+    feasibility/
+    manifests/
+    downstream/absolute_price_h8/walk{1,2}/xm_c8/seed0/
+    reports/seed0/
   reports/task_specific_competitiveness_seed0/
 ```
 
@@ -311,11 +373,10 @@ Ordered gates are:
    optional matched source-classifier sensitivity.
 4. Implement, CPU-test, resource-audit, fit, extract, probe, and replay the
    complete Monotone-VI classification scope.
-5. Build the deterministic fully observed future-path intersection and
-   targets for the owner-approved xLSTM-Mixer recipe, and
-   freeze the exact recipe and Lumid Sandbox runtime admission.
-6. Train and replay `XM-MV8` once per walk plus the required matched controls,
-   preserving complete path predictions.
+5. Audit every original h8 price row and the existing H0-D0/Raw-LSTM controls;
+   freeze the XM-C8 endpoint recipe and fresh selected-backend CUDA admission.
+6. Train fresh XM-C8 once per walk, preserve scalar endpoint predictions,
+   and replay checkpoints, exact identities, targets, histories, and metrics.
 7. Revalidate, but do not retrain, the two Phase 6.5B GARCH--LSTM stacks and
    join their exact-row results with `H0` and Raw LSTM.
 8. Generate one task-separated Phase 6.9 report with provenance links and
@@ -332,8 +393,8 @@ Phase 6.9 is complete only when:
   both fitted representations cover every frozen classification row;
 - both `MVI-C-D0` trajectories and all 5/15/50 snapshots pass representation,
   scaler, identity, prediction, and metric replay;
-- the Phase 6.9 source/hardware/full-path gate is frozen and both `XM-MV8`
-  walk trajectories plus the matched controls pass same-runtime checkpoint,
+- the Phase 6.9 source/hardware/endpoint gate is frozen and both `XM-C8`
+  walk trajectories plus verified original controls pass same-runtime checkpoint,
   identity, prediction, and metric replay;
 - the completed GARCH--LSTM artifacts are revalidated and joined without
   changing their prior result interpretation;

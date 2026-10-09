@@ -172,15 +172,27 @@ Read these in order:
     in full. Monotone-VI must be fitted on walk-training sequences only and
     embed evaluation rows inductively; joint train/evaluation embedding is
     prohibited. Its mandatory classification row uses the common simple
-    probe. Phase 6.9 solely owns the xLSTM-Mixer full-path and artifact
+    probe. Phase 6.9 solely owns the xLSTM-Mixer endpoint and artifact
     contract; the former Phase 6.6B listing is superseded. The
     volatility leg reuses the completed Phase 6.5B GARCH--LSTM artifacts
     without retraining.
-    Before any xLSTM-Mixer implementation, dependency installation, data
-    preparation, or execution, also read the complete
+    Before any further xLSTM-Mixer implementation, dependency installation,
+    data preparation, or execution, also read the complete
     `docs/baselines/xLSTM-Mixer/` dossier. All fourteen owner decisions are
-    resolved, including exactly one learned initial token; the frozen common-
-    path target artifact and CUDA/runtime admission are mandatory gates. The released `FULL` source
+    resolved, including exactly one learned initial token. The guarded model,
+    runtime/training/replay infrastructure, and focused CPU tests are complete;
+    both common-path bundles now pass source replay. The owner-directed local
+    `.venv-xlstm-mixer/` vanilla-GPU runner replaces Lumid as a prerequisite,
+    but CUDA-device admission and same-backend replay remain mandatory.
+    Also read `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`:
+    XM-C8 directly predicts close[t+8h], MSE, every original price row, and
+    verified original H0/Raw-LSTM control reuse. Historical XM-MV8 path
+    requirements and intersection reruns are superseded. Endpoint model/
+    lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint walks and
+    all six snapshots pass independent replay, and matched reporting is complete
+    under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+    Monotone-VI classification remains open; do not close Phase 6.9.
+    `--execute` alone authorizes full trajectories. The released `FULL` source
     reverses latent features rather than variate tokens.
 
 ## Response Contract

@@ -1,0 +1,24 @@
+--- xlstm/blocks/slstm/src/cuda_init.py
++++ xlstm/blocks/slstm/src/cuda_init.py
+@@ -27,10 +27,19 @@
+ curdir = os.path.dirname(__file__)
+ 
+-if torch.cuda.is_available():
+-    os.environ["CUDA_LIB"] = os.path.join(os.path.split(torch.utils.cpp_extension.include_paths(cuda=True)[-1])[0], "lib")
++# Project local-runtime compatibility patch (2026-10-09).
++# Vanilla sLSTM does not need a compiler or CUDA development headers.
++# Resolve the development toolkit only when the compiled backend is used.
+ 
+ 
+ def load(*, name, sources, extra_cflags=(), extra_cuda_cflags=(), **kwargs):
++    if "CUDA_LIB" not in os.environ:
++        toolkit = torch.utils.cpp_extension.CUDA_HOME
++        if toolkit is None:
++            raise RuntimeError(
++                "The compiled xLSTM backend requires a CUDA toolkit; "
++                "use backend='vanilla' when only the PyTorch CUDA runtime is installed."
++            )
++        os.environ["CUDA_LIB"] = os.path.join(toolkit, "lib64")
+     suffix = ""
+     for flag in extra_cflags:
+         pref = [st[0] for st in flag[2:].split("=")[0].split("_")]

@@ -125,9 +125,12 @@ Keep its three task comparisons separate. For classification, require an
 inductive train-only Monotone-VI fit and compare `MVI-C-D0` with `H0-D0` on
 exact h2/tau=0.001 rows; any source-style KNN/SVM sensitivity needs the same
 fixed classifier recipe on H0. For price, follow the Phase 6.9-owned
-xLSTM-Mixer contract, including the frozen fully observed-path intersection,
-matched H0-D0/Raw-LSTM controls, and disclosure of extra multivariate/
-multihorizon supervision. The former Phase 6.6B listing is historical and
+xLSTM-Mixer endpoint amendment in
+`docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`: XM-C8
+predicts only close[t+8h] with MSE on every original price row. Audit original
+H0-D0/Raw-LSTM controls for source/identity/recipe/prediction reuse. The old
+XM-MV8 path/intersection controls are superseded; its full-path results are
+historical contextual evidence. The former Phase 6.6B listing is historical and
 non-executable. For volatility, reuse rather than
 retrain the replay-valid strict Phase 6.5B GARCH--LSTM stacks and retain their
 mixed result interpretation. Do not average model ranks across tasks or call
@@ -137,8 +140,20 @@ Before answering or acting on xLSTM-Mixer architecture, source faithfulness,
 licence/dependency handling, implementation, runtime admission, or comparison,
 also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its paper/source
 audit and all fourteen owner decisions are complete, including exactly one
-learned initial token; the frozen target artifact and Lumid CUDA gates remain pending, and no
-implementation or experiment exists. In particular, the released `FULL` path
+learned initial token. Both observed-path bundles pass source replay, and the
+owner-directed local WSL vanilla-GPU runner replaces the Lumid prerequisite
+while retaining selected-backend admission. The guarded infrastructure and
+26 focused tests pass, including real-backend fixture resume/replay. Both
+real-data seed-0 50-epoch trajectories and all six 5/15/50 snapshots are
+complete and replay-valid for historical XM-MV8. The endpoint model,
+resumable lifecycle, and 18 CPU tests pass. Both fresh XM-C8 50-epoch walks,
+all six independently replayed snapshots, and matched comparison are complete
+under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. XM-C8 beats
+H0/Raw LSTM MAE/RMSE in both walks, but persistence wins MAE in both walks
+and RMSE in Walk 2. Monotone-VI remains open. The XM-MV8-only report under
+`experiments/phase6_9/xlstm_mixer/reports/seed0/` is not the endpoint comparison;
+retain its mixed persistence result and unconstrained forecast diagnostics.
+In particular, the released `FULL` path
 flips latent features rather than the variate-token axis.
 
 TimeDART preparation was commissioned on 2026-10-05. Before answering or

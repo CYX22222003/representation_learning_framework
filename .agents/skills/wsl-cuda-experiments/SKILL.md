@@ -14,6 +14,16 @@ Prefer WSL for this repository. The project lives under `/mnt/e/`, the virtual e
 - Use CPU only when CUDA is unavailable or the user explicitly requests a CPU run. Report that change clearly.
 - Use the existing project `.venv`; do not recreate it or install dependencies unless necessary and authorized.
 
+For owner-approved Phase 6.9 xLSTM-Mixer local execution, use the isolated
+`.venv-xlstm-mixer/` instead. Vanilla sLSTM runs on CUDA tensors without nvcc;
+compiled `cuda` is an explicit separately admitted alternative. The shell
+runner `scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh` prepares/replays
+data and freezes admission/matrix by default; only `--execute` trains.
+Its active method is now XM-C8, direct close[t+8h] with endpoint MSE and all
+original price rows. Selected-backend replay is strict; original controls are
+audited for reuse rather than intersection reruns. Historical XM-MV8 admission
+does not admit XM-C8. See the canonical Phase 6.9 endpoint amendment.
+
 ## Verify the Environment
 
 Run these checks before training:

@@ -1,5 +1,10 @@
 # xLSTM-Mixer official-code audit
 
+> **Project scope update (2026-10-09):** The source audit below is immutable
+> evidence. XM-C8 retains the audited core but replaces the project full-path
+> output/loss with direct close[t+8h] and endpoint MSE on original price rows.
+> See `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+
 **Repository:** <https://github.com/mauricekraus/xlstm-mixer>
 
 **Audited commit:** `730b0531aa9456e498765028f3c22ca3677de42e`
@@ -151,9 +156,11 @@ The Dockerfile further:
   root; and
 - relies on a bind-mounted checkout at runtime.
 
-The Docker/devcontainer files are useful references for development and Lumid
-workflow images but are not the Phase 6.9 experiment runtime. The experiment
-will run in a persistent Lumid Sandbox with its own frozen admission manifest.
+The Docker/devcontainer files are useful development references. The initial
+execution decision named a persistent Lumid Sandbox; the owner-directed
+2026-10-09 amendment now selects local WSL vanilla sLSTM on CUDA tensors with
+its own frozen admission manifest. This runtime change does not alter the
+audited model semantics or scientific recipe.
 
 ### 3.8 The pinned xLSTM core has a separate copyleft licence
 

@@ -1,13 +1,32 @@
 # xLSTM-Mixer implementation and execution plan
 
-**Status:** paper/source audit complete; implementation not started
+> **Active endpoint amendment (2026-10-09):** XM-C8 supersedes this historical
+> XM-MV8 execution recipe. See
+> `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> Endpoint model/lifecycle and 18 new CPU tests are implemented; both fresh
+> 50-epoch walks and all six snapshots are independently replay-valid. The
+> matched report is under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+> The standalone reporter corrects native control metric nesting without
+> changing admitted training code or checkpoints. The shared shell runner selects
+> XM-C8 and writes only `experiments/phase6_9/xlstm_mixer_endpoint/`.
+> Original controls are source/identity-audited for reuse; intersection
+> reruns are superseded, not completed. Legacy code/checkpoints are unchanged.
+
+**Status:** paper/source audit, Stage 2 model, Stage 3 audit code, Stage 4
+guarded training lifecycle, and Stage 6 replay validator are implemented.
+Stage 1 construction/replay and the local vanilla-GPU runner are now implemented;
+both canonical bundles pass replay and 26 focused tests pass. Stage 5 matched
+controls and final comparison reporting remain open. Both seed-0 real-data
+trajectories now complete 50 epochs and every 5/15/50 snapshot passes replay;
+the XM-only diagnostic report is under
+`experiments/phase6_9/xlstm_mixer/reports/seed0/`.
 
 **Authority:** Phase 6.9 for model, artifacts, execution, and cross-task report
 
 ## Stage 0 — resolve the source contract
 
 **Current status:** all fourteen owner decisions approved; implementation may
-begin, while training remains gated by data and Lumid runtime admission.
+begin, while training remains gated by data and selected-runtime admission.
 
 Complete all decisions in `upstream_clarification_request.md`, then update:
 
@@ -58,6 +77,10 @@ H0/Raw-LSTM matching need.
 
 ## Stage 2 — implement the minimal model adapter
 
+**Status:** model code and model-isolated CPU tests complete on 2026-10-09.
+Section 8's volume-transform/context-target assertions remain coupled to
+Stage 1, and same-backend CUDA replay remains coupled to Stage 3.
+
 Create:
 
 ```text
@@ -85,7 +108,39 @@ configuration/source hashes.
 **Manual review gate:** paper/source crosswalk, licence notices, reversal axis,
 normalization math, initialization, and parameter sharing.
 
+Implemented evidence:
+
+```text
+src/baselines/xlstm_mixer/{config,normalization,backend,model}.py
+src/baselines/xlstm_mixer/requirements.txt
+src/baselines/xlstm_mixer/THIRD_PARTY_NOTICES.md
+tests/baselines/xlstm_mixer/test_model.py
+```
+
+The initial model-focused subset and six training-lifecycle tests passed as
+part of a 17-test suite; the expanded suite now has 26 passing focused tests.
+A bounded check using the audited local
+`xlstm==1.0.3` checkout also passes forward/backward with finite gradients,
+and the canonical vanilla path returns `[2,8,5]`. This is implementation
+evidence only; selected-runtime resource admission is a separate gate.
+
 ## Stage 3 — persistent-runtime dependency and resource admission
+
+**Implementation status:** local vanilla-GPU admission and reuse are implemented.
+The local execution amendment is recorded in the canonical Phase 6.9 plan;
+Lumid and Docker are not prerequisites. See the README for readiness evidence.
+
+Before Stage 1 artifacts exist, use
+`scripts_v8/check_phase6_9_xlstm_mixer_environment.py` for a synthetic CPU or
+GPU compatibility check. Start GPU checks with `--device cuda --backend vanilla`
+and repeat with `--backend cuda` for the custom extension afterward. The
+expected GPU inventory supplied by the owner and documented CUDA 13.2 runtime
+are recorded in the source manifest. The optional `xlstm-compat` Docker target supplies
+the pinned xLSTM package and development toolkit; see
+`docker/README.xlstm-mixer.md`. The Docker build and GPU checks remain pending
+because Docker Desktop's WSL integration is unavailable. Container and
+sandbox results must record the actual driver, GPU, compiler, and toolkit
+patch; matching Python/PyTorch alone does not prove environment equivalence.
 
 Create an audit entry point:
 
@@ -100,7 +155,8 @@ It must record:
 - exact `xlstm`, `einops`, and other relevant package versions/hashes;
 - xLSTM dependency licence and selected backend;
 - a bounded vanilla-backend CPU shape/backward test where available;
-- CUDA extension build log and fixed-probe forward/backward output;
+- selected-backend fixed-probe forward/backward output (extension build only
+  when explicitly selecting the compiled `cuda` backend);
 - same-CUDA-backend checkpoint save/load and fixed-probe replay;
 - physical batch-512 peak allocation and step time, or an owner-reviewed
   smaller fixed batch proposed before training; and
@@ -112,14 +168,20 @@ written to the manifest. Repeating an audit may update nondeterministic
 timing/memory evidence but may not silently change code, dependencies, batch,
 backend, or thresholds.
 
-The experiment runtime is the persistent Lumid Sandbox. Project Docker and
-devcontainer definitions are development/workflow references and do not
-replace this admission record.
+The selected experiment runtime is local WSL `.venv-xlstm-mixer/`, vanilla
+sLSTM on CUDA tensors. Existing admitted manifests are validated and reused
+byte-for-byte, preserving the admission hash required by resume checkpoints.
+Changed code, dependencies, backend, resource limits, batch, or data fail
+closed. Docker/devcontainer references do not replace this admission record.
 
-**Manual review gate:** licence disposition, successful kernel build,
+**Manual review gate:** licence disposition, successful selected-backend smoke,
 same-backend replay, and memory headroom.
 
 ## Stage 4 — implement gated walk-specific training
+
+**Implementation/execution status:** complete; both real-data seed-0 walks
+finish the frozen 50-epoch trajectory with 5/15/50 snapshots and saved RNG,
+optimizer, history, predictions, metrics, and replay evidence.
 
 Create:
 
@@ -154,6 +216,11 @@ experiments/phase6_9/xlstm_mixer/
 **Manual review gate:** complete checkpoint state, fixed epoch semantics,
 training-only transforms, and cross-walk isolation.
 
+The implementation saves a complete resume checkpoint after every epoch,
+atomically retains 5/15/50, evaluates only after the epoch-50 trajectory is
+finished, and rejects source, implementation, data, identity, batch, runtime,
+or configuration drift.
+
 ## Stage 5 — execute any required matched controls
 
 Stage 1 necessarily reduces the price row set. Extend the established
@@ -168,6 +235,10 @@ xLSTM comparison root without overwriting broader-row historical artifacts.
 comparators.
 
 ## Stage 6 — validate predictions and metrics
+
+**Implementation/execution status:** same-CUDA-backend standalone validator
+implemented and executed; all six real-data snapshots pass checkpoint,
+prediction, identity, and metric replay. This does not complete Stage 5.
 
 Standalone validation must reconstruct, without training:
 
@@ -201,25 +272,23 @@ artifact hashes and includes:
 
 Do not present the superseded Phase 6.6B listing as a replication.
 
-## Proposed launcher order
+## Implemented local launcher order
 
 Only after Stage 0 approval:
 
 ```bash
-.venv/bin/python3 scripts_v8/prepare_phase6_9_xlstm_mixer_data.py
-.venv/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer_data.py
-.venv/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py --device cpu
-.venv/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py \
-  --device cuda --admit-training \
-  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
-.venv/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py --device cpu
-.venv/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py \
-  --device cuda --execute
-.venv/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer.py
+bash scripts_v8/install_xlstm_mixer_local.sh
+# Preparation/admission/matrix only:
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh
+# Train/resume/replay/report XM-MV8 only:
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh --execute
 ```
 
-These commands are planned interfaces, not currently implemented entry
-points.
+The Stage 1 preparation/validation, audit, bootstrap, same-backend replay,
+and XM-MV8 diagnostic-report commands are implemented. The shell runner
+follows the persistent-log/fail-fast patterns of other baseline pipelines.
+It does not implement Stage 5 matched-control reruns or claim completion of
+the final comparison. Default invocation never launches full trajectories.
 
 ## Definition of done
 

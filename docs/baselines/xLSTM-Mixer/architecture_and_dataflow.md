@@ -1,5 +1,12 @@
 # xLSTM-Mixer architecture and Phase 6.9 data flow
 
+> **Active endpoint amendment (2026-10-09):** The project now uses XM-C8:
+> `[B,64,5] -> [B,1] = close[t+8h]`, projections 64->1, 1->128, 256->1,
+> close-token decoding, and endpoint-only MSE on all original price rows.
+> See `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> The `[8,5]` project mapping below is historical XM-MV8 evidence only;
+> pinned-source architecture observations remain unchanged.
+
 ## 1. Scope
 
 This document separates three layers of evidence:
@@ -9,9 +16,13 @@ This document separates three layers of evidence:
    `730b0531aa9456e498765028f3c22ca3677de42e`; and
 3. the proposed Phase 6.9 adaptation for `[64,5]` OHLCV to `[8,5]`.
 
-No implementation or training is authorized by this document. Choices marked
-“proposed” remain subject to the owner decisions in
-`upstream_clarification_request.md`.
+All owner choices in `upstream_clarification_request.md` are resolved. The
+minimal model adapter is implemented under `src/baselines/xlstm_mixer/`, the
+guarded training/replay lifecycle is implemented under `src/training/` and
+`scripts_v8/`, and 26 focused tests are under `tests/baselines/xlstm_mixer/`.
+Both future-path bundles pass source replay. The local-runtime amendment
+admits vanilla sLSTM on CUDA tensors through the selected-backend resource
+gate; full training still requires an explicit execution flag.
 
 ## 2. Released `FULL` forward path
 
@@ -112,7 +123,7 @@ y        = y_norm * sigma + mu                  [B,H,V]
 
 The same output projection is shared over variates.
 
-## 3. Proposed project adaptation
+## 3. Frozen project adaptation
 
 The fixed scientific mapping is:
 
@@ -124,7 +135,7 @@ accepted historical context             [B,64,5]
 -> existing absolute_price_h8 metrics
 ```
 
-The proposed preliminary architecture, pending owner approval, is:
+The implemented frozen architecture is:
 
 ```text
 D=128
@@ -198,7 +209,7 @@ or model metrics may influence the intersection.
 
 ## 6. Optimization and checkpoint flow
 
-The proposed project-native fixed-budget path is:
+The frozen project-native fixed-budget path is:
 
 ```text
 walk-training rows only
@@ -243,5 +254,6 @@ Before full-data execution, focused tests must prove:
 7. output extraction uses horizon index 7 and close index 3;
 8. batch-size invariance in evaluation mode;
 9. checkpoint/config/source hash rejection on mismatch; and
-10. same-backend CUDA checkpoint reload and fixed-probe replay in the Lumid
-    Sandbox. Cross-backend CPU/CUDA numerical equivalence is not required.
+10. same-backend CUDA-device checkpoint reload and fixed-probe replay in the
+    selected runtime (local vanilla GPU under the owner amendment).
+    Cross-backend CPU/CUDA numerical equivalence is not required.

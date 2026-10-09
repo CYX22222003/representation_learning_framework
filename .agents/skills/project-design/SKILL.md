@@ -85,7 +85,19 @@ Read these in order:
     paper/source discrepancies, and the proposed `[64,5] -> [8,5]` mapping,
     also read the complete `docs/baselines/xLSTM-Mixer/` dossier. All fourteen
     owner decisions are resolved, including exactly one learned initial token;
-    implementation has not started.
+    the model, observed-path builder, local vanilla-GPU runner, and 26 focused
+    tests are complete. Both data bundles pass source replay; selected-runtime
+    admission passed locally. Lumid is not a prerequisite. Both real-data
+    seed-0 50-epoch trajectories and all six snapshots are complete and replay-valid.
+    Historical XM-MV8 diagnostics exist. Also read
+    `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`:
+    XM-C8 directly predicts close[t+8h] with MSE on all original price rows;
+    original H0/Raw-LSTM controls are audited for reuse and intersection
+    reruns are superseded. Endpoint model/lifecycle and 18 CPU tests pass;
+    both fresh endpoint walks and all six snapshots are independently
+    replay-valid, with matched reporting under
+    `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+    Monotone-VI classification remains open.
 
 ## Response Contract
 
@@ -140,9 +152,10 @@ Present the parts relevant to the request:
   task-specific competitiveness across classification, price, and volatility.
   Phase 7A remains unimplemented. Phase 6.6 is otherwise deferred; it freezes price-only
   matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
-  decoders. Phase 6.9 owns xLSTM-Mixer, which extracts `close[t+8]` from
-  an eight-step five-channel forecast and is a contextual complete-system
-  baseline because it receives additional target supervision. Phase 6.9
+  decoders. Phase 6.9 owns XM-C8, the direct endpoint-only xLSTM-Mixer
+  adaptation with MSE on original price rows. It remains a complete-system
+  benchmark, not a frozen-representation control. Historical XM-MV8 received
+  additional full-path supervision and is not the primary comparison. Phase 6.9
   is its only active phase. The simple head remains the primary representation
   probe; the branch-gated decoder is a complete-system sensitivity. Grouped
   SHAP remains later

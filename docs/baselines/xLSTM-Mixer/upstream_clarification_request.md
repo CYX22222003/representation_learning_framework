@@ -1,5 +1,14 @@
 # xLSTM-Mixer clarification and decision record
 
+> **Later owner decision (2026-10-09):** The fourteen decisions below
+> describe the historical XM-MV8 source-aligned run. The owner now replaces
+> full-path supervision/availability and L1 with XM-C8, direct close[t+8h],
+> original price rows, and endpoint MSE. All unchanged core/source/licence
+> decisions are retained. See
+> `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> This protocol correction follows full-path result review; it is not
+> retroactively claimed to precede those results.
+
 **Status:** all fourteen owner decisions resolved on 2026-10-09
 
 **Purpose:** freeze paper/source/project ambiguities before implementation or
@@ -185,6 +194,14 @@ metrics by identity.
 **Owner decision (2026-10-09):** approved in this reduced form. There is no
 cross-backend replay gate, but checkpoint and artifact replay are retained.
 
+**Later owner-directed local amendment (2026-10-09):** sandbox execution is
+no longer required. Use the pinned vanilla sLSTM backend on local CUDA tensors
+in `.venv-xlstm-mixer/`, with the disclosed lazy CUDA-loader compatibility
+patch. Backend is still an execution setting, not an architecture search.
+Selected-backend resource admission and same-backend replay remain mandatory;
+the custom compiled backend is an explicit alternative, not a prerequisite.
+The exact recipe and comparison contract remain in the canonical Phase 6.9 plan.
+
 ### 12. Full-path row availability
 
 **Finding:** source forecasting assumes a regular complete grid; the project
@@ -232,6 +249,9 @@ to Phase 6.9; Phase 6.6 is outdated for this baseline.
 
 ## Implementation gate
 
-Paper and source reading and all owner decisions are complete. Implementation
-may begin. Training additionally requires the frozen common-row/target artifact
-and Lumid Sandbox CUDA admission.
+Paper and source reading and all owner decisions are complete. The
+owner-directed local WSL amendment supersedes the Lumid prerequisite, not
+the frozen common-row/target and selected-backend CUDA admission gates.
+Both seed-0 real-data 50-epoch trajectories and all six 5/15/50 snapshots
+are now complete and replay-valid. Matched H0-D0/Raw-LSTM intersection
+reruns and final comparative reporting remain required.

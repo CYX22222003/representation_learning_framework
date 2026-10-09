@@ -85,15 +85,31 @@ universal framework superiority.
 > focused CPU tests, both encoder trajectories, both 170-wide stores, all six
 > downstream trajectories, and 18 snapshots are complete and replay-valid.
 > SISSEL remains uncommissioned optional scope. Phase 6.9 is the current
-> planned handoff; it has no new implementation or execution. Phase 6.8
+> planned handoff; its xLSTM-Mixer model, guarded runtime/training/replay
+> lifecycle, observed-path builder, and local vanilla-GPU runner are
+> implemented and tested. Both real-data seed-0 50-epoch walks and all six
+> 5/15/50 snapshots are complete and replay-valid; XM-only diagnostic reporting
+> exists for historical XM-MV8. The owner-approved XM-C8 endpoint amendment
+> now uses one close[t+8h] target, MSE, and every original price row;
+> see `phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> Model/lifecycle and 18 new CPU tests are implemented; original H0/Raw-LSTM
+> controls are audited for reuse, intersection reruns are superseded, and
+> both fresh 50-epoch XM-C8 walks, six-snapshot independent replay, and matched
+> reporting are complete under `experiments/phase6_9/xlstm_mixer_endpoint/`.
+> XM-C8 beats H0/Raw LSTM price errors in both walks, not persistence
+> consistently; Monotone-VI classification remains open. Phase 6.8
 > remains optional and unimplemented. Phase 7A remains frozen and
 > unimplemented. Phase 6.6 remains deferred and is no longer an active
 > xLSTM-Mixer authority.
 > The xLSTM-Mixer paper/source audit is complete under
-> `docs/baselines/xLSTM-Mixer/`. It confirms suitability but leaves
+> `docs/baselines/xLSTM-Mixer/`. It confirms suitability and the implemented
+> adapter preserves the resolved
 > source behavior, architecture, licence handling, project training settings,
 > Phase 6.9 artifact ownership, and exactly one learned initial token resolved.
-> The observed-path intersection and Lumid CUDA admission remain gates.
+> The observed-path intersection is source-replay valid. Selected-backend
+> local CUDA-device admission replaces the earlier Lumid prerequisite;
+> that runtime amendment alone did not change the old recipe; the later
+> endpoint amendment explicitly supersedes the path/intersection requirements.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 
@@ -408,9 +424,10 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      per-global-walk, and per-lifecycle-stage results
    - Required reference: exact zero movement (equivalent to persistence in
      reconstructed-price space)
-   - External benchmarks: Stacked LSTM; Phase 6.9 source-aligned xLSTM-Mixer,
-     trained on the complete next-eight-hour OHLCV path and evaluated by its
-     extracted eighth-step close; additional candidates remain TBD
+   - External benchmarks: Stacked LSTM; Phase 6.9 XM-C8 xLSTM-Mixer endpoint
+     adaptation, predicting only close[t+8h] with MSE on all original price
+     rows. Completed XM-MV8 full-path forecasts remain separate contextual
+     evidence; additional candidates remain TBD
    - Internal baselines: Raw-OHLCV MLP, single-branch ablations
    - Phase 5 matched stage: Raw-OHLCV MLP and five-channel three-layer LSTM
      across both walks for h2 raw-change regression and h8 future-price
@@ -461,12 +478,11 @@ The framework operates as a **frozen encoder evaluated via probing**: multi-bran
      LSTM/BiLSTM towers on future price; completed Phase 6.5D tested deeper
      residual CNNs under both SSL families with the same price-first boundary.
    - Phase 6.9 solely owns the xLSTM-Mixer experiment; the former Phase 6.6B
-     listing is historical. A deterministic metadata join freezes the already
-     demonstrated common observed-path intersection with matched H0-D0/Raw-
-     LSTM reruns.
-     Its extra channel and intermediate-horizon supervision makes it a
-     contextual complete-system comparison, not a decoder ablation or a
-     frozen-representation baseline.
+     listing is historical. The endpoint amendment replaces XM-MV8 with
+     XM-C8, preserving all original h8 rows and endpoint-only supervision.
+     Verified original H0/Raw-LSTM controls are reused without intersection
+     reruns. This remains a complete-system comparison, not a decoder
+     ablation or a frozen-representation baseline.
      Grouped SHAP
      is reserved for post-model analysis and does not select a configuration.
 

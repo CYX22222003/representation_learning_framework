@@ -1,5 +1,12 @@
 # xLSTM-Mixer Phase 6.9 integration proposal
 
+> **Superseded price contract (2026-10-09):** XM-C8 endpoint-only adaptation
+> is now primary. Read
+> `../../phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> Use every original h8 row, one close target, MSE, and verified original
+> H0/Raw-LSTM results. This proposal's XM-MV8 path/intersection requirements
+> remain historical context, not an active launch specification.
+
 ## 1. Research role
 
 `XM-MV8` answers:
@@ -125,7 +132,9 @@ Do not claim:
 
 The method is admitted to implementation with exactly one learned initial
 token and the approved licence boundary. It is admitted to training only after
-the common-path artifact and persistent Lumid Sandbox CUDA smoke. Same-runtime
+the common-path artifact and selected-runtime CUDA-device smoke. The
+2026-10-09 owner-directed amendment permits local WSL vanilla sLSTM without
+requiring Lumid or nvcc. Same-runtime
 checkpoint/prediction replay is required; cross-backend CPU/CUDA numerical
 parity is not.
 

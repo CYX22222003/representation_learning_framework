@@ -1,0 +1,43 @@
+{
+  "auxiliary_supervision": false,
+  "backbone": "nlinear",
+  "channel_order": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+  ],
+  "context_length": 64,
+  "conv1d_kernel_size": 0,
+  "dropout": 0.1,
+  "embedding_dim": 128,
+  "forecast_horizon_hours": 8,
+  "forecast_steps": 1,
+  "loss": "mse_mean_raw_probability",
+  "method_id": "XM-C8",
+  "num_blocks": 1,
+  "num_heads": 8,
+  "num_initial_tokens": 1,
+  "num_tokens_per_variate": 1,
+  "num_variates": 5,
+  "output_projection": [
+    256,
+    1
+  ],
+  "output_shape": "[B,1]",
+  "output_transform": "inverse_non_affine_revin_close_unclipped",
+  "packing": 1,
+  "reverse_view": "latent_feature_axis",
+  "revin_affine": false,
+  "revin_epsilon": 1e-05,
+  "target_channel": "close",
+  "time_projection": [
+    64,
+    1
+  ],
+  "up_projection": [
+    1,
+    128
+  ]
+}

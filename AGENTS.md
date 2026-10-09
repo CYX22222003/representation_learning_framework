@@ -140,9 +140,29 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
 > official source are audited under `docs/baselines/xLSTM-Mixer/`. Static
 > suitability is positive and all fourteen owner decisions are resolved,
-> including exactly one learned initial token. The fully
-> observed path check proves that matched H0-D0/Raw-LSTM intersection reruns
-> are required, and Lumid Sandbox CUDA admission and execution remain open.
+> including exactly one learned initial token. The independently authored
+> model adapter, data builder, local runtime/training/replay runner, and 26 focused
+> tests are complete under `src/baselines/xlstm_mixer/`, `src/training/`,
+> `scripts_v8/`, and `tests/baselines/xlstm_mixer/`; the pinned vanilla backend
+> passes bounded canonical-shape, backward, optimizer, and checkpoint-replay
+> probes. Both real-data seed-0 xLSTM trajectories complete 50 epochs, and all
+> six 5/15/50 snapshots pass same-backend checkpoint/prediction/metric replay.
+> The historical XM-MV8 report is under `experiments/phase6_9/xlstm_mixer/reports/seed0/`.
+> The owner-approved endpoint amendment
+> `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`
+> now makes XM-C8 primary: direct `[B,1] = close[t+8h]`, endpoint MSE, and
+> every original price row (36,773/29,834 and 56,652/13,506 train/test).
+> Its model/lifecycle and 18 new CPU tests are implemented; original H0-D0
+> and Raw LSTM controls pass exact-source/recipe/prediction audits for reuse.
+> Intersection reruns are superseded, not completed. Both fresh XM-C8 walks
+> complete 50 epochs and all six snapshots pass independent replay. The matched
+> report is `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md`:
+> XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks, but persistence
+> wins MAE in both walks and RMSE in Walk 2. Monotone-VI remains open.
+> Both historical observed-path bundles pass source replay. The owner-
+> directed local WSL amendment uses `.venv-xlstm-mixer/` and vanilla sLSTM
+> on CUDA tensors; Lumid/nvcc are not prerequisites. Resource admission,
+> explicit `--execute`, and same-backend replay remain mandatory.
 > The released `FULL` code flips latent features,
 > not the variate-token axis, so the older reversed-variate shorthand is not
 > an implementation contract. Phase 7A remains frozen and unimplemented.
@@ -211,9 +231,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > eight-run price-only
 > raw-OHLCV/`H0` residual-fusion matrix and a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
-> predicts the complete next-eight-hour OHLCV path and is evaluated by
-> extracting `close[t+8]`; its full-path supervision makes it a contextual
-> complete-system baseline rather than a target-matched architecture control.
+> now predicts only `close[t+8h]` under XM-C8, with the original price rows
+> and endpoint-only MSE. Completed XM-MV8 full-path runs remain contextual
+> evidence. XM-C8 is target-matched but not an architecture-isolating control.
 > Phase 6.9 is its sole technical and artifact authority; the older Phase 6.6B
 > listing is a non-executable historical reference and no longer blocks the
 > decoder study. The decoder study
@@ -484,6 +504,28 @@ bash scripts_v6/run_phase6_7_timedart_experiment.sh
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_timedart_downstream.py
+
+# Phase 6.9 active XM-C8 endpoint-only adaptation: dedicated venv, original rows.
+# Default pipeline is data/replay/admission/manifest-only; --execute trains
+# both fresh fixed 50-epoch endpoint trajectories; original controls are audited.
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh --execute
+.venv-xlstm-mixer/bin/python3 scripts_v8/check_phase6_9_xlstm_mixer_environment.py \
+  --device cuda --backend vanilla --batch-size 512
+PYTHONPATH=src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+  .venv-xlstm-mixer/bin/python3 -m pytest tests/baselines/xlstm_mixer -q
+.venv-xlstm-mixer/bin/python3 scripts_v8/run_phase6_9_xlstm_endpoint.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/report_phase6_9_xlstm_endpoint.py --device cuda
+# Historical XM-MV8-only preparation/replay entry points (not the active contract):
+.venv-xlstm-mixer/bin/python3 scripts_v8/prepare_phase6_9_xlstm_mixer_data.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer_data.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py \
+  --device cuda --backend vanilla --admit-training --physical-batch-size 512 \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
+.venv-xlstm-mixer/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py --device cpu
+.venv-xlstm-mixer/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py \
+  --device cuda --backend vanilla --execute
+.venv-xlstm-mixer/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer.py --device cuda
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature

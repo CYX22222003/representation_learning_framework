@@ -97,10 +97,23 @@ uncommissioned and does not reopen
 the phase. Phase 6.8 is now optional. Its roster and comparison contract are
 frozen, but Di-COT/Monotone-VI source dossiers, implementation, fits, stores,
 downstream runs, and reports do not exist and must remain planned. Phase 6.9
-is the current approved planning handoff. Its Monotone-VI classification and
-xLSTM-Mixer price implementation/execution do not exist; the latter has only
-a completed paper/source audit and owner decision record under
-`docs/baselines/xLSTM-Mixer/`, with only the data and CUDA gates still open. Its volatility leg
+is the current approved planning handoff. Its Monotone-VI classification
+implementation does not exist. The xLSTM-Mixer price leg has a completed
+paper/source audit, owner decision record, guarded model/training/replay
+infrastructure, observed-path builder, and local vanilla-GPU runner under
+`docs/baselines/xLSTM-Mixer/`. Both data bundles pass source replay and 26
+focused tests pass. Read the local feasibility manifest for CUDA admission
+evidence. Both real-data seed-0 50-epoch trajectories and all six 5/15/50
+snapshots are complete and replay-valid; the XM-only diagnostic report is
+under `experiments/phase6_9/xlstm_mixer/reports/seed0/` for historical XM-MV8.
+Read `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`:
+primary XM-C8 uses one close[t+8h], endpoint MSE, all original price rows,
+and audited original controls. Intersection reruns are superseded. Endpoint
+model/lifecycle and 18 CPU tests pass. Both fresh 50-epoch endpoint walks,
+all six independently replayed snapshots, and matched reporting are complete
+under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. Monotone-VI
+classification remains open; do not mark Phase 6.9 closed.
+The owner-directed local amendment removes Lumid as a prerequisite. Its volatility leg
 reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
 Phase 6.6A/C's
 deferred price-focused fusion/decoder scope and the
