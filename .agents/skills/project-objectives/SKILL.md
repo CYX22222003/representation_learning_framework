@@ -23,6 +23,14 @@ Read these sections of `docs/Research_Ideas_Writeup.md`:
 8. For the Phase 6 temporal-backbone and heterogeneous-complementarity
    questions, read
    `docs/phase_plan/2026-09-22-phase-6-temporal-encoder-variants-plan.md`.
+9. For the optional recent-representation extension, read
+   `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+10. For current task-specific competitiveness positioning, read
+    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+    Also read
+    `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`:
+    SGN replaces only Phase 6.9's unimplemented classification leg, not the
+    optional Monotone-VI-Frozen representation comparison.
 
 ## Response Contract
 
@@ -49,6 +57,17 @@ Present the relevant parts of:
 - The Phase 6 encoder distinction between fixed-width backbone substitution
   and heterogeneous feature complementarity, including duplicated-CNN width
   controls and evaluation on classification, future price, and volatility.
+- The Phase 6.8 positioning of Di-COT and Monotone-VI as recent
+  representation-learning baselines; do not convert this bounded roster into
+  a universal SOTA claim.
+- The Phase 6.9 distinction between transferability and task competitiveness:
+  one `H0` representation supports all three tasks, while classification-only
+  supervised SGN-C, price xLSTM-Mixer, and volatility GARCH--LSTM are interpreted
+  separately. Do not average their rankings or imply that all three isolate
+  representation quality.
+  SGN-C is an independently authored classification-specific complete-system
+  adaptation with its native head. Its role is approved, but source/settings/
+  licence audit, implementation specification, code, and execution are pending.
 - The alpha-research capability as supportive downstream evidence, rather than a claim of a novel alpha-mining algorithm or profitable trading system.
 
 For report-writing or related-work requests, keep claims proportional to the evidence in the source document and identify provisional language that still needs experimental support.

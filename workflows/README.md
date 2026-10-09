@@ -5,6 +5,11 @@ or inherit a Lumid Sandbox. The versioned image supplies the code, dependencies,
 and a bounded read-only evidence bundle containing scalar metrics and reports;
 it does not contain datasets, feature stores, predictions, or checkpoints.
 
+For a local xLSTM-Mixer dependency/CUDA compatibility check, use the optional
+`xlstm-compat` image target documented in
+[`docker/README.xlstm-mixer.md`](../docker/README.xlstm-mixer.md). Its synthetic
+smoke script can also run directly in a new sandbox.
+
 ## Workflows
 
 | File | Purpose |

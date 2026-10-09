@@ -1,0 +1,78 @@
+{
+  "default_action_trains_models": false,
+  "early_stopping": false,
+  "entries": [
+    {
+      "config": {
+        "backend": "vanilla",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "gradient_clip_norm": 1.0,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 1,
+        "weight_decay": 0.0
+      },
+      "data_manifest_sha256": "537eec9b981a001b624f552b77192524b2a800e6273da4fe0956c0eda1154059",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_9/xlstm_mixer/data/absolute_price_h8_multivariate/walk1.npz",
+      "dataset_sha256": "0027fc7e05477022683fad7ecaa7c780cf165b31748cde30325415f0efad44a0",
+      "evaluation_identity_sha256": "ec1f7d516439e6cd9646e335304e8d3aa4fa36c15cf56ae2d647987f1e34a880",
+      "method": "xm_mv8",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_9/xlstm_mixer/downstream/absolute_price_h8/walk1/xm_mv8/seed0",
+      "train_identity_sha256": "c0786ca199cee8f05251a7755c0d7f018431156800a9ca912052acee9a3acc01",
+      "walk": 1
+    },
+    {
+      "config": {
+        "backend": "vanilla",
+        "batch_size": 512,
+        "device": "cuda",
+        "epochs": 50,
+        "gradient_clip_norm": 1.0,
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshot_epochs": [
+          5,
+          15,
+          50
+        ],
+        "walk": 2,
+        "weight_decay": 0.0
+      },
+      "data_manifest_sha256": "f96204526659652dee222fd0a3db4e27a3d850c20b18d98d58c23e251cd97cf1",
+      "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_9/xlstm_mixer/data/absolute_price_h8_multivariate/walk2.npz",
+      "dataset_sha256": "fc2dc5e5fdbe1a99e344faeb2aad0a034bf88983bcac3f310ee54fe4895eb675",
+      "evaluation_identity_sha256": "593ef856d71510e610f3ab42852f891a056160e193f669b9de63454ed34f01f9",
+      "method": "xm_mv8",
+      "run_root": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase6_9/xlstm_mixer/downstream/absolute_price_h8/walk2/xm_mv8/seed0",
+      "train_identity_sha256": "a59ed75bf22fac931de610ec1caa40c29207162fa8e9320627311288d3bb0308",
+      "walk": 2
+    }
+  ],
+  "entry_count": 2,
+  "extra_supervision_disclosed": true,
+  "method": "xm_mv8",
+  "phase": "6.9",
+  "principal_epoch": 50,
+  "schema_version": "phase6-9-xlstm-mixer-training-matrix-v1",
+  "seed": 0,
+  "synthetic_vanilla_cpu_smoke": {
+    "checkpoint_replay": true,
+    "gradient_norm_before_clip": 2.123736619949341,
+    "loss": 0.8714166879653931,
+    "parameter_count": 94992,
+    "prediction_shape": [
+      2,
+      8,
+      5
+    ],
+    "valid": true
+  },
+  "validation_split": false
+}

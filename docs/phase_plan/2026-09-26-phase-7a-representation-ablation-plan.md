@@ -1,10 +1,12 @@
 # Phase 7A Canonical Representation Ablation Plan
 
 **Date:** 2026-09-26
-**Status:** Current approved handoff after Phase 6.7 closure on 2026-10-05;
-implementation and execution have not started. The frozen matrix is unchanged.
+**Status:** Approved and frozen, but deferred behind Phase 6.8 as of
+2026-10-06; implementation and execution have not started. The frozen matrix
+is unchanged.
 **Predecessors:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
-and `2026-10-04-phase-6-7-external-representation-baseline-plan.md`
+and `2026-10-04-phase-6-7-external-representation-baseline-plan.md` and
+`2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
 
 ## 1. Purpose and boundary
 
@@ -26,10 +28,11 @@ the sole full-model reference:
 H0 = statistical + transformed + VAE + contrastive CNN + BYOL CNN
 ```
 
-Phase 7A is scientifically independent of the Phase 6.5 and Phase 6.7
-outcomes: its matrix must not be changed in response to either result. Its
-execution now follows Phase 6.7 so the project first resolves the external
-prior-art comparison and then explains the internal canonical branches.
+Phase 7A is scientifically independent of the Phase 6.5, Phase 6.7, and Phase
+6.8 outcomes: its matrix must not be changed in response to any of those
+results. Its execution now follows Phase 6.8 so the project first completes
+the expanded recent-conference representation comparison and then explains
+the internal canonical branches.
 
 ## 2. Research questions
 

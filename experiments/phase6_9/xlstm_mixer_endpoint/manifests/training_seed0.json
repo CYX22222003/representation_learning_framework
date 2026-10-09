@@ -1,0 +1,151 @@
+{
+  "architecture": {
+    "auxiliary_supervision": false,
+    "backbone": "nlinear",
+    "channel_order": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "context_length": 64,
+    "conv1d_kernel_size": 0,
+    "dropout": 0.1,
+    "embedding_dim": 128,
+    "forecast_horizon_hours": 8,
+    "forecast_steps": 1,
+    "loss": "mse_mean_raw_probability",
+    "method_id": "XM-C8",
+    "num_blocks": 1,
+    "num_heads": 8,
+    "num_initial_tokens": 1,
+    "num_tokens_per_variate": 1,
+    "num_variates": 5,
+    "output_projection": [
+      256,
+      1
+    ],
+    "output_shape": "[B,1]",
+    "output_transform": "inverse_non_affine_revin_close_unclipped",
+    "packing": 1,
+    "reverse_view": "latent_feature_axis",
+    "revin_affine": false,
+    "revin_epsilon": 1e-05,
+    "target_channel": "close",
+    "time_projection": [
+      64,
+      1
+    ],
+    "up_projection": [
+      1,
+      128
+    ]
+  },
+  "controls": {
+    "1": {
+      "h0_d0": {
+        "checkpoint_sha256": "77d39377d8adad1d3d55604d272db9a5777062335a51109ebea14b769b97d5f4",
+        "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "predictions_sha256": "a70ddf2dfdc733d953db318055b605a9311b322353309a09e371908d01d9977d",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "valid": true
+      },
+      "raw_lstm": {
+        "checkpoint_sha256": "17e29d7d69b0801868b31560090c7ef289d8d9243aaa4cbfa20842714e3c4de0",
+        "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+        "predictions_sha256": "95cc1e6aa44675044db8786c832c7091700bc1f4d7714e6a0b8a579c0a75fad1",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk1/seed0",
+        "valid": true
+      }
+    },
+    "2": {
+      "h0_d0": {
+        "checkpoint_sha256": "d980ea2ec79d5f70a0c7ff9db78454b7f81199035266bb0af6a846ba7e0c5907",
+        "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+        "predictions_sha256": "19964f8e1249953f28f855a92e11a6a4661c741821350b4a41399cb024e76ea7",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "valid": true
+      },
+      "raw_lstm": {
+        "checkpoint_sha256": "b8491431c09c8fc9ee59a1a479e75c8a8a991a2f33efc11b92654bf0591097bb",
+        "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+        "predictions_sha256": "1992b2ce26f8457a6f009a7e96a48c35534fc37755a0b147431f7288873110a8",
+        "run_root": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/baselines/tasks/absolute_price_h8/raw_ohlcv_lstm/walk2/seed0",
+        "valid": true
+      }
+    }
+  },
+  "data": {
+    "1": {
+      "auxiliary_supervision": false,
+      "data_manifest_sha256": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "identity_hashes": {
+        "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+        "test": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+        "train": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de"
+      },
+      "loss": "mse_mean_raw_probability",
+      "method_id": "XM-C8",
+      "row_filtering": false,
+      "schema_version": "phase6-9-xlstm-endpoint-v1",
+      "source_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "target": "close[t+8h]",
+      "test_rows": 29834,
+      "train_rows": 36773,
+      "walk": 1
+    },
+    "2": {
+      "auxiliary_supervision": false,
+      "data_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "identity_hashes": {
+        "encoder_train": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "test": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+        "train": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e"
+      },
+      "loss": "mse_mean_raw_probability",
+      "method_id": "XM-C8",
+      "row_filtering": false,
+      "schema_version": "phase6-9-xlstm-endpoint-v1",
+      "source_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "target": "close[t+8h]",
+      "test_rows": 13506,
+      "train_rows": 56652,
+      "walk": 2
+    }
+  },
+  "default_action_trains_models": false,
+  "early_stopping": false,
+  "entries": [
+    {
+      "backend": "vanilla",
+      "batch_size": 512,
+      "device": "cuda",
+      "epochs": 50,
+      "gradient_clip_norm": 1.0,
+      "learning_rate": 0.0001,
+      "seed": 0,
+      "walk": 1,
+      "weight_decay": 0.0
+    },
+    {
+      "backend": "vanilla",
+      "batch_size": 512,
+      "device": "cuda",
+      "epochs": 50,
+      "gradient_clip_norm": 1.0,
+      "learning_rate": 0.0001,
+      "seed": 0,
+      "walk": 2,
+      "weight_decay": 0.0
+    }
+  ],
+  "implementation_sha256": "c73aaec2009988802ec30fd0099f1ce0b97e30879fe519cc8897735c235e29ce",
+  "method_id": "XM-C8",
+  "principal_epoch": 50,
+  "schema_version": "phase6-9-xlstm-endpoint-v1",
+  "synthetic_cpu_smoke_passed": true,
+  "validation_split": false
+}

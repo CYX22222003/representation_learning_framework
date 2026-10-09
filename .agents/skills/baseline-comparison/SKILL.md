@@ -109,6 +109,60 @@ roster, optional admission, extraction point, adaptation, or checkpoint.
 Existing raw, handcrafted, hybrid, and xLSTM-Mixer results are contextual
 complete-system comparisons, not substitutes for this matrix.
 
+For Phase 6.8, follow
+`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+Treat Di-COT-Frozen and Monotone-VI-Frozen as recent representation-learning
+baselines, not assumed empirical SOTA winners. Both are mandatory planned
+entries and must use separate per-walk target-free fitting, native-width
+frozen stores, exact task identities, and the common probes. The planned
+inventory is four representation fits, four stores, 12 downstream
+trajectories, and 36 probe snapshots beside six immutable `H0` references.
+Do not report any of this inventory as implemented or executed yet.
+
+For Phase 6.9, follow
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+Keep its three task comparisons separate. For classification, also read
+`docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+Independently authored supervised SGN-C with its native head replaces the
+unimplemented Monotone-VI common-probe leg. Compare with audited original
+H0-D0/Raw-LSTM controls on every original h2/tau=0.001 row, with train-only
+grouping/period initialization and the existing logit-adjusted task loss.
+Disclose the grouping regularizer and native-head optimization freedom:
+this is complete-system evidence, not a target-free representation control.
+Source/settings/licence audit and an approved implementation specification
+precede model coding; SGN is not implemented or executed. Optional Phase 6.8
+Monotone-VI-Frozen remains unchanged. For price, follow the Phase 6.9-owned
+xLSTM-Mixer endpoint amendment in
+`docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`: XM-C8
+predicts only close[t+8h] with MSE on every original price row. Audit original
+H0-D0/Raw-LSTM controls for source/identity/recipe/prediction reuse. The old
+XM-MV8 path/intersection controls are superseded; its full-path results are
+historical contextual evidence. The former Phase 6.6B listing is historical and
+non-executable. For volatility, reuse rather than
+retrain the replay-valid strict Phase 6.5B GARCH--LSTM stacks and retain their
+mixed result interpretation. Do not average model ranks across tasks or call
+the heterogeneous roster one direct representation matrix.
+
+Before answering or acting on xLSTM-Mixer architecture, source faithfulness,
+licence/dependency handling, implementation, runtime admission, or comparison,
+also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its paper/source
+audit and all fourteen owner decisions are complete, including exactly one
+learned initial token. Both observed-path bundles pass source replay, and the
+owner-directed local WSL vanilla-GPU runner replaces the Lumid prerequisite
+while retaining selected-backend admission. The guarded infrastructure and
+26 focused tests pass, including real-backend fixture resume/replay. Both
+real-data seed-0 50-epoch trajectories and all six 5/15/50 snapshots are
+complete and replay-valid for historical XM-MV8. The endpoint model,
+resumable lifecycle, and 18 CPU tests pass. Both fresh XM-C8 50-epoch walks,
+all six independently replayed snapshots, and matched comparison are complete
+under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. XM-C8 beats
+H0/Raw LSTM MAE/RMSE in both walks, but persistence wins MAE in both walks
+and RMSE in Walk 2. SGN classification remains open. The XM-MV8-only report under
+`experiments/phase6_9/xlstm_mixer/reports/seed0/` is not the endpoint comparison;
+retain its mixed persistence result and unconstrained forecast diagnostics.
+In particular, the released `FULL` path
+flips latent features rather than the variate-token axis.
+
 TimeDART preparation was commissioned on 2026-10-05. Before answering or
 acting on TimeDART architecture, training, extraction, feasibility, or
 comparison questions, read the complete `docs/baselines/TimeDART/` dossier.
@@ -131,14 +185,6 @@ Compare residual raw-sequence fusion primarily against the matched `F-H0`
 projection control, not only against the simpler `H0-D0` head. Treat raw-only
 `F-RL` as the second required comparison when discussing complementary
 information. The active fusion and decoder matrices are future-price-only.
-Treat Phase 6.6B xLSTM-Mixer as a source-faithful external complete-system
-baseline: it predicts the observed next-eight-bar OHLCV path and contributes
-only its eighth-step close to the established price evaluation. Freeze a
-metadata-only full-path availability audit before training. If this requires a
-reduced common intersection, retrain H0-D0 and Raw LSTM on identical training
-and evaluation identities. Always disclose xLSTM-Mixer's additional channel
-and intermediate-horizon supervision; do not interpret its comparison as a
-target-matched causal test of sLSTM versus LSTM or representation quality.
 For Phase 6.6C decoder capacity, retain the simple D0 head as the
 representation probe, compare residual projection D1-RP with D0, and interpret
 branch-aware gated D2-BG as a complete-system fusion sensitivity.
@@ -206,5 +252,11 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
 - Phase 6.7 recent frozen-representation baseline contract:
   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
+- Phase 6.8 recent conference representation baseline contract:
+  `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+- Phase 6.9 task-specific competitiveness contract:
+  `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
+- Phase 6.9 SGN classification replacement and implementation-discussion gate:
+  `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`
 - Phase 7A canonical representation ablation contract:
   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`

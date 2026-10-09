@@ -6,6 +6,7 @@ __pycache__/
 # Environment
 .env
 .venv/
+.venv-xlstm-mixer/
 myenv/
 env/
 *.env
@@ -96,3 +97,11 @@ experiments/phase6_7/features/**/*.npz
 # interrupted atomic-build directory.
 experiments/phase6_7/view_cache/**/*.npy
 experiments/phase6_7/view_cache/**/.*/
+
+# Phase 6.9 generated xLSTM-Mixer tensors and local launcher/archive state.
+# Keep small data manifests, admission records, and experiment reports visible.
+experiments/phase6_9/xlstm_mixer/data/**/*.npz
+experiments/phase6_9/xlstm_mixer/launcher.lock
+experiments/phase6_9/xlstm_mixer/readiness_archive_*/
+experiments/phase6_9/xlstm_mixer_endpoint/launcher.lock
+experiments/phase6_9/xlstm_mixer_endpoint/readiness_pre_path_normalization/

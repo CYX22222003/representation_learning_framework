@@ -1,0 +1,291 @@
+{
+  "schema_version": "phase6-9-xlstm-mixer-source-audit-v2",
+  "audit_date": "2026-10-09",
+  "phases": [
+    "6.9"
+  ],
+  "method_id": "XM-C8",
+  "active_endpoint_contract": {
+    "authority": "docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md",
+    "historical_method_id": "XM-MV8",
+    "input_shape": [64, 5],
+    "output_shape": [1],
+    "forecast_steps": 1,
+    "forecast_horizon_hours": 8,
+    "target": "close[t+8h]",
+    "loss": "mse_mean_raw_probability",
+    "auxiliary_supervision": false,
+    "future_path_availability_required": false,
+    "original_price_rows_preserved": true,
+    "rows": {"walk1": {"train": 36773, "test": 29834}, "walk2": {"train": 56652, "test": 13506}},
+    "control_policy": "reuse original H0-D0/Raw-LSTM after exact-source/identity/recipe audit; no intersection reruns",
+    "output_transform": "inverse_non_affine_revin_close_unclipped",
+    "artifact_root": "experiments/phase6_9/xlstm_mixer_endpoint/",
+    "model": "src/baselines/xlstm_mixer/endpoint.py",
+    "training": "src/training/phase6_9_xlstm_endpoint.py",
+    "runner": "scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh",
+    "cpu_tests_passed": 18,
+    "original_control_provenance_audit_passed": true,
+    "endpoint_cuda_admission_passed": true,
+    "endpoint_cuda_admission_manifest": "experiments/phase6_9/xlstm_mixer_endpoint/feasibility/cuda_admission.json",
+    "endpoint_manifest_only_pipeline_passed": true,
+    "training_started": true,
+    "training_complete": true,
+    "completed_walks": [1, 2],
+    "retained_epochs": [5, 15, 50],
+    "independent_replay_valid": true,
+    "comparison_report": "experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md",
+    "execution_record": "docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-execution.md",
+    "reporting_schema_recovery": "standalone reporter reads H0 implied_movement.overall; admitted training code and artifacts unchanged",
+    "post_full_path_result_protocol_correction": true
+  },
+  "paper": {
+    "title": "xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar Memories",
+    "authors": [
+      "Maurice Kraus",
+      "Felix Divo",
+      "Devendra Singh Dhami",
+      "Kristian Kersting"
+    ],
+    "venue": "NeurIPS",
+    "year": 2025,
+    "arxiv": "2410.16928",
+    "version": "v4",
+    "version_date": "2025-11-20",
+    "proceedings_url": "https://proceedings.neurips.cc/paper_files/paper/2025/hash/09e38101e74a89129ccd0d0756ed36b3-Abstract-Conference.html",
+    "doi": "10.52202/085713-0228",
+    "local_source_windows": "E:\\zotero\\storage\\GYKJQH4I\\Kraus et al. - 2025 - xLSTM-Mixer Multivariate Time Series Forecasting by Mixing via Scalar Memories.pdf",
+    "local_source_wsl": "/mnt/e/zotero/storage/GYKJQH4I/Kraus et al. - 2025 - xLSTM-Mixer Multivariate Time Series Forecasting by Mixing via Scalar Memories.pdf",
+    "sha256": "dc4d9c7a731489d4932aac993d6d5c04eea741c11b4f989b395a77f909d7151d",
+    "pages": 34,
+    "paper_license": "not stated in the audited local PDF"
+  },
+  "code": {
+    "repository": "https://github.com/mauricekraus/xlstm-mixer",
+    "branch": "main",
+    "commit": "730b0531aa9456e498765028f3c22ca3677de42e",
+    "commit_date": "2025-06-12T17:21:39+02:00",
+    "commit_count": 13,
+    "tags": [],
+    "license": "MIT",
+    "license_sha256": "90caae0c98dff3571943fad7bc55c8f238e15b717153141b51ffedaee72229ad",
+    "citation_version": "1.0.0",
+    "paper_matching_release_found": false,
+    "core_model_last_changed_commit": "9200c4b8ecdb3aa59aa8724a5c754af9beb15240",
+    "core_model_last_changed_date": "2024-10-24",
+    "static_checkout_clean": true,
+    "unit_tests_found": false,
+    "ci_workflow_found": false,
+    "trained_artifacts_found": false,
+    "setup_installable": false,
+    "setup_failure": "missing xlstm_mixer/VERSION; additional requirements path/list defects remain",
+    "key_file_hashes": {
+      "xlstm_mixer/models/xlstm_mixer.py": "d87a41bb96d86baea1be240b8244934426bcbd9fb519b7468a541ebf2c226bbe",
+      "xlstm_mixer/layers/StandardNorm.py": "3f690dc5fc0e395d4f1ffe6396717548d18bd04f4518258308bbe5f392703f5f",
+      "scripts/long_term_forecasting/ett/h2.sh": "0d1900e3c194b23b3578d8948c598cfc285a563ccbc785f8167a9a6e91b56f9f",
+      "requirements.txt": "4090348d0a626e34a994da7ae634c66c8aeaaae5a47012d78113b4f0ed070ae2",
+      "lightning_requirements.txt": "e9f9c29c9795d366d37788248ede54dafcfdf4f5c9b22f86dc6aeba61f1a746e",
+      ".docker/Dockerfile": "9c9e251fd7b3ab7c3683c71097f1100b0e5dd4c115821b5fa8541e62be1a8c3d"
+    }
+  },
+  "pinned_dependency": {
+    "name": "xlstm",
+    "version": "1.0.3",
+    "repository": "https://github.com/NX-AI/xlstm",
+    "tag": "v1.0.3",
+    "tag_commit": "1ff240242795062e56b4e39b43023cce61e8e88c",
+    "license": "AGPL-3.0",
+    "license_sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+    "default_slstm_backend": "cuda",
+    "alternative_backend": "vanilla",
+    "reported_cuda_compute_capability_minimum": "8.0"
+  },
+  "paper_reported_environment": {
+    "python": "3.11",
+    "gpu": "single NVIDIA A100 80GB",
+    "precision": "float32",
+    "cuda_compute_capability_minimum": "8.0",
+    "optimizer": "Adam",
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "weight_decay": 0.0,
+    "loss": "L1/MAE",
+    "gradient_clip_norm": 1.0,
+    "maximum_epochs": 60,
+    "seeds": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "source_environment_claims": {
+    "readme_python": "3.11",
+    "readme_pytorch": "2.4",
+    "readme_os": "Ubuntu 22.04",
+    "readme_cuda": "12.1",
+    "docker_pytorch": "2.3.1",
+    "dependencies_other_than_xlstm_exactly_pinned": false,
+    "docker_base_digest_pinned": false,
+    "docker_masks_lightning_install_failure": true
+  },
+  "project_environment_at_static_audit": {
+    "python": "3.10.12",
+    "pytorch": "2.12.1+cu126",
+    "torch_cuda_build": "12.6",
+    "cuda_available_to_audit_process": false,
+    "xlstm_installed": false,
+    "einops_installed": false,
+    "dependencies_installed_during_audit": false,
+    "training_launched_during_audit": false,
+    "intended_execution_platform": "persistent Lumid sandbox",
+    "project_container_role": "development and Lumid workflow reference only; not the experiment runtime",
+    "runtime_admission_completed": false
+  },
+  "paper_source_discrepancies": [
+    "Paper RevIN equation includes learnable affine scale and offset; source sets affine=False.",
+    "Paper specifies one initial token; constructor defaults to zero and scripts tune zero through four.",
+    "Paper interprets view mixing as different variate orderings; released FULL code flips the latent feature axis.",
+    "Final paper contains classification and GIFT-Eval results absent from the audited xLSTM-Mixer implementation.",
+    "No tagged source release binds the final paper revision to an executable code state.",
+    "README and Dockerfile disagree on PyTorch 2.4 versus 2.3.1."
+  ],
+  "historical_full_path_contract": {
+    "input_shape": [
+      64,
+      5
+    ],
+    "channel_order": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume"
+    ],
+    "output_shape": [
+      8,
+      5
+    ],
+    "headline_output": "close[t+8]",
+    "full_path_training": true,
+    "walk_specific": true,
+    "seed": 0,
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "fixed_primary_epoch": 50,
+    "validation_or_early_stopping": false,
+    "learning_rate": 0.0001,
+    "provisional_physical_batch": 512,
+    "loss": "unweighted full-path L1 in accepted project units",
+    "num_initial_tokens": 1,
+    "initial_token_initialization": "Normal(0,0.01)",
+    "additional_xlstm_channel_scaler": false,
+    "volume_transform": "reuse the existing walk-training-only Phase 5 volume scaler for context and target volume",
+    "replay_scope": "same-CUDA-backend checkpoint, fixed-probe, prediction, identity, and metric replay; no CPU/CUDA numerical parity gate",
+    "canonical_artifact_root": "experiments/phase6_9/xlstm_mixer/",
+    "phase6_6_status": "superseded historical reference for xLSTM-Mixer"
+  },
+  "historical_full_path_owner_decisions": {
+    "approved": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "pending": [],
+    "primary_reverse_view": "released latent-feature-axis reversal",
+    "revin_affine": false,
+    "num_initial_tokens": 1,
+    "full_path_intersection_required": true,
+    "observed_intersection_counts": {
+      "walk1": {
+        "train": 32470,
+        "evaluation": 27786
+      },
+      "walk2": {
+        "train": 53112,
+        "evaluation": 12115
+      }
+    }
+  },
+  "compatibility_test_expectations": {
+    "python": "3.12.3",
+    "pytorch": "2.12.1+cu132",
+    "cuda": "13.2",
+    "software_version_source": "docs/baselines/TimeDART/source_manifest.json:sandbox_environment",
+    "gpu_information_source": "project owner supplied GPU inventory",
+    "gpu": {
+      "index": 0,
+      "name": "NVIDIA RTX PRO 4000 Blackwell SFF Edition",
+      "uuid": "GPU-eba2dd44-ea94-f656-a4b8-28536cf5dac8",
+      "memory_total_bytes": 25655508992,
+      "memory_free_bytes": null,
+      "gpu_available": null
+    },
+    "first_gpu_probe_backend": "vanilla",
+    "full_training_backend": "vanilla",
+    "execution_amendment": "2026-10-09 owner-directed local WSL execution; vanilla sLSTM on CUDA tensors; Lumid and Docker not required",
+    "local_environment": ".venv-xlstm-mixer/",
+    "local_loader_patch_sha256": "c62be35147ba02a8da1b391e70f215bc4038082b369b31e98171f274225c7555",
+    "local_admission_manifest": "experiments/phase6_9/xlstm_mixer/feasibility/cuda_admission.json"
+  },
+  "gate": {
+    "method_id": "XM-MV8",
+    "historical_full_path_only": true,
+    "paper_audit_complete": true,
+    "official_source_audit_complete": true,
+    "implementation_started": true,
+    "minimal_model_adapter_complete": true,
+    "focused_cpu_tests_passed": 25,
+    "focused_gpu_lifecycle_tests_passed": 1,
+    "focused_tests_total_passed": 26,
+    "observed_path_data_builder_implemented": true,
+    "observed_path_data_source_replay_passed": true,
+    "local_runner": "historical shell orchestration, now superseded by XM-C8",
+    "manifest_only_local_pipeline_passed": true,
+    "model_adapter_paths": [
+      "src/baselines/xlstm_mixer/",
+      "tests/baselines/xlstm_mixer/"
+    ],
+    "runtime_audit_implemented": true,
+    "synthetic_environment_check_implemented": true,
+    "docker_compatibility_target": "xlstm-compat",
+    "docker_compatibility_target_built": false,
+    "docker_cuda_compatibility_tested": false,
+    "training_lifecycle_implemented": true,
+    "standalone_training_validator_implemented": true,
+    "training_implementation_paths": [
+      "src/training/phase6_9_xlstm_mixer.py",
+      "scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py",
+      "scripts_v8/bootstrap_phase6_9_xlstm_mixer.py",
+      "scripts_v8/validate_phase6_9_xlstm_mixer.py"
+    ],
+    "training_started": true,
+    "training_complete": true,
+    "completed_walks": [1, 2],
+    "completed_snapshot_count": 6,
+    "training_replay_passed": true,
+    "matched_controls_trained": false,
+    "diagnostic_report": "experiments/phase6_9/xlstm_mixer/reports/seed0/summary.md",
+    "execution_record": "experiments/phase6_9/xlstm_mixer/reports/seed0/execution_record.md",
+    "owner_decisions_complete": true,
+    "license_dependency_decision_complete": true,
+    "cuda_runtime_admitted": true,
+    "full_path_availability_audit_complete": true,
+    "decision": "both XM-MV8 trajectories and six snapshots are preserved contextual evidence; endpoint amendment supersedes intersection reruns and requires fresh XM-C8 training",
+    "failure_policy": "Record rejection or infeasibility; do not replace sLSTM with ordinary LSTM while retaining the xLSTM-Mixer label.",
+    "evaluation_metrics_read_for_decision": false
+  }
+}

@@ -68,17 +68,29 @@ Read these in order:
    probes, CKA, resources, subgroups, and report are also complete and replay-
    valid. Also read
    `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
-   for the frozen, deferred price-focused raw/residual-fusion,
-   source-faithful xLSTM-Mixer candidate, and decoder-capacity scope; read
+   for the frozen, deferred price-focused raw/residual-fusion and
+   decoder-capacity scope; read
   `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
    for the closed comparison of `H0` with recent frozen representations across
    all three tasks and both walks,
+   `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+   for the optional planned Di-COT-Frozen/Monotone-VI-Frozen extension,
+   `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
+   for the current classification/price/volatility task-specific handoff,
+   `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`
+   for the approved independent-SGN classification replacement and pending
+   source/settings/licence audit and implementation-specification discussion,
+   `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
+   audit, all fourteen resolved owner decisions, admitted local runtime/data,
+   replay-valid historical XM-MV8 runs, and
+   `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`
+   for the primary XM-C8 endpoint contract and fresh training/comparison,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
    170-wide extraction and current implementation/execution status,
    and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
-   for the frozen, unimplemented representation-ablation scope. Phase 7B
+   for the frozen representation-ablation scope. Phase 7B
    alpha research is intentionally deferred pending further literature review.
 
 ## Response Contract
@@ -134,7 +146,7 @@ Report:
   Phase 6.5B.
   Evaluation target distributions were deliberately excluded from horizon
   selection.
-- For Phase 6.5, Phase 6.7, Phase 6.6, and Phase 7A, distinguish frozen plans from
+- For Phase 6.5, Phase 6.7, Phase 6.8, Phase 6.9, Phase 6.6, and Phase 7A, distinguish frozen plans from
   executed evidence. Phase 6.5A is complete for its frozen seed-0 scope: four
   deep-LSTM encoders, six feature stores, 24 downstream trajectories, 72
   snapshots, and two CKA diagnostics replay; the report is generated. The
@@ -144,8 +156,8 @@ Report:
    expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
-   single/leave-one-out ablations have not started and are the current Phase
-  7A handoff. Phase 6.7 is closed for its frozen seed-0 scope. Its required
+   single/leave-one-out ablations have not started.
+  Phase 6.7 is closed for its frozen seed-0 scope. Its required
   roster was LWA-Frozen and SaURL-TS-Frozen; both required method lifecycles
   are complete. LWA's
   paper/source audit, independent-adaptation dossier, owner decisions,
@@ -162,11 +174,33 @@ Report:
   and replay-valid. It has a modest classification and realised-variance MAE
   lead over the best internal encoder variants, but is substantially weaker
   on future-price error; volatility RMSE is effectively tied and mixed.
-  SISSEL remains uncommissioned
-  optional future scope. Phase 6.6 price-focused
-  raw/representation fusion, source-faithful xLSTM-Mixer full-path candidate,
-  and two richer canonical static decoder studies are frozen but deferred; if
-  reactivated, Phase 6.6B must be resolved before Phase 6.6C execution,
+  SISSEL remains uncommissioned optional future scope. Phase 6.8 is optional:
+  Di-COT-Frozen and Monotone-VI-Frozen are planned
+  under the same two-walk, three-task common probes, but source/licence/
+  adaptation dossiers, implementation, fitting, stores, and 12 downstream
+  trajectories have not started. Phase 6.9 is the current approved planning
+  handoff: classification-only SGN-C replaces the unimplemented Monotone-VI
+  common-probe leg. SGN source/settings/licence audit and implementation
+  specification are next; no SGN code, admission, or training exists. The
+  optional Phase 6.8 Monotone-VI-Frozen roster is unchanged, while the
+  Phase 6.9 xLSTM-Mixer model and guarded runtime/training/replay infrastructure
+  and observed-path builder/local vanilla-GPU runner are complete; both data
+  bundles pass source replay. Selected-runtime admission passed; both real-data
+  seed-0 50-epoch trajectories and all six snapshots are complete and replay-valid.
+  XM-only diagnostic reporting exists under
+  `experiments/phase6_9/xlstm_mixer/reports/seed0/` for historical XM-MV8.
+  The owner now approves XM-C8: one close[t+8h], MSE, every original price
+  row, and audited original-control reuse. Intersection reruns are superseded.
+  Endpoint model/lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint
+  walks, six-snapshot independent replay, and matched comparison are complete
+  under `experiments/phase6_9/xlstm_mixer_endpoint/`. SGN classification remains open;
+  this completes the price leg, not all Phase 6.9.
+  Lumid is not required by the owner-directed local amendment. Its volatility leg reuses the
+  completed strict Phase 6.5B GARCH--LSTM stacks. Phase 6.6 price-focused
+  raw/representation fusion and two richer canonical static decoder studies
+  are otherwise frozen but deferred. Phase 6.9 solely owns xLSTM-Mixer; the
+  Phase 6.6B listing is superseded and no longer gates Phase 6.6C. Its
+  model adapter does not count as runtime admission or execution,
   and grouped SHAP is deferred to a later
   analysis amendment.
   The simple decoder remains the primary representation probe. Do not treat

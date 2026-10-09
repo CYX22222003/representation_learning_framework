@@ -150,19 +150,55 @@ Read these in order:
     implemented; 15 focused CPU tests pass. Both TimeDART encoder
     trajectories, both 170-wide stores, all six downstream trajectories, and
     18 snapshots are complete and replay-valid. SISSEL remains optional and
-    uncommissioned. Phase 7A is the current handoff; Phase 6.6 is not a prerequisite.
+    uncommissioned. For the current planned extension, read
+    `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+    in full. Di-COT-Frozen and Monotone-VI-Frozen must fit separately per walk
+    on the unchanged target-free population and cover every existing task row;
+    their source/licence/adaptation and fixed fitting budgets are frozen before
+    implementation without evaluation-driven selection. Phase 6.8 is
+    optional; Phase 7A remains separately frozen, and Phase 6.6 is not a
+    prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
-    the source-faithful xLSTM-Mixer candidate, canonical decoder-capacity work,
-    or later grouped attribution, read
+    canonical decoder-capacity work, or later grouped attribution, read
     `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`
     in full. `F-H0` is the required matched-capacity fusion control and `F-RL`
     is required for a complementarity claim;
     bidirectionality is restricted to the observed historical context; and
-    xLSTM-Mixer full-path eligibility is frozen from metadata before training,
-    with matched H0-D0/Raw-LSTM reruns if a common intersection is required;
-    its extra multivariate/multihorizon supervision must be disclosed; and
     SHAP-style attribution cannot select models or checkpoints. This phase is
-    deferred behind Phase 7A after Phase 6.7 closure.
+    deferred; its former xLSTM-Mixer subsection is historical and
+    non-executable.
+18. For the current task-specific competitiveness demonstration, read
+    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
+    in full. Also read
+    `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+    Independently authored supervised SGN-C replaces the unimplemented
+    Monotone-VI classification leg; its optional Phase 6.8 role is unchanged.
+    Keep all original h2/tau=0.001 rows, native SGN head, training-only
+    grouping/period initialization, logit-adjusted task loss, and a disclosed
+    separately frozen grouping regularizer. Approve the source/settings/
+    licence audit and implementation specification before coding. No SGN
+    implementation or execution exists yet. Phase 6.9 solely owns the xLSTM-Mixer endpoint and artifact
+    contract; the former Phase 6.6B listing is superseded. The
+    volatility leg reuses the completed Phase 6.5B GARCH--LSTM artifacts
+    without retraining.
+    Before any further xLSTM-Mixer implementation, dependency installation,
+    data preparation, or execution, also read the complete
+    `docs/baselines/xLSTM-Mixer/` dossier. All fourteen owner decisions are
+    resolved, including exactly one learned initial token. The guarded model,
+    runtime/training/replay infrastructure, and focused CPU tests are complete;
+    both common-path bundles now pass source replay. The owner-directed local
+    `.venv-xlstm-mixer/` vanilla-GPU runner replaces Lumid as a prerequisite,
+    but CUDA-device admission and same-backend replay remain mandatory.
+    Also read `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`:
+    XM-C8 directly predicts close[t+8h], MSE, every original price row, and
+    verified original H0/Raw-LSTM control reuse. Historical XM-MV8 path
+    requirements and intersection reruns are superseded. Endpoint model/
+    lifecycle and 18 CPU tests pass; both fresh 50-epoch endpoint walks and
+    all six snapshots pass independent replay, and matched reporting is complete
+    under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+    SGN classification remains open; do not close Phase 6.9.
+    `--execute` alone authorizes full trajectories. The released `FULL` source
+    reverses latent features rather than variate tokens.
 
 ## Response Contract
 

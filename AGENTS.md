@@ -126,8 +126,52 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > remains optional and uncommissioned. The three executed external methods
 > trained separately in both walks and used the same simple heads on movement
 > classification, eight-hour future price, and eight-hour future realised
-> variance. Phase 7A canonical branch analysis is the current approved handoff
-> and remains unimplemented. The independently authored SaURL-TS model plus
+> variance. Phase 6.8 remains an optional frozen plan under
+> `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+> It freezes Di-COT-Frozen (ICML 2026) and Monotone-VI-Frozen (ICLR 2025) as
+> two additional recent conference representation comparators under the same
+> two-walk, three-task common-probe protocol. The roster/comparison contract is
+> frozen, but implementation and execution have not started. Phase 6.9 is now
+> the current approved planning handoff under
+> `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+> Its classification replacement is approved under
+> `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`:
+> independently authored SGN-C replaces the unimplemented Monotone-VI
+> classification adaptation. Source/settings/licence audit and implementation
+> specification are next; no SGN code or training is authorized yet.
+> Monotone-VI-Frozen remains in optional Phase 6.8. It assigns price to
+> a Phase 6.9-owned source-aligned xLSTM-Mixer adaptation, and
+> volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
+> is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
+> official source are audited under `docs/baselines/xLSTM-Mixer/`. Static
+> suitability is positive and all fourteen owner decisions are resolved,
+> including exactly one learned initial token. The independently authored
+> model adapter, data builder, local runtime/training/replay runner, and 26 focused
+> tests are complete under `src/baselines/xlstm_mixer/`, `src/training/`,
+> `scripts_v8/`, and `tests/baselines/xlstm_mixer/`; the pinned vanilla backend
+> passes bounded canonical-shape, backward, optimizer, and checkpoint-replay
+> probes. Both real-data seed-0 xLSTM trajectories complete 50 epochs, and all
+> six 5/15/50 snapshots pass same-backend checkpoint/prediction/metric replay.
+> The historical XM-MV8 report is under `experiments/phase6_9/xlstm_mixer/reports/seed0/`.
+> The owner-approved endpoint amendment
+> `docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`
+> now makes XM-C8 primary: direct `[B,1] = close[t+8h]`, endpoint MSE, and
+> every original price row (36,773/29,834 and 56,652/13,506 train/test).
+> Its model/lifecycle and 18 new CPU tests are implemented; original H0-D0
+> and Raw LSTM controls pass exact-source/recipe/prediction audits for reuse.
+> Intersection reruns are superseded, not completed. Both fresh XM-C8 walks
+> complete 50 epochs and all six snapshots pass independent replay. The matched
+> report is `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md`:
+> XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks, but persistence
+> wins MAE in both walks and RMSE in Walk 2. SGN classification remains open.
+> Both historical observed-path bundles pass source replay. The owner-
+> directed local WSL amendment uses `.venv-xlstm-mixer/` and vanilla sLSTM
+> on CUDA tensors; Lumid/nvcc are not prerequisites. Resource admission,
+> explicit `--execute`, and same-backend replay remain mandatory.
+> The released `FULL` code flips latent features,
+> not the variate-token axis, so the older reversed-variate shorthand is not
+> an implementation contract. Phase 7A remains frozen and unimplemented.
+> The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
 > pretraining, frozen-feature, replay, and native-width common-probe
@@ -186,21 +230,22 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > weaker on future-price error. Volatility RMSE is effectively tied and mixed
 > across walks. This is task-specific evidence,
 > not universal superiority. SISSEL remains an optional uncommissioned
-> extension and does not block the closed phase. Phase 7A is now the current
-> unimplemented handoff. Phase 6.6 is deferred behind that branch analysis
-> and retains a matched eight-run price-only
-> raw-OHLCV/`H0` residual-fusion matrix, adds a source-faithful NeurIPS 2025
-> xLSTM-Mixer multivariate-forecasting candidate as Phase 6.6B, and retains a
+> extension and does not block the closed phase. Optional Phase 6.8 and the
+> unimplemented Phase 7A remain separate from Phase 6.9. Phase 6.6's raw
+> fusion and decoder studies remain deferred and retain a matched
+> eight-run price-only
+> raw-OHLCV/`H0` residual-fusion matrix and a
 > four-run price-only Phase 6.6C canonical decoder-capacity matrix. xLSTM-Mixer
-> predicts the complete next-eight-hour OHLCV path and is evaluated by
-> extracting `close[t+8]`; its full-path supervision makes it a contextual
-> complete-system baseline rather than a target-matched architecture control.
-> Its availability and source/hardware feasibility must be frozen before the
-> decoder study proceeds. The decoder study
+> now predicts only `close[t+8h]` under XM-C8, with the original price rows
+> and endpoint-only MSE. Completed XM-MV8 full-path runs remain contextual
+> evidence. XM-C8 is target-matched but not an architecture-isolating control.
+> Phase 6.9 is its sole technical and artifact authority; the older Phase 6.6B
+> listing is a non-executable historical reference and no longer blocks the
+> decoder study. The decoder study
 > compares the immutable simple `D0` probe with residual-projection `D1-RP`
 > and branch-aware gated `D2-BG`; the simple head remains the primary
-> representation probe. All Phase 6.6 studies remain unimplemented, and
-> xLSTM-Mixer is a later contextual task-specific baseline rather than direct
+> representation probe. All Phase 6.6 studies remain unimplemented,
+> and xLSTM-Mixer is a contextual task-specific baseline rather than direct
 > representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
 > requires a separate sampling/estimator amendment. Phase 7A
@@ -464,6 +509,28 @@ bash scripts_v6/run_phase6_7_timedart_experiment.sh
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_timedart_downstream.py
+
+# Phase 6.9 active XM-C8 endpoint-only adaptation: dedicated venv, original rows.
+# Default pipeline is data/replay/admission/manifest-only; --execute trains
+# both fresh fixed 50-epoch endpoint trajectories; original controls are audited.
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh
+bash scripts_v8/run_phase6_9_xlstm_mixer_experiment.sh --execute
+.venv-xlstm-mixer/bin/python3 scripts_v8/check_phase6_9_xlstm_mixer_environment.py \
+  --device cuda --backend vanilla --batch-size 512
+PYTHONPATH=src OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+  .venv-xlstm-mixer/bin/python3 -m pytest tests/baselines/xlstm_mixer -q
+.venv-xlstm-mixer/bin/python3 scripts_v8/run_phase6_9_xlstm_endpoint.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/report_phase6_9_xlstm_endpoint.py --device cuda
+# Historical XM-MV8-only preparation/replay entry points (not the active contract):
+.venv-xlstm-mixer/bin/python3 scripts_v8/prepare_phase6_9_xlstm_mixer_data.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer_data.py
+.venv-xlstm-mixer/bin/python3 scripts_v8/audit_phase6_9_xlstm_mixer_runtime.py \
+  --device cuda --backend vanilla --admit-training --physical-batch-size 512 \
+  --max-peak-memory-gib <GIB> --max-smoke-seconds <SECONDS>
+.venv-xlstm-mixer/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py --device cpu
+.venv-xlstm-mixer/bin/python3 scripts_v8/bootstrap_phase6_9_xlstm_mixer.py \
+  --device cuda --backend vanilla --execute
+.venv-xlstm-mixer/bin/python3 scripts_v8/validate_phase6_9_xlstm_mixer.py --device cuda
 ```
 
 > **Phase-2 execution pause (2026-09-20):** Do not launch training, feature

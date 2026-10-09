@@ -18,7 +18,7 @@
 > [`phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md`](phase_plan/2026-09-26-phase-6-experiment-observation-and-outcomes.md).
 > These documents supersede conflicting Phase 6 scope statements below.
 >
-> **Next-scope authority (amended 2026-10-05):** Phase 6.5 LSTM capacity,
+> **Next-scope authority (amended 2026-10-09):** Phase 6.5 LSTM capacity,
 > strict adapted GARCH--LSTM, current-task TA-MLP classification, and price-
 > focused residual-CNN SSL encoders are frozen in
 > [`phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`](phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md).
@@ -27,13 +27,27 @@
 > It freezes mandatory LWA-Frozen and SaURL-TS-Frozen across the same three
 > tasks and two walks as canonical `H0`; the commissioned TimeDART-Frozen
 > extension is also complete. SISSEL-Frozen remains uncommissioned optional
-> scope and was not a phase exit condition. Price-focused
-> Raw-OHLCV/`H0` residual fusion, a source-faithful recent
+> scope and was not a phase exit condition. The optional Phase 6.8 extension is
+> frozen in
+> [`phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`](phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md).
+> It adds Di-COT-Frozen and Monotone-VI-Frozen under the same target-free,
+> two-walk, three-task common-probe design. Its roster/comparison contract is
+> frozen, but implementation and execution have not started. Price-focused
+> Raw-OHLCV/`H0` residual fusion, a source-aligned recent
 > xLSTM-Mixer forecasting candidate, and canonical decoder-capacity sensitivity
 > are frozen separately in
 > [`phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`](phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md),
-> with grouped SHAP deferred to a later analysis amendment. The whole Phase
-> 6.6 programme remains deferred behind Phase 7A.
+> with grouped SHAP deferred to a later analysis amendment. Phase 6.9 is the
+> current planned handoff in
+> [`phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`](phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md).
+> The owner-approved
+> `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md` replaces
+> the unimplemented Monotone-VI classification leg with independently authored
+> SGN-C; implementation specification and source/settings/licence audit remain
+> pending. Monotone-VI-Frozen remains in optional Phase 6.8. It uses a Phase 6.9-owned xLSTM-Mixer
+> contract for price, and the completed strict GARCH--LSTM stack for
+> volatility. The Phase 6.6 raw-fusion and decoder-capacity studies remain
+> deferred; their former xLSTM-Mixer listing is superseded.
 > Canonical single-branch and leave-one-out attribution is frozen in
 > [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
@@ -56,8 +70,25 @@
 > decisions, independent model, focused CPU tests, two encoder trajectories,
 > two 170-wide stores, six downstream trajectories, and 18 snapshots are
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
-> Phase 7A is the current unimplemented handoff; Phase 6.6 likewise remains a
-> plan rather than executed experimental evidence. Phase 7B alpha research remains
+> Phase 6.9 is the current planned handoff. Optional Phase 6.8 and frozen
+> Phase 7A remain unimplemented; Phase 6.6 likewise remains planning evidence.
+> The xLSTM-Mixer paper/source audit is complete under
+> `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
+> one learned initial token. Its model, guarded runtime/training/replay
+> infrastructure, and 26 focused tests are complete. Both common-path artifacts
+> pass source replay; the owner-directed local WSL vanilla-GPU amendment
+> removes the Lumid prerequisite but retains resource admission and replay.
+> Both seed-0 real-data xLSTM-Mixer trajectories and all six snapshots are
+> complete and replay-valid under historical XM-MV8. The owner now approves
+> direct endpoint XM-C8 with all original price rows and endpoint MSE; see
+> `phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+> Endpoint model/lifecycle and 18 new CPU tests are implemented. Original
+> H0/Raw-LSTM controls are audited for reuse; intersection reruns are
+> superseded. Both fresh XM-C8 walks and all six snapshots are complete and
+> independently replay-valid; the matched report is under
+> `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. The historical XM-only
+> diagnostic report is under `experiments/phase6_9/xlstm_mixer/reports/seed0/`.
+> Phase 7B alpha research remains
 > unspecified pending further literature review.
 
 ## Architecture Design
@@ -211,12 +242,16 @@ imputation-exposure reporting but is not an additional model channel.
   residual variants reduce price error against H0 in both walks, while BYOL
   does not improve consistently and movement ranking remains weaker. Phase
   6.7 completed the canonical H0 comparison with three recent target-free
-  frozen representations under the same simple heads and three tasks. Phase 7A now
-  runs canonical single/leave-one-out attribution. The deferred Phase 6.6
-  retains a matched frozen-H0/raw-sequence residual fusion system, a source-
-  faithful xLSTM-Mixer full-path benchmark, and two richer static canonical
-  heads on future price only. xLSTM-Mixer's additional full-path supervision
-  makes it a contextual complete-system comparison. The completed simple head
+  frozen representations under the same simple heads and three tasks. Phase
+  Optional Phase 6.8 adds Di-COT-Frozen and Monotone-VI-Frozen through that
+  same probing boundary after method-specific source/licence/adaptation gates.
+  Phase 6.9 instead adds a task-specific comparison for classification, price,
+  and volatility. Phase 7A separately runs canonical single/leave-one-out
+  attribution. The otherwise deferred Phase 6.6
+  retains a matched frozen-H0/raw-sequence residual fusion system and two
+  richer static canonical heads on future price only. Phase 6.9 owns the
+  XM-C8 endpoint-only xLSTM-Mixer adaptation on original price rows and MSE.
+  Historical XM-MV8 full-path results remain contextual. The completed simple head
   remains the primary representation probe. Lifecycle conditioning,
   stage-specific experts, temporal decoder variants, fixed-first-walk
   transfer, and additional seeds remain outside these plans.
@@ -246,14 +281,14 @@ The evaluation is designed to assess both the **effectiveness** and **transferab
 
 | Term | Definition |
 |---|---|
-| **External representation baseline** | Target-free prior-work encoder frozen before the shared lightweight probes. Completed required Phase 6.7 core: LWA-Frozen and SaURL-TS-Frozen. Completed optional extension: TimeDART-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
-| **Task-specific external benchmark** | End-to-end or paper-inspired comparator. Current set: Stacked LSTM, Raw LSTM volatility, adapted GARCH--LSTM stacking, GINN limitation evidence, TA-MLP, and the deferred xLSTM-Mixer future-price candidate. |
+| **External representation baseline** | Target-free prior-work representation frozen before the shared lightweight probes. Completed Phase 6.7: required LWA-Frozen and SaURL-TS-Frozen plus optional TimeDART-Frozen. Optional planned Phase 6.8: Di-COT-Frozen and Monotone-VI-Frozen. SISSEL-Frozen remains uncommissioned optional scope. |
+| **Task-specific external benchmark** | End-to-end or paper-inspired comparator selected for one downstream task. Phase 6.9 plans independently authored SGN-C for classification, uses xLSTM-Mixer for future price, and reuses the completed adapted GARCH--LSTM stack for volatility. SGN-C is a supervised complete system, not a target-free common-probe baseline. Other context includes Stacked LSTM, Raw LSTM volatility, GINN limitation evidence, and TA-MLP. |
 | **Internal baseline** | Model designed within this project (Raw-OHLCV MLP, single-branch ablations). Shows each framework component contributes. |
 | **Default decoder** | Task head (`PriceRegressor`, `VolatilityRegressor`, `TrendClassifier`) — simple MLP from `src/tasks/`. Used by the framework and all internal baselines. |
 | **Refined decoder** | A controlled downstream-capacity variant trained on unchanged frozen features. Phase 6.6C freezes static `D1-RP` residual projection and `D2-BG` branch-gated projection heads; earlier Phase-2 recurrent/attention variants remain historical scope. |
 
-**Evaluation paradigm (probing):** The framework and Phase 6.7 external
-representation methods use frozen extractors. After pretraining, the features
+**Evaluation paradigm (probing):** The framework and Phase 6.7/6.8 external
+representation methods use frozen extractors or fitted representations. After fitting, the features
 remain fixed while the same lightweight task-head family is trained for each
 task. Keeping the head simple is intentional: the primary comparison concerns
 representation quality. Task-specific end-to-end benchmarks have more
@@ -289,6 +324,28 @@ optimisation freedom and remain contextual complete-system comparisons.
   metric selected an optional method's extraction point, recipe, checkpoint,
   or matrix truncation.
 
+- **Optional recent conference extension:** Phase 6.8 keeps Phase 6.7 closed and adds
+  Di-COT-Frozen (ICML 2026) plus Monotone-VI-Frozen (ICLR 2025). Both fit
+  separately on each unchanged target-free walk population, return one native-
+  width embedding for every established row, and use the exact common probes.
+  The planned inventory is four representation fits, four stores, 12 probes,
+  and 36 downstream snapshots beside six immutable `H0` references. Di-COT
+  and Monotone-VI are both treated as recent representation-learning
+  baselines; neither is presumed to be an empirical SOTA winner.
+
+- **Task-specific competitiveness demonstration:** Phase 6.9 compares the
+  same canonical `H0` system separately with a source-aligned comparator for
+  each task. SGN-C is a classification-only supervised adaptation with its
+  native head on every original h2/tau=0.001 row. Its paper/source/settings/
+  licence audit and separate implementation specification must precede coding;
+  grouping/period initialization and all fitted state are training-only.
+  The former Monotone-VI common-probe leg is superseded, not completed.
+  xLSTM-Mixer supplies the future-price complete-system comparison under the
+  Phase 6.9 XM-C8 endpoint-only amendment. The replay-valid strict GARCH--LSTM
+  stack supplies the volatility comparison without retraining. These rows
+  support task-level competitiveness claims, not one homogeneous cross-task
+  architecture ranking.
+
 - **Deferred decoder-capacity sensitivity:** Phase 6.6C keeps canonical frozen H0
   features, future-price rows, scaler, target, loss, and output transform fixed.
   It compares the immutable simple probe with a residual projection head and
@@ -305,16 +362,31 @@ optimisation freedom and remain contextual complete-system comparisons.
   price probe. Grouped SHAP is post-hoc description only and cannot select
   either matrix.
 
-- **Deferred recent multivariate forecasting benchmark:** Phase 6.6B evaluates the
-  NeurIPS 2025 xLSTM-Mixer as a source-faithful complete system. It maps the
-  same 64-hour five-channel context to the full next-eight-hour OHLCV path and
-  extracts `close[t+8]` for the existing price metrics. A metadata-only path-
-  availability audit freezes the common row contract first; any required H0
-  and Raw LSTM comparator reruns use that same intersection. Its five-channel,
-  eight-horizon supervision is reported explicitly and is not treated as a
-  target-matched decoder or representation contrast. This candidate is
-  resolved before Phase 6.6C execution if the deferred Phase 6.6 programme is
-  reactivated; it is not a Phase 6.7 or Phase 7A gate.
+- **Phase 6.9 endpoint forecasting benchmark:** The primary NeurIPS 2025
+  xLSTM-Mixer comparator is now XM-C8, a direct close[t+8h] adaptation.
+  It maps the original `[64,5]` context to one scalar and uses endpoint-only
+  MSE on every original price row, with no future-path availability filter.
+  Original H0/Raw-LSTM results are source/identity/recipe-audited for reuse.
+  The audited RevIN/NLinear/sLSTM core is retained with projections 64->1,
+  1->128, and 256->1 and close-token decoding. Its inverse-RevIN output is
+  unclipped and clip norm 1.0 is disclosed against sigmoid controls.
+  It is target-matched complete-system evidence, not a representation or
+  architecture-isolating contrast. This is a post-result protocol correction;
+  see `phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`. If the
+  broader Phase 6.6 programme later resumes, it cannot rerun or own this
+  method; xLSTM-Mixer remains outside the direct
+  representation-comparison claim. The completed dossier at
+  `docs/baselines/xLSTM-Mixer/` shows that the released second view flips the
+  latent feature axis rather than variate order and that paper/source RevIN,
+  token-count, release, packaging, and dependency details differ. The phrase
+  “source-aligned” therefore means the approved pinned-source core plus the
+  disclosed project protocol. All owner decisions and the guarded model/
+  training/replay implementation are complete for historical XM-MV8; both
+  old seed-0 walks/six snapshots remain replay-valid contextual evidence.
+  XM-C8 implementation and 18 new CPU tests pass; both fresh 50-epoch walks,
+  six-snapshot independent replay, and endpoint-matched comparison are complete.
+  XM-C8 beats H0/Raw LSTM errors in both walks, not persistence consistently.
+  Intersection reruns are superseded; SGN classification remains open.
 
 - **Volatility benchmark adaptation:** The historical four-hour volatility bundle is an overlapping shifted-window proxy and remains characterisation evidence only. Phase 6 completed the strict comparison on a walk-specific shared bundle of eight-hour realised variance over the strictly future interval `(t,t+8h]` from observed raw probability changes. H=8 was frozen from the training-period-only audit before label construction. Raw LSTM volatility is the direct end-to-end neural benchmark. The strict adapted GARCH--LSTM Phase 6.5 complementary hybrid is now trained and replay-valid for both walks: it fuses causal guarded raw-change GARCH forecasts with matched Raw LSTM forecasts through fixed ElasticNet meta-features `[g, l,g*l]`. Its expanding cross-fitting is used only to create out-of-fold training features for the meta-learner; it is not validation or model selection. Epoch-50 MSE improves only marginally while MAE and Spearman worsen in both walks, so the evidence does not support broad hybrid superiority. The Raw-OHLCV MLP, canonical framework, temporal configurations, and stack consume the identical replacement evaluation rows. See `docs/phase_plan/2026-09-24-phase-6-volatility-horizon-freeze-amendment.md` and `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 

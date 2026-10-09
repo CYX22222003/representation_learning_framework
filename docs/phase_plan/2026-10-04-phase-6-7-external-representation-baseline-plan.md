@@ -512,7 +512,9 @@ explicitly dispositioned:
 - the report maintains the seed-0, two-walk, native-width, source-adaptation,
   and non-trading claim boundaries.
 
-After this exit, Phase 7A should execute the canonical branch matrix and add
-predeclared branch-role diagnostics. Only then should the project reassess
-whether the deferred Phase 6.6 price-specific fusion, xLSTM-Mixer, and richer
-decoder studies are necessary for the final report.
+At closure, Phase 7A was the planned next handoff. The later approved
+`2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+inserts a separate Di-COT/Monotone-VI representation comparison before Phase
+7A without reopening or changing Phase 6.7. After Phase 6.8 and Phase 7A, the
+project should reassess whether the deferred Phase 6.6 price-specific fusion,
+xLSTM-Mixer, and richer decoder studies are necessary for the final report.

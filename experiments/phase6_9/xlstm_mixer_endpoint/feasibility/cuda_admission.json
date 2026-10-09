@@ -1,0 +1,105 @@
+{
+  "admitted": true,
+  "backend": "vanilla",
+  "batch_size": 512,
+  "data": {
+    "1": {
+      "auxiliary_supervision": false,
+      "data_manifest_sha256": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+      "dataset_sha256": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+      "identity_hashes": {
+        "encoder_train": "438649f9dc71d659ca276041cce32e759178ce0131d11b372d918e063e59cba8",
+        "test": "69a39c37869dd0bc47772a4ad975ba9302fb599d64ca93c1703a280e6142df24",
+        "train": "6cc8e8c523bfbf6507fa6d59b2c7f04cec81d80b05864c24639e3475447461de"
+      },
+      "loss": "mse_mean_raw_probability",
+      "method_id": "XM-C8",
+      "row_filtering": false,
+      "schema_version": "phase6-9-xlstm-endpoint-v1",
+      "source_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "target": "close[t+8h]",
+      "test_rows": 29834,
+      "train_rows": 36773,
+      "walk": 1
+    },
+    "2": {
+      "auxiliary_supervision": false,
+      "data_manifest_sha256": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+      "dataset_sha256": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+      "identity_hashes": {
+        "encoder_train": "c9d9717b8cb8bc19f8c82a9d9080a3be359e3ac45fc9ae3b9a5234a49cd80bb9",
+        "test": "73b64a95e561736cd6ffbe56d0df955ad2876b9216cef811c11e8b1801c8743d",
+        "train": "2d0ece7b258beae5b2947f27c7fc7faa5d86f5ebfa7a8868bd6bf6a54eda1e0e"
+      },
+      "loss": "mse_mean_raw_probability",
+      "method_id": "XM-C8",
+      "row_filtering": false,
+      "schema_version": "phase6-9-xlstm-endpoint-v1",
+      "source_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "target": "close[t+8h]",
+      "test_rows": 13506,
+      "train_rows": 56652,
+      "walk": 2
+    }
+  },
+  "dependency": {
+    "license": "AGPL-3.0",
+    "module_path": "/mnt/e/school-work-6-y3s2/fyp/representation_learning_framework/.venv-xlstm-mixer/lib/python3.10/site-packages/xlstm/__init__.py",
+    "pinned_commit": "1ff240242795062e56b4e39b43023cce61e8e88c",
+    "source_file_count": 48,
+    "source_tree_sha256": "7190ff1daeecdaa9441b1e968e7154f07133b37a28a110cfd2f3a31bba7ef554",
+    "version": "1.0.3"
+  },
+  "environment": {
+    "compiler_toolchain": {
+      "cxx_path": "/usr/bin/c++",
+      "cxx_version": "c++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0\nCopyright (C) 2021 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+      "nvcc_path": null,
+      "nvcc_version": null
+    },
+    "cuda_available": true,
+    "cuda_compute_capability": [
+      8,
+      9
+    ],
+    "cuda_home": null,
+    "cuda_version": "12.6",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "einops": {
+      "note": "used by the audited upstream wrapper, not by the minimal project adapter",
+      "required_by_project_adapter": false,
+      "version": null
+    },
+    "git_commit": "0fd9bf37504ffa208930be4cc2e26e0589e7c557",
+    "numpy": "2.2.6",
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "python_implementation": "CPython",
+    "runtime_package_versions": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "scipy": "1.15.3",
+      "torch": "2.12.1+cu126",
+      "xlstm": "1.0.3"
+    },
+    "torch": "2.12.1+cu126",
+    "torch_build_configuration": "PyTorch built with:\n  - GCC 13.3\n  - C++ Version: 202002\n  - Intel(R) oneAPI Math Kernel Library Version 2024.2-Product Build 20240605 for Intel(R) 64 architecture applications\n  - Intel(R) MKL-DNN v3.11.2 (Git Hash 03c022d3ffdcee958cfacbe720048e725fdf644c)\n  - OpenMP 201511 (a.k.a. OpenMP 4.5)\n  - LAPACK is enabled (usually provided by MKL)\n  - NNPACK is enabled\n  - CPU capability usage: AVX2\n  - CUDA Runtime 12.6\n  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90\n  - CuDNN 91.0.2  (built against CUDA 12.9)\n  - Magma 2.6.1\n  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, COMMIT_SHA=7269437d655783a26cba32aa88195b741ff496aa, CUDA_FLAGS= -DLIBCUDACXX_ENABLE_SIMPLIFIED_COMPLEX_OPERATIONS -Xfatbin -compress-all -DONNX_NAMESPACE=onnx_torch -gencode arch=compute_50,code=sm_50 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_90,code=sm_90 -Xcudafe --diag_suppress=cc_clobber_ignored,--diag_suppress=field_without_dll_interface,--diag_suppress=base_class_has_different_dll_interface,--diag_suppress=dll_interface_conflict_none_assumed,--diag_suppress=dll_interface_conflict_dllexport_assumed,--diag_suppress=bad_friend_decl --expt-relaxed-constexpr --expt-extended-lambda -Xfatbin -compress-all --threads 2 -Wno-deprecated-gpu-targets --expt-extended-lambda -DCUB_WRAPPED_NAMESPACE=at_cuda_detail -DDISABLE_CUSPARSE_DEPRECATED -DCUDA_HAS_FP16=1 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -DC10_NODEPRECATED, CUDA_VERSION=12.6, CUDNN_VERSION=9.10.2, CXX_COMPILER=/opt/rh/gcc-toolset-13/root/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -faligned-new -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-dangling-reference -Wno-error=dangling-reference -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.12.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, \n"
+  },
+  "implementation_sha256": "c73aaec2009988802ec30fd0099f1ce0b97e30879fe519cc8897735c235e29ce",
+  "max_peak_memory_gib": 6.0,
+  "max_smoke_seconds": 600.0,
+  "method_id": "XM-C8",
+  "probe": {
+    "backend": "vanilla",
+    "batch_size": 512,
+    "one_row_remainder_passed": true,
+    "parameter_count": 91842,
+    "peak_cuda_memory_bytes": 289603584,
+    "same_backend_checkpoint_replay": true,
+    "seconds": 1.0759377869981108,
+    "valid": true
+  },
+  "schema_version": "phase6-9-xlstm-endpoint-v1"
+}

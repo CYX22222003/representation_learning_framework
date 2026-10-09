@@ -108,13 +108,49 @@ the current-task TA-MLP classification benchmark, or price-focused residual-
 CNN SSL, include
 `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
 For price-focused raw-OHLCV/representation residual fusion, bidirectional
-historical raw towers, the source-faithful xLSTM-Mixer candidate, canonical
+historical raw towers, canonical
 decoder-capacity sensitivity, or grouped post-model attribution, include
 `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
 For recent external frozen-representation baselines, their feasibility gate,
 candidate fallback, common-probe matrix, phase ordering, or claim boundary,
 include
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`.
+For the Di-COT-Frozen/Monotone-VI-Frozen recent-conference extension, its
+source/licence/adaptation gate, exact-row common probes, phase ordering, or
+claim boundary, include
+`docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`.
+For the independently authored SGN classification adaptation, the Phase 6.9-owned
+xLSTM-Mixer contract, reuse of completed strict
+GARCH--LSTM volatility evidence, or the task-specific competitiveness claim,
+include
+`docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
+Also include
+`docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
+It supersedes only the unimplemented Monotone-VI classification leg, leaving
+optional Phase 6.8 Monotone-VI-Frozen unchanged. Source/settings/licence audit
+and a separate implementation specification precede coding. Do not mark
+SGN implemented, admitted, trained, or replay-valid from this planning change.
+For xLSTM-Mixer paper/source interpretation, view-reversal semantics, RevIN,
+initial tokens, dependency/licence handling, `[64,5] -> [8,5]` adaptation,
+runtime/data gates, implementation status, or Phase 6.9 artifact
+ownership, also include the complete `docs/baselines/xLSTM-Mixer/` dossier and
+`docs/phase_plan/2026-10-09-phase-6-9-xlstm-endpoint-amendment.md`.
+Its audit and all fourteen owner decisions are complete, including exactly one
+learned initial token. The observed-path builder and local vanilla-GPU runner
+are implemented; both canonical bundles pass source replay and 26 focused
+tests pass. The owner-directed local-runtime amendment removes the Lumid
+prerequisite, not selected-backend admission. The later endpoint amendment
+supersedes full-path availability/intersection reruns: primary XM-C8 uses
+one close[t+8h], MSE, every original price row, and audited original controls.
+Both real-data seed-0 50-epoch trajectories and all six snapshots are complete
+and replay-valid; the XM-only diagnostic report is under
+`experiments/phase6_9/xlstm_mixer/reports/seed0/`. Matched controls and final
+comparative reporting were originally open. Historical XM-MV8 results are
+preserved; endpoint model/lifecycle and 18 CPU tests pass. Both fresh XM-C8
+50-epoch walks, six-snapshot independent replay, and matched reporting are
+complete under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`.
+The report-only native-schema recovery preserves the admitted training
+fingerprint; SGN classification remains open. Never relabel the old checkpoints.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.
