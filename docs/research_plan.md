@@ -15,11 +15,11 @@ Phases 1--3; Phase 4 was the data-analysis phase. The authoritative contract is
 research stages below remain broad workstreams rather than experiment-phase
 specifications.
 
-**Current transition (2026-10-09):** Phase 6.7 is closed after comparing
+**Current transition (updated 2026-10-10):** Phase 6.7 is closed after comparing
 canonical `H0` with required LWA/SaURL and optional TimeDART under the same
 three tasks, two walks, and lightweight heads. SISSEL remains optional and
-uncommissioned. Phase 6.9 is the current approved planning handoff and adds a
-task-specific competitiveness demonstration: independently authored SGN-C for classification,
+uncommissioned. Phase 6.9 is closed for its frozen seed-0 task-specific
+competitiveness demonstration: independently authored SGN-C for classification,
 xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
 future realised variance. Phase 6.8 remains a frozen optional representation
 extension; it is unimplemented and does not block Phase 6.9. Phase 7A remains
@@ -40,7 +40,12 @@ The classification replacement is governed by
 `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
 SGN-C replaces the unimplemented Phase 6.9 Monotone-VI adaptation, not the
 optional Phase 6.8 representation roster. A separate source/settings/licence
-audit and implementation specification must be approved before model coding.
+audit and proposed implementation dossier are complete under
+`docs/baselines/SGN/`. All seven decisions, independent implementation,
+train-only initialization replay, CUDA admission, both 50-epoch trajectories,
+six-snapshot replay, and matched reporting are complete. SGN-C does not beat
+H0-D0 on principal macro-F1 in either walk. The final synthesis is under
+`experiments/phase6_9/reports/task_specific_competitiveness_seed0/`.
 
 ---
 
@@ -266,7 +271,7 @@ costs are reported.
 - **Adapted GARCH--LSTM stacking** — paper-inspired parallel hybrid for volatility prediction. Its legacy four-hour run is preserved; the strict H=8 Phase 6.5B adaptation is now complete and replay-valid for both walks. Causal guarded GARCH forecasts and Raw LSTM forecasts are fused with fixed ElasticNet meta-features `[g, l, g*l]` using train-only expanding OOF features. It complements, rather than replaces, the direct Raw LSTM benchmark: the former tests a task-specific hybrid and the latter tests direct end-to-end sequence prediction. The completed stack gives only marginal MSE gains while worsening MAE and Spearman, so it is not a broad win.
 - **GINN** *(AR→GARCH→LSTM with fused loss)* — retained as volatility limitation evidence after the initial run exposed an implausibly scaled GARCH target failure; it is no longer the planned headline volatility comparison.
 - **TA-MLP** *(Parente et al., 2024 / FreqTrade-based)* — 4-layer LeakyReLU MLP trained on 36 TA-Lib technical indicator features (RSI, Bollinger Bands, candlestick patterns, etc.). Primary handcrafted-feature benchmark for classification. The legacy experiment used the paper's tri-class BUY/HOLD/SELL formulation and natural sampling, so it is historical characterisation rather than a current-task comparison. Phase 6.5C instead preserves the `36 -> 128 -> 64 -> 32 -> 3` architecture while consuming the exact h2/tau=0.001 `DOWN/STABLE/UP` labels on a causal TA-feature-availability intersection. Its primary `P2` matrix retrains canonical H0, Raw MLP, Raw LSTM, and TA-MLP on identical rows with train-prior logit-adjusted cross-entropy; a separate TA-only `P1U` run applies the paper-derived majority undersampling to training rows only. This remains an adaptation rather than a reproduction of the paper's random split or model-selection procedure.
-- **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 planned)* — a Phase 6.9-owned
+- **xLSTM-Mixer** *(NeurIPS 2025, Phase 6.9 completed)* — a Phase 6.9-owned
   endpoint-only future-price complete-system adaptation, XM-C8, with one
   close[t+8h] target and MSE on original price rows. It is not a direct
   frozen-representation comparison. The completed full-path XM-MV8 run is
@@ -274,12 +279,13 @@ costs are reported.
   audit and owner decisions are complete; training obeys the data/runtime
   gates in `docs/baselines/xLSTM-Mixer/`, including the owner-directed local
   vanilla-GPU execution amendment.
-- **SGN classification adaptation** *(NeurIPS 2025, Phase 6.9 planned)* —
+- **SGN classification adaptation** *(NeurIPS 2025, Phase 6.9 completed)* —
   independently authored supervised model, using the paper and official
   model/settings as references, with its native three-class head on every
   original h2/tau=0.001 row. Grouping/period initialization and fitted state
-  use only walk-training data. Source/settings/licence audit and a separate
-  implementation specification precede model coding. This replaces the former
+  use only walk-training data. The static audit is complete under
+  `docs/baselines/SGN/`; all seven decisions, implementation, and runtime
+  admission, training, replay, and matched reporting are complete. This replaces the former
   Monotone-VI classification-only common-probe scope and tests complete-system
   competitiveness, not reusable representation quality.
 - **Additional benchmarks (TBD)** — deferred beyond the approved Phase 6.9
@@ -391,13 +397,18 @@ Its source/licence/adaptation and compute dossiers must be frozen before
 implementation, and neither source is selected or tuned from Polymarket
 evaluation results.
 
-Phase 6.9 adds a separate task-specific competitiveness demonstration. It
+Phase 6.9 completed a separate task-specific competitiveness demonstration. It
 does not force one comparator across unrelated tasks: SGN is independently adapted
 for movement classification, xLSTM-Mixer is used for future price, and the
 completed strict GARCH--LSTM stack is reused for future realised variance.
 The `H0` representation remains the common system evaluated on all three
 tasks. This separates evidence about reusable representation quality from
 task-level complete-system competitiveness.
+
+The task-separated synthesis is complete: XM-C8 clearly beats the learned
+price controls but not persistence consistently; SGN-C is weaker than the
+learned classification controls on principal macro-F1; and GARCH--LSTM offers
+only metric-specific volatility MSE gains while worsening MAE and Spearman.
 
 Phase 7A separately provides internal branch evidence through the
 precommitted canonical single-branch and leave-one-out matrix. Phase 6.8 is

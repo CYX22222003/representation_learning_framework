@@ -132,13 +132,21 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > two additional recent conference representation comparators under the same
 > two-walk, three-task common-probe protocol. The roster/comparison contract is
 > frozen, but implementation and execution have not started. Phase 6.9 is now
-> the current approved planning handoff under
+> complete for its frozen seed-0 scope under
 > `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 > Its classification replacement is approved under
 > `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`:
 > independently authored SGN-C replaces the unimplemented Monotone-VI
-> classification adaptation. Source/settings/licence audit and implementation
-> specification are next; no SGN code or training is authorized yet.
+> classification adaptation. The paper/source/settings/licence dossier is
+> complete under `docs/baselines/SGN/`; all seven owner decisions are approved,
+> including `P=16` and depths `[2,2,2,1]`. The independent model,
+> train-only initialization, resumable lifecycle, scripts, and 17 focused CPU
+> tests are complete. Both initializers and the two-run manifest replay; real-
+> row CUDA batch 256 is admitted at 778,075,136 bytes peak. Both real seed-0
+> 50-epoch trajectories and all six snapshots are now complete and pass same-
+> backend replay. SGN-C trails H0-D0, Raw LSTM, and Raw MLP on epoch-50
+> macro-F1 in both walks; learned hard groups collapse all variables together.
+> See `docs/phase_plan/2026-10-10-phase-6-9-sgn-execution.md`.
 > Monotone-VI-Frozen remains in optional Phase 6.8. It assigns price to
 > a Phase 6.9-owned source-aligned xLSTM-Mixer adaptation, and
 > volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
@@ -163,7 +171,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > complete 50 epochs and all six snapshots pass independent replay. The matched
 > report is `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/summary.md`:
 > XM-C8 improves MAE/RMSE versus H0 and Raw LSTM in both walks, but persistence
-> wins MAE in both walks and RMSE in Walk 2. SGN classification remains open.
+> wins MAE in both walks and RMSE in Walk 2. SGN classification is now
+> complete. The final task-separated synthesis is under
+> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`; Phase
+> 6.9 is closed.
 > Both historical observed-path bundles pass source replay. The owner-
 > directed local WSL amendment uses `.venv-xlstm-mixer/` and vanilla sLSTM
 > on CUDA tensors; Lumid/nvcc are not prerequisites. Resource admission,
@@ -509,6 +520,21 @@ bash scripts_v6/run_phase6_7_timedart_experiment.sh
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cpu
 .venv/bin/python3 scripts_v6/bootstrap_phase6_7_timedart_downstream.py --device cuda --execute
 .venv/bin/python3 scripts_v6/validate_phase6_7_timedart_downstream.py
+
+# Phase 6.9 SGN-C classification: independent model and lifecycle are
+# implemented; initializers/matrix/CUDA batch-256 admission pass. The default
+# launcher never trains. Only --execute launches the two 50-epoch trajectories.
+bash scripts_v8/run_phase6_9_sgn_experiment.sh
+bash scripts_v8/run_phase6_9_sgn_experiment.sh --admit-training
+bash scripts_v8/run_phase6_9_sgn_experiment.sh --execute
+.venv/bin/python3 scripts_v8/prepare_phase6_9_sgn_initialization.py
+.venv/bin/python3 scripts_v8/validate_phase6_9_sgn_initialization.py
+.venv/bin/python3 scripts_v8/bootstrap_phase6_9_sgn.py --device cpu
+.venv/bin/python3 scripts_v8/bootstrap_phase6_9_sgn.py --device cuda --admit-training
+.venv/bin/python3 scripts_v8/execute_phase6_9_sgn.py --device cuda
+.venv/bin/python3 scripts_v8/validate_phase6_9_sgn_same_backend.py --device cuda
+.venv/bin/python3 scripts_v8/report_phase6_9_sgn.py
+.venv/bin/python3 scripts_v8/report_phase6_9_sgn_matched.py
 
 # Phase 6.9 active XM-C8 endpoint-only adaptation: dedicated venv, original rows.
 # Default pipeline is data/replay/admission/manifest-only; --execute trains
@@ -901,17 +927,18 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/features/` | Deterministic feature extractors; branch-aware `FeatureBundle`; Phase 5 five-branch extraction; Phase 6 identity-only canonical alignment; temporal-variant master stores with exact duplicate controls; and the completed Phase 6.7 SaURL, LWA, and TimeDART three-task master-store/replay paths |
 | `src/aggregation/` | `RepresentationAggregator` nn.Module — concat or gated fusion of N branches |
 | `src/models/` | Model architecture definitions and loss functions only (VAE, contrastive CNN, BYOL, Phase-2 temporal backbone variants) |
-| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, and the completed Phase 6.7 SaURL alternating, LWA two-stage, and TimeDART denoising/native-width probe lifecycles with train-only scaling and CPU replay |
+| `src/training/` | Training loops plus Phase 5 fixed-budget workflows, Phase 6 fixed-contract H0/raw volatility training, completed walk-specific temporal SSL/three-task variant infrastructure, the completed Phase 6.7 SaURL/LWA/TimeDART lifecycles, and the implemented Phase 6.9 SGN-C train-only initialization/resumable classification lifecycle |
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
-| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), and the independently authored, executed `saurl_ts/`, `lwa/`, and `timedart/` adapters |
+| `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), the independently authored executed `saurl_ts/`, `lwa/`, and `timedart/` adapters, and the independently authored implemented-but-untrained `sgn/` classifier |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |
 | `scripts_v3/` | Thin Phase 5 entry points; reusable implementation remains under `src/` |
 | `scripts_v4/` | Thin Phase 6 entry points for the completed volatility and temporal-encoder lifecycles: manifest freeze, training, feature extraction, CKA, downstream replay, and reporting |
 | `scripts_v5/` | Thin Phase 6.5 entry points for the completed LSTM-capacity, GARCH--LSTM, TA-MLP, and residual-CNN lifecycles |
 | `scripts_v6/` | Thin Phase 6.7 entry points for the completed SaURL, LWA, and TimeDART feasibility, pretraining, frozen-feature, downstream, and replay lifecycles |
+| `scripts_v8/` | Phase 6.9 xLSTM-Mixer and SGN-C initialization, admission, manifest, training, replay, and reporting entry points; both method launchers require explicit `--execute` for real trajectories |
 
 ### Key data contracts
 

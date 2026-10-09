@@ -97,12 +97,14 @@ uncommissioned and does not reopen
 the phase. Phase 6.8 is now optional. Its roster and comparison contract are
 frozen, but Di-COT/Monotone-VI source dossiers, implementation, fits, stores,
 downstream runs, and reports do not exist and must remain planned. Phase 6.9
-is the current approved planning handoff. Read
+is closed for its frozen seed-0 scope. Read
 `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`:
 independently authored supervised SGN-C replaces the unimplemented Monotone-VI
 classification leg, not optional Phase 6.8's representation roster. Its
-source/settings/licence audit and implementation specification are pending;
-SGN implementation, admission, training, and replay do not exist yet.
+source dossier, decisions, independent implementation, admission, two
+50-epoch trajectories, six-snapshot replay, and matched report are complete;
+SGN-C trails all learned controls on principal macro-F1 in both walks and its
+hard grouping collapses.
 The xLSTM-Mixer price leg has a completed
 paper/source audit, owner decision record, guarded model/training/replay
 infrastructure, observed-path builder, and local vanilla-GPU runner under
@@ -116,8 +118,10 @@ primary XM-C8 uses one close[t+8h], endpoint MSE, all original price rows,
 and audited original controls. Intersection reruns are superseded. Endpoint
 model/lifecycle and 18 CPU tests pass. Both fresh 50-epoch endpoint walks,
 all six independently replayed snapshots, and matched reporting are complete
-under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. SGN
-classification remains open; do not mark Phase 6.9 closed.
+under `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. The final
+task-separated synthesis is complete under
+`experiments/phase6_9/reports/task_specific_competitiveness_seed0/`; mark
+Phase 6.9 closed.
 The owner-directed local amendment removes Lumid as a prerequisite. Its volatility leg
 reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
 Phase 6.6A/C's

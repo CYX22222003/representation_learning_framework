@@ -1,0 +1,45 @@
+{
+  "class_names": [
+    "DOWN",
+    "STABLE",
+    "UP"
+  ],
+  "dataset_manifest_sha256": "bfde405d554fdd089f0bf030d8d5ff546e036ff3c9447efd2cb01ff7959d66bf",
+  "dataset_path": "/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+  "dataset_sha256": "c05c8a7bb07c98ffdfd0c110d06f8ded661db109b324e974db4d63f28fee4a54",
+  "evaluation_identity_sha256": "ef33fd09ee8aa3c086e3ba2423e8f08ba9ef914fc89fd1f8ef81e836f3645f6e",
+  "evaluation_label_sha256": "e33308477c05ba736cc9d2a5d3b78265f1f801d6fff4c2b1a3379b1c9b1c3f97",
+  "evaluation_rows": 30340,
+  "evaluation_used_for_fitting_or_selection": false,
+  "feature_order": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+  ],
+  "input_shape": [
+    64,
+    5
+  ],
+  "preprocessing": {
+    "ohlc": "unscaled_probability",
+    "volume": {
+      "denominator": 97457.40431931993,
+      "fit_population": "unique bounded-fill candles with date >= train_start and availability < cutoff",
+      "fit_row_count": 75449,
+      "imputed_raw_value": 0.0,
+      "imputed_scaled_value": -0.14797330007971587,
+      "mean": 14421.093734332926,
+      "method": "global_walk_training_interval_volume_zscore",
+      "std": 97457.40431931993,
+      "uses_evaluation_rows": false
+    }
+  },
+  "schema_version": "phase6-9-sgn-c-v1",
+  "tau": 0.001,
+  "train_identity_sha256": "3951da0ecfbafebb9aa30fb7ede239aee1afb8df2fa241a0914d6d85049c0295",
+  "train_label_sha256": "98b833fa67f27f85b6c4a8cbff52bcb6a0e067dfc9f90a3538911c15086260f5",
+  "train_rows": 37864,
+  "walk": 1
+}

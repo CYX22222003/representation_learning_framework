@@ -4,9 +4,15 @@
 **Authority:** Owner-directed revision of the classification leg of
 `2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 **Status:** Comparator replacement and independent-reimplementation direction
-approved. Implementation specification, source/licence audit, runtime
-admission, and training remain pending. This amendment authorizes planning,
-not model implementation or experiment execution.
+approved. The paper reading, pinned static source/settings/licence audit, and
+proposed implementation dossier now exist under `docs/baselines/SGN/`. On
+2026-10-09 the owner approved all seven decisions, including fixed `P=16`,
+four stages, and depths `[2,2,2,1]`. The independent model/lifecycle, 17 CPU
+tests, both train-only initializers, two-run matrix, and real-row CUDA
+batch-256 admission, both 50-epoch trajectories, all six snapshots, same-
+backend replay, and matched reporting are complete. Principal macro-F1 trails
+H0-D0, Raw LSTM, and Raw MLP in both walks, and hard grouping collapses all
+variables together. See `2026-10-10-phase-6-9-sgn-execution.md`.
 
 ## 1. Decision and scope
 
@@ -54,6 +60,14 @@ hard-coded TDBRAIN grouping file, precomputed similarity-matrix provenance,
 configured rather than forward-selected period, paper/source embedding and
 grouping semantics, temperature-state handling, and safe merging depth for a
 64-step input. Preserve reference evidence and document each chosen behavior.
+
+The audit and decision record are under `docs/baselines/SGN/`. Approved
+choices currently cover `G=2`, the bounded training-only grouping initializer,
+source-style summed group fusion and shared embedding, source shift-boundary
+restoration, `D=64`, seven odd kernels, ratio 2, dropout 0.1, the source
+temperature/grouping-loss settings, source-specific Adam `1e-3`, physical
+batch 256 subject to real-model resource admission, and the independent-only
+licence boundary, plus `P=16` with four stages and depths `[2,2,2,1]`.
 
 ## 3. Comparison role and scientific question
 
@@ -165,6 +179,10 @@ Use source settings and training-only diagnostics to justify choices. Neither
 existing comparator test scores nor later SGN test scores may select them.
 Do not commission a hyperparameter sweep, ablation matrix, additional seed,
 frozen-SGN probe, or extra downstream task implicitly.
+
+**Decision update (2026-10-09):** all seven numerical/source decisions are
+resolved. Implementation may proceed; real trajectories still require the
+separate resource gate and explicit `--execute` authorization.
 
 ## 7. Ordered gates and proposed ownership
 
