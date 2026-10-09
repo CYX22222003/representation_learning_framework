@@ -210,7 +210,7 @@ imputed target candles are excluded, and availability rather than target value
 determines any common intersection. Source/hardware feasibility and the full
 xLSTM-Mixer recipe must be frozen before evaluation. The completed paper/source audit under
 `docs/baselines/xLSTM-Mixer/` is not data or runtime admission: its owner
-initial-token decision, full-path target artifact, and CUDA gate remain
+complete owner decision record, full-path target artifact, and CUDA gate remain
 prerequisites. Phase 6.9 is the sole active authority; the Phase 6.6B listing
 is historical. For Phase 6.5D, residual-CNN pretraining remains
 target-free and its downstream matrix is price-only. Grouped SHAP or gradient attribution is a later descriptive

@@ -128,7 +128,7 @@ The proposed preliminary architecture, pending owner approval, is:
 
 ```text
 D=128
-M=1 learned initial token (recommended; owner confirmation pending)
+M=1 learned initial token (owner-approved)
 1 sLSTM block
 8 heads
 convolution kernel disabled (0)

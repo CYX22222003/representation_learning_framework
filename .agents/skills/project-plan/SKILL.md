@@ -78,7 +78,7 @@ Read these in order:
    `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`
    for the current classification/price/volatility task-specific handoff,
    `docs/baselines/xLSTM-Mixer/` for the completed xLSTM-Mixer paper/source
-   audit, resolved decisions 1--4/6--14, and still-open token/data/CUDA gates,
+   audit, all fourteen resolved owner decisions, and still-open data/CUDA gates,
    and the complete `docs/baselines/LWA/` dossier for LWA's audited source,
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved

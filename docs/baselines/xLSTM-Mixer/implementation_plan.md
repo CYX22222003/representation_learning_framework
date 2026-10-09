@@ -6,8 +6,8 @@
 
 ## Stage 0 — resolve the source contract
 
-**Current status:** decisions 1--4 and 6--14 approved; initial-token decision
-5 remains pending.
+**Current status:** all fourteen owner decisions approved; implementation may
+begin, while training remains gated by data and Lumid runtime admission.
 
 Complete all decisions in `upstream_clarification_request.md`, then update:
 
@@ -16,9 +16,8 @@ Complete all decisions in `upstream_clarification_request.md`, then update:
 - the relevant project skills/document pointers; and
 - one immutable implementation configuration.
 
-View semantics, RevIN, dependency/licence handling, project training settings,
-and artifact ownership are resolved. No model code or runtime installation
-should begin until the initial-token count is confirmed.
+View semantics, RevIN, exactly one learned initial token, dependency/licence
+handling, project training settings, and artifact ownership are resolved.
 
 ## Stage 1 — audit and build the full-path data contract
 

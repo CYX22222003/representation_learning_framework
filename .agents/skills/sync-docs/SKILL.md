@@ -128,8 +128,8 @@ For xLSTM-Mixer paper/source interpretation, view-reversal semantics, RevIN,
 initial tokens, dependency/licence handling, `[64,5] -> [8,5]` adaptation,
 runtime/data gates, implementation status, or Phase 6.9 artifact
 ownership, also include the complete `docs/baselines/xLSTM-Mixer/` dossier.
-Its audit is complete and decisions 1--4/6--14 are resolved; token
-confirmation and implementation/execution remain open.
+Its audit and all fourteen owner decisions are complete, including exactly one
+learned initial token; implementation/execution remain open.
 For LWA paper/source interpretation, architecture, loss, two-stage budget,
 licence boundary, or implementation status, also include the complete
 `docs/baselines/LWA/` dossier.

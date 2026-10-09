@@ -92,8 +92,8 @@ universal framework superiority.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`. It confirms suitability but leaves
 > source behavior, architecture, licence handling, project training settings,
-> and Phase 6.9 artifact ownership resolved. The initial-token choice remains
-> open; the observed-path intersection and Lumid CUDA admission remain gates.
+> Phase 6.9 artifact ownership, and exactly one learned initial token resolved.
+> The observed-path intersection and Lumid CUDA admission remain gates.
 > Phase 7B alpha research remains intentionally unspecified pending further
 > literature review.
 

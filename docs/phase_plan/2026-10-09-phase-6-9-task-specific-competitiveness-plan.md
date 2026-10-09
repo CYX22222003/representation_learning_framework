@@ -1,10 +1,10 @@
 # Phase 6.9 Task-Specific Competitiveness Demonstration
 
 **Date:** 2026-10-09
-**Status:** Approved planning contract; xLSTM-Mixer paper/source audit complete,
-with decisions 1--4 and 6--14 resolved. Its initial-token decision,
-common-intersection target artifact, implementation, and Lumid Sandbox CUDA
-admission remain required. The completed Phase 6.5B volatility artifacts are
+**Status:** Approved planning contract; xLSTM-Mixer paper/source audit and all
+fourteen owner decisions are complete. Implementation has not started; its
+common-intersection target artifact and Lumid Sandbox CUDA admission remain
+required before training. The completed Phase 6.5B volatility artifacts are
 reused rather than retrained.
 
 **Primary reference:**
@@ -179,8 +179,8 @@ silently preserve the older provisional diagram.
 
 The approved project adaptation uses the compact `D=128`, one-block,
 eight-head full model, kernel 0, dropout 0.1, packing 1, and the NLinear
-backbone. The exact initial-token count remains the only open owner choice;
-one learned token is recommended. Training uses the project lifecycle:
+backbone with exactly one learned initial token initialized from
+`Normal(0,0.01)`. Training uses the project lifecycle:
 float32, seed 0, Adam at `1e-4`, no weight decay, 50 epochs, snapshots
 5/15/50, and epoch 50 primary. Physical batch 512 is attempted first and may
 be reduced only by a pre-training Lumid resource decision shared by both
@@ -311,8 +311,8 @@ Ordered gates are:
    optional matched source-classifier sensitivity.
 4. Implement, CPU-test, resource-audit, fit, extract, probe, and replay the
    complete Monotone-VI classification scope.
-5. Confirm the remaining xLSTM-Mixer initial-token decision, build the
-   deterministic fully observed future-path intersection and targets, and
+5. Build the deterministic fully observed future-path intersection and
+   targets for the owner-approved xLSTM-Mixer recipe, and
    freeze the exact recipe and Lumid Sandbox runtime admission.
 6. Train and replay `XM-MV8` once per walk plus the required matched controls,
    preserving complete path predictions.

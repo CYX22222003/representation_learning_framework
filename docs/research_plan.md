@@ -27,9 +27,9 @@ frozen and unimplemented. Phase 6.6 raw fusion and decoder capacity remain
 deferred, while Phase 6.9 is the sole xLSTM-Mixer technical/artifact authority. The new contract is
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 The xLSTM-Mixer paper/source audit is complete under
-`docs/baselines/xLSTM-Mixer/`; implementation remains gated only by the
-initial-token confirmation, while training also requires the common-path data
-artifact and Lumid CUDA admission.
+`docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including one
+learned initial token. Training still requires the common-path data artifact
+and Lumid CUDA admission.
 
 ---
 
@@ -261,8 +261,8 @@ costs are reported.
   direct frozen-representation comparison. Phase 6.9 activates this same
   planned experiment for its price-specific comparison; the old Phase 6.6B
   listing is superseded, and only one execution is reported. The paper/source
-  audit is complete, but implementation awaits the token-count confirmation
-  and training awaits the data/runtime gates in
+  audit and owner decisions are complete, while training awaits the
+  data/runtime gates in
   `docs/baselines/xLSTM-Mixer/` are resolved.
 - **Monotone-VI classification adaptation** *(ICLR 2025, Phase 6.9 planned)* —
   classification-oriented representation baseline using the common simple

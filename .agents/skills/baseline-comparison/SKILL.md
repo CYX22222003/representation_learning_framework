@@ -136,8 +136,8 @@ the heterogeneous roster one direct representation matrix.
 Before answering or acting on xLSTM-Mixer architecture, source faithfulness,
 licence/dependency handling, implementation, runtime admission, or comparison,
 also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Its paper/source
-audit is complete, with decisions 1--4 and 6--14 resolved; the token-count,
-frozen target artifact, and Lumid CUDA gates remain pending, and no
+audit and all fourteen owner decisions are complete, including exactly one
+learned initial token; the frozen target artifact and Lumid CUDA gates remain pending, and no
 implementation or experiment exists. In particular, the released `FULL` path
 flips latent features rather than the variate-token axis.
 

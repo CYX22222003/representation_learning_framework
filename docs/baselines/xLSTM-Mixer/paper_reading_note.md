@@ -256,8 +256,7 @@ architecture control.
 3. Do not describe the released second view as reversed variate order unless
    that behavior is explicitly implemented and labelled as a paper-guided
    correction.
-4. Non-affine RevIN is approved. One initial token remains the recommended and
-   only still-unconfirmed owner choice.
+4. Non-affine RevIN and exactly one learned initial token are approved.
 5. A minimal project-native adapter is preferable to importing the repository's
    Time-Series-Library and Lightning training stack.
 6. The comparison demonstrates task competitiveness, not reusable
@@ -269,8 +268,8 @@ architecture control.
   correct it to the paper's variate-order interpretation?
 - Should RevIN follow the paper's affine equation or the source's non-affine
   instance normalization?
-- Should the paper's single initial token override the scripts' tuned
-  zero-to-four token counts?
+- The paper's single initial token overrides the scripts' tuned zero-to-four
+  token counts for the project adapter.
 - Which predeclared architecture is defensible for an unseen `T=64,H=8,V=5`
   regime?
 - Should the project use the AGPL `xlstm==1.0.3` package, or separately
@@ -279,9 +278,9 @@ architecture control.
   kernel in the persistent sandbox?
 
 These questions are converted into decisions in
-`upstream_clarification_request.md`. Decisions 1--4 and 6--14 are resolved;
-implementation remains gated on the token-count confirmation, and execution
-also requires the Phase 6.9 data and Lumid Sandbox runtime gates.
+`upstream_clarification_request.md`. All fourteen owner decisions are resolved;
+implementation may begin, while execution still requires the Phase 6.9 data
+and Lumid Sandbox runtime gates.
 
 ## 13. Relevance to Phase 6.9
 

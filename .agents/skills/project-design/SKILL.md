@@ -83,9 +83,9 @@ Read these in order:
     price, and the completed strict GARCH--LSTM stack
     to volatility. For xLSTM-Mixer architecture, exact source tensors,
     paper/source discrepancies, and the proposed `[64,5] -> [8,5]` mapping,
-    also read the complete `docs/baselines/xLSTM-Mixer/` dossier. Decisions
-    1--4 and 6--14 are resolved; the token-count confirmation remains pending
-    and implementation has not started.
+    also read the complete `docs/baselines/xLSTM-Mixer/` dossier. All fourteen
+    owner decisions are resolved, including exactly one learned initial token;
+    implementation has not started.
 
 ## Response Contract
 

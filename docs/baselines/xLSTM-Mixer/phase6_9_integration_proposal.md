@@ -123,11 +123,11 @@ Do not claim:
 
 ## 8. Admission and failure policy
 
-The method is admitted to implementation after the remaining initial-token
-decision, licence handling, and focused shape tests. It is admitted to
-training only after the common-path artifact and persistent Lumid Sandbox CUDA
-smoke. Same-runtime checkpoint/prediction replay is required; cross-backend
-CPU/CUDA numerical parity is not.
+The method is admitted to implementation with exactly one learned initial
+token and the approved licence boundary. It is admitted to training only after
+the common-path artifact and persistent Lumid Sandbox CUDA smoke. Same-runtime
+checkpoint/prediction replay is required; cross-backend CPU/CUDA numerical
+parity is not.
 
 If the pinned sLSTM cannot be built, its licences cannot be accommodated, or
 its CUDA path cannot pass same-runtime integrity checks, record xLSTM-Mixer as infeasible under

@@ -35,8 +35,9 @@
 > action is the Monotone-VI inductive/source/licence/adaptation gate, followed
 > by the Phase 6.9 xLSTM-Mixer data/source freeze. The
 > xLSTM-Mixer paper and official-source audit is now complete under
-> `docs/baselines/xLSTM-Mixer/`; only the initial-token owner decision remains,
-> while the common-path artifact and persistent-sandbox CUDA gate remain.
+> `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
+> one learned initial token, while the common-path artifact and persistent-
+> sandbox CUDA gate remain.
 > No model implementation or training has started. The
 > remainder of Phase 6.6 remains deferred.
 > Phase 5 seed-0 execution is
@@ -229,7 +230,7 @@
 | Phase 6.5D residual-CNN encoders | ✅ Frozen price-only seed-0 scope complete: four encoder trajectories, two feature stores, eight downstream runs, all 5/15/50 snapshots, CKA, resources, subgroup tables, and the complete report are replay-valid. Contrastive substitution/addition improve price MAE/RMSE over H0 in both walks, and addition beats its duplicate-width control; BYOL is inconsistent, Raw LSTM/persistence remain stronger error references, and movement ranking does not improve overall. |
 | Phase 6.7 recent frozen-representation baselines | ✅ Closed for the frozen seed-0 scope: SaURL, LWA, and optional TimeDART contribute six walk-specific target-free encoders, six native-width stores, 18 common-head downstream trajectories, and 54 retained snapshots. The integrated comparison is complete under `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`; SISSEL stays optional and uncommissioned. |
 | Phase 6.8 recent conference representation baselines | ⏸️ Optional frozen plan; roster and comparison contract exist, but implementation/execution have not started. Planned scope remains Di-COT-Frozen and Monotone-VI-Frozen, four walk-specific fits, four native-width stores, 12 common-probe trajectories, and 36 downstream snapshots. It is not a Phase 6.9 prerequisite. |
-| Phase 6.9 task-specific competitiveness demonstration | 📝 Current approved planning phase; xLSTM-Mixer paper/source audit complete and decisions 1--4/6--14 resolved, but implementation/new execution have not started. Classification plans an inductive Monotone-VI adaptation with the common probe, price uses the Phase 6.9-owned xLSTM-Mixer after token/data/Lumid gates, and volatility reuses the completed strict Phase 6.5B GARCH--LSTM stacks. |
+| Phase 6.9 task-specific competitiveness demonstration | 📝 Current approved planning phase; xLSTM-Mixer paper/source audit and all fourteen owner decisions are complete, but implementation/new execution have not started. Classification plans an inductive Monotone-VI adaptation with the common probe, price uses the Phase 6.9-owned xLSTM-Mixer after data/Lumid gates, and volatility reuses the completed strict Phase 6.5B GARCH--LSTM stacks. |
 | Phase 6.6A raw-representation residual fusion | ⏸️ Deferred independently; implementation/execution not started. Its frozen matrix remains eight price-only trajectories. |
 | Historical Phase 6.6B xLSTM-Mixer listing | 🗃️ Superseded by Phase 6.9; it is non-executable and owns no artifacts. It does not satisfy the direct representation-baseline requirement. |
 | Phase 6.6C canonical decoder capacity | ⏸️ Deferred; implementation/execution not started. The frozen matrix remains four price-only trajectories and can be reconsidered independently if Phase 6.6 resumes. |

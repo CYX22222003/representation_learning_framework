@@ -1,7 +1,6 @@
 # xLSTM-Mixer clarification and decision record
 
-**Status:** decisions 1--4 and 6--14 resolved on 2026-10-09; decision 5
-remains pending owner confirmation
+**Status:** all fourteen owner decisions resolved on 2026-10-09
 
 **Purpose:** freeze paper/source/project ambiguities before implementation or
 training
@@ -83,7 +82,8 @@ tune zero through four.
 scientific method text and avoids validation-based selection among script
 settings. Initialize it with source `Normal(0,0.01)`.
 
-**Owner decision:** pending. This is the only unresolved owner choice.
+**Owner decision (2026-10-09):** approved. Use exactly one learned initial
+token, initialized with the source `Normal(0,0.01)` rule.
 
 ### 6. Architecture for `T=64,H=8,V=5`
 
@@ -232,7 +232,6 @@ to Phase 6.9; Phase 6.6 is outdated for this baseline.
 
 ## Implementation gate
 
-Paper and source reading are complete. Implementation remains gated only on
-decision 5 (the initial-token count). Training additionally requires the
-frozen common-row/target artifact and Lumid Sandbox CUDA admission. No
-evaluation metrics may be read to settle the remaining choice.
+Paper and source reading and all owner decisions are complete. Implementation
+may begin. Training additionally requires the frozen common-row/target artifact
+and Lumid Sandbox CUDA admission.

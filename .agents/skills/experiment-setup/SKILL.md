@@ -178,9 +178,9 @@ Read these in order:
     without retraining.
     Before any xLSTM-Mixer implementation, dependency installation, data
     preparation, or execution, also read the complete
-    `docs/baselines/xLSTM-Mixer/` dossier. Decisions 1--4 and 6--14 are
-    resolved; the token-count confirmation, frozen common-path target artifact,
-    and CUDA/runtime admission are mandatory gates. The released `FULL` source
+    `docs/baselines/xLSTM-Mixer/` dossier. All fourteen owner decisions are
+    resolved, including exactly one learned initial token; the frozen common-
+    path target artifact and CUDA/runtime admission are mandatory gates. The released `FULL` source
     reverses latent features rather than variate tokens.
 
 ## Response Contract

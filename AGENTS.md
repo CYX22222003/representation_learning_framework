@@ -139,8 +139,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > volatility to the completed strict Phase 6.5B GARCH--LSTM stack. Phase 6.8
 > is not a Phase 6.9 prerequisite. The xLSTM-Mixer NeurIPS paper and pinned
 > official source are audited under `docs/baselines/xLSTM-Mixer/`. Static
-> suitability is positive. Decisions 1--4 and 6--14 are resolved; only the
-> initial-token decision remains open before implementation. The fully
+> suitability is positive and all fourteen owner decisions are resolved,
+> including exactly one learned initial token. The fully
 > observed path check proves that matched H0-D0/Raw-LSTM intersection reruns
 > are required, and Lumid Sandbox CUDA admission and execution remain open.
 > The released `FULL` code flips latent features,

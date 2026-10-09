@@ -5,8 +5,8 @@
 **Phase:** Phase 6.9 technical, implementation, artifact, and reporting
 authority
 
-**Dossier status:** paper and official-source audit complete; decisions 1--4
-and 6--14 resolved; initial-token decision plus CUDA admission remain pending
+**Dossier status:** paper and official-source audit complete; all fourteen
+owner decisions resolved; data and CUDA admission remain pending
 
 **Implementation status:** not started
 
@@ -35,9 +35,9 @@ This directory records the evidence and proposed project adaptation for:
   `torch.flip(x, [-1])` reverses latent feature coordinates, not the
   variate-token axis. The paper's different variate-order interpretation is
   disclosed but is not implemented as a second sensitivity.
-- The adapter follows source `RevIN(..., affine=False)`. The paper specifies
-  one initial token while supplied scripts tune zero to four; the token count
-  is the only owner choice still awaiting confirmation.
+- The adapter follows source `RevIN(..., affine=False)` and uses exactly one
+  learned initial token, as specified by the paper. Supplied scripts tune zero
+  to four, but the project does not run that search.
 - The official repository is MIT-licensed, but its pinned `xlstm==1.0.3`
   dependency is AGPL-3.0. The project should not copy the entire training
   repository. A minimal project-native adapter plus an explicit dependency and
@@ -73,8 +73,8 @@ This directory records the evidence and proposed project adaptation for:
   packaging/runtime findings, and paper/source discrepancies.
 - `architecture_and_dataflow.md` — exact source tensors and proposed
   `[64,5] -> [8,5]` project mapping.
-- `upstream_clarification_request.md` — resolved decision record and the one
-  remaining initial-token confirmation required before implementation.
+- `upstream_clarification_request.md` — complete fourteen-item owner decision
+  record.
 - `phase6_9_integration_proposal.md` — fair future-price comparison contract
   and sole Phase 6.9 artifact boundary.
 - `implementation_plan.md` — staged implementation, resource admission,

@@ -242,7 +242,7 @@ Its required data flow is:
 per-variate RevIN
 -> shared NLinear time mixing, 64 -> 8
 -> shared up-projection, 8 -> D
--> owner-approved learned initial token count
+-> exactly one learned initial token
 -> shared stack of sLSTM blocks recurrent over variates
 -> original and owner-approved reverse view
 -> per-variate view projection, 2D -> 8

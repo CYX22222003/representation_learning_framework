@@ -234,7 +234,8 @@ changes. No packages were installed during the audit.
 The architecture is technically compatible with `[B,64,5] -> [B,8,5]`:
 
 - both linear mixers accept arbitrary configured `T` and `H`;
-- the sLSTM sequence has only five variate tokens plus proposed initial token;
+- the sLSTM sequence has only five variate tokens plus the approved single
+  initial token;
 - the project has enough historical and target metadata to audit a continuous
   eight-bar path; and
 - the existing price evaluator can extract the eighth close without a learned
@@ -242,7 +243,7 @@ The architecture is technically compatible with `[B,64,5] -> [B,8,5]`:
 
 Admission still requires:
 
-1. owner confirmation of the remaining one-token decision;
+1. the now-complete owner decision record;
 2. a documented AGPL dependency/reuse choice;
 3. a persistent-runtime build of `xlstm==1.0.3` or an approved independent
    equivalent;

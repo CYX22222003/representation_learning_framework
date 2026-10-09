@@ -145,6 +145,8 @@
     "learning_rate": 0.0001,
     "provisional_physical_batch": 512,
     "loss": "unweighted full-path L1 in accepted project units",
+    "num_initial_tokens": 1,
+    "initial_token_initialization": "Normal(0,0.01)",
     "additional_xlstm_channel_scaler": false,
     "volume_transform": "reuse the existing walk-training-only Phase 5 volume scaler for context and target volume",
     "replay_scope": "same-CUDA-backend checkpoint, fixed-probe, prediction, identity, and metric replay; no CPU/CUDA numerical parity gate",
@@ -157,6 +159,7 @@
       2,
       3,
       4,
+      5,
       6,
       7,
       8,
@@ -167,11 +170,10 @@
       13,
       14
     ],
-    "pending": [
-      5
-    ],
+    "pending": [],
     "primary_reverse_view": "released latent-feature-axis reversal",
     "revin_affine": false,
+    "num_initial_tokens": 1,
     "full_path_intersection_required": true,
     "observed_intersection_counts": {
       "walk1": {
@@ -189,12 +191,11 @@
     "official_source_audit_complete": true,
     "implementation_started": false,
     "training_started": false,
-    "owner_decisions_complete": false,
-    "only_open_owner_decision": 5,
+    "owner_decisions_complete": true,
     "license_dependency_decision_complete": true,
     "cuda_runtime_admitted": false,
     "full_path_availability_audit_complete": false,
-    "decision": "method_suitable; implementation waits for initial-token confirmation; training also waits for Phase 6.9 data/runtime admission",
+    "decision": "method suitable and owner decisions complete; implementation may begin; training waits for Phase 6.9 data/runtime admission",
     "failure_policy": "Record rejection or infeasibility; do not replace sLSTM with ordinary LSTM while retaining the xLSTM-Mixer label.",
     "evaluation_metrics_read_for_decision": false
   }
