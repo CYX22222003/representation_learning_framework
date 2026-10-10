@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+# CPU-only standard-library report inspection. No ML dependencies or experiment execution.
+ARG PYTHON_BASE_IMAGE=python:3.12.3-slim-bookworm
+FROM ${PYTHON_BASE_IMAGE}
+WORKDIR /app
+ENV PYTHONPATH=/app \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    FYP_AUDIT_BUNDLE=/app/evidence
+COPY src/platform_integration/__init__.py /app/platform_integration/__init__.py
+COPY src/platform_integration/research_audit.py /app/platform_integration/research_audit.py
+COPY src/platform_integration/research_audit_sources.py /app/platform_integration/research_audit_sources.py
+COPY build/flowmesh-research-evidence/ /app/evidence/
+RUN python -c "from pathlib import Path; from platform_integration.research_audit import run_node; print(run_node('evidence_inventory', bundle_dir=Path('/app/evidence'))['metrics'])"
+RUN chmod -R a+rX /app
+# Keep the image default user for FlowMesh's bootstrap/output-directory setup.
+CMD ["python3"]

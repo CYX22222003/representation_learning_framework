@@ -1,0 +1,53 @@
+# First platform gate: two connected standard-library Python nodes, no image publication.
+apiVersion: flowmesh/v1
+kind: Task
+metadata:
+  name: fyp-audit-dag-handoff-smoke
+spec:
+  graph:
+    nodes:
+      - name: prepare
+        spec:
+          taskType: python
+          image: python:3.12.3-slim-bookworm
+          entrypoint: main
+          emits: [smoke_prepare_pass]
+          timeoutSeconds: 60
+          network: none
+          resources:
+            hardware: {cpu: 1, memory: 512Mi}
+          code: |
+            def main():
+                import json
+                import os
+                from pathlib import Path
+                directory = Path(os.environ['FLOWMESH_OUTPUT'])
+                directory.mkdir(parents=True, exist_ok=True)
+                (directory / 'probe.json').write_text(json.dumps({'token': 'fyp-audit-v1'}))
+                return {'output': {'token': 'fyp-audit-v1'},
+                        'metrics': {'smoke_prepare_pass': 1.0}}
+      - name: verify
+        dependsOn: [prepare]
+        spec:
+          taskType: python
+          image: python:3.12.3-slim-bookworm
+          entrypoint: main
+          emits: [smoke_handoff_pass, smoke_artifact_pass]
+          timeoutSeconds: 60
+          network: none
+          resources:
+            hardware: {cpu: 1, memory: 512Mi}
+          code: |
+            def main(inputs):
+                import json
+                from pathlib import Path
+                connected = inputs['prepare']
+                output = connected['output'] if isinstance(connected, dict) else connected.output
+                if 'output' in output:
+                    output = output['output']
+                assert output['token'] == 'fyp-audit-v1'
+                artifacts = connected['artifacts'] if isinstance(connected, dict) else connected.artifacts
+                probe = json.loads((Path(artifacts) / 'probe.json').read_text())
+                assert probe['token'] == output['token']
+                return {'output': {'handoff': 'verified'},
+                        'metrics': {'smoke_handoff_pass': 1.0, 'smoke_artifact_pass': 1.0}}
