@@ -7,6 +7,7 @@
 .env.*
 .ruff_cache
 .venv
+.venv-*
 .vscode
 __pycache__
 **/__pycache__
@@ -36,7 +37,10 @@ progress_summary
 baseline_summaries
 
 # Packaging and editor noise.
-build
+build/**
+# Only the explicitly prepared report/manifest bundle enters the audit image.
+!build/flowmesh-research-evidence/
+!build/flowmesh-research-evidence/**
 dist
 *.egg-info
 .DS_Store
