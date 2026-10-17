@@ -5,7 +5,8 @@
 > Required scope is Package A plus B-Core: 60 new seed-0 single/removal heads,
 > six immutable H0 references, standardized classification-population CKA,
 > calendar-walk/contract/future-RV groups. Pairwise probes and extended diagnostics are deferred. Phase 6.8
-> does not gate this study. Implementation and execution have not started.
+> does not gate this study. Infrastructure is implemented and development-validated;
+> target Lumid admission and real matrix execution remain pending.
 
 This document outlines the four-stage research plan for developing and evaluating the unified representation learning framework.
 
@@ -29,8 +30,8 @@ uncommissioned. Phase 6.9 is closed for its frozen seed-0 task-specific
 competitiveness demonstration: independently authored SGN-C for classification,
 xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
 future realised variance. Phase 6.8 remains a frozen optional representation
-extension; it is unimplemented and does not block Phase 6.9. Phase 7A now has a trimmed branch-contribution plan; implementation and
-execution have not started. Phase 6.6 raw fusion and decoder capacity remain
+extension; it is unimplemented and does not block Phase 6.9. Phase 7A has implemented trimmed analysis infrastructure with development checks;
+real execution and target Lumid admission remain pending. Phase 6.6 raw fusion and decoder capacity remain
 deferred, while Phase 6.9 is the sole xLSTM-Mixer technical/artifact authority. The new contract is
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 The xLSTM-Mixer paper/source audit is complete under
@@ -433,7 +434,9 @@ places all new analysis data classes, utilities, experiment/training lifecycle,
 similarity/conditional analysis, replay, reporting, and package CLI under
 `src/analysis/`, with focused tests under `tests/analysis/`.
 The owner selected Lumid sandbox execution with verified persistent runtime,
-input/code synchronization, detached logging and resume. This changes the
+input/code synchronization and detached logging. Failed heads restart from
+epoch 1 while verified completed runs are retained; no training resume is
+required. This changes the
 execution location, not the frozen experiment matrix or evaluation allocation.
 
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what

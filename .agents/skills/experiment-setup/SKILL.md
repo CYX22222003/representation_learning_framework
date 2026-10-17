@@ -137,15 +137,18 @@ Read these in order:
     Also read
     `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`
     for source/H0 adapters, exact branch views, width-aware scalers,
-    resumable heads, CKA samples, conditional metrics, and replay under
+    fresh-head training, CKA samples, conditional metrics, and replay under
     `src/analysis/`. Its package CLI replaces a new scripts generation.
-    Production execution is on the owner-selected Lumid sandbox. Verify the
-    persistent runtime and full input/validator dependency closure; map legacy
+    Production execution is on the owner-selected Lumid sandbox. Honor the
+    owner override: failed heads restart from epoch 1; retain verified completed
+    runs and preserve failed-attempt evidence. Training resume is not required.
+    Verify the persistent runtime and full input/validator dependency closure; map legacy
     absolute paths explicitly while preserving original bytes, identities and
     hashes. Local smoke tests do not replace target-sandbox admission/replay.
     Pairwise probes and extended diagnostics are deferred. Auxiliary samples,
-    thresholds, and subgroup edges use training data only. Implementation and
-    execution have not started.
+    thresholds, and subgroup edges use training data only. Infrastructure is
+    implemented and development-validated; target Lumid admission and real
+    matrix execution remain pending.
     Phase 7B alpha research remains deferred and has no approved
     execution contract.
 16. For the completed recent frozen-representation comparison, read

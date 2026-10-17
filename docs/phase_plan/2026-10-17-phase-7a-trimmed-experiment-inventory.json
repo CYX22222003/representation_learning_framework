@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "authority": "docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md",
-  "status": "planning_only_not_implemented_or_executed",
+  "status": "implemented_development_validated_not_lumid_admitted_or_executed",
   "execution": {
     "platform": "lumid_sandbox",
     "runtime_status": "requires_target_sandbox_identification_and_preflight",
@@ -10,7 +10,8 @@
     "code_sync": "exact_tested_git_commit",
     "input_sync": "verified_dependency_closure_with_explicit_path_relocation",
     "logging": "detached_with_persistent_logs_and_launch_record",
-    "resume": "atomic_epoch_checkpoints_in_compatible_verified_environment"
+    "failure_policy": "restart_failed_head_from_epoch1_preserve_completed_runs_and_failed_attempts",
+    "snapshot_purpose": "evaluation_and_replay_only_no_training_resume"
   },
   "run_id_template": "{configuration}__{task}__walk{walk}",
   "expansion_order": ["configuration", "task", "walk"],

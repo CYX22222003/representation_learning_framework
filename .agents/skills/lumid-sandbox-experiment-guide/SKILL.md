@@ -36,6 +36,13 @@ Read these sources before issuing experiment commands:
 Read `references/command-templates.md` when concrete SSH, Git, transfer,
 launch, monitoring, or verification commands are needed.
 
+For an explicitly requested sandbox deletion, use the PAT-authenticated
+`DELETE /sbx/api/sandboxes/<name>` contract in `lumid_container_guide.md`
+Section 12 and `references/command-templates.md` Section 13. A guide update or
+schema inquiry does not authorize a destructive API test. The owner already
+deleted `dev2` and supplied the example response with its persistent home kept;
+do not replay that action or test it again.
+
 ## Gate 0: WSL and VPN Connectivity
 
 The native hostel network does not support direct SSH access to the Lumid

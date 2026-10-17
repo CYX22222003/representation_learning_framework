@@ -176,16 +176,20 @@ as the current owner-adopted authority. Its required A+B-Core has 60 new
 single/removal seed-0 heads plus six H0 references, CKA, and calendar-walk/
 contract/future-RV reporting. Bootstrap uncertainty is optional future work;
 error-overlap/resource analyses are excluded, pairwise probes and extended
-diagnostics are deferred, and implementation/execution have not started.
+diagnostics are deferred. Infrastructure is implemented and development-validated;
+target Lumid admission and real execution remain pending.
 For engineering placement, module interfaces, or execution/replay orchestration,
 also include
 `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
 All new analysis code/data classes/infrastructure/CLI belong under
-`src/analysis/`; tests belong under `tests/analysis/`. Planned modules and CLI
-commands are not evidence that implementation or training exists.
+`src/analysis/`; tests belong under `tests/analysis/`. Working source and focused
+tests establish implementation, not completion of the real experiment matrix.
 The owner selected Lumid sandbox execution for Phase 7A. Synchronize runtime
 placement, dependency-transfer/path-relocation rules, persistent artifacts,
-and detached-resume requirements with the Lumid sandbox skill. Do not mark
+and detached logging with the Lumid sandbox skill. The owner overrides its
+default resume guidance for Phase 7A: restart failed heads from epoch 1,
+preserve failed attempts and retain verified completed runs; training resume
+is not required. Evaluation snapshots and replay remain required. Do not mark
 sandbox readiness or launch complete from an execution-platform decision.
 Preserve the supersession notices in both older Phase 7A plans as historical
 context; do not restore their old requirements or Phase 6.8 dependency.

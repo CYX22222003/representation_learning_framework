@@ -63,7 +63,9 @@ Read these in order:
    All new analysis utilities, data classes, experimental/training lifecycle,
    CLI, replay, plotting, and reporting belong under `src/analysis/`.
    Phase 7A executes on Lumid with persistent environment/data/artifacts,
-   exact-commit sync, explicit legacy-path resolution, detached logs and resume;
+   exact-commit sync, explicit legacy-path resolution and detached logs. Failed
+   heads restart from epoch 1; retain verified completed runs without a training
+   resume API;
    the runtime/source adapters also belong under `src/analysis/`.
 10. For price-focused raw/representation residual fusion, supervised raw
     LSTM/BiLSTM towers, canonical
@@ -175,7 +177,8 @@ Present the parts relevant to the request:
   single/removal seed-0 heads with standardized classification-population CKA,
   and calendar-walk/contract/future-RV reporting beside six H0 references.
   Bootstrap uncertainty is optional future work. Pairwise and extended diagnostics are
-  deferred; implementation/execution have not started. Phase 6.6 is otherwise deferred; it freezes price-only
+  deferred. Analysis infrastructure is implemented and development-validated;
+  target Lumid admission and real execution remain pending. Phase 6.6 is otherwise deferred; it freezes price-only
   matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
   decoders. Phase 6.9 owns XM-C8, the direct endpoint-only xLSTM-Mixer
   adaptation with MSE on original price rows. It remains a complete-system

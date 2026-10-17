@@ -125,10 +125,11 @@ task-separated synthesis is complete under
 `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`; mark
 Phase 6.9 closed.
 The owner-directed local amendment removes Lumid as a prerequisite. Its volatility leg
-reuses completed Phase 6.5B artifacts. Trimmed Phase 7A remains unimplemented.
+reuses completed Phase 6.5B artifacts. Trimmed Phase 7A infrastructure is implemented and development-validated;
+its real matrix and target Lumid admission remain pending.
 Phase 6.6A/C's
 deferred price-focused fusion/decoder scope and the
-canonical 60-run branch-contribution matrix remain only planned. Source and CPU tests
+canonical 60-run branch-contribution matrix remain unexecuted. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
 planning evidence only until its fusion/decoder-capacity source, manifests,

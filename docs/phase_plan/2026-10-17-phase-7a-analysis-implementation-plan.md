@@ -1,8 +1,10 @@
 # Phase 7A Analysis Experiments: Implementation Plan
 
 **Date:** 2026-10-17  
-**Status:** Implementation plan only; source implementation and experiment
-execution have not started.  
+**Status:** Implemented under `src/analysis/`, with development tests under
+`tests/analysis/`. All six original H0 trajectories replay at 5/15/50 with
+recorded numerical warnings, and 155 dependency files pass inventory hashing.
+Target Lumid preflight and real Phase 7A matrix execution remain pending.
 **Execution platform:** Owner-selected Lumid sandbox. Real experiments,
 production preflight, and final replay run in the sandbox's verified persistent
 Python/CUDA environment. The local WSL environment is not the experiment runtime.
@@ -31,7 +33,8 @@ may be imported from their current modules. Tests belong under
 Use a package CLI, `PYTHONPATH=src .venv/bin/python3 -m analysis`, from the
 persistent sandbox checkout using its own verified `.venv`, so no new
 experiment logic or launcher generation is needed under `scripts_v*/`.
-The commands described below are proposed interfaces, not existing commands.
+The package CLI dispatches the commands below. Launch without `--execute` is
+preparation-only; real training requires verified Lumid runtime admission.
 
 Do not implement bootstrap uncertainty, prediction-error overlap, resource
 comparisons, probability/imputation groups, pairwise probes, or new encoder
@@ -54,7 +57,6 @@ The repository already supplies:
   `src/tasks/phase2_classification/`.
 - Regression/RV metric formulas in the original task trainers.
 - `centered_linear_cka` in `src/evaluation/phase6_encoder_variants.py`.
-- Resume-state handling examples in the Phase 6.9 training lifecycles.
 - Lumid operational contracts in `lumid_container_guide.md` and
   `.agents/skills/lumid-sandbox-experiment-guide/SKILL.md`.
 
@@ -63,8 +65,9 @@ Important adaptation boundaries:
 - Phase 5's standardizer requires width 445. The Phase 6 variant standardizer
   accepts only 445/573 and its configuration registry is temporal-study-specific.
   They cannot directly load the eight distinct widths in this study.
-- The Phase 6 variant runner rejects any occupied run directory and lacks a
-  full resumable lifecycle. Build the Phase 7 lifecycle under `src/analysis/`.
+- The Phase 6 variant runner rejects occupied run directories. Phase 7 uses
+  fresh-head training: preserve failed attempts before restarting that head,
+  and reuse verified completed runs. No optimization-state resume is required.
 - Existing price breakdown helpers automatically generate probability,
   imputation, and lifecycle groups that were removed from this scope. Reuse
   metric formulas, not those full reporting wrappers.
@@ -91,11 +94,13 @@ src/analysis/
   sources.py           # original datasets/features/H0/scalers and adapters
   features.py          # branch views and training-only standardization
   tasks.py             # head/loss factories, prediction and metric adapters
-  training.py          # train/resume/infer lifecycle
+  training.py          # fresh-head training and snapshot inference
+  pipeline.py          # stage orchestration; CLI delegates here
   ablation.py          # single-branch skill and leave-one-out effects
   similarity.py        # balanced sample, CKA, sample/score replay
   conditional.py       # walk/contract/RV grouping and grouped metrics
   artifacts.py         # paths, hashes, atomic I/O, manifests, run state
+  validation.py        # visible structured diagnostics and numeric comparisons
   replay.py            # independent checkpoint/prediction/metric validation
   reporting.py         # complete tables, figures, report assembly
 ```
@@ -229,32 +234,78 @@ All heads have hidden widths 128 and 64. Seed 0, Adam `lr=1e-4`, weight decay
 remainder, 50 epochs, and snapshots 5/15/50. No additional clipping for price
 or classification. No validation, early stopping, or evaluation-based choice.
 
-### 6.3 Resumable lifecycle
+### 6.3 Fresh-training lifecycle
 
 Represent state as planned, initialized, training, trained, evaluated, and
 replay-valid; a directory or completion marker alone is not proof of validity.
 
-Save atomic epoch-boundary resume state containing model, optimizer, completed
-epoch, training loss history, Python/NumPy/Torch CPU/CUDA RNG states, shuffle
-generator state, recipe/source/scaler hashes, and relevant code fingerprints.
-On interruption, restart from the last committed epoch. Reconcile missing
-5/15/50 snapshots from the same committed state without rerunning a completed
-epoch or consuming extra training RNG state.
+The owner chose restart-from-scratch to simplify these small head experiments.
+`ProbeRunner.train(spec, dataset)` always initializes a fresh head and optimizer
+with seed 0 and starts at epoch 1. Remove `train_or_resume`, `save_resume`,
+`ResumeState`, and per-epoch resume checkpoints from this package.
 
-Initialize resume state before the first epoch; enforce a single writer per run.
-Refuse conflicting occupied paths. Skip a completed run only after replay;
-resume an incomplete run only after exact provenance checks. Corrupt or mismatched
-state is a failure, not an instruction to overwrite or start a new run silently.
+If training is interrupted, restart only the affected task/walk/configuration
+from epoch 1. Preserve verified completed runs; the full 60-run matrix need
+not restart. Preserve the failed attempt in an archived attempt directory
+before reusing its canonical destination, so partial files cannot be mixed
+with a fresh trajectory. Keep its failure log and reason; a retry is not an
+extra model seed or a candidate selected by evaluation performance.
+
+Enforce a single writer per run. Refuse conflicting provenance or unknown
+occupied paths. Reuse a completed run only after replay, and restart failed
+runs only through the explicit execution command, without an automatic retry
+loop. Source/environment failures still require correction before rerunning.
 
 Save training snapshots first; run evaluation after training so inference or
 head reconstruction cannot affect subsequent dropout/RNG progression. Recover
 missing prediction/metric outputs from existing valid snapshots. Completing
 training and completing replay are separate states.
 
-Record the admitted sandbox runtime and backend in each run. Resume only in a
-compatible verified environment. Prefer final replay on the training backend;
+Record the admitted sandbox runtime and backend in each run. Verify that
+environment before every fresh attempt. Prefer final replay on the training backend;
 freeze any cross-backend tolerance before evaluation and classify benign drift
 versus material failure explicitly. Do not relax tolerances after seeing results.
+
+### 6.4 Tolerance-aware validation and visible diagnostics
+
+The owner requires validation to accommodate floating-point differences caused
+by environment and hardware changes, and to report undesirable observations
+without aborting the entire experiment matrix. The implementation records
+pass/warning/error observations, accepts bounded numeric drift, and isolates
+invalid entries from their dependent scientific outputs.
+
+- Declare numerical tolerances separately for predictions/logits, derived
+  metrics, feature/scaler arithmetic and CKA. Distinguish same-backend from
+  cross-environment replay where needed. Freeze values from bounded preflight
+  before downstream evaluation; do not borrow encoder-specific LWA limits
+  automatically or invent one blanket tolerance for all quantities.
+- Compare floating values using documented absolute/relative error measures,
+  with an absolute rule for zero/near-zero reference values. Preserve original
+  arrays; no rounding or rewriting saved predictions merely to pass replay.
+- Display warnings in stdout/stderr and persistent logs, and record structured
+  diagnostics in validation artifacts. Include check name, run/snapshot or
+  source, severity, expected/observed values or summaries, measured errors,
+  thresholds, environment/backend, rationale and continuation decision.
+- Within-tolerance drift is acceptable; visible diagnostics must describe
+  unexpected drift and other undesirable observations. Sparse groups,
+  undefined correlations, missing classes and similar reporting limitations
+  should be recorded with counts/reasons rather than aborting independent work.
+- Exact source-file integrity, row/target identity, task/walk/branch matching,
+  valid shapes and finite outputs remain required. Material disagreement,
+  corrupt inputs and non-finite results must not enter scientific comparisons
+  as if they were valid numerical drift.
+- A warning continues the affected run/stage. An invalid result is logged and
+  isolated; skip its dependent comparisons and continue unrelated runs/stages.
+  A shared-source failure blocks only its actual dependents. Do not blanket
+  catch exceptions and report success, or automatically retrain on a warning.
+- Final validation lists valid entries, accepted warnings, invalid entries and
+  missing dependencies. Accepted warnings do not prevent completion. Missing
+  or invalid mandatory entries produce an explicitly incomplete report, not
+  silent omission or a false complete status.
+
+If tiny logit changes alter near-tied class decisions, record the decision
+changes and downstream metric drift alongside logit differences. Acceptance
+uses the frozen task-specific policy; target labels themselves never change.
 
 ## 7. Four analysis implementations
 
@@ -383,7 +434,6 @@ experiments/phase7/ablation/
     dataset_manifest.json
     architecture_manifest.json
     feature_standardizer.npz
-    resume.pth
     history.npz
     training_complete.json
     e{5,15,50}/checkpoint.pth
@@ -414,7 +464,8 @@ actual path and sandbox identity rather than assuming that location is ready.
 The `.venv/bin/python3` below means the sandbox's own persistent environment,
 not a copied local virtual environment. If the existing admitted environment
 has a different path, record and use its explicit executable consistently.
-Commands are to be implemented; none is executed by adopting this plan.
+Command operations are implemented. Production execution requires sandbox
+preflight; development tests and original H0 replay do not admit that runtime.
 
 ### 9.1 Sandbox preflight and transfer gates
 
@@ -431,10 +482,10 @@ Follow the Lumid sandbox skill and platform guide in this order:
 3. Synchronize the exact tested Git commit and the complete input dependency
    inventory under persistent storage; run the relocated source/H0 audit.
 4. Run focused tests, manifest-only preparation, real-path integration checks,
-   a bounded CUDA forward/backward/optimizer/checkpoint probe, and interrupt/
-   resume replay on the target backend. Save `preflight.json` with its source,
+   a bounded CUDA forward/backward/optimizer/checkpoint probe, and verify that
+   a failed attempt restarts with a fresh head. Save `preflight.json` with its source,
    dependency, recipe, device and tolerance contract.
-5. Confirm every important output, temporary checkpoint, log and resume state
+5. Confirm every important output, temporary checkpoint and log
    resolves under persistent storage. Treat `/workspace` and `/root` as
    disposable. `/datasets` may supply verified read-only inputs, not outputs.
 
@@ -459,7 +510,7 @@ PYTHONPATH=src .venv/bin/python3 -m analysis validate --stage all
 `audit` is read-only for original sources and records results under Phase 7.
 `prepare` builds view/scaler/group manifests without training. `launch` defaults
 to manifest generation and bounded synthetic CPU checks. Only `--execute`
-trains/resumes real heads, after preparation validation and a bounded runtime
+trains fresh real heads, after preparation validation and a bounded runtime
 feasibility check. Similarity/conditional/report commands only process existing
 features or predictions and must never trigger hidden training.
 
@@ -485,9 +536,10 @@ stage and logs. No recurring unattended monitor or automatic restart is
 commissioned by this planning decision.
 
 Detached execution survives SSH disconnects, not sandbox reclaim/deletion or
-hard TTL. After interruption, reconfirm sandbox routing, commit, environment,
-input hashes, and resume-state integrity, then invoke the same resumable
-pipeline. Keep valid completed stages and partial evidence. After completion,
+hard TTL. After interruption, reconfirm sandbox routing, commit, environment
+and input hashes, then restart the failed head from epoch 1 through the same
+pipeline. Keep verified completed stages and archive failed-attempt evidence.
+After completion,
 validate all outputs on Lumid and retrieve report figures/tables plus a hashed
 artifact inventory for local writing/presentation. Record retrieval hashes;
 do not label a run complete merely because its process disappeared.
@@ -504,11 +556,11 @@ when dependencies and settings match; mismatches fail with the exact cause.
 |---|---|---|
 | 1 | Types, contracts, runtime/source adapters, atomic artifact I/O | Exactly 60 new entries plus six references; all six sources/H0 references audited; complete Lumid dependency inventory; hash/identity/task/walk and relocation drift rejected |
 | 2 | Named views, scalers, task heads/losses | All eight widths work for all three tasks; source-coordinate/scaler parity; evaluation perturbation cannot change fitted state |
-| 3 | Train/resume/predict/replay | Uninterrupted versus interrupted/resumed synthetic runs agree on the same backend; missing snapshot recovery; wrong provenance/occupied path rejected |
+| 3 | Fresh training/prediction/replay | Failed attempts restart at epoch 1 without reusing optimization state; completed runs are retained; partial attempts cannot mix with fresh snapshots; wrong provenance/occupied path rejected |
 | 4 | Ablation metrics and comparisons | Known-answer errors/F1/skill/removal signs; exact target/identity pairing; correct RV unit inversion and Rank IC coverage |
 | 5 | CKA sampling and matrices | Deterministic balanced identities; symmetry and self-similarity; collapse handling; replayable 40-pair inventory |
 | 6 | Conditional metrics | Correct q90/q99 boundaries/ties, training-only thresholds, sparse/empty/missing-class behaviour, macro versus pooled formulas |
-| 7 | CLI, Lumid preflight, detached pipeline and report | Default commands train nothing; target-sandbox tests and persistent resume/logging pass; staged execution cannot be called complete; every output links to validated source predictions |
+| 7 | CLI, Lumid preflight, detached pipeline and report | Default commands train nothing; target-sandbox tests and persistent snapshot/logging pass; staged execution cannot be called complete; every output links to validated source predictions |
 | 8 | Real Lumid matrix and handoff, in a subsequent execution task | 60 trajectories/180 new snapshots and six references/18 snapshots replay on the admitted runtime; 40 CKA scores and required group/report artifacts exist and are inventoried for retrieval |
 
 Keep tests under `tests/analysis/` focused on scientific validity and recovery:

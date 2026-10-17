@@ -2,11 +2,23 @@
 
 **Date:** 2026-10-17  
 **Status:** Current Phase 7A authority, adopted by the owner on 2026-10-17.  
-**Execution status:** Implementation and execution have not started.  
+**Implementation status:** Data/source adapters, preparation, fresh-head training,
+analyses, tolerance-aware replay, CLI and reporting are implemented under
+`src/analysis/`. Development checks and original H0 replay are separate from
+the pending Lumid preflight and real 60-run Phase 7A execution.
 **Execution platform:** Owner-selected Lumid sandbox with persistent storage;
 the local environment is not the experiment runtime. Environment admission,
-source synchronization/relocation, and detached resume/logging are specified
+source synchronization/relocation, and detached logging are specified
 in the implementation plan.
+**Failure policy:** Restart a failed head from epoch 1, retain verified completed
+runs, and preserve failed-attempt evidence. No training-resume infrastructure is
+required; epochs 5/15/50 checkpoints remain for evaluation and replay.
+**Validation policy:** Accept floating-point replay drift within predeclared
+check-specific tolerances. Display/log unexpected observations and preserve
+structured diagnostics. Warnings continue; invalid results are isolated from
+dependent analyses while independent experiments continue. Exact source/row/
+target integrity remains required. Structured diagnostics and tolerance-aware
+numeric replay are implemented.
 **Grouping refinement:** The owner retained only calendar walks, contracts,
 and future realised-variance strata; starting-probability and imputation groups
 are deferred.
@@ -67,7 +79,8 @@ The engineering companion is the
 All new analysis utilities, data classes, training/experiment infrastructure,
 replay, plotting, and command logic belong under `src/analysis/`. Use its
 package CLI rather than adding a new script generation. This records an
-implementation design; implementation and execution have not started.
+implementation design; operations now exist and target-sandbox admission and
+experiment execution are still pending.
 
 ## 3. Research questions and evidence
 
@@ -268,11 +281,11 @@ Two walk results are not independent training-seed replications.
 4. Build exact branch views and prove equality to source coordinates. Fit
    training-only scalers and test evaluation-perturbation invariance.
 5. Run CPU integration tests for distinct width/task families, identity and
-   branch-map failures, constants, invalid metrics, occupied paths, resume,
+   branch-map failures, constants, invalid metrics, occupied paths, fresh restarts,
    CKA and the declared subgroup metric formulas.
 6. Generate manifest-only launch artifacts. Require explicit `--execute`, a
-   bounded runtime feasibility check, persistent logs, and resumable
-   trajectories. This execution check does not require a resource-comparison
+   bounded runtime feasibility check, persistent logs, and fixed evaluation
+   snapshots. Failed heads restart from epoch 1. This execution check does not require a resource-comparison
    experiment or resource report.
 7. Execute all 60 runs without result-driven truncation.
 8. Replay checkpoints, scalers, coordinates, predictions, metrics, identities,

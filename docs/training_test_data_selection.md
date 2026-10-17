@@ -5,7 +5,8 @@
 > Required A+B-Core contains 60 new seed-0 single/removal heads plus six
 > immutable H0 references, standardized classification-population CKA,
 > calendar-walk/contract/future-RV groups. Pairwise probes and extended diagnostics are deferred. Phase 6.8
-> does not gate this study. Implementation and execution have not started.
+> does not gate this study. Infrastructure is implemented and development-validated;
+> real Phase 7A execution and target Lumid admission remain pending.
 
 This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are

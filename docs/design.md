@@ -6,7 +6,8 @@
 > walks: 60 new seed-0 heads plus six immutable H0 references. Lean standardized
 > CKA and calendar-walk/contract/future-RV reporting remain required. Bootstrap
 > uncertainty is optional future work. Pairwise probes and heavier diagnostics are
-> deferred. Implementation and execution have not started.
+> deferred. Analysis infrastructure is implemented and development-validated;
+> target Lumid admission and real Phase 7A execution remain pending.
 
 > **Phase 5 authority (2026-09-21):** The initial architecture and experiment
 > design evolved after issues discovered in Phases 1--3; Phase 4 was a
@@ -84,8 +85,9 @@
 > two 170-wide stores, six downstream trajectories, and 18 snapshots are
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
 > Phase 6.9 is closed; its final task-separated synthesis is under
-> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 and the current trimmed
-> Phase 7A analysis plan remain unimplemented; Phase 6.6 likewise remains planning evidence.
+> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 remains
+> unimplemented; Phase 7A infrastructure is implemented with development checks,
+> but real execution is pending. Phase 6.6 remains planning evidence.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
 > one learned initial token. Its model, guarded runtime/training/replay
@@ -438,17 +440,18 @@ optimisation freedom and remain contextual complete-system comparisons.
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
 Phase 7A's new data classes, utilities, experiment/training lifecycle, metrics
-adapters, CKA, conditional reporting, replay, plotting, and CLI are planned
+adapters, CKA, conditional reporting, replay, plotting, and CLI are implemented
 under `src/analysis/`, with tests under `tests/analysis/`. Existing heads and
 scientific primitives may be imported through adapters. See the
 [analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md).
-This package is planned, not implemented or executed.
+Development checks pass independently of the pending target Lumid preflight and real execution.
 
 Phase 7A production execution is on the owner-selected Lumid sandbox using a
 verified persistent Python/CUDA environment. Source adapters must support
 explicit WSL-to-sandbox path relocation with unchanged artifact hashes. All
 logs, checkpoints and reports remain on persistent storage; the package runner
-supports detached launch and recovery after interruption. Local checks do not
+supports detached launch and restarting failed heads from epoch 1, retaining
+verified completed runs. No training-resume API is required. Local checks do not
 replace sandbox preflight.
 
 - **Phase 2 decoder refinement:**

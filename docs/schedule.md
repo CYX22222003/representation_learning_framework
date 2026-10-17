@@ -7,24 +7,29 @@
 > immutable H0 references. Bootstrap uncertainty is optional future work to
 > protect time for the report and presentation. Pairwise probes and extended
 > diagnostics are deferred. Phase 6.8 does not gate this
-> study. Implementation and execution have not started.
+> study. Infrastructure is implemented and development-validated; real Phase 7A
+> training and target Lumid admission have not started.
 
 **Last updated:** 2026-10-17
 
 **Phase 7A engineering plan:** The
 [analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
 places all new data classes, utilities, experiment/training infrastructure,
-analysis, replay, reports, and CLI under `src/analysis/`. Source implementation
-and execution have not started; the first engineering task is types/contracts
-and source/H0 audit adapters.
+analysis, replay, reports, and CLI under `src/analysis/`. The infrastructure is
+implemented with focused synthetic tests, exact source/feature checks and
+tolerance-aware replay. All six original H0 references replay at 5/15/50 and
+the dependency inventory verifies 155 files. No real Phase 7A heads were trained;
+the target Lumid environment still requires preflight.
 
 **Phase 7A execution platform:** The owner selected the Lumid sandbox instead
 of the local runtime. The sandbox name/hostname, persistent checkout, Python/CUDA
 environment and preflight are not yet verified for this experiment. The
 implementation must support exact-commit synchronization, hashed dependency
 transfer with explicit legacy-path relocation, persistent logs/checkpoints,
-detached execution and recovery. This is an execution decision, not evidence
-of remote readiness, implementation, transfer, or launched training.
+detached execution and fresh restarts of failed heads. Verified completed runs
+are retained; epoch 5/15/50 checkpoints serve evaluation/replay, not training
+resume. This is an execution decision, not evidence
+of remote readiness, transfer, or launched training.
 
 > **Latest classification-plan revision:** The owner approved
 > `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
@@ -72,7 +77,8 @@ of remote readiness, implementation, transfer, or launched training.
 > Phase 7A branch-contribution plan as the current analysis direction. Required
 > Package A+B-Core includes 60 new seed-0 single/removal heads plus six H0
 > references and lean CKA/conditional
-> analysis; implementation and execution have not started.
+> analysis; infrastructure is implemented and development-validated, with real
+> execution and target Lumid admission pending.
 > Optional Phase 6.8 does not gate Phase 7A. Phase 6.6 remains deferred.
 > Phase 6.7
 > closes with three independently
@@ -142,7 +148,7 @@ of remote readiness, implementation, transfer, or launched training.
 > trajectories, and every 5/15/50 snapshot pass standalone replay. The compact
 > principal-result report is generated; contract-macro and subgroup report
 > expansion remains a reporting follow-up.
-> Phase 7A remains unimplemented. Phase 6.5D's four residual-CNN encoders, two
+> Phase 7A infrastructure is implemented; real execution remains pending. Phase 6.5D's four residual-CNN encoders, two
 > feature stores, eight future-price paths, CKA, resources, subgroups, and
 > complete report are executed and replay-valid. Phase 6.7's mandatory
 > LWA-Frozen and SaURL-TS-Frozen core and the optional TimeDART-Frozen
@@ -288,11 +294,11 @@ of remote readiness, implementation, transfer, or launched training.
 | Task | Status |
 |---|---|
 | Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs. The volatility sweep predates the shared contract-aware label bundle and is characterization-only pending a strict rerun. |
-| Statistical-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
-| Transformation-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
-| VAE-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
-| Contrastive-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
-| BYOL-only ablation | 📝 Planned in Phase 7A; not implemented or executed |
+| Statistical-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
+| Transformation-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
+| VAE-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
+| Contrastive-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
+| BYOL-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
 | Additional neural encoder ablations (per TBD methods) | ⬜ TBD |
 | Additional internal baselines (TBD) | ⬜ TBD |
 
@@ -322,7 +328,7 @@ of remote readiness, implementation, transfer, or launched training.
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
 | Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
-| Phase 7A trimmed branch-contribution and overlap analysis | 📝 Current plan adopted 2026-10-17; implementation/execution not started. Required A+B-Core combines five singles, five removals, standardized classification-population CKA, calendar-walk/contract/future-RV groups: 60 new seed-0 heads plus six H0 references. Starting-probability/imputation groups, pairwise probes, and extended diagnostics are deferred; Phase 6.8 is not a prerequisite. |
+| Phase 7A trimmed branch-contribution and overlap analysis | 🔄 Infrastructure implemented and development-validated; target Lumid admission and real execution pending. Required A+B-Core combines five singles, five removals, standardized classification-population CKA, calendar-walk/contract/future-RV groups: 60 new seed-0 heads plus six H0 references. Starting-probability/imputation groups, pairwise probes, and extended diagnostics are deferred; Phase 6.8 is not a prerequisite. |
 | Phase 7B alpha research | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. Earlier raw-OHLCV and direct-representation GP dry runs remain exploratory implementation evidence only. |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
@@ -420,7 +426,7 @@ under the Phase 6.9 technical contract, and the completed strict
 GARCH--LSTM supplies the volatility comparison. Phase 6.8 remains an optional
 unimplemented three-task representation extension; neither Di-COT nor its
 broader Monotone-VI matrix has been implemented or executed. The Phase 6.9
-xLSTM scope supersedes the former Phase 6.6B listing. The current trimmed Phase 7A analysis plan remains unimplemented and unexecuted. Grouped SHAP remains a later
+xLSTM scope supersedes the former Phase 6.6B listing. The trimmed Phase 7A infrastructure is implemented; real execution remains pending. Grouped SHAP remains a later
 analysis amendment. Pooled all-temporal volatility reporting, reversal
 confirmation, and additional seeds remain deferred follow-ups.
 
