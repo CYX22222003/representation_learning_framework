@@ -12,6 +12,13 @@ This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are
 compared fairly on the same held-out split or walk-forward calendar interval.
 
+Phase 7C's owner-approved dev4 prelaunch numerical amendment changes no data
+allocation, fitting or model selection: only auxiliary median Rank IC replay
+has an explicit `0.001` absolute allowance. Raw-output, primary-metric and
+integrity checks remain unchanged; retain the original failed prelaunch audit
+and freeze the amended policy in a fresh output root. See the
+[Phase 7C plan](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+
 The [Phase 7A implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
 places the new data classes, source/identity adapters, training-only scalers,
 experiment lifecycle, analyses, replay, reports, and CLI under `src/analysis/`.

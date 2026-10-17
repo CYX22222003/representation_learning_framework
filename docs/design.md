@@ -8,6 +8,8 @@
 > The approved `--phase7c` roster is HC-ST (classification), HB-AL (price),
 > HC-AL (variance), fixed across walks. Target-runtime admission/execution
 > remain pending. SHAP is optional for these selected variants.
+> The owner-approved dev4 replay amendment isolates auxiliary median Rank IC
+> tolerance from primary metrics and raw outputs; see the Phase 7C plan.
 
 > **Phase 7B scope (2026-10-18):** The planned
 > [full-model SHAP extension](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)

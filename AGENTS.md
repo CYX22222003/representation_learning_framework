@@ -14,6 +14,12 @@
 > Variance HC-AL is the best noncanonical MAE variant, not better than H0.
 > Lumid admission and execution remain pending. Keep separate `experiments/phase7/selected_variants/`
 > outputs and do not modify archived Phase 7A provenance or validation status.
+> Owner-approved dev4 prelaunch amendment: explicitly pass
+> `--tolerances src/analysis/configs/phase7c_replay_policy.json` and use fresh
+> `experiments/phase7/selected_variants/dev4/` outputs. Only auxiliary median
+> Rank IC gets a separate `0.001` absolute allowance; primary metrics, raw
+> outputs, hashes, identities and all other checks stay unchanged. Retain the
+> first failed prelaunch audit in the parent root. See the Phase 7C plan.
 
 > **Phase 7B authority (2026-10-18):** Read
 > `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.

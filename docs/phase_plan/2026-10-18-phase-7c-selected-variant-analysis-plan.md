@@ -76,6 +76,35 @@ recorded explanation protocol before execution.
 
 ## Implementation and execution
 
+### Owner-approved prelaunch numerical amendment (2026-10-18)
+
+All 177 required inputs were SHA-256 verified on dev4. The first source audit
+accepted five references but rejected HB-AL price Walk 1 at epoch 15: raw
+predictions differed by at most `1.1921e-7`, while the auxiliary median Rank
+IC changed from `0.13180367` to `0.13227349` (absolute `0.00046982`). Mean
+Rank IC drift was `0.00001368`; primary MAE/RMSE drift was negligible and
+within the original bounds. Near-tied ranks make this median discontinuous.
+
+After reviewing that failure, the owner explicitly reaffirmed that small
+numerical deviations should be recorded rather than block execution. This
+is a disclosed revision after prelaunch replay, before any new Phase 7C head
+training, not a silently predeclared threshold. The opt-in
+`src/analysis/configs/phase7c_replay_policy.json` sets only
+`rank_median_metric_atol=0.001`. Apply it with `--tolerances` and freeze it in
+a new `experiments/phase7/selected_variants/dev4/` output root. All other
+tolerances remain unchanged, including mean Rank IC, MAE/RMSE, raw outputs,
+classification, Spearman and CKA. Raw-output errors, non-finite values,
+structural/identity failures and hash/provenance mismatches remain invalid.
+Accepted median drift is visibly logged with actual values and thresholds;
+larger drift is still rejected.
+
+Keep the original failed audit, policy and preparation under the parent
+`experiments/phase7/selected_variants/` root intact. Do not rewrite source
+predictions, metrics or checkpoints. This amendment does not change Phase
+7A's archived 197/198 validation status or its frozen policy.
+
+### Commands and persistence
+
 Use the existing `analysis` package with `--profiles <json>` before the
 subcommand. Its task-keyed profiles record `family`, `configuration` and
 `selection_reason`. Families map to the existing canonical, Phase 6 temporal,

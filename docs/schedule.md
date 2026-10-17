@@ -7,6 +7,10 @@
 > The approved `--phase7c` roster is HC-ST for classification, HB-AL for price,
 > and HC-AL for variance: 68 probe heads plus six existing full references.
 > Target Lumid admission and real execution remain pending.
+> Dev4 input staging now verifies all 177 files. An owner-approved prelaunch
+> amendment records small auxiliary median Rank IC drift as a bounded warning;
+> see the plan. Original failure evidence is retained; no new heads have yet
+> trained at this amendment point.
 > SHAP is optional here; the separate Phase 7B H0 SHAP study stays planned.
 
 > **Phase 7 update (2026-10-18):** Phase 7A results are archived under
