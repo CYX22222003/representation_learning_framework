@@ -177,6 +177,12 @@ single/removal seed-0 heads plus six H0 references, CKA, and calendar-walk/
 contract/future-RV reporting. Bootstrap uncertainty is optional future work;
 error-overlap/resource analyses are excluded, pairwise probes and extended
 diagnostics are deferred, and implementation/execution have not started.
+For engineering placement, module interfaces, or execution/replay orchestration,
+also include
+`docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+All new analysis code/data classes/infrastructure/CLI belong under
+`src/analysis/`; tests belong under `tests/analysis/`. Planned modules and CLI
+commands are not evidence that implementation or training exists.
 Preserve the supersession notices in both older Phase 7A plans as historical
 context; do not restore their old requirements or Phase 6.8 dependency.
 

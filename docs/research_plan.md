@@ -428,6 +428,11 @@ the broader October A+B+C plan before implementation. Phase 6.8 is not a
 prerequisite for Phase 7A or the closed Phase 6.9; Phase 7A remains separate
 from Phase 6.9's exit conditions.
 
+The [Phase 7A engineering plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+places all new analysis data classes, utilities, experiment/training lifecycle,
+similarity/conditional analysis, replay, reporting, and package CLI under
+`src/analysis/`, with focused tests under `tests/analysis/`.
+
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`
 with a residual projection head and a branch-aware gated projection head on

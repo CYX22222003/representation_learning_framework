@@ -12,6 +12,14 @@
 > duplicate controls, and extra seeds are deferred. Phase 6.8 does not gate
 > Phase 7A. Implementation/execution have not started.
 
+> **Phase 7A implementation placement:** Follow
+> `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+> All new analysis utilities, data classes, experimental/training infrastructure,
+> CLI, replay, plotting, and reporting belong under `src/analysis/`; tests belong
+> under `tests/analysis/`. Reuse existing task primitives through adapters.
+> The proposed package CLI is `PYTHONPATH=src .venv/bin/python3 -m analysis`.
+> This is planned infrastructure, not implemented code or an execution result.
+
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Running Scripts
@@ -945,6 +953,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
+| `src/analysis/` | Planned Phase 7A package for all new analysis data classes, utilities, source adapters, experiment/training lifecycle, CKA, conditional metrics, replay, reports, and package CLI; implementation has not started |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), the independently authored executed `saurl_ts/`, `lwa/`, and `timedart/` adapters, and the independently authored implemented-but-untrained `sgn/` classifier |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |

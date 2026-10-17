@@ -58,6 +58,13 @@ The exact cross-product planning inventory is stored beside this plan in
 `2026-10-17-phase-7a-trimmed-experiment-inventory.json`; expanding its ten
 configurations, three tasks, and two walks produces exactly 60 run IDs.
 
+The engineering companion is the
+[analysis implementation plan](2026-10-17-phase-7a-analysis-implementation-plan.md).
+All new analysis utilities, data classes, training/experiment infrastructure,
+replay, plotting, and command logic belong under `src/analysis/`. Use its
+package CLI rather than adding a new script generation. This records an
+implementation design; implementation and execution have not started.
+
 ## 3. Research questions and evidence
 
 | ID | Question | Required evidence |

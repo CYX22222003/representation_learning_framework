@@ -11,6 +11,12 @@ This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are
 compared fairly on the same held-out split or walk-forward calendar interval.
 
+The [Phase 7A implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+places the new data classes, source/identity adapters, training-only scalers,
+experiment lifecycle, analyses, replay, reports, and CLI under `src/analysis/`.
+It reuses existing eligible rows and targets; no new data allocation or source
+rebuild is commissioned by that engineering plan.
+
 > **Phase 5 contract (2026-09-21):** The single per-contract raw 80/20 rule
 > below remains the authority for legacy and Phase 3 artifacts. It is not the
 > next-stage primary evaluation design. Phase 5 uses predeclared fixed-duration

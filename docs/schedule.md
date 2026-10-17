@@ -11,6 +11,13 @@
 
 **Last updated:** 2026-10-17
 
+**Phase 7A engineering plan:** The
+[analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+places all new data classes, utilities, experiment/training infrastructure,
+analysis, replay, reports, and CLI under `src/analysis/`. Source implementation
+and execution have not started; the first engineering task is types/contracts
+and source/H0 audit adapters.
+
 > **Latest classification-plan revision:** The owner approved
 > `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
 > Independently authored SGN-C replaces the unimplemented Phase 6.9

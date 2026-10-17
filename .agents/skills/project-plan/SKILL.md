@@ -97,6 +97,11 @@ Read these in order:
    future-RV reporting. Bootstrap uncertainty is optional future work. Pairwise and
    extended diagnostics are deferred, and implementation/execution have not started. Phase 7B
    alpha research is intentionally deferred pending further literature review.
+   For Phase 7A engineering work, also read
+   `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`:
+   all new analysis code, data classes, infrastructure, replay, reports, and
+   CLI belong under `src/analysis/`; tests belong under `tests/analysis/`.
+   A saved implementation plan does not establish implemented infrastructure.
 
 ## Response Contract
 

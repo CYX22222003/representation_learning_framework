@@ -437,6 +437,13 @@ optimisation freedom and remain contextual complete-system comparisons.
       task/condition analysis under trimmed Phase 7A
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
+Phase 7A's new data classes, utilities, experiment/training lifecycle, metrics
+adapters, CKA, conditional reporting, replay, plotting, and CLI are planned
+under `src/analysis/`, with tests under `tests/analysis/`. Existing heads and
+scientific primitives may be imported through adapters. See the
+[analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md).
+This package is planned, not implemented or executed.
+
 - **Phase 2 decoder refinement:**
 
   Keep the five Phase-1 branches frozen and compare `D0` shallow MLP, `D1`

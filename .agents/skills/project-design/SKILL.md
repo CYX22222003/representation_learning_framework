@@ -58,6 +58,10 @@ Read these in order:
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
    For the trimmed canonical branch-contribution and overlap analysis, read
    `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+   For its package architecture and interfaces also read
+   `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+   All new analysis utilities, data classes, experimental/training lifecycle,
+   CLI, replay, plotting, and reporting belong under `src/analysis/`.
 10. For price-focused raw/representation residual fusion, supervised raw
     LSTM/BiLSTM towers, canonical
     decoder-capacity sensitivity, or grouped post-hoc attribution, read

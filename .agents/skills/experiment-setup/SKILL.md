@@ -134,6 +134,11 @@ Read these in order:
     references, standardized classification-population CKA, and
     calendar-walk/contract/future-RV reporting. Bootstrap uncertainty is
     optional future work and does not gate completion.
+    Also read
+    `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`
+    for source/H0 adapters, exact branch views, width-aware scalers,
+    resumable heads, CKA samples, conditional metrics, and replay under
+    `src/analysis/`. Its package CLI replaces a new scripts generation.
     Pairwise probes and extended diagnostics are deferred. Auxiliary samples,
     thresholds, and subgroup edges use training data only. Implementation and
     execution have not started.
