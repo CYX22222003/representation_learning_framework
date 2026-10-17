@@ -66,7 +66,12 @@ PYTHONPATH=src .venv/bin/python3 -m analysis --profiles <json> launch
 
 `launch` remains preparation/manifest-only without `--execute`. Production
 still requires verified Lumid admission, synchronized dependencies and
-explicit execution. No real Phase 7C experiment has been run or admitted.
+explicit execution. The approved dev4 run finished all 68 heads and twelve
+replay-valid CKA matrices. Its
+[archived report](../../experiments/phase7/selected_variants/dev4/reports/selected_variants_seed0/summary.md)
+remains partial at 220/222 validated snapshots: price A-B/Walk 1/epoch 50
+and A-noS/Walk 2/epoch 5 retain numerical replay exceptions. No further
+tolerance waiver was applied; see the Phase 7C plan for details.
 Do not reuse an old Phase 7A output root with changed code/profiles.
 
 Selected-variant outputs default to `experiments/phase7/selected_variants/`.

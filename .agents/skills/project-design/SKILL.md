@@ -11,8 +11,10 @@ The implemented `analysis --profiles` adapter supports one existing framework
 per task, shared where appropriate, with dynamic branches and task-specific
 CKA. Canonical H0 remains the default. `--phase7c` loads the approved roster
 from `src/analysis/configs/phase7c_selected_profiles.json`; consult the plan
-for its metric/claim boundaries. Lumid admission/execution remain pending;
-do not choose variants automatically or imply they have run.
+for its metric/claim boundaries and archived dev4 execution evidence. The
+report remains partial at 220/222 validated snapshots; preserve its two price
+replay exceptions. Do not choose variants automatically or equate trained
+heads with full validation.
 
 Ground design answers in the current project documents rather than assumptions.
 

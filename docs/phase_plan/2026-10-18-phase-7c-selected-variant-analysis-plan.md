@@ -4,7 +4,8 @@
 
 **Scope:** Owner-approved exploratory extension of Phase 7A. Implementation
 supports configurable profiles under `src/analysis/`; the task roster is now
-owner-approved and encoded. Target-runtime admission and real execution remain pending. SHAP is optional
+owner-approved and encoded. Dev4 execution finished; validation remains partial
+(220/222 snapshots). See the execution evidence below. SHAP is optional
 and is not implemented by this extension.
 
 ## Question and selection boundary
@@ -76,6 +77,31 @@ recorded explanation protocol before execution.
 
 ## Implementation and execution
 
+### Dev4 execution evidence (2026-10-18)
+
+Execution used commit `7cc22f73fab5039567a7a6a4e0f2119b15bb61ef`, the approved
+profiles and the explicit replay policy below. All **68 probe heads** finished;
+all **204 new checkpoint/prediction snapshots** were saved. Six immutable full
+references replayed successfully, and all **12 CKA matrices** passed replay.
+
+The [archived report](../../experiments/phase7/selected_variants/dev4/reports/selected_variants_seed0/summary.md)
+remains **PARTIAL / INCOMPLETE: 220/222 validated snapshots**. Two price
+snapshots remain invalid under the frozen policy:
+
+- `absolute_price_h8/A-B/walk1/e50`: sign-agreement drift `0.0000335188`
+  and nonzero-sign-agreement drift `0.0000439213` exceed their bounds.
+- `absolute_price_h8/A-noS/walk2/e5`: Rank IC positive-fraction drift
+  `0.0009930487` exceeds its bound. This is not median Rank IC and is not
+  covered by the median-only allowance.
+
+No additional tolerance waiver or retraining was applied. Invalid snapshots
+remain isolated; training completion does not establish full validation.
+The [Git archive inventory](../../experiments/phase7/selected_variants/dev4/manifests/git_archive_inventory.json)
+records file sizes/hashes and the retained exceptions. Results, predictions,
+diagnostics, figures and provenance are archived in Git; model checkpoints
+and runtime logs remain in persistent sandbox storage. The original failed
+prelaunch audit remains intact in the parent output root.
+
 ### Owner-approved prelaunch numerical amendment (2026-10-18)
 
 All 177 required inputs were SHA-256 verified on dev4. The first source audit
@@ -126,7 +152,8 @@ than being waived. Follow the established numerical-warning policy.
 Execute sequentially on the owner-selected verified Lumid environment after
 exact-commit synchronization, full dependency admission and focused smoke
 checks. Both default `launch` and `run` remain non-training without explicit
-`--execute`; no production run is authorized or claimed by this code update.
+`--execute`. The owner subsequently authorized the dev4 run recorded above;
+these commands do not authorize any additional training.
 
 ## Completion and reporting
 

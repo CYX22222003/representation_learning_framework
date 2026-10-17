@@ -8,8 +8,10 @@ description: Use when a project design decision, architecture change, new model 
 Include `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`
 for selected-variant adapter/analysis changes. One framework is assigned per
 task across both walks, with no cross-product or encoder/full-reference
-retraining. Profile support is implemented, not production-admitted/executed;
-the approved task assignments are encoded in
+retraining. Dev4 execution is archived, with partial validation (220/222
+snapshots); preserve its two price replay exceptions and use the plan/report
+as execution evidence rather than older prelaunch notes below.
+The approved task assignments are encoded in
 `src/analysis/configs/phase7c_selected_profiles.json` via `--phase7c` (see the
 plan for the equal-walk selection rule and variance caveat). Preserve canonical H0 as
 the default and the separate Phase 7B planned-SHAP status.

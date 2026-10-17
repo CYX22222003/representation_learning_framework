@@ -8,8 +8,10 @@ description: Use when asking about this project's current progress, research sch
 Phase 7C is the approved selected-variant contribution/CKA extension in
 `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
 Profile/source/matrix/replay/report support is implemented and the approved
-task assignments are encoded via `--phase7c` (see the plan); target admission
-and execution are pending. One existing
+task assignments are encoded via `--phase7c` (see the plan). Dev4 trained all
+68 heads, but the archived report remains partial at 220/222 validated
+snapshots. Consult the plan/report for the two price replay exceptions;
+training completion is not full validation. One existing
 framework per task may be shared across tasks. SHAP is optional here; do not
 confuse this implementation with the still-planned Phase 7B SHAP estimator.
 

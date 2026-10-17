@@ -12,7 +12,9 @@ full-reference retraining. Profile adapters preserve exact canonical rows,
 native feature/encoder hashes and training-scaler parity. CKA uses each task
 population separately. The approved roster is encoded in
 `src/analysis/configs/phase7c_selected_profiles.json` (`--phase7c`); preparation
-freezes it, while target admission and production execution remain pending.
+freezes it. Dev4 execution is archived, but validation remains partial at
+220/222 snapshots; consult the plan/report for the two price replay
+exceptions. Do not change allocation or tolerances to erase exceptions.
 
 Use the project documents as the authority for experiment design. Do not infer allocation rules from implementation details alone.
 

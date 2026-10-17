@@ -1,16 +1,19 @@
 # FYP Progress and Schedule
 
-> **Phase 7C implementation (2026-10-18):** The owner approved a small
+> **Phase 7C execution (2026-10-18):** The owner approved a small
 > [selected-variant analysis](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
 > Configurable profiles under `src/analysis/` support one framework per task,
 > reused if it serves several tasks, and dynamic standalone/removal/CKA analysis.
 > The approved `--phase7c` roster is HC-ST for classification, HB-AL for price,
 > and HC-AL for variance: 68 probe heads plus six existing full references.
-> Target Lumid admission and real execution remain pending.
-> Dev4 input staging now verifies all 177 files. An owner-approved prelaunch
-> amendment records small auxiliary median Rank IC drift as a bounded warning;
-> see the plan. Original failure evidence is retained; no new heads have yet
-> trained at this amendment point.
+> All 68 heads finished on dev4, saving 204 new checkpoint/prediction snapshots;
+> all twelve CKA matrices pass replay. The
+> [archived report](../experiments/phase7/selected_variants/dev4/reports/selected_variants_seed0/summary.md)
+> remains PARTIAL / INCOMPLETE with 220/222 validated snapshots. Price
+> A-B/Walk 1/epoch 50 and A-noS/Walk 2/epoch 5 retain numerical replay
+> exceptions. No further tolerance waiver was applied. All 177 inputs were
+> hash-verified before launch; the original failed prelaunch audit and the
+> owner-approved median-only replay amendment remain preserved. See the plan.
 > SHAP is optional here; the separate Phase 7B H0 SHAP study stays planned.
 
 > **Phase 7 update (2026-10-18):** Phase 7A results are archived under
@@ -353,7 +356,7 @@ of remote readiness, transfer, or launched training.
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
 | Phase 7A trimmed branch-contribution and overlap analysis | 🔄 All 60 heads trained on Lumid; predictions, metrics, CKA, conditional outputs and report archived under `experiments/phase7/ablation/restarts/dev2/`. Report is PARTIAL / INCOMPLETE with 197/198 validated snapshots; the price A-B/Walk 1/epoch-50 tolerance failure and affected conditional/pooled coverage remain unresolved. No tolerance or completion criterion was changed. |
 | Phase 7B full-model SHAP extension | 📝 Scope approved; implementation/execution not started. Explain all 445 inputs of the six existing epoch-50 H0 heads across three tasks/two walks; class-specific classification plots and regression plots, no retraining. Follow the 2026-10-18 Phase 7B plan. |
-| Phase 7C selected-variant analysis | 🔄 Profile/adapters, dynamic matrix/CKA and replay/report support implemented; approved roster encoded via `--phase7c`: classification HC-ST, price HB-AL, variance HC-AL (68 probe heads, six references, 222 snapshots, twelve CKA matrices). Lumid admission and execution pending. Same task assignment in both walks, no cross-product or encoder/full-reference retraining. SHAP is optional. |
+| Phase 7C selected-variant analysis | 🔄 Executed on dev4: all 68 probe heads trained, 204 new snapshots saved, six full references replayed and all twelve CKA matrices valid. Report remains PARTIAL / INCOMPLETE at 220/222 validated snapshots: price A-B/Walk 1/epoch 50 and A-noS/Walk 2/epoch 5 retain numerical replay exceptions. Results/provenance archived under `experiments/phase7/selected_variants/dev4/`; no additional tolerance waiver. Approved roster: classification HC-ST, price HB-AL, variance HC-AL, fixed across walks; no cross-product or encoder/full-reference retraining. SHAP is optional. |
 | Alpha research (unassigned future phase) | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. The former provisional Phase 7B label is superseded. Earlier GP dry runs remain exploratory implementation evidence only. |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 

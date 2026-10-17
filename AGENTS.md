@@ -12,7 +12,10 @@
 > loads the approved `src/analysis/configs/phase7c_selected_profiles.json`:
 > classification HC-ST, price HB-AL, variance HC-AL (68 heads, six references).
 > Variance HC-AL is the best noncanonical MAE variant, not better than H0.
-> Lumid admission and execution remain pending. Keep separate `experiments/phase7/selected_variants/`
+> Dev4 execution finished: 68 heads trained, 204 new snapshots saved and all
+> 12 CKA matrices replay-valid. The report remains partial at 220/222 validated
+> snapshots, with two retained price replay exceptions; see the Phase 7C plan.
+> Keep separate `experiments/phase7/selected_variants/`
 > outputs and do not modify archived Phase 7A provenance or validation status.
 > Owner-approved dev4 prelaunch amendment: explicitly pass
 > `--tolerances src/analysis/configs/phase7c_replay_policy.json` and use fresh

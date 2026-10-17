@@ -5,6 +5,13 @@ description: Use when auditing repository progress against docs/schedule.md, cor
 
 # Update Schedule From Evidence
 
+For Phase 7C, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md` and the
+archived dev4 report/inventory under `experiments/phase7/selected_variants/`.
+All 68 heads trained and twelve CKA matrices replayed, but validation remains
+partial at 220/222 snapshots. Preserve both price replay exceptions; do not
+infer full completion from training markers or superseded prelaunch notes.
+
 The current Phase 7B scope is
 `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`:
 a planned full-H0 SHAP extension, not alpha research. No implementation or

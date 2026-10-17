@@ -6,7 +6,8 @@
 > task, allowing one to three distinct variants. Do not cross every selection
 > with every task or retrain encoders/full references. This is post-hoc
 > characterization; the approved assignments are HC-ST (classification),
-> HB-AL (price), HC-AL (variance). Real execution remains pending. SHAP
+> HB-AL (price), HC-AL (variance). Current execution and validation evidence
+> belongs in `docs/schedule.md` and the archived Phase 7C report. SHAP
 > is optional and does not gate this extension.
 
 > **Phase 7B scope (2026-10-18):** The owner approved a small

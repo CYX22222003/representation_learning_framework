@@ -11,7 +11,8 @@ Use one actual selected framework per task, fixed across walks, rather than
 an envelope or three-by-three cross-product. Compare removals with their own
 full-framework reference. This is post-hoc characterization, not independent
 confirmation. Profile support and the approved `--phase7c` roster are encoded;
-runtime admission/execution remain pending. Consult the plan for the
+dev4 execution is archived but validation remains partial (220/222 snapshots).
+Preserve the two price replay exceptions. Consult the plan for the
 equal-walk selection rule and variance H0 caveat, not the earlier examples.
 
 Use this skill after the data split and task definitions are known, and before selecting a model or writing a performance claim. Isolate representation quality from differences in data, labels, decoder capacity, training budget, and test-set tuning.

@@ -6,7 +6,8 @@
 > through standalone/removal probes and CKA in both walks. Do not treat this
 > post-hoc selection as independent confirmation. Source/profile support is
 > implemented; HC-ST (classification), HB-AL (price), HC-AL (variance) are
-> approved and encoded, but real execution remains pending. SHAP
+> executed on dev4; the report remains partial at 220/222 validated snapshots.
+> See the plan and schedule for the two retained price replay exceptions. SHAP
 > is optional, separate from planned Phase 7B full-H0 SHAP.
 
 > **Phase 7B scope (2026-10-18):** The owner approved

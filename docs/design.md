@@ -6,8 +6,9 @@
 > references, standalone/removal matrices, task-population CKA and reports.
 > The default remains canonical H0; no existing model architecture changes.
 > The approved `--phase7c` roster is HC-ST (classification), HB-AL (price),
-> HC-AL (variance), fixed across walks. Target-runtime admission/execution
-> remain pending. SHAP is optional for these selected variants.
+> HC-AL (variance), fixed across walks. Dev4 execution finished; the report
+> remains partial at 220/222 validated snapshots with two price replay
+> exceptions (see the plan and schedule). SHAP is optional for these variants.
 > The owner-approved dev4 replay amendment isolates auxiliary median Rank IC
 > tolerance from primary metrics and raw outputs; see the Phase 7C plan.
 
