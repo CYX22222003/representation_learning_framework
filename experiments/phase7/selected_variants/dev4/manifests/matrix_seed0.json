@@ -1,0 +1,3291 @@
+{
+  "expected_new_runs": 68,
+  "expected_reference_runs": 6,
+  "expected_snapshots": 222,
+  "references": [
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HC-ST",
+        "family": "temporal",
+        "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+        "task": "classification_h2"
+      },
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HC-ST",
+        "family": "temporal",
+        "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+        "task": "classification_h2"
+      },
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HB-AL",
+        "family": "temporal",
+        "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+        "task": "absolute_price_h8"
+      },
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HB-AL",
+        "family": "temporal",
+        "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+        "task": "absolute_price_h8"
+      },
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HC-AL",
+        "family": "temporal",
+        "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+        "task": "realised_variance"
+      },
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+      "profile": {
+        "configuration": "HC-AL",
+        "family": "temporal",
+        "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+        "task": "realised_variance"
+      },
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "runs": [
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive_transformer"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive_transformer",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive_transformer"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive_transformer"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive_transformer",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive_transformer",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive_transformer"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/classification_h2/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/classification_h2.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/classification_h2/hc-st/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-ST",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: highest equal-walk mean epoch-50 macro-F1 (0.455189769925494) among completed internal framework configurations in the Phase 6 temporal and Phase 6.5A capacity reports. Use the same configuration in both walks; not independent confirmation.",
+          "task": "classification_h2"
+        },
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol_lstm"
+        ],
+        "configuration": "A-X6",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-X6/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 503
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 518
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 509
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol_lstm"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noX6",
+        "kind": "leave_one_out",
+        "removed_branch": "byol_lstm",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noX6/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol_lstm"
+        ],
+        "configuration": "A-X6",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-X6/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 503
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 518
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 509
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol",
+          "byol_lstm"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol_lstm"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noX6",
+        "kind": "leave_one_out",
+        "removed_branch": "byol_lstm",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/absolute_price_h8/A-noX6/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/absolute_price_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/absolute_price_h8/hb-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HB-AL",
+          "family": "temporal",
+          "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+          "task": "absolute_price_h8"
+        },
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive_lstm"
+        ],
+        "configuration": "A-X6",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-X6/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 503
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 518
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 509
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noX6",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive_lstm",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noX6/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk1/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk1/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive_lstm"
+        ],
+        "configuration": "A-X6",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-X6/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 503
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 518
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 509
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "contrastive_lstm"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noX6",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive_lstm",
+        "width": 445
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/selected_variants/dev4/downstream/realised_variance/A-noX6/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/features/walk2/realised_variance.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/encoder_variants/downstream/realised_variance/hc-al/walk2/seed0/feature_standardizer.npz",
+        "profile": {
+          "configuration": "HC-AL",
+          "family": "temporal",
+          "selection_reason": "Owner explicitly selected HC-AL: lowest equal-walk mean epoch-50 MAE (0.0005661085069751327) among noncanonical, non-duplicate variants in the Phase 6 temporal and Phase 6.5A capacity reports. H0 has lower mean MAE (0.0005641148571873506); this is characterization of the selected variant, not a claim of superiority over H0 or an RMSE-based selection.",
+          "task": "realised_variance"
+        },
+        "task": "realised_variance",
+        "walk": 2
+      }
+    }
+  ]
+}
