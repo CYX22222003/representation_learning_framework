@@ -74,6 +74,18 @@ class CoreTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             replace(matrix.runs[0], recipe=TrainingRecipe(epochs=2))
 
+    def test_generated_outputs_are_ignored_but_source_is_not(self):
+        import subprocess
+        # Runtime artifacts must not dirty the checkout used for admission.
+        for path in ("experiments/phase7/ablation/manifests/preflight.json",
+                     "experiments/phase7/ablation/failed_attempts/attempt/state.json",
+                     "experiments/phase7/ablation/features/example/scaler.npz"):
+            check = subprocess.run(["git", "check-ignore", "--no-index", "-q", path], cwd=ROOT)
+            self.assertEqual(check.returncode, 0, path)
+        check = subprocess.run(["git", "check-ignore", "--no-index", "-q",
+                                "src/analysis/unexpected_source.py"], cwd=ROOT)
+        self.assertEqual(check.returncode, 1)
+
     def test_source_paths_relocate_explicitly(self):
         context = replace(self.context, path_mappings=(PathMapping("/old/root", ROOT),))
         self.assertEqual(resolve_recorded_path("/old/root/experiments/a.npz", context), ROOT / "experiments/a.npz")
