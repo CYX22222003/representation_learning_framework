@@ -444,6 +444,13 @@ scientific primitives may be imported through adapters. See the
 [analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md).
 This package is planned, not implemented or executed.
 
+Phase 7A production execution is on the owner-selected Lumid sandbox using a
+verified persistent Python/CUDA environment. Source adapters must support
+explicit WSL-to-sandbox path relocation with unchanged artifact hashes. All
+logs, checkpoints and reports remain on persistent storage; the package runner
+supports detached launch and recovery after interruption. Local checks do not
+replace sandbox preflight.
+
 - **Phase 2 decoder refinement:**
 
   Keep the five Phase-1 branches frozen and compare `D0` shallow MLP, `D1`

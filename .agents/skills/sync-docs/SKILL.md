@@ -183,6 +183,10 @@ also include
 All new analysis code/data classes/infrastructure/CLI belong under
 `src/analysis/`; tests belong under `tests/analysis/`. Planned modules and CLI
 commands are not evidence that implementation or training exists.
+The owner selected Lumid sandbox execution for Phase 7A. Synchronize runtime
+placement, dependency-transfer/path-relocation rules, persistent artifacts,
+and detached-resume requirements with the Lumid sandbox skill. Do not mark
+sandbox readiness or launch complete from an execution-platform decision.
 Preserve the supersession notices in both older Phase 7A plans as historical
 context; do not restore their old requirements or Phase 6.8 dependency.
 

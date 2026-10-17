@@ -102,6 +102,9 @@ Read these in order:
    all new analysis code, data classes, infrastructure, replay, reports, and
    CLI belong under `src/analysis/`; tests belong under `tests/analysis/`.
    A saved implementation plan does not establish implemented infrastructure.
+   The owner selected Lumid sandbox execution, not local training. Target
+   sandbox identity, persistent Python/CUDA environment, data/code sync and
+   preflight remain unverified until evidenced. Apply the Lumid sandbox skill.
 
 ## Response Contract
 

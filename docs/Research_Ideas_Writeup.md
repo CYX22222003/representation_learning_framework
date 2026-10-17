@@ -9,6 +9,11 @@
 > are deferred. Phase 6.8 does not gate this study. Implementation and
 > execution have not started.
 
+> **Phase 7A runtime:** The owner selected Lumid sandbox execution. The
+> [implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+> covers persistent runtime/data, exact-commit synchronization, source-path
+> relocation, detached logs and resumable checkpoints. Readiness is not yet verified.
+
 ## 1. Main Topic
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications

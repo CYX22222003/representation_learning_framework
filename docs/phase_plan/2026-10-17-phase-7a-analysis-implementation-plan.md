@@ -3,6 +3,9 @@
 **Date:** 2026-10-17  
 **Status:** Implementation plan only; source implementation and experiment
 execution have not started.  
+**Execution platform:** Owner-selected Lumid sandbox. Real experiments,
+production preflight, and final replay run in the sandbox's verified persistent
+Python/CUDA environment. The local WSL environment is not the experiment runtime.
 **Scientific authority:**
 [trimmed Phase 7A plan](2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).  
 **Planning inventory:**
@@ -25,7 +28,8 @@ may be imported from their current modules. Tests belong under
 `tests/analysis/`, plans under `docs/phase_plan/`, and generated artifacts under
 `experiments/phase7/ablation/`.
 
-Use a package CLI, `PYTHONPATH=src .venv/bin/python3 -m analysis`, so no new
+Use a package CLI, `PYTHONPATH=src .venv/bin/python3 -m analysis`, from the
+persistent sandbox checkout using its own verified `.venv`, so no new
 experiment logic or launcher generation is needed under `scripts_v*/`.
 The commands described below are proposed interfaces, not existing commands.
 
@@ -51,6 +55,8 @@ The repository already supplies:
 - Regression/RV metric formulas in the original task trainers.
 - `centered_linear_cka` in `src/evaluation/phase6_encoder_variants.py`.
 - Resume-state handling examples in the Phase 6.9 training lifecycles.
+- Lumid operational contracts in `lumid_container_guide.md` and
+  `.agents/skills/lumid-sandbox-experiment-guide/SKILL.md`.
 
 Important adaptation boundaries:
 
@@ -81,6 +87,7 @@ src/analysis/
   cli.py               # commands and arguments; delegates all work
   types.py             # all analysis data classes
   contracts.py         # branches, matrix expansion, fixed task recipes
+  runtime.py           # sandbox execution record, dependency inventory, path relocation
   sources.py           # original datasets/features/H0/scalers and adapters
   features.py          # branch views and training-only standardization
   tasks.py             # head/loss factories, prediction and metric adapters
@@ -110,6 +117,7 @@ defensively copy them, since a frozen data class alone does not freeze arrays.
 | `BranchSpec` | key, symbol, width, H0 coordinate interval | Canonical order/width; no duplicate keys |
 | `AblationSpec` | configuration ID, kind, retained branches, removed branch | Exactly one branch for singles or exactly four for removals; calculated width |
 | `TaskWalkSource` | task, walk, data/feature/manifest paths, H0 run/scaler paths | Expected source family, files, hashes, task and walk |
+| `ExecutionEnvironment` | Lumid site, sandbox/hostname, persistent checkout, commit, Python path/versions, GPU/backend, logs/output roots | Verified sandbox identity, persistent paths, matching commit, admitted runtime |
 | `RowIdentity` | walk, condition IDs, window starts, decision dates, availability, task target identity | Equal lengths, ordered uniqueness, exact source equality |
 | `TaskSplit` | split name, identities, targets, named feature arrays, required task metadata | Finite arrays, matching rows, correct labels/units; no target-based filtering |
 | `FeatureStandardizer` | mean, raw std, applied scale, clip limits, training identity hash | Training-only population; declared width and finite state |
@@ -154,6 +162,34 @@ Normalize existing H0 snapshot schemas into `PredictionRecord` in memory or
 new derived records. Preserve the source files. Recompute required metrics
 from predictions when an original summary lacks them, such as common-timestamp
 price Rank IC. Existing stored metrics remain their historical records.
+
+### 5.1 Lumid synchronization and path relocation
+
+Before staging data, implement a dependency inventory tracing every file read
+by source/H0 validators and the new launcher. The transfer set includes the six
+data bundles, six feature stores, their manifests, original task scalers,
+required H0 5/15/50 checkpoints/predictions/metrics/configurations, and every
+transitively required encoder/source/data manifest or raw file. Determine this
+closure from code; do not assume six NPZs alone suffice. Record relative path,
+file type, byte size, and SHA-256; verify destination sizes/hashes and then run
+standalone validators. Reuse verified files already on Lumid and transfer only
+missing or mismatched exact files. Do not recollect data or recompute encoders.
+
+Synchronize tracked implementation through the remote Git repository at an
+exact tested commit. Verify local/origin/sandbox SHAs agree before execution;
+do not copy tracked code ad hoc or overwrite unknown changes. This plan does
+not itself commit/push code or provision a sandbox.
+
+Existing provenance may contain absolute WSL paths. Resolve them through an
+explicit recorded mapping from the original project root to the persistent
+sandbox checkout, retaining the same repository-relative paths. Preserve
+original file bytes, manifests, and hashes. Do not rewrite legacy files to
+replace path strings, fall back to similarly named files, or disable integrity
+checks. A relocation adapter under `src/analysis/` may wrap validators that
+assume the old absolute root; it must verify the mapped dependency's hash and
+identity before use and report both recorded and resolved paths. Test a full
+relocated source/H0 audit before training. If validators expose further
+dependencies, add them to the inventory rather than bypassing the checks.
 
 ## 6. Feature preparation and fixed training
 
@@ -214,6 +250,11 @@ Save training snapshots first; run evaluation after training so inference or
 head reconstruction cannot affect subsequent dropout/RNG progression. Recover
 missing prediction/metric outputs from existing valid snapshots. Completing
 training and completing replay are separate states.
+
+Record the admitted sandbox runtime and backend in each run. Resume only in a
+compatible verified environment. Prefer final replay on the training backend;
+freeze any cross-backend tolerance before evaluation and classify benign drift
+versus material failure explicitly. Do not relax tolerances after seeing results.
 
 ## 7. Four analysis implementations
 
@@ -322,10 +363,19 @@ values. No resource or error-overlap table is generated.
 ```text
 experiments/phase7/ablation/
   manifests/
+    execution_environment.json
+    dependency_inventory.json
+    path_mapping.json
+    preflight.json
     source_audit.json
     matrix_seed0.json
     reference_replay.json
     condition_spec.json
+  logs/<launch_id>/
+    combined.log
+    events.jsonl
+    launch.json
+    launcher.pid
   features/<task>/walk<w>/
     branch_views.json
   downstream/<task>/<config>/walk<w>/seed0/
@@ -357,8 +407,41 @@ they do not reinstate a resource-comparison study.
 
 ## 9. Proposed CLI and execution order
 
-All commands run from the repository root with the existing WSL `.venv`.
+All production commands run inside the verified Lumid sandbox from its
+persistent checkout. A typical project location is
+`/home/personai-korolev-tes/representation_learning_framework`; verify the
+actual path and sandbox identity rather than assuming that location is ready.
+The `.venv/bin/python3` below means the sandbox's own persistent environment,
+not a copied local virtual environment. If the existing admitted environment
+has a different path, record and use its explicit executable consistently.
 Commands are to be implemented; none is executed by adopting this plan.
+
+### 9.1 Sandbox preflight and transfer gates
+
+Follow the Lumid sandbox skill and platform guide in this order:
+
+1. Identify the actual site, gateway, sandbox name, observed hostname, and
+   persistent `/home/<user>/` storage. Verify gateway routing before remote
+   mutations; record reclaim and hard-TTL policies. Do not infer current GPU,
+   sandbox, or dependency versions from the completed LWA experiment.
+2. Validate the sandbox Python, NumPy/SciPy/PyTorch and plotting dependencies,
+   CUDA, available storage, and absence of conflicting workloads. Reuse a valid
+   environment; freeze versions and any needed installation before execution.
+   Never transfer a local `.venv` as a portable runtime.
+3. Synchronize the exact tested Git commit and the complete input dependency
+   inventory under persistent storage; run the relocated source/H0 audit.
+4. Run focused tests, manifest-only preparation, real-path integration checks,
+   a bounded CUDA forward/backward/optimizer/checkpoint probe, and interrupt/
+   resume replay on the target backend. Save `preflight.json` with its source,
+   dependency, recipe, device and tolerance contract.
+5. Confirm every important output, temporary checkpoint, log and resume state
+   resolves under persistent storage. Treat `/workspace` and `/root` as
+   disposable. `/datasets` may supply verified read-only inputs, not outputs.
+
+These are execution checks. They do not reinstate the removed resource-analysis
+experiment or add a comparative compute report.
+
+### 9.2 Package command sequence inside the sandbox
 
 ```bash
 PYTHONPATH=src .venv/bin/python3 -m analysis audit
@@ -380,6 +463,35 @@ trains/resumes real heads, after preparation validation and a bounded runtime
 feasibility check. Similarity/conditional/report commands only process existing
 features or predictions and must never trigger hidden training.
 
+`runtime.py` supplies explicit checkout-root/path-mapping resolution for the
+CLI; it must not embed `/mnt/e/` as an executable source path. Add a proposed
+`run --device cuda --execute` command for the full ordered pipeline once
+preflight passes. It orchestrates audit/preparation, CKA, the complete training
+matrix, replay, conditional analysis, report, and final validation. A command
+without `--execute` cannot train real heads.
+
+### 9.3 Detached launch, monitoring, and recovery
+
+Launch the package pipeline with detached stdin and combined stdout/stderr in
+a timestamped log beneath the persistent experiment root. Record PID, launch
+command, hostname/sandbox, commit, executable, input hashes, and environment.
+All launcher logic and stage-state handling remain under `src/analysis/`.
+
+Emit stage start/success/failure/skip events, epoch/loss progress, and paths to
+saved checkpoints. Monitor the first few intervals and every stage transition
+for log growth, finite loss, checkpoint progress, and actual process state.
+CPU-only CKA/reporting or I/O can leave the GPU idle; diagnose from the declared
+stage and logs. No recurring unattended monitor or automatic restart is
+commissioned by this planning decision.
+
+Detached execution survives SSH disconnects, not sandbox reclaim/deletion or
+hard TTL. After interruption, reconfirm sandbox routing, commit, environment,
+input hashes, and resume-state integrity, then invoke the same resumable
+pipeline. Keep valid completed stages and partial evidence. After completion,
+validate all outputs on Lumid and retrieve report figures/tables plus a hashed
+artifact inventory for local writing/presentation. Record retrieval hashes;
+do not label a run complete merely because its process disappeared.
+
 Support one configuration/task/walk for debugging or staged execution, but keep
 the full frozen matrix and an incomplete-inventory warning visible. A final
 report requires all 66 entries and 198 snapshots to pass replay. Partial reports
@@ -390,14 +502,14 @@ when dependencies and settings match; mismatches fail with the exact cause.
 
 | Step | Implement | Acceptance condition |
 |---|---|---|
-| 1 | Types, contracts, source adapters, atomic artifact I/O | Exactly 60 new entries plus six references; all six sources/H0 references audited; rejected hash/identity/task/walk drift |
+| 1 | Types, contracts, runtime/source adapters, atomic artifact I/O | Exactly 60 new entries plus six references; all six sources/H0 references audited; complete Lumid dependency inventory; hash/identity/task/walk and relocation drift rejected |
 | 2 | Named views, scalers, task heads/losses | All eight widths work for all three tasks; source-coordinate/scaler parity; evaluation perturbation cannot change fitted state |
 | 3 | Train/resume/predict/replay | Uninterrupted versus interrupted/resumed synthetic runs agree on the same backend; missing snapshot recovery; wrong provenance/occupied path rejected |
 | 4 | Ablation metrics and comparisons | Known-answer errors/F1/skill/removal signs; exact target/identity pairing; correct RV unit inversion and Rank IC coverage |
 | 5 | CKA sampling and matrices | Deterministic balanced identities; symmetry and self-similarity; collapse handling; replayable 40-pair inventory |
 | 6 | Conditional metrics | Correct q90/q99 boundaries/ties, training-only thresholds, sparse/empty/missing-class behaviour, macro versus pooled formulas |
-| 7 | CLI and report | Default commands train nothing; staged execution cannot be called complete; every output links to validated source predictions |
-| 8 | Real matrix and handoff, in a subsequent execution task | 60 trajectories/180 new snapshots and six references/18 snapshots replay; 40 CKA scores and required group/report artifacts exist |
+| 7 | CLI, Lumid preflight, detached pipeline and report | Default commands train nothing; target-sandbox tests and persistent resume/logging pass; staged execution cannot be called complete; every output links to validated source predictions |
+| 8 | Real Lumid matrix and handoff, in a subsequent execution task | 60 trajectories/180 new snapshots and six references/18 snapshots replay on the admitted runtime; 40 CKA scores and required group/report artifacts exist and are inventoried for retrieval |
 
 Keep tests under `tests/analysis/` focused on scientific validity and recovery:
 use small deterministic arrays and known-answer metrics, plus bounded task-head
@@ -405,6 +517,11 @@ integration. Test report completeness and excluded-output absence rather than
 pixel-perfect plots or generic framework scaffolding. Before real execution,
 verify real-source loading/scaling/reference replay for each task/walk; this is
 an integration gate, not evidence that new models were trained.
+
+Add focused portability tests for absolute-path relocation with intact legacy
+hashes, missing transitive dependencies, read-only source preservation, and
+recovery from a recreated sandbox using persistent artifacts. The production
+gate runs on Lumid; local development checks cannot substitute for it.
 
 Stop adding analyses once the declared outputs are covered. The remaining work
 then becomes interpretation, writing, and presentation. Implementation status

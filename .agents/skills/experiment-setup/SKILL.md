@@ -139,6 +139,10 @@ Read these in order:
     for source/H0 adapters, exact branch views, width-aware scalers,
     resumable heads, CKA samples, conditional metrics, and replay under
     `src/analysis/`. Its package CLI replaces a new scripts generation.
+    Production execution is on the owner-selected Lumid sandbox. Verify the
+    persistent runtime and full input/validator dependency closure; map legacy
+    absolute paths explicitly while preserving original bytes, identities and
+    hashes. Local smoke tests do not replace target-sandbox admission/replay.
     Pairwise probes and extended diagnostics are deferred. Auxiliary samples,
     thresholds, and subgroup edges use training data only. Implementation and
     execution have not started.

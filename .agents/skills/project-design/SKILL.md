@@ -62,6 +62,9 @@ Read these in order:
    `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
    All new analysis utilities, data classes, experimental/training lifecycle,
    CLI, replay, plotting, and reporting belong under `src/analysis/`.
+   Phase 7A executes on Lumid with persistent environment/data/artifacts,
+   exact-commit sync, explicit legacy-path resolution, detached logs and resume;
+   the runtime/source adapters also belong under `src/analysis/`.
 10. For price-focused raw/representation residual fusion, supervised raw
     LSTM/BiLSTM towers, canonical
     decoder-capacity sensitivity, or grouped post-hoc attribution, read

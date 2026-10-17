@@ -3,6 +3,10 @@
 **Date:** 2026-10-17  
 **Status:** Current Phase 7A authority, adopted by the owner on 2026-10-17.  
 **Execution status:** Implementation and execution have not started.  
+**Execution platform:** Owner-selected Lumid sandbox with persistent storage;
+the local environment is not the experiment runtime. Environment admission,
+source synchronization/relocation, and detached resume/logging are specified
+in the implementation plan.
 **Grouping refinement:** The owner retained only calendar walks, contracts,
 and future realised-variance strata; starting-probability and imputation groups
 are deferred.

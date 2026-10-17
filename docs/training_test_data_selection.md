@@ -16,6 +16,10 @@ places the new data classes, source/identity adapters, training-only scalers,
 experiment lifecycle, analyses, replay, reports, and CLI under `src/analysis/`.
 It reuses existing eligible rows and targets; no new data allocation or source
 rebuild is commissioned by that engineering plan.
+Phase 7A executes on Lumid. Transfer and verify the complete validator/input
+dependency set, retaining original bytes and hashes. Resolve original absolute
+paths with an explicit root mapping; do not rewrite manifests or drop source
+checks. The original walk-specific fitting and target-maturity rules still apply.
 
 > **Phase 5 contract (2026-09-21):** The single per-contract raw 80/20 rule
 > below remains the authority for legacy and Phase 3 artifacts. It is not the

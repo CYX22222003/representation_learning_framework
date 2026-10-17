@@ -432,6 +432,9 @@ The [Phase 7A engineering plan](phase_plan/2026-10-17-phase-7a-analysis-implemen
 places all new analysis data classes, utilities, experiment/training lifecycle,
 similarity/conditional analysis, replay, reporting, and package CLI under
 `src/analysis/`, with focused tests under `tests/analysis/`.
+The owner selected Lumid sandbox execution with verified persistent runtime,
+input/code synchronization, detached logging and resume. This changes the
+execution location, not the frozen experiment matrix or evaluation allocation.
 
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`

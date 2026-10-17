@@ -18,6 +18,14 @@ analysis, replay, reports, and CLI under `src/analysis/`. Source implementation
 and execution have not started; the first engineering task is types/contracts
 and source/H0 audit adapters.
 
+**Phase 7A execution platform:** The owner selected the Lumid sandbox instead
+of the local runtime. The sandbox name/hostname, persistent checkout, Python/CUDA
+environment and preflight are not yet verified for this experiment. The
+implementation must support exact-commit synchronization, hashed dependency
+transfer with explicit legacy-path relocation, persistent logs/checkpoints,
+detached execution and recovery. This is an execution decision, not evidence
+of remote readiness, implementation, transfer, or launched training.
+
 > **Latest classification-plan revision:** The owner approved
 > `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
 > Independently authored SGN-C replaces the unimplemented Phase 6.9

@@ -7,6 +7,19 @@ description: Use when running Python, pip, training, data-preparation, evaluatio
 
 Detect the active shell before constructing commands. The project's intended runtime is WSL with a local virtual environment at `.venv/`.
 
+## Phase 7A Lumid execution override
+
+The owner selected Lumid sandbox execution for Phase 7A analysis experiments.
+Use the remote persistent checkout's verified Python/CUDA environment for real
+training, production preflight and final replay; local `.venv` checks are
+development checks only. A remote command showing `.venv/bin/python3` refers
+to the sandbox environment, never to a copied local virtual environment.
+Record its resolved executable and dependency versions, and follow the
+`lumid-sandbox-experiment-guide` skill plus
+`docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+This override is specific to Phase 7A and does not relocate other experiment
+phases. Local documentation/skill validation still uses the WSL rules below.
+
 ## WSL Rules
 
 When the working directory is under `/mnt/e/School-Work-6-Y3S2/FYP/representation_learning_framework`:
