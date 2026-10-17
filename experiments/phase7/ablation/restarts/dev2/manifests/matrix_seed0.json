@@ -1,0 +1,2499 @@
+{
+  "expected_new_runs": 60,
+  "expected_reference_runs": 6,
+  "expected_snapshots": 198,
+  "references": [
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+      "task": "classification_h2",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+      "task": "classification_h2",
+      "walk": 2
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+      "task": "absolute_price_h8",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+      "task": "absolute_price_h8",
+      "walk": 2
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+      "task": "realised_variance",
+      "walk": 1
+    },
+    {
+      "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+      "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+      "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+      "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+      "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+      "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+      "task": "realised_variance",
+      "walk": 2
+    }
+  ],
+  "runs": [
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk1/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk1/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/data_preparation/walk2/market_1h_seq64_h2.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/classification/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream/walk2/feature_standardizer.npz",
+        "task": "classification_h2",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk1/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk1/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk1/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/absolute_price_h8/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/data/walk2/market_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/features/walk2/five_branch_epoch50.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/tasks/absolute_price_h8/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase5/downstream_addons/shared/h8/feature_scalers/walk2/feature_standardizer.npz",
+        "task": "absolute_price_h8",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-S/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-T/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-V/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-C/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-B/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noS/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noT/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noV/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noC/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noB/walk1/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk1/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk1/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk1/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 1
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical"
+        ],
+        "configuration": "A-S",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 70
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-S/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed"
+        ],
+        "configuration": "A-T",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 55
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-T/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "vae"
+        ],
+        "configuration": "A-V",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 64
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-V/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "contrastive"
+        ],
+        "configuration": "A-C",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-C/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "byol"
+        ],
+        "configuration": "A-B",
+        "kind": "single",
+        "removed_branch": null,
+        "width": 128
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-B/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "transformed",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noS",
+        "kind": "leave_one_out",
+        "removed_branch": "statistical",
+        "width": 375
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noS/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "vae",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noT",
+        "kind": "leave_one_out",
+        "removed_branch": "transformed",
+        "width": 390
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noT/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "contrastive",
+          "byol"
+        ],
+        "configuration": "A-noV",
+        "kind": "leave_one_out",
+        "removed_branch": "vae",
+        "width": 381
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noV/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "byol"
+        ],
+        "configuration": "A-noC",
+        "kind": "leave_one_out",
+        "removed_branch": "contrastive",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noC/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    },
+    {
+      "ablation": {
+        "branches": [
+          "statistical",
+          "transformed",
+          "vae",
+          "contrastive"
+        ],
+        "configuration": "A-noB",
+        "kind": "leave_one_out",
+        "removed_branch": "byol",
+        "width": 317
+      },
+      "device": "cuda",
+      "output_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/realised_variance/A-noB/walk2/seed0",
+      "recipe": {
+        "batch_size": 512,
+        "epochs": 50,
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "learning_rate": 0.0001,
+        "seed": 0,
+        "snapshots": [
+          5,
+          15,
+          50
+        ],
+        "weight_decay": 0.0
+      },
+      "source": {
+        "dataset_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz.manifest.json",
+        "dataset_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/data_preparation/walk2/volatility_1h_seq64_h8.npz",
+        "feature_manifest_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz.manifest.json",
+        "feature_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/features/walk2/five_branch_epoch50_h8.npz",
+        "h0_run_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0",
+        "h0_scaler_path": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase6/volatility_prediction/runs/framework_h0/walk2/seed0/feature_standardizer.npz",
+        "task": "realised_variance",
+        "walk": 2
+      }
+    }
+  ]
+}

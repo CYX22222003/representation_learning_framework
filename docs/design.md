@@ -1,5 +1,36 @@
 # Model Design
 
+> **Phase 7C adapter extension (2026-10-18):** See the
+> [selected-variant plan](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+> `analysis --profiles <json>` generalizes branch maps, native sources/full
+> references, standalone/removal matrices, task-population CKA and reports.
+> The default remains canonical H0; no existing model architecture changes.
+> The approved `--phase7c` roster is HC-ST (classification), HB-AL (price),
+> HC-AL (variance), fixed across walks. Dev4 execution finished; the report
+> remains partial at 220/222 validated snapshots with two price replay
+> exceptions (see the plan and schedule). SHAP is optional for these variants.
+> The owner-approved dev4 replay amendment isolates auxiliary median Rank IC
+> tolerance from primary metrics and raw outputs; see the Phase 7C plan.
+
+> **Phase 7B scope (2026-10-18):** The planned
+> [full-model SHAP extension](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> explains all 445 representation coordinates in the existing epoch-50 H0
+> heads for classification, future price and future RV, separately by walk.
+> No models are retrained. This scope is approved, not implemented/executed;
+> it is not the deferred Phase 6.6 raw/fusion attribution study. Alpha
+> research stays deferred and unassigned. For Phase 7A's executed but partly
+> invalid result inventory, use `docs/schedule.md` and the archived report
+> rather than the older prelaunch notes below.
+
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> It requires five single and five leave-one-out probes across three tasks/two
+> walks: 60 new seed-0 heads plus six immutable H0 references. Lean standardized
+> CKA and calendar-walk/contract/future-RV reporting remain required. Bootstrap
+> uncertainty is optional future work. Pairwise probes and heavier diagnostics are
+> deferred. Analysis infrastructure is implemented and development-validated;
+> target Lumid admission and real Phase 7A execution remain pending.
+
 > **Phase 5 authority (2026-09-21):** The initial architecture and experiment
 > design evolved after issues discovered in Phases 1--3; Phase 4 was a
 > data-analysis phase and ran no model training. For the active main-experiment
@@ -53,8 +84,8 @@
 > contract for price, and the completed strict GARCH--LSTM stack for
 > volatility. The Phase 6.6 raw-fusion and decoder-capacity studies remain
 > deferred; their former xLSTM-Mixer listing is superseded.
-> Canonical single-branch and leave-one-out attribution is frozen in
-> [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> The trimmed branch-contribution and overlap analysis is specified in
+> [`phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
 > residual-CNN encoders, two feature stores, eight price trajectories, CKA,
 > resources, subgroup tables, and complete report are replay-valid. Phase 6.7
@@ -76,8 +107,9 @@
 > two 170-wide stores, six downstream trajectories, and 18 snapshots are
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
 > Phase 6.9 is closed; its final task-separated synthesis is under
-> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 and frozen
-> Phase 7A remain unimplemented; Phase 6.6 likewise remains planning evidence.
+> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 remains
+> unimplemented; Phase 7A infrastructure is implemented with development checks,
+> but real execution is pending. Phase 6.6 remains planning evidence.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
 > one learned initial token. Its model, guarded runtime/training/replay
@@ -94,8 +126,8 @@
 > independently replay-valid; the matched report is under
 > `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. The historical XM-only
 > diagnostic report is under `experiments/phase6_9/xlstm_mixer/reports/seed0/`.
-> Phase 7B alpha research remains
-> unspecified pending further literature review.
+> Alpha research remains unassigned and deferred pending further literature
+> review; Phase 7B now denotes the small full-H0 SHAP extension above.
 
 ## Architecture Design
 
@@ -252,8 +284,9 @@ imputation-exposure reporting but is not an additional model channel.
   Optional Phase 6.8 adds Di-COT-Frozen and Monotone-VI-Frozen through that
   same probing boundary after method-specific source/licence/adaptation gates.
   Phase 6.9 instead adds a task-specific comparison for classification, price,
-  and volatility. Phase 7A separately runs canonical single/leave-one-out
-  attribution. The otherwise deferred Phase 6.6
+  and volatility. Phase 7A separately combines canonical single/removal probes
+  with lean CKA and conditional analysis.
+  Pairwise probes and extended diagnostics are deferred. The otherwise deferred Phase 6.6
   retains a matched frozen-H0/raw-sequence residual fusion system and two
   richer static canonical heads on future price only. Phase 6.9 owns the
   XM-C8 endpoint-only xLSTM-Mixer adaptation on original price rows and MSE.
@@ -424,9 +457,24 @@ optimisation freedom and remain contextual complete-system comparisons.
   - Broad comparison axes, only when separately approved for the applicable
     phase:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
-    - Canonical single-branch and leave-one-branch-out ablations vs. the full
-      aggregated framework
+    - Canonical single/removal probes with lean CKA, limited
+      task/condition analysis under trimmed Phase 7A
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
+
+Phase 7A's new data classes, utilities, experiment/training lifecycle, metrics
+adapters, CKA, conditional reporting, replay, plotting, and CLI are implemented
+under `src/analysis/`, with tests under `tests/analysis/`. Existing heads and
+scientific primitives may be imported through adapters. See the
+[analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md).
+Development checks pass independently of the pending target Lumid preflight and real execution.
+
+Phase 7A production execution is on the owner-selected Lumid sandbox using a
+verified persistent Python/CUDA environment. Source adapters must support
+explicit WSL-to-sandbox path relocation with unchanged artifact hashes. All
+logs, checkpoints and reports remain on persistent storage; the package runner
+supports detached launch and restarting failed heads from epoch 1, retaining
+verified completed runs. No training-resume API is required. Local checks do not
+replace sandbox preflight.
 
 - **Phase 2 decoder refinement:**
 

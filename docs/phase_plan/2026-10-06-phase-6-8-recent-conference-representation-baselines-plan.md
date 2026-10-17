@@ -8,7 +8,11 @@ coding or training.
 **Predecessor:**
 `2026-10-04-phase-6-7-external-representation-baseline-plan.md`
 **Next planned phase:**
-`2026-09-26-phase-7a-representation-ablation-plan.md`
+`2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+
+> **Later scheduling decision (2026-10-17):** Phase 6.8 remains optional and
+> does not gate the current trimmed Phase 7A study. The linear phase order below
+> is retained as historical planning context, not an active dependency.
 
 ## 1. Decision and priority
 
@@ -28,11 +32,14 @@ architecture. Di-COT-Frozen and Monotone-VI-Frozen are both recent
 representation-learning baselines. Their inclusion must not be described as
 proof of empirical state-of-the-art performance.
 
-Phase order is now:
+The historical phase order at adoption was:
 
 ```text
 closed Phase 6.7 -> Phase 6.8 -> Phase 7A -> reassess deferred Phase 6.6
 ```
+
+The current order permits the trimmed Phase 7A study to proceed independently
+while Phase 6.8 and Phase 6.6 remain optional/deferred.
 
 Phase 7A's already frozen branch-ablation matrix is unchanged; only its
 execution order moves behind Phase 6.8. Phase 6.6 and Phase 7B remain deferred.

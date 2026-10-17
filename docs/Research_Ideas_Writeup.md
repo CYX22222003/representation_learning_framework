@@ -1,5 +1,39 @@
 # Research Idea V2
 
+> **Phase 7C extension (2026-10-18):** The owner approved
+> [selected-variant characterization](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md):
+> one existing framework per task, potentially shared across tasks, examined
+> through standalone/removal probes and CKA in both walks. Do not treat this
+> post-hoc selection as independent confirmation. Source/profile support is
+> implemented; HC-ST (classification), HB-AL (price), HC-AL (variance) are
+> executed on dev4; the report remains partial at 220/222 validated snapshots.
+> See the plan and schedule for the two retained price replay exceptions. SHAP
+> is optional, separate from planned Phase 7B full-H0 SHAP.
+
+> **Phase 7B scope (2026-10-18):** The owner approved
+> [full-model SHAP](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> as a small explanation extension of Phase 7A, using the six existing
+> epoch-50 H0 heads and all 445 representation coordinates. Three tasks and
+> two walks remain separate; no retraining is required. Implementation and
+> execution are not started. The former provisional Phase 7B alpha label is
+> superseded; alpha research stays deferred and unassigned. Current Phase 7A
+> execution status is in `docs/schedule.md` and its archived partial report.
+
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required scope is five single and five leave-one-out probes across all three
+> tasks/two walks: 60 new seed-0 heads plus six immutable H0 references. Lean
+> CKA and calendar-walk/contract/future-RV reporting remain required. Bootstrap
+> uncertainty is optional future work. Pairwise probes and extended diagnostics
+> are deferred. Phase 6.8 does not gate this study. Implementation and
+> real execution remains pending; analysis infrastructure is implemented and development-validated.
+
+> **Phase 7A runtime:** The owner selected Lumid sandbox execution. The
+> [implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+> covers persistent runtime/data, exact-commit synchronization, source-path
+> relocation, detached logs and evaluation checkpoints. Failed heads restart
+> from epoch 1; completed runs are retained. Readiness is not yet verified.
+
 ## 1. Main Topic
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications
@@ -66,7 +100,7 @@ universal framework superiority.
 > whose former xLSTM-Mixer listing is superseded by Phase 6.9 and which defers grouped SHAP
 > until after its frozen model comparisons,
 > and the
-> [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> [Phase 7A trimmed branch-contribution plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Phase 6.5A--D are executed and replay-valid. Price-focused Phase 6.5D finds
 > a repeatable Contrastive residual-CNN price-error improvement over H0 and its
 > same-width control, but not over Raw LSTM or persistence, and not in movement
@@ -106,8 +140,8 @@ universal framework superiority.
 > macro-F1 in both walks and its hard grouping collapses. The final
 > task-separated synthesis is complete under
 > `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Phase 6.8
-> remains optional and unimplemented. Phase 7A remains frozen and
-> unimplemented. Phase 6.6 remains deferred and is no longer an active
+> remains optional and unimplemented. Phase 7A has implemented trimmed-analysis infrastructure;
+> real execution and target Lumid admission remain pending. Phase 6.6 remains deferred and is no longer an active
 > xLSTM-Mixer authority.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`. It confirms suitability and the implemented
@@ -118,7 +152,7 @@ universal framework superiority.
 > local CUDA-device admission replaces the earlier Lumid prerequisite;
 > that runtime amendment alone did not change the old recipe; the later
 > endpoint amendment explicitly supersedes the path/intersection requirements.
-> Phase 7B alpha research remains intentionally unspecified pending further
+> Alpha research remains unassigned and intentionally unspecified pending further
 > literature review.
 
 ## 2. Literature Review (Brief \& Informal)

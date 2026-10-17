@@ -1,5 +1,81 @@
 # AGENTS.md
 
+> **Phase 7C selected-variant analysis (2026-10-18):** Follow
+> `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+> The analysis package now accepts `--profiles <json>` assigning one existing
+> framework per task (one to three distinct variants), fixed across both walks.
+> Analyse each selection only on its assigned task, not a three-by-three
+> cross-product. Dynamic standalone/removal probes and task-population CKA
+> reuse native temporal/LSTM-capacity/residual-CNN stores and full references;
+> H0 remains the default without profiles. No encoder/full-reference retraining.
+> SHAP/conditional reporting are not Phase 7C completion gates. `--phase7c`
+> loads the approved `src/analysis/configs/phase7c_selected_profiles.json`:
+> classification HC-ST, price HB-AL, variance HC-AL (68 heads, six references).
+> Variance HC-AL is the best noncanonical MAE variant, not better than H0.
+> Dev4 execution finished: 68 heads trained, 204 new snapshots saved and all
+> 12 CKA matrices replay-valid. The report remains partial at 220/222 validated
+> snapshots, with two retained price replay exceptions; see the Phase 7C plan.
+> Keep separate `experiments/phase7/selected_variants/`
+> outputs and do not modify archived Phase 7A provenance or validation status.
+> Owner-approved dev4 prelaunch amendment: explicitly pass
+> `--tolerances src/analysis/configs/phase7c_replay_policy.json` and use fresh
+> `experiments/phase7/selected_variants/dev4/` outputs. Only auxiliary median
+> Rank IC gets a separate `0.001` absolute allowance; primary metrics, raw
+> outputs, hashes, identities and all other checks stay unchanged. Retain the
+> first failed prelaunch audit in the parent root. See the Phase 7C plan.
+
+> **Phase 7B authority (2026-10-18):** Read
+> `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+> This owner-approved small extension explains all 445 inputs of the six
+> existing epoch-50 full H0 heads: classification probabilities separately
+> by class, eight-hour future price and eight-hour future RV, for both walks.
+> No retraining or ablation-model SHAP. It is planned, not implemented or run.
+> Freeze the estimator, training-only background, evaluation sampling, budget,
+> output units and numerical checks before calculating attributions. New code
+> belongs under `src/analysis/`, tests under `tests/analysis/`; outputs go to
+> `experiments/phase7/shap/`. The earlier Phase 7B alpha label is superseded;
+> alpha research remains deferred and unassigned. Phase 7A results are now
+> archived under `experiments/phase7/ablation/restarts/dev2/`: all 60 heads
+> trained, but the report remains partial with 197/198 validated snapshots.
+> Preserve its validation exception; this evidence supersedes older prelaunch
+> status statements below without changing Phase 7A completion criteria.
+
+> **Current Phase 7A authority (2026-10-17):** Read
+> `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+> The owner reduced Phase 7A to Package A plus B-Core: five single branches and
+> five leave-one-out configurations across three tasks/two walks, for 60 new
+> seed-0 heads plus six immutable H0 references. Required analysis is limited
+> to main metrics/removal effects, standardized classification-population CKA,
+> and calendar-walk/contract/future-RV condition groups. Bootstrap uncertainty
+> is optional future work and does not gate completion.
+> Error-overlap and resource analyses are excluded. Pairwise probes, heavier structural diagnostics,
+> duplicate controls, and extra seeds are deferred. Phase 6.8 does not gate
+> Phase 7A. Infrastructure is implemented and development-validated; target Lumid
+> admission and real matrix execution remain pending.
+
+> **Phase 7A implementation placement:** Follow
+> `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+> All new analysis utilities, data classes, experimental/training infrastructure,
+> CLI, replay, plotting, and reporting belong under `src/analysis/`; tests belong
+> under `tests/analysis/`. Reuse existing task primitives through adapters.
+> Execute Phase 7A on the owner-selected Lumid sandbox. Follow the Lumid sandbox
+> skill: verify the target and persistent `/home/<user>` checkout/environment,
+> synchronize an exact tested Git commit and hashed dependency closure, resolve
+> legacy WSL paths explicitly, and use persistent detached logs/checkpoints.
+> The package CLI is `PYTHONPATH=src .venv/bin/python3 -m analysis`,
+> where `.venv` is the verified sandbox environment, not the local runtime.
+> Source adapters, preparation, fresh training, analyses, replay, CLI and reports
+> are implemented. Local checks use synthetic rows and original H0 replay;
+> no real Phase 7A trajectory or target-sandbox readiness is claimed.
+> Phase 7A uses fresh-head training: restart a failed head from epoch 1 and
+> retain verified completed runs. Preserve failed attempts; no optimizer/RNG
+> resume API is required. Epoch 5/15/50 checkpoints are for evaluation/replay.
+> Phase 7A validation accepts predeclared numerical tolerances, logs and
+> displays unexpected observations, and continues after warnings. Isolate
+> invalid results and affected dependencies while independent work continues;
+> never weaken exact provenance/identity checks or mark invalid results valid.
+> Structured diagnostic recording and tolerance-aware numeric replay are implemented.
+
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Running Scripts
@@ -89,7 +165,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The approved next experiment scope is split between
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
-> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`, with
+> `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`, with
 > the subsequent price-focused recent-baseline/raw-fusion/decoder-capacity work frozen
 > separately in
 > `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
@@ -181,7 +257,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > explicit `--execute`, and same-backend replay remain mandatory.
 > The released `FULL` code flips latent features,
 > not the variate-token axis, so the older reversed-variate shorthand is not
-> an implementation contract. Phase 7A remains frozen and unimplemented.
+> an implementation contract. Trimmed Phase 7A infrastructure is implemented; real execution is pending.
 > The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
@@ -259,10 +335,12 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > and xLSTM-Mixer is a contextual task-specific baseline rather than direct
 > representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
-> requires a separate sampling/estimator amendment. Phase 7A
-> freezes canonical five-branch
-> single-branch and leave-one-branch-out probing across the three current
-> tasks. Phase 7A is documented but not implemented or executed. Phase 7B
+> requires a separate sampling/estimator amendment. The current trimmed Phase 7A
+> plan retains five canonical single and five leave-one-out probes across the
+> three tasks/two walks, plus lean CKA and conditional
+> reporting. Bootstrap uncertainty is optional future work. It requires 60 new seed-0 heads and six immutable H0
+> references. Pairwise probes and extended diagnostics are deferred. Phase 7A
+> infrastructure is implemented and development-validated; see the latest execution evidence above. Future
 > alpha research is intentionally unspecified and deferred pending further
 > literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in
@@ -931,6 +1009,7 @@ task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 | `src/tasks/` | Task-owned heads, label builders, and experiment support. This includes the default `PriceRegressor`, `VolatilityRegressor`, and `TrendClassifier`; the shared volatility-label contract; `phase2_classification/` for isolated probability-movement labels, imbalance protocols, aligned loaders, probabilistic metrics, models, and artifact-producing training; and `phase2_decoders/` for contract-local row maps, D0–D4 models, fixed-budget training, replay, and reporting. |
 | `src/alpha/` | Training-only alpha research: downstream-prediction primitives, chronological OOF utilities, shallow protected formulae/selection, plus causal raw-OHLCV Alpha101-style diagnostics and a bounded genetic-programming dry run. |
 | `src/evaluation/` | Unified metrics plus Phase 6 predeclared CKA sampling and complete substitution/addition-vs-duplicate reporting |
+| `src/analysis/` | Implemented Phase 7A data classes, source/runtime adapters, preparation, fresh-head training, CKA, conditional metrics, tolerant replay, reports and CLI; development-validated, with target Lumid admission and real execution pending |
 | `src/baselines/` | Comparison models — `lstm_baseline/` (external price benchmark), `raw_lstm_volatility/` and `garch_lstm_stacking/` (external volatility benchmarks), `mlp_baseline/` (internal), `ta_mlp_baseline/` (external trend benchmark), `ginn_baseline/` (volatility limitation evidence), the independently authored executed `saurl_ts/`, `lwa/`, and `timedart/` adapters, and the independently authored implemented-but-untrained `sgn/` classifier |
 | `scripts/` | Legacy runnable entry points; each inserts `src/` into `sys.path` |
 | `scripts_v2/` | Phase 3/4 experiment entry points and recent FinData acquisition/data-analysis tools; do not add Phase 5 model execution here |

@@ -1,8 +1,33 @@
 # Training and Test Data Selection
 
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required A+B-Core contains 60 new seed-0 single/removal heads plus six
+> immutable H0 references, standardized classification-population CKA,
+> calendar-walk/contract/future-RV groups. Pairwise probes and extended diagnostics are deferred. Phase 6.8
+> does not gate this study. Infrastructure is implemented and development-validated;
+> real Phase 7A execution and target Lumid admission remain pending.
+
 This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are
 compared fairly on the same held-out split or walk-forward calendar interval.
+
+Phase 7C's owner-approved dev4 prelaunch numerical amendment changes no data
+allocation, fitting or model selection: only auxiliary median Rank IC replay
+has an explicit `0.001` absolute allowance. Raw-output, primary-metric and
+integrity checks remain unchanged; retain the original failed prelaunch audit
+and freeze the amended policy in a fresh output root. See the
+[Phase 7C plan](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+
+The [Phase 7A implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
+places the new data classes, source/identity adapters, training-only scalers,
+experiment lifecycle, analyses, replay, reports, and CLI under `src/analysis/`.
+It reuses existing eligible rows and targets; no new data allocation or source
+rebuild is commissioned by that engineering plan.
+Phase 7A executes on Lumid. Transfer and verify the complete validator/input
+dependency set, retaining original bytes and hashes. Resolve original absolute
+paths with an explicit root mapping; do not rewrite manifests or drop source
+checks. The original walk-specific fitting and target-maturity rules still apply.
 
 > **Phase 5 contract (2026-09-21):** The single per-contract raw 80/20 rule
 > below remains the authority for legacy and Phase 3 artifacts. It is not the
@@ -153,11 +178,13 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase-6.6C canonical decoder-capacity sensitivity | immutable canonical H0 features on exact `absolute_price_h8` training rows, with the existing train-only scaler, target, MSE loss, and sigmoid output; seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation rows for D0, residual-projection D1-RP, and branch-aware gated D2-BG; D0 remains the primary representation probe |
 | Legacy TA-MLP baseline (trend classification) | train TA-feature rows + train BUY/HOLD/SELL labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels; historical characterisation only for the current movement task |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
-| Phase-7A canonical single/leave-one-out ablations | no encoder fitting; select exact canonical branch coordinates, then fit per-configuration scalers and fixed-epoch task heads on task-training rows only | identical task/walk evaluation rows with frozen scalers/heads; all configurations reported without evaluation-driven selection |
+| Phase-7A trimmed branch-contribution and overlap analysis | no encoder fitting; exact canonical single/removal views, task-training-only scalers and fixed-epoch heads; CKA samples, future-RV condition edges are frozen before evaluation | identical task/walk evaluation rows with frozen state; complete 60-run A matrix plus B-Core CKA/limited-condition outputs; no evaluation-driven selection |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
 | Direct-representation GP exploration | saved Phase-1 feature rows aligned back to original train-only contract timestamps; a fixed coordinate lattice is standardized on discovery only, then GP fit/selection occurs only on discovery | chronological confirmation only; no global-test use and no interpretation as a tradeable or economically named factor |
 | Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
-| Potential Phase-7B symbolic alpha research | intentionally unspecified pending literature review; any later plan must freeze its training/OOF allocation before execution | no active evaluation allocation or profitable-alpha claim is currently approved |
+| Phase-7B full-model SHAP extension (planned) | no model fitting; reuse each original epoch-50 H0 head and its training-fitted feature scaler; select explanation background rows only from that task/walk's training population | explain a frozen, bounded sample of existing held-out rows over all 445 coordinates; keep tasks/walks separate, classification probabilities class-specific, and output units/estimator/budgets fixed before attribution; no model selection or retraining |
+| Phase-7C selected-variant analysis | approved roster: classification HC-ST, price HB-AL, variance HC-AL, fixed across both walks; frozen native embeddings, exact task-training rows and training-only scalers with the existing fixed probe recipe; no encoder/full-reference fitting | identical task-specific held-out identities for that selection's standalone/removal probes and CKA, not a configuration-by-task cross-product; equal-walk epoch-50 selection is explicitly post-hoc (variance restricted to noncanonical/non-duplicate variants, not a win over H0); no independent confirmation claim; executed on dev4, with partial validation recorded in the Phase 7C plan and schedule; data allocation unchanged |
+| Potential symbolic alpha research (unassigned future phase) | intentionally unspecified pending literature review; any later plan must freeze its training/OOF allocation before execution | no active evaluation allocation or profitable-alpha claim is currently approved; the former provisional Phase-7B label is superseded |
 
 Legacy and Phase 3 entries share the same `data/processed/*.npz` train/test
 split. Phase 5 instead rebuilds these allocations per global calendar walk.
@@ -433,7 +460,10 @@ agg = RepresentationAggregator(branch_dims, mode="concat")
 task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 ```
 
-Both modes are trained on the same data splits and evaluated identically, making them directly comparable in the ablation study.
+If separately commissioned, aggregator-mode comparisons must use identical
+data and evaluation definitions. Current Phase 7A uses concat only; gated
+fusion, pairwise probes, and extended structural analyses are outside its
+trimmed matrix.
 
 ---
 

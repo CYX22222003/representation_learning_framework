@@ -5,6 +5,24 @@ description: Use when asking about this project's current progress, research sch
 
 # Project Plan
 
+Phase 7C is the approved selected-variant contribution/CKA extension in
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+Profile/source/matrix/replay/report support is implemented and the approved
+task assignments are encoded via `--phase7c` (see the plan). Dev4 trained all
+68 heads, but the archived report remains partial at 220/222 validated
+snapshots. Consult the plan/report for the two price replay exceptions;
+training completion is not full validation. One existing
+framework per task may be shared across tasks. SHAP is optional here; do not
+confuse this implementation with the still-planned Phase 7B SHAP estimator.
+
+For the current Phase 7 follow-up, read
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+Phase 7B is now the planned full-H0 coordinate-level SHAP extension across
+three tasks/two walks, without retraining. Alpha research is deferred and
+unassigned. Phase 7A's archived dev2 report has 197/198 validated snapshots;
+all 60 heads trained, but do not mark the phase fully validated. These facts
+supersede older prelaunch status notes below; Phase 7B is not implemented/run.
+
 Use the maintained schedule to describe project state, and use the research plan only as the stable roadmap. Do not treat code existence as evidence that training or evaluation has run.
 
 ## Read First
@@ -90,9 +108,22 @@ Read these in order:
    approved owner decisions, and staged implementation gate,
    and `docs/baselines/TimeDART/` for the optional method's owner-approved
    170-wide extraction and current implementation/execution status,
-   and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
-   for the frozen representation-ablation scope. Phase 7B
-   alpha research is intentionally deferred pending further literature review.
+   and `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+   for the current trimmed branch-contribution and overlap plan. Required
+   A+B-Core includes 60 new single/removal seed-0 heads plus six H0 references,
+   standardized classification-population CKA, and calendar-walk/contract/
+   future-RV reporting. Bootstrap uncertainty is optional future work. Pairwise and
+   extended diagnostics are deferred. Infrastructure is implemented with development checks;
+   use the latest archived execution status above. Future alpha research
+   remains unassigned and deferred pending further literature review.
+   For Phase 7A engineering work, also read
+   `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`:
+   all new analysis code, data classes, infrastructure, replay, reports, and
+   CLI belong under `src/analysis/`; tests belong under `tests/analysis/`.
+   A saved implementation plan does not establish implemented infrastructure.
+   The owner selected Lumid sandbox execution, not local training. Target
+   sandbox identity, persistent Python/CUDA environment, data/code sync and
+   preflight remain unverified until evidenced. Apply the Lumid sandbox skill.
 
 ## Response Contract
 
@@ -157,7 +188,8 @@ Report:
    expanded contract-macro/subgroup reporting remains. Phase 6.5D's four
    residual-CNN encoders, two feature stores, eight future-price probes, CKA,
    resources, subgroups, and report are complete and replay-valid. Canonical
-   single/leave-one-out ablations have not started.
+   trimmed Phase 7A infrastructure is implemented; the real single/removal matrix and
+   lean analyses have not executed on the target Lumid runtime.
   Phase 6.7 is closed for its frozen seed-0 scope. Its required
   roster was LWA-Frozen and SaURL-TS-Frozen; both required method lifecycles
   are complete. LWA's

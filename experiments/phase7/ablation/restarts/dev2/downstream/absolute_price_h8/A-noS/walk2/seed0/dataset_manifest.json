@@ -1,0 +1,66 @@
+{
+  "code_hashes": {
+    "src/analysis/__init__.py": "25622d13c6e73cd5cfbeddc0dd32a2f7e94e88b2248ee6fe51dafd069b3c6e25",
+    "src/analysis/__main__.py": "d8448e8a7df5d7e0f9aab0e1048c0be314ce80d5a34c9b111ea082f2558c771d",
+    "src/analysis/ablation.py": "2b75f398cbcc24ace429b4ab4ef67a7f5e5d349921addb0135021d0d07d41c98",
+    "src/analysis/artifacts.py": "3bd2e1aa3190f303fe9b2d39c5672cbf51e564cc41ee707c54f58450525e86cc",
+    "src/analysis/cli.py": "4b4b408bdff39d1594bb745be63961d9fd42cd314801ffe2c75ba5378dd5b15e",
+    "src/analysis/conditional.py": "c527bed412a8ae2c5b26c9f9699ba46614ec7a4e395917fb28f57bade1045b07",
+    "src/analysis/contracts.py": "092117016c1887e5c7aa4cf5b0e3139afd865852cba08dd36a77e520bebc5230",
+    "src/analysis/features.py": "ee711ea3d5fc15bfc3b60aa1e293fed454f19c24fbcaa41461abe878a9b705ef",
+    "src/analysis/pipeline.py": "cf8edb0b7d6752e2f78ca6bab2babb9b111ad654bd3e261d414a1eb5b811191d",
+    "src/analysis/replay.py": "ff8a4024abc539bf862f46c542b2a5faaffc96af2c7bb40974e99c0f4503969b",
+    "src/analysis/reporting.py": "f0e73a9da103065b4eca97b3ad7c4d266dab855cfea4759e7b68329bf4acfd59",
+    "src/analysis/runtime.py": "82f87fa2f4b517500a13b85f47701bc1d73e7d83e27936c06872d4fd575812ab",
+    "src/analysis/similarity.py": "8be4d91c7dc164caf02ff9b20746399efa616d331f61a355449308abe861cc63",
+    "src/analysis/sources.py": "75d12d038aa1470917b66a625324109f277e92b26d355109e46a8255f01fc190",
+    "src/analysis/tasks.py": "61e03f4becb09e94902de7d17c38bc6b3b6e050a48be606de0a582de6904c102",
+    "src/analysis/training.py": "c8338f33cc1c3bb6dd13c41a95546add93730ece3a58d222c5de0e37e1b24de2",
+    "src/analysis/types.py": "8b80a14f880e23a051fd06d1ac6c6aa2311b686fd2a7e63007fba26dec7d3cf2",
+    "src/analysis/validation.py": "5ef95b9c678c3957c4d7ea445e178ea867a7d0b88b9067f9a8c718cc4c755075",
+    "src/tasks/phase2_classification/metrics.py": "fc1b7494f3003af3df5c550661da8294ea4ee063e95e3fbaa951e85b9e0933e5",
+    "src/tasks/phase2_classification/protocols.py": "787aab2cb9d5da2373595abfaf677eccf3cbcdb02ee679f5e06d837e2990c302",
+    "src/tasks/trend_classification.py": "7e8aa1acd30627dbf51ba4b441c91342cf58b9a12f8613da9fee953f696c9951",
+    "src/tasks/volatility_prediction.py": "573e0f94e3f45e2d26d697ceb01630da491ba52e433f8aa57909aff28bb3b1d2",
+    "src/training/phase5_absolute_price.py": "b11715212bfc12617a4e85a8a826f57c35fbb2b4de445e87ec1b19f5fdc3e20a"
+  },
+  "configuration": {
+    "branches": [
+      "transformed",
+      "vae",
+      "contrastive",
+      "byol"
+    ],
+    "configuration": "A-noS",
+    "kind": "leave_one_out",
+    "removed_branch": "statistical",
+    "width": 375
+  },
+  "recipe": {
+    "batch_size": 512,
+    "epochs": 50,
+    "hidden_dims": [
+      128,
+      64
+    ],
+    "learning_rate": 0.0001,
+    "seed": 0,
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "weight_decay": 0.0
+  },
+  "schema": 1,
+  "source_hashes": {
+    "dataset": "148f1280e174f5efa00a0d551778c711cb67f4ddd6c4483e2d07a51acc3e529c",
+    "dataset_manifest": "c4884f8ccf0e01600b8515fae7fe5dc3f516a45eb459fb35c4eaf3f80434afac",
+    "feature_manifest": "f8a39a528d2ba7c2d1cbe0c0605827135a4838be28b7b1fbb7637db44c538bf3",
+    "features": "b46c5b0e4592f8c61bb715ae76fa4b882bf8522b75394589c8c7500e7883eae7"
+  },
+  "task": "absolute_price_h8",
+  "test_identity": "31518ae34c42670ee10ac6175e6a880cb503da4c81da8ef457acf79dce8251da",
+  "train_identity": "5c2dddd5b6c43ebbda3895922758859d13938fb69a0cee984e3b783680a8b487",
+  "walk": 2
+}

@@ -1,0 +1,25 @@
+{
+  "branches": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive",
+    "contrastive_lstm"
+  ],
+  "hidden_dims": [
+    128,
+    64
+  ],
+  "input_dim": 445,
+  "task_recipe": {
+    "dropout": 0.0,
+    "gradient_clip_norm": 5.0,
+    "logit_adjustment_strength": null,
+    "loss": "smooth_l1",
+    "output_dim": 1,
+    "output_transform": "softplus",
+    "smooth_l1_beta": 1.0,
+    "target_multiplier": 10000.0,
+    "task": "realised_variance"
+  }
+}

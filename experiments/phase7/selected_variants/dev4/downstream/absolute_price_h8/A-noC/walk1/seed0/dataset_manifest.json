@@ -1,0 +1,78 @@
+{
+  "code_hashes": {
+    "src/analysis/__init__.py": "36d7d838f2b74f85a1e4b4053a3a0d57db0ad7347a1b78910f5e28900bfc2544",
+    "src/analysis/__main__.py": "d8448e8a7df5d7e0f9aab0e1048c0be314ce80d5a34c9b111ea082f2558c771d",
+    "src/analysis/ablation.py": "2b75f398cbcc24ace429b4ab4ef67a7f5e5d349921addb0135021d0d07d41c98",
+    "src/analysis/artifacts.py": "9e448ae764a99754220e8fbff5135edb156f501ff480b5a0ae000b318e8acfb0",
+    "src/analysis/cli.py": "6d79f25df02fa22aa8b0055a7082befe7880ccb7b66ea1f820e43799aa5ccfb2",
+    "src/analysis/conditional.py": "c527bed412a8ae2c5b26c9f9699ba46614ec7a4e395917fb28f57bade1045b07",
+    "src/analysis/contracts.py": "ea7278cf28a8679df7c2d6f33fd5d08cc7d73f9382815a606568b1b26f22a649",
+    "src/analysis/features.py": "e74d6473cfdeca1058668d38360d66d88cd4c39984c922b79f13e3600d409dda",
+    "src/analysis/pipeline.py": "2f0b4567e9482ca4def98e97166ebef41f3cc7d2a60607cd5866dd65f2ca6d58",
+    "src/analysis/profile_sources.py": "90b82234613eeac7a45f2a1a2c8a3389768af7b24f620e860ea7b6078d6482b1",
+    "src/analysis/profiles.py": "0ddba717b231c5ee927937744788e9aa7db68cdb8490116acf10b7e2d645588b",
+    "src/analysis/replay.py": "6a5ea4642b405d2491efe51349e619980aa3a3365a97db285c81eaef7157a4ef",
+    "src/analysis/reporting.py": "94feae46347abb929c407f25fe5b2667ecb9ed36bdaf724a78970123e8f326e1",
+    "src/analysis/runtime.py": "d72e8e008f7ca33cd7f4e50180b942ee706a40e5eae4525d3fb63f83187c56e5",
+    "src/analysis/similarity.py": "f931ff2bdcb62f00a4c0ee3197c2f8aeb224ca160c27cc7732aafbf60292e027",
+    "src/analysis/sources.py": "8887c47f63d7825631f74d463bad52076c52653adacb2a46a6ef0fd8c9c1a577",
+    "src/analysis/tasks.py": "61e03f4becb09e94902de7d17c38bc6b3b6e050a48be606de0a582de6904c102",
+    "src/analysis/training.py": "dd397764ee5332382dd01cdf94418ef3dde7659adbf100085231e543779810a6",
+    "src/analysis/types.py": "46a2b244753c55b195fc0fc6f470aab7204fd19cff59f8d78365337a8ad75dec",
+    "src/analysis/validation.py": "5ef95b9c678c3957c4d7ea445e178ea867a7d0b88b9067f9a8c718cc4c755075",
+    "src/features/phase6_encoder_variant_features.py": "b74d67669e1647f3a13639fc745c490ea5dd07bea42998e9a4ffcf16e9af96bc",
+    "src/tasks/phase2_classification/metrics.py": "fc1b7494f3003af3df5c550661da8294ea4ee063e95e3fbaa951e85b9e0933e5",
+    "src/tasks/phase2_classification/protocols.py": "787aab2cb9d5da2373595abfaf677eccf3cbcdb02ee679f5e06d837e2990c302",
+    "src/tasks/trend_classification.py": "7e8aa1acd30627dbf51ba4b441c91342cf58b9a12f8613da9fee953f696c9951",
+    "src/tasks/volatility_prediction.py": "573e0f94e3f45e2d26d697ceb01630da491ba52e433f8aa57909aff28bb3b1d2",
+    "src/training/phase5_absolute_price.py": "b11715212bfc12617a4e85a8a826f57c35fbb2b4de445e87ec1b19f5fdc3e20a"
+  },
+  "configuration": {
+    "branches": [
+      "statistical",
+      "transformed",
+      "vae",
+      "byol",
+      "byol_lstm"
+    ],
+    "configuration": "A-noC",
+    "kind": "leave_one_out",
+    "removed_branch": "contrastive",
+    "width": 445
+  },
+  "profile": {
+    "configuration": "HB-AL",
+    "family": "temporal",
+    "selection_reason": "Owner-approved post-hoc selection: lowest equal-walk mean epoch-50 price MAE (0.007460539347928926) among completed internal framework configurations in the Phase 6 temporal, Phase 6.5A capacity and Phase 6.5D residual-CNN reports. Equal walk weights, not pooled-row weights; use the same configuration in both walks.",
+    "task": "absolute_price_h8"
+  },
+  "recipe": {
+    "batch_size": 512,
+    "epochs": 50,
+    "hidden_dims": [
+      128,
+      64
+    ],
+    "learning_rate": 0.0001,
+    "seed": 0,
+    "snapshots": [
+      5,
+      15,
+      50
+    ],
+    "weight_decay": 0.0
+  },
+  "schema": 1,
+  "source_hashes": {
+    "canonical_feature_manifest": "4f09acd32aa788dffc1d88bbb94b2a603321cfa9933152287d31e6b342e09b6d",
+    "canonical_features": "6f1bc5363730786116cc1fdf83aa56e8f1828b027103d53d404dd8a29ea89fbc",
+    "dataset": "39cf09c7aa0ddc76633e7474b48ce7a91026a9f7e618b92d35107228b6a0481e",
+    "dataset_manifest": "d675b4860af2e27717177606967c4880e08e979af3ed0f1deead846f8afe8298",
+    "feature_manifest": "7e50d1cba269cb1b10a895e7406fbd8a558d3927ecb7626afafb70d739c33bcf",
+    "features": "ddc522b874fce1d92769b572cfad7e909b1efe80079a776433c8cc4b78bc18c3"
+  },
+  "task": "absolute_price_h8",
+  "test_identity": "41c776d9249615eeee89d0d4dd3dd6bb510b6309a5c97baa427de97893ba9914",
+  "train_identity": "20439169429409e45c66bec4d5386ce9c1d9079b896e550fe9d920b1b8c623ed",
+  "walk": 1
+}

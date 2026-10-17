@@ -245,3 +245,24 @@ find <experiment-output-root> -type f -name '*complete*' -o -name 'metrics.json'
 
 No matching PID can mean success, failure, reclaim, or misrouting. Completion
 requires the final log event, required artifacts, and standalone validation.
+
+## 13. Named sandbox deletion through the API
+
+For an explicitly requested deletion, use
+`DELETE https://lum.id/sbx/api/sandboxes/<sandbox-name>` with
+`Authorization: Bearer <LUMID_PAT>` and no request body. Read the PAT from the
+environment inside the HTTP client. The API schema documents status `200`.
+
+See the executable example and persistence explanation in
+`lumid_container_guide.md`, Section 12, "Delete a named sandbox through the
+PAT-authenticated API". This is a documentation reference, not an instruction
+to send a destructive test request.
+
+The owner has already deleted `dev2` and supplied:
+
+```json
+{"deleted":"dev2","home_kept":"home-personai-korolev-tes"}
+```
+
+The named sandbox was removed while the indicated home volume was retained.
+Do not repeat the DELETE or query the API merely to test that completed action.

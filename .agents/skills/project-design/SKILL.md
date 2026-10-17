@@ -5,6 +5,17 @@ description: Use when answering questions about this project's architecture, rep
 
 # Project Design
 
+For selected-variant Phase 7C analysis, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+The implemented `analysis --profiles` adapter supports one existing framework
+per task, shared where appropriate, with dynamic branches and task-specific
+CKA. Canonical H0 remains the default. `--phase7c` loads the approved roster
+from `src/analysis/configs/phase7c_selected_profiles.json`; consult the plan
+for its metric/claim boundaries and archived dev4 execution evidence. The
+report remains partial at 220/222 validated snapshots; preserve its two price
+replay exceptions. Do not choose variants automatically or equate trained
+heads with full validation.
+
 Ground design answers in the current project documents rather than assumptions.
 
 ## Read First
@@ -56,8 +67,17 @@ Read these in order:
    GARCH--LSTM design, current-task TA-MLP comparison, or price-focused
    residual-CNN SSL study, read
    `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`.
-   For canonical single-branch and leave-one-out attribution, read
-   `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+   For the trimmed canonical branch-contribution and overlap analysis, read
+   `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+   For its package architecture and interfaces also read
+   `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`.
+   All new analysis utilities, data classes, experimental/training lifecycle,
+   CLI, replay, plotting, and reporting belong under `src/analysis/`.
+   Phase 7A executes on Lumid with persistent environment/data/artifacts,
+   exact-commit sync, explicit legacy-path resolution and detached logs. Failed
+   heads restart from epoch 1; retain verified completed runs without a training
+   resume API;
+   the runtime/source adapters also belong under `src/analysis/`.
 10. For price-focused raw/representation residual fusion, supervised raw
     LSTM/BiLSTM towers, canonical
     decoder-capacity sensitivity, or grouped post-hoc attribution, read
@@ -164,7 +184,12 @@ Present the parts relevant to the request:
   optional unimplemented plan for Di-COT-Frozen and Monotone-VI-Frozen under
   the same frozen probes. Phase 6.9 is closed for its frozen seed-0 scope and tests
   task-specific competitiveness across classification, price, and volatility.
-  Phase 7A remains unimplemented. Phase 6.6 is otherwise deferred; it freezes price-only
+  Phase 7A uses the current trimmed plan: required A+B-Core combines 60
+  single/removal seed-0 heads with standardized classification-population CKA,
+  and calendar-walk/contract/future-RV reporting beside six H0 references.
+  Bootstrap uncertainty is optional future work. Pairwise and extended diagnostics are
+  deferred. Analysis infrastructure is implemented and development-validated;
+  target Lumid admission and real execution remain pending. Phase 6.6 is otherwise deferred; it freezes price-only
   matched raw/`H0` residual fusion and Phase 6.6C's two richer static canonical
   decoders. Phase 6.9 owns XM-C8, the direct endpoint-only xLSTM-Mixer
   adaptation with MSE on original price rows. It remains a complete-system
@@ -176,8 +201,14 @@ Present the parts relevant to the request:
   descriptive analysis rather than model selection. Fixed-first-walk
   transfer, other temporal decoders, lifecycle-
   conditioned models, and additional seeds remain outside these plans.
-- Treat Phase 7B alpha research as deferred pending literature review; no
-  search protocol or profitable-alpha claim is currently approved.
+- For Phase 7B, read
+  `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+  It is a planned small extension explaining all 445 representation inputs
+  of six existing epoch-50 H0 heads across three tasks/two walks. Do not
+  retrain models or substitute five-group Shapley for coordinate-level SHAP.
+  Estimator, sampling and numerical-check settings must be frozen before
+  calculation. Implementation/execution have not started. Alpha research
+  remains deferred and unassigned; its earlier Phase 7B label is superseded.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 
 Prefer dimension utilities and `RepresentationAggregator.output_dim` over hard-coded assumptions. If documents disagree with current source code, call out the discrepancy and inspect the implementation before recommending a change.

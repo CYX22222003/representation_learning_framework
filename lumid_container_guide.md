@@ -507,6 +507,65 @@ Operationally, treat either reclaim or deletion as capable of killing running pr
 
 Persistent user data should be stored separately.
 
+### Delete a named sandbox through the PAT-authenticated API
+
+This is a destructive operation. The example below is documentation only;
+execute it only when deletion of that exact sandbox has been requested.
+The owner already deleted `dev2` and supplied the response below. No additional
+DELETE request or API test is needed for that deletion.
+
+| Request field | Value |
+|---|---|
+| URL | `https://lum.id/sbx/api/sandboxes/dev2` |
+| Method | `DELETE` |
+| Authorization | `Bearer <value of LUMID_PAT>` |
+| Request body | None |
+| Successful status | `200 OK`, as documented by the API schema |
+
+The sandbox name is part of the URL. To delete a different sandbox, change
+only the final name segment after identifying the intended target.
+Read the PAT from the environment; never paste it into a guide, log, or command
+argument. Example for a future explicitly requested deletion:
+
+```python
+import os
+import requests
+
+sandbox_name = "dev2"  # Already deleted; shown only as a request example.
+url = f"https://lum.id/sbx/api/sandboxes/{sandbox_name}"
+response = requests.delete(
+    url,
+    headers={
+        "Authorization": f"Bearer {os.environ['LUMID_PAT']}",
+        "Accept": "application/json",
+    },
+    timeout=30,
+    allow_redirects=False,
+)
+print("HTTP status:", response.status_code)
+print(response.text)
+response.raise_for_status()
+```
+
+Owner-supplied example of the successful response:
+
+```json
+{
+  "deleted": "dev2",
+  "home_kept": "home-personai-korolev-tes"
+}
+```
+
+- `deleted` identifies the sandbox that was removed.
+- `home_kept` identifies the persistent home volume that was retained. Sandbox
+  deletion does not mean this retained home volume was deleted; container-local
+  state and running processes are still disposable.
+
+For future operations, record the actual status/body rather than assuming
+success. A failed or timed-out request is not proof that deletion did or did
+not occur; inspect the sandbox list with an authenticated `GET` before retrying.
+Do not retry this already completed `dev2` deletion merely to test the example.
+
 ### Hard TTL
 
 A hard sandbox lifetime/expiration, if configured, is distinct from idle reclaim. Activity may prevent idle reclaim but should not be assumed to override a hard TTL.

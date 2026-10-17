@@ -5,6 +5,21 @@ description: Use when auditing repository progress against docs/schedule.md, cor
 
 # Update Schedule From Evidence
 
+For Phase 7C, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md` and the
+archived dev4 report/inventory under `experiments/phase7/selected_variants/`.
+All 68 heads trained and twelve CKA matrices replayed, but validation remains
+partial at 220/222 snapshots. Preserve both price replay exceptions; do not
+infer full completion from training markers or superseded prelaunch notes.
+
+The current Phase 7B scope is
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`:
+a planned full-H0 SHAP extension, not alpha research. No implementation or
+execution is claimed. Alpha research stays deferred and unassigned. Phase
+7A's archived dev2 results supersede older prelaunch notes below: all 60
+heads trained, but the report remains partial with 197/198 validated
+snapshots. Preserve its validation exception rather than marking completion.
+
 Audit the repository before changing `docs/schedule.md`. Schedule text is not proof of completion.
 
 ## 1. Gather Git Evidence
@@ -80,8 +95,10 @@ For Phase 6.5, Phase 6.6, and Phase 7 status, also read
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`,
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`,
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`,
-and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-full. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
+and `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+in full. The current Phase 7A authority requires 60 new single/removal seed-0
+heads plus six H0 references and B-Core analysis; pairwise and extended
+diagnostics are deferred. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
 LSTM, and current-task TA-MLP classification matrix now have their own
 manifests, generated stores where applicable, checkpoints, predictions, and
 replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
@@ -123,12 +140,13 @@ task-separated synthesis is complete under
 `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`; mark
 Phase 6.9 closed.
 The owner-directed local amendment removes Lumid as a prerequisite. Its volatility leg
-reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
+reuses completed Phase 6.5B artifacts. Trimmed Phase 7A infrastructure is implemented and development-validated;
+its real matrix and target Lumid admission remain pending.
 Phase 6.6A/C's
 deferred price-focused fusion/decoder scope and the
-canonical branch-ablation matrix remain only planned. Source and CPU tests
-alone support only an "implemented, not run" status. Phase 7B alpha
-research is deferred and has no approved execution contract. Phase 6.6 is
+canonical 60-run branch-contribution matrix remain unexecuted. Source and CPU tests
+alone support only an "implemented, not run" status. Future alpha
+research is unassigned and has no approved execution contract. Phase 6.6 is
 planning evidence only until its fusion/decoder-capacity source, manifests,
 checkpoints, predictions, and replay reports exist. Phase 6.9 solely owns the
 xLSTM-Mixer contract; the former Phase 6.6B label is historical. Grouped

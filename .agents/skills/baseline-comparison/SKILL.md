@@ -5,6 +5,16 @@ description: Design, run, and interpret fair comparisons between this project's 
 
 # Baseline Comparison
 
+For Phase 7C selected-variant analysis, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+Use one actual selected framework per task, fixed across walks, rather than
+an envelope or three-by-three cross-product. Compare removals with their own
+full-framework reference. This is post-hoc characterization, not independent
+confirmation. Profile support and the approved `--phase7c` roster are encoded;
+dev4 execution is archived but validation remains partial (220/222 snapshots).
+Preserve the two price replay exceptions. Consult the plan for the
+equal-walk selection rule and variance H0 caveat, not the earlier examples.
+
 Use this skill after the data split and task definitions are known, and before selecting a model or writing a performance claim. Isolate representation quality from differences in data, labels, decoder capacity, training budget, and test-set tuning.
 
 ## Comparison Workflow
@@ -79,10 +89,14 @@ built from chronological OOF meta-features. For the TA-MLP classification
 benchmark, use the causal feature-availability-only common intersection and
 compare its primary P2 run with retrained H0, Raw MLP, and Raw LSTM on
 identical rows; keep its P1U source-paper sensitivity separate. For Phase 7A,
-use both the frozen
-single-branch and leave-one-branch-out comparisons in
-`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`; do not
-interpret them as parameter-matched causal feature importance.
+follow the current trimmed plan in
+`docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+Its required A+B-Core scope combines 60 single/removal heads with standardized
+classification-population CKA and calendar-walk/contract/future-RV reporting
+beside six H0 references. Bootstrap uncertainty is optional future work. Pairwise
+probes and extended diagnostics are deferred. Interpret removal effects as
+practical incremental contribution and keep structural similarity separate
+from predictive usefulness; neither is parameter-matched causal importance.
 
 For Phase 6.5D, compare price-only residual-CNN substitutions with `H0` and
 their additions with both `H0` and the completed same-family duplicate-CNN
@@ -195,6 +209,16 @@ branch-aware gated D2-BG as a complete-system fusion sensitivity.
 Grouped SHAP is descriptive post-hoc attribution and cannot replace matched
 ablation or select a model from evaluation results.
 
+The owner-approved Phase 7B extension is separate from deferred Phase 6.6
+fusion attribution. Read
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`:
+explain all 445 input coordinates of the six original epoch-50 H0 heads,
+with no retraining or attribution of ablation models. Keep classification
+probabilities class-specific and regression outputs in native units. Freeze
+the estimator, training-only background, evaluation sample and numerical
+checks before computation. It is planned, not implemented or executed; SHAP
+describes predictions, not predictive-performance contribution or uniqueness.
+
 ### 3. Run matched characterization sweeps
 
 Use the same predeclared budgets for every model, such as `15,50,100`. Train from the same seed and report every budget. Do not call the lowest test error the selected model when the budget was chosen after reading test results. For a single final operating point, choose the budget from a training-only rule or commit to it before evaluation.
@@ -211,7 +235,7 @@ correlation improvement = (framework_corr - baseline_corr) / baseline_corr
 classification improvement = framework_metric - baseline_metric
 ```
 
-Run multiple seeds when practical and report mean +/- standard deviation. Because models share test samples, use paired bootstrap confidence intervals for metric differences when making a strong claim. Be precise: beating Raw-OHLCV MLP supports an internal representation-value claim; it does not by itself establish state-of-the-art performance.
+Run multiple seeds when practical and report mean +/- standard deviation. Because models share test samples, use paired bootstrap confidence intervals for metric differences when making a strong claim. Current trimmed Phase 7A defers both additional seeds and bootstrap intervals: report descriptive effect sizes and task/walk/contract consistency without significance, equivalence, or noise-margin claims. Be precise: beating Raw-OHLCV MLP supports an internal representation-value claim; it does not by itself establish state-of-the-art performance.
 
 ### 5. Preserve evidence
 
@@ -264,5 +288,5 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`
 - SGN paper/source audit, proposed specification, and owner decision record:
   `docs/baselines/SGN/`
-- Phase 7A canonical representation ablation contract:
-  `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
+- Current Phase 7A trimmed branch-contribution authority:
+  `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
