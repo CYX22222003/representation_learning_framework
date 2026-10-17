@@ -59,6 +59,13 @@ def inventory_dependencies(sources: Sequence[TaskWalkSource], context: AnalysisC
         for epoch in (5, 15, 50):
             for name in ("checkpoint.pth", "predictions.npz", "metrics.json", "history.npz"):
                 pending.append((source.h0_run_path / f"e{epoch}" / name, "h0_snapshot"))
+        if source.profile and source.profile.family != "canonical":
+            from dataclasses import replace
+            from .sources import locate_source
+            canonical = locate_source(replace(context, profiles=()), source.task, source.walk)
+            pending += [(canonical.feature_path, "canonical_features"),
+                        (canonical.feature_manifest_path, "canonical_feature_manifest"),
+                        (source.h0_run_path / "feature_standardizer.manifest.json", "reference_scaler")]
     seen = {}
 
     def references(obj, manifest_directory):

@@ -37,8 +37,9 @@ def locate_source(context: AnalysisContext, task: AnalysisTask, walk: int) -> Ta
         feature = base / f"features/walk{walk}/five_branch_epoch50_h8.npz"
         h0 = base / f"runs/framework_h0/walk{walk}/seed0"
         scaler = h0 / "feature_standardizer.npz"
-    return TaskWalkSource(task, walk, data, feature, Path(f"{data}.manifest.json"),
-                          Path(f"{feature}.manifest.json"), h0, scaler)
+    from .profiles import adapt_source
+    return adapt_source(TaskWalkSource(task, walk, data, feature, Path(f"{data}.manifest.json"),
+                          Path(f"{feature}.manifest.json"), h0, scaler), context)
 
 
 def readonly(a):
@@ -63,6 +64,9 @@ def validate_identity(identity: RowIdentity) -> None:
 
 
 def load_dataset(source: TaskWalkSource, context: AnalysisContext) -> TaskDataset:
+    if source.profile and source.profile.family != "canonical":
+        from .profile_sources import load_selected_dataset
+        return load_selected_dataset(source, context)
     dm, fm = read_json(source.dataset_manifest_path), read_json(source.feature_manifest_path)
     for manifest in (dm, fm):
         if manifest["walk"] != source.walk:
@@ -197,6 +201,7 @@ def load_h0_predictions(source: TaskWalkSource, epoch: SnapshotEpoch, context: A
             if key in saved and not np.array_equal(saved[key], value):
                 raise ValueError(f"H0 target identity mismatch: {key}")
         outputs = readonly(outputs)
-    return PredictionRecord(source.task, source.walk, "H0", 0, epoch, dataset.test.identity,
+    from .profiles import reference_name
+    return PredictionRecord(source.task, source.walk, reference_name(source), 0, epoch, dataset.test.identity,
         dataset.test.targets, outputs, units, {**dataset.source_hashes, "checkpoint": metrics["checkpoint_sha256"]},
         dataset.test.metadata)

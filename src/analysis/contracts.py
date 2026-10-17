@@ -40,22 +40,37 @@ CKA_SAMPLE_SIZE = 4096
 CKA_SEED = 170012
 
 
-def validate_contracts() -> None:
+def make_ablations(branches=BRANCHES) -> tuple[AblationSpec, ...]:
+    singles = tuple(AblationSpec(f"A-{b.symbol}", AblationKind.SINGLE, (b.key,), b.width) for b in branches)
+    removals = tuple(AblationSpec(f"A-no{b.symbol}", AblationKind.LEAVE_ONE_OUT,
+        tuple(other.key for other in branches if other.key != b.key),
+        sum(other.width for other in branches if other.key != b.key), b.key) for b in branches)
+    return singles + removals
+
+
+def validate_contracts(branches=BRANCHES, ablations=ABLATIONS) -> None:
     """Check branch maps, matrix membership and frozen recipe settings."""
-    widths = {b.key: b.width for b in BRANCHES}
-    for spec in ABLATIONS:
+    widths = {b.key: b.width for b in branches}
+    if len(widths) != len(branches) or len({b.symbol for b in branches}) != len(branches):
+        raise ValueError("Duplicate branch keys/symbols")
+    offset = 0
+    for branch in branches:
+        if branch.width <= 0 or branch.h0_interval != (offset, offset + branch.width):
+            raise ValueError("Invalid branch coordinate map")
+        offset += branch.width
+    for spec in ablations:
         if spec.width != sum(widths[b] for b in spec.branches):
             raise ValueError(f"Invalid branch width: {spec.configuration}")
-        expected = tuple(b.key for b in BRANCHES if b.key in spec.branches)
+        expected = tuple(b.key for b in branches if b.key in spec.branches)
         if expected != spec.branches or len(set(spec.branches)) != len(spec.branches):
             raise ValueError("Branch order/uniqueness mismatch")
         if spec.kind == AblationKind.SINGLE and len(spec.branches) != 1:
             raise ValueError("Single requires one branch")
         if spec.kind == AblationKind.LEAVE_ONE_OUT and (
-            len(spec.branches) != 4 or spec.removed_branch in spec.branches
+            len(spec.branches) != len(branches) - 1 or spec.removed_branch in spec.branches
             or spec.removed_branch not in widths
         ):
-            raise ValueError("Removal requires exactly four remaining branches")
+            raise ValueError("Removal must retain all other branches")
 
 
 def task_recipe(task: AnalysisTask) -> TaskRecipe:
@@ -70,15 +85,23 @@ def task_recipe(task: AnalysisTask) -> TaskRecipe:
 
 
 def build_matrix(context: AnalysisContext) -> ExperimentMatrix:
-    """Expand ten ablations across three tasks/two walks, plus H0 references."""
+    """Expand task-assigned branches across both walks, retaining full references."""
     from .sources import locate_source
     from .types import ProbeRunSpec
+    from .profiles import source_branches
     validate_contracts()
-    sources = tuple(locate_source(context, task, walk) for task in TASKS for walk in WALKS)
-    runs = tuple(ProbeRunSpec(source, ablation,
+    tasks = tuple(t for t in TASKS if not context.profiles or any(p.task == t for p in context.profiles))
+    sources = tuple(locate_source(context, task, walk) for task in tasks for walk in WALKS)
+    runs = []
+    for source in sources:
+        branches = source_branches(source)
+        ablations = make_ablations(branches)
+        validate_contracts(branches, ablations)
+        runs.extend(ProbeRunSpec(source, ablation,
                  context.output_root / "downstream" / source.task.value /
                  ablation.configuration / f"walk{source.walk}" / "seed0")
-                 for source in sources for ablation in ABLATIONS)
-    if len(runs) != EXPECTED_NEW_RUNS or len({r.output_path for r in runs}) != len(runs):
+                 for ablation in ablations)
+    runs = tuple(runs)
+    if not sources or (not context.profiles and len(runs) != EXPECTED_NEW_RUNS) or len({r.output_path for r in runs}) != len(runs):
         raise ValueError("Experiment matrix inventory mismatch")
     return ExperimentMatrix(runs, sources)

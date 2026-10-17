@@ -11,14 +11,14 @@ from .types import (AnalysisTask, FeatureStandardizer, SimilarityResult, Structu
                     TaskDataset, TaskSplit)
 
 
-def sample_classification_splits(datasets: Sequence[TaskDataset]) -> tuple[StructuralSample, ...]:
+def sample_splits(datasets: Sequence[TaskDataset]) -> tuple[StructuralSample, ...]:
     if len(datasets) != 2 or {d.source.walk for d in datasets} != {1, 2}:
-        raise ValueError("CKA requires classification datasets for both walks")
+        raise ValueError("CKA requires datasets for both walks")
+    if len({d.source.task for d in datasets}) != 1:
+        raise ValueError("CKA sampling must keep task populations separate")
     rng = np.random.Generator(np.random.PCG64(CKA_SEED))
     result = []
     for dataset in sorted(datasets, key=lambda d: d.source.walk):
-        if dataset.source.task != AnalysisTask.CLASSIFICATION:
-            raise ValueError("CKA population must be classification")
         for split in (dataset.train, dataset.test):
             identity = split.identity
             queues = []
@@ -42,22 +42,29 @@ def sample_classification_splits(datasets: Sequence[TaskDataset]) -> tuple[Struc
     return tuple(result)
 
 
-def compute_cka(split: TaskSplit, scaler: FeatureStandardizer, sample: StructuralSample) -> SimilarityResult:
+def sample_classification_splits(datasets: Sequence[TaskDataset]) -> tuple[StructuralSample, ...]:
+    if any(d.source.task != AnalysisTask.CLASSIFICATION for d in datasets):
+        raise ValueError("CKA population must be classification")
+    return sample_splits(datasets)
+
+
+def compute_cka(split: TaskSplit, scaler: FeatureStandardizer, sample: StructuralSample,
+                branches=BRANCHES) -> SimilarityResult:
     from evaluation.phase6_encoder_variants import centered_linear_cka
-    if split.identity.task != AnalysisTask.CLASSIFICATION or (sample.walk, sample.split) != (split.identity.walk, split.split):
+    if sample.identity.task != split.identity.task or (sample.walk, sample.split) != (split.identity.walk, split.split):
         raise ValueError("CKA sample task/walk/split mismatch")
     if identity_hash(subset_identity(split.identity, sample.positions)) != sample.identity_hash:
         raise ValueError("CKA sample identities changed")
-    features = np.concatenate([split.branches[b.key] for b in BRANCHES], axis=1)
+    features = np.concatenate([split.branches[b.key] for b in branches], axis=1)
     scaled = apply_standardizer(features[sample.positions], scaler)
     values, unavailable = [], {}
-    for b in BRANCHES:
+    for b in branches:
         keep = scaler.raw_std[slice(*b.h0_interval)] >= 1e-8
         values.append(scaled[:, slice(*b.h0_interval)][:, keep])
-    scores = np.full((5, 5), np.nan)
-    for i in range(5):
-        for j in range(i, 5):
-            key = f"{BRANCHES[i].key}:{BRANCHES[j].key}"
+    scores = np.full((len(branches), len(branches)), np.nan)
+    for i in range(len(branches)):
+        for j in range(i, len(branches)):
+            key = f"{branches[i].key}:{branches[j].key}"
             if values[i].shape[1] == 0 or values[j].shape[1] == 0:
                 unavailable[key] = "training_constant_branch"
                 continue
@@ -65,12 +72,14 @@ def compute_cka(split: TaskSplit, scaler: FeatureStandardizer, sample: Structura
                 scores[i, j] = scores[j, i] = centered_linear_cka(values[i], values[j])
             except ValueError as exc:
                 unavailable[key] = str(exc)
-    return SimilarityResult(sample, tuple(b.key for b in BRANCHES), scores, unavailable)
+    return SimilarityResult(sample, tuple(b.key for b in branches), scores, unavailable)
 
 
 def load_saved_similarity(context, dataset, split):
+    from .profiles import source_branches
     from .artifacts import hash_array, identity_arrays, read_json
-    base = context.output_root / f"analysis/cka/classification_h2/walk{dataset.source.walk}/{split.value}"
+    base = context.output_root / f"analysis/cka/{dataset.source.task.value}/walk{dataset.source.walk}/{split.value}"
+    branches = source_branches(dataset.source)
     metadata = read_json(base / "result.json")
     population = dataset.train if split.value == "train" else dataset.test
     if metadata["source_hashes"] != dict(dataset.source_hashes):
@@ -87,7 +96,9 @@ def load_saved_similarity(context, dataset, split):
         raise ValueError("CKA sample identity changed")
     with np.load(base / "scores.npz", allow_pickle=False) as arrays:
         scores = arrays["scores"]
-    if scores.shape != (5, 5) or hash_array(scores) != metadata["scores_sha256"]:
+    if metadata["branches"] != [b.key for b in branches]:
+        raise ValueError("CKA branch inventory changed")
+    if scores.shape != (len(branches), len(branches)) or hash_array(scores) != metadata["scores_sha256"]:
         raise ValueError("CKA matrix shape/hash mismatch")
     sample = StructuralSample(dataset.source.walk, split, positions, identity, identity_hash(identity))
     return SimilarityResult(sample, tuple(metadata["branches"]), scores, metadata["unavailable_reasons"])

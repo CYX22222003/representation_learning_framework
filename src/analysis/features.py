@@ -9,8 +9,8 @@ from .contracts import BRANCHES
 from .types import AblationSpec, FeatureStandardizer, RowIdentity, TaskSplit
 
 
-def select_features(split: TaskSplit, ablation: AblationSpec) -> np.ndarray:
-    expected = tuple(b.key for b in BRANCHES if b.key in ablation.branches)
+def select_features(split: TaskSplit, ablation: AblationSpec, branches=BRANCHES) -> np.ndarray:
+    expected = tuple(b.key for b in branches if b.key in ablation.branches)
     if expected != ablation.branches or len(set(expected)) != len(ablation.branches):
         raise ValueError("Invalid canonical branch selection/order")
     values = np.concatenate([split.branches[k] for k in expected], axis=1)
@@ -38,8 +38,8 @@ def apply_standardizer(features: np.ndarray, scaler: FeatureStandardizer) -> np.
 
 
 def validate_scaler_parity(scaler: FeatureStandardizer, canonical: FeatureStandardizer,
-                          ablation: AblationSpec) -> None:
-    positions = np.concatenate([np.arange(*b.h0_interval) for b in BRANCHES if b.key in ablation.branches])
+                          ablation: AblationSpec, branches=BRANCHES) -> None:
+    positions = np.concatenate([np.arange(*b.h0_interval) for b in branches if b.key in ablation.branches])
     for name in ("mean", "raw_std", "scale"):
         if not np.allclose(getattr(scaler, name), getattr(canonical, name)[positions], rtol=1e-12, atol=1e-12):
             raise ValueError(f"Canonical scaler parity failed: {name}")

@@ -14,6 +14,7 @@ import numpy as np
 from .artifacts import (atomic_bytes, hash_file, identity_hash, json_value, read_json,
                         record_run_state, save_prediction, snapshot_path, write_arrays_atomic, write_json_atomic)
 from .contracts import task_recipe
+from .profiles import source_branches
 from .features import (apply_standardizer, fit_standardizer, load_standardizer,
                        save_standardizer, select_features, validate_scaler_parity)
 from .tasks import build_head, build_loss, evaluate_predictions
@@ -27,15 +28,24 @@ def source_code_hashes(context):
         "src/tasks/trend_classification.py", "src/tasks/volatility_prediction.py",
         "src/training/phase5_absolute_price.py", "src/tasks/phase2_classification/protocols.py",
         "src/tasks/phase2_classification/metrics.py")]
+    if context.profiles:
+        registries = {"temporal": "phase6_encoder_variant_features.py",
+                      "lstm_capacity": "phase6_5_lstm_capacity_features.py",
+                      "residual_cnn": "phase6_5_residual_cnn_features.py"}
+        files += [context.repo_root / "src/features" / registries[family]
+                  for family in sorted({p.family for p in context.profiles} - {"canonical"})]
     return {str(p.relative_to(context.repo_root)): hash_file(p) for p in files}
 
 
 def run_manifest(spec, dataset, context):
-    return {"schema": 1, "task": spec.source.task, "walk": spec.source.walk,
+    value = {"schema": 1, "task": spec.source.task, "walk": spec.source.walk,
             "configuration": spec.ablation, "recipe": spec.recipe,
             "train_identity": identity_hash(dataset.train.identity),
             "test_identity": identity_hash(dataset.test.identity),
             "source_hashes": dataset.source_hashes, "code_hashes": source_code_hashes(context)}
+    if spec.source.profile:
+        value["profile"] = spec.source.profile
+    return value
 
 
 def require_admission(context, environment):
@@ -103,9 +113,10 @@ class ProbeRunner:
             write_json_atomic(root / "environment.json", json_value(self.environment))
             record_run_state(root, RunState.INITIALIZED)
             try:
-                raw = select_features(dataset.train, spec.ablation)
+                branches = source_branches(spec.source)
+                raw = select_features(dataset.train, spec.ablation, branches)
                 scaler = fit_standardizer(raw, dataset.train.identity)
-                validate_scaler_parity(scaler, load_standardizer(spec.source.h0_scaler_path), spec.ablation)
+                validate_scaler_parity(scaler, load_standardizer(spec.source.h0_scaler_path), spec.ablation, branches)
                 save_standardizer(root / "feature_standardizer.npz", scaler)
                 values = apply_standardizer(raw, scaler)
                 random.seed(0)
@@ -177,7 +188,7 @@ class ProbeRunner:
         if hash_file(path) != checkpoint["scaler_sha256"]:
             raise ValueError("Snapshot scaler hash mismatch")
         scaler = load_standardizer(path)
-        values = apply_standardizer(select_features(dataset.test, spec.ablation), scaler)
+        values = apply_standardizer(select_features(dataset.test, spec.ablation, source_branches(spec.source)), scaler)
         model = build_head(spec).to(spec.device)
         model.load_state_dict(checkpoint["model_state_dict"], strict=True)
         recipe = task_recipe(spec.source.task)

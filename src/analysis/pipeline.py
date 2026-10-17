@@ -10,7 +10,8 @@ import numpy as np
 
 from .artifacts import (freeze_json, hash_array, identity_arrays, identity_hash, json_value,
                         load_prediction, read_json, write_arrays_atomic, write_json_atomic)
-from .contracts import BRANCHES, build_matrix
+from .contracts import build_matrix
+from .profiles import similarity_sources, snapshot_count, source_branches
 from .features import fit_standardizer, load_standardizer, save_standardizer, select_features, validate_scaler_parity
 from .types import AnalysisContext, AnalysisTask, ExperimentMatrix, ReportResult, ValidationResult
 from .validation import emit_validation, failure, merge_results, result
@@ -41,6 +42,11 @@ class AnalysisPipeline:
             handle.write(json.dumps(line, sort_keys=True) + "\n")
 
     def _freeze_policy(self):
+        profile_path = self.context.output_root / "manifests/analysis_profiles.json"
+        if self.context.profiles:
+            freeze_json(profile_path, {"profiles": self.context.profiles})
+        elif profile_path.exists():
+            raise ValueError("Selected-variant output requires its original --profiles configuration")
         freeze_json(self.context.output_root / "manifests/replay_policy.json", json_value(self.context.replay_policy))
 
     def _admit(self):
@@ -95,8 +101,9 @@ class AnalysisPipeline:
                 base = self.context.output_root / "features" / source.task.value / f"walk{source.walk}"
                 freeze_json(base / "conditions.json", json_value(fit_conditions(data)))
                 for spec in (s for s in matrix.runs if s.source == source):
-                    scaler = fit_standardizer(select_features(data.train, spec.ablation), data.train.identity)
-                    validate_scaler_parity(scaler, canonical, spec.ablation)
+                    branches = source_branches(source)
+                    scaler = fit_standardizer(select_features(data.train, spec.ablation, branches), data.train.identity)
+                    validate_scaler_parity(scaler, canonical, spec.ablation, branches)
                     destination = base / spec.ablation.configuration
                     freeze_json(destination / "branch_view.json", {
                         "branches": spec.ablation.branches, "width": spec.ablation.width,
@@ -112,7 +119,8 @@ class AnalysisPipeline:
                 validations.append(emit_validation(failure(str(source.feature_path), exc)))
         freeze_json(self.context.output_root / "manifests/matrix_seed0.json", {
             "runs": json_value(matrix.runs), "references": json_value(matrix.references),
-            "expected_new_runs": 60, "expected_reference_runs": 6, "expected_snapshots": 198})
+            "expected_new_runs": len(matrix.runs), "expected_reference_runs": len(matrix.references),
+            "expected_snapshots": snapshot_count(matrix)})
         emit_validation(merge_results("prepared_sources", validations),
                         self.context.output_root / "manifests/preparation_status.json")
         return matrix
@@ -152,17 +160,25 @@ class AnalysisPipeline:
 
     def similarity(self) -> None:
         self._freeze_policy()
-        from .sources import locate_source, load_dataset
-        from .similarity import compute_cka, sample_classification_splits
+        from .sources import load_dataset
+        from .similarity import compute_cka, sample_splits
         from .replay import replay_similarity
-        data = [load_dataset(locate_source(self.context, AnalysisTask.CLASSIFICATION, w), self.context) for w in (1, 2)]
-        samples = sample_classification_splits(data)
+        sources = similarity_sources(self.context, build_matrix(self.context))
+        data, samples = [], {}
+        for task in dict.fromkeys(s.task for s in sources):
+            try:
+                population = [load_dataset(s, self.context) for s in sources if s.task == task]
+                samples[task] = sample_splits(population)
+                data.extend(population)
+            except Exception as exc:
+                self._event("similarity", "failed", task=task.value, reason=str(exc))
         for dataset in data:
-            scaler = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in BRANCHES], axis=1), dataset.train.identity)
-            for sample in (s for s in samples if s.walk == dataset.source.walk):
+            branches = source_branches(dataset.source)
+            scaler = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in branches], axis=1), dataset.train.identity)
+            for sample in (s for s in samples[dataset.source.task] if s.walk == dataset.source.walk):
                 split = dataset.train if sample.split.value == "train" else dataset.test
-                value = compute_cka(split, scaler, sample)
-                base = self.context.output_root / f"analysis/cka/classification_h2/walk{sample.walk}/{sample.split.value}"
+                value = compute_cka(split, scaler, sample, branches)
+                base = self.context.output_root / f"analysis/cka/{dataset.source.task.value}/walk{sample.walk}/{sample.split.value}"
                 write_arrays_atomic(base / "scores.npz", {"scores": value.scores})
                 write_arrays_atomic(base / "sample.npz", {"positions": sample.positions, **identity_arrays(sample.identity)})
                 finite = np.isfinite(value.scores)
@@ -254,6 +270,7 @@ class AnalysisPipeline:
             self._event("similarity", "failed", reason=str(exc))
         self.launch(device=device, execute=True)
         self.validate("runs")
-        self.conditional()
+        if not self.context.profiles:
+            self.conditional()  # Required for 7A, outside the lean selected-variant scope.
         self.validate("all")
         return self.report(allow_partial=True)

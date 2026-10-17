@@ -110,6 +110,21 @@ class ReplayPolicy:
 
 
 @dataclass(frozen=True)
+class AnalysisProfile:
+    """One explicitly selected framework per task, shared by both walks."""
+
+    task: AnalysisTask
+    family: str
+    configuration: str
+    selection_reason: str  # Record the metric/rule; never select from this analysis.
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.task, AnalysisTask) or any(not isinstance(v, str) or not v.strip()
+                for v in (self.family, self.configuration, self.selection_reason)):
+            raise ValueError("Profile requires a known task and explicit family/configuration/selection reason")
+
+
+@dataclass(frozen=True)
 class AnalysisContext:
     repo_root: Path
     output_root: Path
@@ -117,6 +132,13 @@ class AnalysisContext:
     replay_policy: ReplayPolicy = field(default_factory=ReplayPolicy)
     sandbox_name: str | None = None
     site: str = "unspecified"
+    profiles: tuple[AnalysisProfile, ...] = ()  # Empty preserves canonical Phase 7A.
+
+    def __post_init__(self) -> None:
+        if any(not isinstance(p, AnalysisProfile) for p in self.profiles):
+            raise ValueError("Profiles must be AnalysisProfile records")
+        if len({p.task for p in self.profiles}) != len(self.profiles):
+            raise ValueError("Select at most one analysis profile per task")
 
 
 @dataclass(frozen=True)
@@ -129,6 +151,7 @@ class TaskWalkSource:
     feature_manifest_path: Path
     h0_run_path: Path
     h0_scaler_path: Path
+    profile: AnalysisProfile | None = None
 
 
 @dataclass(frozen=True)

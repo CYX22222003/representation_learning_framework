@@ -5,6 +5,79 @@ conditional analyses. All experiment infrastructure lives here; tests are under
 tests/analysis. Real execution is targeted at the verified Lumid sandbox.
 Local tests use synthetic heads and read-only source/checkpoint replay.
 
+## Selected-variant extension (Phase 7C)
+
+The same pipeline supports one explicitly selected framework per task. Pass
+`--profiles <json>` before the subcommand; omitting it preserves canonical
+H0's branches, matrix and output paths. Supported families are `canonical`
+(`H0`), `temporal` (Phase 6), `lstm_capacity` (Phase 6.5A), and
+`residual_cnn` (Phase 6.5D, price only). Configuration names come directly
+from the existing feature registries, not a second copied catalogue.
+
+The owner-approved roster is encoded in
+[`configs/phase7c_selected_profiles.json`](configs/phase7c_selected_profiles.json):
+classification **HC-ST**, price **HB-AL**, and realised variance **HC-AL**,
+fixed across both walks. These use equal-walk epoch-50 macro-F1 (classification)
+or MAE (regression), not pooled-row weighting. The variance choice is the best
+noncanonical, non-duplicate variant by that MAE rule; H0 has lower MAE.
+
+Use the explicit `--phase7c` shortcut (canonical H0 stays the default):
+
+```bash
+PYTHONPATH=src .venv/bin/python3 -m analysis --phase7c audit
+PYTHONPATH=src .venv/bin/python3 -m analysis --phase7c launch
+```
+
+The selected matrix has 68 standalone/removal heads, six existing full-model
+references, 222 total snapshots and twelve CKA matrices. Nothing is launched
+by adding the roster; the commands above do not train models.
+
+Custom rosters still use the task-keyed `--profiles <json>` schema. For example,
+the approved roster has the following structure (full reasons are in the file):
+
+```json
+{
+  "profiles": {
+    "classification_h2": {"family": "temporal", "configuration": "HC-ST", "selection_reason": "Highest equal-walk mean epoch-50 macro-F1"},
+    "absolute_price_h8": {"family": "temporal", "configuration": "HB-AL", "selection_reason": "Lowest equal-walk mean epoch-50 price MAE"},
+    "realised_variance": {"family": "temporal", "configuration": "HC-AL", "selection_reason": "Lowest equal-walk mean epoch-50 MAE among noncanonical, non-duplicate variants; H0 remains better"}
+  }
+}
+```
+
+Select exactly one configuration per task, with the same configuration in
+both walks. A variant can serve multiple tasks; do not expand a three-by-three
+cross-product. Record the selection rationale before analysis; there is no
+automatic ranking/selection. Freeze the profiles in each output root.
+
+```bash
+PYTHONPATH=src .venv/bin/python3 -m analysis --profiles <json> audit
+PYTHONPATH=src .venv/bin/python3 -m analysis --profiles <json> launch
+```
+
+`launch` remains preparation/manifest-only without `--execute`. Production
+still requires verified Lumid admission, synchronized dependencies and
+explicit execution. No real Phase 7C experiment has been run or admitted.
+Do not reuse an old Phase 7A output root with changed code/profiles.
+
+Selected-variant outputs default to `experiments/phase7/selected_variants/`.
+Branch maps, standalone/removal counts, source paths, full-model references,
+snapshot counts and plots are derived from the profiles. Five branches give
+ten probes per task/walk; six branches give twelve. CKA uses each task's own
+training/evaluation populations separately, giving twelve matrices for the
+three-task/two-walk scope. The lean selected-variant completion gate requires
+standalone/removal results and CKA, not conditional tables or SHAP.
+
+Native master stores are anchored to the canonical ordered task rows and
+targets, with explicit path relocation, file/array/encoder hashes, unchanged
+canonical blocks and training-only scaler parity. Original full-model
+checkpoints are replayed, never retrained. Existing runs are not silently
+relabeled or reused across profiles merely because a branch has the same
+name; source/configuration/code provenance must match. Original code hashes
+in archived Phase 7A artifacts are not rewritten by this refactor.
+
+See [the Phase 7C plan](../../docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+
 ## Workflow
 
 From the persistent sandbox checkout, use its verified Python environment:

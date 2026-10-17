@@ -9,7 +9,8 @@ import numpy as np
 
 from .artifacts import (hash_file, identity_hash, json_value, load_prediction, read_json,
                         snapshot_path)
-from .contracts import BRANCHES, RECIPE
+from .contracts import RECIPE
+from .profiles import reference_name, similarity_sources, source_branches
 from .features import (apply_standardizer, fit_standardizer, load_standardizer,
                        select_features, validate_scaler_parity)
 from .sources import load_dataset, load_h0_predictions
@@ -81,8 +82,9 @@ def validate_preparation(context: AnalysisContext, matrix: ExperimentMatrix) -> 
             dataset = load_dataset(source, context)
             canonical = load_standardizer(source.h0_scaler_path)
             for spec in (r for r in matrix.runs if r.source == source):
-                scaler = fit_standardizer(select_features(dataset.train, spec.ablation), dataset.train.identity)
-                validate_scaler_parity(scaler, canonical, spec.ablation)
+                branches = source_branches(source)
+                scaler = fit_standardizer(select_features(dataset.train, spec.ablation, branches), dataset.train.identity)
+                validate_scaler_parity(scaler, canonical, spec.ablation, branches)
                 path = context.output_root / "features" / source.task.value / f"walk{source.walk}" / spec.ablation.configuration / "feature_standardizer.npz"
                 stored = load_standardizer(path)
                 if stored.clip_limits != scaler.clip_limits:
@@ -110,14 +112,42 @@ def replay_h0(source: TaskWalkSource, context: AnalysisContext,
         scaler_hash = manifest.get("scaler_sha256", manifest.get("feature_scaler_sha256"))
         if scaler_hash and hash_file(source.h0_scaler_path) != scaler_hash:
             raise ValueError("H0 scaler hash mismatch")
-        h0 = AblationSpec("H0", AblationKind.SINGLE, tuple(b.key for b in BRANCHES), 445)
+        branches = source_branches(source)
+        name = reference_name(source)
+        h0 = AblationSpec(name, AblationKind.SINGLE, tuple(b.key for b in branches), sum(b.width for b in branches))
         spec = ProbeRunSpec(source, h0, source.h0_run_path, device="cpu")
-        fitted = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in BRANCHES], axis=1), dataset.train.identity)
-        validate_scaler_parity(fitted, load_standardizer(source.h0_scaler_path), h0)
-        values = apply_standardizer(np.concatenate([dataset.test.branches[b.key] for b in BRANCHES], axis=1),
+        fitted = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in branches], axis=1), dataset.train.identity)
+        validate_scaler_parity(fitted, load_standardizer(source.h0_scaler_path), h0, branches)
+        values = apply_standardizer(np.concatenate([dataset.test.branches[b.key] for b in branches], axis=1),
                                     load_standardizer(source.h0_scaler_path))
         observations = []
         config = read_json(source.h0_run_path / "config.json")
+        if source.profile and source.profile.family != "canonical":
+            from .artifacts import hash_array
+            from data_processing.phase5_walks import sha256_arrays
+            architecture = read_json(source.h0_run_path / "architecture_manifest.json")
+            if config.get("configuration") != name or config.get("task") != source.task.value or config.get("walk") != source.walk:
+                raise ValueError("Selected reference configuration/task/walk mismatch")
+            if architecture.get("branches") != list(h0.branches) or architecture.get("input_dim") != h0.width:
+                raise ValueError("Selected reference architecture mismatch")
+            if manifest.get("configuration") != name or manifest.get("branch_order") != list(h0.branches) or manifest.get("input_dim") != h0.width:
+                raise ValueError("Selected reference branch provenance mismatch")
+            for key, expected in (("weight_decay", 0.), ("hidden_dim", 128), ("snapshot_epochs", [5, 15, 50])):
+                if config.get(key) != expected:
+                    raise ValueError(f"Selected reference recipe mismatch: {key}")
+            for split in (dataset.train, dataset.test):
+                from .artifacts import IDENTITY_FIELDS
+                key = split.split.value
+                if manifest[key + "_identity_hash"] != sha256_arrays(*(getattr(split.identity, f) for f in IDENTITY_FIELDS)):
+                    raise ValueError("Selected reference identity hash mismatch")
+                if manifest[key + "_target_hash"] != hash_array(split.targets):
+                    raise ValueError("Selected reference target hash mismatch")
+            scaler_meta = read_json(source.h0_run_path / "feature_standardizer.manifest.json")
+            if scaler_meta["sha256"] != hash_file(source.h0_scaler_path):
+                raise ValueError("Selected reference scaler integrity mismatch")
+            completion = read_json(source.h0_run_path / "training_complete.json")
+            if completion.get("complete") is not True or completion.get("snapshots") != [5, 15, 50] or completion.get("principal_epoch") != 50:
+                raise ValueError("Selected reference is incomplete")
         for key, expected in (("seed", 0), ("epochs", 50), ("batch_size", 512), ("learning_rate", 1e-4)):
             if config[key] != expected:
                 raise ValueError(f"H0 recipe mismatch: {key}")
@@ -140,7 +170,7 @@ def replay_h0(source: TaskWalkSource, context: AnalysisContext,
             observations.append(compare_numbers(f"e{epoch}:outputs", outputs, recorded.outputs,
                                 rtol=context.replay_policy.rtol, atol=output_atol(source.task, context.replay_policy)))
             observations.extend(replay_metrics(recorded, actual, context.replay_policy))
-        value = result(f"H0/{source.task.value}/walk{source.walk}", observations)
+        value = result(f"{name}/{source.task.value}/walk{source.walk}", observations)
     except (ValueError, KeyError, OSError, RuntimeError) as exc:
         value = failure(f"H0/{source.task.value}/walk{source.walk}", exc)
     return emit_validation(value, context.output_root / "analysis/reference_replay" / source.task.value / f"walk{source.walk}.json")
@@ -198,15 +228,17 @@ def replay_snapshot(spec: ProbeRunSpec, dataset: TaskDataset, epoch: SnapshotEpo
 def replay_similarity(value: SimilarityResult, dataset: TaskDataset) -> ValidationResult:
     from .similarity import compute_cka
     try:
-        scaler = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in BRANCHES], axis=1), dataset.train.identity)
+        branches = source_branches(dataset.source)
+        scaler = fit_standardizer(np.concatenate([dataset.train.branches[b.key] for b in branches], axis=1), dataset.train.identity)
         split = dataset.train if value.sample.split.value == "train" else dataset.test
-        actual = compute_cka(split, scaler, value.sample)
+        actual = compute_cka(split, scaler, value.sample, branches)
         if value.branches != actual.branches or value.unavailable_reasons != actual.unavailable_reasons:
             raise ValueError("CKA branch/availability mismatch")
         valid = np.isfinite(value.scores)
         if not np.array_equal(valid, np.isfinite(actual.scores)):
             raise ValueError("CKA availability changed")
-        return result(f"CKA/walk{dataset.source.walk}/{split.split.value}",
+        label = f"CKA/{dataset.source.task.value}" if dataset.source.profile else "CKA"
+        return result(f"{label}/walk{dataset.source.walk}/{split.split.value}",
                       (compare_numbers("cka", actual.scores[valid], value.scores[valid], rtol=1e-8, atol=1e-8),))
     except (ValueError, KeyError, OSError) as exc:
         return failure("CKA", exc)
@@ -241,20 +273,24 @@ def validate_complete(context: AnalysisContext, matrix: ExperimentMatrix) -> Val
             checks = [replay_snapshot(spec, dataset, epoch, context=context) for epoch in RECIPE.snapshots]
             summary = emit_validation(merge_results(str(spec.output_path), checks), spec.output_path / "replay_validation.json")
             values.append(summary)
-    from .similarity import load_saved_similarity, sample_classification_splits
-    try:
-        populations = [load_dataset(s, context) for s in matrix.references if s.task.value == "classification_h2"]
-        samples = sample_classification_splits(populations)
-        for dataset in populations:
-            for split in (dataset.train, dataset.test):
-                saved = load_saved_similarity(context, dataset, split.split)
-                expected = next(s for s in samples if (s.walk, s.split) == (dataset.source.walk, split.split))
-                if not np.array_equal(saved.sample.positions, expected.positions):
-                    raise ValueError("CKA sample differs from predeclared deterministic sampler")
-                replay = replay_similarity(saved, dataset)
-                values.append(replay)
-    except (ValueError, KeyError, OSError) as exc:
-        values.append(failure("CKA inventory", exc))
+    from .similarity import load_saved_similarity, sample_splits
+    structural_sources = similarity_sources(context, matrix)
+    for task in dict.fromkeys(s.task for s in structural_sources):
+        try:
+            populations = [load_dataset(s, context) for s in structural_sources if s.task == task]
+            samples = sample_splits(populations)
+            for dataset in populations:
+                for split in (dataset.train, dataset.test):
+                    saved = load_saved_similarity(context, dataset, split.split)
+                    expected = next(s for s in samples if (s.walk, s.split) == (dataset.source.walk, split.split))
+                    if not np.array_equal(saved.sample.positions, expected.positions):
+                        raise ValueError("CKA sample differs from predeclared deterministic sampler")
+                    values.append(replay_similarity(saved, dataset))
+        except (ValueError, KeyError, OSError) as exc:
+            values.append(failure(f"CKA inventory/{task.value}", exc))
+    if context.profiles:
+        # 7C requires singles/removals/CKA only; conditional tables are optional.
+        return emit_validation(merge_results("complete_matrix", values), context.output_root / "manifests/completion_validation.json")
     for source in matrix.references:
         path = context.output_root / "analysis/conditional" / source.task.value / f"walk{source.walk}/results.json"
         try:
@@ -289,7 +325,7 @@ def validate_complete(context: AnalysisContext, matrix: ExperimentMatrix) -> Val
             for pair in groups.values():
                 if len(pair) == 2:
                     expected.extend(pool_walks(pair))
-            if len(pooled_records) != 66:
+            if len(pooled_records) != len(matrix.runs) + len(matrix.references):
                 raise ValueError("Pooled inputs lack mandatory configurations")
             observations = compare_metric_rows(json_value(expected), read_json(pooled)["rows"], context.replay_policy)
             values.append(result("pooled_metrics", observations))

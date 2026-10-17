@@ -15,11 +15,17 @@ from .types import AnalysisContext, PathMapping, ReplayPolicy
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Phase 7A canonical branch analysis")
+    from .profiles import SELECTED_PROFILES_PATH
+
+    parser = argparse.ArgumentParser(description="Phase 7 branch analysis: canonical H0 or selected variants")
     parser.add_argument("--repo-root", type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--path-map", type=Path, help="JSON list of recorded_root/resolved_root mappings")
     parser.add_argument("--tolerances", type=Path, help="ReplayPolicy JSON, frozen before evaluation")
+    profiles = parser.add_mutually_exclusive_group()
+    profiles.add_argument("--profiles", type=Path, help="JSON assigning one existing framework per task")
+    profiles.add_argument("--phase7c", dest="profiles", action="store_const", const=SELECTED_PROFILES_PATH,
+                          help="Use the approved HC-ST / HB-AL / HC-AL task profiles")
     parser.add_argument("--sandbox", help="Verified target hostname; required for production training")
     parser.add_argument("--site", default="unspecified")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -40,10 +46,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         root = args.repo_root.resolve()
-        output = (args.output_root or root / "experiments/phase7/ablation").resolve()
+        output = (args.output_root or root / ("experiments/phase7/selected_variants" if args.profiles
+                                              else "experiments/phase7/ablation")).resolve()
         mappings = tuple(PathMapping(m["recorded_root"], Path(m["resolved_root"])) for m in read_json(args.path_map)) if args.path_map else ()
         policy = ReplayPolicy(**read_json(args.tolerances)) if args.tolerances else ReplayPolicy()
-        context = AnalysisContext(root, output, mappings, policy, args.sandbox, args.site)
+        from .profiles import load_profiles
+        profiles = load_profiles(args.profiles) if args.profiles else ()
+        context = AnalysisContext(root, output, mappings, policy, args.sandbox, args.site, profiles)
         if getattr(args, "detach", False):
             if not args.execute:
                 raise ValueError("--detach requires --execute")
@@ -53,7 +62,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             folder.mkdir(parents=True)
             incoming = list(argv if argv is not None else sys.argv[1:])
             incoming.remove("--detach")
-            for option in ("--repo-root", "--output-root", "--path-map", "--tolerances"):
+            for option in ("--repo-root", "--output-root", "--path-map", "--tolerances", "--profiles"):
                 if option in incoming:
                     index = incoming.index(option) + 1
                     incoming[index] = str(Path(incoming[index]).resolve())

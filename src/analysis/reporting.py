@@ -14,6 +14,7 @@ from .artifacts import (atomic_bytes, hash_file, json_value, load_prediction, re
                         write_json_atomic)
 from .types import (AnalysisContext, AnalysisTask, ComparisonResult, ExperimentMatrix,
                     MetricDirection, MetricResult, MetricRow, ReportResult, SimilarityResult)
+from .profiles import reference_name, similarity_sources, snapshot_count, source_branches
 
 
 def row_from_json(payload):
@@ -66,19 +67,19 @@ def plot_contributions(comparisons: Sequence[ComparisonResult], output_path: Pat
     for task in AnalysisTask:
         for metric in PRIMARY_METRICS[task]:
             rows = [v for v in comparisons if v.candidate.task == task and v.metric == metric
-                    and v.candidate.epoch == 50 and v.candidate.configuration == "H0"
+                    and v.candidate.epoch == 50
                     and v.reference.configuration.startswith("A-no")]
             if not rows:
                 continue
             fig, ax = plt.subplots(figsize=(7, 3))
+            names = tuple(dict.fromkeys(r.reference.configuration for r in rows))
             for walk, offset in ((1, -.18), (2, .18)):
                 lookup = {r.reference.configuration: r.benefit_positive_difference for r in rows if r.candidate.walk == walk}
-                names = ("A-noS", "A-noT", "A-noV", "A-noC", "A-noB")
                 values = [lookup.get(k) if lookup.get(k) is not None else np.nan for k in names]
-                ax.bar(np.arange(5) + offset, values, width=.35, label=f"Walk {walk}")
-            ax.set_xticks(np.arange(5), ("S", "T", "V", "C", "B"))
+                ax.bar(np.arange(len(names)) + offset, values, width=.35, label=f"Walk {walk}")
+            ax.set_xticks(np.arange(len(names)), [name.removeprefix("A-no") for name in names])
             ax.axhline(0, color="black", linewidth=.7)
-            ax.set_ylabel(f"{metric}: benefit-positive H0 contribution")
+            ax.set_ylabel(f"{metric}: benefit-positive full-model contribution")
             ax.set_xlabel("Removed branch")
             ax.legend()
             artifacts.extend(_save_figure(fig, output_path / f"{task.value}_{metric}_removal"))
@@ -93,23 +94,27 @@ def plot_similarity(results: Sequence[SimilarityResult], output_path: Path) -> t
         fig, ax = plt.subplots(figsize=(5, 4))
         scores = np.ma.masked_invalid(result.scores)
         picture = ax.imshow(scores, vmin=0, vmax=1, cmap="viridis")
-        labels = ("S", "T", "V", "C", "B")
-        ax.set_xticks(range(5), labels)
-        ax.set_yticks(range(5), labels)
-        for i in range(5):
-            for j in range(5):
+        from .contracts import BRANCHES
+        symbols = {b.key: b.symbol for b in BRANCHES}
+        labels = tuple(symbols.get(name, name) for name in result.branches)
+        count = len(labels)
+        ax.set_xticks(range(count), labels, rotation=45, ha="right")
+        ax.set_yticks(range(count), labels)
+        for i in range(count):
+            for j in range(count):
                 ax.text(j, i, f"{result.scores[i,j]:.2f}" if np.isfinite(result.scores[i,j]) else "N/A",
                         ha="center", va="center", color="white" if result.scores[i,j] < .5 else "black")
         ax.set_title(f"Walk {result.sample.walk} — {result.sample.split.value}")
         fig.colorbar(picture, ax=ax, label="Linear CKA")
-        paths.extend(_save_figure(fig, output_path / f"cka_walk{result.sample.walk}_{result.sample.split.value}"))
+        task = result.sample.identity.task
+        prefix = "cka" if task == AnalysisTask.CLASSIFICATION else f"cka_{task.value}"
+        paths.extend(_save_figure(fig, output_path / f"{prefix}_walk{result.sample.walk}_{result.sample.split.value}"))
         plt.close(fig)
     return tuple(paths)
 
 
 def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_partial: bool = False) -> ReportResult:
     from .ablation import compare, removal_contribution, single_branch_skill, summarize_predictions
-    from .contracts import ABLATIONS
     from .replay import validate_complete, replay_similarity
     from .sources import audit_source, load_dataset, load_h0_predictions
     from .tasks import PRIMARY_METRICS, reference_records
@@ -118,7 +123,8 @@ def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_pa
     validation = validate_complete(context, matrix)
     if not validation.usable and not allow_partial:
         raise ValueError("Required results are missing/invalid; use --allow-partial for a labelled partial report")
-    destination = context.output_root / "reports/canonical_five_branch_seed0"
+    destination = context.output_root / ("reports/selected_variants_seed0" if context.profiles
+                                          else "reports/canonical_five_branch_seed0")
     rows, comparisons, similarities, omissions, available_entries = [], [], [], [], set()
     for source in matrix.references:
         try:
@@ -131,7 +137,7 @@ def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_pa
                 h0 = load_h0_predictions(source, epoch, context, data) if h0_valid else None
                 if h0 is not None:
                     rows.extend(summarize_predictions((h0,)))
-                    available_entries.add((source.task.value, source.walk, "H0", epoch))
+                    available_entries.add((source.task.value, source.walk, reference_name(source), epoch))
                 for spec in (s for s in matrix.runs if s.source == source):
                     folder = spec.output_path / f"e{epoch}"
                     try:
@@ -149,9 +155,9 @@ def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_pa
                     except (ValueError, KeyError, OSError) as exc:
                         omissions.append(f"{source.task.value}/walk{source.walk}/{spec.ablation.configuration}/e{epoch}: {exc}")
             path = context.output_root / "analysis/conditional" / source.task.value / f"walk{source.walk}/results.json"
-            if path.is_file():
+            if not context.profiles and path.is_file():
                 rows.extend(row_from_json(row) for row in read_json(path)["rows"])
-            if source.task == AnalysisTask.CLASSIFICATION:
+            if source in similarity_sources(context, matrix):
                 for split in (data.train, data.test):
                     try:
                         similarity = load_saved_similarity(context, data, split.split)
@@ -163,15 +169,17 @@ def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_pa
         except (ValueError, KeyError, OSError) as exc:
             omissions.append(f"{source.task.value}/walk{source.walk}: {exc}")
     pooled_path = context.output_root / "analysis/conditional/pooled.json"
-    if pooled_path.is_file():
+    if not context.profiles and pooled_path.is_file():
         rows.extend(row_from_json(row) for row in read_json(pooled_path)["rows"])
-    complete = validation.usable and len(available_entries) == 198 and len(similarities) == 4
+    expected_snapshots = snapshot_count(matrix)
+    complete = validation.usable and len(available_entries) == expected_snapshots and len(similarities) == 2 * len(similarity_sources(context, matrix))
     tables = write_metric_tables(rows, destination / "tables")
     write_json_atomic(destination / "tables/comparisons.json", {"comparisons": comparisons})
     figures = plot_contributions(comparisons, destination / "figures") + plot_similarity(similarities, destination / "figures")
-    lines = ["# Canonical five-branch analysis — seed 0", "",
+    title = "Selected-variant branch analysis" if context.profiles else "Canonical five-branch analysis"
+    lines = [f"# {title} — seed 0", "",
              f"Status: {'COMPLETE' if complete else 'PARTIAL / INCOMPLETE'}",
-             f"Validated snapshots included: {len(available_entries)}/198.", "",
+             f"Validated snapshots included: {len(available_entries)}/{expected_snapshots}.", "",
              "Epoch 50 is primary; epochs 5/15 are supporting snapshots.", "",
              "| Task | Walk | Configuration | Metric | Epoch-50 value |", "|---|---:|---|---|---:|"]
     for row in rows:
@@ -181,15 +189,22 @@ def build_report(context: AnalysisContext, matrix: ExperimentMatrix, *, allow_pa
             if m.name in PRIMARY_METRICS[row.task]:
                 lines.append(f"| {row.task.value} | {row.walk} | {row.configuration} | {m.name} | {m.value if m.value is not None else 'unavailable'} |")
     lines += ["", "## Interpretation", "",
-              "1. Standalone usefulness: compare the five single branches with H0 and fixed references.",
+              "1. Standalone usefulness: compare individual branches with their full-model and fixed references.",
               "2. Incremental contribution: positive removal effects mean retaining that branch helped the observed metric.",
               "3. Similarity: CKA describes representation geometry, not a percentage of shared task information.",
-              "4. Conditions: inspect walk, equal-contract and RV-tail tables; sparse groups are case-specific.", "",
+              ("4. Selected variants: post-hoc characterization, not independent confirmation; no conditional or SHAP completion gate."
+               if context.profiles else "4. Conditions: inspect walk, equal-contract and RV-tail tables; sparse groups are case-specific."), "",
               "Effects are descriptive. Input width/head capacity differ across configurations. There are no statistical-significance, equivalence, universal-ranking or trading-profit claims.",
               "Encoders and heads use seed 0; two walks do not establish seed robustness. Cohorts are retrospective and approved pruning is assumed correct offline cleaning.",
               "Undefined metrics and sparse groups remain visible in the numeric tables. Validation diagnostics, including accepted cross-environment drift, are retained under analysis/ and manifests/.",
               "", "## Missing or invalid outputs", ""]
     lines += [f"- {item}" for item in omissions] or ["None."]
+    if context.profiles:
+        lines += ["", "## Selected frameworks", ""]
+        for profile in context.profiles:
+            source = next(s for s in matrix.references if s.task == profile.task)
+            names = ", ".join(f"{b.symbol}={b.key}" for b in source_branches(source))
+            lines.append(f"- {profile.task.value}: {profile.family}/{profile.configuration}; {profile.selection_reason}. Branches: {names}.")
     summary = destination / "summary.md"
     atomic_bytes(summary, ("\n".join(lines) + "\n").encode())
     artifacts = (*tables, destination / "tables/comparisons.json", *figures, summary)
