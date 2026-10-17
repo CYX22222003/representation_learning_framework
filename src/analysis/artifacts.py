@@ -15,7 +15,7 @@ import numpy as np
 
 from .types import (
     AnalysisContext, AnalysisTask, Array, PredictionRecord, ProbeRunSpec,
-    RowIdentity, RunState, SnapshotEpoch,
+    ReplayPolicy, RowIdentity, RunState, SnapshotEpoch,
 )
 
 IDENTITY_FIELDS = ("condition_ids", "window_start_ns", "decision_date_ns", "decision_availability_ns")
@@ -23,7 +23,11 @@ IDENTITY_FIELDS = ("condition_ids", "window_start_ns", "decision_date_ns", "deci
 
 def json_value(value):
     if is_dataclass(value):
-        return json_value(asdict(value))
+        fields = asdict(value)
+        # Preserve historical frozen-policy bytes unless this override is explicit.
+        if isinstance(value, ReplayPolicy) and value.rank_median_metric_atol is None:
+            fields.pop("rank_median_metric_atol")
+        return json_value(fields)
     if isinstance(value, Mapping):
         return {str(k): json_value(v) for k, v in value.items()}
     if isinstance(value, (tuple, list)):

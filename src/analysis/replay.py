@@ -26,6 +26,14 @@ def output_atol(task, policy):
             "realised_variance": policy.variance_atol}[task.value]
 
 
+def metric_atol(task, name, policy):
+    if name == "rank_ic_median" and policy.rank_median_metric_atol is not None:
+        return policy.rank_median_metric_atol
+    if name in ("spearman", "implied_spearman", "rank_ic", "rank_ic_median"):
+        return policy.rank_metric_atol
+    return policy.classification_metric_atol if task == "classification_h2" else policy.metric_atol
+
+
 def compare_metric_rows(expected, saved, policy):
     if len(expected) != len(saved):
         raise ValueError("Metric row inventory changed")
@@ -45,9 +53,7 @@ def compare_metric_rows(expected, saved, policy):
                     raise ValueError("Metric availability changed")
                 continue
             name = actual["name"]
-            atol = policy.classification_metric_atol if left["task"] == "classification_h2" else policy.metric_atol
-            if name in ("spearman", "implied_spearman", "rank_ic", "rank_ic_median"):
-                atol = policy.rank_metric_atol
+            atol = metric_atol(left["task"], name, policy)
             observations.append(compare_numbers(f"{left['group']}:{name}", actual["value"], recorded["value"],
                                 rtol=policy.rtol, atol=atol))
     return observations
@@ -63,9 +69,7 @@ def replay_metrics(record, actual, policy):
             if metric.value != other.value:
                 checks.append(ValidationObservation(name, "error", "Metric availability changed"))
             continue
-        atol = policy.classification_metric_atol if record.task.value == "classification_h2" else policy.metric_atol
-        if name in ("spearman", "implied_spearman", "rank_ic", "rank_ic_median"):
-            atol = policy.rank_metric_atol
+        atol = metric_atol(record.task.value, name, policy)
         checks.append(compare_numbers("metric:" + name, other.value, metric.value, rtol=policy.rtol, atol=atol))
     if record.task.value == "classification_h2":
         changed = int(np.sum(record.outputs.argmax(axis=1) != actual.outputs.argmax(axis=1)))
@@ -215,9 +219,7 @@ def replay_snapshot(spec: ProbeRunSpec, dataset: TaskDataset, epoch: SnapshotEpo
             if (stored["count"], stored["direction"], stored["availability"]) != (m.count, m.direction.value, m.availability):
                 raise ValueError(f"Saved metric definition/availability changed: {name}")
             if m.value is not None:
-                atol = context.replay_policy.classification_metric_atol if saved.task.value == "classification_h2" else context.replay_policy.metric_atol
-                if name in ("spearman", "implied_spearman", "rank_ic", "rank_ic_median"):
-                    atol = context.replay_policy.rank_metric_atol
+                atol = metric_atol(saved.task.value, name, context.replay_policy)
                 observations.append(compare_numbers("saved_metric:" + name, m.value, stored["value"],
                                     rtol=context.replay_policy.rtol, atol=atol))
         return emit_validation(result(subject, observations), diagnostic_path)

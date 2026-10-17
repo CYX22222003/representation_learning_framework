@@ -103,9 +103,11 @@ class ReplayPolicy:
     classification_metric_atol: float = 1e-4
     rank_metric_atol: float = 1e-4
     cka_atol: float = 1e-8
+    rank_median_metric_atol: float | None = None  # Optional auxiliary-median override; otherwise use rank_metric_atol.
 
     def __post_init__(self) -> None:
-        if any(not np.isfinite(v) or v < 0 for v in vars(self).values()):
+        values = (v for k, v in vars(self).items() if k != "rank_median_metric_atol" or v is not None)
+        if any(not np.isfinite(v) or v < 0 for v in values):
             raise ValueError("Replay tolerances must be finite and nonnegative")
 
 

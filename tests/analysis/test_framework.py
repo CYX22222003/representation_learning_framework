@@ -272,6 +272,55 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertFalse(list((self.root / "out").glob("downstream/**/checkpoint.pth")))
 
+    def test_auxiliary_rank_median_tolerance_is_narrow_and_bounded(self):
+        from analysis.replay import metric_atol
+        policy = ReplayPolicy(**read_json(ROOT / "src/analysis/configs/phase7c_replay_policy.json"))
+        strict = ReplayPolicy()
+        self.assertEqual(metric_atol("absolute_price_h8", "rank_ic_median", strict), 1e-4)
+        self.assertEqual(metric_atol("absolute_price_h8", "rank_ic_median", policy), 1e-3)
+        for name in ("mae", "mse", "rmse", "rank_ic", "spearman", "implied_sign_agreement"):
+            self.assertEqual(metric_atol("absolute_price_h8", name, policy), metric_atol("absolute_price_h8", name, strict))
+        def check(name, actual):
+            return compare_numbers(name, actual, .13180366958, rtol=policy.rtol,
+                                   atol=metric_atol("absolute_price_h8", name, policy))
+        self.assertEqual(check("rank_ic_median", .13227349176).severity, "warning")
+        self.assertEqual(check("rank_ic_median", .14).severity, "error")
+        self.assertEqual(check("rank_ic", .13227349176).severity, "error")
+        self.assertEqual(check("rank_ic_median", np.nan).severity, "error")
+
+    def test_auxiliary_median_override_applies_to_prediction_and_table_replay(self):
+        from analysis.artifacts import json_value
+        from analysis.ablation import summarize_predictions
+        from analysis.replay import compare_metric_rows, replay_metrics
+        import copy
+        record = record_fixture(dataset_fixture(self.root))
+        metrics = [replace(m, value=.13180366958) if m.name == "rank_ic_median" else m
+                   for m in evaluate_predictions(record)]
+        shifted = [replace(m, value=.13227349176) if m.name == "rank_ic_median" else m for m in metrics]
+        policy = ReplayPolicy(rank_median_metric_atol=1e-3)
+        for selected, expected in ((ReplayPolicy(), "error"), (policy, "warning")):
+            with patch("analysis.replay.evaluate_predictions", side_effect=[metrics, shifted]):
+                observations = replay_metrics(record, record, selected)
+            self.assertEqual(next(o.severity for o in observations if o.check == "metric:rank_ic_median"), expected)
+        original = json_value(summarize_predictions((record,)))
+        changed = copy.deepcopy(original)
+        for rows, value in ((original, .13180366958), (changed, .13227349176)):
+            next(m for m in rows[0]["metrics"] if m["name"] == "rank_ic_median")["value"] = value
+        self.assertTrue(result("table", compare_metric_rows(original, changed, policy)).usable)
+        self.assertFalse(result("table", compare_metric_rows(original, changed, ReplayPolicy())).usable)
+        raw_error = compare_numbers("outputs", [0.2], [0.8], rtol=policy.rtol, atol=policy.probability_atol)
+        self.assertFalse(result("reference", (*observations, raw_error)).usable)
+
+    def test_optional_replay_policy_preserves_legacy_schema_and_freezes_amendment(self):
+        from analysis.artifacts import json_value
+        from analysis.pipeline import AnalysisPipeline
+        self.assertNotIn("rank_median_metric_atol", json_value(ReplayPolicy()))
+        context = replace(self.context, replay_policy=ReplayPolicy(rank_median_metric_atol=1e-3))
+        AnalysisPipeline(context)._freeze_policy()
+        self.assertEqual(read_json(context.output_root / "manifests/replay_policy.json")["rank_median_metric_atol"], 1e-3)
+        with self.assertRaises(ValueError):
+            AnalysisPipeline(self.context)._freeze_policy()
+
     def test_preparation_similarity_and_partial_report_connect(self):
         from analysis.pipeline import AnalysisPipeline
         from analysis.replay import validate_preparation

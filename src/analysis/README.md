@@ -28,6 +28,15 @@ PYTHONPATH=src .venv/bin/python3 -m analysis --phase7c audit
 PYTHONPATH=src .venv/bin/python3 -m analysis --phase7c launch
 ```
 
+For the owner-approved dev4 numerical amendment, additionally pass
+`--tolerances src/analysis/configs/phase7c_replay_policy.json` and
+`--output-root experiments/phase7/selected_variants/dev4` before the
+subcommand. It permits at most `0.001` absolute auxiliary median Rank IC
+drift (plus the unchanged relative term), without changing primary metric,
+raw-output or integrity tolerances. The original failed prelaunch audit and
+policy stay intact in the parent output root. See the Phase 7C plan for the
+disclosed motivation and approval; do not apply this to archived Phase 7A.
+
 The selected matrix has 68 standalone/removal heads, six existing full-model
 references, 222 total snapshots and twelve CKA matrices. Nothing is launched
 by adding the roster; the commands above do not train models.
