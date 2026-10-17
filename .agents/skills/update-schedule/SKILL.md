@@ -5,6 +5,14 @@ description: Use when auditing repository progress against docs/schedule.md, cor
 
 # Update Schedule From Evidence
 
+The current Phase 7B scope is
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`:
+a planned full-H0 SHAP extension, not alpha research. No implementation or
+execution is claimed. Alpha research stays deferred and unassigned. Phase
+7A's archived dev2 results supersede older prelaunch notes below: all 60
+heads trained, but the report remains partial with 197/198 validated
+snapshots. Preserve its validation exception rather than marking completion.
+
 Audit the repository before changing `docs/schedule.md`. Schedule text is not proof of completion.
 
 ## 1. Gather Git Evidence
@@ -130,8 +138,8 @@ its real matrix and target Lumid admission remain pending.
 Phase 6.6A/C's
 deferred price-focused fusion/decoder scope and the
 canonical 60-run branch-contribution matrix remain unexecuted. Source and CPU tests
-alone support only an "implemented, not run" status. Phase 7B alpha
-research is deferred and has no approved execution contract. Phase 6.6 is
+alone support only an "implemented, not run" status. Future alpha
+research is unassigned and has no approved execution contract. Phase 6.6 is
 planning evidence only until its fusion/decoder-capacity source, manifests,
 checkpoints, predictions, and replay reports exist. Phase 6.9 solely owns the
 xLSTM-Mixer contract; the former Phase 6.6B label is historical. Grouped

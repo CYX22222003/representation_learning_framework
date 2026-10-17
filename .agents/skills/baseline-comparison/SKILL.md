@@ -5,6 +5,15 @@ description: Design, run, and interpret fair comparisons between this project's 
 
 # Baseline Comparison
 
+For Phase 7C selected-variant analysis, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+Use one actual selected framework per task, fixed across walks, rather than
+an envelope or three-by-three cross-product. Compare removals with their own
+full-framework reference. This is post-hoc characterization, not independent
+confirmation. Profile support and the approved `--phase7c` roster are encoded;
+runtime admission/execution remain pending. Consult the plan for the
+equal-walk selection rule and variance H0 caveat, not the earlier examples.
+
 Use this skill after the data split and task definitions are known, and before selecting a model or writing a performance claim. Isolate representation quality from differences in data, labels, decoder capacity, training budget, and test-set tuning.
 
 ## Comparison Workflow
@@ -198,6 +207,16 @@ representation probe, compare residual projection D1-RP with D0, and interpret
 branch-aware gated D2-BG as a complete-system fusion sensitivity.
 Grouped SHAP is descriptive post-hoc attribution and cannot replace matched
 ablation or select a model from evaluation results.
+
+The owner-approved Phase 7B extension is separate from deferred Phase 6.6
+fusion attribution. Read
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`:
+explain all 445 input coordinates of the six original epoch-50 H0 heads,
+with no retraining or attribution of ablation models. Keep classification
+probabilities class-specific and regression outputs in native units. Freeze
+the estimator, training-only background, evaluation sample and numerical
+checks before computation. It is planned, not implemented or executed; SHAP
+describes predictions, not predictive-performance contribution or uniqueness.
 
 ### 3. Run matched characterization sweeps
 

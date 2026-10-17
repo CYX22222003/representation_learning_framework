@@ -1,5 +1,36 @@
 # AGENTS.md
 
+> **Phase 7C selected-variant analysis (2026-10-18):** Follow
+> `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+> The analysis package now accepts `--profiles <json>` assigning one existing
+> framework per task (one to three distinct variants), fixed across both walks.
+> Analyse each selection only on its assigned task, not a three-by-three
+> cross-product. Dynamic standalone/removal probes and task-population CKA
+> reuse native temporal/LSTM-capacity/residual-CNN stores and full references;
+> H0 remains the default without profiles. No encoder/full-reference retraining.
+> SHAP/conditional reporting are not Phase 7C completion gates. `--phase7c`
+> loads the approved `src/analysis/configs/phase7c_selected_profiles.json`:
+> classification HC-ST, price HB-AL, variance HC-AL (68 heads, six references).
+> Variance HC-AL is the best noncanonical MAE variant, not better than H0.
+> Lumid admission and execution remain pending. Keep separate `experiments/phase7/selected_variants/`
+> outputs and do not modify archived Phase 7A provenance or validation status.
+
+> **Phase 7B authority (2026-10-18):** Read
+> `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+> This owner-approved small extension explains all 445 inputs of the six
+> existing epoch-50 full H0 heads: classification probabilities separately
+> by class, eight-hour future price and eight-hour future RV, for both walks.
+> No retraining or ablation-model SHAP. It is planned, not implemented or run.
+> Freeze the estimator, training-only background, evaluation sampling, budget,
+> output units and numerical checks before calculating attributions. New code
+> belongs under `src/analysis/`, tests under `tests/analysis/`; outputs go to
+> `experiments/phase7/shap/`. The earlier Phase 7B alpha label is superseded;
+> alpha research remains deferred and unassigned. Phase 7A results are now
+> archived under `experiments/phase7/ablation/restarts/dev2/`: all 60 heads
+> trained, but the report remains partial with 197/198 validated snapshots.
+> Preserve its validation exception; this evidence supersedes older prelaunch
+> status statements below without changing Phase 7A completion criteria.
+
 > **Current Phase 7A authority (2026-10-17):** Read
 > `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
 > The owner reduced Phase 7A to Package A plus B-Core: five single branches and
@@ -300,7 +331,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > three tasks/two walks, plus lean CKA and conditional
 > reporting. Bootstrap uncertainty is optional future work. It requires 60 new seed-0 heads and six immutable H0
 > references. Pairwise probes and extended diagnostics are deferred. Phase 7A
-> infrastructure is implemented and development-validated; real execution is pending. Phase 7B
+> infrastructure is implemented and development-validated; see the latest execution evidence above. Future
 > alpha research is intentionally unspecified and deferred pending further
 > literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in

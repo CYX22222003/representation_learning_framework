@@ -1,5 +1,14 @@
 # Phase 7A Trimmed Canonical Branch Contribution and Overlap Analysis Plan
 
+> **Execution/follow-up note (2026-10-18):** The 60 new heads have trained;
+> the archived dev2 report remains PARTIAL / INCOMPLETE with 197/198
+> validated snapshots. Preserve the price A-B/Walk 1/epoch-50 replay exception;
+> earlier pending-execution notes below are prelaunch history. The owner
+> separately approved [Phase 7B full-model SHAP](2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> as a small planned extension, not a new Phase 7A completion requirement.
+> It reuses the six immutable epoch-50 H0 heads without retraining; no SHAP
+> implementation or execution has started.
+
 **Date:** 2026-10-17  
 **Status:** Current Phase 7A authority, adopted by the owner on 2026-10-17.  
 **Implementation status:** Data/source adapters, preparation, fresh-head training,

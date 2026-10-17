@@ -5,6 +5,15 @@ description: Use when answering questions about this project's architecture, rep
 
 # Project Design
 
+For selected-variant Phase 7C analysis, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+The implemented `analysis --profiles` adapter supports one existing framework
+per task, shared where appropriate, with dynamic branches and task-specific
+CKA. Canonical H0 remains the default. `--phase7c` loads the approved roster
+from `src/analysis/configs/phase7c_selected_profiles.json`; consult the plan
+for its metric/claim boundaries. Lumid admission/execution remain pending;
+do not choose variants automatically or imply they have run.
+
 Ground design answers in the current project documents rather than assumptions.
 
 ## Read First
@@ -190,8 +199,14 @@ Present the parts relevant to the request:
   descriptive analysis rather than model selection. Fixed-first-walk
   transfer, other temporal decoders, lifecycle-
   conditioned models, and additional seeds remain outside these plans.
-- Treat Phase 7B alpha research as deferred pending literature review; no
-  search protocol or profitable-alpha claim is currently approved.
+- For Phase 7B, read
+  `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+  It is a planned small extension explaining all 445 representation inputs
+  of six existing epoch-50 H0 heads across three tasks/two walks. Do not
+  retrain models or substitute five-group Shapley for coordinate-level SHAP.
+  Estimator, sampling and numerical-check settings must be frozen before
+  calculation. Implementation/execution have not started. Alpha research
+  remains deferred and unassigned; its earlier Phase 7B label is superseded.
 - Components, methods, or scope explicitly marked as open, provisional, or dependent on later work.
 
 Prefer dimension utilities and `RepresentationAggregator.output_dim` over hard-coded assumptions. If documents disagree with current source code, call out the discrepancy and inspect the implementation before recommending a change.

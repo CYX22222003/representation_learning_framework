@@ -1,5 +1,23 @@
 # Research Idea V2
 
+> **Phase 7C extension (2026-10-18):** The owner approved
+> [selected-variant characterization](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md):
+> one existing framework per task, potentially shared across tasks, examined
+> through standalone/removal probes and CKA in both walks. Do not treat this
+> post-hoc selection as independent confirmation. Source/profile support is
+> implemented; HC-ST (classification), HB-AL (price), HC-AL (variance) are
+> approved and encoded, but real execution remains pending. SHAP
+> is optional, separate from planned Phase 7B full-H0 SHAP.
+
+> **Phase 7B scope (2026-10-18):** The owner approved
+> [full-model SHAP](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> as a small explanation extension of Phase 7A, using the six existing
+> epoch-50 H0 heads and all 445 representation coordinates. Three tasks and
+> two walks remain separate; no retraining is required. Implementation and
+> execution are not started. The former provisional Phase 7B alpha label is
+> superseded; alpha research stays deferred and unassigned. Current Phase 7A
+> execution status is in `docs/schedule.md` and its archived partial report.
+
 > **Current Phase 7A authority (2026-10-17):** The owner adopted the
 > [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Required scope is five single and five leave-one-out probes across all three
@@ -133,7 +151,7 @@ universal framework superiority.
 > local CUDA-device admission replaces the earlier Lumid prerequisite;
 > that runtime amendment alone did not change the old recipe; the later
 > endpoint amendment explicitly supersedes the path/intersection requirements.
-> Phase 7B alpha research remains intentionally unspecified pending further
+> Alpha research remains unassigned and intentionally unspecified pending further
 > literature review.
 
 ## 2. Literature Review (Brief \& Informal)

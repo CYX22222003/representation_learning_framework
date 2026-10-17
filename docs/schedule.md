@@ -1,5 +1,24 @@
 # FYP Progress and Schedule
 
+> **Phase 7C implementation (2026-10-18):** The owner approved a small
+> [selected-variant analysis](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+> Configurable profiles under `src/analysis/` support one framework per task,
+> reused if it serves several tasks, and dynamic standalone/removal/CKA analysis.
+> The approved `--phase7c` roster is HC-ST for classification, HB-AL for price,
+> and HC-AL for variance: 68 probe heads plus six existing full references.
+> Target Lumid admission and real execution remain pending.
+> SHAP is optional here; the separate Phase 7B H0 SHAP study stays planned.
+
+> **Phase 7 update (2026-10-18):** Phase 7A results are archived under
+> `experiments/phase7/ablation/restarts/dev2/`: all 60 heads trained, but the
+> report remains PARTIAL / INCOMPLETE with 197/198 validated snapshots.
+> Earlier prelaunch notes below are superseded by this execution evidence.
+> The owner approved [Phase 7B full-model SHAP](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> as a small extension: six existing epoch-50 H0 heads, three tasks/two walks,
+> all 445 inputs, no retraining. Implementation and execution are planned for
+> the next working session, not started. Alpha research stays deferred and
+> unassigned; its former provisional Phase 7B label is superseded.
+
 > **Current Phase 7A authority (2026-10-17):** The owner adopted the
 > [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Required Package A+B-Core contains five singles, five removals, lean CKA,
@@ -7,10 +26,10 @@
 > immutable H0 references. Bootstrap uncertainty is optional future work to
 > protect time for the report and presentation. Pairwise probes and extended
 > diagnostics are deferred. Phase 6.8 does not gate this
-> study. Infrastructure is implemented and development-validated; real Phase 7A
-> training and target Lumid admission have not started.
+> study. All 60 heads have now trained on Lumid; the archived report remains
+> partial with 197/198 validated snapshots. See the execution update above.
 
-**Last updated:** 2026-10-17
+**Last updated:** 2026-10-18
 
 **Phase 7A engineering plan:** The
 [analysis implementation plan](phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md)
@@ -162,7 +181,7 @@ of remote readiness, transfer, or launched training.
 > xLSTM-Mixer is a contextual complete-system baseline, not direct
 > representation evidence. Grouped SHAP is explicitly
 > deferred to a later post-model analysis amendment.
-> Phase 7B alpha research is intentionally deferred pending further literature
+> Alpha research (formerly provisionally labelled Phase 7B) is deferred pending further literature
 > review and has no approved execution contract. Phase 4 data
 > exploration and selection concluded
 > without model training and led to the canonical
@@ -294,11 +313,11 @@ of remote readiness, transfer, or launched training.
 | Task | Status |
 |---|---|
 | Raw-OHLCV MLP (no representation learning) | ✅ Trained on 4h data for price, volatility, and trend; price/volatility sweeps at 15/50/100 epochs. The volatility sweep predates the shared contract-aware label bundle and is characterization-only pending a strict rerun. |
-| Statistical-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
-| Transformation-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
-| VAE-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
-| Contrastive-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
-| BYOL-only ablation | 🔄 Phase 7A infrastructure implemented and development-validated; real training not executed |
+| Statistical-only ablation | ✅ Phase 7A heads trained across three tasks/two walks; 5/15/50 results archived |
+| Transformation-only ablation | ✅ Phase 7A heads trained across three tasks/two walks; 5/15/50 results archived |
+| VAE-only ablation | ✅ Phase 7A heads trained across three tasks/two walks; 5/15/50 results archived |
+| Contrastive-only ablation | ✅ Phase 7A heads trained across three tasks/two walks; 5/15/50 results archived |
+| BYOL-only ablation | 🔄 All heads trained; price Walk 1 epoch-50 replay has a retained numerical-tolerance failure and is excluded from validated reporting |
 | Additional neural encoder ablations (per TBD methods) | ⬜ TBD |
 | Additional internal baselines (TBD) | ⬜ TBD |
 
@@ -328,8 +347,10 @@ of remote readiness, transfer, or launched training.
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
 | Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
-| Phase 7A trimmed branch-contribution and overlap analysis | 🔄 Infrastructure implemented and development-validated; target Lumid admission and real execution pending. Required A+B-Core combines five singles, five removals, standardized classification-population CKA, calendar-walk/contract/future-RV groups: 60 new seed-0 heads plus six H0 references. Starting-probability/imputation groups, pairwise probes, and extended diagnostics are deferred; Phase 6.8 is not a prerequisite. |
-| Phase 7B alpha research | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. Earlier raw-OHLCV and direct-representation GP dry runs remain exploratory implementation evidence only. |
+| Phase 7A trimmed branch-contribution and overlap analysis | 🔄 All 60 heads trained on Lumid; predictions, metrics, CKA, conditional outputs and report archived under `experiments/phase7/ablation/restarts/dev2/`. Report is PARTIAL / INCOMPLETE with 197/198 validated snapshots; the price A-B/Walk 1/epoch-50 tolerance failure and affected conditional/pooled coverage remain unresolved. No tolerance or completion criterion was changed. |
+| Phase 7B full-model SHAP extension | 📝 Scope approved; implementation/execution not started. Explain all 445 inputs of the six existing epoch-50 H0 heads across three tasks/two walks; class-specific classification plots and regression plots, no retraining. Follow the 2026-10-18 Phase 7B plan. |
+| Phase 7C selected-variant analysis | 🔄 Profile/adapters, dynamic matrix/CKA and replay/report support implemented; approved roster encoded via `--phase7c`: classification HC-ST, price HB-AL, variance HC-AL (68 probe heads, six references, 222 snapshots, twelve CKA matrices). Lumid admission and execution pending. Same task assignment in both walks, no cross-product or encoder/full-reference retraining. SHAP is optional. |
+| Alpha research (unassigned future phase) | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. The former provisional Phase 7B label is superseded. Earlier GP dry runs remain exploratory implementation evidence only. |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
 Canonical Phase 2 scope is maintained in

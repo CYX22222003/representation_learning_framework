@@ -5,6 +5,15 @@ description: Use when a project design decision, architecture change, new model 
 
 # Sync Project Documentation
 
+Include `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`
+for selected-variant adapter/analysis changes. One framework is assigned per
+task across both walks, with no cross-product or encoder/full-reference
+retraining. Profile support is implemented, not production-admitted/executed;
+the approved task assignments are encoded in
+`src/analysis/configs/phase7c_selected_profiles.json` via `--phase7c` (see the
+plan for the equal-walk selection rule and variance caveat). Preserve canonical H0 as
+the default and the separate Phase 7B planned-SHAP status.
+
 Propagate an established change across affected documents without rewriting sections that are already consistent. The project follows an ideation -> plan/design -> implement -> evaluate loop, so each document must describe the same current system.
 
 ## 1. Identify the Change
@@ -193,6 +202,16 @@ is not required. Evaluation snapshots and replay remain required. Do not mark
 sandbox readiness or launch complete from an execution-platform decision.
 Preserve the supersession notices in both older Phase 7A plans as historical
 context; do not restore their old requirements or Phase 6.8 dependency.
+
+For the owner-approved small Phase 7B full-model SHAP extension, include
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+It reuses six epoch-50 H0 heads and all 445 input coordinates, without
+retraining. Scope is approved, implementation/execution not started. Replace
+active references to the former provisional "Phase 7B alpha research" with
+deferred, unassigned future alpha work. Keep Phase 6.6 raw/fusion attribution
+separate. Preserve Phase 7A's archived partial status (197/198 validated
+snapshots after all 60 heads trained); SHAP neither waives its exception nor
+adds a Phase 7A completion gate.
 
 ## 3. Audit Repository Skills
 

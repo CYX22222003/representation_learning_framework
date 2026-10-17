@@ -1,5 +1,24 @@
 # Model Design
 
+> **Phase 7C adapter extension (2026-10-18):** See the
+> [selected-variant plan](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md).
+> `analysis --profiles <json>` generalizes branch maps, native sources/full
+> references, standalone/removal matrices, task-population CKA and reports.
+> The default remains canonical H0; no existing model architecture changes.
+> The approved `--phase7c` roster is HC-ST (classification), HB-AL (price),
+> HC-AL (variance), fixed across walks. Target-runtime admission/execution
+> remain pending. SHAP is optional for these selected variants.
+
+> **Phase 7B scope (2026-10-18):** The planned
+> [full-model SHAP extension](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> explains all 445 representation coordinates in the existing epoch-50 H0
+> heads for classification, future price and future RV, separately by walk.
+> No models are retrained. This scope is approved, not implemented/executed;
+> it is not the deferred Phase 6.6 raw/fusion attribution study. Alpha
+> research stays deferred and unassigned. For Phase 7A's executed but partly
+> invalid result inventory, use `docs/schedule.md` and the archived report
+> rather than the older prelaunch notes below.
+
 > **Current Phase 7A authority (2026-10-17):** The owner adopted the
 > [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > It requires five single and five leave-one-out probes across three tasks/two
@@ -104,8 +123,8 @@
 > independently replay-valid; the matched report is under
 > `experiments/phase6_9/xlstm_mixer_endpoint/reports/seed0/`. The historical XM-only
 > diagnostic report is under `experiments/phase6_9/xlstm_mixer/reports/seed0/`.
-> Phase 7B alpha research remains
-> unspecified pending further literature review.
+> Alpha research remains unassigned and deferred pending further literature
+> review; Phase 7B now denotes the small full-H0 SHAP extension above.
 
 ## Architecture Design
 

@@ -5,6 +5,15 @@ description: Use when planning training, validation, testing, baseline fairness,
 
 # Experiment Setup
 
+For Phase 7C, read
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+Assign one framework per task for both walks; no cross-product or encoder/
+full-reference retraining. Profile adapters preserve exact canonical rows,
+native feature/encoder hashes and training-scaler parity. CKA uses each task
+population separately. The approved roster is encoded in
+`src/analysis/configs/phase7c_selected_profiles.json` (`--phase7c`); preparation
+freezes it, while target admission and production execution remain pending.
+
 Use the project documents as the authority for experiment design. Do not infer allocation rules from implementation details alone.
 
 ## Read First
@@ -149,8 +158,14 @@ Read these in order:
     thresholds, and subgroup edges use training data only. Infrastructure is
     implemented and development-validated; target Lumid admission and real
     matrix execution remain pending.
-    Phase 7B alpha research remains deferred and has no approved
-    execution contract.
+    For the planned Phase 7B full-model SHAP extension, read
+    `docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+    Reuse six original epoch-50 H0 heads and training-fitted scalers, with
+    training-only background rows and fixed held-out explanation samples;
+    explain all 445 coordinates without retraining. Freeze the estimator,
+    sampling/budget, output units and numerical checks before calculation.
+    Alpha research is deferred and unassigned; its old Phase 7B label is
+    superseded. This SHAP scope is planned, not implemented/executed.
 16. For the completed recent frozen-representation comparison, read
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
     in full. External encoders train separately on each walk's target-free

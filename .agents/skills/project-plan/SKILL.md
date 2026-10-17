@@ -5,6 +5,22 @@ description: Use when asking about this project's current progress, research sch
 
 # Project Plan
 
+Phase 7C is the approved selected-variant contribution/CKA extension in
+`docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
+Profile/source/matrix/replay/report support is implemented and the approved
+task assignments are encoded via `--phase7c` (see the plan); target admission
+and execution are pending. One existing
+framework per task may be shared across tasks. SHAP is optional here; do not
+confuse this implementation with the still-planned Phase 7B SHAP estimator.
+
+For the current Phase 7 follow-up, read
+`docs/phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`.
+Phase 7B is now the planned full-H0 coordinate-level SHAP extension across
+three tasks/two walks, without retraining. Alpha research is deferred and
+unassigned. Phase 7A's archived dev2 report has 197/198 validated snapshots;
+all 60 heads trained, but do not mark the phase fully validated. These facts
+supersede older prelaunch status notes below; Phase 7B is not implemented/run.
+
 Use the maintained schedule to describe project state, and use the research plan only as the stable roadmap. Do not treat code existence as evidence that training or evaluation has run.
 
 ## Read First
@@ -96,8 +112,8 @@ Read these in order:
    standardized classification-population CKA, and calendar-walk/contract/
    future-RV reporting. Bootstrap uncertainty is optional future work. Pairwise and
    extended diagnostics are deferred. Infrastructure is implemented with development checks;
-   target Lumid admission and real matrix execution remain pending. Phase 7B
-   alpha research is intentionally deferred pending further literature review.
+   use the latest archived execution status above. Future alpha research
+   remains unassigned and deferred pending further literature review.
    For Phase 7A engineering work, also read
    `docs/phase_plan/2026-10-17-phase-7a-analysis-implementation-plan.md`:
    all new analysis code, data classes, infrastructure, replay, reports, and

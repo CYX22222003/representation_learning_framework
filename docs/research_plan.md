@@ -1,5 +1,23 @@
 # Research Plan
 
+> **Phase 7C scope (2026-10-18):** The
+> [selected-variant analysis](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md)
+> applies standalone/removal/CKA analysis to one existing selected framework per
+> task, allowing one to three distinct variants. Do not cross every selection
+> with every task or retrain encoders/full references. This is post-hoc
+> characterization; the approved assignments are HC-ST (classification),
+> HB-AL (price), HC-AL (variance). Real execution remains pending. SHAP
+> is optional and does not gate this extension.
+
+> **Phase 7B scope (2026-10-18):** The owner approved a small
+> [full-model SHAP extension](phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md)
+> after Phase 7A: explain all 445 inputs of the existing epoch-50 H0 models
+> on three tasks/two walks, with no retraining. It is planned, not implemented
+> or executed. This replaces only the provisional Phase 7B alpha-research
+> label; alpha research remains deferred and unassigned. Current Phase 7A
+> execution/validation evidence is recorded in `docs/schedule.md` and its
+> archived partial report, superseding older prelaunch status notes below.
+
 > **Current Phase 7A authority (2026-10-17):** The owner adopted the
 > [trimmed canonical branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Required scope is Package A plus B-Core: 60 new seed-0 single/removal heads,
@@ -514,7 +532,15 @@ Part 3 execution contract.
   limited task/condition reporting. Follow the current 2026-10-17 Phase 7A plan. Pairwise probes
   and extended structural analysis are deferred.
 
-- **Additional alpha-research downstream capability (Phase 7B, intentionally
+- **Full-model explanation extension (Phase 7B)** — explain the six original
+  epoch-50 H0 heads using coordinate-level SHAP over all 445 inputs. Retain
+  task/walk-specific importance and beeswarm plots, separate classification
+  outputs, training-only background rows, frozen sampling/estimator settings,
+  source hashes and numerical diagnostics. No retraining or ablation SHAP.
+  Follow `phase_plan/2026-10-18-phase-7b-full-model-shap-analysis-plan.md`;
+  SHAP describes predictions, not predictive-performance contribution.
+
+- **Additional alpha-research downstream capability (unassigned future phase, intentionally
   deferred)** — its research question, data allocation, search protocol, and
   economic evaluation will be reconsidered only after further literature
   review. A possible future extension may test whether interpretable formulaic
