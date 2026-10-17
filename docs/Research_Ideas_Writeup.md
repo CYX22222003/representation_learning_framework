@@ -1,5 +1,14 @@
 # Research Idea V2
 
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required scope is five single and five leave-one-out probes across all three
+> tasks/two walks: 60 new seed-0 heads plus six immutable H0 references. Lean
+> CKA and calendar-walk/contract/future-RV reporting remain required. Bootstrap
+> uncertainty is optional future work. Pairwise probes and extended diagnostics
+> are deferred. Phase 6.8 does not gate this study. Implementation and
+> execution have not started.
+
 ## 1. Main Topic
 
 A unified representation learning framework for time-series data that integrates statistical, transformation-based, and deep learning features for transferable multi-task applications
@@ -66,7 +75,7 @@ universal framework superiority.
 > whose former xLSTM-Mixer listing is superseded by Phase 6.9 and which defers grouped SHAP
 > until after its frozen model comparisons,
 > and the
-> [Phase 7A canonical ablation plan](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> [Phase 7A trimmed branch-contribution plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Phase 6.5A--D are executed and replay-valid. Price-focused Phase 6.5D finds
 > a repeatable Contrastive residual-CNN price-error improvement over H0 and its
 > same-width control, but not over Raw LSTM or persistence, and not in movement
@@ -106,8 +115,8 @@ universal framework superiority.
 > macro-F1 in both walks and its hard grouping collapses. The final
 > task-separated synthesis is complete under
 > `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Phase 6.8
-> remains optional and unimplemented. Phase 7A remains frozen and
-> unimplemented. Phase 6.6 remains deferred and is no longer an active
+> remains optional and unimplemented. Phase 7A now has the trimmed branch-contribution plan and remains
+> unimplemented and unexecuted. Phase 6.6 remains deferred and is no longer an active
 > xLSTM-Mixer authority.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`. It confirms suitability and the implemented

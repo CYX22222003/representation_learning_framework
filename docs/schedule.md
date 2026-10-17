@@ -1,6 +1,15 @@
 # FYP Progress and Schedule
 
-**Last updated:** 2026-10-10
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required Package A+B-Core contains five singles, five removals, lean CKA,
+> and calendar-walk/contract/future-RV groups: 60 new seed-0 heads plus six
+> immutable H0 references. Bootstrap uncertainty is optional future work to
+> protect time for the report and presentation. Pairwise probes and extended
+> diagnostics are deferred. Phase 6.8 does not gate this
+> study. Implementation and execution have not started.
+
+**Last updated:** 2026-10-17
 
 > **Latest classification-plan revision:** The owner approved
 > `phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`.
@@ -44,10 +53,12 @@
 > forecasting, and the completed strict H=8
 > GARCH--LSTM volatility stack. Phase 6.8 remains frozen but optional and
 > unimplemented; its three-task Di-COT-Frozen/Monotone-VI-Frozen extension is
-> not a prerequisite for the closed Phase 6.9. Phase 7A's canonical single-branch and
-> leave-one-branch-out matrix remains frozen and unimplemented. No subsequent
-> experiment phase is activated automatically; choosing among optional Phase
-> 6.8, deferred Phase 6.6, and frozen Phase 7A requires an owner priority.
+> not a prerequisite for the closed Phase 6.9. The owner has adopted the trimmed
+> Phase 7A branch-contribution plan as the current analysis direction. Required
+> Package A+B-Core includes 60 new seed-0 single/removal heads plus six H0
+> references and lean CKA/conditional
+> analysis; implementation and execution have not started.
+> Optional Phase 6.8 does not gate Phase 7A. Phase 6.6 remains deferred.
 > Phase 6.7
 > closes with three independently
 > adapted external representations: required SaURL-TS-Frozen and LWA-Frozen,
@@ -106,9 +117,9 @@
 > now assigned to the documented Phase 6.5 follow-up and does not block the
 > completed Phase 6 round. Phase 6.5 also freezes a seed-0 two-layer LSTM
 > capacity probe and a strict current-task TA-MLP classification benchmark,
-> while Phase 7A freezes
-> canonical single-branch and
-> leave-one-branch-out ablations. Phase 6.5A is complete for its frozen seed-0
+> while the trimmed Phase 7A plan retains canonical single/removal probes and
+> lean CKA and conditional reporting;
+> pairwise and extended diagnostics are deferred. Phase 6.5A is complete for its frozen seed-0
 > scope: all four two-layer SSL encoders, six task/walk feature stores, 24
 > downstream trajectories, 72 snapshots, and two CKA diagnostics replay; the
 > complete report is generated. Phase 6.5B and 6.5C execution is complete:
@@ -187,7 +198,7 @@
 > The approved follow-ups are
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
-> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+> `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
 
 ---
 
@@ -296,7 +307,7 @@
 | Phase 2 encoder refinement | ⏸️ Paused; seed-0 checkpoints, frozen features, CKA, and probes are preserved as legacy-pipeline evidence |
 | Phase 2 probability-movement classification | ⏸️ Paused; task-local labels/alignment are sound, but completed seed-0 runs inherit the upstream processed-data defect |
 | Transferability analysis (across markets and timeframes) | ⬜ Not started |
-| Phase 7A ablation study (per-branch contribution) | 📝 Plan frozen; implementation/execution not started. The seed-0 matrix contains five canonical single-branch and five leave-one-branch-out configurations across both walks and all three current tasks. It is not a prerequisite for Phase 6.9. |
+| Phase 7A trimmed branch-contribution and overlap analysis | 📝 Current plan adopted 2026-10-17; implementation/execution not started. Required A+B-Core combines five singles, five removals, standardized classification-population CKA, calendar-walk/contract/future-RV groups: 60 new seed-0 heads plus six H0 references. Starting-probability/imputation groups, pairwise probes, and extended diagnostics are deferred; Phase 6.8 is not a prerequisite. |
 | Phase 7B alpha research | ⏸️ Deferred pending further literature review; no research question, search procedure, execution matrix, or profitable-alpha claim is approved. Earlier raw-OHLCV and direct-representation GP dry runs remain exploratory implementation evidence only. |
 | Result tables and visualisations | 🔄 Phase-1 price, trend, and volatility summaries, comparisons, and plots generated; final cross-model tables, branch ablations, and embedding visualisations pending |
 
@@ -394,7 +405,7 @@ under the Phase 6.9 technical contract, and the completed strict
 GARCH--LSTM supplies the volatility comparison. Phase 6.8 remains an optional
 unimplemented three-task representation extension; neither Di-COT nor its
 broader Monotone-VI matrix has been implemented or executed. The Phase 6.9
-xLSTM scope supersedes the former Phase 6.6B listing. Phase 7A remains frozen and unimplemented. Grouped SHAP remains a later
+xLSTM scope supersedes the former Phase 6.6B listing. The current trimmed Phase 7A analysis plan remains unimplemented and unexecuted. Grouped SHAP remains a later
 analysis amendment. Pooled all-temporal volatility reporting, reversal
 confirmation, and additional seeds remain deferred follow-ups.
 

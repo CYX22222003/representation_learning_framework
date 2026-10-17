@@ -1,12 +1,19 @@
 # Phase 7A Canonical Representation Ablation Plan
 
 **Date:** 2026-09-26
-**Status:** Approved and frozen, but deferred behind Phase 6.8 as of
-2026-10-06; implementation and execution have not started. The frozen matrix
-is unchanged.
+**Status:** Superseded first on 2026-10-12 and again on 2026-10-17 by the
+owner's trimmed branch-contribution plan. Retained as historical design; it was
+not implemented or executed.
 **Predecessors:** `2026-09-26-phase-6-experiment-observation-and-outcomes.md`
 and `2026-10-04-phase-6-7-external-representation-baseline-plan.md` and
 `2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`
+
+> **Current authority:** Read
+> [the 2026-10-17 trimmed Phase 7A plan](2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> It retains the five single and five leave-one-out experiments across all
+> tasks/walks, adds a lean required analysis package, and defers pairwise and
+> heavier structural extensions. The exclusions and Phase 6.8 ordering below
+> describe historical scope and do not override the current plan.
 
 ## 1. Purpose and boundary
 

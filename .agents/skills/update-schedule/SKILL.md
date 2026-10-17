@@ -80,8 +80,10 @@ For Phase 6.5, Phase 6.6, and Phase 7 status, also read
 `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`,
 `docs/phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md`,
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`,
-and `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-full. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
+and `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+in full. The current Phase 7A authority requires 60 new single/removal seed-0
+heads plus six H0 references and B-Core analysis; pairwise and extended
+diagnostics are deferred. The Phase 6.5 two-layer LSTM capacity matrix, strict H=8 adapted GARCH--
 LSTM, and current-task TA-MLP classification matrix now have their own
 manifests, generated stores where applicable, checkpoints, predictions, and
 replay evidence; treat them as executed. Phase 6.5D now also has replay-valid
@@ -123,10 +125,10 @@ task-separated synthesis is complete under
 `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`; mark
 Phase 6.9 closed.
 The owner-directed local amendment removes Lumid as a prerequisite. Its volatility leg
-reuses completed Phase 6.5B artifacts. Phase 7A remains unimplemented.
+reuses completed Phase 6.5B artifacts. Trimmed Phase 7A remains unimplemented.
 Phase 6.6A/C's
 deferred price-focused fusion/decoder scope and the
-canonical branch-ablation matrix remain only planned. Source and CPU tests
+canonical 60-run branch-contribution matrix remain only planned. Source and CPU tests
 alone support only an "implemented, not run" status. Phase 7B alpha
 research is deferred and has no approved execution contract. Phase 6.6 is
 planning evidence only until its fusion/decoder-capacity source, manifests,

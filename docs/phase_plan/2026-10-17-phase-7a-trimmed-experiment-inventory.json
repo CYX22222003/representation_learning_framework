@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "authority": "docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md",
+  "status": "planning_only_not_implemented_or_executed",
+  "run_id_template": "{configuration}__{task}__walk{walk}",
+  "expansion_order": ["configuration", "task", "walk"],
+  "configurations": [
+    {"id": "A-S", "included_branches": ["S"], "width": 70},
+    {"id": "A-T", "included_branches": ["T"], "width": 55},
+    {"id": "A-V", "included_branches": ["V"], "width": 64},
+    {"id": "A-C", "included_branches": ["C"], "width": 128},
+    {"id": "A-B", "included_branches": ["B"], "width": 128},
+    {"id": "A-noS", "included_branches": ["T", "V", "C", "B"], "width": 375},
+    {"id": "A-noT", "included_branches": ["S", "V", "C", "B"], "width": 390},
+    {"id": "A-noV", "included_branches": ["S", "T", "C", "B"], "width": 381},
+    {"id": "A-noC", "included_branches": ["S", "T", "V", "B"], "width": 317},
+    {"id": "A-noB", "included_branches": ["S", "T", "V", "C"], "width": 317}
+  ],
+  "tasks": [
+    "classification_h2",
+    "absolute_price_h8",
+    "realised_variance"
+  ],
+  "walks": [1, 2],
+  "training_recipe": {
+    "seed": 0,
+    "epochs": 50,
+    "snapshots": [5, 15, 50],
+    "batch_size": 512,
+    "optimizer": "Adam",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0
+  },
+  "immutable_references": {
+    "configuration": "H0",
+    "trajectories": 6,
+    "snapshots": 18
+  },
+  "expected_inventory": {
+    "new_trajectories": 60,
+    "new_snapshots": 180,
+    "total_entries_including_h0": 66,
+    "total_snapshots_including_h0": 198
+  },
+  "required_analysis": [
+    "main_metrics_and_removal_effects",
+    "standardized_classification_population_cka",
+    "limited_condition_reporting"
+  ],
+  "condition_reporting": {
+    "calendar": "walk1_vs_walk2_only",
+    "contract": "per_contract_row_weighted_and_equal_contract_summaries",
+    "future_realised_variance": {
+      "task": "realised_variance",
+      "threshold_source": "walk_specific_training_targets",
+      "percentiles": [90, 99],
+      "evaluation_assignment": "retrospective_observed_targets"
+    },
+    "cross_group_grid": false
+  },
+  "deferred": [
+    "seven_day_paired_temporal_block_uncertainty",
+    "basic_resource_reporting",
+    "single_branch_error_overlap",
+    "starting_probability_subgroup_reporting",
+    "imputation_subgroup_reporting",
+    "pairwise_branch_heads",
+    "duplicate_width_controls",
+    "additional_head_or_encoder_seeds",
+    "effective_rank_and_spectra",
+    "directional_reconstruction",
+    "descriptor_probes",
+    "named_subblock_cka",
+    "raw_feature_cka_sensitivity",
+    "expanded_subgroup_grid",
+    "alternative_bootstrap_block_lengths",
+    "inference_microbenchmarks_and_pareto_analysis"
+  ]
+}

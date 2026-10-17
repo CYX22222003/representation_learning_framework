@@ -1,5 +1,17 @@
 # AGENTS.md
 
+> **Current Phase 7A authority (2026-10-17):** Read
+> `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+> The owner reduced Phase 7A to Package A plus B-Core: five single branches and
+> five leave-one-out configurations across three tasks/two walks, for 60 new
+> seed-0 heads plus six immutable H0 references. Required analysis is limited
+> to main metrics/removal effects, standardized classification-population CKA,
+> and calendar-walk/contract/future-RV condition groups. Bootstrap uncertainty
+> is optional future work and does not gate completion.
+> Error-overlap and resource analyses are excluded. Pairwise probes, heavier structural diagnostics,
+> duplicate controls, and extra seeds are deferred. Phase 6.8 does not gate
+> Phase 7A. Implementation/execution have not started.
+
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Running Scripts
@@ -89,7 +101,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > The approved next experiment scope is split between
 > `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
 > and
-> `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`, with
+> `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`, with
 > the subsequent price-focused recent-baseline/raw-fusion/decoder-capacity work frozen
 > separately in
 > `docs/phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md`.
@@ -181,7 +193,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > explicit `--execute`, and same-backend replay remain mandatory.
 > The released `FULL` code flips latent features,
 > not the variate-token axis, so the older reversed-variate shorthand is not
-> an implementation contract. Phase 7A remains frozen and unimplemented.
+> an implementation contract. The trimmed Phase 7A plan remains unimplemented and unexecuted.
 > The independently authored SaURL-TS model plus
 > its audit, alternating
 > the independently authored SaURL-TS model plus its audit, alternating
@@ -259,10 +271,12 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 > and xLSTM-Mixer is a contextual task-specific baseline rather than direct
 > representation evidence.
 > SHAP-style attribution is deferred until those predictions are frozen and
-> requires a separate sampling/estimator amendment. Phase 7A
-> freezes canonical five-branch
-> single-branch and leave-one-branch-out probing across the three current
-> tasks. Phase 7A is documented but not implemented or executed. Phase 7B
+> requires a separate sampling/estimator amendment. The current trimmed Phase 7A
+> plan retains five canonical single and five leave-one-out probes across the
+> three tasks/two walks, plus lean CKA and conditional
+> reporting. Bootstrap uncertainty is optional future work. It requires 60 new seed-0 heads and six immutable H0
+> references. Pairwise probes and extended diagnostics are deferred. Phase 7A
+> is not implemented or executed. Phase 7B
 > alpha research is intentionally unspecified and deferred pending further
 > literature review; no profitable-alpha claim is part of the approved scope.
 > The completed canonical encoder matrix is specified in

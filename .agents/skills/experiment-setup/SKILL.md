@@ -126,9 +126,18 @@ Read these in order:
     current-task TA-MLP classification, or price-focused residual-CNN SSL,
     read
     `docs/phase_plan/2026-09-26-phase-6-5-lstm-capacity-and-garch-lstm-plan.md`
-    in full. For canonical branch attribution, read
-    `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md` in
-    full. Phase 7B alpha research remains deferred and has no approved
+    in full. For the current trimmed canonical branch-contribution analysis,
+    read
+    `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+    in full. It supersedes the September original and the broader 2026-10-12
+    design: A+B-Core requires 60 new single/removal seed-0 heads plus six H0
+    references, standardized classification-population CKA, and
+    calendar-walk/contract/future-RV reporting. Bootstrap uncertainty is
+    optional future work and does not gate completion.
+    Pairwise probes and extended diagnostics are deferred. Auxiliary samples,
+    thresholds, and subgroup edges use training data only. Implementation and
+    execution have not started.
+    Phase 7B alpha research remains deferred and has no approved
     execution contract.
 16. For the completed recent frozen-representation comparison, read
     `docs/phase_plan/2026-10-04-phase-6-7-external-representation-baseline-plan.md`
@@ -156,7 +165,7 @@ Read these in order:
     on the unchanged target-free population and cover every existing task row;
     their source/licence/adaptation and fixed fitting budgets are frozen before
     implementation without evaluation-driven selection. Phase 6.8 is
-    optional; Phase 7A remains separately frozen, and Phase 6.6 is not a
+    optional; the current trimmed Phase 7A plan is independent of it, and Phase 6.6 is not a
     prerequisite.
 17. For price-focused raw-OHLCV plus frozen-representation residual fusion,
     canonical decoder-capacity work, or later grouped attribution, read

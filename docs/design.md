@@ -1,5 +1,13 @@
 # Model Design
 
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> It requires five single and five leave-one-out probes across three tasks/two
+> walks: 60 new seed-0 heads plus six immutable H0 references. Lean standardized
+> CKA and calendar-walk/contract/future-RV reporting remain required. Bootstrap
+> uncertainty is optional future work. Pairwise probes and heavier diagnostics are
+> deferred. Implementation and execution have not started.
+
 > **Phase 5 authority (2026-09-21):** The initial architecture and experiment
 > design evolved after issues discovered in Phases 1--3; Phase 4 was a
 > data-analysis phase and ran no model training. For the active main-experiment
@@ -53,8 +61,8 @@
 > contract for price, and the completed strict GARCH--LSTM stack for
 > volatility. The Phase 6.6 raw-fusion and decoder-capacity studies remain
 > deferred; their former xLSTM-Mixer listing is superseded.
-> Canonical single-branch and leave-one-out attribution is frozen in
-> [`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`](phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md).
+> The trimmed branch-contribution and overlap analysis is specified in
+> [`phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
 > Phase 6.5A--D are executed for their frozen seed-0 scopes. Phase 6.5D's four
 > residual-CNN encoders, two feature stores, eight price trajectories, CKA,
 > resources, subgroup tables, and complete report are replay-valid. Phase 6.7
@@ -76,8 +84,8 @@
 > two 170-wide stores, six downstream trajectories, and 18 snapshots are
 > complete and replay-valid. SISSEL remains uncommissioned optional scope.
 > Phase 6.9 is closed; its final task-separated synthesis is under
-> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 and frozen
-> Phase 7A remain unimplemented; Phase 6.6 likewise remains planning evidence.
+> `experiments/phase6_9/reports/task_specific_competitiveness_seed0/`. Optional Phase 6.8 and the current trimmed
+> Phase 7A analysis plan remain unimplemented; Phase 6.6 likewise remains planning evidence.
 > The xLSTM-Mixer paper/source audit is complete under
 > `docs/baselines/xLSTM-Mixer/`; all owner decisions are complete, including
 > one learned initial token. Its model, guarded runtime/training/replay
@@ -252,8 +260,9 @@ imputation-exposure reporting but is not an additional model channel.
   Optional Phase 6.8 adds Di-COT-Frozen and Monotone-VI-Frozen through that
   same probing boundary after method-specific source/licence/adaptation gates.
   Phase 6.9 instead adds a task-specific comparison for classification, price,
-  and volatility. Phase 7A separately runs canonical single/leave-one-out
-  attribution. The otherwise deferred Phase 6.6
+  and volatility. Phase 7A separately combines canonical single/removal probes
+  with lean CKA and conditional analysis.
+  Pairwise probes and extended diagnostics are deferred. The otherwise deferred Phase 6.6
   retains a matched frozen-H0/raw-sequence residual fusion system and two
   richer static canonical heads on future price only. Phase 6.9 owns the
   XM-C8 endpoint-only xLSTM-Mixer adaptation on original price rows and MSE.
@@ -424,8 +433,8 @@ optimisation freedom and remain contextual complete-system comparisons.
   - Broad comparison axes, only when separately approved for the applicable
     phase:
     - Benchmarks (end-to-end, task-specific) vs. framework (frozen encoder + MLP head)
-    - Canonical single-branch and leave-one-branch-out ablations vs. the full
-      aggregated framework
+    - Canonical single/removal probes with lean CKA, limited
+      task/condition analysis under trimmed Phase 7A
     - Transferability: embeddings trained on one timeframe evaluated on another without retraining
 
 - **Phase 2 decoder refinement:**

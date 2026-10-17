@@ -1,5 +1,12 @@
 # Training and Test Data Selection
 
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required A+B-Core contains 60 new seed-0 single/removal heads plus six
+> immutable H0 references, standardized classification-population CKA,
+> calendar-walk/contract/future-RV groups. Pairwise probes and extended diagnostics are deferred. Phase 6.8
+> does not gate this study. Implementation and execution have not started.
+
 This document specifies exactly which data subset each model component uses for
 training and evaluation. The rules prevent leakage and ensure all models are
 compared fairly on the same held-out split or walk-forward calendar interval.
@@ -153,7 +160,7 @@ This project deliberately uses **train and test partitions only**. There is no v
 | Phase-6.6C canonical decoder-capacity sensitivity | immutable canonical H0 features on exact `absolute_price_h8` training rows, with the existing train-only scaler, target, MSE loss, and sigmoid output; seed 0 and fixed 5/15/50 snapshots | unchanged future-price evaluation rows for D0, residual-projection D1-RP, and branch-aware gated D2-BG; D0 remains the primary representation probe |
 | Legacy TA-MLP baseline (trend classification) | train TA-feature rows + train BUY/HOLD/SELL labels (fixed-epoch sweep); any natural, undersampled, or oversampled protocol acts on training indices only | untouched test TA-feature rows + test tri-class labels; historical characterisation only for the current movement task |
 | Raw-OHLCV MLP baseline | train sequences (fixed-epoch); volatility comparison must consume the shared volatility bundle | test sequences; legacy volatility artifacts are characterization-only until migrated to the shared bundle |
-| Phase-7A canonical single/leave-one-out ablations | no encoder fitting; select exact canonical branch coordinates, then fit per-configuration scalers and fixed-epoch task heads on task-training rows only | identical task/walk evaluation rows with frozen scalers/heads; all configurations reported without evaluation-driven selection |
+| Phase-7A trimmed branch-contribution and overlap analysis | no encoder fitting; exact canonical single/removal views, task-training-only scalers and fixed-epoch heads; CKA samples, future-RV condition edges are frozen before evaluation | identical task/walk evaluation rows with frozen state; complete 60-run A matrix plus B-Core CKA/limited-condition outputs; no evaluation-driven selection |
 | Raw-OHLCV alpha / GP dry runs | only the original per-contract train portion, internally divided into chronological 60% discovery and 20% confirmation; the global test rows are sliced away before terminal/factor construction; GP fitness, evolution, sign choice, and selection use discovery only | no global-test evaluation; frozen candidates require a fresh later holdout and a cost-aware backtest |
 | Direct-representation GP exploration | saved Phase-1 feature rows aligned back to original train-only contract timestamps; a fixed coordinate lattice is standardized on discovery only, then GP fit/selection occurs only on discovery | chronological confirmation only; no global-test use and no interpretation as a tradeable or economically named factor |
 | Exhaustive representation + OHLCV GP exploration | all 445 saved coordinates and five causal OHLCV terminals, aligned to the representation window end; all terminals seed the initial discovery-only GP population, with discovery-fitted scaling | chronological confirmation only; exploratory comparison against raw factors, not a final alpha or trading evaluation |
@@ -433,7 +440,10 @@ agg = RepresentationAggregator(branch_dims, mode="concat")
 task_head = nn.Linear(agg.output_dim, n_outputs)  # works for both modes
 ```
 
-Both modes are trained on the same data splits and evaluated identically, making them directly comparable in the ablation study.
+If separately commissioned, aggregator-mode comparisons must use identical
+data and evaluation definitions. Current Phase 7A uses concat only; gated
+fusion, pairwise probes, and extended structural analyses are outside its
+trimmed matrix.
 
 ---
 

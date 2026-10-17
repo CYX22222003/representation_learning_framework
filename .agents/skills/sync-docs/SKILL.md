@@ -169,9 +169,16 @@ executed, and replay-valid. Phase 6.7 is closed; its integrated epoch-50
 comparison is under
 `experiments/phase6_7/reports/frozen_representation_seed0/summary.md`, and
 SISSEL remains optional and uncommissioned.
-For canonical single-branch or leave-one-branch-out attribution, or the
-Phase 7B deferral boundary, include
-`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+For canonical branch contribution, overlap, conditional reporting,
+optional uncertainty, resource-analysis exclusions, or the Phase 7B deferral boundary, include
+`docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`
+as the current owner-adopted authority. Its required A+B-Core has 60 new
+single/removal seed-0 heads plus six H0 references, CKA, and calendar-walk/
+contract/future-RV reporting. Bootstrap uncertainty is optional future work;
+error-overlap/resource analyses are excluded, pairwise probes and extended
+diagnostics are deferred, and implementation/execution have not started.
+Preserve the supersession notices in both older Phase 7A plans as historical
+context; do not restore their old requirements or Phase 6.8 dependency.
 
 ## 3. Audit Repository Skills
 

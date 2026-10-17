@@ -79,10 +79,14 @@ built from chronological OOF meta-features. For the TA-MLP classification
 benchmark, use the causal feature-availability-only common intersection and
 compare its primary P2 run with retrained H0, Raw MLP, and Raw LSTM on
 identical rows; keep its P1U source-paper sensitivity separate. For Phase 7A,
-use both the frozen
-single-branch and leave-one-branch-out comparisons in
-`docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`; do not
-interpret them as parameter-matched causal feature importance.
+follow the current trimmed plan in
+`docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
+Its required A+B-Core scope combines 60 single/removal heads with standardized
+classification-population CKA and calendar-walk/contract/future-RV reporting
+beside six H0 references. Bootstrap uncertainty is optional future work. Pairwise
+probes and extended diagnostics are deferred. Interpret removal effects as
+practical incremental contribution and keep structural similarity separate
+from predictive usefulness; neither is parameter-matched causal importance.
 
 For Phase 6.5D, compare price-only residual-CNN substitutions with `H0` and
 their additions with both `H0` and the completed same-family duplicate-CNN
@@ -211,7 +215,7 @@ correlation improvement = (framework_corr - baseline_corr) / baseline_corr
 classification improvement = framework_metric - baseline_metric
 ```
 
-Run multiple seeds when practical and report mean +/- standard deviation. Because models share test samples, use paired bootstrap confidence intervals for metric differences when making a strong claim. Be precise: beating Raw-OHLCV MLP supports an internal representation-value claim; it does not by itself establish state-of-the-art performance.
+Run multiple seeds when practical and report mean +/- standard deviation. Because models share test samples, use paired bootstrap confidence intervals for metric differences when making a strong claim. Current trimmed Phase 7A defers both additional seeds and bootstrap intervals: report descriptive effect sizes and task/walk/contract consistency without significance, equivalence, or noise-margin claims. Be precise: beating Raw-OHLCV MLP supports an internal representation-value claim; it does not by itself establish state-of-the-art performance.
 
 ### 5. Preserve evidence
 
@@ -264,5 +268,5 @@ Store each run's configuration, dataset manifest, checkpoints, training history,
   `docs/phase_plan/2026-10-09-phase-6-9-sgn-classification-amendment.md`
 - SGN paper/source audit, proposed specification, and owner decision record:
   `docs/baselines/SGN/`
-- Phase 7A canonical representation ablation contract:
-  `docs/phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`
+- Current Phase 7A trimmed branch-contribution authority:
+  `docs/phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`

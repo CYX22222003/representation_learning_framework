@@ -1,5 +1,12 @@
 # Research Plan
 
+> **Current Phase 7A authority (2026-10-17):** The owner adopted the
+> [trimmed canonical branch-contribution and overlap plan](phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md).
+> Required scope is Package A plus B-Core: 60 new seed-0 single/removal heads,
+> six immutable H0 references, standardized classification-population CKA,
+> calendar-walk/contract/future-RV groups. Pairwise probes and extended diagnostics are deferred. Phase 6.8
+> does not gate this study. Implementation and execution have not started.
+
 This document outlines the four-stage research plan for developing and evaluating the unified representation learning framework.
 
 **Progress tracking note:** This document is the stable research roadmap. It should change when the project direction, planned stages, comparison scope, task definitions, or evaluation methodology changes. Routine implementation status, checkpoint evidence, experiment observations, and next-action tracking belong in `docs/schedule.md` and the corresponding experiment reports.
@@ -22,8 +29,8 @@ uncommissioned. Phase 6.9 is closed for its frozen seed-0 task-specific
 competitiveness demonstration: independently authored SGN-C for classification,
 xLSTM-Mixer for future price, and the completed strict GARCH--LSTM stack for
 future realised variance. Phase 6.8 remains a frozen optional representation
-extension; it is unimplemented and does not block Phase 6.9. Phase 7A remains
-frozen and unimplemented. Phase 6.6 raw fusion and decoder capacity remain
+extension; it is unimplemented and does not block Phase 6.9. Phase 7A now has a trimmed branch-contribution plan; implementation and
+execution have not started. Phase 6.6 raw fusion and decoder capacity remain
 deferred, while Phase 6.9 is the sole xLSTM-Mixer technical/artifact authority. The new contract is
 `docs/phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md`.
 The xLSTM-Mixer paper/source audit is complete under
@@ -184,8 +191,10 @@ three-task common probes. Both are recent representation-learning baselines;
 their inclusion does not assume empirical SOTA performance. Phase 6.9 instead
 tests task-level competitiveness using classification-only supervised SGN-C,
 xLSTM-Mixer for price, and the completed GARCH--LSTM stack for volatility.
-Phase 7A separately tests the canonical five branches through single-branch
-and leave-one-branch-out probes. Phase 6.6 is otherwise deferred; it retains a matched supervised
+Phase 7A analyses the canonical five branches through single/removal probes,
+standardized CKA, and limited task/condition reporting. Bootstrap uncertainty is
+optional future work; report observed differences descriptively. Pairwise and extended structural
+analyses are deferred. Phase 6.6 is otherwise deferred; it retains a matched supervised
 fusion of canonical `H0` with raw-sequence LSTM/BiLSTM towers and two
 richer static canonical decoders on eight-hour future price. XM-C8 is an
 endpoint-matched xLSTM-Mixer complete-system adaptation; historical XM-MV8
@@ -201,7 +210,7 @@ The follow-up contracts are
 `phase_plan/2026-10-06-phase-6-8-recent-conference-representation-baselines-plan.md` and
 `phase_plan/2026-10-09-phase-6-9-task-specific-competitiveness-plan.md` and
 `phase_plan/2026-09-29-phase-6-6-raw-fusion-and-residual-cnn-plan.md` and
-`phase_plan/2026-09-26-phase-7a-representation-ablation-plan.md`.
+`phase_plan/2026-10-17-phase-7a-trimmed-branch-contribution-analysis-plan.md`.
 Representation drift alone is not evidence that a different architecture is
 needed in each lifecycle stage.
 
@@ -297,7 +306,7 @@ costs are reported.
 
 - **Canonical branch ablations** — run each canonical representation branch
   independently and remove each branch once from `H0`, using the same task
-  heads and rows. The frozen Phase 7A scope includes:
+  heads and rows. Package A of the trimmed Phase 7A plan includes:
 
   - Statistical-only (AR + GARCH features)
   - Transformation-only (FFT + Wavelet features)
@@ -309,8 +318,12 @@ costs are reported.
   contrastive CNN, and BYOL CNN in turn. These probes distinguish standalone
   usefulness from marginal usefulness in the correlated full representation;
   they do not require the full framework to beat every branch on every task.
-  Temporal encoder branches are excluded because their substitution and
-  addition roles were already tested in Phase 6.
+  The current trimmed plan adds standardized classification-population CKA and
+  limited conditional reporting. Its required scope has 60 new head
+  trajectories and six H0 references. Pairwise probes, duplicate-width
+  controls, extended diagnostics, and extra head seeds are deferred; encoder
+  retraining is excluded. Temporal encoder branches
+  are excluded because their substitution/addition roles were tested in Phase 6.
 
 - **Additional internal baselines (TBD)** — further baselines may be added as identified.
 
@@ -410,10 +423,10 @@ price controls but not persistence consistently; SGN-C is weaker than the
 learned classification controls on principal macro-F1; and GARCH--LSTM offers
 only metric-specific volatility MSE gains while worsening MAE and Spearman.
 
-Phase 7A separately provides internal branch evidence through the
-precommitted canonical single-branch and leave-one-out matrix. Phase 6.8 is
-not a prerequisite for Phase 6.9, and Phase 7A is not part of Phase 6.9's exit
-conditions.
+Phase 7A now owns a trimmed branch-contribution and overlap analysis, replacing
+the broader October A+B+C plan before implementation. Phase 6.8 is not a
+prerequisite for Phase 7A or the closed Phase 6.9; Phase 7A remains separate
+from Phase 6.9's exit conditions.
 
 The deferred Phase 6.6C separately tests whether the intentionally simple probe limits what
 the canonical frozen representation can expose. It compares immutable `D0`
@@ -485,9 +498,10 @@ Part 3 execution contract.
 
 - **Transferability analysis** — evaluate whether embeddings trained on one subset of tasks or markets transfer effectively to held-out tasks, contract types, or timeframes without retraining.
 
-- **Ablation study** — use single-branch probes for standalone usefulness and
-  matched leave-one-branch-out probes for marginal usefulness relative to the
-  canonical full representation.
+- **Trimmed branch-contribution analysis** — combine single-branch standalone
+  usefulness, leave-one-out incremental contribution, standardized CKA,
+  limited task/condition reporting. Follow the current 2026-10-17 Phase 7A plan. Pairwise probes
+  and extended structural analysis are deferred.
 
 - **Additional alpha-research downstream capability (Phase 7B, intentionally
   deferred)** — its research question, data allocation, search protocol, and
