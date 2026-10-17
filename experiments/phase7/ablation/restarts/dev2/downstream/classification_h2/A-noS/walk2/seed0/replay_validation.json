@@ -1,0 +1,2528 @@
+{
+  "checks": {
+    "classification_h2/A-noS/walk2/e15": "valid_with_warnings",
+    "classification_h2/A-noS/walk2/e5": "valid_with_warnings",
+    "classification_h2/A-noS/walk2/e50": "valid_with_warnings"
+  },
+  "observations": [
+    {
+      "check": "outputs",
+      "details": {
+        "actual_max": 3.472393751144409,
+        "actual_min": -2.2871716022491455,
+        "actual_shape": [
+          13887,
+          3
+        ],
+        "atol": 2e-05,
+        "expected_max": 3.472393751144409,
+        "expected_min": -2.2871716022491455,
+        "expected_shape": [
+          13887,
+          3
+        ],
+        "max_abs": 1.1920928955078125e-06,
+        "relative_l2": 1.221117872714778e-07,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:accuracy",
+      "details": {
+        "actual_max": 0.6261251530208108,
+        "actual_min": 0.6261251530208108,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6261251530208108,
+        "expected_min": 0.6261251530208108,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_f1",
+      "details": {
+        "actual_max": 0.4624531910672693,
+        "actual_min": 0.4624531910672693,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4624531910672693,
+        "expected_min": 0.4624531910672693,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6649569737978566,
+        "actual_min": 0.6649569737978566,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6649569737978566,
+        "expected_min": 0.6649569737978566,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.4939274270928622,
+        "actual_min": 0.4939274270928622,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4939274270928622,
+        "expected_min": 0.4939274270928622,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.7758005322786309,
+        "actual_min": 0.7758005322786309,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7758005478282574,
+        "expected_min": 0.7758005478282574,
+        "expected_shape": [],
+        "max_abs": 1.5549626475319656e-08,
+        "relative_l2": 2.0043330104430334e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.47616931510853394,
+        "actual_min": 0.47616931510853394,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4761693207501978,
+        "expected_min": 0.4761693207501978,
+        "expected_shape": [],
+        "max_abs": 5.641663858302337e-09,
+        "relative_l2": 1.184802046762269e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:nll",
+      "details": {
+        "actual_max": 0.7840598305476265,
+        "actual_min": 0.7840598305476265,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7840598305297568,
+        "expected_min": 0.7840598305297568,
+        "expected_shape": [],
+        "max_abs": 1.786970571515667e-11,
+        "relative_l2": 2.2791252681677173e-11,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.45517336854727064,
+        "actual_min": 0.45517336854727064,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4551733683740621,
+        "expected_min": 0.4551733683740621,
+        "expected_shape": [],
+        "max_abs": 1.7320855860702977e-10,
+        "relative_l2": 3.805331564668492e-10,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:down_precision",
+      "details": {
+        "actual_max": 0.2619225037257824,
+        "actual_min": 0.2619225037257824,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2619225037257824,
+        "expected_min": 0.2619225037257824,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_recall",
+      "details": {
+        "actual_max": 0.38647608576140735,
+        "actual_min": 0.38647608576140735,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.38647608576140735,
+        "expected_min": 0.38647608576140735,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_f1",
+      "details": {
+        "actual_max": 0.31223628691983124,
+        "actual_min": 0.31223628691983124,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.31223628691983124,
+        "expected_min": 0.31223628691983124,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7577360323750898,
+        "actual_min": 0.7577360323750898,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7577360323750898,
+        "expected_min": 0.7577360323750898,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_average_precision",
+      "details": {
+        "actual_max": 0.2530523963904416,
+        "actual_min": 0.2530523963904416,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2530523963904416,
+        "expected_min": 0.2530523963904416,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_precision",
+      "details": {
+        "actual_max": 0.8983654909671869,
+        "actual_min": 0.8983654909671869,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8983654909671869,
+        "expected_min": 0.8983654909671869,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_recall",
+      "details": {
+        "actual_max": 0.7097776483153704,
+        "actual_min": 0.7097776483153704,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7097776483153704,
+        "expected_min": 0.7097776483153704,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_f1",
+      "details": {
+        "actual_max": 0.793013668908657,
+        "actual_min": 0.793013668908657,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.793013668908657,
+        "expected_min": 0.793013668908657,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.8067086748364373,
+        "actual_min": 0.8067086748364373,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8067086748364373,
+        "expected_min": 0.8067086748364373,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.9308900213172278,
+        "actual_min": 0.9308900213172278,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9308900213172278,
+        "expected_min": 0.9308900213172278,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_precision",
+      "details": {
+        "actual_max": 0.22243966079582517,
+        "actual_min": 0.22243966079582517,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.22243966079582517,
+        "expected_min": 0.22243966079582517,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_recall",
+      "details": {
+        "actual_max": 0.38552854720180896,
+        "actual_min": 0.38552854720180896,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.38552854720180896,
+        "expected_min": 0.38552854720180896,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_f1",
+      "details": {
+        "actual_max": 0.2821096173733196,
+        "actual_min": 0.2821096173733196,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2821096173733196,
+        "expected_min": 0.2821096173733196,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7629568896243655,
+        "actual_min": 0.7629568896243655,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7629569362732452,
+        "expected_min": 0.7629569362732452,
+        "expected_shape": [],
+        "max_abs": 4.6648879759025874e-08,
+        "relative_l2": 6.114221857250283e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:up_average_precision",
+      "details": {
+        "actual_max": 0.24456552761793238,
+        "actual_min": 0.24456552761793238,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24456554454292392,
+        "expected_min": 0.24456554454292392,
+        "expected_shape": [],
+        "max_abs": 1.6924991547151436e-08,
+        "relative_l2": 6.92043173079964e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.4939274270928622,
+        "actual_min": 0.4939274270928622,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4939274270928622,
+        "expected_min": 0.4939274270928622,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:accuracy",
+      "details": {
+        "actual_max": 0.6261251530208108,
+        "actual_min": 0.6261251530208108,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6261251530208108,
+        "expected_min": 0.6261251530208108,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_f1",
+      "details": {
+        "actual_max": 0.4624531910672693,
+        "actual_min": 0.4624531910672693,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4624531910672693,
+        "expected_min": 0.4624531910672693,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6649569737978566,
+        "actual_min": 0.6649569737978566,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6649569737978566,
+        "expected_min": 0.6649569737978566,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.4939274270928622,
+        "actual_min": 0.4939274270928622,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4939274270928622,
+        "expected_min": 0.4939274270928622,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.7758005478282574,
+        "actual_min": 0.7758005478282574,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7758005478282574,
+        "expected_min": 0.7758005478282574,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.4761693207501978,
+        "actual_min": 0.4761693207501978,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4761693207501978,
+        "expected_min": 0.4761693207501978,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:nll",
+      "details": {
+        "actual_max": 0.7840598305297568,
+        "actual_min": 0.7840598305297568,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7840598305297568,
+        "expected_min": 0.7840598305297568,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.4551733683740621,
+        "actual_min": 0.4551733683740621,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4551733683740621,
+        "expected_min": 0.4551733683740621,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_precision",
+      "details": {
+        "actual_max": 0.2619225037257824,
+        "actual_min": 0.2619225037257824,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2619225037257824,
+        "expected_min": 0.2619225037257824,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_recall",
+      "details": {
+        "actual_max": 0.38647608576140735,
+        "actual_min": 0.38647608576140735,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.38647608576140735,
+        "expected_min": 0.38647608576140735,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_f1",
+      "details": {
+        "actual_max": 0.31223628691983124,
+        "actual_min": 0.31223628691983124,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.31223628691983124,
+        "expected_min": 0.31223628691983124,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7577360323750898,
+        "actual_min": 0.7577360323750898,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7577360323750898,
+        "expected_min": 0.7577360323750898,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_average_precision",
+      "details": {
+        "actual_max": 0.2530523963904416,
+        "actual_min": 0.2530523963904416,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2530523963904416,
+        "expected_min": 0.2530523963904416,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_precision",
+      "details": {
+        "actual_max": 0.8983654909671869,
+        "actual_min": 0.8983654909671869,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8983654909671869,
+        "expected_min": 0.8983654909671869,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_recall",
+      "details": {
+        "actual_max": 0.7097776483153704,
+        "actual_min": 0.7097776483153704,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7097776483153704,
+        "expected_min": 0.7097776483153704,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_f1",
+      "details": {
+        "actual_max": 0.793013668908657,
+        "actual_min": 0.793013668908657,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.793013668908657,
+        "expected_min": 0.793013668908657,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.8067086748364373,
+        "actual_min": 0.8067086748364373,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8067086748364373,
+        "expected_min": 0.8067086748364373,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.9308900213172278,
+        "actual_min": 0.9308900213172278,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9308900213172278,
+        "expected_min": 0.9308900213172278,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_precision",
+      "details": {
+        "actual_max": 0.22243966079582517,
+        "actual_min": 0.22243966079582517,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.22243966079582517,
+        "expected_min": 0.22243966079582517,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_recall",
+      "details": {
+        "actual_max": 0.38552854720180896,
+        "actual_min": 0.38552854720180896,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.38552854720180896,
+        "expected_min": 0.38552854720180896,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_f1",
+      "details": {
+        "actual_max": 0.2821096173733196,
+        "actual_min": 0.2821096173733196,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2821096173733196,
+        "expected_min": 0.2821096173733196,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7629569362732452,
+        "actual_min": 0.7629569362732452,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7629569362732452,
+        "expected_min": 0.7629569362732452,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_average_precision",
+      "details": {
+        "actual_max": 0.24456554454292392,
+        "actual_min": 0.24456554454292392,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24456554454292392,
+        "expected_min": 0.24456554454292392,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.4939274270928622,
+        "actual_min": 0.4939274270928622,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4939274270928622,
+        "expected_min": 0.4939274270928622,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "outputs",
+      "details": {
+        "actual_max": 3.799783945083618,
+        "actual_min": -2.011291265487671,
+        "actual_shape": [
+          13887,
+          3
+        ],
+        "atol": 2e-05,
+        "expected_max": 3.7997844219207764,
+        "expected_min": -2.011291265487671,
+        "expected_shape": [
+          13887,
+          3
+        ],
+        "max_abs": 1.1920928955078125e-06,
+        "relative_l2": 1.2596160602542692e-07,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:accuracy",
+      "details": {
+        "actual_max": 0.6020018722546266,
+        "actual_min": 0.6020018722546266,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6020018722546266,
+        "expected_min": 0.6020018722546266,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_f1",
+      "details": {
+        "actual_max": 0.44747685854202207,
+        "actual_min": 0.44747685854202207,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.44747685854202207,
+        "expected_min": 0.44747685854202207,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6459357966473811,
+        "actual_min": 0.6459357966473811,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6459357966473811,
+        "expected_min": 0.6459357966473811,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.48924959124229556,
+        "actual_min": 0.48924959124229556,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.48924959124229556,
+        "expected_min": 0.48924959124229556,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.770790793747346,
+        "actual_min": 0.770790793747346,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7707907691772061,
+        "expected_min": 0.7707907691772061,
+        "expected_shape": [],
+        "max_abs": 2.4570139922630574e-08,
+        "relative_l2": 3.1876536286051264e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.47483302890351226,
+        "actual_min": 0.47483302890351226,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4748330089626453,
+        "expected_min": 0.4748330089626453,
+        "expected_shape": [],
+        "max_abs": 1.994086695766839e-08,
+        "relative_l2": 4.19955364965731e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:nll",
+      "details": {
+        "actual_max": 0.7993838936550205,
+        "actual_min": 0.7993838936550205,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7993838940456306,
+        "expected_min": 0.7993838940456306,
+        "expected_shape": [],
+        "max_abs": 3.906100998207762e-10,
+        "relative_l2": 4.886389414776968e-10,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.46368034532019686,
+        "actual_min": 0.46368034532019686,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4636803455558183,
+        "expected_min": 0.4636803455558183,
+        "expected_shape": [],
+        "max_abs": 2.356214112708699e-10,
+        "relative_l2": 5.081548388436178e-10,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:down_precision",
+      "details": {
+        "actual_max": 0.2768427161926872,
+        "actual_min": 0.2768427161926872,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2768427161926872,
+        "expected_min": 0.2768427161926872,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_recall",
+      "details": {
+        "actual_max": 0.26223199560197913,
+        "actual_min": 0.26223199560197913,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.26223199560197913,
+        "expected_min": 0.26223199560197913,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_f1",
+      "details": {
+        "actual_max": 0.269339356295878,
+        "actual_min": 0.269339356295878,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.269339356295878,
+        "expected_min": 0.269339356295878,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7556217078847499,
+        "actual_min": 0.7556217078847499,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7556217078847499,
+        "expected_min": 0.7556217078847499,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_average_precision",
+      "details": {
+        "actual_max": 0.25982000607081956,
+        "actual_min": 0.25982000607081956,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.25982000607081956,
+        "expected_min": 0.25982000607081956,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_precision",
+      "details": {
+        "actual_max": 0.9020397557489931,
+        "actual_min": 0.9020397557489931,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9020397557489931,
+        "expected_min": 0.9020397557489931,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_recall",
+      "details": {
+        "actual_max": 0.6741431206913292,
+        "actual_min": 0.6741431206913292,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6741431206913292,
+        "expected_min": 0.6741431206913292,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_f1",
+      "details": {
+        "actual_max": 0.7716159146476994,
+        "actual_min": 0.7716159146476994,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7716159146476994,
+        "expected_min": 0.7716159146476994,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.800931902016009,
+        "actual_min": 0.800931902016009,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8009318749544689,
+        "expected_min": 0.8009318749544689,
+        "expected_shape": [],
+        "max_abs": 2.7061540008865848e-08,
+        "relative_l2": 3.3787567775853886e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.9287251289503964,
+        "actual_min": 0.9287251289503964,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.928725116357506,
+        "expected_min": 0.928725116357506,
+        "expected_shape": [],
+        "max_abs": 1.2592890397122858e-08,
+        "relative_l2": 1.355933007014243e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:up_precision",
+      "details": {
+        "actual_max": 0.21043205730915604,
+        "actual_min": 0.21043205730915604,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.21043205730915604,
+        "expected_min": 0.21043205730915604,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_recall",
+      "details": {
+        "actual_max": 0.5313736574335783,
+        "actual_min": 0.5313736574335783,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.5313736574335783,
+        "expected_min": 0.5313736574335783,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_f1",
+      "details": {
+        "actual_max": 0.3014753046824888,
+        "actual_min": 0.3014753046824888,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.3014753046824888,
+        "expected_min": 0.3014753046824888,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7558187713412793,
+        "actual_min": 0.7558187713412793,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7558187246923995,
+        "expected_min": 0.7558187246923995,
+        "expected_shape": [],
+        "max_abs": 4.6648879759025874e-08,
+        "relative_l2": 6.17196666806725e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:up_average_precision",
+      "details": {
+        "actual_max": 0.23595395168932076,
+        "actual_min": 0.23595395168932076,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2359539044596103,
+        "expected_min": 0.2359539044596103,
+        "expected_shape": [],
+        "max_abs": 4.7229710475882314e-08,
+        "relative_l2": 2.001649880897263e-07,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.48924959124229556,
+        "actual_min": 0.48924959124229556,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.48924959124229556,
+        "expected_min": 0.48924959124229556,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:accuracy",
+      "details": {
+        "actual_max": 0.6020018722546266,
+        "actual_min": 0.6020018722546266,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6020018722546266,
+        "expected_min": 0.6020018722546266,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_f1",
+      "details": {
+        "actual_max": 0.44747685854202207,
+        "actual_min": 0.44747685854202207,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.44747685854202207,
+        "expected_min": 0.44747685854202207,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6459357966473811,
+        "actual_min": 0.6459357966473811,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6459357966473811,
+        "expected_min": 0.6459357966473811,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.48924959124229556,
+        "actual_min": 0.48924959124229556,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.48924959124229556,
+        "expected_min": 0.48924959124229556,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.7707907691772061,
+        "actual_min": 0.7707907691772061,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7707907691772061,
+        "expected_min": 0.7707907691772061,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.4748330089626453,
+        "actual_min": 0.4748330089626453,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4748330089626453,
+        "expected_min": 0.4748330089626453,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:nll",
+      "details": {
+        "actual_max": 0.7993838940456306,
+        "actual_min": 0.7993838940456306,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7993838940456306,
+        "expected_min": 0.7993838940456306,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.4636803455558183,
+        "actual_min": 0.4636803455558183,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4636803455558183,
+        "expected_min": 0.4636803455558183,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_precision",
+      "details": {
+        "actual_max": 0.2768427161926872,
+        "actual_min": 0.2768427161926872,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2768427161926872,
+        "expected_min": 0.2768427161926872,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_recall",
+      "details": {
+        "actual_max": 0.26223199560197913,
+        "actual_min": 0.26223199560197913,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.26223199560197913,
+        "expected_min": 0.26223199560197913,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_f1",
+      "details": {
+        "actual_max": 0.269339356295878,
+        "actual_min": 0.269339356295878,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.269339356295878,
+        "expected_min": 0.269339356295878,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7556217078847499,
+        "actual_min": 0.7556217078847499,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7556217078847499,
+        "expected_min": 0.7556217078847499,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_average_precision",
+      "details": {
+        "actual_max": 0.25982000607081956,
+        "actual_min": 0.25982000607081956,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.25982000607081956,
+        "expected_min": 0.25982000607081956,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_precision",
+      "details": {
+        "actual_max": 0.9020397557489931,
+        "actual_min": 0.9020397557489931,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9020397557489931,
+        "expected_min": 0.9020397557489931,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_recall",
+      "details": {
+        "actual_max": 0.6741431206913292,
+        "actual_min": 0.6741431206913292,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6741431206913292,
+        "expected_min": 0.6741431206913292,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_f1",
+      "details": {
+        "actual_max": 0.7716159146476994,
+        "actual_min": 0.7716159146476994,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7716159146476994,
+        "expected_min": 0.7716159146476994,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.8009318749544689,
+        "actual_min": 0.8009318749544689,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8009318749544689,
+        "expected_min": 0.8009318749544689,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.928725116357506,
+        "actual_min": 0.928725116357506,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.928725116357506,
+        "expected_min": 0.928725116357506,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_precision",
+      "details": {
+        "actual_max": 0.21043205730915604,
+        "actual_min": 0.21043205730915604,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.21043205730915604,
+        "expected_min": 0.21043205730915604,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_recall",
+      "details": {
+        "actual_max": 0.5313736574335783,
+        "actual_min": 0.5313736574335783,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.5313736574335783,
+        "expected_min": 0.5313736574335783,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_f1",
+      "details": {
+        "actual_max": 0.3014753046824888,
+        "actual_min": 0.3014753046824888,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.3014753046824888,
+        "expected_min": 0.3014753046824888,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7558187246923995,
+        "actual_min": 0.7558187246923995,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7558187246923995,
+        "expected_min": 0.7558187246923995,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_average_precision",
+      "details": {
+        "actual_max": 0.2359539044596103,
+        "actual_min": 0.2359539044596103,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2359539044596103,
+        "expected_min": 0.2359539044596103,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.48924959124229556,
+        "actual_min": 0.48924959124229556,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.48924959124229556,
+        "expected_min": 0.48924959124229556,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "outputs",
+      "details": {
+        "actual_max": 4.137710094451904,
+        "actual_min": -1.8475810289382935,
+        "actual_shape": [
+          13887,
+          3
+        ],
+        "atol": 2e-05,
+        "expected_max": 4.137710094451904,
+        "expected_min": -1.8475812673568726,
+        "expected_shape": [
+          13887,
+          3
+        ],
+        "max_abs": 1.9073486328125e-06,
+        "relative_l2": 1.499378883142337e-07,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:accuracy",
+      "details": {
+        "actual_max": 0.6364945632606035,
+        "actual_min": 0.6364945632606035,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6364945632606035,
+        "expected_min": 0.6364945632606035,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_f1",
+      "details": {
+        "actual_max": 0.46260456279134526,
+        "actual_min": 0.46260456279134526,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.46260456279134526,
+        "expected_min": 0.46260456279134526,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6697999409387813,
+        "actual_min": 0.6697999409387813,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6697999409387813,
+        "expected_min": 0.6697999409387813,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.4944324011147141,
+        "actual_min": 0.4944324011147141,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4944324011147141,
+        "expected_min": 0.4944324011147141,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.7739322011343169,
+        "actual_min": 0.7739322011343169,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.773932170399832,
+        "expected_min": 0.773932170399832,
+        "expected_shape": [],
+        "max_abs": 3.073448495705122e-08,
+        "relative_l2": 3.9712117072447124e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.47750601089695793,
+        "actual_min": 0.47750601089695793,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.47750598779949205,
+        "expected_min": 0.47750598779949205,
+        "expected_shape": [],
+        "max_abs": 2.309746588435857e-08,
+        "relative_l2": 4.837104973447443e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:nll",
+      "details": {
+        "actual_max": 0.7685589946900294,
+        "actual_min": 0.7685589946900294,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7685589959431175,
+        "expected_min": 0.7685589959431175,
+        "expected_shape": [],
+        "max_abs": 1.2530880777461562e-09,
+        "relative_l2": 1.6304383714986788e-09,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.44591092859293346,
+        "actual_min": 0.44591092859293346,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.44591092951705885,
+        "expected_min": 0.44591092951705885,
+        "expected_shape": [],
+        "max_abs": 9.241253873248922e-10,
+        "relative_l2": 2.072443903372722e-09,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:down_precision",
+      "details": {
+        "actual_max": 0.24757751937984496,
+        "actual_min": 0.24757751937984496,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24757751937984496,
+        "expected_min": 0.24757751937984496,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_recall",
+      "details": {
+        "actual_max": 0.28092358438702586,
+        "actual_min": 0.28092358438702586,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.28092358438702586,
+        "expected_min": 0.28092358438702586,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_f1",
+      "details": {
+        "actual_max": 0.26319855781612156,
+        "actual_min": 0.26319855781612156,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.26319855781612156,
+        "expected_min": 0.26319855781612156,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7566912381970374,
+        "actual_min": 0.7566912381970374,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7566911926424624,
+        "expected_min": 0.7566911926424624,
+        "expected_shape": [],
+        "max_abs": 4.555457500110549e-08,
+        "relative_l2": 6.020233279314787e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:down_average_precision",
+      "details": {
+        "actual_max": 0.2629532896441718,
+        "actual_min": 0.2629532896441718,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2629532413213637,
+        "expected_min": 0.2629532413213637,
+        "expected_shape": [],
+        "max_abs": 4.832280808830802e-08,
+        "relative_l2": 1.8376958521401586e-07,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:stable_precision",
+      "details": {
+        "actual_max": 0.8920529012272131,
+        "actual_min": 0.8920529012272131,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8920529012272131,
+        "expected_min": 0.8920529012272131,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_recall",
+      "details": {
+        "actual_max": 0.7269637828915428,
+        "actual_min": 0.7269637828915428,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7269637828915428,
+        "expected_min": 0.7269637828915428,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_f1",
+      "details": {
+        "actual_max": 0.8010913759897281,
+        "actual_min": 0.8010913759897281,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8010913759897281,
+        "expected_min": 0.8010913759897281,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.8036352686772525,
+        "actual_min": 0.8036352686772525,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8036352686772525,
+        "expected_min": 0.8036352686772525,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.9300155723799516,
+        "actual_min": 0.9300155723799516,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9300155680778224,
+        "expected_min": 0.9300155680778224,
+        "expected_shape": [],
+        "max_abs": 4.302129208433314e-09,
+        "relative_l2": 4.6258679489904174e-09,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:up_precision",
+      "details": {
+        "actual_max": 0.24518950437317785,
+        "actual_min": 0.24518950437317785,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24518950437317785,
+        "expected_min": 0.24518950437317785,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_recall",
+      "details": {
+        "actual_max": 0.47540983606557374,
+        "actual_min": 0.47540983606557374,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.47540983606557374,
+        "expected_min": 0.47540983606557374,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_f1",
+      "details": {
+        "actual_max": 0.32352375456818616,
+        "actual_min": 0.32352375456818616,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.32352375456818616,
+        "expected_min": 0.32352375456818616,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7614700965286609,
+        "actual_min": 0.7614700965286609,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7614700498797811,
+        "expected_min": 0.7614700498797811,
+        "expected_shape": [],
+        "max_abs": 4.6648879870048177e-08,
+        "relative_l2": 6.126160822400433e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:up_average_precision",
+      "details": {
+        "actual_max": 0.23954917066675024,
+        "actual_min": 0.23954917066675024,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.23954915399929005,
+        "expected_min": 0.23954915399929005,
+        "expected_shape": [],
+        "max_abs": 1.666746018980092e-08,
+        "relative_l2": 6.957845565946068e-08,
+        "rtol": 2e-05
+      },
+      "message": "Accepted numerical drift",
+      "severity": "warning"
+    },
+    {
+      "check": "metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.4944324011147141,
+        "actual_min": 0.4944324011147141,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4944324011147141,
+        "expected_min": 0.4944324011147141,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:accuracy",
+      "details": {
+        "actual_max": 0.6364945632606035,
+        "actual_min": 0.6364945632606035,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6364945632606035,
+        "expected_min": 0.6364945632606035,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_f1",
+      "details": {
+        "actual_max": 0.46260456279134526,
+        "actual_min": 0.46260456279134526,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.46260456279134526,
+        "expected_min": 0.46260456279134526,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:weighted_f1",
+      "details": {
+        "actual_max": 0.6697999409387813,
+        "actual_min": 0.6697999409387813,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.6697999409387813,
+        "expected_min": 0.6697999409387813,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:balanced_accuracy",
+      "details": {
+        "actual_max": 0.4944324011147141,
+        "actual_min": 0.4944324011147141,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4944324011147141,
+        "expected_min": 0.4944324011147141,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_roc_auc",
+      "details": {
+        "actual_max": 0.773932170399832,
+        "actual_min": 0.773932170399832,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.773932170399832,
+        "expected_min": 0.773932170399832,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:macro_average_precision",
+      "details": {
+        "actual_max": 0.47750598779949205,
+        "actual_min": 0.47750598779949205,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.47750598779949205,
+        "expected_min": 0.47750598779949205,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:nll",
+      "details": {
+        "actual_max": 0.7685589959431175,
+        "actual_min": 0.7685589959431175,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7685589959431175,
+        "expected_min": 0.7685589959431175,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:multiclass_brier",
+      "details": {
+        "actual_max": 0.44591092951705885,
+        "actual_min": 0.44591092951705885,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.44591092951705885,
+        "expected_min": 0.44591092951705885,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_precision",
+      "details": {
+        "actual_max": 0.24757751937984496,
+        "actual_min": 0.24757751937984496,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24757751937984496,
+        "expected_min": 0.24757751937984496,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_recall",
+      "details": {
+        "actual_max": 0.28092358438702586,
+        "actual_min": 0.28092358438702586,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.28092358438702586,
+        "expected_min": 0.28092358438702586,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_f1",
+      "details": {
+        "actual_max": 0.26319855781612156,
+        "actual_min": 0.26319855781612156,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.26319855781612156,
+        "expected_min": 0.26319855781612156,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_roc_auc",
+      "details": {
+        "actual_max": 0.7566911926424624,
+        "actual_min": 0.7566911926424624,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7566911926424624,
+        "expected_min": 0.7566911926424624,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:down_average_precision",
+      "details": {
+        "actual_max": 0.2629532413213637,
+        "actual_min": 0.2629532413213637,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.2629532413213637,
+        "expected_min": 0.2629532413213637,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_precision",
+      "details": {
+        "actual_max": 0.8920529012272131,
+        "actual_min": 0.8920529012272131,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8920529012272131,
+        "expected_min": 0.8920529012272131,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_recall",
+      "details": {
+        "actual_max": 0.7269637828915428,
+        "actual_min": 0.7269637828915428,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7269637828915428,
+        "expected_min": 0.7269637828915428,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_f1",
+      "details": {
+        "actual_max": 0.8010913759897281,
+        "actual_min": 0.8010913759897281,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8010913759897281,
+        "expected_min": 0.8010913759897281,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_roc_auc",
+      "details": {
+        "actual_max": 0.8036352686772525,
+        "actual_min": 0.8036352686772525,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.8036352686772525,
+        "expected_min": 0.8036352686772525,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:stable_average_precision",
+      "details": {
+        "actual_max": 0.9300155680778224,
+        "actual_min": 0.9300155680778224,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.9300155680778224,
+        "expected_min": 0.9300155680778224,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_precision",
+      "details": {
+        "actual_max": 0.24518950437317785,
+        "actual_min": 0.24518950437317785,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.24518950437317785,
+        "expected_min": 0.24518950437317785,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_recall",
+      "details": {
+        "actual_max": 0.47540983606557374,
+        "actual_min": 0.47540983606557374,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.47540983606557374,
+        "expected_min": 0.47540983606557374,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_f1",
+      "details": {
+        "actual_max": 0.32352375456818616,
+        "actual_min": 0.32352375456818616,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.32352375456818616,
+        "expected_min": 0.32352375456818616,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_roc_auc",
+      "details": {
+        "actual_max": 0.7614700498797811,
+        "actual_min": 0.7614700498797811,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.7614700498797811,
+        "expected_min": 0.7614700498797811,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:up_average_precision",
+      "details": {
+        "actual_max": 0.23954915399929005,
+        "actual_min": 0.23954915399929005,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.23954915399929005,
+        "expected_min": 0.23954915399929005,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    },
+    {
+      "check": "saved_metric:observed_class_balanced_accuracy",
+      "details": {
+        "actual_max": 0.4944324011147141,
+        "actual_min": 0.4944324011147141,
+        "actual_shape": [],
+        "atol": 0.0001,
+        "expected_max": 0.4944324011147141,
+        "expected_min": 0.4944324011147141,
+        "expected_shape": [],
+        "max_abs": 0.0,
+        "relative_l2": 0.0,
+        "rtol": 2e-05
+      },
+      "message": "Exact numerical replay",
+      "severity": "pass"
+    }
+  ],
+  "status": "valid_with_warnings",
+  "subject": "/home/personai-korolev-tes/representation_learning_framework/experiments/phase7/ablation/restarts/dev2/downstream/classification_h2/A-noS/walk2/seed0"
+}
