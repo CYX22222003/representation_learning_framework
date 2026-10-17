@@ -1,0 +1,24 @@
+{
+  "branches": [
+    "statistical",
+    "transformed",
+    "vae",
+    "contrastive_transformer"
+  ],
+  "hidden_dims": [
+    128,
+    64
+  ],
+  "input_dim": 317,
+  "task_recipe": {
+    "dropout": 0.2,
+    "gradient_clip_norm": null,
+    "logit_adjustment_strength": 1.0,
+    "loss": "logit_adjusted_ce",
+    "output_dim": 3,
+    "output_transform": "logits",
+    "smooth_l1_beta": null,
+    "target_multiplier": 1.0,
+    "task": "classification_h2"
+  }
+}
