@@ -1,5 +1,10 @@
 # Lumid FlowMesh evidence workflows
 
+For platform usage, read the repository's concise
+[Workflow/FlowMesh guide](../docs/lumid/workflow-flowmesh-guide.md); interactive
+worker debugging has a separate [SSH-task guide](../docs/lumid/flowmesh-ssh-guide.md).
+These replace the workflow skill's references to external guide files.
+
 These workflows run as non-interactive FlowMesh Python tasks. They do not use
 or inherit a Lumid Sandbox. The versioned image supplies the code, dependencies,
 and a bounded read-only evidence bundle containing scalar metrics and reports;
@@ -143,24 +148,33 @@ docker push \
 
 ## Validate and submit one workflow
 
-Set `WORKFLOW_FILE` to one of the four audit YAML files.
+Load the intended PAT from the trusted local credential file (replace the path
+on another workstation), then set `WORKFLOW_FILE` to the desired audit YAML.
+The API helper passes the auth header through stdin so the token does not
+appear in curl's process arguments. Do not enable shell tracing.
 
 ```bash
+set -a
+. /home/guest1/.config/lumid/credentials.env
+set +a
+FM_API=https://lum.id/fm/home/api/v1
 WORKFLOW_FILE=workflows/flowmesh_encoder_pretraining_audit.yaml
 
-curl -sS -X POST \
-  https://lum.id/fm/home/api/v1/workflows/validate \
-  -H "Authorization: Bearer $LUMID_PAT" \
-  -H "Content-Type: text/plain" \
-  --data-binary "@$WORKFLOW_FILE" \
-  | jq .
+fm_api() {
+  printf 'Authorization: Bearer %s\n' "$LUMID_PAT" |
+    curl --silent --show-error --fail-with-body --max-time 30 --header @- "$@"
+}
 
-curl -sS -X POST \
-  https://lum.id/fm/home/api/v1/workflows \
-  -H "Authorization: Bearer $LUMID_PAT" \
-  -H "Content-Type: text/plain" \
-  --data-binary "@$WORKFLOW_FILE" \
-  | jq .
+fm_api --request POST --header 'Content-Type: text/plain' \
+  --data-binary "@$WORKFLOW_FILE" "$FM_API/workflows/validate"
+```
+
+Inspect validation for `valid: true` or `ok: true`. Only after successful
+validation and when execution is requested, submit:
+
+```bash
+fm_api --request POST --header 'Content-Type: text/plain' \
+  --data-binary "@$WORKFLOW_FILE" "$FM_API/workflows"
 ```
 
 Poll the returned task id and retrieve its returned output:
@@ -168,23 +182,21 @@ Poll the returned task id and retrieve its returned output:
 ```bash
 TASK_ID=tsk-replace-me
 
-curl -sS \
-  -H "Authorization: Bearer $LUMID_PAT" \
-  "https://lum.id/fm/home/api/v1/tasks/$TASK_ID" \
-  | jq '{task_id, workflow_id, status, completed, failed, error}'
+fm_api "$FM_API/tasks/$TASK_ID"
 
-curl -sS \
-  -H "Authorization: Bearer $LUMID_PAT" \
-  "https://lum.id/fm/home/api/v1/results/$TASK_ID" \
-  | jq .
+fm_api "$FM_API/tasks/$TASK_ID/logs"
+fm_api "$FM_API/results/$TASK_ID"
 ```
 
 Each task also writes a named JSON audit under `FLOWMESH_OUTPUT`. Download the
 result and artifact bundle with:
 
 ```bash
-curl -sS \
-  -H "Authorization: Bearer $LUMID_PAT" \
-  "https://lum.id/fm/home/api/v1/results/$TASK_ID/bundle?include=results&include=artifacts" \
-  --output "$TASK_ID.tar.gz"
+fm_api --max-time 120 --output "$TASK_ID.tar.gz" \
+  "$FM_API/results/$TASK_ID/bundle?include=results&include=artifacts"
 ```
+
+Use the returned `tasks[].task_id` on the same site for status/results. A
+submission timeout has an uncertain outcome; inspect task records before
+retrying. When the user requests stopping a task, retain its required outputs
+and call `fm_api --request POST "$FM_API/tasks/$TASK_ID/stop"`.

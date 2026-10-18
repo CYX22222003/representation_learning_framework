@@ -23,16 +23,35 @@ Never describe a FlowMesh worker as a Sandbox or assume it inherits Sandbox stat
 
 If a request concerns both systems, separate the work into a Workflow/FlowMesh track and a Sandbox track. Use the Sandbox-specific skill only for the latter.
 
-## Required platform references
+## Repository references
 
 Before designing or changing a Workflow/FlowMesh implementation, read:
 
-- `/mnt/e/School-Work-6-Y3S2/FYP/Lumid_guides/lumid-flowmesh-work-container-platform-guide.md` for the execution model, image guidance, FinData access, and storage constraints.
-- `/mnt/e/School-Work-6-Y3S2/FYP/Lumid_guides/lumid_workflow_guide.md` for the current FlowMesh workflow dialect, graph stages, Python-node fields, metrics, and execution surface.
+- [Workflow/FlowMesh guide](../../../docs/lumid/workflow-flowmesh-guide.md) for the runtime boundary, task/DAG dialect, Python inputs/metrics/artifacts, API validation/submission/status/results/stop, Harbor, and optional study semantics. Read the sections relevant to the requested operation.
+- [Repository workflow instructions](../../../workflows/README.md) for existing image tags, local validators, artifact retrieval, and the separately evidenced audit demonstrations.
 
-Read `/mnt/e/School-Work-6-Y3S2/FYP/Lumid_guides/lumid-flowmesh-ssh.md` only when the requested task is an interactive FlowMesh SSH session or when diagnosing an SSH-task image. Do not let SSH-task requirements dictate an ordinary non-interactive Python workflow.
+Read the [FlowMesh SSH guide](../../../docs/lumid/flowmesh-ssh-guide.md) only for an interactive FlowMesh SSH session or an SSH-task image. Do not let SSH-task requirements dictate an ordinary non-interactive Python workflow.
 
-Treat the platform guides as authoritative over examples in this skill if they change.
+The in-repository guides consolidate the supplied external snapshots and record
+their provenance. Those external files are no longer required. Distinguish
+dated observations from current deployment checks; verify a changed platform
+contract before updating the summaries or claiming compatibility.
+
+## API and credentials
+
+Use the selected site's FlowMesh API (`https://lum.id/fm/home/api/v1` for home),
+not `/sbx/api`. Read the owner-selected `LUMID_PAT` credential from
+`/home/guest1/.config/lumid/credentials.env` on this workstation without exposing
+its value. Sandbox mutation scopes do not establish FlowMesh permissions.
+The guide supplies a Bash client that passes the auth header through stdin.
+
+Validate YAML with POST `/workflows/validate` before a requested submission to
+POST `/workflows`; both take `text/plain` YAML. Record the returned workflow and
+task IDs. Poll GET `/tasks/<task_id>`, read its logs/results, and retrieve its
+artifact bundle on the same site. Stop an explicitly requested task with POST
+`/tasks/<task_id>/stop`. A docs update or local validation is not a request to
+publish an image, dispatch workers, or stop existing jobs. Inspect task records
+before retrying an uncertain submission.
 
 ## Choose the execution shape
 
@@ -51,7 +70,7 @@ When building an image for this repository:
 5. Decide explicitly how every dataset and checkpoint enters the container. Local presence alone is not sufficient. Either include a deliberately bounded frozen bundle in the image, stage it as a workflow input, or retrieve it from an approved persistent service.
 6. Do not put credentials, PATs, Harbor secrets, private keys, `.env` files, or unrestricted research data into the image. Supply secrets through supported runtime environment mechanisms.
 7. Use `.dockerignore` to exclude `.git`, local environments, caches, logs, and unrelated large experiment artifacts. If a demonstration intentionally embeds data or checkpoints, include only its documented immutable subset.
-8. Check Harbor visibility before publishing. The current guide states that FlowMesh workers pull anonymously and therefore require a publicly pullable Harbor project. Do not publish private source or data without confirming an acceptable access mechanism.
+8. Check Harbor visibility before publishing. The supplied platform snapshot describes anonymous worker pulls and publicly pullable Harbor projects; verify current access rather than assuming sandbox private-pull credentials extend to workers. Do not publish private source or data without confirming an acceptable access mechanism.
 9. Record the source commit, dependency lock or manifest, image tag, and preferably the resolved image digest.
 
 ## Workflow contract

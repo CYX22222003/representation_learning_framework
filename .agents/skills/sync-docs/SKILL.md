@@ -223,6 +223,15 @@ adds a Phase 7A completion gate.
 
 ## 3. Audit Repository Skills
 
+For Lumid operational changes, keep `lumid_container_guide.md` and the sandbox
+skill consistent for sandbox APIs/persistence. Workflow/FlowMesh contracts live
+in `docs/lumid/workflow-flowmesh-guide.md`, with interactive worker details in
+`docs/lumid/flowmesh-ssh-guide.md`; synchronize their relevant sections with
+`workflows/README.md` and the `lumid-flowmesh-workflow-image` skill. These
+repository references replace dependencies on guide files outside the checkout.
+Preserve dated source observations and distinguish local checks from platform
+validation, image publication, worker execution, and artifact inspection.
+
 Update a skill only when its triggers, document pointers, or workflow are affected:
 
 - `.agents/skills/experiment-setup/SKILL.md` for data rules, training order, or evaluation fairness.
