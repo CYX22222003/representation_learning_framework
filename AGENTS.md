@@ -1,5 +1,11 @@
 # AGENTS.md
 
+The root `README.md` is a concise, stable repository overview. Exclude it from
+routine documentation sync and do not require agents to read it during routine
+work. Update it only when explicitly requested or when its enduring repository
+description or navigation becomes inaccurate; keep phase status and results in
+the authoritative documents below.
+
 > **Phase 7C selected-variant analysis (2026-10-18):** Follow
 > `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`.
 > The analysis package now accepts `--profiles <json>` assigning one existing

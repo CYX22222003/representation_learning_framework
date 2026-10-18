@@ -5,6 +5,12 @@ description: Use when a project design decision, architecture change, new model 
 
 # Sync Project Documentation
 
+Exclude the root `README.md` from routine documentation sync and required agent
+reading. It contains only a concise, stable repository overview. Update it only
+when explicitly requested or when its enduring description or navigation becomes
+inaccurate; do not propagate phase progress, experiment results, or routine
+design changes into it.
+
 Include `docs/phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md`
 for selected-variant adapter/analysis changes. One framework is assigned per
 task across both walks, with no cross-product or encoder/full-reference
