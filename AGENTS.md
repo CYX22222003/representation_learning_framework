@@ -84,6 +84,51 @@ the authoritative documents below.
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
+## Zotero references for FYP report writing
+
+Use the project skill
+[`zotero-references`](.agents/skills/zotero-references/SKILL.md) when finding
+references or writing/revising report sections. Verified on 2026-10-18:
+Windows `E:\zotero` is `/mnt/e/zotero` in WSL; metadata is in
+`/mnt/e/zotero/zotero.sqlite` and attachments in `/mnt/e/zotero/storage/`.
+Personal library ID is `1`. Collection metadata, stored citation keys, attachment
+relationships and first-page text from two original PDFs were accessible.
+
+Prioritize the report-reference collection and its descendants: collection key
+`D8C8SZHT` (ID 22), actually named `CA/Final Report Refefence` in Zotero.
+The slash belongs to the name; it is one child of `FYP`, key `IXACZ4EG`.
+All eight report subcollections are verified. Use actual metadata to select
+papers; do not assume contents from names. Broaden to other FYP collections
+as relevant, especially `FYP/prediction market` (`6YIPRHDQ`).
+
+For writing examples and prior submitted work, use
+`FYP/past-work-and-guidelines` (`RDTKNYX6`): sample dissertation parent
+`ASBL8ABH`/PDF `2BYFITPI`, and the owner's submitted CA report parent
+`MXK42RBD`/PDF `3ITWXQDD`. Both PDFs are verified readable. See the skill for
+page locations and metadata caveats. Use the sample for presentation and the
+CA report for historical framing; reconcile earlier proposals with current
+project evidence and verify original academic sources before reusing citations.
+
+```bash
+.venv/bin/python3 .agents/skills/zotero-references/scripts/zotero_read.py collections
+.venv/bin/python3 .agents/skills/zotero-references/scripts/zotero_read.py search 'representation learning' --limit 10
+.venv/bin/python3 .agents/skills/zotero-references/scripts/zotero_read.py item 7HJZZELR
+.venv/bin/python3 .agents/skills/zotero-references/scripts/zotero_read.py text 9S9NLK6G --first 1 --last 3
+```
+
+All Zotero-access helpers belong inside the skill directory. The helper reads
+source DB/WAL files as binary input, queries temporary copies under `/tmp/`
+with SQLite `mode=ro` and `query_only=ON`, and removes the copies afterward.
+It preserves committed WAL changes without opening the live DB with SQLite.
+Never modify Zotero's files, sidecars, collections or attachments. On copy races,
+retry when Zotero is idle/closed; do not use `immutable=1` on a live WAL database.
+Resolve PDFs with the attachment key, not the parent paper key. Read relevant
+original passages before citing claims. Reuse report bibliography keys or the
+stored `citationKey`; never invent bibliographic facts or unsupported claims.
+Access papers on demand; do not pre-extract or summarize the whole library.
+See the skill's `references/verified-access.md` for subcollection keys and
+verified PDF examples. Use `paper-reading` for deeper paper analysis.
+
 ## Running Scripts
 
 > **Phase-5 execution gate (2026-09-21):** Read
