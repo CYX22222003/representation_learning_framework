@@ -246,23 +246,87 @@ find <experiment-output-root> -type f -name '*complete*' -o -name 'metrics.json'
 No matching PID can mean success, failure, reclaim, or misrouting. Completion
 requires the final log event, required artifacts, and standalone validation.
 
-## 13. Named sandbox deletion through the API
+## 13. Sandbox lifecycle through the API (no Studio)
 
-For an explicitly requested deletion, use
-`DELETE https://lum.id/sbx/api/sandboxes/<sandbox-name>` with
-`Authorization: Bearer <LUMID_PAT>` and no request body. Read the PAT from the
-environment inside the HTTP client. The API schema documents status `200`.
+The canonical standard-library Python client and executable snippets live in
+`lumid_container_guide.md`, Sections 5.1--5.7. Run the shared helper and operation
+snippets in the same Python session/script. From the repository, use
+`.venv/bin/python3`; no `requests` installation is needed.
 
-See the executable example and persistence explanation in
-`lumid_container_guide.md`, Section 12, "Delete a named sandbox through the
-PAT-authenticated API". This is a documentation reference, not an instruction
-to send a destructive test request.
+Credential file on this workstation:
+`/home/guest1/.config/lumid/credentials.env`, key `LUMID_PAT`. Read it explicitly
+for the selected write credential; an existing exported `LUMID_PAT` or
+`/home/guest1/.lumid_env` can hold another token. Never print credential values.
+The observed mutation scope is `sandbox:sandboxes:write` (or `*`).
 
-The owner has already deleted `dev2` and supplied:
+| Step | Request / verification |
+|---|---|
+| Identify | `GET https://lum.id/sbx/api/whoami` (identity, not token scopes) |
+| Inspect capacity and names | `GET https://lum.id/sbx/api/sandboxes` |
+| Inspect resource quota | `GET https://lum.id/sbx/api/quota` |
+| Create when requested | `POST https://lum.id/sbx/api/sandboxes` with JSON below |
+| Poll readiness | GET the list and select the exact `name`; wait for `Running` |
+| Verify runtime | SSH hostname, cgroup limits, GPU, persistent home |
+| Delete when requested | `DELETE https://lum.id/sbx/api/sandboxes/<name>`; no body |
+| Verify cleanup | GET list/quota; a `200` may precede disappearance |
+
+Example creation body for an authorized future sandbox:
 
 ```json
-{"deleted":"dev2","home_kept":"home-personai-korolev-tes"}
+{
+  "name": "research-next",
+  "image": "pytorch/pytorch:2.14.0-cuda13.2-cudnn9-runtime",
+  "cpu": 8,
+  "memory_gi": 24,
+  "gpu": 1,
+  "ttl_hours": 24,
+  "data_sources": [],
+  "ports": []
+}
 ```
 
-The named sandbox was removed while the indicated home volume was retained.
-Do not repeat the DELETE or query the API merely to test that completed action.
+Inspect the live image/capacity catalog first. Schema maxima differ from actual
+GPU-node capacity: the observed site rejected 32 GiB (29 GiB maximum eligible
+machine); 8 CPUs / 24 GiB / one GPU succeeded on 2026-10-18. Choose resources
+for the task rather than relying on defaults (2 CPUs / 8 GiB / no GPU /
+8-hour TTL). A 24-hour TTL remains subject to idle reclaim.
+
+After API readiness, verify the expected hostname before interpreting these
+read-only runtime checks inside the sandbox:
+
+```bash
+hostname
+cat /sys/fs/cgroup/cpu.max
+cat /sys/fs/cgroup/memory.max
+nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
+ls -ld /home/<user>
+```
+
+For cgroup v2, `800000 100000` means an 8-core CPU quota; `25769803776` bytes
+means 24 GiB system RAM. Those files may differ on other cgroup layouts; do not
+use host-wide `free`/`nproc` alone as proof of container limits.
+
+The local, Git-external terminal monitor is
+`/mnt/e/school-work-6-y3s2/fyp/lumid_sandbox_monitor.py`. With the trusted shell
+credential file, run from this repository:
+
+```bash
+set -a
+. /home/guest1/.config/lumid/credentials.env
+set +a
+.venv/bin/python3 ../lumid_sandbox_monitor.py --name research-next --interval 10
+```
+
+Use `--once --json` for a complete JSON snapshot with freshness/error metadata,
+or `--no-clear` for appended updates. Other workstations need their own script
+copy or the portable poll loop in guide Section 5.5. The monitor reads only
+status/quota and marks retained data stale after errors; it neither extends
+TTL nor proves training completion.
+
+Disable HTTP redirects, use bounded timeouts, and record status/body without
+credentials. Do not blindly retry an uncertain POST/DELETE; inspect GET first.
+DELETE `200` with `home_kept` preserves the reported home volume, while
+processes and ephemeral paths remain disposable. Poll for quota release before
+recreation. Report prolonged `Terminating` state with name/pod/node/timestamps.
+Do not replay historical `dev`, `dev2`, or `dev3` deletions or create test
+sandboxes merely to check documentation. A docs update grants no mutation.

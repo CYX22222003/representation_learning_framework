@@ -218,6 +218,319 @@ A working remote command path can be sufficient for batch workloads.
 
 ## 5. Discover and target sandboxes
 
+### 5.1 API access without Studio
+
+Sandbox creation, status checks, quota inspection, and deletion can use HTTPS
+directly. An existing PAT is sufficient; Studio does not need to be open.
+The API contract was checked on **2026-10-18** against
+<https://lum.id/sbx/openapi.json>. The schema uses `/api/...` paths; on this
+deployment they are served beneath `https://lum.id/sbx`.
+
+| Operation | Method | Full URL |
+|---|---|---|
+| Identify the caller | `GET` | `https://lum.id/sbx/api/whoami` |
+| List the caller's sandboxes and site capacity | `GET` | `https://lum.id/sbx/api/sandboxes` |
+| Inspect used and hard resource quota | `GET` | `https://lum.id/sbx/api/quota` |
+| Create a sandbox | `POST` | `https://lum.id/sbx/api/sandboxes` |
+| Delete one named sandbox | `DELETE` | `https://lum.id/sbx/api/sandboxes/<name>` |
+
+The current schema has **no `GET /api/sandboxes/<name>` detail endpoint**.
+Select the exact `name` from the list response. The list is per caller, not a
+fleet-wide inventory. `GET /whoami` currently returns identity fields, not PAT
+scopes; a successful read does not establish permission to create or delete.
+
+### 5.2 Credentials and a reusable Python client
+
+The owner-selected write-enabled credential file on this workstation is:
+
+```text
+/home/guest1/.config/lumid/credentials.env
+```
+
+It contains a `LUMID_PAT` assignment. Read that file explicitly for mutation
+requests. During the 2026-10-18 session, the exported `LUMID_PAT` and
+`/home/guest1/.lumid_env` held a different, read-only credential: deletion
+returned `403`, while the PAT in `credentials.env` succeeded. These are dated
+observations, not permanent statements about either token's permissions.
+
+The observed write requirement is `sandbox:sandboxes:write` (or `*`). A `403`
+reported that changing sandboxes requires that scope. If credentials need to
+be issued or changed, the server points to
+<https://lum.id/studio/account/tokens>; API operations themselves can then run
+without Studio. Do not infer deletion permission from an earlier creation or
+from another token with the same environment-variable name.
+
+Keep credential contents outside Git and logs. Never print the PAT or put its
+value in a command argument. The following standard-library helper reads plain
+or quoted `LUMID_PAT=...` / `export LUMID_PAT=...` assignments without executing
+the credential file. Replace the path for another workstation. Run this helper
+and the subsequent Python examples in the **same script or Python session**.
+From this repository, use `.venv/bin/python3`.
+
+```python
+import json
+from pathlib import Path
+import shlex
+from urllib import error, parse, request
+
+BASE = "https://lum.id/sbx/api"
+CREDENTIALS = Path("/home/guest1/.config/lumid/credentials.env")
+
+def load_pat(path):
+    token = None
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if line.startswith("export "):
+            line = line[7:].lstrip()
+        key, separator, value = line.partition("=")
+        if separator and key.strip() == "LUMID_PAT":
+            values = shlex.split(value, comments=True)
+            if len(values) != 1 or not values[0]:
+                raise ValueError("Unsupported or empty LUMID_PAT assignment")
+            token = values[0]
+    if not token:
+        raise ValueError("LUMID_PAT is missing from the credential file")
+    return token
+
+class NoRedirect(request.HTTPRedirectHandler):
+    def redirect_request(self, *args, **kwargs):
+        return None
+
+TOKEN = load_pat(CREDENTIALS)
+opener = request.build_opener(NoRedirect())
+
+def api(method, path, payload=None):
+    headers = {"Authorization": f"Bearer {TOKEN}", "Accept": "application/json"}
+    body = None
+    if payload is not None:
+        body = json.dumps(payload).encode()
+        headers["Content-Type"] = "application/json"
+    req = request.Request(BASE + path, data=body, headers=headers, method=method)
+    try:
+        with opener.open(req, timeout=30) as response:
+            return response.status, json.load(response)
+    except error.HTTPError as exc:
+        detail = exc.read().decode(errors="replace").replace(TOKEN, "[redacted]")
+        raise RuntimeError(f"{method} {path}: HTTP {exc.code}: {detail}") from None
+    except (error.URLError, OSError, ValueError) as exc:
+        detail = str(exc).replace(TOKEN, "[redacted]")
+        raise RuntimeError(f"{method} {path}: {detail}") from None
+
+def show(value):
+    print(json.dumps(value, indent=2).replace(TOKEN, "[redacted]"))
+```
+
+Redirects are disabled so an Authorization header is not forwarded elsewhere.
+The helper does not automatically retry requests. After an uncertain POST or
+DELETE outcome, inspect the sandbox list before deciding whether to retry.
+
+### 5.3 Check capacity, quota, and the intended name
+
+```python
+show(api("GET", "/whoami")[1])
+status, inventory = api("GET", "/sandboxes")
+show(inventory)
+show(api("GET", "/quota")[1])
+```
+
+The observed list response contains:
+
+| JSON field | Interpretation |
+|---|---|
+| `sandboxes` | Caller-owned sandbox rows; select an exact `name` |
+| `gpus_free` | Site-level free/total GPU capacity, e.g. `"2/5"` |
+| `gpu` | GPU products, model/memory information, and per-sandbox limits |
+| `cpu` | Advertised CPU sizes and general CPU/memory limits |
+| `images` | Image catalog plus `default_cpu` and `default_gpu` |
+| `data_sources` | Supported service IDs and connection descriptions |
+| `ports` | Public-port pool availability and mapping limits |
+
+Quota has `used` and `hard` mappings. Inspect `count/pods`, `requests.cpu`,
+`requests.memory`, `limits.cpu`, `limits.memory`, and
+`persistentvolumeclaims`. Terminating sandboxes can still occupy a pod slot.
+Do not treat aggregate quota as an individual sandbox's original configuration.
+
+### 5.4 Create a sandbox with explicit resources
+
+The schema accepts these creation fields:
+
+| Field | Meaning and schema limits |
+|---|---|
+| `name` | Sandbox identifier; schema default `"dev"`; choose an unused name |
+| `image` | Optional image reference; choose from the inventory or an approved custom image |
+| `cpu` | CPU cores, `1..32`; default `2` |
+| `memory_gi` | System RAM in GiB, `1..128`; default `8` |
+| `gpu` | GPU count, `0..2`; default `0`; site limits can be lower |
+| `gpu_product` | Optional product selector; inspect the live product catalog |
+| `ttl_hours` | Requested lifetime, `1..24`; default `8` |
+| `data_sources` | Service-ID array; `[]` attaches no optional services |
+| `ports` | Container-port array; `[]` requests no public application mappings |
+
+Schema maxima are not a promise that a particular GPU node can fit the request.
+On 2026-10-18 this site advertised at most one GPU per sandbox; requesting
+32 GiB RAM returned `400` because the largest eligible GPU machine supported
+29 GiB. An **8-CPU / 24-GiB / one-GPU** request succeeded. That allocation was
+verified inside the container as `cpu.max = 800000 100000` and
+`memory.max = 25769803776`. The visible GPU was an RTX PRO 4000 Blackwell SFF
+with about 24 GB VRAM. System RAM and GPU VRAM are separate resources.
+
+Choose CPU/RAM explicitly for the intended workload. The default 2 CPU / 8 GiB
+allocation is not an experiment resource recommendation. Recheck current
+capacity and scheduling errors; do not assume this dated hardware limit applies
+to every Lumid site or future node.
+
+Example for an authorized future creation; **the documentation itself does not
+request a new sandbox**:
+
+```python
+name = "research-next"  # Replace with the intended unused name.
+existing = api("GET", "/sandboxes")[1]["sandboxes"]
+if any(row.get("name") == name for row in existing):
+    raise RuntimeError(f"{name} already exists; no POST sent")
+
+payload = {
+    "name": name,
+    "image": "pytorch/pytorch:2.14.0-cuda13.2-cudnn9-runtime",
+    "cpu": 8,
+    "memory_gi": 24,
+    "gpu": 1,
+    "ttl_hours": 24,
+    "data_sources": [],
+    "ports": [],
+}
+status, created = api("POST", "/sandboxes", payload)
+print("HTTP status:", status)
+show(created)
+```
+
+Creation returned `200` with `name`, `pod`, `image`, and `gpus_free` in the
+observed response. An accepted creation may initially be `Pending`; poll until
+the selected sandbox is `Running`, then verify its hostname and resources
+through SSH. Do not launch experiments merely because POST succeeded.
+The current schema offers no CPU/RAM PATCH or PUT operation: the tested resize
+workflow is an explicitly requested delete and recreation, retaining persistent
+home storage and verifying the replacement before use.
+
+### 5.5 Monitor status and lifetime
+
+Select the intended sandbox from `GET /sandboxes`. Observed row fields are:
+
+| Field | Meaning |
+|---|---|
+| `name`, `pod`, `node` | Logical name, container hostname/pod, and host node |
+| `phase` | API-reported state such as `Pending`, `Running`, or `Terminating` |
+| `image`, `gpu` | Image reference and allocated GPU count, not GPU utilization |
+| `created` | ISO-8601 creation timestamp |
+| `expires_at` | Unix seconds, returned as a string in observed responses |
+| `last_active` | Unix seconds or `null`; an activity observation, not a job-completion marker |
+| `idle_evict_enabled`, `idle_evict_sec` | Idle-reclaim policy; observed threshold `1800` seconds |
+
+CPU/RAM were absent from the observed sandbox rows. Verify per-container
+limits through SSH instead of guessing from those rows. API response schemas
+are generic JSON objects; handle missing fields and future additions.
+
+A portable read-only poll loop, using the helper above:
+
+```python
+import time
+from datetime import datetime, timezone
+
+try:
+    while True:
+        try:
+            status, current = api("GET", "/sandboxes")
+            print(datetime.now(timezone.utc).astimezone().isoformat(), flush=True)
+            show(current["sandboxes"])
+        except RuntimeError as exc:
+            print(f"Status unavailable: {exc}; retrying in 10s", flush=True)
+        time.sleep(10)
+except KeyboardInterrupt:
+    print("Monitor stopped")
+```
+
+For the friendlier dashboard on this workstation, a standalone script exists
+at `/mnt/e/school-work-6-y3s2/fyp/lumid_sandbox_monitor.py`, **outside Git**.
+It shows sandbox states, expiry countdowns, last activity, GPU allocation,
+site GPU availability, and quota. It preserves the last successful data with a
+STALE label on failures. It requires Python 3.9+ and no third-party packages.
+Other checkouts need their own copy or can use the portable loop above.
+
+The dashboard reads the exported environment, so load the intended credential
+explicitly. For this trusted shell-assignment file, run from the repository:
+
+```bash
+set -a
+. /home/guest1/.config/lumid/credentials.env
+set +a
+.venv/bin/python3 ../lumid_sandbox_monitor.py --name research-next --interval 10
+```
+
+Use `--once` for one snapshot, `--once --json` for complete API JSON with
+freshness/error metadata, or `--no-clear` to append terminal updates. Ctrl+C
+stops the monitor. Polling is read-only: it does not keep a sandbox active,
+extend its TTL, or establish that training finished. An absent sandbox may have
+been reclaimed, expired, or deleted. Verify jobs using persistent logs,
+completion artifacts, and validators when the sandbox is reachable.
+
+A 24-hour TTL remains subject to idle reclaim; it does not guarantee 24 hours
+of idle availability. Convert timestamps with an explicit timezone, for example
+`datetime.fromtimestamp(int(row["expires_at"]), timezone.utc).astimezone()`.
+Check the local clock before interpreting countdowns.
+
+### 5.6 Delete the exact requested sandbox
+
+Deletion removes compute and can kill jobs. Use it only for the exact sandbox
+the owner requested. Inspect the list and, when reachable, its processes and
+persistent outputs before deletion. This guide update is not deletion
+authorization. Do not replay historical `dev`, `dev2`, or `dev3` deletions.
+
+Using the helper above, for a future explicitly authorized deletion:
+
+```python
+name = "research-next"  # Replace with the exact authorized target.
+rows = api("GET", "/sandboxes")[1]["sandboxes"]
+matches = [row for row in rows if row.get("name") == name]
+if len(matches) != 1:
+    raise RuntimeError("Target absent or ambiguous; no DELETE sent")
+show(matches[0])
+status, deleted = api("DELETE", "/sandboxes/" + parse.quote(name, safe=""))
+print("HTTP status:", status)
+show(deleted)
+show(api("GET", "/sandboxes")[1]["sandboxes"])
+```
+
+There is **no DELETE request body**. An observed successful response was:
+
+```json
+{"deleted":"dev3","home_kept":"home-personai-korolev-tes"}
+```
+
+`home_kept` confirms that the named persistent home volume was retained; it
+does not preserve running processes or container-local `/root`/`/workspace`
+state. A `200` acknowledges the deletion request, while actual cleanup may
+still show `Terminating`. Poll GET and quota for disappearance/resource release;
+do not repeatedly DELETE just because the row remains. The observed `dev3`
+row disappeared after a short delay; `dev` remained Terminating across multiple
+checks despite `200`. Report prolonged cleanup with the name, pod, node, and
+timestamps; it is not evidence of a completed job.
+
+After a timeout, inspect GET before retrying a mutation. If cleanup still
+occupies the pod quota, wait for release before creating a replacement. Never
+delete a different sandbox to free quota without the owner's instruction.
+
+### 5.7 Common API failures
+
+| Observation | Next step |
+|---|---|
+| `401` / `403` | Verify the credential source and token permissions; reads can succeed with a token that cannot mutate |
+| `400` resource/scheduling error | Read the returned detail; compare CPU/RAM/GPU requests with eligible node capacity and quota |
+| `Pending` after POST | Poll the exact name; creation acceptance is separate from runtime readiness |
+| `200` DELETE but `Terminating` remains | Poll GET/quota; report prolonged cleanup instead of blindly retrying DELETE |
+| Timeout or connection failure during mutation | Treat outcome as uncertain and inspect the list before retrying |
+| API works but SSH returns `502` | Status API and container access are separate paths; do not infer successful experiment completion |
+
+### 5.8 SSH discovery and targeting
+
 List sandboxes:
 
 ```bash
@@ -509,45 +822,12 @@ Persistent user data should be stored separately.
 
 ### Delete a named sandbox through the PAT-authenticated API
 
-This is a destructive operation. The example below is documentation only;
-execute it only when deletion of that exact sandbox has been requested.
-The owner already deleted `dev2` and supplied the response below. No additional
-DELETE request or API test is needed for that deletion.
+See [Section 5.6](#56-delete-the-exact-requested-sandbox) for the canonical
+credential-file client, exact-target DELETE example, and asynchronous cleanup
+checks. Use `DELETE https://lum.id/sbx/api/sandboxes/<name>` with Bearer PAT
+authentication and no body, only when that named deletion is authorized.
 
-| Request field | Value |
-|---|---|
-| URL | `https://lum.id/sbx/api/sandboxes/dev2` |
-| Method | `DELETE` |
-| Authorization | `Bearer <value of LUMID_PAT>` |
-| Request body | None |
-| Successful status | `200 OK`, as documented by the API schema |
-
-The sandbox name is part of the URL. To delete a different sandbox, change
-only the final name segment after identifying the intended target.
-Read the PAT from the environment; never paste it into a guide, log, or command
-argument. Example for a future explicitly requested deletion:
-
-```python
-import os
-import requests
-
-sandbox_name = "dev2"  # Already deleted; shown only as a request example.
-url = f"https://lum.id/sbx/api/sandboxes/{sandbox_name}"
-response = requests.delete(
-    url,
-    headers={
-        "Authorization": f"Bearer {os.environ['LUMID_PAT']}",
-        "Accept": "application/json",
-    },
-    timeout=30,
-    allow_redirects=False,
-)
-print("HTTP status:", response.status_code)
-print(response.text)
-response.raise_for_status()
-```
-
-Owner-supplied example of the successful response:
+Retained historical owner-supplied response (do not repeat this deletion):
 
 ```json
 {
@@ -556,15 +836,9 @@ Owner-supplied example of the successful response:
 }
 ```
 
-- `deleted` identifies the sandbox that was removed.
-- `home_kept` identifies the persistent home volume that was retained. Sandbox
-  deletion does not mean this retained home volume was deleted; container-local
-  state and running processes are still disposable.
-
-For future operations, record the actual status/body rather than assuming
-success. A failed or timed-out request is not proof that deletion did or did
-not occur; inspect the sandbox list with an authenticated `GET` before retrying.
-Do not retry this already completed `dev2` deletion merely to test the example.
+Record the actual status/body and subsequent list state. `home_kept` identifies
+retained persistent storage; it does not mean processes survive. A `200` alone
+does not prove that the terminating row and occupied quota have disappeared.
 
 ### Hard TTL
 
@@ -796,6 +1070,7 @@ Before declaring a sandbox ready for use, verify:
 
 Primary platform documentation:
 
+- Sandbox API schema: https://lum.id/sbx/openapi.json
 - Sandbox guide: https://lum.id/studio/docs/sandboxes
 - FlowMesh SSH guide: https://lum.id/studio/docs/flowmesh-ssh
 

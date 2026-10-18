@@ -1,6 +1,6 @@
 ---
 name: lumid-sandbox-experiment-guide
-description: Prepare, synchronize, launch, resume, validate, and monitor durable machine-learning experiments on Lumid sandboxes. Use when moving project code or data to Lumid, verifying its Python/CUDA environment, troubleshooting WSL/VPN connectivity to Lumid, designing persistent logs and checkpoints, classifying validation failures, launching detached jobs, diagnosing apparently idle or stopped runs, or arranging bounded or long-running monitoring.
+description: Create, inspect, monitor, and delete Lumid sandboxes through the PAT-authenticated API, and run durable machine-learning experiments on them. Use for sandbox provisioning and credentials, persistent environments and transfers, WSL/VPN connectivity, detached jobs, checkpoints, validation, and experiment monitoring.
 ---
 
 # Lumid Sandbox Experiment Guide
@@ -36,12 +36,49 @@ Read these sources before issuing experiment commands:
 Read `references/command-templates.md` when concrete SSH, Git, transfer,
 launch, monitoring, or verification commands are needed.
 
-For an explicitly requested sandbox deletion, use the PAT-authenticated
-`DELETE /sbx/api/sandboxes/<name>` contract in `lumid_container_guide.md`
-Section 12 and `references/command-templates.md` Section 13. A guide update or
-schema inquiry does not authorize a destructive API test. The owner already
-deleted `dev2` and supplied the example response with its persistent home kept;
-do not replay that action or test it again.
+For API-only creation, inspection, monitoring, and deletion, read
+`lumid_container_guide.md` Sections 5.1--5.7 and
+`references/command-templates.md` Section 13. Provisioning-only work does not
+require the experiment training/transfer gates below. Preserve those gates
+before declaring a created sandbox ready for a particular experiment.
+
+## Sandbox API Operations Without Studio
+
+- Use `https://lum.id/sbx/api` and verify the contract against
+  `https://lum.id/sbx/openapi.json`. GET `/sandboxes` lists caller-owned rows;
+  there is no current named-sandbox GET detail endpoint. GET `/quota` gives
+  aggregate resource usage, not a per-sandbox allocation.
+- On this workstation, explicitly read `LUMID_PAT` from
+  `/home/guest1/.config/lumid/credentials.env` for the owner-selected write
+  credential. The exported variable and `/home/guest1/.lumid_env` held a
+  different read-only token during the 2026-10-18 session. Recheck the source
+  rather than assuming equal variable names mean equal credentials. Never
+  display, commit, or put the PAT value in command arguments.
+- Creation/deletion require mutation permissions; the observed error asks for
+  `sandbox:sandboxes:write` or `*`. Successful reads or past operations do not
+  establish the current token's permissions. Disable redirects and use bounded
+  timeouts. Check GET before retrying an uncertain mutation.
+- Inspect capacity, quota, supported images, and the intended unused name.
+  Explicitly choose CPU, system RAM, GPU count, and TTL for the workload.
+  Schema defaults are 2 CPUs / 8 GiB / no GPU / 8 hours. Observed home-site
+  GPU hardware rejected 32 GiB (largest eligible machine: 29 GiB); 8 CPUs /
+  24 GiB / one GPU / 24 hours succeeded. These are dated observations, not
+  portable site guarantees or required allocations for every workload.
+- POST `/sandboxes` acceptance can precede `Running`. Verify the exact name,
+  hostname, cgroup CPU/RAM limits, GPU visibility, and persistent home before
+  claiming runtime resources. A 24-hour TTL does not override idle reclaim.
+- GET polling is observational and does not keep the sandbox active. Show
+  timestamps, phase, node, GPU allocation, expiry, activity, reclaim policy,
+  and quota; retain last-good data only with a clear stale label on failures.
+  Sandbox disappearance or idle GPU usage does not establish job completion.
+- For a requested resize, the tested API workflow is named deletion and
+  recreation; the current schema exposes no CPU/RAM update endpoint. Preserve
+  persistent artifacts and wait for quota release before replacement.
+- DELETE `/sandboxes/<name>` has no body and must target the exact authorized
+  sandbox. A `200` with `home_kept` acknowledges the request and retained home;
+  poll GET/quota to verify cleanup. A lingering `Terminating` row does not
+  authorize repeated DELETEs, deleting another sandbox, or assuming success of
+  its former job. Do not replay historical deletions as documentation tests.
 
 ## Gate 0: WSL and VPN Connectivity
 
@@ -87,8 +124,8 @@ Codex configuration.
 
 ## Establish an Execution Record
 
-Record these values in the working notes or persistent launch log before any
-mutation:
+For experiment operations, record these values in the working notes or
+persistent launch log before mutation:
 
 - Lumid site and gateway port;
 - sandbox name and observed hostname;
@@ -100,10 +137,15 @@ mutation:
 - log path, PID-file path, checkpoint root, and completion markers;
 - known reclaim and hard-TTL constraints.
 
+For API-only provisioning, record the exact sandbox name, chosen resources,
+image, TTL, request status, and resulting list state; a training launch record
+is unnecessary until an experiment is being prepared.
+
 Never rely on “the current sandbox” or “the latest branch” as an identifier.
 The gateway may route ordinary commands to the newest sandbox, especially when
-more than one sandbox exists. Run `sbx ls` and verify `hostname` before every
-state-changing remote action.
+more than one sandbox exists. For state-changing SSH operations, run `sbx ls`
+and verify `hostname` first. Named API operations identify the exact target
+through the API list and URL without requiring a usable SSH gateway.
 
 ## Gate 1: Environment Preparation and Validation
 
