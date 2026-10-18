@@ -1,7 +1,7 @@
 # Lumid Experiment Command Templates
 
 These are templates, not fixed project values. Replace angle-bracket values and
-verify them against `lumid_container_guide.md` and the active experiment plan.
+verify them against `docs/lumid/lumid_container_guide.md` and the active experiment plan.
 
 ## 1. Identify the target
 
@@ -249,7 +249,7 @@ requires the final log event, required artifacts, and standalone validation.
 ## 13. Sandbox lifecycle through the API (no Studio)
 
 The canonical standard-library Python client and executable snippets live in
-`lumid_container_guide.md`, Sections 5.1--5.7. Run the shared helper and operation
+`docs/lumid/lumid_container_guide.md`, Sections 5.1--5.7. Run the shared helper and operation
 snippets in the same Python session/script. From the repository, use
 `.venv/bin/python3`; no `requests` installation is needed.
 

@@ -15,7 +15,7 @@ when performing an actual deployment.
 
 | Component | Use and boundary |
 |---|---|
-| Sandbox | Development with persistent `/home/<user>`; see the [sandbox guide](../../lumid_container_guide.md) |
+| Sandbox | Development with persistent `/home/<user>`; see the [sandbox guide](lumid_container_guide.md) |
 | FlowMesh Python task | Non-interactive code in an ephemeral worker container |
 | FlowMesh graph | Tasks with explicit dependencies and per-node resources |
 | FlowMesh SSH task | Temporary interactive worker debugging; see the [SSH guide](flowmesh-ssh-guide.md) |
@@ -105,7 +105,7 @@ does not resolve that source difference through a live cloud test.
 ### Credentials and shell setup
 
 Use the owner-selected credential file described in the
-[sandbox API credential section](../../lumid_container_guide.md#52-credentials-and-a-reusable-python-client):
+[sandbox API credential section](lumid_container_guide.md#52-credentials-and-a-reusable-python-client):
 `/home/guest1/.config/lumid/credentials.env`, variable `LUMID_PAT`. Its path is
 workstation-specific; the token stays outside Git. Sandbox write permissions
 do not establish FlowMesh permissions. A `401`/`403` requires checking the

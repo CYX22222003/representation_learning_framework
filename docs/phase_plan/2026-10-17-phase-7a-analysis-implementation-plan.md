@@ -57,7 +57,7 @@ The repository already supplies:
   `src/tasks/phase2_classification/`.
 - Regression/RV metric formulas in the original task trainers.
 - `centered_linear_cka` in `src/evaluation/phase6_encoder_variants.py`.
-- Lumid operational contracts in `lumid_container_guide.md` and
+- Lumid operational contracts in `docs/lumid/lumid_container_guide.md` and
   `.agents/skills/lumid-sandbox-experiment-guide/SKILL.md`.
 
 Important adaptation boundaries:

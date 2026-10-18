@@ -19,8 +19,8 @@ The operating model is:
 Prefer non-interactive SSH commands when the interactive shell is unavailable.
 
 For ephemeral Workflow/FlowMesh execution, use the separate repository
-[Workflow/FlowMesh guide](docs/lumid/workflow-flowmesh-guide.md) and optional
-[SSH-task guide](docs/lumid/flowmesh-ssh-guide.md). Worker storage, task APIs,
+[Workflow/FlowMesh guide](workflow-flowmesh-guide.md) and optional
+[SSH-task guide](flowmesh-ssh-guide.md). Worker storage, task APIs,
 and images have a different contract from the sandboxes described here.
 
 ## 1. Core safety rules

@@ -6,7 +6,7 @@ description: Create, inspect, monitor, and delete Lumid sandboxes through the PA
 # Lumid Sandbox Experiment Guide
 
 Use this skill as the experiment-operations SOP for Lumid. It complements
-`lumid_container_guide.md`: that document is the platform reference; this skill
+`docs/lumid/lumid_container_guide.md`: that document is the platform reference; this skill
 defines the reproducible project workflow.
 
 The required order is:
@@ -27,7 +27,7 @@ Do not skip a gate because a previous experiment used the same sandbox.
 
 Read these sources before issuing experiment commands:
 
-- `lumid_container_guide.md` for the current gateway, storage, reclaim, and
+- `docs/lumid/lumid_container_guide.md` for the current gateway, storage, reclaim, and
   connectivity rules;
 - the active experiment plan and relevant implementation/integration plan;
 - the launcher, its validators, and the code that resolves input/output paths;
@@ -37,7 +37,7 @@ Read `references/command-templates.md` when concrete SSH, Git, transfer,
 launch, monitoring, or verification commands are needed.
 
 For API-only creation, inspection, monitoring, and deletion, read
-`lumid_container_guide.md` Sections 5.1--5.7 and
+`docs/lumid/lumid_container_guide.md` Sections 5.1--5.7 and
 `references/command-templates.md` Section 13. Provisioning-only work does not
 require the experiment training/transfer gates below. Preserve those gates
 before declaring a created sandbox ready for a particular experiment.

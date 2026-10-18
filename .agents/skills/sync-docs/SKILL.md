@@ -223,7 +223,7 @@ adds a Phase 7A completion gate.
 
 ## 3. Audit Repository Skills
 
-For Lumid operational changes, keep `lumid_container_guide.md` and the sandbox
+For Lumid operational changes, keep `docs/lumid/lumid_container_guide.md` and the sandbox
 skill consistent for sandbox APIs/persistence. Workflow/FlowMesh contracts live
 in `docs/lumid/workflow-flowmesh-guide.md`, with interactive worker details in
 `docs/lumid/flowmesh-ssh-guide.md`; synchronize their relevant sections with
