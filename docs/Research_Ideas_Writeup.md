@@ -1,5 +1,18 @@
 # Research Idea V2
 
+> **Reading guide (2026-10-19):** This document records the evolving research
+> ideas and historical proposals. For the current research narrative, model
+> architecture, completed comparisons, and results, start with the
+> [end-to-end progress report](../end2end-report/end_to_end_progress_report_2026-10-11_submission.md),
+> especially Section 2 (methodology and architecture) and Sections 3--4
+> (evaluation and results). For the motivation and research questions, use the
+> [final research motivation report](../end2end-report/final_research_motivation_report_2026.md).
+> Use these reports as the primary sources for paper writing rather than
+> treating earlier proposals below as the current study. For developments
+> after the dated end-to-end report, consult the latest
+> [schedule](schedule.md), approved phase plans, and their execution artifacts;
+> their recorded validation exceptions remain in force.
+
 > **Phase 7C extension (2026-10-18):** The owner approved
 > [selected-variant characterization](phase_plan/2026-10-18-phase-7c-selected-variant-analysis-plan.md):
 > one existing framework per task, potentially shared across tasks, examined
@@ -284,6 +297,11 @@ These characteristics highlight a fundamental mismatch between the complexity of
 **Transferability gap**: There is no systematic approach to generate reusable representations that can be shared across tasks, coins, or timeframes.
 
 ### 3.2 Model Architecture
+
+For the current implemented framework and encoder variants, see
+[Section 2 of the end-to-end report](../end2end-report/end_to_end_progress_report_2026-10-11_submission.md#2-methodology-and-model-architecture).
+The proposal below includes historical and optional capabilities; it is not
+the source of record for the paper's architecture diagrams.
 
 ```
 Data processing for training and testing
